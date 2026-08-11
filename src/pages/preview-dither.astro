@@ -1,0 +1,356 @@
+---
+import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/plus-jakarta-sans/wght.css';
+import '@fontsource/dm-mono/400.css';
+import { portfolioEntries, proofStats } from '../data/portfolio-entries';
+
+const sample = portfolioEntries[0];
+const title = 'Dither mockups — Dave Bettner';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="mock-header wrap">
+      <p class="mono kicker">Internal mockup · not linked from homepage</p>
+      <h1>Dither treatments</h1>
+      <p class="lede">Two options from your X likes lane — hover the card in B. Reduced-motion users see static frames.</p>
+      <a class="round" href="/">← Back to site</a>
+    </header>
+
+    <main class="mock-main wrap">
+      <section class="mock-panel" aria-labelledby="mock-a">
+        <div class="mock-label">
+          <span class="mono">A</span>
+          <h2 id="mock-a">Halftone strip</h2>
+          <p>CSS dot field drifting on the blue proof band — zero JS. Inspired by halftone drift patterns + your motion-discipline likes.</p>
+        </div>
+        <div class="mock-stage">
+          <section class="proof-strip proof-strip--halftone" aria-label="Career scale — halftone mockup">
+            <div class="proof-grid">
+              {proofStats.map((stat) => (
+                <span>
+                  <b>{stat.value}</b>
+                  <small>{stat.label}</small>
+                </span>
+              ))}
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="mock-panel" aria-labelledby="mock-b">
+        <div class="mock-label">
+          <span class="mono">B</span>
+          <h2 id="mock-b">Riso card hover</h2>
+          <p>Accent ink layers misregister on hover — kojima / riso print feel. Rest state is flat; motion only on interaction.</p>
+        </div>
+        <div class="mock-stage mock-stage--paper">
+          <p class="mock-hint mono">Hover or focus the card ↓</p>
+          <article class="portfolio-card portfolio-card--riso" tabindex="0">
+            <header class="portfolio-entry-head">
+              <span class="mono portfolio-index">01</span>
+              <div>
+                <h3>{sample.title}</h3>
+                <p class="portfolio-meta mono">{sample.meta}</p>
+              </div>
+            </header>
+            <p class="portfolio-problem">{sample.situation}</p>
+            <dl class="portfolio-details">
+              <div><dt class="mono">My role</dt><dd>{sample.role}</dd></div>
+              <div><dt class="mono">The result</dt><dd>{sample.result}</dd></div>
+            </dl>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mock-footer wrap">
+      <p class="mono">Pick A, B, both, or neither — I'll wire the winner into index.astro</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --paper: #f3efe5;
+    --ink: #151515;
+    --blue: #214fe5;
+    --orange: #cf4120;
+    --muted: #62615d;
+    --rule: #c9c3b5;
+    --card: #eee8dc;
+    --max: 1320px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .wrap { width: min(var(--max), calc(100% - 52px)); margin-inline: auto; }
+  .round {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    min-height: 44px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    font-weight: 650;
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .round:hover { background: var(--ink); color: var(--paper); }
+
+  .mock-header { padding: 48px 0 32px; border-bottom: 1px solid var(--ink); }
+  .mock-header .kicker { color: var(--muted); margin-bottom: 12px; }
+  .mock-header h1 {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .mock-header .lede { color: var(--muted); max-width: 640px; margin-bottom: 20px; }
+
+  .mock-main {
+    display: grid;
+    gap: 0;
+    padding: 0 0 48px;
+  }
+  .mock-panel {
+    display: grid;
+    grid-template-columns: minmax(220px, 320px) 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--ink);
+    min-height: 280px;
+  }
+  .mock-label {
+    padding: 36px 28px 36px 0;
+    border-right: 1px solid var(--ink);
+  }
+  .mock-label span.mono {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border: 1px solid var(--ink);
+    margin-bottom: 14px;
+  }
+  .mock-label h2 {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .mock-label p { color: var(--muted); font-size: 0.92rem; line-height: 1.5; }
+  .mock-stage {
+    padding: 36px 0 36px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .mock-stage--paper { background: repeating-linear-gradient(90deg, transparent 0 28px, rgba(21, 21, 21, 0.04) 28px 29px); }
+  .mock-hint { color: var(--muted); margin-bottom: 14px; font-size: 0.62rem; }
+
+  /* —— A: halftone proof strip —— */
+  .proof-strip {
+    border: 1px solid var(--ink);
+    background: var(--blue);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .proof-strip--halftone::before,
+  .proof-strip--halftone::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .proof-strip--halftone::before {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.22) 0.55px, transparent 0.65px);
+    background-size: 7px 7px;
+    animation: halftone-drift 16s linear infinite;
+    mix-blend-mode: soft-light;
+  }
+  .proof-strip--halftone::after {
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.12) 0.45px, transparent 0.55px);
+    background-size: 7px 7px;
+    background-position: 3px 3px;
+    animation: halftone-drift-rev 22s linear infinite;
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+  }
+  @keyframes halftone-drift {
+    0% { background-position: 0 0; }
+    100% { background-position: 7px 7px; }
+  }
+  @keyframes halftone-drift-rev {
+    0% { background-position: 3px 3px; }
+    100% { background-position: -4px 10px; }
+  }
+  .proof-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .proof-grid span {
+    min-height: 76px;
+    padding: 14px 20px;
+    border-right: 1px solid rgba(255, 255, 255, 0.45);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .proof-grid span:first-child { border-left: 1px solid rgba(255, 255, 255, 0.45); }
+  .proof-grid b {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .proof-grid small {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 5px;
+  }
+
+  /* —— B: riso misregister card —— */
+  .portfolio-card {
+    position: relative;
+    border: 1px solid var(--ink);
+    background: var(--card);
+    padding: 28px;
+    max-width: 720px;
+    outline: none;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .portfolio-card--riso::before,
+  .portfolio-card--riso::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: 1px solid transparent;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .portfolio-card--riso::before {
+    border-color: var(--blue);
+    z-index: -2;
+    transform: translate(0, 0);
+  }
+  .portfolio-card--riso::after {
+    border-color: var(--orange);
+    z-index: -1;
+    transform: translate(0, 0);
+    background: repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 2px,
+      rgba(21, 21, 21, 0.03) 2px,
+      rgba(21, 21, 21, 0.03) 3px
+    );
+  }
+  .portfolio-card--riso:hover,
+  .portfolio-card--riso:focus-visible {
+    transform: translate(-2px, -2px);
+  }
+  .portfolio-card--riso:hover::before,
+  .portfolio-card--riso:focus-visible::before {
+    opacity: 1;
+    transform: translate(-3px, 2px);
+    animation: riso-drift-a 3.2s ease-in-out infinite;
+  }
+  .portfolio-card--riso:hover::after,
+  .portfolio-card--riso:focus-visible::after {
+    opacity: 0.85;
+    transform: translate(3px, -2px);
+    animation: riso-drift-b 3.2s ease-in-out infinite;
+  }
+  @keyframes riso-drift-a {
+    0%, 100% { transform: translate(-3px, 2px); }
+    50% { transform: translate(-1px, 3px); }
+  }
+  @keyframes riso-drift-b {
+    0%, 100% { transform: translate(3px, -2px); }
+    50% { transform: translate(2px, -4px); }
+  }
+  .portfolio-entry-head {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  .portfolio-index { color: var(--blue); }
+  .portfolio-entry-head h3 { font-size: 1.55rem; letter-spacing: -0.02em; }
+  .portfolio-meta { color: var(--muted); margin-top: 6px; }
+  .portfolio-problem { font-size: 1.02rem; margin: 18px 0 16px; }
+  .portfolio-details { display: grid; gap: 14px; }
+  .portfolio-details div {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .portfolio-details dt { color: var(--muted); }
+  .portfolio-details dd { color: var(--muted); font-size: 0.95rem; }
+
+  .mock-footer {
+    padding: 28px 0 48px;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+
+  @media (max-width: 900px) {
+    .mock-panel { grid-template-columns: 1fr; }
+    .mock-label { border-right: 0; border-bottom: 1px solid var(--ink); padding: 28px 0; }
+    .mock-stage { padding: 28px 0; }
+    .proof-grid { grid-template-columns: 1fr; }
+    .proof-grid span { border-left: 1px solid rgba(255, 255, 255, 0.45); }
+    .proof-grid span:not(:last-child) { border-bottom: 1px solid rgba(255, 255, 255, 0.45); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .proof-strip--halftone::before,
+    .proof-strip--halftone::after,
+    .portfolio-card--riso:hover::before,
+    .portfolio-card--riso:hover::after,
+    .portfolio-card--riso:focus-visible::before,
+    .portfolio-card--riso:focus-visible::after {
+      animation: none !important;
+    }
+    .portfolio-card--riso:hover::before,
+    .portfolio-card--riso:focus-visible::before {
+      transform: translate(-2px, 1px);
+    }
+    .portfolio-card--riso:hover::after,
+    .portfolio-card--riso:focus-visible::after {
+      transform: translate(2px, -1px);
+    }
+  }
+</style>

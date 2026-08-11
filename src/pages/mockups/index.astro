@@ -1,0 +1,64 @@
+---
+const mockups = [
+  {
+    href: '/mockups/mts-broadcast/',
+    title: 'Mock C — Broadcast stage',
+    note: 'mts.now dark masthead + live pill + marquee; rig meta chips; current hero copy',
+  },
+  {
+    href: '/mockups/mts-wire/',
+    title: 'Mock D — Building wire',
+    note: 'mts.now timeline rail for building experiments + rig [01] summary cards',
+  },
+  {
+    href: '/mockups/rig-thesis/',
+    title: 'Mock A — Thesis problem grid',
+    note: 'rig.ai numbered cards for "after the demo" gaps',
+  },
+  {
+    href: '/mockups/rig-building/',
+    title: 'Mock B — Building console',
+    note: 'rig.ai terminal panel for "What I am building now"',
+  },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Design mockups | Dave Bettner</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        background: #f3efe5;
+        color: #151515;
+        padding: 48px 24px;
+        max-width: 640px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+      h1 { font-family: Georgia, serif; font-weight: 500; margin-bottom: 8px; }
+      p { color: #62615d; margin-bottom: 24px; }
+      ul { list-style: none; padding: 0; }
+      li { margin-bottom: 16px; border: 1px solid #151515; padding: 16px; background: #eee8dc; }
+      a { color: #214fe5; font-weight: 600; }
+      .note { font-size: 0.9rem; color: #62615d; margin-top: 4px; }
+      .back { display: inline-block; margin-bottom: 24px; }
+    </style>
+  </head>
+  <body>
+    <a class="back" href="/">← Back to site</a>
+    <h1>Design mockups</h1>
+    <p>Rig + MTS-inspired directions on the updated site copy. Not linked from main nav.</p>
+    <ul>
+      {mockups.map((m) => (
+        <li>
+          <a href={m.href}>{m.title}</a>
+          <p class="note">{m.note}</p>
+        </li>
+      ))}
+    </ul>
+  </body>
+</html>

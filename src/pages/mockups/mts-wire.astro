@@ -1,0 +1,83 @@
+---
+// MTS timeline wire + Rig indexed cards — preview only
+import { buildingNow } from '../../data/homepage-framing';
+import { identity } from '../../data/portfolio-entries';
+
+const wireItems = [
+  {
+    chip: 'lab',
+    chipLabel: 'Lab',
+    name: 'MCP integration',
+    meta: '· acceptance 29/29',
+    body: buildingNow.projects[0].learned,
+    pinned: true,
+  },
+  {
+    chip: 'ops',
+    chipLabel: 'Ops',
+    name: 'Agent coordination',
+    meta: '· proof gates on',
+    body: buildingNow.projects[1].learned,
+    pinned: false,
+  },
+  {
+    chip: 'qa',
+    chipLabel: 'Quality',
+    name: 'Confirm-before-write',
+    meta: '· readback required',
+    body: buildingNow.projects[2].learned,
+    pinned: false,
+  },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Mock D — Building wire</title>
+    <link rel="stylesheet" href="/mockups/mts-shared.css" />
+  </head>
+  <body class="mts-mock">
+    <p class="banner wrap">
+      <a href="/mockups/">← All mockups</a> · <strong>Mock D</strong> — mts.now situation wire for building + rig.ai indexed summary
+    </p>
+
+    <div class="wire-layout">
+      <aside class="wire-sidebar">
+        <p class="mono" style="color: var(--muted); margin-bottom: 10px;">Monitoring</p>
+        <h1>{buildingNow.title}</h1>
+        <p>{buildingNow.lead}</p>
+        <a class="wire-follow" href="#">{identity.headline}</a>
+      </aside>
+
+      <div class="wire-stage">
+        <p class="mono" style="color: var(--stage-muted); margin-bottom: 20px;">Live readback</p>
+        <div class="wire-rail">
+          {wireItems.map((item) => (
+            <article class={`wire-row${item.pinned ? ' pinned' : ''}`}>
+              {item.pinned ? <p class="wire-pin">Pinned · current focus</p> : null}
+              <span class={`wire-chip ${item.chip}`}>{item.chipLabel}</span>
+              <div class="wire-head">
+                <span class="wire-name">{item.name}</span>
+                <span class="wire-meta">{item.meta}</span>
+              </div>
+              <p class="wire-body">{item.body}</p>
+            </article>
+          ))}
+        </div>
+
+        <div class="rig-index-row">
+          {buildingNow.projects.map((project, i) => (
+            <article class="rig-index-card">
+              <p class="idx">[ {String(i + 1).padStart(2, '0')} ]</p>
+              <h3>{project.title}</h3>
+              <p>{project.problem}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

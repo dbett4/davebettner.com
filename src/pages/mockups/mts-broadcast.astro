@@ -1,0 +1,86 @@
+---
+// MTS broadcast stage + Rig meta chips — preview only
+import { thesis } from '../../data/homepage-framing';
+import { identity } from '../../data/portfolio-entries';
+
+const ticker = [
+  'MCP integration lab',
+  'Proof gates enforced',
+  'Confirm-before-write',
+  'Multi-agent coordination',
+  'Production sign-off',
+  'Customer VPC deploy',
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Mock C — Broadcast stage</title>
+    <link rel="stylesheet" href="/mockups/mts-shared.css" />
+  </head>
+  <body class="mts-mock">
+    <p class="banner wrap">
+      <a href="/mockups/">← All mockups</a> · <strong>Mock C</strong> — mts.now broadcast masthead + rig.ai capability chips (updated site copy)
+    </p>
+
+    <header class="stage">
+      <div class="stage-header wrap">
+        <div class="stage-logo">
+          <span class="stage-dot" aria-hidden="true"></span>
+          <span>{identity.name}</span>
+        </div>
+        <nav class="stage-nav" aria-label="Section preview">
+          <a href="#">Thesis</a>
+          <a href="#">Building</a>
+          <a href="#">Proof</a>
+          <a href="#">Contact</a>
+        </nav>
+        <span class="stage-pill live">Building now</span>
+      </div>
+
+      <div class="stage-main">
+        <div class="stage-hero">
+          <div class="stage-portrait">
+            <img
+              src="/images/dave-bettner-headshot-20260808-square.webp"
+              alt=""
+              width="96"
+              height="96"
+              loading="eager"
+            />
+          </div>
+          <div>
+            <p class="mono" style="color: var(--stage-muted); margin-bottom: 10px;">{identity.location}</p>
+            <h1 class="stage-headline">{identity.headline}</h1>
+            <p class="stage-sub">{identity.caption}</p>
+            <div class="stage-metarow">
+              <span class="meta-chip accent">Scope with sponsors</span>
+              <span class="meta-chip">Pilots → production</span>
+              <span class="meta-chip">Proof gates</span>
+              <span class="meta-chip">Sign-off</span>
+            </div>
+            <div class="stage-actions">
+              <a class="stage-btn primary" href="#">See what I am building</a>
+              <a class="stage-btn" href="#">View experience</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-marquee" aria-hidden="true">
+        <div class="stage-marquee-track">
+          {[...ticker, ...ticker].map((item) => <span>{item}</span>)}
+        </div>
+      </div>
+    </header>
+
+    <section class="paper-section wrap">
+      <p class="mono" style="color: var(--muted); margin-bottom: 12px;">The thesis</p>
+      <h2>{thesis.title}</h2>
+      <p>{thesis.body[0]}</p>
+    </section>
+  </body>
+</html>

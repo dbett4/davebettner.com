@@ -1,0 +1,394 @@
+---
+import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/plus-jakarta-sans/wght.css';
+import '@fontsource/dm-mono/400.css';
+import { buildingNow, thesis, whereHeading } from '../../data/homepage-framing';
+import { identity } from '../../data/portfolio-entries';
+
+const title = 'Rig-inspired mockups — Dave Bettner';
+
+const stats = [
+  { label: 'Pilot to production', value: 'Scope → ship' },
+  { label: 'Proof gates', value: 'Readback first' },
+  { label: 'Adoption', value: 'Stays in ops' },
+  { label: 'Context', value: 'Users in room' },
+];
+
+const ticker = [
+  'Scope with sponsors',
+  'Pilots that survive reality',
+  'Proof before production',
+  'Adoption that sticks',
+  'Agentic workflows',
+  'Regulated delivery',
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="mock-header wrap">
+      <p class="mono kicker">Internal mockup · inspired by rig.ai · not linked from homepage</p>
+      <h1>Rig-inspired directions</h1>
+      <p class="lede">
+        Two treatments that borrow Rig’s editorial structure (eyebrow labels, numbered blocks, dark contrast bands,
+        stat strips) without copying their dark-product aesthetic wholesale. Your paper palette stays.
+      </p>
+      <a class="round" href="/">← Back to live site</a>
+    </header>
+
+    <main class="mock-main">
+      <!-- MOCKUP A -->
+      <section class="mock-panel wrap" aria-labelledby="mock-a-title">
+        <div class="mock-label">
+          <span class="mono">A</span>
+          <h2 id="mock-a-title">Dark thesis band + numbered building grid</h2>
+          <p>
+            Rig uses a dark “problem” section and <code>[ 01 ]</code> capability cards. Here the thesis moves into a
+            panel band; building projects get indexed cards on a subtle grid.
+          </p>
+        </div>
+        <div class="mock-stage mock-stage--a">
+          <div class="preview-hero preview-hero--a">
+            <div class="preview-hero-inner wrap">
+              <p class="mono eyebrow">Dave Bettner</p>
+              <p class="preview-headline">{identity.headline}</p>
+              <p class="preview-caption">{identity.caption}</p>
+            </div>
+            <div class="ticker" aria-hidden="true">
+              <div class="ticker-track">
+                {[...ticker, ...ticker].map((item) => (
+                  <span>{item}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <section class="dark-band">
+            <div class="wrap dark-band-inner">
+              <p class="mono eyebrow eyebrow--light">The thesis</p>
+              <h3 class="dark-band-title">{thesis.title}</h3>
+              <p class="dark-band-lede">{thesis.body[0]}</p>
+            </div>
+          </section>
+          <section class="numbered-grid wrap">
+            <p class="mono eyebrow">What I am building now</p>
+            <div class="grid">
+              {buildingNow.projects.map((project, i) => (
+                <article class="num-card">
+                  <span class="num-card-index mono">[ {String(i + 1).padStart(2, '0')} ]</span>
+                  <h4>{project.title}</h4>
+                  <p>{project.learned}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <!-- MOCKUP B -->
+      <section class="mock-panel wrap" aria-labelledby="mock-b-title">
+        <div class="mock-label">
+          <span class="mono">B</span>
+          <h2 id="mock-b-title">Split headline + step rail + proof stats</h2>
+          <p>
+            Rig’s hero uses a two-line headline and step-based “Our Approach.” Here the headline splits for punch; direction
+            becomes numbered steps; a stat strip anchors proof without résumé tone.
+          </p>
+        </div>
+        <div class="mock-stage mock-stage--b">
+          <div class="preview-hero preview-hero--b wrap">
+            <div class="preview-hero-split">
+              <h3 class="split-line split-line--primary">I want to help put AI to work.</h3>
+              <p class="split-line split-line--secondary">From pilot to production, with the people who have to use it.</p>
+            </div>
+            <p class="preview-caption preview-caption--narrow">{identity.caption}</p>
+            <div class="preview-actions">
+              <a class="round blue" href="#">See what I am building</a>
+              <a class="round" href="#">View experience</a>
+            </div>
+          </div>
+          <section class="steps-band wrap">
+            <p class="mono eyebrow">{whereHeading.title}</p>
+            <p class="steps-lede">{whereHeading.lead}</p>
+            <ol class="steps">
+              {whereHeading.items.slice(0, 4).map((item, i) => (
+                <li>
+                  <span class="step-num mono">Step {String(i + 1).padStart(2, '0')}</span>
+                  <span class="step-text">{item}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+          <section class="stat-strip wrap" aria-label="Operating metrics">
+            {stats.map((stat) => (
+              <div class="stat">
+                <span class="stat-value">{stat.value}</span>
+                <span class="stat-label mono">{stat.label}</span>
+              </div>
+            ))}
+          </section>
+          <section class="terminal-band wrap">
+            <p class="mono eyebrow">Artifact frame</p>
+            <div class="terminal" role="img" aria-label="Example adoption workflow terminal mockup">
+              <div class="terminal-bar mono">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span>adoption-check · local</span>
+              </div>
+              <pre class="terminal-body mono"><code>{`> scope pilot with sponsor ... OK
+> run demo in customer env ... OK
+> proof gate before write ... OK
+> handoff to operators ... READY`}</code></pre>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mock-footer wrap">
+      <p class="mono">Pick A, B, mix elements, or neither — say which to wire into index.astro</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --paper: #f3efe5;
+    --ink: #151515;
+    --blue: #214fe5;
+    --orange: #cf4120;
+    --muted: #62615d;
+    --rule: #c9c3b5;
+    --card: #eee8dc;
+    --panel: #0f1115;
+    --panel-ink: #e8e6e1;
+    --panel-muted: #9a9893;
+    --max: 1320px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  code { font-family: 'DM Mono', monospace; font-size: 0.9em; }
+  .mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .wrap { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+  .mock-header { padding: 48px 0 32px; border-bottom: 1px solid var(--ink); }
+  .kicker { color: var(--muted); margin-bottom: 12px; }
+  .mock-header h1 {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .lede { max-width: 720px; color: var(--muted); margin-bottom: 20px; line-height: 1.55; }
+  .round {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    min-height: 44px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    font-weight: 650;
+    text-decoration: none;
+    color: inherit;
+  }
+  .round.blue { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .mock-main { display: grid; gap: 64px; padding: 48px 0 72px; }
+  .mock-panel { display: grid; gap: 24px; }
+  .mock-label h2 {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 8px 0;
+  }
+  .mock-label p { color: var(--muted); max-width: 680px; line-height: 1.55; }
+  .mock-label .mono {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .mock-stage {
+    border: 1px solid var(--ink);
+    background: #e8e2d6;
+    overflow: hidden;
+  }
+  .eyebrow { color: var(--muted); margin-bottom: 10px; }
+  .eyebrow--light { color: var(--panel-muted); }
+
+  /* A */
+  .preview-hero--a { background: var(--paper); border-bottom: 1px solid var(--ink); }
+  .preview-hero-inner { padding: 40px 0 28px; }
+  .preview-headline {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+    max-width: 640px;
+  }
+  .preview-caption { max-width: 620px; color: var(--muted); line-height: 1.55; }
+  .ticker {
+    border-top: 1px solid var(--rule);
+    overflow: hidden;
+    padding: 10px 0;
+    background: rgba(238, 232, 220, 0.5);
+  }
+  .ticker-track {
+    display: flex;
+    gap: 32px;
+    width: max-content;
+    animation: ticker 28s linear infinite;
+  }
+  .ticker-track span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .dark-band { background: var(--panel); color: var(--panel-ink); padding: 48px 0; }
+  .dark-band-title {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+  }
+  .dark-band-lede { color: var(--panel-muted); max-width: 560px; line-height: 1.55; }
+  .numbered-grid { padding: 40px 0 48px; }
+  .numbered-grid .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .num-card {
+    background: var(--card);
+    border: 1px solid var(--ink);
+    padding: 20px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .num-card-index { color: var(--orange); display: block; margin-bottom: 12px; }
+  .num-card h4 { font-size: 1rem; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .num-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+
+  /* B */
+  .preview-hero--b { padding: 48px 0 40px; background: var(--paper); border-bottom: 1px solid var(--ink); }
+  .preview-hero-split { margin-bottom: 20px; }
+  .split-line--primary {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+  .split-line--secondary {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .preview-caption--narrow { max-width: 580px; color: var(--muted); margin-bottom: 24px; line-height: 1.55; }
+  .preview-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .steps-band { padding: 44px 0; border-bottom: 1px solid var(--rule); }
+  .steps-lede { color: var(--muted); max-width: 560px; margin-bottom: 24px; line-height: 1.55; }
+  .steps { list-style: none; display: grid; gap: 0; border-top: 1px solid var(--ink); }
+  .steps li {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .step-num { color: var(--blue); padding-top: 2px; }
+  .step-text { font-size: 0.98rem; line-height: 1.5; }
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--ink);
+    background: linear-gradient(180deg, rgba(238, 232, 220, 0.45), var(--paper));
+  }
+  .stat {
+    padding: 28px 20px;
+    border-right: 1px solid var(--rule);
+    text-align: center;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-value {
+    display: block;
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .stat-label { color: var(--muted); font-size: 0.62rem; }
+  .terminal-band { padding: 36px 0 44px; }
+  .terminal {
+    margin-top: 14px;
+    border: 1px solid var(--ink);
+    background: var(--panel);
+    color: #c8f0c8;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #2a2d35;
+    color: var(--panel-muted);
+    font-size: 0.65rem;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #3a3d45; }
+  .terminal-body {
+    padding: 20px;
+    font-size: 0.72rem;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+  .mock-footer {
+    padding: 32px 0 48px;
+    border-top: 1px solid var(--ink);
+    color: var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .numbered-grid .grid { grid-template-columns: 1fr; }
+    .stat-strip { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(2) { border-right: none; }
+    .steps li { grid-template-columns: 1fr; gap: 6px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track { animation: none; flex-wrap: wrap; width: auto; gap: 12px 20px; padding: 0 20px; }
+  }
+</style>

@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+tmp/
+planning/
+plans/
+research/
+sketches/
+docs/reviews/
+.DS_Store
+._*
+*.log
+cli-override-probe.json
+.cursor-*

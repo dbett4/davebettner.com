@@ -1,0 +1,177 @@
+---
+import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/plus-jakarta-sans/wght.css';
+import '@fontsource/dm-mono/400.css';
+import newsreaderFont from '@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url';
+import jakartaFont from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
+import monoFont from '@fontsource/dm-mono/files/dm-mono-latin-400-normal.woff2?url';
+import RecruiterFit from '../../components/RecruiterFit.astro';
+import { identity } from '../../data/portfolio-entries';
+import { emailHref, githubUrl, linkedinUrl } from '../../data/site-links';
+
+const siteUrl = 'https://davebettner.com';
+const title = 'Role fit | Dave Bettner';
+const description =
+  'Paste a job description and evaluate fit for operator, implementation leadership, strategic operations, forward-deployed, or Chief of Staff roles.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+    <link rel="preload" href={newsreaderFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jakartaFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={monoFont} as="font" type="font/woff2" crossorigin />
+    <link rel="canonical" href={`${siteUrl}/fit/`} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="wrap fit-page-header">
+      <a class="back-link mono" href="/">← Home</a>
+      <a class="round blue" href={emailHref}>Contact <span aria-hidden="true">↗</span></a>
+    </header>
+    <main id="main">
+      <RecruiterFit />
+    </main>
+    <footer class="wrap fit-page-footer">
+      <span>{identity.location}</span>
+      <div class="footer-links">
+        <a href="/#work">Work</a>
+        <a href="/#contact">Contact</a>
+        <a href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
+        <a href={linkedinUrl} rel="me">LinkedIn <span aria-hidden="true">↗</span></a>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --paper: #f3efe5;
+    --ink: #151515;
+    --blue: #214fe5;
+    --orange: #cf4120;
+    --muted: #62615d;
+    --rule: #c9c3b5;
+    --card: #eee8dc;
+    --max: 920px;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .wrap {
+    width: min(var(--max), calc(100% - 52px));
+    margin-inline: auto;
+  }
+  .skip-link {
+    position: fixed;
+    left: 16px;
+    top: 16px;
+    z-index: 1000;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 16px;
+    transform: translateY(-200%);
+  }
+  .skip-link:focus {
+    transform: none;
+  }
+  .fit-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--ink);
+    max-width: 1320px;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--muted);
+  }
+  .back-link:hover {
+    color: var(--ink);
+  }
+  .round {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    min-height: 44px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    font-weight: 650;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .round:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .round.blue {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+  }
+  .round.blue:hover {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: #fff;
+  }
+  .section-title {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+  .fit-page-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 40px;
+    font-size: 0.78rem;
+    max-width: 1320px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .footer-links {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 560px) {
+    .wrap {
+      width: min(100% - 28px, var(--max));
+    }
+    .fit-page-header {
+      padding: 20px 0;
+    }
+  }
+</style>

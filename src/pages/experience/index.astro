@@ -1,0 +1,92 @@
+---
+import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/plus-jakarta-sans/wght.css';
+import '@fontsource/dm-mono/400.css';
+import { cvEntries } from '../../data/portfolio-entries';
+import { siteUrl } from '../../data/seo';
+import { githubUrl, linkedinUrl } from '../../data/site-links';
+
+const canonical = `${siteUrl}/experience/`;
+const title = 'Experience | Dave Bettner — AI Implementation and Enterprise Delivery';
+const description =
+  'Dave Bettner\'s experience in implementation, reporting technology, financial reporting, and business systems.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#f3efe5" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${siteUrl}/images/dave-bettner-og.jpg`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <main id="main" class="wrap content-page">
+      <a class="back-link mono" href="/">← Home</a>
+      <p class="eyebrow mono">Experience</p>
+      <h1>Experience</h1>
+      <p class="lead">
+        My work has moved through financial reporting, implementation, business systems, and AI tooling.
+        The roles changed, but I have usually been the person responsible for carrying a difficult
+        implementation through.
+      </p>
+
+      <ol class="timeline">
+        {cvEntries.map((entry) => (
+          <li>
+            <p class="mono dates">{entry.dates}</p>
+            <h2>{entry.title}</h2>
+            <p>{entry.line}</p>
+          </li>
+        ))}
+      </ol>
+
+      <p class="pdf-note">
+        <a href="/dave-bettner-resume.pdf" download>Download full résumé (PDF)</a>
+      </p>
+
+      <nav class="page-links" aria-label="Related pages">
+        <a href="/about/">About Dave Bettner</a>
+        <a href="/work/">Selected work</a>
+        <a href={githubUrl} rel="me">GitHub</a>
+        <a href={linkedinUrl} rel="me">LinkedIn</a>
+      </nav>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root{--paper:#f3efe5;--ink:#151515;--muted:#62615d}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Plus Jakarta Sans Variable",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
+  a{color:inherit}
+  .skip-link{position:absolute;left:-9999px}
+  .skip-link:focus{left:16px;top:16px;z-index:9;background:#fff;padding:8px 12px}
+  .content-page{padding:clamp(32px,6vw,72px) 24px 80px;max-width:760px;margin:0 auto}
+  .mono{font-family:"DM Mono",ui-monospace,monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+  .back-link{display:inline-block;margin-bottom:24px;color:var(--muted)}
+  .eyebrow{color:var(--muted);margin-bottom:12px}
+  h1{font-family:"Newsreader Variable",Georgia,serif;font-size:clamp(2rem,4vw,2.8rem);margin-bottom:16px}
+  .lead{margin-bottom:32px}
+  .timeline{list-style:none;display:grid;gap:28px}
+  .timeline li{padding-top:20px;border-top:1px solid #c9c3b5}
+  .dates{color:var(--muted);margin-bottom:8px}
+  .timeline h2{font-size:1.1rem;font-weight:650;margin-bottom:8px}
+  .pdf-note{margin-top:32px}
+  .pdf-note a{text-decoration:underline;text-underline-offset:3px}
+  .page-links{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:28px}
+  .page-links a{text-decoration:underline;text-underline-offset:3px}
+</style>

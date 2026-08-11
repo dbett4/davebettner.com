@@ -1,0 +1,131 @@
+---
+/** Animated ordered-dither wash — Bayer phase drift (Ascii Magic / dither-kit mood). */
+---
+<canvas class="paper-dither-wash" aria-hidden="true" data-paper-dither></canvas>
+
+<script is:inline>
+  (() => {
+    const canvas = document.querySelector('[data-paper-dither]');
+    if (!canvas || !(canvas instanceof HTMLCanvasElement)) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
+
+    const BAYER = [
+      0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5,
+    ];
+    const SCALE = 2;
+    const PAPER = [243, 239, 229];
+    const SHADE = [225, 218, 204];
+    const ACCENT = [33, 79, 229];
+
+    let width = 0;
+    let height = 0;
+    let phase = 0;
+    let pointerVx = 0;
+    let pointerVy = 0;
+    let raf = 0;
+    let lastT = 0;
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = Math.max(1, Math.ceil(window.innerWidth / SCALE));
+      height = Math.max(1, Math.ceil(window.innerHeight / SCALE));
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const draw = (t) => {
+      if (!reduced) {
+        const dt = lastT ? t - lastT : 16;
+        lastT = t;
+        phase += dt * 0.000028 + pointerVx * 0.000018 + pointerVy * 0.000012;
+        pointerVx *= 0.92;
+        pointerVy *= 0.92;
+      }
+
+      const image = ctx.createImageData(width, height);
+      const data = image.data;
+      const w = width;
+      const h = height;
+
+      for (let y = 0; y < h; y += 1) {
+        for (let x = 0; x < w; x += 1) {
+          const bayer = BAYER[((y & 3) << 2) | (x & 3)] / 16;
+          const nx = x / w;
+          const ny = y / h;
+          const wave =
+            0.52 +
+            0.09 * Math.sin(nx * 5.2 + ny * 3.8 + phase) +
+            0.05 * Math.sin(nx * 11 - ny * 7 - phase * 1.35);
+          const accent =
+            0.08 * Math.exp(-((nx - 0.82) ** 2 + (ny - 0.18) ** 2) / 0.08) *
+            (0.5 + 0.5 * Math.sin(phase * 2.1 + nx * 8));
+          const level = wave + accent;
+          const on = level > bayer;
+          const base = on ? SHADE : PAPER;
+          const mix = accent * 0.55;
+          const r = Math.round(base[0] * (1 - mix) + ACCENT[0] * mix);
+          const g = Math.round(base[1] * (1 - mix) + ACCENT[1] * mix);
+          const b = Math.round(base[2] * (1 - mix) + ACCENT[2] * mix);
+          const i = (y * w + x) * 4;
+          data[i] = r;
+          data[i + 1] = g;
+          data[i + 2] = b;
+          data[i + 3] = reduced ? 255 : 210;
+        }
+      }
+
+      ctx.putImageData(image, 0, 0);
+    };
+
+    const tick = (t) => {
+      draw(t);
+      if (!reduced) raf = requestAnimationFrame(tick);
+    };
+
+    let lastX = 0;
+    let lastY = 0;
+    window.addEventListener(
+      'pointermove',
+      (event) => {
+        if (reduced) return;
+        pointerVx += (event.clientX - lastX) * 0.04;
+        pointerVy += (event.clientY - lastY) * 0.04;
+        lastX = event.clientX;
+        lastY = event.clientY;
+      },
+      { passive: true },
+    );
+
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+    if (reduced) draw(0);
+    else raf = requestAnimationFrame(tick);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+        return;
+      }
+      if (!reduced) raf = requestAnimationFrame(tick);
+    });
+  })();
+</script>
+
+<style is:global>
+  .paper-dither-wash {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+</style>

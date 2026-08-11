@@ -1,0 +1,45 @@
+name: Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install PDF utilities
+        timeout-minutes: 5
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Install dependencies
+        timeout-minutes: 5
+        run: npm ci
+
+      - name: Generate resume PDF
+        timeout-minutes: 5
+        run: npm run generate-resume
+
+      - name: Check
+        timeout-minutes: 5
+        run: npm run check
+
+      - name: Build
+        timeout-minutes: 5
+        run: npm run build
+
+      - name: Test
+        timeout-minutes: 10
+        run: npm test

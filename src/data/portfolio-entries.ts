@@ -1,0 +1,155 @@
+import { experienceEntries } from './experience';
+
+export type PortfolioEntry = {
+  id: string;
+  title: string;
+  meta: string;
+  situation: string;
+  role: string;
+  work: string;
+  result: string;
+  href?: string;
+  flagship?: boolean;
+};
+
+export const identity = {
+  name: 'Dave Bettner',
+  headline: 'I build agent workflows for complicated enterprise work.',
+  caption:
+    'I have spent my career getting integrations and operational systems into production, fixing what breaks, and staying through sign-off. I now use that experience to build MCP servers, deployment labs, and multi-agent systems that another operator can pick up and run.',
+  location: 'Des Moines, Iowa',
+  availability: '',
+};
+
+/** Homepage shows these three flagship stories only. */
+export const flagshipPortfolioIds = [
+  'insurance-certification',
+  'gov-reporting',
+  'clinical-imaging',
+] as const;
+
+export const skillPillars = [
+  { label: 'Find the problem' },
+  { label: 'Build the answer' },
+  { label: 'Cross boundaries' },
+  { label: 'Stay through implementation' },
+] as const;
+
+/** Preview mockups only — not used on production pages. */
+export const proofStats = [
+  { value: '10+', label: 'Years enterprise delivery' },
+  { value: '6–12', label: 'Concurrent implementations (peak)' },
+  { value: '970+', label: 'Logged formatting ops (gov fund statements)' },
+] as const;
+
+export const portfolioEntries = [
+  {
+    id: 'insurance-certification',
+    title: 'Turning a certification handoff into an operating model',
+    meta: 'Statutory certification · controls · executive sign-off',
+    situation:
+      'Statutory reporting certification required a controlled handoff between the reporting platform and an internal system of record, with audit trail and executive sign-off — not email attachments.',
+    role: 'Owned the special project from diagnosis through go-live; coordinated finance, IT, and executive stakeholders.',
+    work:
+      'Designed bidirectional integration between reporting technology and an in-house archival system with full audit trail; aligned finance, IT, and executive sponsors on ownership, controls, and sign-off sequence.',
+    result:
+      'Production certification workflow delivered; stakeholders signed off through go-live; handoff became a repeatable operating model.',
+    flagship: true,
+  },
+  {
+    id: 'workiva-mcp',
+    title: 'Hermes Deployment Lab — synthetic failure and idempotent recovery',
+    meta: '73 credential-free tests · failure replay',
+    situation:
+      'A sophisticated integration is not adopted until a second operator can stand it up on a clean machine and recover from realistic failure modes.',
+    role: 'Owned the deployment shape, test harness, and operating runbooks for the public lab.',
+    work:
+      'Containerized lab with FastMCP server, mock enterprise API, workflow runner, and Docker Compose. Exercises remote-write/local-failure mismatch with idempotent retry.',
+    result:
+      '73 credential-free tests; synthetic failure/replay; documented in the public Hermes Deployment Lab repository.',
+    href: '/work/hermes-deployment-lab/',
+  },
+  {
+    id: 'table-formatter',
+    title: 'Turning manual close work into a scalable system',
+    meta: 'Deterministic pipeline · public-sector reporting',
+    situation:
+      'Eleven fund statements with inconsistent table geometry and hundreds of manual formatting operations per close: error-prone, slow, and hard to audit.',
+    role: 'Owned the formatter pipeline and batch operating procedure.',
+    work:
+      'Built deterministic pipeline applying 970+ formatting operations across 11 government fund statements with journaled changesets and tie-out checks.',
+    result:
+      '970+ logged operations; repeatable batch runs with readback verification. Manual close work replaced by a scalable system.',
+  },
+  {
+    id: 'agent-stack',
+    title: 'Regulated Reporting MCP — guarded writes with offline proof',
+    meta: '126 tests · 117 contracts · offline demo',
+    situation:
+      'Agent tools against reporting APIs need policy-safe defaults, contract coverage, and proof that does not require live credentials.',
+    role: 'Designed the guarded default surface, contract manifest, and credential-free proof harness.',
+    work:
+      'MCP server with OAuth, pagination, async jobs, and controlled mutations. Default three-tool guarded server; full 117-tool registry behind explicit unsafe opt-in.',
+    result:
+      '126 credential-free tests; 117 tool contracts; offline end-to-end demo documented in the public repository.',
+    href: '/work/regulated-reporting-mcp/',
+  },
+  {
+    id: 'wingman',
+    title: 'Confirm-before-write spreadsheet quality (Wingman)',
+    meta: '462 Python pass + 13 skip · 243 extension pass',
+    situation:
+      'Statements could tie out while underlying source links, mappings, or formatting remained wrong. Manual review did not scale across large workbooks.',
+    role: 'Designed and built the quality workflow and operated it across enterprise implementations.',
+    work:
+      'Chrome extension and Python service that scans live sheets via API, flags defects, explains each issue, and applies narrow fixes only after explicit user confirmation, readback, and restore on mismatch.',
+    result:
+      '462 Python tests pass + 13 skip; 243 extension tests pass in CI; fictional demo workbook only.',
+    href: '/work/wingman/',
+  },
+  {
+    id: 'deployment-lab',
+    title: 'Hermes Field Kit — 318-row map without live mission attestation',
+    meta: '318 rows · 8 negative tests · 214-test pinned suite',
+    situation:
+      'Enterprise agent configuration needs a traceable capability map, explicit gaps, and reproducible checks before anyone claims production readiness.',
+    role: 'Designed the mapping contract, adjudication workflow, and public verification scripts.',
+    work:
+      '318-row capability map with schema validation, eight negative tests, and pinned v2026.8.3 reference suite. One committed sample run passes repository checks.',
+    result:
+      'Mapping and suite checks pass; no attested live Hermes mission yet—the attestation boundary stays visible.',
+    href: '/work/hermes-field-kit/',
+  },
+  {
+    id: 'clinical-imaging',
+    title: 'Connecting regulated workflows across health-system boundaries',
+    meta: 'HIPAA · EHR integration · go-live',
+    situation:
+      'Imaging orders and results had to move across practice and health-system boundaries under HIPAA, with billing and access controls intact through an acquisition transition.',
+    role: 'Led cross-practice implementations through an acquisition transition.',
+    work:
+      'Deployed HIPAA-controlled imaging workflows, EHR interfaces, and customer-facing portal integrations with billing and access controls.',
+    result:
+      'Four workflow types in production; integrations cleared HIPAA review before go-live.',
+    flagship: true,
+  },
+  {
+    id: 'gov-reporting',
+    title: 'Running enterprise reporting and GRC under audit pressure',
+    meta: 'GRC · financial reporting · concurrent implementations',
+    situation:
+      'Finance and audit teams were running many concurrent GRC and financial-reporting programs. Changes had to tie out, leave an audit trail, and win human sign-off before reaching a published statement.',
+    role: 'Led solution design and adoption as Solutions Architect; owned reconciliation and controlled-write workflows on active engagements.',
+    work:
+      'Scoped SSO, API, and ERP integration architecture with finance, audit, IT, and executive sponsors. Built source-first reconciliation, controlled write batches, and validators with human sign-off on customer-impacting workbook changes.',
+    result:
+      'Concurrent implementations through adoption; journaled changesets, tie-out checks, and native readback on active ACFR, GRC, and municipal finance engagements.',
+    flagship: true,
+  },
+] as const satisfies readonly PortfolioEntry[];
+
+export const homepagePortfolioEntries = flagshipPortfolioIds
+  .map((id) => portfolioEntries.find((e) => e.id === id))
+  .filter((e): e is (typeof portfolioEntries)[number] => Boolean(e));
+
+export const cvEntries = experienceEntries;

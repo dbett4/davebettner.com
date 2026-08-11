@@ -1,0 +1,197 @@
+---
+/** Organic ink wash — WebGL FBM + riso misregister drift (no ordered dither grid). */
+---
+<canvas class="paper-ink-shader" aria-hidden="true" data-paper-ink></canvas>
+
+<script is:inline>
+  (() => {
+    const canvas = document.querySelector('[data-paper-ink]');
+    if (!canvas || !(canvas instanceof HTMLCanvasElement)) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gl =
+      canvas.getContext('webgl', { alpha: true, antialias: false, premultipliedAlpha: true }) ||
+      canvas.getContext('experimental-webgl', { alpha: true, antialias: false, premultipliedAlpha: true });
+    if (!gl) return;
+
+    const vertSrc = `
+      attribute vec2 a_pos;
+      void main() {
+        gl_Position = vec4(a_pos, 0.0, 1.0);
+      }
+    `;
+
+    const fragSrc = `
+      precision mediump float;
+      uniform vec2 u_res;
+      uniform float u_time;
+      uniform vec2 u_pointer;
+
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+      }
+
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        float a = hash(i);
+        float b = hash(i + vec2(1.0, 0.0));
+        float c = hash(i + vec2(0.0, 1.0));
+        float d = hash(i + vec2(1.0, 1.0));
+        return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+      }
+
+      float fbm(vec2 p) {
+        float v = 0.0;
+        float a = 0.5;
+        for (int i = 0; i < 4; i++) {
+          v += a * noise(p);
+          p *= 2.02;
+          a *= 0.5;
+        }
+        return v;
+      }
+
+      void main() {
+        vec2 uv = gl_FragCoord.xy / u_res;
+        vec2 drift = vec2(sin(u_time * 0.11), cos(u_time * 0.08)) * 0.018;
+        vec2 p = uv * vec2(2.8, 2.2) + drift;
+        vec2 p2 = p + vec2(0.014, -0.009);
+
+        float n = fbm(p + u_pointer * 0.08);
+        float n2 = fbm(p2 - u_pointer * 0.05 + 1.7);
+
+        vec3 paper = vec3(0.953, 0.937, 0.898);
+        vec3 shade = vec3(0.878, 0.855, 0.804);
+        vec3 blue = vec3(0.129, 0.310, 0.898);
+        vec3 orange = vec3(0.812, 0.255, 0.125);
+
+        float wash = smoothstep(0.28, 0.72, n);
+        vec3 col = mix(paper, shade, wash * 0.42);
+
+        float bluePlate = smoothstep(0.62, 0.88, n2) * 0.09;
+        float orangePlate = smoothstep(0.58, 0.82, n) * 0.06;
+        col = mix(col, blue, bluePlate);
+        col = mix(col, orange, orangePlate);
+
+        float hero = exp(-dot(uv - vec2(0.72, 0.22), uv - vec2(0.72, 0.22)) / 0.22);
+        col = mix(col, mix(col, blue, 0.12), hero * 0.35);
+
+        float edge = smoothstep(1.15, 0.25, length(uv - vec2(0.5, 0.45)));
+        float alpha = mix(0.22, 0.38, edge);
+
+        gl_FragColor = vec4(col, alpha);
+      }
+    `;
+
+    const compile = (type, source) => {
+      const shader = gl.createShader(type);
+      if (!shader) return null;
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        gl.deleteShader(shader);
+        return null;
+      }
+      return shader;
+    };
+
+    const vs = compile(gl.VERTEX_SHADER, vertSrc);
+    const fs = compile(gl.FRAGMENT_SHADER, fragSrc);
+    if (!vs || !fs) return;
+
+    const program = gl.createProgram();
+    if (!program) return;
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+
+    const aPos = gl.getAttribLocation(program, 'a_pos');
+    const uRes = gl.getUniformLocation(program, 'u_res');
+    const uTime = gl.getUniformLocation(program, 'u_time');
+    const uPointer = gl.getUniformLocation(program, 'u_pointer');
+
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+    let width = 0;
+    let height = 0;
+    let raf = 0;
+    let start = 0;
+    let pointer = { x: 0.12, y: 0.18 };
+    let pointerTarget = { x: 0.12, y: 0.18 };
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    };
+
+    const draw = (t) => {
+      if (!start) start = t;
+      const time = reduced ? 0 : (t - start) * 0.001;
+
+      pointer.x += (pointerTarget.x - pointer.x) * 0.06;
+      pointer.y += (pointerTarget.y - pointer.y) * 0.06;
+
+      gl.useProgram(program);
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, time);
+      gl.uniform2f(uPointer, pointer.x, pointer.y);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    };
+
+    const tick = (t) => {
+      draw(t);
+      if (!reduced) raf = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener(
+      'pointermove',
+      (event) => {
+        if (reduced) return;
+        pointerTarget.x = (event.clientX / window.innerWidth - 0.5) * 0.35;
+        pointerTarget.y = (0.5 - event.clientY / window.innerHeight) * 0.35;
+      },
+      { passive: true },
+    );
+
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+    draw(0);
+    if (!reduced) raf = requestAnimationFrame(tick);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+        return;
+      }
+      if (!reduced) raf = requestAnimationFrame(tick);
+    });
+  })();
+</script>
+
+<style is:global>
+  .paper-ink-shader {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>

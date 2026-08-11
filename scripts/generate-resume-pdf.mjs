@@ -36,6 +36,29 @@ function resolveChrome() {
   throw new Error(`No Chrome/Chromium executable found. Tried: ${chromeCandidates.join(', ')}`);
 }
 
+async function normalizePdfDates() {
+  const bytes = await readFile(outputPdf);
+  const source = bytes.toString('latin1');
+  const fields = [];
+  const fixedDate = "D:20260811120000+00'00'";
+  const normalized = source.replace(
+    /\/(CreationDate|ModDate) \(D:\d{14}(?:Z|[+-]\d{2}'\d{2}')\)/g,
+    (_match, field) => {
+      fields.push(field);
+      return `/${field} (${fixedDate})`;
+    },
+  );
+
+  if (fields.sort().join(',') !== 'CreationDate,ModDate') {
+    throw new Error(`Expected CreationDate and ModDate in generated PDF; found: ${fields.join(',')}`);
+  }
+  const normalizedBytes = Buffer.from(normalized, 'latin1');
+  if (normalizedBytes.length !== bytes.length) {
+    throw new Error('PDF date normalization changed byte length and would invalidate xref offsets');
+  }
+  await writeFile(outputPdf, normalizedBytes);
+}
+
 async function main() {
   const chrome = resolveChrome();
   const fileUrl = `file://${sourceHtml}`;
@@ -63,6 +86,8 @@ async function main() {
   } finally {
     await browser.close();
   }
+
+  await normalizePdfDates();
 
   execFileSync('pdftotext', [outputPdf, textOut], { stdio: 'inherit' });
   execFileSync('pdfinfo', [outputPdf], { stdio: ['ignore', 'pipe', 'inherit'] });

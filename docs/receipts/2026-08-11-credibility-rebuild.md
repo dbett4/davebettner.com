@@ -13,6 +13,7 @@ Date: 2026-08-11
 - Rebuilt Fit prompt evidence around inspectable repositories and exact verified counts.
 - Added maintainable one-column HTML résumé source and deterministic generation/verification script.
 - Generated a one-page tagged PDF with GitHub, no phone number, no persona/version labels, and ordered ATS text extraction.
+- Normalized fixed-width PDF creation/modification dates and added a two-generation SHA-256 reproducibility gate.
 - Removed the duplicate `/fit` route.
 - Fixed 320px/390px public-engineering-card overflow and added an H1 to `/fit/`.
 - Changed project detail H1s from marketing headlines to actual project identities.
@@ -21,6 +22,12 @@ Date: 2026-08-11
 - Removed a dead mobile fragment link and added route-wide fragment-target assertions.
 - Restored keyboard-visible skip links on Experience and Work and added route-wide focus assertions.
 - Added a read-only GitHub Actions verification workflow for résumé generation, checks, build, and browser tests.
+- Made Fit require a non-empty job description, enforce a 12,000-character limit, copy every valid prompt, and use provider pre-fill only when the launch URL is at most 7,500 characters.
+- Added actionable `aria-invalid` and live-status behavior for invalid Fit input.
+- Repaired the hero Experience CTA so it opens the career timeline rather than presenting a PDF download as an in-page action.
+- Replaced two dead mockup links with the existing Rig-inspired route.
+- Removed obsolete dither route files and added permanent redirects for `/dither` and `/mockups/dither`, with and without trailing slashes.
+- Added an independent final-audit regression suite covering Fit boundaries, safe URL fallback, CTA semantics, redirect declarations/statuses, and mockup-link health.
 
 ## Verification
 
@@ -34,14 +41,20 @@ npm run check
 0 errors, 0 warnings, 0 hints
 
 npm run build
-17 pages built
+15 pages built
 build complete
 
 npm test
-171/171 browser assertions passed
+RESUME_REPRODUCIBILITY_PASS
+sha256=e4c67657a8f1460b458a5fa9d73740a0e7c772920cb6960aca6bbb6ddc11c500
+171/171 route/browser assertions passed
+19/19 local final-audit assertions passed
+190 total local assertions passed
 
 SITE_URL=https://davebettner.com npm test
-171/171 live browser assertions passed
+171/171 live route/browser assertions passed
+27/27 live final-audit assertions passed
+198 total live assertions passed
 ```
 
 Browser assertions cover:
@@ -58,6 +71,11 @@ Browser assertions cover:
 - corrected career timeline and client anonymization;
 - recruiter Fit payload evidence;
 - Fit-provider JSON parsing, copied-prompt content, launch URL, window count, and status readback;
+- empty and oversized Fit inputs open no provider and expose accessible invalid state;
+- long valid Fit prompts copy successfully and open the provider base URL rather than an oversized pre-fill URL;
+- the hero Experience CTA opens `/experience/` and is not marked as a download;
+- all public mockup-index links resolve;
+- all four legacy dither path variants return HTTP 301 to `/preview-dither/`;
 - public PDF response and content type;
 - sitemap inclusion for indexed routes;
 - custom 404 behavior.
@@ -66,6 +84,8 @@ PDF verification covers:
 
 - one Letter page;
 - tagged PDF with no JavaScript or suspicious objects;
+- two generations across a timestamp boundary produce identical SHA-256;
+- downloaded production PDF SHA-256 matches the local generated artifact;
 - first extracted line is `Dave Bettner`;
 - contact, career, engineering, skills, and education markers appear in order;
 - public phone number is absent.
@@ -84,12 +104,16 @@ Deployed to Cloudflare Workers custom domain `https://davebettner.com` on 2026-0
 Public source repository: `https://github.com/dbett4/davebettner.com`.
 
 ```text
-Current Version ID: 331aa1b6-f781-4bcb-aada-0b7b7730b9e3
+Current Version ID: ba1d5ac6-81e2-4d26-a053-ee717191b5ef
 Custom domain: davebettner.com
-Live verification: 171/171 assertions passed
+Live verification: 171/171 route assertions + 27/27 final-audit assertions passed
+Live PDF SHA-256: e4c67657a8f1460b458a5fa9d73740a0e7c772920cb6960aca6bbb6ddc11c500
 ```
 
-The first post-deploy run reached the prior edge version and correctly failed the new
-fragment-target and skip-link-focus assertions. A complete immediate rerun reached the
-new version and passed 171/171. The transient rollout observation is preserved rather
-than omitted.
+The first post-deploy run of an earlier repaired version reached the prior edge snapshot;
+a complete immediate rerun reached the new version and passed. During final-audit
+publication, production verification then found that the retained legacy dither route
+directory caused Cloudflare to canonicalize `/dither` with HTTP 307 before `_redirects`
+could apply. The obsolete route files were removed and a new version deployed. Final
+live readback confirmed HTTP 301 for all four slash/no-slash legacy paths. Both transient
+observations are preserved rather than omitted.

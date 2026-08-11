@@ -8,7 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "node scripts/verify-site.mjs && node scripts/verify-audit-regressions.mjs",
+    "test": "node scripts/verify-resume-reproducibility.mjs && node scripts/verify-site.mjs && node scripts/verify-audit-regressions.mjs",
     "generate-resume": "node scripts/generate-resume-pdf.mjs",
     "deploy": "npm run generate-resume && npm run build && wrangler deploy"
   },

@@ -7,9 +7,10 @@ import {
 } from '../data/recruiter-fit';
 
 const providersJson = JSON.stringify(
-  aiProviders.map(({ id, label, buildUrl }) => ({
+  aiProviders.map(({ id, label, baseUrl, buildUrl }) => ({
     id,
     label,
+    baseUrl,
     prefix: buildUrl('').replace(/=$/, '='),
   })),
 );
@@ -32,8 +33,12 @@ const templateJson = JSON.stringify(fitPromptTemplate);
           class="fit-textarea"
           name="job-description"
           rows="8"
+          maxlength="12000"
+          aria-describedby="fit-job-hint fit-status"
+          aria-invalid="false"
           placeholder="Paste the role title, requirements, and responsibilities from your job posting…"
         ></textarea>
+        <p class="fit-input-hint" id="fit-job-hint">Required. Maximum 12,000 characters.</p>
       </div>
 
       <div class="fit-field">
@@ -78,6 +83,8 @@ const templateJson = JSON.stringify(fitPromptTemplate);
 
 <script is:inline>
   const PROMPT_PLACEHOLDER = '{{JOB_DESCRIPTION}}';
+  const MAX_JOB_DESCRIPTION_LENGTH = 12_000;
+  const MAX_PREFILL_URL_LENGTH = 7_500;
 
   function readJsonScript(id, fallback) {
     const block = document.getElementById(id);
@@ -90,17 +97,30 @@ const templateJson = JSON.stringify(fitPromptTemplate);
 
   const providers = readJsonScript('fit-providers-data', '[]');
 
-  function getJobDescription() {
+  function validatedJobDescription() {
     const el = document.getElementById('job-description');
-    return el instanceof HTMLTextAreaElement ? el.value : '';
+    if (!(el instanceof HTMLTextAreaElement)) return null;
+
+    const value = el.value.trim();
+    if (!value) {
+      el.setAttribute('aria-invalid', 'true');
+      el.focus();
+      setStatus('Paste a job description before opening or copying a fit prompt.');
+      return null;
+    }
+    if (value.length > MAX_JOB_DESCRIPTION_LENGTH) {
+      el.setAttribute('aria-invalid', 'true');
+      el.focus();
+      setStatus('Job description must be 12,000 characters or fewer.');
+      return null;
+    }
+    el.setAttribute('aria-invalid', 'false');
+    return value;
   }
 
   function buildPrompt(jobDescription) {
-    const jd =
-      jobDescription.trim() ||
-      '(No job description pasted. Evaluate general fit for a senior deployment / implementation / solutions role at an AI-forward enterprise software company.)';
     const template = readJsonScript('fit-profile-data', '""');
-    return typeof template === 'string' ? template.replace(PROMPT_PLACEHOLDER, jd) : '';
+    return typeof template === 'string' ? template.replace(PROMPT_PLACEHOLDER, jobDescription) : '';
   }
 
   function setStatus(message) {
@@ -132,16 +152,25 @@ const templateJson = JSON.stringify(fitPromptTemplate);
     const provider = providers.find((p) => p.id === providerId);
     if (!provider) return;
 
-    const prompt = buildPrompt(getJobDescription());
+    const jobDescription = validatedJobDescription();
+    if (jobDescription === null) return;
+
+    const prompt = buildPrompt(jobDescription);
     const encoded = encodeURIComponent(prompt);
     const copied = await copyPrompt(prompt);
+    const prefillUrl = provider.prefix + encoded;
+    const usesPrefill = prefillUrl.length <= MAX_PREFILL_URL_LENGTH;
 
-    window.open(provider.prefix + encoded, '_blank', 'noopener,noreferrer');
+    window.open(usesPrefill ? prefillUrl : provider.baseUrl, '_blank', 'noopener,noreferrer');
 
     setStatus(
-      copied
-        ? `Copied prompt. Opened ${provider.label}. Paste if the assistant did not pre-fill.`
-        : `Opened ${provider.label}. Copy the prompt manually if needed.`,
+      usesPrefill
+        ? copied
+          ? `Copied prompt. Opened ${provider.label}. Paste if the assistant did not pre-fill.`
+          : `Opened ${provider.label}. Copy the prompt manually if needed.`
+        : copied
+          ? `Copied prompt. Opened ${provider.label} without pre-fill because the prompt is too long for a safe URL. Paste it there.`
+          : `Opened ${provider.label} without pre-fill. Copy the prompt manually if needed.`,
     );
   }
 
@@ -153,9 +182,18 @@ const templateJson = JSON.stringify(fitPromptTemplate);
   });
 
   document.getElementById('fit-copy-prompt')?.addEventListener('click', async () => {
-    const prompt = buildPrompt(getJobDescription());
+    const jobDescription = validatedJobDescription();
+    if (jobDescription === null) return;
+    const prompt = buildPrompt(jobDescription);
     const copied = await copyPrompt(prompt);
     setStatus(copied ? 'Prompt copied to clipboard.' : 'Could not copy. Select and copy manually from the job description area.');
+  });
+
+  document.getElementById('job-description')?.addEventListener('input', () => {
+    const el = document.getElementById('job-description');
+    if (el instanceof HTMLTextAreaElement && el.value.trim() && el.value.length <= MAX_JOB_DESCRIPTION_LENGTH) {
+      el.setAttribute('aria-invalid', 'false');
+    }
   });
 </script>
 
@@ -240,6 +278,14 @@ const templateJson = JSON.stringify(fitPromptTemplate);
   .fit-textarea:focus {
     outline: 2px solid var(--blue);
     outline-offset: 2px;
+  }
+  .fit-textarea[aria-invalid='true'] {
+    border-color: #b42318;
+  }
+  .fit-input-hint {
+    color: var(--muted);
+    font-size: 0.76rem;
+    margin: 8px 0 0;
   }
   .fit-textarea::placeholder {
     color: var(--muted);

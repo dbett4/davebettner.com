@@ -59,6 +59,7 @@ LinkedIn: https://www.linkedin.com/in/dave-bettner/
 export type AiProvider = {
   id: string;
   label: string;
+  baseUrl: string;
   /** URL param name varies by platform; builder returns full launch URL. */
   buildUrl: (encodedPrompt: string) => string;
 };
@@ -67,31 +68,37 @@ export const aiProviders: readonly AiProvider[] = [
   {
     id: 'chatgpt',
     label: 'ChatGPT',
+    baseUrl: 'https://chatgpt.com/',
     buildUrl: (p) => `https://chatgpt.com/?q=${p}`,
   },
   {
     id: 'claude',
     label: 'Claude',
+    baseUrl: 'https://claude.ai/new',
     buildUrl: (p) => `https://claude.ai/new?q=${p}`,
   },
   {
     id: 'gemini',
     label: 'Gemini',
+    baseUrl: 'https://gemini.google.com/app',
     buildUrl: (p) => `https://gemini.google.com/app?q=${p}`,
   },
   {
     id: 'copilot',
     label: 'Copilot',
+    baseUrl: 'https://copilot.microsoft.com/',
     buildUrl: (p) => `https://copilot.microsoft.com/?q=${p}`,
   },
   {
     id: 'perplexity',
     label: 'Perplexity',
+    baseUrl: 'https://www.perplexity.ai/',
     buildUrl: (p) => `https://www.perplexity.ai/search?q=${p}`,
   },
   {
     id: 'grok',
     label: 'Grok',
+    baseUrl: 'https://grok.com/',
     buildUrl: (p) => `https://grok.com/?q=${p}`,
   },
 ] as const;

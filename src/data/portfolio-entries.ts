@@ -109,15 +109,15 @@ export const portfolioEntries = [
   },
   {
     id: 'deployment-lab',
-    title: 'Hermes Field Kit — 318-row map without live mission attestation',
-    meta: '318 rows · 8 negative tests · 214-test pinned suite',
+    title: 'Hermes Field Kit — 318-row map with one attested live one-shot',
+    meta: '318 rows · 8 negative tests · 214-test suite · native receipt',
     situation:
       'Enterprise agent configuration needs a traceable capability map, explicit gaps, and reproducible checks before anyone claims production readiness.',
     role: 'Designed the mapping contract, adjudication workflow, and public verification scripts.',
     work:
-      '318-row capability map with schema validation, eight negative tests, and pinned v2026.8.3 reference suite. One committed sample run passes repository checks.',
+      '318-row capability map with schema validation, eight negative tests, pinned v2026.8.3 reference suite, and one committed native-runtime S1 receipt.',
     result:
-      'Mapping and suite checks pass; no attested live Hermes mission yet—the attestation boundary stays visible.',
+      'Receipt hashes and deterministic oracle verify; the synthetic live one-shot remains needs_review with no external action and two recorded exceptions.',
     href: '/work/hermes-field-kit/',
   },
   {

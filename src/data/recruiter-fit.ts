@@ -22,7 +22,7 @@ export const profileContext = `Dave Bettner — AI implementation and forward-de
 **Public engineering proof (inspectable GitHub repos):**
 - Regulated Reporting MCP — 126 credential-free tests; 117 tool contracts; offline demo without credentials. https://github.com/dbett4/regulated-reporting-mcp
 - Hermes Deployment Lab — 73 credential-free tests; synthetic failure/replay with idempotent retry. Synthetic lab, not a customer deployment claim. https://github.com/dbett4/hermes-enterprise-deployment-lab
-- Hermes Field Kit — 318-row mapping; 8 negative tests; pinned v2026.8.3 suite with 214 tests. No attested live Hermes mission yet. https://github.com/dbett4/hermes-enterprise-field-kit
+- Hermes Field Kit — 318-row mapping; 8 negative tests; pinned v2026.8.3 suite with 214 tests; one synthetic native-runtime S1 receipt with oracle pass. It remains needs_review with no external action, no human disposition, a $0.406986 estimate rather than actual billed cost, and two recorded exceptions. https://github.com/dbett4/hermes-enterprise-field-kit
 - Wingman (confirm-before-write spreadsheet quality) — 462 Python pass + 13 skip; 243 extension pass. Fictional demo data only. https://github.com/dbett4/wingman
 
 **Proof limits:** Public repos are sanitized extracts published August 2026. GitHub dates are publication dates. No client data or credentials. Private client history remains confidential; public claims are limited to inspectable artifacts.

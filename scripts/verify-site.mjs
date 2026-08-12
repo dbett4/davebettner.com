@@ -76,6 +76,7 @@ const projects = [
     title: 'Hermes Field Kit',
     repo: 'https://github.com/dbett4/hermes-enterprise-field-kit',
     proof: '318-row',
+    boundaries: ['needs_review', '$0.406986 estimate', 'actual billed cost', 'two recorded execution-time exceptions'],
   },
   {
     slug: 'wingman',
@@ -187,7 +188,11 @@ try {
     await auditPage(page, route, route);
     ok((await page.locator('h1').innerText()).includes(project.title), `${route}: project title`);
     ok(await page.locator(`a[href="${project.repo}"]`).count() >= 1, `${route}: direct repository link`);
-    ok((await page.locator('body').innerText()).includes(project.proof), `${route}: exact proof marker`, project.proof);
+    const projectText = await page.locator('body').innerText();
+    ok(projectText.includes(project.proof), `${route}: exact proof marker`, project.proof);
+    for (const boundary of project.boundaries ?? []) {
+      ok(projectText.includes(boundary), `${route}: proof boundary ${boundary}`);
+    }
   }
 
   await page.goto(`${base}/experience/`, { waitUntil: 'networkidle' });

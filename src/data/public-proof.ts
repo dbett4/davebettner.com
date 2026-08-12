@@ -46,9 +46,9 @@ export const publicEngineeringCases = [
     summary:
       'Version-pinned field kit for evaluating enterprise agent configuration: explicit unsupported cases, negative tests, and a one-command local check.',
     evidence:
-      '318-row mapping; 8 negative tests; exact pinned v2026.8.3 suite with 214 tests; one committed sample run passes repository checks.',
+      '318-row mapping; 8 negative tests; exact pinned v2026.8.3 suite with 214 tests; one native-runtime S1 receipt passes offline hash and oracle verification.',
     limit:
-      'No attested live Hermes mission yet—the committed sample run lacks native runtime attestation and that boundary stays visible.',
+      'The synthetic live one-shot remains needs_review: no external action or human disposition, a $0.406986 estimate rather than actual billed cost, and two recorded execution-time exceptions.',
     href: '/work/hermes-field-kit/',
   },
   {

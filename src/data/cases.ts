@@ -95,18 +95,18 @@ export const cases = [
     constraint:
       'Enterprise agent rollouts need a traceable map from requirements to supported behavior, explicit gaps, and reproducible checks—not a slide-deck promise.',
     built:
-      'I built a 318-row capability map with schema validation, eight negative tests, and a pinned v2026.8.3 reference suite. One sample run is committed for inspection and passes repository checks via ./scripts/proof.sh.',
+      'I built a 318-row capability map with schema validation, eight negative tests, a pinned v2026.8.3 reference suite, an older explicitly unattested record, and one native-runtime S1 receipt.',
     role: 'I designed the mapping contract, adjudication workflow, and public verification scripts.',
     boundary:
-      'The committed sample run does not contain native Hermes runtime attestation. I leave that distinction visible instead of presenting it as a verified live mission.',
+      'One synthetic live one-shot has native CLI attestation and an oracle pass, but remains needs_review with no external action, no human disposition, a $0.406986 estimate rather than actual billed cost, and two recorded exceptions.',
     evidence:
-      '318-row mapping; 8 negative tests; exact pinned v2026.8.3 suite with 214 tests; PUBLIC_MAPPING_PASS and FIELD_KIT_PROOF_PASS in proof script.',
-    scope: 'Configuration and evaluation artifacts are public; live mission attestation is not claimed.',
+      '318-row mapping; 8 negative tests; exact pinned v2026.8.3 suite with 214 tests; one committed native-runtime S1 receipt; PUBLIC_MAPPING_PASS and FIELD_KIT_PROOF_PASS.',
+    scope: 'Synthetic configuration and evaluation artifacts only; not a customer deployment or accepted policy decision.',
     evidenceMap: {
-      signal: '318-row map and 214-test pinned reference suite',
-      method: 'Mapping verification, negative tests, and pinned-suite replay run without live runtime attestation.',
-      steps: ['Row manifest', 'Gap ledger', 'Negative tests', 'Pinned suite', 'Sample receipt'],
-      boundary: 'No attested live Hermes mission yet.',
+      signal: '318-row map, 214-test pinned suite, and one native-runtime S1 receipt',
+      method: 'Mapping verification, negative tests, pinned-suite replay, receipt hash checks, and deterministic-oracle recomputation.',
+      steps: ['Row manifest', 'Gap ledger', 'Negative tests', 'Pinned suite', 'Live receipt'],
+      boundary: 'Live one-shot remains needs_review with two recorded execution-time exceptions.',
     },
   },
   {

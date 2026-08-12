@@ -83,10 +83,10 @@ export const cases = [
   },
   {
     id: 'hermes-field-kit',
-    eyebrow: '03 · Hermes Field Kit',
+    eyebrow: '03 · Hermes Enterprise Evaluation Kit',
     title: '318-row capability map with pinned v2026.8.3 reference suite',
     summary:
-      'Version-pinned field kit for evaluating enterprise agent configuration with explicit unsupported cases and negative tests.',
+      'Version-pinned evaluation kit for enterprise agent configuration with explicit unsupported cases and negative tests.',
     meta: 'Capability map · negative tests · pinned reference suite',
     size: 'small',
     visual: 'rings',

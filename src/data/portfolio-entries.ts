@@ -109,7 +109,7 @@ export const portfolioEntries = [
   },
   {
     id: 'deployment-lab',
-    title: 'Hermes Field Kit — 318-row map with one attested live one-shot',
+    title: 'Hermes Enterprise Evaluation Kit — 318-row map with one attested live one-shot',
     meta: '318 rows · 8 negative tests · 214-test suite · native receipt',
     situation:
       'Enterprise agent configuration needs a traceable capability map, explicit gaps, and reproducible checks before anyone claims production readiness.',

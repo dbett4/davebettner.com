@@ -39,12 +39,12 @@ export const publicEngineeringCases = [
   },
   {
     id: 'hermes-field-kit',
-    name: 'Hermes Field Kit',
+    name: 'Hermes Enterprise Evaluation Kit',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit/blob/main/PROOF.md',
     title: '318-row capability map with pinned v2026.8.3 reference suite',
     summary:
-      'Version-pinned field kit for evaluating enterprise agent configuration: explicit unsupported cases, negative tests, and a one-command local check.',
+      'Version-pinned evaluation kit for enterprise agent configuration: explicit unsupported cases, negative tests, and a one-command local check.',
     evidence:
       '318-row mapping; 8 negative tests; exact pinned v2026.8.3 suite with 214 tests; one native-runtime S1 receipt passes offline hash and oracle verification.',
     limit:

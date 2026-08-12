@@ -73,7 +73,7 @@ const projects = [
   },
   {
     slug: 'hermes-field-kit',
-    title: 'Hermes Field Kit',
+    title: 'Hermes Enterprise Evaluation Kit',
     repo: 'https://github.com/dbett4/hermes-enterprise-field-kit',
     proof: '318-row',
     boundaries: ['needs_review', '$0.406986 estimate', 'actual billed cost', 'two recorded execution-time exceptions'],

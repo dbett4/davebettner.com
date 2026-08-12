@@ -1,0 +1,419 @@
+---
+/**
+ * SignalField — embedded deployment specimen.
+ * Ordered dither / pixel quantization with controlled cobalt + warm-red accents.
+ * Original treatment; not a decorative orb or full-bleed wash.
+ */
+---
+
+<figure class="signal-field" data-signal-field>
+  <figcaption class="signal-field__chrome">
+    <span class="signal-field__tag">SPEC · SIG/01</span>
+    <span class="signal-field__tag signal-field__tag--muted">RES · CONTROLLED</span>
+    <span class="signal-field__tag signal-field__tag--accent">SCAN</span>
+  </figcaption>
+  <div class="signal-field__frame">
+    <div class="signal-field__fallback" aria-hidden="true"></div>
+    <canvas class="signal-field__canvas" aria-hidden="true" data-signal-canvas></canvas>
+    <div class="signal-field__hud" aria-hidden="true">
+      <span>FIELD</span>
+      <span>LOCK</span>
+    </div>
+  </div>
+  <p class="signal-field__meaning">
+    Noise resolves into a readable channel.
+  </p>
+</figure>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector('[data-signal-field]');
+    const canvas = document.querySelector('[data-signal-canvas]');
+    if (!root || !(root instanceof HTMLElement) || !canvas || !(canvas instanceof HTMLCanvasElement)) {
+      return;
+    }
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gl =
+      canvas.getContext('webgl', { alpha: false, antialias: false, premultipliedAlpha: false }) ||
+      canvas.getContext('experimental-webgl', { alpha: false, antialias: false, premultipliedAlpha: false });
+
+    const fallback = root.querySelector('.signal-field__fallback');
+    if (!gl) {
+      root.classList.add('is-static');
+      return;
+    }
+
+    if (fallback instanceof HTMLElement) {
+      fallback.hidden = true;
+    }
+
+    const vertSrc = `
+      attribute vec2 a_pos;
+      void main() {
+        gl_Position = vec4(a_pos, 0.0, 1.0);
+      }
+    `;
+
+    const fragSrc = `
+      precision mediump float;
+      uniform vec2 u_res;
+      uniform float u_time;
+      uniform vec2 u_pointer;
+      uniform float u_motion;
+
+      float bayer(vec2 p) {
+        float x = mod(p.x, 4.0);
+        float y = mod(p.y, 4.0);
+        float idx = y * 4.0 + x;
+        float t =
+          idx < 0.5 ? 0.0 : idx < 1.5 ? 8.0 : idx < 2.5 ? 2.0 : idx < 3.5 ? 10.0 :
+          idx < 4.5 ? 12.0 : idx < 5.5 ? 4.0 : idx < 6.5 ? 14.0 : idx < 7.5 ? 6.0 :
+          idx < 8.5 ? 3.0 : idx < 9.5 ? 11.0 : idx < 10.5 ? 1.0 : idx < 11.5 ? 9.0 :
+          idx < 12.5 ? 15.0 : idx < 13.5 ? 7.0 : idx < 14.5 ? 13.0 : 5.0;
+        return t / 16.0;
+      }
+
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+      }
+
+      void main() {
+        vec2 px = gl_FragCoord.xy;
+        float cell = max(2.0, floor(min(u_res.x, u_res.y) / 96.0));
+        vec2 q = floor(px / cell);
+        vec2 uv = q * cell / u_res;
+
+        float t = u_time * u_motion;
+        vec2 ptr = u_pointer * 0.18;
+
+        float corridor = abs(uv.y - (0.48 + ptr.y * 0.08)) - (0.055 + 0.02 * sin(t * 0.7));
+        float scan = fract(uv.x * 0.85 - t * 0.08 + ptr.x * 0.2);
+        float beam = smoothstep(0.0, 0.12, scan) * smoothstep(0.42, 0.18, scan);
+
+        float noise = hash(q + floor(t * 2.0));
+        float field = 0.42 + 0.28 * noise;
+        field += 0.18 * sin((uv.x + ptr.x) * 18.0 + t * 1.4);
+        field += 0.12 * sin((uv.y - ptr.y) * 22.0 - t * 0.9);
+        field = mix(field, 0.78, beam * 0.85);
+        field = mix(field, 0.18, smoothstep(0.02, 0.14, corridor) * 0.55);
+
+        float gate = step(abs(uv.x - (0.72 + ptr.x * 0.05)), 0.018);
+        float tick = step(0.92, fract(uv.y * 28.0 + t * 0.2));
+
+        float threshold = bayer(q);
+        float on = step(threshold, field);
+
+        vec3 paper = vec3(0.953, 0.937, 0.898);
+        vec3 ink = vec3(0.082, 0.082, 0.082);
+        vec3 cobalt = vec3(0.129, 0.310, 0.898);
+        vec3 flare = vec3(0.812, 0.255, 0.125);
+
+        vec3 col = mix(paper, ink, on);
+        col = mix(col, cobalt, gate * (0.55 + 0.25 * on));
+        col = mix(col, flare, beam * tick * 0.65);
+        col = mix(col, cobalt, beam * (1.0 - on) * 0.22);
+
+        float frame = step(min(min(uv.x, uv.y), min(1.0 - uv.x, 1.0 - uv.y)), 0.012);
+        col = mix(col, ink, frame * 0.35);
+
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+
+    const compile = (type, source) => {
+      const shader = gl.createShader(type);
+      if (!shader) return null;
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        gl.deleteShader(shader);
+        return null;
+      }
+      return shader;
+    };
+
+    const vs = compile(gl.VERTEX_SHADER, vertSrc);
+    const fs = compile(gl.FRAGMENT_SHADER, fragSrc);
+    if (!vs || !fs) {
+      root.classList.add('is-static');
+      return;
+    }
+
+    const program = gl.createProgram();
+    if (!program) {
+      root.classList.add('is-static');
+      return;
+    }
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      root.classList.add('is-static');
+      return;
+    }
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+
+    const aPos = gl.getAttribLocation(program, 'a_pos');
+    const uRes = gl.getUniformLocation(program, 'u_res');
+    const uTime = gl.getUniformLocation(program, 'u_time');
+    const uPointer = gl.getUniformLocation(program, 'u_pointer');
+    const uMotion = gl.getUniformLocation(program, 'u_motion');
+
+    let raf = 0;
+    let start = 0;
+    let visible = true;
+    let pointer = { x: 0, y: 0 };
+    let pointerTarget = { x: 0, y: 0 };
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+      const w = Math.max(1, Math.floor(rect.width));
+      const h = Math.max(1, Math.floor(rect.height));
+      // Cap internal resolution for pixel quantization feel + performance.
+      const maxEdge = 640;
+      const scale = Math.min(1, maxEdge / Math.max(w, h));
+      canvas.width = Math.max(1, Math.floor(w * dpr * scale));
+      canvas.height = Math.max(1, Math.floor(h * dpr * scale));
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    };
+
+    const draw = (t) => {
+      if (!start) start = t;
+      const time = reduced ? 0.35 : (t - start) * 0.001;
+      pointer.x += (pointerTarget.x - pointer.x) * 0.08;
+      pointer.y += (pointerTarget.y - pointer.y) * 0.08;
+
+      gl.useProgram(program);
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, time);
+      gl.uniform2f(uPointer, pointer.x, pointer.y);
+      gl.uniform1f(uMotion, reduced ? 0.0 : 1.0);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    };
+
+    const stop = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    };
+
+    const tick = (t) => {
+      draw(t);
+      if (!reduced && visible && !document.hidden) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        raf = 0;
+      }
+    };
+
+    const startLoop = () => {
+      if (reduced || raf || !visible || document.hidden) {
+        draw(performance.now());
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    const onPointer = (event) => {
+      if (reduced) return;
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      pointerTarget.x = (event.clientX - rect.left) / rect.width - 0.5;
+      pointerTarget.y = 0.5 - (event.clientY - rect.top) / rect.height;
+    };
+
+    resize();
+    draw(0);
+    startLoop();
+
+    window.addEventListener('resize', () => {
+      resize();
+      draw(performance.now());
+    }, { passive: true });
+
+    root.addEventListener('pointermove', onPointer, { passive: true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stop();
+      else startLoop();
+    });
+
+    const isCvSupported = 'contentVisibility' in document.documentElement.style;
+    if (isCvSupported) {
+      root.addEventListener('contentvisibilityautostatechange', (event) => {
+        const detail = /** @type {ContentVisibilityAutoStateChangeEvent} */ (event);
+        visible = !detail.skipped;
+        if (visible) startLoop();
+        else stop();
+      });
+    } else if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            visible = entry.isIntersecting;
+            if (visible) startLoop();
+            else stop();
+          });
+        },
+        { rootMargin: '120px' },
+      );
+      io.observe(root);
+    }
+  })();
+</script>
+
+<style>
+  .signal-field {
+    --sf-paper: #f3efe5;
+    --sf-ink: #151515;
+    --sf-blue: #214fe5;
+    --sf-orange: #cf4120;
+    --sf-muted: #62615d;
+    --sf-rule: #c9c3b5;
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    content-visibility: auto;
+    contain-intrinsic-size: auto none auto 420px;
+  }
+
+  .signal-field__chrome {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    align-items: baseline;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .signal-field__tag {
+    color: var(--sf-ink);
+  }
+
+  .signal-field__tag--muted {
+    color: var(--sf-muted);
+  }
+
+  .signal-field__tag--accent {
+    color: var(--sf-orange);
+    margin-left: auto;
+  }
+
+  .signal-field__frame {
+    position: relative;
+    aspect-ratio: 5 / 4;
+    border: 1px solid var(--sf-ink);
+    background: var(--sf-paper);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .signal-field__frame::before,
+  .signal-field__frame::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--sf-ink);
+    opacity: 0.35;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .signal-field__frame::before {
+    top: 8px;
+    left: 8px;
+    border-width: 1px 0 0 1px;
+  }
+
+  .signal-field__frame::after {
+    right: 8px;
+    bottom: 8px;
+    border-width: 0 1px 1px 0;
+  }
+
+  .signal-field__canvas,
+  .signal-field__fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .signal-field__fallback {
+    background-color: var(--sf-paper);
+    background-image:
+      linear-gradient(90deg, transparent 71.5%, rgba(33, 79, 229, 0.55) 71.5%, rgba(33, 79, 229, 0.55) 73.5%, transparent 73.5%),
+      linear-gradient(
+        180deg,
+        transparent 44%,
+        rgba(207, 65, 32, 0.28) 46%,
+        rgba(207, 65, 32, 0.28) 52%,
+        transparent 54%
+      ),
+      repeating-linear-gradient(
+        0deg,
+        #151515 0 1px,
+        transparent 1px 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(21, 21, 21, 0.35) 0 1px,
+        transparent 1px 5px
+      );
+    background-size: 100% 100%, 100% 100%, 4px 4px, 5px 5px;
+    image-rendering: pixelated;
+  }
+
+  .signal-field.is-static .signal-field__canvas {
+    display: none;
+  }
+
+  .signal-field.is-static .signal-field__fallback {
+    display: block;
+  }
+
+  .signal-field__hud {
+    position: absolute;
+    inset: auto 12px 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sf-ink);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .signal-field__meaning {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--sf-muted);
+    max-width: 42ch;
+  }
+
+  @media (min-width: 721px) and (max-width: 960px) {
+    .signal-field__frame {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .signal-field__fallback {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1200, initial-scale=1" />
+    <title>Dave Bettner — Forward-Deployed and Solutions Engineering</title>
+    <style>
+      @font-face {
+        font-family: 'Newsreader';
+        src: url('../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2') format('woff2');
+        font-display: block;
+        font-style: normal;
+        font-weight: 200 800;
+      }
+
+      @font-face {
+        font-family: 'Plus Jakarta Sans';
+        src: url('../node_modules/@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2');
+        font-display: block;
+        font-style: normal;
+        font-weight: 200 800;
+      }
+
+      @font-face {
+        font-family: 'DM Mono';
+        src: url('../node_modules/@fontsource/dm-mono/files/dm-mono-latin-400-normal.woff2') format('woff2');
+        font-display: block;
+        font-style: normal;
+        font-weight: 400;
+      }
+
+      :root {
+        --paper: #f3efe5;
+        --ink: #151515;
+        --muted: #62615d;
+        --rule: #bdb7aa;
+        --blue: #214fe5;
+        --orange: #cf4120;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .social-card {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        padding: 42px 54px 32px;
+        overflow: hidden;
+        background:
+          linear-gradient(90deg, transparent 79px, rgba(189, 183, 170, 0.2) 79px 80px, transparent 80px),
+          var(--paper);
+      }
+
+      .social-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.16;
+        background-image:
+          radial-gradient(circle at 1px 1px, rgba(21, 21, 21, 0.46) 0 0.6px, transparent 0.8px);
+        background-size: 6px 6px;
+        mask-image: linear-gradient(90deg, transparent 0 61%, #000 70% 100%);
+      }
+
+      .masthead,
+      .content,
+      .footer {
+        position: relative;
+        z-index: 1;
+      }
+
+      .masthead {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 46px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid var(--ink);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        width: 8px;
+        height: 8px;
+        background: var(--orange);
+        box-shadow: 3px -1px 0 var(--blue);
+      }
+
+      .role,
+      .kicker,
+      .sequence,
+      .spec-label,
+      .footer {
+        font-family: 'DM Mono', monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+      }
+
+      .role {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: minmax(0, 1.34fr) minmax(300px, 0.66fr);
+        gap: 62px;
+        align-items: center;
+        height: 438px;
+      }
+
+      .copy {
+        align-self: center;
+        min-width: 0;
+      }
+
+      .kicker {
+        margin: 0 0 20px;
+        color: var(--orange);
+        font-size: 12px;
+      }
+
+      h1 {
+        max-width: 700px;
+        margin: 0;
+        font-family: 'Newsreader', Georgia, serif;
+        font-size: 70px;
+        font-weight: 480;
+        line-height: 0.98;
+        letter-spacing: -0.046em;
+        text-wrap: balance;
+      }
+
+      .support {
+        max-width: 650px;
+        margin: 24px 0 0;
+        color: var(--muted);
+        font-size: 20px;
+        font-weight: 470;
+        line-height: 1.4;
+      }
+
+      .sequence {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-top: 26px;
+        color: var(--ink);
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      .sequence i {
+        width: 14px;
+        height: 1px;
+        background: var(--rule);
+      }
+
+      .portrait-wrap {
+        position: relative;
+        width: 318px;
+        justify-self: end;
+      }
+
+      .portrait-wrap::before {
+        content: '';
+        position: absolute;
+        inset: 16px -14px -14px 16px;
+        border: 1px solid var(--blue);
+        background:
+          repeating-linear-gradient(0deg, rgba(33, 79, 229, 0.18) 0 1px, transparent 1px 5px),
+          var(--paper);
+      }
+
+      .portrait {
+        position: relative;
+        width: 318px;
+        height: 318px;
+        border: 2px solid var(--ink);
+        background: #d7d4cd;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+      }
+
+      .spec-label {
+        position: absolute;
+        z-index: 2;
+        padding: 6px 8px;
+        border: 1px solid var(--ink);
+        background: var(--paper);
+        font-size: 10px;
+      }
+
+      .spec-label.top {
+        top: -14px;
+        left: -14px;
+      }
+
+      .spec-label.bottom {
+        right: -14px;
+        bottom: -14px;
+        color: var(--blue);
+      }
+
+      .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 72px;
+        border-top: 1px solid var(--ink);
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .footer strong {
+        color: var(--ink);
+        font-weight: 400;
+      }
+
+      .footer-accent {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-accent::before {
+        content: '';
+        width: 28px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--orange) 0 50%, var(--blue) 50% 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="social-card" aria-label="Dave Bettner forward-deployed and solutions engineering social card">
+      <header class="masthead">
+        <div class="brand"><span>Dave Bettner</span><span class="brand-mark" aria-hidden="true"></span></div>
+        <div class="role">Forward-deployed · solutions engineering</div>
+      </header>
+
+      <section class="content">
+        <div class="copy">
+          <p class="kicker">Enterprise agents · customer environments</p>
+          <h1>The hard part starts after the demo.</h1>
+          <p class="support">I turn promising software into a system people can operate, inspect, and trust.</p>
+          <div class="sequence" aria-label="Delivery sequence">
+            <span>Scope</span><i aria-hidden="true"></i>
+            <span>Connect</span><i aria-hidden="true"></i>
+            <span>Prove</span><i aria-hidden="true"></i>
+            <span>Operate</span>
+          </div>
+        </div>
+
+        <div class="portrait-wrap">
+          <span class="spec-label top">SIG · 01</span>
+          <img
+            class="portrait"
+            src="../public/images/dave-bettner-headshot-20260808-square.webp"
+            width="1200"
+            height="1200"
+            alt="Dave Bettner smiling in a gray suit"
+          />
+          <span class="spec-label bottom">Deployment proof</span>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>Des Moines, Iowa</span>
+        <strong class="footer-accent">davebettner.com</strong>
+      </footer>
+    </main>
+  </body>
+</html>

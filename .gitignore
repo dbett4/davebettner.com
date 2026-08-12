@@ -8,6 +8,7 @@ plans/
 research/
 sketches/
 docs/reviews/
+/artifacts/
 .DS_Store
 ._*
 *.log

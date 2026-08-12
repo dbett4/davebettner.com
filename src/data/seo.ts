@@ -2,13 +2,13 @@ import { githubUrl, linkedinUrl } from './site-links';
 
 export const siteUrl = 'https://davebettner.com';
 
-export const siteTitle = 'Dave Bettner | AI Implementation and Strategic Operations';
+export const siteTitle = 'Dave Bettner | Forward-Deployed and Solutions Engineering';
 
 export const siteDescription =
-  'Dave Bettner leads AI implementation and forward-deployed enterprise delivery, with public proof in MCP integrations, agent deployment, and controlled-write systems.';
+  'Dave Bettner leads enterprise solution delivery and builds inspectable agent systems for complex customer environments, with domain depth in finance and regulated workflows.';
 
 export const identitySeoLead =
-  'My background is in enterprise implementation, reporting technology, and the operational work required to get complicated systems into use.';
+  'My background is in enterprise solution delivery and financial reporting technology: discovery, integrations, validation, sign-off, and adoption.';
 
 export const personSchema = {
   '@context': 'https://schema.org',
@@ -17,8 +17,8 @@ export const personSchema = {
   url: `${siteUrl}/`,
   image: `${siteUrl}/images/dave-bettner-headshot-20260808-square.jpg`,
   description:
-    'AI implementation and solutions leader focused on forward-deployed enterprise delivery.',
-  jobTitle: 'AI implementation and solutions leader',
+    'Enterprise solutions and implementation leader focused on customer-facing agent systems, regulated workflows, and reliable deployment.',
+  jobTitle: 'Enterprise solutions and implementation leader',
   homeLocation: {
     '@type': 'Place',
     name: 'Des Moines, Iowa',

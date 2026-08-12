@@ -73,10 +73,16 @@
   li { margin: 0 0 1px; }
   .project { margin-bottom: 3px; break-inside: avoid; }
   .project h3 {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 8.8pt;
     margin: 0 0 1px;
   }
+  .project .repo {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 7pt;
+    margin: 0 0 1px;
+  }
+  .project .repo a { color: #214fe5; text-decoration: none; }
   .project p { margin: 0; font-size: 7.9pt; }
   .proof {
     font-size: 7pt;
@@ -121,11 +127,12 @@
 <section>
   <h2>Summary</h2>
   <p class="summary">
-    Forward-deployed operator who takes AI and reporting-system work from an unclear starting point to
-    something a team can run, audit, and hand off. Ten-plus years in regulated enterprise delivery—financial
-    reporting, controls, implementation, and adoption—not career software engineering or ML research.
-    Recent public work focuses on MCP integrations, deployment labs, confirm-before-write quality checks,
-    and credential-free proof harnesses.
+    Forward-deployed operator with 10+ years of regulated enterprise delivery—financial reporting, controls,
+    implementation, and adoption—who takes AI and reporting-system work from an unclear starting point to
+    something a team can run, audit, and hand off. Recent hands-on Python work covers agent integration,
+    failure recovery, and deployment-proof labs; Rust evidence is a bounded, open upstream work sample.
+    Public engineering focuses on MCP integrations, Compose-configured labs, confirm-before-write quality
+    checks, and credential-free proof harnesses; public CI parses Compose but does not attest container startup.
   </p>
 </section>
 
@@ -177,25 +184,29 @@
   <h2>Public Engineering (by function)</h2>
 
   <article class="project">
-    <h3>Reporting API MCP server with guarded writes</h3>
+    <h3>Hermes Deployment Lab</h3>
+    <p class="repo"><a href="https://github.com/dbett4/hermes-enterprise-deployment-lab">github.com/dbett4/hermes-enterprise-deployment-lab</a></p>
+    <p>Compose-configured lab with FastMCP, mock enterprise API, and workflow runner. Exercises remote-write/local-failure mismatch, separated operator approval, and idempotent retry so side effects happen once. Public CI parses Compose; container startup is not attested. Synthetic lab, not a customer deployment.</p>
+    <p class="proof">73 public credential-free tests · synthetic failure/replay</p>
+  </article>
+
+  <article class="project">
+    <h3>Regulated Reporting MCP</h3>
+    <p class="repo"><a href="https://github.com/dbett4/regulated-reporting-mcp">github.com/dbett4/regulated-reporting-mcp</a></p>
     <p>OAuth-backed MCP integration for a Workiva-shaped reporting API: pagination, async jobs, controlled mutations, and a three-tool guarded default over a 117-tool catalog.</p>
     <p class="proof">126 credential-free tests · 117 contracts · offline demo</p>
   </article>
 
   <article class="project">
-    <h3>Deployment lab with synthetic failure replay</h3>
-    <p>Containerized lab exercising remote-write/local-failure mismatch, separated operator approval, and idempotent retry so side effects happen once.</p>
-    <p class="proof">73 credential-free tests · synthetic failure/replay · not a customer deployment claim</p>
-  </article>
-
-  <article class="project">
     <h3>Hermes Enterprise Evaluation Kit</h3>
-    <p>318-row capability map, negative tests, and pinned reference suite for evaluating agent configuration before claiming production readiness.</p>
+    <p class="repo"><a href="https://github.com/dbett4/hermes-enterprise-field-kit">github.com/dbett4/hermes-enterprise-field-kit</a></p>
+    <p>318-row capability map, negative tests, and pinned reference suite for evaluating agent configuration before claiming production readiness. Synthetic evaluation artifacts; needs review.</p>
     <p class="proof">318 rows · 8 negative tests · 214-test suite · one attested synthetic one-shot · needs review</p>
   </article>
 
   <article class="project">
-    <h3>Confirm-before-write spreadsheet quality</h3>
+    <h3>Confirm-before-write spreadsheet quality (Wingman)</h3>
+    <p class="repo"><a href="https://github.com/dbett4/wingman">github.com/dbett4/wingman</a></p>
     <p>Chrome extension and local service that detects workbook defects, applies only reversible fixes after confirmation, and restores on readback mismatch.</p>
     <p class="proof">462 Python pass + 13 skip · 243 extension pass</p>
   </article>
@@ -204,16 +215,16 @@
 <section>
   <h2>Skills</h2>
   <div class="skills">
-    <span>AI implementation</span>
-    <span>forward-deployed delivery</span>
-    <span>enterprise adoption</span>
     <span>Python</span>
-    <span>MCP</span>
-    <span>OAuth</span>
-    <span>controlled writes</span>
-    <span>SEC reporting</span>
-    <span>technical accounting</span>
-    <span>cross-functional leadership</span>
+    <span>Docker Compose (public CI parse-only)</span>
+    <span>Hermes Agent</span>
+    <span>MCP/FastMCP</span>
+    <span>OAuth/API integration</span>
+    <span>idempotency/failure recovery</span>
+    <span>GitHub Actions</span>
+    <span>forward-deployed delivery</span>
+    <span>Rust (open PR work sample)</span>
+    <span>failure injection/debugging</span>
   </div>
 </section>
 

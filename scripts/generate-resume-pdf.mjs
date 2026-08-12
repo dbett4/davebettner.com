@@ -113,6 +113,10 @@ async function main() {
     'Ambra Health · Solutions Consultant',
     'Workiva · SEC Reporting Consultant',
     'PUBLIC ENGINEERING (BY FUNCTION)',
+    'Hermes Deployment Lab',
+    'Regulated Reporting MCP',
+    'Hermes Enterprise Evaluation Kit',
+    'Confirm-before-write spreadsheet quality',
     'SKILLS',
     'EDUCATION',
   ];
@@ -126,6 +130,72 @@ async function main() {
   }
   if (/815[.\s-]*440[.\s-]*1756/.test(text)) {
     throw new Error('public résumé must not expose the phone number');
+  }
+  if (/not career software engineering or ML research/i.test(text)) {
+    throw new Error('public résumé must not include self-rejecting career framing');
+  }
+  for (const marker of [
+    'Python',
+    'Rust (open PR work sample)',
+    'Docker Compose (public CI parse-only)',
+    'Hermes Agent',
+    'GitHub Actions',
+    'failure injection/debugging',
+  ]) {
+    if (!text.includes(marker)) {
+      throw new Error(`public résumé missing application-surface marker: ${marker}`);
+    }
+  }
+  for (const repo of [
+    'github.com/dbett4/hermes-enterprise-deployment-lab',
+    'github.com/dbett4/regulated-reporting-mcp',
+    'github.com/dbett4/hermes-enterprise-field-kit',
+    'github.com/dbett4/wingman',
+  ]) {
+    if (!text.includes(repo)) {
+      throw new Error(`public résumé missing flagship repo link text: ${repo}`);
+    }
+  }
+  const html = await readFile(sourceHtml, 'utf8');
+  if (/not career software engineering or ML research/i.test(html)) {
+    throw new Error('résumé HTML must not include self-rejecting career framing');
+  }
+  if (!/\.project\s+h3\s*\{[^}]*font-family:\s*Arial/i.test(html)) {
+    throw new Error('project headings must use a robust sans-serif (Arial) for parser-safe extraction');
+  }
+  if (/\.project\s+h3\s*\{[^}]*Georgia/i.test(html)) {
+    throw new Error('project headings must not use Georgia/serif (emits stray A separators in parsers)');
+  }
+  for (const href of [
+    'https://github.com/dbett4/hermes-enterprise-deployment-lab',
+    'https://github.com/dbett4/regulated-reporting-mcp',
+    'https://github.com/dbett4/hermes-enterprise-field-kit',
+    'https://github.com/dbett4/wingman',
+  ]) {
+    if (!html.includes(`href="${href}"`)) {
+      throw new Error(`résumé HTML missing clickable flagship repo link: ${href}`);
+    }
+  }
+  const skillsBlock = html.match(/<div class="skills">([\s\S]*?)<\/div>/)?.[1] ?? '';
+  const skillOrder = [
+    'Python',
+    'Docker Compose (public CI parse-only)',
+    'Hermes Agent',
+    'MCP/FastMCP',
+    'OAuth/API integration',
+    'idempotency/failure recovery',
+    'GitHub Actions',
+    'forward-deployed delivery',
+    'Rust (open PR work sample)',
+    'failure injection/debugging',
+  ];
+  let skillPrevious = -1;
+  for (const skill of skillOrder) {
+    const current = skillsBlock.indexOf(`>${skill}<`);
+    if (current <= skillPrevious) {
+      throw new Error(`résumé skills order/missing-marker check failed: ${skill}`);
+    }
+    skillPrevious = current;
   }
   const pagesMatch = pdfinfo.match(/^Pages:\s+(\d+)/m);
   const pages = Number(pagesMatch?.[1] || 0);

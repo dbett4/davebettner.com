@@ -56,9 +56,9 @@ export const cases = [
   {
     id: 'hermes-deployment-lab',
     eyebrow: '02 · Hermes Deployment Lab',
-    title: 'Synthetic failure lab with idempotent retry and 73 credential-free tests',
+    title: 'Synthetic failure lab with idempotent retry and 73 public credential-free tests',
     summary:
-      'Containerized lab that exercises remote-write/local-failure mismatch, operator approval separation, and idempotent recovery.',
+      'Compose-configured lab that exercises remote-write/local-failure mismatch, operator approval separation, and idempotent recovery. Public CI parses the configuration but does not attest container startup.',
     meta: 'FastMCP · Docker Compose · failure replay · audit trail',
     size: 'small',
     visual: 'rings',
@@ -72,10 +72,10 @@ export const cases = [
     boundary:
       'This is a synthetic lab with credential-free tests—not a live client tenant or production deployment claim.',
     evidence:
-      '73 credential-free tests; synthetic failure/replay path; MCP inspect, compose parse, and demo checks in ./scripts/proof.sh.',
+      '73 public credential-free tests; synthetic failure/replay path; MCP inspect, compose parse, and demo checks in ./scripts/proof.sh.',
     scope: 'Lab architecture and recovery discipline are public; client data and credentials are not.',
     evidenceMap: {
-      signal: '73 credential-free tests with synthetic failure replay',
+      signal: '73 public credential-free tests with synthetic failure replay',
       method: 'Proof script runs pytest, MCP inspect, compose parse, and an offline demo without provider credentials.',
       steps: ['Compose parse', 'MCP inspect', 'Approval gate', 'Idempotent retry', 'Audit record'],
       boundary: 'Synthetic lab evidence—not customer-environment deployment.',

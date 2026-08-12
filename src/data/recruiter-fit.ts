@@ -9,7 +9,7 @@ export const profileContext = `Dave Bettner — AI implementation and forward-de
 
 **Headline:** AI implementation, solutions architecture, and forward-deployed delivery in regulated enterprise environments.
 
-**Summary:** More than ten years taking complex reporting, systems, and control work from an unclear starting point to a working result. Strongest when the problem matters, the path is not fully defined, and someone needs to own both the answer and its implementation. Background in financial reporting, technical accounting, controls, and reporting technology—not career software engineering or ML research.
+**Summary:** Forward-deployed operator with 10+ years of regulated enterprise delivery—financial reporting, controls, implementation, and adoption—who takes complex reporting and systems work from an unclear starting point to a working, auditable result. Recent hands-on Python work covers agent integration, failure recovery, and deployment-proof labs; Rust evidence is a bounded, open upstream work sample. Strongest when the problem matters, the path is not fully defined, and someone needs to own both the answer and its implementation.
 
 **Current:** Senior Manager, LSL, LLP (Nov 2025–present, Chicago then Des Moines). Scoped municipal finance and ERP-connected reporting delivery from diagnosis through adoption.
 
@@ -21,7 +21,7 @@ export const profileContext = `Dave Bettner — AI implementation and forward-de
 
 **Public engineering proof (inspectable GitHub repos):**
 - Regulated Reporting MCP — 126 credential-free tests; 117 tool contracts; offline demo without credentials. https://github.com/dbett4/regulated-reporting-mcp
-- Hermes Deployment Lab — 73 credential-free tests; synthetic failure/replay with idempotent retry. Synthetic lab, not a customer deployment claim. https://github.com/dbett4/hermes-enterprise-deployment-lab
+- Hermes Deployment Lab — 73 public credential-free tests; synthetic failure/replay with idempotent recovery. A larger local revision adds independently reviewed observability evidence and validate-only cloud IaC, but remains unpublished; container runtime and cloud operation remain unverified. Synthetic lab, not a customer deployment claim. https://github.com/dbett4/hermes-enterprise-deployment-lab
 - Hermes Enterprise Evaluation Kit — 318-row mapping; 8 negative tests; pinned v2026.8.3 suite with 214 tests; one synthetic native-runtime S1 receipt with oracle pass. It remains needs_review with no external action, no human disposition, a $0.406986 estimate rather than actual billed cost, and two recorded exceptions. https://github.com/dbett4/hermes-enterprise-field-kit
 - Wingman (confirm-before-write spreadsheet quality) — 462 Python pass + 13 skip; 243 extension pass. Fictional demo data only. https://github.com/dbett4/wingman
 

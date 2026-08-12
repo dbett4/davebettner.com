@@ -12,6 +12,19 @@ export type PublicEngineeringCase = {
 
 export const publicEngineeringCases = [
   {
+    id: 'hermes-deployment-lab',
+    name: 'Hermes Deployment Lab',
+    repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
+    proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
+    title: 'Synthetic failure lab with idempotent retry and 73 public credential-free tests',
+    summary:
+      'Containerized deployment lab with a FastMCP server, mock enterprise API, workflow runner, and Docker Compose. Exercises the failure path where a write succeeds remotely and then appears to fail locally.',
+    evidence:
+      '73 public credential-free tests covering approval, authorization, audit records, and recovery; synthetic failure/replay with idempotency-key reuse. A larger persistence/container-proof revision remains local and runtime-unverified.',
+    limit: 'A synthetic lab—not a claim of customer-environment deployment or production scale.',
+    href: '/work/hermes-deployment-lab/',
+  },
+  {
     id: 'regulated-reporting-mcp',
     name: 'Regulated Reporting MCP',
     repoUrl: 'https://github.com/dbett4/regulated-reporting-mcp',
@@ -23,19 +36,6 @@ export const publicEngineeringCases = [
     limit:
       'The full 117-tool registry requires an explicit unsafe opt-in. A local write receipt is not treated as remote verification.',
     href: '/work/regulated-reporting-mcp/',
-  },
-  {
-    id: 'hermes-deployment-lab',
-    name: 'Hermes Deployment Lab',
-    repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
-    proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
-    title: 'Synthetic failure lab with idempotent retry and 73 credential-free tests',
-    summary:
-      'Containerized deployment lab with a FastMCP server, mock enterprise API, workflow runner, and Docker Compose. Exercises the failure path where a write succeeds remotely and then appears to fail locally.',
-    evidence:
-      '73 credential-free tests covering approval, authorization, audit records, and recovery; synthetic failure/replay with idempotency-key reuse.',
-    limit: 'A synthetic lab—not a claim of customer-environment deployment or production scale.',
-    href: '/work/hermes-deployment-lab/',
   },
   {
     id: 'hermes-field-kit',
@@ -53,12 +53,13 @@ export const publicEngineeringCases = [
   },
   {
     id: 'wingman',
-    name: 'Confirm-before-write spreadsheet quality',
+    name: 'Financial reporting QA with readback',
     repoUrl: 'https://github.com/dbett4/wingman',
     title: 'Chrome extension + local service with readback and restore on mismatch',
     summary:
       'Wingman finds defects in financial-reporting workbooks—broken links, formula hardcodes, formatting drift—and applies only changes it can check, reverse, and read back.',
-    evidence: '462 Python tests pass + 13 skip; 243 extension tests pass in CI.',
+    evidence:
+      '462 Python tests pass + 13 skip; 243 extension tests pass in CI; controlled changes are read back and restored on mismatch.',
     limit:
       'Extracted from live government reporting work; fictional demo data only; not affiliated with or endorsed by Workiva.',
     href: '/work/wingman/',

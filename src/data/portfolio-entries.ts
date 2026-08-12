@@ -59,14 +59,14 @@ export const portfolioEntries = [
   {
     id: 'workiva-mcp',
     title: 'Hermes Deployment Lab — synthetic failure and idempotent recovery',
-    meta: '73 credential-free tests · failure replay',
+    meta: '73 public credential-free tests · failure replay',
     situation:
       'A sophisticated integration is not adopted until a second operator can stand it up on a clean machine and recover from realistic failure modes.',
     role: 'Owned the deployment shape, test harness, and operating runbooks for the public lab.',
     work:
-      'Containerized lab with FastMCP server, mock enterprise API, workflow runner, and Docker Compose. Exercises remote-write/local-failure mismatch with idempotent retry.',
+      'Compose-configured lab with FastMCP server, mock enterprise API, and workflow runner. Exercises remote-write/local-failure mismatch with idempotent retry; public CI parses Compose but does not attest container startup.',
     result:
-      '73 credential-free tests; synthetic failure/replay; documented in the public Hermes Deployment Lab repository.',
+      '73 public credential-free tests; synthetic failure/replay; documented in the public Hermes Deployment Lab repository.',
     href: '/work/hermes-deployment-lab/',
   },
   {

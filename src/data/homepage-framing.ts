@@ -3,37 +3,37 @@ import { publicEngineeringCases } from './public-proof';
 export const thesis = {
   title: 'The hard part starts after the demo.',
   body: [
-    'An agent is only useful when it can work inside a real environment without creating new problems.',
-    'That means connecting to existing systems, respecting controls, earning sign-off, and recovering when authentication, orchestration, or the model fails.',
-    'I have spent much of my career doing that kind of work in enterprise integrations and regulated operations. I am now bringing the same discipline to agent deployment.',
+    'An agent earns its place when it can carry real work inside a customer environment, not just produce an impressive answer.',
+    'That means connecting private systems, respecting permissions, handling failures, and leaving evidence a person can review.',
+    'My background is in enterprise integrations, financial reporting technology, and the delivery work required to turn promising software into a system people trust and use.',
   ],
 } as const;
 
 export const whereHeading = {
-  title: 'I want to work where product meets the customer.',
+  title: 'I want to work where agent systems meet real operations.',
   lead: 'The roles that fit me best involve:',
   items: [
-    'Putting agents into complex enterprise environments and adapting them to the way teams already work',
-    'Connecting internal APIs, data systems, and tools',
-    'Tracing production failures across infrastructure, orchestration, and application layers',
-    'Scoping with customers, shipping in stages, and improving reliability as people start using the system',
-    'Running pilots that end with a working system and a team ready to operate it',
+    'Scoping the customer problem, decision criteria, data, deployment constraints, and review points',
+    'Connecting internal APIs, data systems, documents, and enterprise tools into agent workflows',
+    'Proving the solution through demos, technical validation, deterministic checks, and failure testing',
+    'Carrying deployments through onboarding, observability, recovery, and adoption, then turning what we learn into product improvements',
   ],
-  close: 'I am especially interested in regulated industries and organizations built around knowledge work.',
+  close:
+    'My deepest domain experience is in finance, audit, and assurance, but the operating pattern applies anywhere agent software has to survive a real customer environment.',
 } as const;
 
 export const whatIBring = {
-  title: 'The technology is new. The delivery problems are familiar.',
+  title: 'Customer context and engineering rigor belong in the same room.',
   body: [
-    'I have spent years implementing business systems in regulated environments, where authentication fails, APIs change, and deadlines stay put.',
-    'I can move from a sponsor conversation into the technical details, then back again without losing the thread. I have debugged integrations with production on the line and stayed through sign-off.',
-    'Agent deployment gives me a new set of tools for work I already know well.',
+    'I have spent years turning complex reporting and controls workflows into systems teams can operate under deadline.',
+    'I can move from executive discovery into API behavior, deployment constraints, validation, and failure recovery, then back into a demo or rollout plan without losing the thread.',
+    'I care about working software, clear failure states, and enough evidence for the person accountable to decide.',
   ],
 } as const;
 
 export const buildingNow = {
-  title: 'Public engineering proof',
-  lead: 'Four inspectable repositories with credential-free or offline checks. Each link goes to the exact public repo.',
+  title: 'Inspectable deployment proof',
+  lead: 'Four public systems that connect enterprise data, guard actions, test failure paths, and leave evidence another person can inspect.',
   projects: publicEngineeringCases.map((item) => ({
     id: item.id,
     title: item.name,
@@ -48,13 +48,13 @@ export const buildingNow = {
 } as const;
 
 export const selectedProof = {
-  title: 'Selected delivery experience',
-  lead: 'Enterprise implementations I carried from a messy starting point through go-live—separate from the public repos above.',
+  title: 'Domain proof from regulated work',
+  lead: 'Three client-delivery outcomes carried through integration, validation, sign-off, and adoption. Separate from the public systems above.',
   stories: [
     {
       id: 'insurance-certification',
       label: 'National healthcare enterprise',
-      title: 'Certification handoff with bidirectional API integration',
+      title: 'Bidirectional API workflow carried through sign-off',
       summary:
         'Statutory certification needed a controlled handoff between a reporting platform and an internal system of record. I owned diagnosis through go-live, designed bidirectional integration with audit trail, and aligned finance, IT, and executives on sign-off.',
       result: 'Production workflow delivered; handoff became a repeatable operating model.',
@@ -62,7 +62,7 @@ export const selectedProof = {
     {
       id: 'table-formatter',
       label: 'Public-sector close',
-      title: 'Deterministic formatter replacing hundreds of manual operations per close',
+      title: 'Deterministic financial-statement QA replacing hundreds of manual operations',
       summary:
         'Eleven fund statements required hundreds of manual formatting operations per close. I built a deterministic pipeline with journaled changesets and tie-out checks instead of patching symptoms each quarter.',
       result: '970+ logged operations; repeatable batch runs with readback verification.',
@@ -70,7 +70,7 @@ export const selectedProof = {
     {
       id: 'gov-reporting',
       label: 'Concurrent GRC programs',
-      title: 'Controlled-write reporting under audit pressure',
+      title: 'Controlled reporting with human review and native readback',
       summary:
         'Concurrent GRC and financial-reporting programs with no room for silent errors. I led solution design, scoped integration architecture, and built controlled-write workflows with human sign-off on customer-impacting changes.',
       result: 'Multiple concurrent implementations through adoption with journaled changesets and native readback.',
@@ -81,14 +81,14 @@ export const selectedProof = {
 export const aboutSection = {
   title: 'How I got here',
   body: [
-    'My career has moved from accounting to reporting technology, implementation, and automation. The common thread is that I like taking ownership of problems that are hard to define and harder to finish.',
-    'Agents give me a new set of tools for that same work. I care less about the novelty than whether the system works, can be trusted, and can be handed to the next operator.',
-    'I want to help teams put agent products to work inside real enterprise environments.',
+    'My background is in enterprise solution delivery and financial reporting technology. I have spent years leading discovery, integrations, validation, sign-off, and adoption in regulated environments.',
+    'That work taught me what survives contact with a customer: clear permissions, visible failures, reliable readback, and a recovery path. I now apply those habits to agent workflows and deployment labs.',
+    'I want to help teams adapt agent products to complex customer environments, while bringing unusual depth in finance, audit, and assurance.',
   ],
 } as const;
 
 export const closingCta = {
   title: "Let's get the hard thing working.",
   body:
-    'I am looking for forward-deployed roles where I can help put agent systems into production, connect them to existing tools and data, and improve them alongside the teams who use them.',
+    'I am looking for forward-deployed and solutions engineering roles where I can scope the problem with customers, integrate the systems around it, prove the deployment, and stay through iteration and adoption.',
 } as const;

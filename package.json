@@ -8,9 +8,10 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "node scripts/verify-resume-reproducibility.mjs && node scripts/verify-site.mjs && node scripts/verify-audit-regressions.mjs",
+    "test": "npm run generate-resume && npm run generate-og && node scripts/verify-resume-reproducibility.mjs && node scripts/verify-og-reproducibility.mjs && npm run build && node scripts/verify-site.mjs && node scripts/verify-audit-regressions.mjs",
     "generate-resume": "node scripts/generate-resume-pdf.mjs",
-    "deploy": "npm run generate-resume && npm run build && wrangler deploy"
+    "generate-og": "node scripts/generate-og-image.mjs",
+    "deploy": "npm run generate-resume && npm run generate-og && npm run build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",

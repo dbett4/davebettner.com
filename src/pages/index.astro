@@ -30,25 +30,25 @@ const operatingLoop = [
     cue: 'Intent',
     title: 'Scope the problem',
     detail: whereHeading.items[0],
-    mark: 'circle',
+    handoff: 'Scope + decision criteria',
   },
   {
     cue: 'Systems',
     title: 'Connect the systems',
     detail: whereHeading.items[1],
-    mark: 'square',
+    handoff: 'Working integration',
   },
   {
     cue: 'Evidence',
     title: 'Prove the deployment',
     detail: whereHeading.items[2],
-    mark: 'diamond',
+    handoff: 'Validation + failure proof',
   },
   {
     cue: 'Signals',
     title: 'Operate and improve',
     detail: whereHeading.items[3],
-    mark: 'split',
+    handoff: 'Priorities for the next pass',
   },
 ] as const;
 
@@ -160,74 +160,37 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
             <p class="loop-lead">{whereHeading.lead.replace('The roles that fit me best involve:', 'Four stages that show up in the work:')}</p>
           </div>
           <div class="loop-field-wrap">
-            <div class="loop-mobile-context">
-              <span class="mono loop-mobile-context-kicker">Live context</span>
-              <strong>Customer environment</strong>
-            </div>
-            <div class="loop-field" aria-label="Continuous deployment loop around a customer environment">
-              <svg class="loop-orbit-svg" viewBox="0 0 800 560" aria-hidden="true">
-                <defs>
-                  <marker id="loop-arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#214fe5"></path>
-                  </marker>
-                  <marker id="loop-arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#cf4120"></path>
-                  </marker>
-                </defs>
-                <path
-                  class="loop-path-main"
-                  d="M190 105 C470 18 716 124 697 315 C679 494 411 542 185 445 C33 380 44 178 190 105Z"
-                  fill="none"
-                  stroke="#214fe5"
-                  stroke-width="4"
-                  marker-mid="url(#loop-arrow-blue)"
-                  marker-end="url(#loop-arrow-blue)"
-                ></path>
-                <path
-                  class="loop-path-feedback"
-                  d="M606 398 C464 492 215 443 146 298"
-                  fill="none"
-                  stroke="#cf4120"
-                  stroke-width="3"
-                  stroke-dasharray="4 9"
-                  marker-end="url(#loop-arrow-orange)"
-                ></path>
-                <path
-                  class="loop-path-feedback"
-                  d="M614 155 C495 181 408 239 357 318"
-                  fill="none"
-                  stroke="#cf4120"
-                  stroke-width="3"
-                  stroke-dasharray="4 9"
-                  marker-end="url(#loop-arrow-orange)"
-                ></path>
-              </svg>
-              <div class="loop-center">
-                <span class="mono loop-center-kicker">Live context</span>
-                <strong>Customer environment</strong>
-              </div>
-              <ol class="loop-rail">
-                {operatingLoop.map((stage) => (
-                  <li class={`loop-stage loop-stage--${stage.mark}`}>
-                    <span class={`loop-stage-mark loop-stage-mark--${stage.mark}`} aria-hidden="true"></span>
-                    <span class="loop-cue mono">{stage.cue}</span>
-                    <div class="loop-body">
-                      <h3>{stage.title}</h3>
-                      <p>{stage.detail}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <p class="loop-mobile-return mono">Feedback / recovery path returns to Intent</p>
-            <div class="loop-legend">
-              <div>
-                <span class="loop-legend-key loop-legend-key--main" aria-hidden="true"></span>
-                <span>Main deployment path</span>
-              </div>
-              <div>
-                <span class="loop-legend-key loop-legend-key--feedback" aria-hidden="true"></span>
-                <span>Feedback / recovery path</span>
+            <div class="loop-field" aria-label="Causal delivery mechanism inside a customer environment">
+              <div class="loop-context">
+                <p class="loop-context-label mono">Inside the customer environment</p>
+                <div class="loop-mechanism">
+                  <div class="loop-sequence">
+                    <ol class="loop-rail">
+                      {operatingLoop.map((stage, index) => (
+                        <li class="loop-stage">
+                          <div class="loop-stage-panel">
+                            <span class="loop-cue mono">{stage.cue}</span>
+                            <div class="loop-body">
+                              <h3>{stage.title}</h3>
+                              <p>{stage.detail}</p>
+                            </div>
+                            <p class="loop-handoff">
+                              Hands off <strong>{stage.handoff}</strong>
+                            </p>
+                          </div>
+                          {index < operatingLoop.length - 1 ? (
+                            <span class="loop-transition" aria-hidden="true"></span>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ol>
+                    <span class="loop-return-rail" aria-hidden="true"></span>
+                  </div>
+                  <div class="loop-feedback">
+                    <p class="loop-feedback-cue mono">Signals → next intent</p>
+                    <p class="loop-feedback-copy">Usage, recovery, and adoption evidence reshape the next scope.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -718,97 +681,78 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .loop-field {
-    position: relative;
-    min-height: 520px;
-    overflow: hidden;
+    min-width: 0;
     border: 1px solid var(--ink);
     background:
       radial-gradient(circle, rgba(33, 79, 229, 0.18) 0 1px, transparent 1.4px),
       var(--paper);
     background-size: 8px 8px;
+    padding: var(--space-3);
   }
 
-  .loop-orbit-svg {
-    position: absolute;
-    inset: 5%;
-    width: 90%;
-    height: 90%;
-    overflow: visible;
-    pointer-events: none;
-  }
-
-  .loop-center {
-    position: absolute;
-    inset: 37% 33%;
-    z-index: 2;
+  .loop-context {
+    min-width: 0;
+    border: 1px solid var(--ink);
+    background: rgba(243, 239, 229, 0.92);
     display: grid;
-    place-items: center;
-    text-align: center;
-    gap: 6px;
-    background: var(--ink);
-    color: var(--paper);
-    padding: 14px;
+    gap: var(--space-3);
+    padding: var(--space-3);
   }
 
-  .loop-center-kicker {
-    color: rgba(243, 239, 229, 0.78);
-    font-size: 0.62rem;
-    text-transform: none;
+  .loop-context-label {
+    margin: 0;
+    color: var(--blue);
+    font-size: 0.72rem;
     letter-spacing: 0.04em;
+    text-transform: none;
   }
 
-  .loop-center strong {
-    display: block;
-    font-family: 'Newsreader Variable', Georgia, serif;
-    font-size: clamp(1.1rem, 2vw, 1.45rem);
-    font-weight: 500;
-    line-height: 1.05;
+  .loop-mechanism {
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .loop-sequence {
+    position: relative;
+    min-width: 0;
+    padding-bottom: 28px;
   }
 
   .loop-rail {
     list-style: none;
     margin: 0;
     padding: 0;
-  }
-
-  .loop-stage {
-    position: absolute;
-    z-index: 3;
-    width: min(33%, 240px);
-    padding: 14px;
-    border: 1px solid var(--ink);
-    background: rgba(243, 239, 229, 0.94);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 28px;
+    align-items: stretch;
     min-width: 0;
   }
 
-  .loop-stage--circle {
-    left: 4%;
-    top: 6%;
+  .loop-stage {
+    display: block;
+    min-width: 0;
+    position: relative;
   }
 
-  .loop-stage--square {
-    right: 4%;
-    top: 20%;
-  }
-
-  .loop-stage--diamond {
-    right: 5%;
-    bottom: 7%;
-  }
-
-  .loop-stage--split {
-    left: 5%;
-    bottom: 9%;
-  }
-
-  .loop-stage-mark {
-    display: none;
+  .loop-stage-panel {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    padding: 14px;
+    display: grid;
+    gap: 6px;
+    align-content: start;
+    overflow-wrap: break-word;
   }
 
   .loop-cue {
     display: block;
     color: var(--orange);
-    margin-bottom: 6px;
+    margin: 0;
   }
 
   .loop-body h3 {
@@ -822,36 +766,102 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     font-size: 0.88rem;
     line-height: 1.45;
     color: var(--muted);
+    margin: 0;
   }
 
-  .loop-mobile-context,
-  .loop-mobile-return {
-    display: none;
-  }
-
-  .loop-legend {
-    display: grid;
-    gap: 10px;
-    max-width: 360px;
-  }
-
-  .loop-legend div {
-    display: grid;
-    grid-template-columns: 62px 1fr;
-    gap: 12px;
-    align-items: center;
-    font-size: 0.86rem;
+  .loop-handoff {
+    margin: 4px 0 0;
+    padding-top: 8px;
+    border-top: 1px solid var(--rule);
+    font-size: 0.78rem;
+    line-height: 1.35;
     color: var(--muted);
   }
 
-  .loop-legend-key {
+  .loop-handoff strong {
     display: block;
-    height: 2px;
-    background: var(--blue);
+    margin-top: 2px;
+    color: var(--ink);
+    font-family: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
   }
 
-  .loop-legend-key--feedback {
-    background: repeating-linear-gradient(90deg, var(--orange) 0 3px, transparent 3px 7px);
+  .loop-transition {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -28px;
+    width: 28px;
+    display: grid;
+    place-items: center;
+    color: var(--blue);
+    font-family: 'DM Mono', monospace;
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+
+  .loop-transition::before {
+    content: '→';
+  }
+
+  .loop-feedback {
+    border: 1px dashed var(--orange);
+    background: rgba(207, 65, 32, 0.05);
+    padding: 12px 14px;
+    display: grid;
+    gap: 4px;
+  }
+
+  .loop-return-rail {
+    position: absolute;
+    display: block;
+    left: calc(12.5% - 10.5px);
+    right: calc(12.5% - 10.5px);
+    bottom: 0;
+    height: 28px;
+    border-left: 1px dashed var(--orange);
+    border-right: 1px dashed var(--orange);
+    border-bottom: 1px dashed var(--orange);
+  }
+
+  .loop-return-rail::before {
+    content: '↑';
+    position: absolute;
+    left: -6px;
+    top: -8px;
+    padding-bottom: 5px;
+    background: var(--paper);
+    color: var(--orange);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1;
+  }
+
+  .loop-return-rail::after {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: -1px;
+    width: 5px;
+    height: 5px;
+    background: var(--orange);
+  }
+
+  .loop-feedback-cue {
+    margin: 0;
+    color: var(--orange);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+
+  .loop-feedback-copy {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--ink);
+    max-width: 62ch;
   }
 
   .loop-close {
@@ -1246,23 +1256,57 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       font-size: clamp(2.1rem, 4.4vw, 3.2rem);
     }
 
-    .loop-field {
-      min-height: 460px;
+    .loop-sequence {
+      padding-bottom: 0;
+    }
+
+    .loop-rail {
+      grid-template-columns: minmax(0, 1fr);
+      column-gap: 0;
+      row-gap: 24px;
+      padding-left: 24px;
     }
 
     .loop-stage {
-      width: min(36%, 210px);
-      padding: 12px;
+      width: 100%;
     }
 
-    .loop-stage--circle,
-    .loop-stage--split {
-      left: 1%;
+    .loop-transition {
+      top: 100%;
+      bottom: auto;
+      right: auto;
+      left: 0;
+      width: 100%;
+      height: 24px;
     }
 
-    .loop-stage--square,
-    .loop-stage--diamond {
-      right: 1%;
+    .loop-transition::before {
+      content: '↓';
+    }
+
+    .loop-return-rail {
+      left: 2px;
+      right: auto;
+      top: 0;
+      bottom: 0;
+      width: 12px;
+      height: auto;
+      border-right: 0;
+      border-bottom: 0;
+      border-left: 1px dashed var(--orange);
+    }
+
+    .loop-return-rail::before {
+      left: -6px;
+      top: -8px;
+      padding: 0 0 5px;
+    }
+
+    .loop-return-rail::after {
+      right: auto;
+      left: -3px;
+      top: auto;
+      bottom: -1px;
     }
 
     .building-list {
@@ -1371,159 +1415,16 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     }
 
     .loop-field {
-      min-height: 0;
-      border: 0;
-      background: transparent;
-      overflow: visible;
+      padding: var(--space-2);
     }
 
-    .loop-orbit-svg,
-    .loop-center {
-      display: none;
+    .loop-context {
+      padding: var(--space-2);
+      gap: var(--space-2);
     }
 
-    .loop-mobile-context {
-      display: grid;
-      gap: 4px;
-      padding: 12px 14px;
-      border: 1px solid var(--ink);
-      background: var(--ink);
-      color: var(--paper);
-      margin-bottom: var(--space-3);
-    }
-
-    .loop-mobile-context strong {
-      font-family: 'Newsreader Variable', Georgia, serif;
-      font-size: 1.05rem;
-      font-weight: 500;
-      line-height: 1.1;
-    }
-
-    .loop-mobile-context .mono {
-      color: rgba(243, 239, 229, 0.78);
-      font-size: 0.62rem;
-      text-transform: none;
-      letter-spacing: 0.04em;
-    }
-
-    .loop-mobile-return {
-      display: block;
-      margin: 0 0 var(--space-3);
-      padding-left: 44px;
-      color: var(--orange);
-      font-size: 0.62rem;
-      position: relative;
-    }
-
-    .loop-mobile-return::before {
-      content: '←';
-      position: absolute;
-      left: 14px;
-      top: 0;
-      color: var(--orange);
-      letter-spacing: 0.2em;
-    }
-
-    .loop-rail {
-      position: relative;
-      padding-left: 2px;
-    }
-
-    .loop-stage,
-    .loop-stage--circle,
-    .loop-stage--square,
-    .loop-stage--diamond,
-    .loop-stage--split {
-      position: relative;
-      inset: auto;
-      left: auto;
-      right: auto;
-      top: auto;
-      bottom: auto;
-      width: auto;
-      display: grid;
-      grid-template-columns: 44px minmax(0, 1fr);
-      gap: var(--space-3);
-      align-items: start;
-      border: 0;
-      background: transparent;
-      padding: 0 0 var(--space-4);
-    }
-
-    .loop-stage:last-child {
-      padding-bottom: 0;
-    }
-
-    .loop-stage:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      left: 14px;
-      top: 30px;
-      bottom: 0;
-      width: 1px;
-      background: var(--rule);
-    }
-
-    .loop-stage-mark {
-      display: block;
-      position: relative;
-      z-index: 1;
-      width: 28px;
-      height: 28px;
-      margin: 0;
-      grid-row: 1 / span 3;
-      align-self: start;
-    }
-
-    .loop-stage-mark--circle {
-      border: 2px solid var(--blue);
-      border-radius: 50%;
-      background: var(--paper);
-    }
-
-    .loop-stage-mark--circle::after {
-      content: '';
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      left: 8px;
-      top: 8px;
-      background: var(--orange);
-    }
-
-    .loop-stage-mark--square {
-      border: 2px solid var(--ink);
-      background: var(--paper);
-    }
-
-    .loop-stage-mark--diamond {
-      transform: rotate(45deg);
-      border: 2px solid var(--orange);
-      background: var(--paper);
-    }
-
-    .loop-stage-mark--diamond::after {
-      content: '';
-      position: absolute;
-      inset: 8px;
-      background: var(--ink);
-    }
-
-    .loop-stage-mark--split {
-      border: 2px solid var(--ink);
-      border-left-color: var(--blue);
-      border-right-color: var(--orange);
-      background: var(--paper);
-    }
-
-    .loop-cue,
-    .loop-body h3,
-    .loop-body p {
-      grid-column: 2;
-    }
-
-    .loop-cue {
-      margin-bottom: 4px;
+    .loop-stage-panel {
+      padding: 12px;
     }
 
     .loop-body h3 {
@@ -1535,9 +1436,12 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       font-size: 0.86rem;
     }
 
-    .loop-legend {
-      margin-top: var(--space-2);
-      max-width: none;
+    .loop-handoff {
+      font-size: 0.76rem;
+    }
+
+    .loop-handoff strong {
+      font-size: 0.8rem;
     }
 
     .proof-index-cue {

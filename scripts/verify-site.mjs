@@ -67,6 +67,13 @@ const buildingRoles = [
   'Readback + restore',
 ];
 
+const loopStagesExpected = [
+  { cue: 'Intent', handoff: 'Scope + decision criteria' },
+  { cue: 'Systems', handoff: 'Working integration' },
+  { cue: 'Evidence', handoff: 'Validation + failure proof' },
+  { cue: 'Signals', handoff: 'Priorities for the next pass' },
+];
+
 const caseEyebrows = {
   'regulated-reporting-mcp': 'Guarded integration · Regulated Reporting MCP',
   'hermes-deployment-lab': 'Failure recovery · Hermes Deployment Lab',
@@ -130,7 +137,7 @@ const projects = [
 const coreRoutes = ['/', '/about/', '/experience/', '/work/', '/fit/'];
 const projectRoutes = projects.map((project) => `/work/${project.slug}/`);
 
-async function assertContinuousFieldLoopContracts(page, name) {
+async function assertCausalDeliveryLoopContracts(page, name) {
   const loopStages = await page.locator('.loop-stage').evaluateAll((stages) =>
     stages.map((stage) => ({
       cue: (stage.querySelector('.loop-cue')?.textContent ?? '').trim(),
@@ -144,24 +151,41 @@ async function assertContinuousFieldLoopContracts(page, name) {
     `${name}: loop stages expose cue, title, and detail`,
     JSON.stringify(loopStages),
   );
-
-  const centerCount = await page.locator('.loop-center').count();
-  ok(centerCount === 1, `${name}: loop center present`, String(centerCount));
-  if (!name.startsWith('mobile-')) {
-    const centerText = centerCount === 1 ? await page.locator('.loop-center').innerText() : '';
-    ok(centerText.includes('Live context'), `${name}: visible loop center names live context`, centerText);
-    ok(centerText.includes('Customer environment'), `${name}: visible loop center names customer environment`, centerText);
-  }
-
-  const legendCount = await page.locator('.loop-legend').count();
-  ok(legendCount === 1, `${name}: loop legend present`, String(legendCount));
-  const legendText = legendCount === 1 ? await page.locator('.loop-legend').innerText() : '';
-  ok(legendText.includes('Main deployment path'), `${name}: loop legend names main deployment path`, legendText);
   ok(
-    legendText.includes('Feedback / recovery path'),
-    `${name}: loop legend names feedback / recovery path`,
-    legendText,
+    loopStages.map((stage) => stage.cue).join('|') === loopStagesExpected.map((stage) => stage.cue).join('|'),
+    `${name}: causal loop order is Intent → Systems → Evidence → Signals`,
+    loopStages.map((stage) => stage.cue).join('|'),
   );
+
+  const handoffs = await page.locator('.loop-handoff strong').allTextContents();
+  ok(
+    handoffs.map((handoff) => handoff.trim()).join('|') === loopStagesExpected.map((stage) => stage.handoff).join('|'),
+    `${name}: every loop stage names the artifact it hands forward`,
+    handoffs.join('|'),
+  );
+  ok((await page.locator('.loop-transition').count()) === 3, `${name}: three forward transitions connect the four stages`);
+
+  const boundaryCount = await page.locator('.loop-context').count();
+  ok(boundaryCount === 1, `${name}: one customer-environment boundary frames the mechanism`, String(boundaryCount));
+  const boundaryText = boundaryCount === 1 ? await page.locator('.loop-context').innerText() : '';
+  ok(
+    boundaryText.includes('Inside the customer environment'),
+    `${name}: system boundary explicitly names the customer environment`,
+    boundaryText,
+  );
+
+  const feedbackCount = await page.locator('.loop-feedback').count();
+  ok(feedbackCount === 1, `${name}: one feedback path closes the loop`, String(feedbackCount));
+  const feedbackText = feedbackCount === 1 ? await page.locator('.loop-feedback').innerText() : '';
+  ok(
+    feedbackText.includes('Signals → next intent') &&
+      feedbackText.includes('Usage, recovery, and adoption evidence reshape the next scope.'),
+    `${name}: feedback states what Signals change in the next Intent`,
+    feedbackText,
+  );
+  ok((await page.locator('.loop-return-rail').count()) === 1, `${name}: one visible return rail closes Signals back to Intent`);
+
+  ok((await page.locator('.loop-orbit-svg, .loop-center, .loop-legend').count()) === 0, `${name}: legacy decorative orbit nodes removed`);
 
   ok((await page.locator('.loop-n').count()) === 0, `${name}: loop ordinals removed`);
   ok((await page.locator('.building-index').count()) === 0, `${name}: building indices removed`);
@@ -223,132 +247,233 @@ async function assertContinuousFieldLoopContracts(page, name) {
   }
 }
 
-async function assertLoopOrbitGeometry(page, name) {
-  const geometry = await page.evaluate(() => {
+async function assertLoopCausalGeometry(page, name, width) {
+  const geometry = await page.evaluate((isVertical) => {
     const field = document.querySelector('.loop-field');
-    const center = document.querySelector('.loop-center');
-    const svg = document.querySelector('.loop-orbit-svg');
-    const stages = [...document.querySelectorAll('.loop-stage')];
-    if (!(field instanceof HTMLElement) || !(center instanceof HTMLElement) || !(svg instanceof SVGSVGElement) || stages.length !== 4) {
-      return { ok: false, reason: 'missing loop orbit nodes' };
+    const context = document.querySelector('.loop-context');
+    const mechanism = document.querySelector('.loop-mechanism');
+    const stagePanels = [...document.querySelectorAll('.loop-stage-panel')];
+    const transitions = [...document.querySelectorAll('.loop-transition')];
+    const feedback = document.querySelector('.loop-feedback');
+    const returnRail = document.querySelector('.loop-return-rail');
+    if (
+      !(field instanceof HTMLElement) ||
+      !(context instanceof HTMLElement) ||
+      !(mechanism instanceof HTMLElement) ||
+      !(feedback instanceof HTMLElement) ||
+      stagePanels.length !== 4 ||
+      transitions.length !== 3
+    ) {
+      return { ok: false, reason: 'missing causal loop nodes' };
     }
-    const fieldRect = field.getBoundingClientRect();
-    const centerRect = center.getBoundingClientRect();
-    const centerInsideField =
-      centerRect.left >= fieldRect.left - 1 &&
-      centerRect.right <= fieldRect.right + 1 &&
-      centerRect.top >= fieldRect.top - 1 &&
-      centerRect.bottom <= fieldRect.bottom + 1;
-    const fieldCenterX = (fieldRect.left + fieldRect.right) / 2;
-    const fieldCenterY = (fieldRect.top + fieldRect.bottom) / 2;
-    const stageRects = stages.map((stage) => stage.getBoundingClientRect());
-    const overlaps = (a, b, gap = 2) =>
-      a.left < b.right - gap &&
-      a.right > b.left + gap &&
-      a.top < b.bottom - gap &&
-      a.bottom > b.top + gap;
-    const centerStageCollisions = stageRects
-      .map((rect, index) => (overlaps(rect, centerRect) ? index : null))
-      .filter((index) => index !== null);
+
+    const rect = (node) => {
+      const bounds = node.getBoundingClientRect();
+      return {
+        left: bounds.left,
+        right: bounds.right,
+        top: bounds.top,
+        bottom: bounds.bottom,
+        width: bounds.width,
+        height: bounds.height,
+      };
+    };
+    const visible = (node) => {
+      const bounds = node.getBoundingClientRect();
+      const style = getComputedStyle(node);
+      return bounds.width > 0 && bounds.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+    };
+    const contains = (outer, inner, gap = 1) =>
+      inner.left >= outer.left - gap &&
+      inner.right <= outer.right + gap &&
+      inner.top >= outer.top - gap &&
+      inner.bottom <= outer.bottom + gap;
+    const overlaps = (first, second, gap = 1) =>
+      first.left < second.right - gap &&
+      first.right > second.left + gap &&
+      first.top < second.bottom - gap &&
+      first.bottom > second.top + gap;
+
+    const fieldRect = rect(field);
+    const contextRect = rect(context);
+    const mechanismRect = rect(mechanism);
+    const stageRects = stagePanels.map(rect);
+    const transitionRects = transitions.map(rect);
+    const feedbackRect = rect(feedback);
+    const returnRailRect = returnRail instanceof HTMLElement ? rect(returnRail) : null;
     const stageCollisions = [];
     for (let first = 0; first < stageRects.length; first += 1) {
       for (let second = first + 1; second < stageRects.length; second += 1) {
         if (overlaps(stageRects[first], stageRects[second])) stageCollisions.push([first, second]);
       }
     }
-    const stageQuadrants = stages.map((stage) => {
-      const rect = stage.getBoundingClientRect();
-      const cx = (rect.left + rect.right) / 2;
-      const cy = (rect.top + rect.bottom) / 2;
-      if (cx < fieldCenterX && cy < fieldCenterY) return 'upper-left';
-      if (cx >= fieldCenterX && cy < fieldCenterY) return 'upper-right';
-      if (cx >= fieldCenterX && cy >= fieldCenterY) return 'lower-right';
-      return 'lower-left';
+    const ordered = stageRects.every((stage, index) => {
+      if (index === 0) return true;
+      const previous = stageRects[index - 1];
+      return isVertical ? stage.top >= previous.bottom : stage.left >= previous.right;
     });
-    const expected = ['upper-left', 'upper-right', 'lower-right', 'lower-left'];
-    const quadrantsMatch = stageQuadrants.every((quadrant, index) => quadrant === expected[index]);
-    const svgStyle = getComputedStyle(svg);
-    const svgRect = svg.getBoundingClientRect();
-    const svgVisible =
-      svgStyle.display !== 'none' &&
-      svgStyle.visibility !== 'hidden' &&
-      svgRect.width > 0 &&
-      svgRect.height > 0;
-    const mainPath = svg.querySelector('.loop-path-main');
-    const mainPathVisible = Boolean(
-      mainPath instanceof SVGPathElement &&
-        getComputedStyle(mainPath).display !== 'none' &&
-        mainPath.getBoundingClientRect().width > 0,
+    const transitionsBetweenStages = transitionRects.every((transition, index) => {
+      const current = stageRects[index];
+      const next = stageRects[index + 1];
+      return isVertical
+        ? transition.top >= current.bottom - 1 && transition.bottom <= next.top + 1
+        : transition.left >= current.right - 1 && transition.right <= next.left + 1;
+    });
+    const expectedTransitionGlyph = isVertical ? '↓' : '→';
+    const transitionGlyphs = transitions.map((transition) => getComputedStyle(transition, '::before').content);
+    const stageWidths = stageRects.map((stage) => stage.width);
+    const stageWidthSpread = Math.max(...stageWidths) - Math.min(...stageWidths);
+    const firstStage = stageRects[0];
+    const lastStage = stageRects.at(-1);
+    const firstCenterX = firstStage.left + firstStage.width / 2;
+    const lastCenterX = lastStage.left + lastStage.width / 2;
+    const verticalSequenceSpan = lastStage.bottom - firstStage.top;
+    const stageSequenceLeft = Math.min(...stageRects.map((stage) => stage.left));
+    const stageSequenceBottom = Math.max(...stageRects.map((stage) => stage.bottom));
+    const railStyle = returnRail instanceof HTMLElement ? getComputedStyle(returnRail) : null;
+    const returnArrowStyle = returnRail instanceof HTMLElement ? getComputedStyle(returnRail, '::before') : null;
+    const returnArrowMetrics = returnArrowStyle
+      ? {
+          content: returnArrowStyle.content,
+          display: returnArrowStyle.display,
+          visibility: returnArrowStyle.visibility,
+          opacity: Number.parseFloat(returnArrowStyle.opacity),
+          color: returnArrowStyle.color,
+          position: returnArrowStyle.position,
+          left: Number.parseFloat(returnArrowStyle.left),
+          top: Number.parseFloat(returnArrowStyle.top),
+          width: Number.parseFloat(returnArrowStyle.width),
+          height: Number.parseFloat(returnArrowStyle.height),
+        }
+      : null;
+    const returnRailAdjacentToSequence = Boolean(
+      returnRailRect &&
+        (isVertical
+          ? Math.abs(returnRailRect.top - firstStage.top) <= 16 &&
+            Math.abs(returnRailRect.bottom - lastStage.bottom) <= 16 &&
+            returnRailRect.right <= stageSequenceLeft &&
+            stageSequenceLeft - returnRailRect.left <= 32
+          : returnRailRect.top >= stageSequenceBottom - 1 && returnRailRect.top <= stageSequenceBottom + 4),
+    );
+    const returnRailPrecedesFeedback = Boolean(
+      returnRailRect &&
+        returnRailRect.bottom <= feedbackRect.top + 1 &&
+        feedbackRect.top - returnRailRect.bottom <= 32,
+    );
+    const returnRailConnectsSequence = Boolean(
+      returnRailRect &&
+        (isVertical
+          ? returnRailRect.left < stageSequenceLeft &&
+            returnRailRect.top <= firstStage.top + firstStage.height / 2 &&
+            returnRailRect.bottom >= lastStage.top + lastStage.height / 2 &&
+            returnRailRect.height >= verticalSequenceSpan * 0.75
+          : Math.abs(returnRailRect.left - firstCenterX) <= 16 &&
+            Math.abs(returnRailRect.right - lastCenterX) <= 16 &&
+            returnRailRect.height >= 20),
+    );
+    const returnRailDrawsPath = Boolean(
+      railStyle &&
+        (isVertical
+          ? railStyle.borderLeftStyle === 'dashed' && Number.parseFloat(railStyle.borderLeftWidth) >= 1
+          : railStyle.borderLeftStyle === 'dashed' &&
+            Number.parseFloat(railStyle.borderLeftWidth) >= 1 &&
+            railStyle.borderRightStyle === 'dashed' &&
+            Number.parseFloat(railStyle.borderRightWidth) >= 1 &&
+            railStyle.borderBottomStyle === 'dashed' &&
+            Number.parseFloat(railStyle.borderBottomWidth) >= 1),
+    );
+    const returnArrowVisible = Boolean(
+      returnArrowMetrics &&
+        returnArrowMetrics.content.includes('↑') &&
+        returnArrowMetrics.display !== 'none' &&
+        returnArrowMetrics.visibility !== 'hidden' &&
+        returnArrowMetrics.opacity > 0 &&
+        returnArrowMetrics.color !== 'transparent' &&
+        !/rgba\([^)]*,\s*0(?:\.0+)?\s*\)$/.test(returnArrowMetrics.color) &&
+        returnArrowMetrics.position === 'absolute' &&
+        returnArrowMetrics.width > 0 &&
+        returnArrowMetrics.height > 0,
+    );
+    const returnArrowAnchoredAtIntentEnd = Boolean(
+      returnArrowMetrics &&
+        Number.isFinite(returnArrowMetrics.left) &&
+        Number.isFinite(returnArrowMetrics.top) &&
+        Number.isFinite(returnArrowMetrics.width) &&
+        Number.isFinite(returnArrowMetrics.height) &&
+        Math.abs(returnArrowMetrics.left + returnArrowMetrics.width / 2) <= 16 &&
+        Math.abs(returnArrowMetrics.top + returnArrowMetrics.height / 2) <= 16,
     );
     return {
       ok: true,
-      centerInsideField,
-      quadrantsMatch,
-      stageQuadrants,
-      centerStageCollisions,
+      contextVisible: visible(context),
+      stagesVisible: stagePanels.every(visible),
+      transitionsVisible: transitions.every(visible),
+      feedbackVisible: visible(feedback),
+      stagesInsideContext: stageRects.every((stage) => contains(contextRect, stage)),
+      feedbackInsideContext: contains(contextRect, feedbackRect),
+      mechanismInsideField: contains(fieldRect, mechanismRect),
+      loopHasNoInternalOverflow:
+        field.scrollWidth <= field.clientWidth + 1 &&
+        context.scrollWidth <= context.clientWidth + 1 &&
+        mechanism.scrollWidth <= mechanism.clientWidth + 1,
+      ordered,
+      transitionsBetweenStages,
+      transitionGlyphsCorrect: transitionGlyphs.every((glyph) => glyph.includes(expectedTransitionGlyph)),
+      transitionGlyphs,
+      equalStageWidths: stageWidthSpread <= 1,
+      stageWidthSpread,
+      feedbackFollowsStages: feedbackRect.top >= Math.max(...stageRects.map((stage) => stage.bottom)),
+      returnRailVisible: returnRail instanceof HTMLElement && visible(returnRail),
+      returnRailAdjacentToSequence,
+      returnRailPrecedesFeedback,
+      returnRailConnectsSequence,
+      returnRailDrawsPath,
+      returnRailPointsBack: returnArrowVisible && returnArrowAnchoredAtIntentEnd,
+      returnArrowMetrics,
       stageCollisions,
-      svgVisible,
-      mainPathVisible,
+      stageRects,
+      transitionRects,
+      feedbackRect,
+      returnRailRect,
+      contextRect,
     };
-  });
-  ok(geometry.ok, `${name}: loop orbit geometry nodes present`, geometry.reason ?? '');
-  ok(geometry.centerInsideField, `${name}: loop center stays inside field`, JSON.stringify(geometry));
-  ok(geometry.quadrantsMatch, `${name}: loop stages occupy expected quadrants`, JSON.stringify(geometry.stageQuadrants));
-  ok(
-    geometry.centerStageCollisions?.length === 0,
-    `${name}: loop stages do not collide with center`,
-    JSON.stringify(geometry.centerStageCollisions),
-  );
-  ok(
-    geometry.stageCollisions?.length === 0,
-    `${name}: loop stages do not collide with one another`,
-    JSON.stringify(geometry.stageCollisions),
-  );
-  ok(geometry.svgVisible && geometry.mainPathVisible, `${name}: decorative main orbit path visible`, JSON.stringify(geometry));
-}
+  }, width <= 960);
 
-async function assertLoopMobileRail(page, name) {
-  const rail = await page.evaluate(() => {
-    const svg = document.querySelector('.loop-orbit-svg');
-    const contextBand = document.querySelector('.loop-mobile-context');
-    const returnLabel = document.querySelector('.loop-mobile-return');
-    const stages = [...document.querySelectorAll('.loop-stage')];
-    const details = stages.map((stage) => (stage.querySelector('.loop-body p')?.textContent ?? '').trim());
-    const tops = stages.map((stage) => Math.round(stage.getBoundingClientRect().top));
-    const monotonic = tops.every((top, index) => index === 0 || top > tops[index - 1]);
-    const svgHidden = !(svg instanceof SVGSVGElement) ||
-      getComputedStyle(svg).display === 'none' ||
-      svg.getBoundingClientRect().width <= 1;
-    const contextTop = contextBand instanceof HTMLElement ? Math.round(contextBand.getBoundingClientRect().top) : null;
-    const contextPrecedes = contextTop !== null && tops.length > 0 && contextTop < tops[0];
-    const contextText = contextBand instanceof HTMLElement ? contextBand.innerText.trim() : '';
-    const returnText = returnLabel instanceof HTMLElement ? returnLabel.innerText.trim() : '';
-    const returnVisible = returnLabel instanceof HTMLElement && (() => {
-      const rect = returnLabel.getBoundingClientRect();
-      const style = getComputedStyle(returnLabel);
-      return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
-    })();
-    return { svgHidden, details, monotonic, contextPrecedes, contextText, returnVisible, returnText, tops };
-  });
-  ok(rail.svgHidden, `${name}: decorative orbit SVG hidden on phone`, JSON.stringify(rail));
+  ok(geometry.ok, `${name}: causal loop geometry nodes present`, geometry.reason ?? '');
   ok(
-    rail.details.length === 4 && rail.details.every((detail) => detail.length > 0),
-    `${name}: all four loop phase details remain visible`,
-    JSON.stringify(rail.details),
+    geometry.contextVisible && geometry.stagesVisible && geometry.transitionsVisible && geometry.feedbackVisible,
+    `${name}: complete causal loop remains visible`,
+    JSON.stringify(geometry),
   );
-  ok(rail.monotonic, `${name}: loop stage tops increase monotonically`, JSON.stringify(rail.tops));
-  ok(rail.contextPrecedes, `${name}: customer environment band precedes loop stages`, JSON.stringify(rail));
   ok(
-    rail.contextText.includes('Live context') && rail.contextText.includes('Customer environment'),
-    `${name}: visible phone context band names live customer environment`,
-    rail.contextText,
+    geometry.stagesInsideContext && geometry.feedbackInsideContext && geometry.mechanismInsideField,
+    `${name}: stages, feedback, and mechanism stay inside customer-environment boundary`,
+    JSON.stringify(geometry),
   );
-  ok(rail.returnVisible, `${name}: return / feedback label visible on phone`, JSON.stringify(rail));
+  ok(geometry.loopHasNoInternalOverflow, `${name}: causal loop has no masked internal overflow`, JSON.stringify(geometry));
   ok(
-    rail.returnText.toLowerCase() === 'feedback / recovery path returns to intent',
-    `${name}: visible phone return label targets Intent`,
-    rail.returnText,
+    geometry.ordered,
+    `${name}: causal stages follow ${width <= 960 ? 'top-to-bottom' : 'left-to-right'} order`,
+    JSON.stringify(geometry.stageRects),
   );
+  ok(
+    geometry.transitionsBetweenStages && geometry.transitionGlyphsCorrect,
+    `${name}: each ${width <= 960 ? 'down' : 'forward'} arrow sits between adjacent causal stages`,
+    JSON.stringify({ rects: geometry.transitionRects, glyphs: geometry.transitionGlyphs }),
+  );
+  ok(geometry.equalStageWidths, `${name}: all four stage panels have equal width`, String(geometry.stageWidthSpread));
+  ok(geometry.feedbackFollowsStages, `${name}: feedback statement follows the stage sequence`, JSON.stringify(geometry.feedbackRect));
+  ok(
+    geometry.returnRailVisible &&
+      geometry.returnRailAdjacentToSequence &&
+      geometry.returnRailPrecedesFeedback &&
+      geometry.returnRailConnectsSequence &&
+      geometry.returnRailDrawsPath &&
+      geometry.returnRailPointsBack,
+    `${name}: return path geometrically connects Signals back toward Intent`,
+    JSON.stringify({ rail: geometry.returnRailRect, arrow: geometry.returnArrowMetrics }),
+  );
+  ok(geometry.stageCollisions?.length === 0, `${name}: causal stages do not overlap`, JSON.stringify(geometry.stageCollisions));
 }
 
 async function assertHomepageResponsiveContracts(page, viewport) {
@@ -449,9 +574,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     ok(tabletGeometry.aboutVerticalOverlap && tabletGeometry.aboutSeparateColumns, `${name}: tablet About portrait and copy are paired`, JSON.stringify(tabletGeometry));
   }
 
-  if (width > 720) {
-    await assertLoopOrbitGeometry(page, name);
-  }
+  await assertLoopCausalGeometry(page, name, width);
 
   if (width <= 390) {
     const phoneOrder = await page.evaluate(() => {
@@ -466,8 +589,6 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     });
     ok(Boolean(phoneOrder), `${name}: phone cover order nodes present`);
     ok(phoneOrder?.headingBeforeSpecimen && phoneOrder?.specimenBeforeSupport, `${name}: phone visual order is H1 → specimen → support`, JSON.stringify(phoneOrder));
-
-    await assertLoopMobileRail(page, name);
 
     const proofScroll = await page.evaluate(() => {
       const list = document.querySelector('.building-list');
@@ -589,9 +710,10 @@ async function auditPage(page, route, label) {
 try {
   for (const viewport of [
     { name: 'desktop-1440', width: 1440, height: 1000 },
-    { name: 'orbit-wide-min-961', width: 961, height: 1024 },
+    { name: 'horizontal-min-961', width: 961, height: 1024 },
+    { name: 'vertical-max-960', width: 960, height: 1024 },
     { name: 'tablet-768', width: 768, height: 1024 },
-    { name: 'orbit-min-721', width: 721, height: 1024 },
+    { name: 'vertical-min-721', width: 721, height: 1024 },
     { name: 'mobile-390', width: 390, height: 844 },
     { name: 'mobile-320', width: 320, height: 720 },
   ]) {
@@ -648,7 +770,7 @@ try {
       `${viewport.name}: building-card order is deployment lab → MCP → field kit → Wingman`,
       buildingCardOrder.join(','),
     );
-    await assertContinuousFieldLoopContracts(page, viewport.name);
+    await assertCausalDeliveryLoopContracts(page, viewport.name);
     await assertHomepageResponsiveContracts(page, viewport);
     await page.evaluate(async () => {
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();

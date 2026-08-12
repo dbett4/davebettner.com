@@ -60,6 +60,45 @@ const browser = await chromium.launch({
   args: ['--no-sandbox'],
 });
 
+const buildingRoles = [
+  'Failure recovery',
+  'Guarded integration',
+  'Evaluation',
+  'Readback + restore',
+];
+
+const caseEyebrows = {
+  'regulated-reporting-mcp': 'Guarded integration · Regulated Reporting MCP',
+  'hermes-deployment-lab': 'Failure recovery · Hermes Deployment Lab',
+  'hermes-field-kit': 'Evaluation · Hermes Enterprise Evaluation Kit',
+  wingman: 'Readback + restore · Confirm-before-write quality',
+};
+
+const caseStepCounts = {
+  'regulated-reporting-mcp': 5,
+  'hermes-deployment-lab': 5,
+  'hermes-field-kit': 5,
+  wingman: 6,
+};
+
+const outcomeStories = [
+  {
+    label: 'National healthcare enterprise',
+    title: 'Bidirectional API workflow carried through sign-off',
+    result: 'Production workflow delivered; handoff became a repeatable operating model.',
+  },
+  {
+    label: 'Public-sector close',
+    title: 'Deterministic financial-statement QA replacing hundreds of manual operations',
+    result: '970+ logged operations; repeatable batch runs with readback verification.',
+  },
+  {
+    label: 'Concurrent GRC programs',
+    title: 'Controlled reporting with human review and native readback',
+    result: 'Multiple concurrent implementations through adoption with journaled changesets and native readback.',
+  },
+];
+
 const projects = [
   {
     slug: 'regulated-reporting-mcp',
@@ -90,6 +129,227 @@ const projects = [
 
 const coreRoutes = ['/', '/about/', '/experience/', '/work/', '/fit/'];
 const projectRoutes = projects.map((project) => `/work/${project.slug}/`);
+
+async function assertContinuousFieldLoopContracts(page, name) {
+  const loopStages = await page.locator('.loop-stage').evaluateAll((stages) =>
+    stages.map((stage) => ({
+      cue: (stage.querySelector('.loop-cue')?.textContent ?? '').trim(),
+      title: (stage.querySelector('.loop-body h3')?.textContent ?? '').trim(),
+      detail: (stage.querySelector('.loop-body p')?.textContent ?? '').trim(),
+    })),
+  );
+  ok(loopStages.length === 4, `${name}: loop has four semantic stages`, String(loopStages.length));
+  ok(
+    loopStages.every((stage) => stage.cue && stage.title && stage.detail),
+    `${name}: loop stages expose cue, title, and detail`,
+    JSON.stringify(loopStages),
+  );
+
+  const centerCount = await page.locator('.loop-center').count();
+  ok(centerCount === 1, `${name}: loop center present`, String(centerCount));
+  if (!name.startsWith('mobile-')) {
+    const centerText = centerCount === 1 ? await page.locator('.loop-center').innerText() : '';
+    ok(centerText.includes('Live context'), `${name}: visible loop center names live context`, centerText);
+    ok(centerText.includes('Customer environment'), `${name}: visible loop center names customer environment`, centerText);
+  }
+
+  const legendCount = await page.locator('.loop-legend').count();
+  ok(legendCount === 1, `${name}: loop legend present`, String(legendCount));
+  const legendText = legendCount === 1 ? await page.locator('.loop-legend').innerText() : '';
+  ok(legendText.includes('Main deployment path'), `${name}: loop legend names main deployment path`, legendText);
+  ok(
+    legendText.includes('Feedback / recovery path'),
+    `${name}: loop legend names feedback / recovery path`,
+    legendText,
+  );
+
+  ok((await page.locator('.loop-n').count()) === 0, `${name}: loop ordinals removed`);
+  ok((await page.locator('.building-index').count()) === 0, `${name}: building indices removed`);
+  ok((await page.locator('.proof-n').count()) === 0, `${name}: proof ordinals removed`);
+
+  const roleLabels = await page.locator('.building-role').evaluateAll((labels) =>
+    labels.map((label) => ({
+      text: (label.textContent ?? '').trim(),
+      hiddenAncestor: Boolean(label.closest('[aria-hidden="true"]')),
+    })),
+  );
+  ok(
+    roleLabels.map((label) => label.text).join('|') === buildingRoles.join('|'),
+    `${name}: building roles match project order`,
+    roleLabels.map((label) => label.text).join('|'),
+  );
+  ok(
+    roleLabels.every((label) => !label.hiddenAncestor),
+    `${name}: building roles remain exposed to assistive technology`,
+    JSON.stringify(roleLabels),
+  );
+
+  const outcomeRows = await page.locator('.proof-row').evaluateAll((rows) =>
+    rows.map((row) => ({
+      label: (row.querySelector('.proof-label')?.textContent ?? '').trim(),
+      title: (row.querySelector('.proof-main h3')?.textContent ?? '').trim(),
+      result: (row.querySelector('.proof-result')?.textContent ?? '').trim(),
+      markClasses: [...row.querySelectorAll('.outcome-mark')].flatMap((mark) => [...mark.classList]),
+    })),
+  );
+  ok(outcomeRows.length === 3, `${name}: three delivery outcome rows`, String(outcomeRows.length));
+  ok(
+    outcomeRows.every((row, index) =>
+      row.label === outcomeStories[index].label &&
+      row.title === outcomeStories[index].title &&
+      row.result === outcomeStories[index].result,
+    ),
+    `${name}: delivery outcome copy unchanged`,
+    JSON.stringify(outcomeRows),
+  );
+  const markClassSets = outcomeRows.map((row) =>
+    row.markClasses.filter((className) => className.startsWith('outcome-mark--')).sort().join(','),
+  );
+  ok(
+    new Set(markClassSets).size === 3,
+    `${name}: delivery outcome marks are geometrically distinct`,
+    markClassSets.join('|'),
+  );
+  ok((await page.locator('ol.proof-ledger').count()) === 0, `${name}: delivery outcomes are not an ordered list`);
+
+  const body = await page.locator('body').innerText();
+  ok(!body.includes('SIG/01'), `${name}: decorative SIG/01 removed`);
+  ok(body.includes('SPEC · SIGNAL FIELD'), `${name}: signal field tag updated`);
+  for (const token of ['01 ·', '02 ·', '03 ·', '04 ·']) {
+    ok(!body.includes(token), `${name}: decorative serial token absent (${token})`);
+  }
+  for (const marker of ['73', '126', '318', '462', '970+', 'v2026.8.3']) {
+    ok(body.includes(marker), `${name}: factual evidence marker retained (${marker})`);
+  }
+}
+
+async function assertLoopOrbitGeometry(page, name) {
+  const geometry = await page.evaluate(() => {
+    const field = document.querySelector('.loop-field');
+    const center = document.querySelector('.loop-center');
+    const svg = document.querySelector('.loop-orbit-svg');
+    const stages = [...document.querySelectorAll('.loop-stage')];
+    if (!(field instanceof HTMLElement) || !(center instanceof HTMLElement) || !(svg instanceof SVGSVGElement) || stages.length !== 4) {
+      return { ok: false, reason: 'missing loop orbit nodes' };
+    }
+    const fieldRect = field.getBoundingClientRect();
+    const centerRect = center.getBoundingClientRect();
+    const centerInsideField =
+      centerRect.left >= fieldRect.left - 1 &&
+      centerRect.right <= fieldRect.right + 1 &&
+      centerRect.top >= fieldRect.top - 1 &&
+      centerRect.bottom <= fieldRect.bottom + 1;
+    const fieldCenterX = (fieldRect.left + fieldRect.right) / 2;
+    const fieldCenterY = (fieldRect.top + fieldRect.bottom) / 2;
+    const stageRects = stages.map((stage) => stage.getBoundingClientRect());
+    const overlaps = (a, b, gap = 2) =>
+      a.left < b.right - gap &&
+      a.right > b.left + gap &&
+      a.top < b.bottom - gap &&
+      a.bottom > b.top + gap;
+    const centerStageCollisions = stageRects
+      .map((rect, index) => (overlaps(rect, centerRect) ? index : null))
+      .filter((index) => index !== null);
+    const stageCollisions = [];
+    for (let first = 0; first < stageRects.length; first += 1) {
+      for (let second = first + 1; second < stageRects.length; second += 1) {
+        if (overlaps(stageRects[first], stageRects[second])) stageCollisions.push([first, second]);
+      }
+    }
+    const stageQuadrants = stages.map((stage) => {
+      const rect = stage.getBoundingClientRect();
+      const cx = (rect.left + rect.right) / 2;
+      const cy = (rect.top + rect.bottom) / 2;
+      if (cx < fieldCenterX && cy < fieldCenterY) return 'upper-left';
+      if (cx >= fieldCenterX && cy < fieldCenterY) return 'upper-right';
+      if (cx >= fieldCenterX && cy >= fieldCenterY) return 'lower-right';
+      return 'lower-left';
+    });
+    const expected = ['upper-left', 'upper-right', 'lower-right', 'lower-left'];
+    const quadrantsMatch = stageQuadrants.every((quadrant, index) => quadrant === expected[index]);
+    const svgStyle = getComputedStyle(svg);
+    const svgRect = svg.getBoundingClientRect();
+    const svgVisible =
+      svgStyle.display !== 'none' &&
+      svgStyle.visibility !== 'hidden' &&
+      svgRect.width > 0 &&
+      svgRect.height > 0;
+    const mainPath = svg.querySelector('.loop-path-main');
+    const mainPathVisible = Boolean(
+      mainPath instanceof SVGPathElement &&
+        getComputedStyle(mainPath).display !== 'none' &&
+        mainPath.getBoundingClientRect().width > 0,
+    );
+    return {
+      ok: true,
+      centerInsideField,
+      quadrantsMatch,
+      stageQuadrants,
+      centerStageCollisions,
+      stageCollisions,
+      svgVisible,
+      mainPathVisible,
+    };
+  });
+  ok(geometry.ok, `${name}: loop orbit geometry nodes present`, geometry.reason ?? '');
+  ok(geometry.centerInsideField, `${name}: loop center stays inside field`, JSON.stringify(geometry));
+  ok(geometry.quadrantsMatch, `${name}: loop stages occupy expected quadrants`, JSON.stringify(geometry.stageQuadrants));
+  ok(
+    geometry.centerStageCollisions?.length === 0,
+    `${name}: loop stages do not collide with center`,
+    JSON.stringify(geometry.centerStageCollisions),
+  );
+  ok(
+    geometry.stageCollisions?.length === 0,
+    `${name}: loop stages do not collide with one another`,
+    JSON.stringify(geometry.stageCollisions),
+  );
+  ok(geometry.svgVisible && geometry.mainPathVisible, `${name}: decorative main orbit path visible`, JSON.stringify(geometry));
+}
+
+async function assertLoopMobileRail(page, name) {
+  const rail = await page.evaluate(() => {
+    const svg = document.querySelector('.loop-orbit-svg');
+    const contextBand = document.querySelector('.loop-mobile-context');
+    const returnLabel = document.querySelector('.loop-mobile-return');
+    const stages = [...document.querySelectorAll('.loop-stage')];
+    const details = stages.map((stage) => (stage.querySelector('.loop-body p')?.textContent ?? '').trim());
+    const tops = stages.map((stage) => Math.round(stage.getBoundingClientRect().top));
+    const monotonic = tops.every((top, index) => index === 0 || top > tops[index - 1]);
+    const svgHidden = !(svg instanceof SVGSVGElement) ||
+      getComputedStyle(svg).display === 'none' ||
+      svg.getBoundingClientRect().width <= 1;
+    const contextTop = contextBand instanceof HTMLElement ? Math.round(contextBand.getBoundingClientRect().top) : null;
+    const contextPrecedes = contextTop !== null && tops.length > 0 && contextTop < tops[0];
+    const contextText = contextBand instanceof HTMLElement ? contextBand.innerText.trim() : '';
+    const returnText = returnLabel instanceof HTMLElement ? returnLabel.innerText.trim() : '';
+    const returnVisible = returnLabel instanceof HTMLElement && (() => {
+      const rect = returnLabel.getBoundingClientRect();
+      const style = getComputedStyle(returnLabel);
+      return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+    })();
+    return { svgHidden, details, monotonic, contextPrecedes, contextText, returnVisible, returnText, tops };
+  });
+  ok(rail.svgHidden, `${name}: decorative orbit SVG hidden on phone`, JSON.stringify(rail));
+  ok(
+    rail.details.length === 4 && rail.details.every((detail) => detail.length > 0),
+    `${name}: all four loop phase details remain visible`,
+    JSON.stringify(rail.details),
+  );
+  ok(rail.monotonic, `${name}: loop stage tops increase monotonically`, JSON.stringify(rail.tops));
+  ok(rail.contextPrecedes, `${name}: customer environment band precedes loop stages`, JSON.stringify(rail));
+  ok(
+    rail.contextText.includes('Live context') && rail.contextText.includes('Customer environment'),
+    `${name}: visible phone context band names live customer environment`,
+    rail.contextText,
+  );
+  ok(rail.returnVisible, `${name}: return / feedback label visible on phone`, JSON.stringify(rail));
+  ok(
+    rail.returnText.toLowerCase() === 'feedback / recovery path returns to intent',
+    `${name}: visible phone return label targets Intent`,
+    rail.returnText,
+  );
+}
 
 async function assertHomepageResponsiveContracts(page, viewport) {
   const { name, width } = viewport;
@@ -156,7 +416,6 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     const tabletGeometry = await page.evaluate(() => {
       const copy = document.querySelector('.cover-copy');
       const specimen = document.querySelector('.cover-specimen');
-      const stages = [...document.querySelectorAll('.loop-stage')];
       const cards = [...document.querySelectorAll('.building-card')];
       const portrait = document.querySelector('.about-portrait');
       const aboutCopy = document.querySelector('.about-copy');
@@ -169,8 +428,6 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const ar = aboutCopy.getBoundingClientRect();
       const coverVerticalOverlap = Math.min(cr.bottom, sr.bottom) > Math.max(cr.top, sr.top) + 24;
       const coverSeparateColumns = Math.abs(cr.left - sr.left) > 80;
-      const stageTops = stages.map((stage) => Math.round(stage.getBoundingClientRect().top));
-      const loopOneRow = stages.length === 4 && stageTops.every((top) => Math.abs(top - stageTops[0]) <= 2);
       const cardRects = cards.map((card) => card.getBoundingClientRect());
       const leftColumn = cardRects.filter((rect) => Math.abs(rect.left - cardRects[0].left) <= 2);
       const proofTwoColumns = cards.length === 4 && leftColumn.length === 2;
@@ -180,8 +437,6 @@ async function assertHomepageResponsiveContracts(page, viewport) {
         ok: true,
         coverVerticalOverlap,
         coverSeparateColumns,
-        loopOneRow,
-        stageTops,
         proofTwoColumns,
         leftColumnCount: leftColumn.length,
         aboutVerticalOverlap,
@@ -190,9 +445,12 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     });
     ok(tabletGeometry.ok, `${name}: tablet geometry nodes present`, tabletGeometry.reason ?? '');
     ok(tabletGeometry.coverVerticalOverlap && tabletGeometry.coverSeparateColumns, `${name}: tablet cover is two-column / vertically paired`, JSON.stringify(tabletGeometry));
-    ok(tabletGeometry.loopOneRow, `${name}: tablet loop is one row of four stages`, JSON.stringify(tabletGeometry.stageTops));
     ok(tabletGeometry.proofTwoColumns, `${name}: tablet proof index is two columns`, String(tabletGeometry.leftColumnCount));
     ok(tabletGeometry.aboutVerticalOverlap && tabletGeometry.aboutSeparateColumns, `${name}: tablet About portrait and copy are paired`, JSON.stringify(tabletGeometry));
+  }
+
+  if (width > 720) {
+    await assertLoopOrbitGeometry(page, name);
   }
 
   if (width <= 390) {
@@ -209,27 +467,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     ok(Boolean(phoneOrder), `${name}: phone cover order nodes present`);
     ok(phoneOrder?.headingBeforeSpecimen && phoneOrder?.specimenBeforeSupport, `${name}: phone visual order is H1 → specimen → support`, JSON.stringify(phoneOrder));
 
-    const loopRail = await page.evaluate(() => {
-      const stages = [...document.querySelectorAll('.loop-stage')];
-      return stages.map((stage) => {
-        const styles = getComputedStyle(stage);
-        const number = stage.querySelector('.loop-n');
-        const body = stage.querySelector('.loop-body');
-        const nr = number?.getBoundingClientRect();
-        const br = body?.getBoundingClientRect();
-        return {
-          columns: styles.gridTemplateColumns,
-          twoColumn: Boolean(nr && br && Math.abs(nr.top - br.top) < 40 && br.left > nr.right - 1),
-          text: (body?.textContent ?? '').trim().length,
-        };
-      });
-    });
-    ok(loopRail.length === 4, `${name}: phone loop has four stages`);
-    ok(
-      loopRail.every((stage) => stage.twoColumn && stage.text > 0),
-      `${name}: phone loop stages use two-column internal layout with visible text`,
-      JSON.stringify(loopRail),
-    );
+    await assertLoopMobileRail(page, name);
 
     const proofScroll = await page.evaluate(() => {
       const list = document.querySelector('.building-list');
@@ -351,7 +589,9 @@ async function auditPage(page, route, label) {
 try {
   for (const viewport of [
     { name: 'desktop-1440', width: 1440, height: 1000 },
+    { name: 'orbit-wide-min-961', width: 961, height: 1024 },
     { name: 'tablet-768', width: 768, height: 1024 },
+    { name: 'orbit-min-721', width: 721, height: 1024 },
     { name: 'mobile-390', width: 390, height: 844 },
     { name: 'mobile-320', width: 320, height: 720 },
   ]) {
@@ -408,6 +648,7 @@ try {
       `${viewport.name}: building-card order is deployment lab → MCP → field kit → Wingman`,
       buildingCardOrder.join(','),
     );
+    await assertContinuousFieldLoopContracts(page, viewport.name);
     await assertHomepageResponsiveContracts(page, viewport);
     await page.evaluate(async () => {
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
@@ -568,6 +809,37 @@ try {
     await auditPage(page, route, route);
     ok((await page.locator('h1').innerText()).includes(project.title), `${route}: project title`);
     ok(await page.locator(`a[href="${project.repo}"]`).count() >= 1, `${route}: direct repository link`);
+    const eyebrow = (await page.locator('.eyebrow').first().innerText()).trim();
+    ok(
+      eyebrow.localeCompare(caseEyebrows[project.slug], undefined, { sensitivity: 'accent' }) === 0,
+      `${route}: case-study eyebrow role label`,
+      eyebrow,
+    );
+    const evidenceSteps = page.locator('.evidence-steps');
+    ok((await evidenceSteps.evaluate((list) => list?.tagName ?? '')) === 'OL', `${route}: evidence map remains ordered list`);
+    const stepCount = await evidenceSteps.locator('li').count();
+    ok(stepCount === caseStepCounts[project.slug], `${route}: evidence step count`, String(stepCount));
+    const counterContract = await evidenceSteps.evaluate((list) => {
+      const listStyle = getComputedStyle(list);
+      const items = [...list.querySelectorAll('li')];
+      return {
+        counterReset: listStyle.counterReset,
+        items: items.map((item) => {
+          const before = getComputedStyle(item, '::before');
+          return {
+            absolute: before.position === 'absolute',
+            hasGeneratedContent: before.content !== 'none' && before.content !== 'normal' && before.content !== '""',
+          };
+        }),
+      };
+    });
+    ok(
+      counterContract.counterReset.includes('step') &&
+        counterContract.items.length === caseStepCounts[project.slug] &&
+        counterContract.items.every((item) => item.absolute && item.hasGeneratedContent),
+      `${route}: evidence steps keep generated leading-zero counters`,
+      JSON.stringify(counterContract),
+    );
     const projectText = await page.locator('body').innerText();
     ok(projectText.includes(project.proof), `${route}: exact proof marker`, project.proof);
     for (const boundary of project.boundaries ?? []) {
@@ -576,6 +848,8 @@ try {
   }
 
   await page.goto(`${base}/experience/`, { waitUntil: 'networkidle' });
+  ok((await page.locator('ol.timeline').count()) === 1, 'Experience keeps dated timeline ordered list');
+  ok((await page.locator('ol.timeline li').count()) >= 1, 'Experience timeline has dated entries');
   const experienceText = await page.locator('main').innerText();
   for (const marker of [
     'Senior Manager · LSL, LLP',

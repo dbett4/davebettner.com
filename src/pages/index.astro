@@ -27,26 +27,39 @@ import { emailHref, githubUrl, linkedinUrl } from '../data/site-links';
 
 const operatingLoop = [
   {
-    n: '01',
+    cue: 'Intent',
     title: 'Scope the problem',
     detail: whereHeading.items[0],
+    mark: 'circle',
   },
   {
-    n: '02',
+    cue: 'Systems',
     title: 'Connect the systems',
     detail: whereHeading.items[1],
+    mark: 'square',
   },
   {
-    n: '03',
+    cue: 'Evidence',
     title: 'Prove the deployment',
     detail: whereHeading.items[2],
+    mark: 'diamond',
   },
   {
-    n: '04',
+    cue: 'Signals',
     title: 'Operate and improve',
     detail: whereHeading.items[3],
+    mark: 'split',
   },
 ] as const;
+
+const roleByProjectId: Record<string, string> = {
+  'hermes-deployment-lab': 'Failure recovery',
+  'regulated-reporting-mcp': 'Guarded integration',
+  'hermes-field-kit': 'Evaluation',
+  wingman: 'Readback + restore',
+};
+
+const outcomeMarks = ['outcome-mark--square', 'outcome-mark--circle', 'outcome-mark--diamond'] as const;
 
 const aboutLead = aboutSection.body[0];
 
@@ -146,17 +159,78 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
             <h2 id="loop-heading">Operating loop</h2>
             <p class="loop-lead">{whereHeading.lead.replace('The roles that fit me best involve:', 'Four stages that show up in the work:')}</p>
           </div>
-          <ol class="loop-rail">
-            {operatingLoop.map((stage) => (
-              <li class="loop-stage">
-                <span class="loop-n" aria-hidden="true">{stage.n}</span>
-                <div class="loop-body">
-                  <h3>{stage.title}</h3>
-                  <p>{stage.detail}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <div class="loop-field-wrap">
+            <div class="loop-mobile-context">
+              <span class="mono loop-mobile-context-kicker">Live context</span>
+              <strong>Customer environment</strong>
+            </div>
+            <div class="loop-field" aria-label="Continuous deployment loop around a customer environment">
+              <svg class="loop-orbit-svg" viewBox="0 0 800 560" aria-hidden="true">
+                <defs>
+                  <marker id="loop-arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#214fe5"></path>
+                  </marker>
+                  <marker id="loop-arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#cf4120"></path>
+                  </marker>
+                </defs>
+                <path
+                  class="loop-path-main"
+                  d="M190 105 C470 18 716 124 697 315 C679 494 411 542 185 445 C33 380 44 178 190 105Z"
+                  fill="none"
+                  stroke="#214fe5"
+                  stroke-width="4"
+                  marker-mid="url(#loop-arrow-blue)"
+                  marker-end="url(#loop-arrow-blue)"
+                ></path>
+                <path
+                  class="loop-path-feedback"
+                  d="M606 398 C464 492 215 443 146 298"
+                  fill="none"
+                  stroke="#cf4120"
+                  stroke-width="3"
+                  stroke-dasharray="4 9"
+                  marker-end="url(#loop-arrow-orange)"
+                ></path>
+                <path
+                  class="loop-path-feedback"
+                  d="M614 155 C495 181 408 239 357 318"
+                  fill="none"
+                  stroke="#cf4120"
+                  stroke-width="3"
+                  stroke-dasharray="4 9"
+                  marker-end="url(#loop-arrow-orange)"
+                ></path>
+              </svg>
+              <div class="loop-center">
+                <span class="mono loop-center-kicker">Live context</span>
+                <strong>Customer environment</strong>
+              </div>
+              <ol class="loop-rail">
+                {operatingLoop.map((stage) => (
+                  <li class={`loop-stage loop-stage--${stage.mark}`}>
+                    <span class={`loop-stage-mark loop-stage-mark--${stage.mark}`} aria-hidden="true"></span>
+                    <span class="loop-cue mono">{stage.cue}</span>
+                    <div class="loop-body">
+                      <h3>{stage.title}</h3>
+                      <p>{stage.detail}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <p class="loop-mobile-return mono">Feedback / recovery path returns to Intent</p>
+            <div class="loop-legend">
+              <div>
+                <span class="loop-legend-key loop-legend-key--main" aria-hidden="true"></span>
+                <span>Main deployment path</span>
+              </div>
+              <div>
+                <span class="loop-legend-key loop-legend-key--feedback" aria-hidden="true"></span>
+                <span>Feedback / recovery path</span>
+              </div>
+            </div>
+          </div>
           <p class="loop-close">{whereHeading.close}</p>
           <span id="bring" class="anchor-slot" tabindex="-1"></span>
         </div>
@@ -165,17 +239,17 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <section id="work" class="work-section" aria-labelledby="work-heading">
         <div class="wrap section-pad">
           <div class="work-head">
-            <p class="mono section-index">Proof index</p>
+            <p class="mono section-index">Evidence plates</p>
             <h2 id="work-heading">{buildingNow.title}</h2>
             <p class="section-lead">{buildingNow.lead}</p>
-            <p class="proof-index-cue mono" id="proof-index-cue">Swipe / drag proof index →</p>
+            <p class="proof-index-cue mono" id="proof-index-cue">Swipe / drag evidence plates →</p>
           </div>
-          <div class="building-list" role="region" aria-label="Public engineering proof" aria-describedby="proof-index-cue">
+          <div class="building-list" role="region" aria-label="Public engineering evidence" aria-describedby="proof-index-cue">
             {buildingNow.projects.map((project, index) => (
               <article class={`building-card motif-${motifByIndex[index]}`} id={project.id}>
-                <div class="building-visual" aria-hidden="true">
-                  <span class="building-index">{String(index + 1).padStart(2, '0')}</span>
-                  <div class="building-motif"></div>
+                <div class="building-visual">
+                  <span class="building-role mono">{roleByProjectId[project.id]}</span>
+                  <div class="building-motif" aria-hidden="true"></div>
                 </div>
                 <div class="building-copy">
                   <h3>
@@ -211,22 +285,22 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <section id="proof" class="proof-section" aria-labelledby="proof-heading">
         <div class="wrap section-pad">
           <div class="proof-head">
-            <p class="mono section-index">Delivery ledger</p>
+            <p class="mono section-index">Delivery outcomes</p>
             <h2 id="proof-heading">{selectedProof.title}</h2>
             <p class="section-lead">{selectedProof.lead}</p>
           </div>
-          <ol class="proof-ledger">
+          <div class="proof-ledger">
             {selectedProof.stories.map((story, index) => (
-              <li class="proof-row" id={story.id}>
-                <span class="proof-n" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <article class="proof-row" id={story.id}>
+                <span class={`outcome-mark ${outcomeMarks[index]}`} aria-hidden="true"></span>
                 <div class="proof-main">
                   <p class="proof-label">{story.label}</p>
                   <h3>{story.title}</h3>
                 </div>
                 <p class="proof-result">{story.result}</p>
-              </li>
+              </article>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 
@@ -638,45 +712,146 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     margin-bottom: var(--space-5);
   }
 
+  .loop-field-wrap {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .loop-field {
+    position: relative;
+    min-height: 520px;
+    overflow: hidden;
+    border: 1px solid var(--ink);
+    background:
+      radial-gradient(circle, rgba(33, 79, 229, 0.18) 0 1px, transparent 1.4px),
+      var(--paper);
+    background-size: 8px 8px;
+  }
+
+  .loop-orbit-svg {
+    position: absolute;
+    inset: 5%;
+    width: 90%;
+    height: 90%;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .loop-center {
+    position: absolute;
+    inset: 37% 33%;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    gap: 6px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px;
+  }
+
+  .loop-center-kicker {
+    color: rgba(243, 239, 229, 0.78);
+    font-size: 0.62rem;
+    text-transform: none;
+    letter-spacing: 0.04em;
+  }
+
+  .loop-center strong {
+    display: block;
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    font-weight: 500;
+    line-height: 1.05;
+  }
+
   .loop-rail {
     list-style: none;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0;
-    border-top: 1px solid var(--ink);
+    margin: 0;
+    padding: 0;
   }
 
   .loop-stage {
-    border-left: 1px solid var(--rule);
-    padding: var(--space-4) var(--space-3) var(--space-4) var(--space-3);
+    position: absolute;
+    z-index: 3;
+    width: min(33%, 240px);
+    padding: 14px;
+    border: 1px solid var(--ink);
+    background: rgba(243, 239, 229, 0.94);
     min-width: 0;
   }
 
-  .loop-stage:first-child {
-    border-left-color: var(--ink);
-    padding-left: 0;
+  .loop-stage--circle {
+    left: 4%;
+    top: 6%;
   }
 
-  .loop-n {
+  .loop-stage--square {
+    right: 4%;
+    top: 20%;
+  }
+
+  .loop-stage--diamond {
+    right: 5%;
+    bottom: 7%;
+  }
+
+  .loop-stage--split {
+    left: 5%;
+    bottom: 9%;
+  }
+
+  .loop-stage-mark {
+    display: none;
+  }
+
+  .loop-cue {
     display: block;
-    font-family: 'Newsreader Variable', Georgia, serif;
-    font-size: clamp(2.4rem, 4vw, 3.4rem);
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    color: var(--ink);
-    margin-bottom: var(--space-3);
+    color: var(--orange);
+    margin-bottom: 6px;
   }
 
   .loop-body h3 {
     font-size: 1.02rem;
     letter-spacing: -0.015em;
     margin-bottom: var(--space-2);
+    line-height: 1.15;
   }
 
   .loop-body p {
     font-size: 0.88rem;
     line-height: 1.45;
     color: var(--muted);
+  }
+
+  .loop-mobile-context,
+  .loop-mobile-return {
+    display: none;
+  }
+
+  .loop-legend {
+    display: grid;
+    gap: 10px;
+    max-width: 360px;
+  }
+
+  .loop-legend div {
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    gap: 12px;
+    align-items: center;
+    font-size: 0.86rem;
+    color: var(--muted);
+  }
+
+  .loop-legend-key {
+    display: block;
+    height: 2px;
+    background: var(--blue);
+  }
+
+  .loop-legend-key--feedback {
+    background: repeating-linear-gradient(90deg, var(--orange) 0 3px, transparent 3px 7px);
   }
 
   .loop-close {
@@ -743,17 +918,19 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     background: var(--card);
   }
 
-  .building-index {
+  .building-role {
     position: absolute;
     top: 12px;
     left: 12px;
     z-index: 2;
-    font-family: 'Newsreader Variable', Georgia, serif;
-    font-size: clamp(2.8rem, 5vw, 4rem);
-    line-height: 0.85;
-    letter-spacing: -0.05em;
+    max-width: calc(100% - 24px);
+    padding: 6px 8px;
+    font-size: 0.62rem;
+    line-height: 1.25;
+    letter-spacing: 0.06em;
     color: var(--ink);
-    mix-blend-mode: multiply;
+    background: rgba(243, 239, 229, 0.88);
+    border: 1px solid var(--ink);
   }
 
   .building-motif {
@@ -867,24 +1044,35 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .proof-ledger {
-    list-style: none;
     border-top: 1px solid var(--ink);
   }
 
   .proof-row {
     display: grid;
-    grid-template-columns: 56px minmax(0, 1.2fr) minmax(0, 0.9fr);
+    grid-template-columns: 28px minmax(0, 1.2fr) minmax(0, 0.9fr);
     gap: var(--space-3);
     align-items: start;
     padding: var(--space-4) 0;
     border-bottom: 1px solid var(--rule);
   }
 
-  .proof-n {
-    font-family: 'Newsreader Variable', Georgia, serif;
-    font-size: 1.6rem;
-    letter-spacing: -0.03em;
-    line-height: 1;
+  .outcome-mark {
+    width: 14px;
+    height: 14px;
+    margin-top: 4px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .outcome-mark--circle {
+    border-radius: 50%;
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+
+  .outcome-mark--diamond {
+    transform: rotate(45deg);
+    border-color: var(--orange);
   }
 
   .proof-label {
@@ -1058,8 +1246,23 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       font-size: clamp(2.1rem, 4.4vw, 3.2rem);
     }
 
-    .loop-rail {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .loop-field {
+      min-height: 460px;
+    }
+
+    .loop-stage {
+      width: min(36%, 210px);
+      padding: 12px;
+    }
+
+    .loop-stage--circle,
+    .loop-stage--split {
+      left: 1%;
+    }
+
+    .loop-stage--square,
+    .loop-stage--diamond {
+      right: 1%;
     }
 
     .building-list {
@@ -1078,10 +1281,9 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       max-height: 88px;
     }
 
-    .building-index {
-      font-size: clamp(2rem, 4vw, 2.6rem);
-      top: 8px;
-      left: 10px;
+    .building-role {
+      font-size: 0.58rem;
+      padding: 5px 7px;
     }
 
     .building-copy {
@@ -1168,60 +1370,160 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       gap: 2px;
     }
 
+    .loop-field {
+      min-height: 0;
+      border: 0;
+      background: transparent;
+      overflow: visible;
+    }
+
+    .loop-orbit-svg,
+    .loop-center {
+      display: none;
+    }
+
+    .loop-mobile-context {
+      display: grid;
+      gap: 4px;
+      padding: 12px 14px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+      margin-bottom: var(--space-3);
+    }
+
+    .loop-mobile-context strong {
+      font-family: 'Newsreader Variable', Georgia, serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    .loop-mobile-context .mono {
+      color: rgba(243, 239, 229, 0.78);
+      font-size: 0.62rem;
+      text-transform: none;
+      letter-spacing: 0.04em;
+    }
+
+    .loop-mobile-return {
+      display: block;
+      margin: 0 0 var(--space-3);
+      padding-left: 44px;
+      color: var(--orange);
+      font-size: 0.62rem;
+      position: relative;
+    }
+
+    .loop-mobile-return::before {
+      content: '←';
+      position: absolute;
+      left: 14px;
+      top: 0;
+      color: var(--orange);
+      letter-spacing: 0.2em;
+    }
+
     .loop-rail {
-      grid-template-columns: 1fr;
-      border-top: 0;
       position: relative;
       padding-left: 2px;
     }
 
     .loop-stage,
-    .loop-stage:first-child,
-    .loop-stage:nth-child(even),
-    .loop-stage:nth-child(odd) {
+    .loop-stage--circle,
+    .loop-stage--square,
+    .loop-stage--diamond,
+    .loop-stage--split {
+      position: relative;
+      inset: auto;
+      left: auto;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      width: auto;
       display: grid;
       grid-template-columns: 44px minmax(0, 1fr);
       gap: var(--space-3);
       align-items: start;
-      border-left: 0;
-      border-top: 0;
+      border: 0;
+      background: transparent;
       padding: 0 0 var(--space-4);
-      position: relative;
     }
 
     .loop-stage:last-child {
       padding-bottom: 0;
     }
 
-    .loop-stage:not(:last-child)::before {
+    .loop-stage:not(:last-child)::after {
       content: '';
       position: absolute;
       left: 14px;
-      top: 28px;
+      top: 30px;
       bottom: 0;
       width: 1px;
       background: var(--rule);
     }
 
-    .loop-n {
+    .loop-stage-mark {
+      display: block;
       position: relative;
       z-index: 1;
       width: 28px;
       height: 28px;
       margin: 0;
-      display: grid;
-      place-items: center;
-      font-size: 0.78rem;
-      letter-spacing: 0;
-      line-height: 1;
-      border: 1px solid var(--ink);
-      background: var(--paper);
-      color: var(--blue);
+      grid-row: 1 / span 3;
+      align-self: start;
     }
 
-    .loop-stage:nth-child(even) .loop-n {
-      color: var(--orange);
-      border-color: var(--orange);
+    .loop-stage-mark--circle {
+      border: 2px solid var(--blue);
+      border-radius: 50%;
+      background: var(--paper);
+    }
+
+    .loop-stage-mark--circle::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      left: 8px;
+      top: 8px;
+      background: var(--orange);
+    }
+
+    .loop-stage-mark--square {
+      border: 2px solid var(--ink);
+      background: var(--paper);
+    }
+
+    .loop-stage-mark--diamond {
+      transform: rotate(45deg);
+      border: 2px solid var(--orange);
+      background: var(--paper);
+    }
+
+    .loop-stage-mark--diamond::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      background: var(--ink);
+    }
+
+    .loop-stage-mark--split {
+      border: 2px solid var(--ink);
+      border-left-color: var(--blue);
+      border-right-color: var(--orange);
+      background: var(--paper);
+    }
+
+    .loop-cue,
+    .loop-body h3,
+    .loop-body p {
+      grid-column: 2;
+    }
+
+    .loop-cue {
+      margin-bottom: 4px;
     }
 
     .loop-body h3 {
@@ -1231,6 +1533,11 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
     .loop-body p {
       font-size: 0.86rem;
+    }
+
+    .loop-legend {
+      margin-top: var(--space-2);
+      max-width: none;
     }
 
     .proof-index-cue {
@@ -1283,12 +1590,12 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     }
 
     .proof-row {
-      grid-template-columns: 1fr;
+      grid-template-columns: 20px 1fr;
       gap: var(--space-2);
     }
 
     .proof-result {
-      grid-column: 1;
+      grid-column: 2;
     }
 
     .cta-block {

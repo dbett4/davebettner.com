@@ -27,7 +27,7 @@ export type CaseStudy = {
 export const cases = [
   {
     id: 'regulated-reporting-mcp',
-    eyebrow: '01 · Regulated Reporting MCP',
+    eyebrow: 'Guarded integration · Regulated Reporting MCP',
     title: 'OAuth-backed MCP server with guarded writes and credential-free proof',
     summary:
       'MCP server for a Workiva-shaped reporting API with OAuth, pagination, async jobs, and controlled mutations behind a three-tool guarded default.',
@@ -55,7 +55,7 @@ export const cases = [
   },
   {
     id: 'hermes-deployment-lab',
-    eyebrow: '02 · Hermes Deployment Lab',
+    eyebrow: 'Failure recovery · Hermes Deployment Lab',
     title: 'Synthetic failure lab with idempotent retry and 73 public credential-free tests',
     summary:
       'Compose-configured lab that exercises remote-write/local-failure mismatch, operator approval separation, and idempotent recovery. Public CI parses the configuration but does not attest container startup.',
@@ -83,7 +83,7 @@ export const cases = [
   },
   {
     id: 'hermes-field-kit',
-    eyebrow: '03 · Hermes Enterprise Evaluation Kit',
+    eyebrow: 'Evaluation · Hermes Enterprise Evaluation Kit',
     title: '318-row capability map with pinned v2026.8.3 reference suite',
     summary:
       'Version-pinned evaluation kit for enterprise agent configuration with explicit unsupported cases and negative tests.',
@@ -111,7 +111,7 @@ export const cases = [
   },
   {
     id: 'wingman',
-    eyebrow: '04 · Confirm-before-write quality',
+    eyebrow: 'Readback + restore · Confirm-before-write quality',
     title: 'Chrome extension + local service with readback and restore on mismatch',
     summary:
       'Wingman finds spreadsheet defects that survive export, explains each issue, and applies only changes it can check, reverse, and read back.',

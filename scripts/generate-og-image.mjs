@@ -40,13 +40,12 @@ async function main() {
   const chrome = resolveChrome();
   const source = await readFile(sourceHtml, 'utf8');
   for (const marker of [
-    'Forward-deployed · solutions engineering',
-    'Enterprise agents · customer environments',
-    'Agents earn their place in the workflow.',
-    'Scope',
-    'Connect',
-    'Prove',
-    'Operate',
+    'Enterprise agent deployment · Solutions engineering',
+    'I carry complex customer deployments from discovery through adoption.',
+    'Discover',
+    'Shape',
+    'Deliver',
+    'Adopt',
     'davebettner.com',
   ]) {
     if (!source.includes(marker)) {

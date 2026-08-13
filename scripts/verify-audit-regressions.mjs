@@ -118,15 +118,21 @@ try {
   check(state.status.includes('without pre-fill'), 'Fit long prompt explains base-URL fallback', state.status);
 
   await page.goto(`${base}/`, { waitUntil: 'networkidle' });
-  const cta = page.locator('.identity-action-secondary');
-  check((await cta.getAttribute('href')) === '/experience/', 'Hero experience CTA links to experience page');
-  check((await cta.getAttribute('download')) === null, 'Hero experience CTA is not a mislabeled download');
+  const experienceCta = page.locator('.cover-actions a[href="/experience/"]');
+  check((await experienceCta.count()) >= 1, 'Hero experience CTA links to experience page');
+  check((await experienceCta.getAttribute('download')) === null, 'Hero experience CTA is not a mislabeled download');
 
   const redirects = await readFile('dist/_redirects', 'utf8');
   for (const source of ['/dither', '/dither/', '/mockups/dither', '/mockups/dither/']) {
     check(
       redirects.split(/\r?\n/).some((line) => line.trim() === `${source} /preview-dither/ 301`),
       `Redirect manifest includes ${source}`,
+    );
+  }
+  for (const source of ['/work/deployment-lab', '/work/deployment-lab/']) {
+    check(
+      redirects.split(/\r?\n/).some((line) => line.trim() === `${source} /work/hermes-deployment-lab/ 301`),
+      `Redirect manifest includes ${source} → hermes-deployment-lab`,
     );
   }
 

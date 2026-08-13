@@ -137,7 +137,7 @@ async function main() {
   for (const marker of [
     'Python',
     'Rust (open PR work sample)',
-    'Docker Compose (public CI parse-only)',
+    'Docker Compose',
     'Hermes Agent',
     'GitHub Actions',
     'failure injection/debugging',
@@ -145,6 +145,9 @@ async function main() {
     if (!text.includes(marker)) {
       throw new Error(`public résumé missing application-surface marker: ${marker}`);
     }
+  }
+  if (text.includes('Docker Compose (public CI parse-only)')) {
+    throw new Error('skills must use Docker Compose without parse-only qualifier');
   }
   for (const repo of [
     'github.com/dbett4/hermes-enterprise-deployment-lab',
@@ -179,7 +182,7 @@ async function main() {
   const skillsBlock = html.match(/<div class="skills">([\s\S]*?)<\/div>/)?.[1] ?? '';
   const skillOrder = [
     'Python',
-    'Docker Compose (public CI parse-only)',
+    'Docker Compose',
     'Hermes Agent',
     'MCP/FastMCP',
     'OAuth/API integration',

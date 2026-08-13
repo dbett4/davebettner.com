@@ -67,4 +67,4 @@ export const publicEngineeringCases = [
 ] as const satisfies readonly PublicEngineeringCase[];
 
 export const provenanceNote =
-  'Public repositories are sanitized extracts published August 2026. Dates on GitHub are publication dates, not original delivery dates. No client data or credentials appear in these repos; private client history remains confidential and public claims are limited to inspectable artifacts.';
+  'Public repositories are sanitized extracts published August 2026. They show methods and tests, not client tenants. Dates on GitHub are publication dates, not original delivery dates. Independent work is not a customer Hermes Enterprise deployment or Nous affiliation. No client data or credentials appear in these repos; private client history remains confidential and public claims are limited to inspectable artifacts.';

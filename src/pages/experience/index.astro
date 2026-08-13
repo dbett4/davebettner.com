@@ -7,9 +7,9 @@ import { siteUrl } from '../../data/seo';
 import { githubUrl, linkedinUrl } from '../../data/site-links';
 
 const canonical = `${siteUrl}/experience/`;
-const title = 'Experience | Dave Bettner — AI Implementation and Enterprise Delivery';
+const title = 'Experience | Dave Bettner — Enterprise Agent Deployment and Solutions Engineering';
 const description =
-  'Dave Bettner\'s experience in implementation, reporting technology, financial reporting, and business systems.';
+  'Dave Bettner\'s experience in enterprise agent deployment, solutions engineering, regulated delivery, and customer implementations.';
 ---
 
 <!doctype html>
@@ -39,9 +39,8 @@ const description =
       <p class="eyebrow mono">Experience</p>
       <h1>Experience</h1>
       <p class="lead">
-        My work has moved through financial reporting, implementation, business systems, and AI tooling.
-        The roles changed, but I have usually been the person responsible for carrying a difficult
-        implementation through.
+        Enterprise agent deployment and solutions engineering across regulated customer environments.
+        The titles changed; the job stayed the same: carry a hard implementation from discovery through adoption.
       </p>
 
       <ol class="timeline">
@@ -49,7 +48,15 @@ const description =
           <li>
             <p class="mono dates">{entry.dates}</p>
             <h2>{entry.title}</h2>
+            {entry.location ? <p class="location">{entry.location}</p> : null}
             <p>{entry.line}</p>
+            {entry.bullets?.length ? (
+              <ul>
+                {entry.bullets.map((bullet) => (
+                  <li>{bullet}</li>
+                ))}
+              </ul>
+            ) : null}
           </li>
         ))}
       </ol>
@@ -84,7 +91,10 @@ const description =
   .timeline{list-style:none;display:grid;gap:28px}
   .timeline li{padding-top:20px;border-top:1px solid #c9c3b5}
   .dates{color:var(--muted);margin-bottom:8px}
-  .timeline h2{font-size:1.1rem;font-weight:650;margin-bottom:8px}
+  .timeline h2{font-size:1.1rem;font-weight:650;margin-bottom:6px}
+  .location{font-size:.92rem;color:var(--muted);margin-bottom:8px}
+  .timeline ul{margin:10px 0 0 18px}
+  .timeline ul li{padding-top:0;border-top:0;margin-bottom:6px}
   .pdf-note{margin-top:32px}
   .pdf-note a{text-decoration:underline;text-underline-offset:3px}
   .page-links{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:28px}

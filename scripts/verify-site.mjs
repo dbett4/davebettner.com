@@ -512,6 +512,9 @@ async function assertHomepageResponsiveContracts(page, viewport) {
         return {
           href: link.getAttribute('href'),
           text: (link.textContent ?? '').trim(),
+          clientWidth: link.clientWidth,
+          scrollWidth: link.scrollWidth,
+          textClipped: link.scrollWidth > link.clientWidth + 1,
           width: rect.width,
           height: rect.height,
           left: rect.left,
@@ -554,6 +557,11 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     ok(
       Boolean(navGeometry?.links.every((target) => target.width >= 44 && target.height >= 44)),
       `${name}: mobile section-nav targets are at least 44×44`,
+      JSON.stringify(navGeometry?.links),
+    );
+    ok(
+      Boolean(navGeometry?.links.every((target) => !target.textClipped)),
+      `${name}: mobile section-nav labels remain fully visible`,
       JSON.stringify(navGeometry?.links),
     );
     ok(

@@ -549,20 +549,10 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
 
-  .round:hover {
-    background: var(--ink);
-    color: var(--paper);
-  }
-
   .round.blue {
     background: var(--blue);
     color: white;
     border-color: var(--blue);
-  }
-
-  .round.blue:hover {
-    background: var(--orange);
-    border-color: var(--orange);
   }
 
   .round.ghost {
@@ -574,9 +564,35 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     color: var(--panel-ink);
   }
 
-  .round.ghost-dark:hover {
+  /* Hover states are declared after every variant so a variant's base
+     background can never outrank the hover pairing it belongs to. Each
+     rule sets background and color together — never one without the other. */
+  .round:hover,
+  .round:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .round.blue:hover,
+  .round.blue:focus-visible {
+    background: var(--orange);
+    color: #fff;
+    border-color: var(--orange);
+  }
+
+  .round.ghost:hover,
+  .round.ghost:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .round.ghost-dark:hover,
+  .round.ghost-dark:focus-visible {
     background: var(--panel-ink);
     color: var(--panel);
+    border-color: var(--panel-ink);
   }
 
   .section-pad {

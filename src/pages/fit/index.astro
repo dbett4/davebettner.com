@@ -130,16 +130,20 @@ const description =
     font-weight: 650;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
-  .round:hover {
-    background: var(--ink);
-    color: var(--paper);
-  }
   .round.blue {
     background: var(--blue);
     color: #fff;
     border-color: var(--blue);
   }
-  .round.blue:hover {
+  /* Hover states after every variant; each sets background and color together. */
+  .round:hover,
+  .round:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .round.blue:hover,
+  .round.blue:focus-visible {
     background: var(--orange);
     border-color: var(--orange);
     color: #fff;

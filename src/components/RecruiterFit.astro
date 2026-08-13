@@ -313,18 +313,20 @@ const templateJson = JSON.stringify(fitPromptTemplate);
     border-radius: 999px;
     transition: background 0.15s, border-color 0.15s;
   }
-  .fit-ai-btn:hover,
-  .fit-copy-btn:hover {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
-  }
   .fit-copy-btn {
     background: var(--blue);
     border-color: var(--blue);
     color: #fff;
   }
-  .fit-copy-btn:hover {
+  /* Hover states after every variant; each sets background and color together. */
+  .fit-ai-btn:hover,
+  .fit-ai-btn:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .fit-copy-btn:hover,
+  .fit-copy-btn:focus-visible {
     background: var(--orange);
     border-color: var(--orange);
     color: #fff;

@@ -112,19 +112,12 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
           <span class="mast-name">{identity.name}</span>
         </a>
         <nav class="primary-nav" aria-label="Primary navigation">
-          <a href="#proof">Proof</a>
+          <a href="/work/">Work</a>
           <a href="/experience/">Experience</a>
           <a href="/fit/">Fit</a>
-          <a href="#contact">Contact</a>
         </nav>
         <a class="mast-cta" href={emailHref}>Email <span aria-hidden="true">↗</span></a>
       </div>
-      <nav class="mobile-section-nav wrap" aria-label="Primary section navigation">
-        <a href="#proof">Proof</a>
-        <a href="/experience/">Experience</a>
-        <a href="/fit/">Fit</a>
-        <a href="#contact">Contact</a>
-      </nav>
     </header>
 
     <main id="main">
@@ -337,16 +330,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <div class="wrap footer-row">
         <span>{identity.location}</span>
         <div class="footer-links">
-          <a href="#thesis">Thesis</a>
-          <a href="#direction">Loop</a>
-          <a href="#work">Work</a>
-          <a href="#proof">Delivery</a>
-          <a href="#about">About</a>
-          <a href="/about/">About page</a>
-          <a href="/work/">Work pages</a>
-          <a href="/experience/">Experience</a>
-          <a href="#contact">Contact</a>
-          <a href="/fit/">Role fit</a>
+          <a href="/about/">About</a>
           <a href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
           <a href={linkedinUrl} rel="me">LinkedIn <span aria-hidden="true">↗</span></a>
           <a href={emailHref}>Email <span aria-hidden="true">↗</span></a>
@@ -521,19 +505,6 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   .mast-cta:hover {
     background: var(--ink);
     color: var(--paper);
-  }
-
-  .mobile-section-nav {
-    display: none;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    gap: clamp(12px, 3vw, 20px);
-    padding-block: 4px;
-  }
-
-  .mobile-section-nav::-webkit-scrollbar {
-    display: none;
   }
 
   .round {
@@ -1296,24 +1267,25 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   /* Tablet shell: keep intentional split compositions through 768 */
   @media (max-width: 960px) {
     html {
-      scroll-padding-top: 128px;
+      /* Matches the 94px two-row mobile masthead plus clearance. */
+      scroll-padding-top: 110px;
+    }
+
+    /* The three nav links stay on one row below the brand rather than
+       collapsing into a second duplicated nav. */
+    .masthead {
+      grid-template-columns: 1fr auto;
+      row-gap: 4px;
     }
 
     .primary-nav {
-      display: none;
-    }
-
-    .masthead {
-      grid-template-columns: 1fr auto;
-    }
-
-    .mobile-section-nav {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      align-items: stretch;
-      gap: 0;
-      overflow-x: hidden;
-      min-height: 48px;
+      grid-column: 1 / -1;
+      order: 3;
+      justify-content: flex-start;
+      gap: clamp(6px, 2vw, 14px);
+      /* Cancels the link padding below so the first label still lines up
+         with the brand mark. */
+      margin-inline-start: -10px;
       border-top: 1px solid var(--rule);
       font-family: 'DM Mono', monospace;
       font-size: 0.72rem;
@@ -1321,24 +1293,12 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       letter-spacing: 0.04em;
     }
 
-    .mobile-section-nav a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
+    /* Short labels ("Work", "Fit") are narrower than the 44px minimum touch
+       target on their own, so the padding carries them to size. */
+    .primary-nav a {
       min-width: 44px;
-      width: 100%;
-      padding-inline: 2px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    @media (max-width: 340px) {
-      .mobile-section-nav {
-        font-size: 0.68rem;
-        letter-spacing: 0.02em;
-      }
+      justify-content: center;
+      padding-inline: 10px;
     }
 
     .cover-grid {

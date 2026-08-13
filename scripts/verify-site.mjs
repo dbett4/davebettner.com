@@ -504,7 +504,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
 
   if (width <= 390) {
     const navGeometry = await page.evaluate(() => {
-      const nav = document.querySelector('.mobile-section-nav');
+      const nav = document.querySelector('.primary-nav');
       if (!(nav instanceof HTMLElement)) return null;
       const navRect = nav.getBoundingClientRect();
       const links = [...nav.querySelectorAll('a')].map((link) => {
@@ -541,32 +541,31 @@ async function assertHomepageResponsiveContracts(page, viewport) {
         links,
       };
     });
-    ok(Boolean(navGeometry), `${name}: mobile section-nav present`);
-    ok(navGeometry?.linkCount === 4, `${name}: mobile section-nav has four links`, String(navGeometry?.linkCount));
+    ok(Boolean(navGeometry), `${name}: primary nav present`);
+    ok(navGeometry?.linkCount === 3, `${name}: primary nav has three links`, String(navGeometry?.linkCount));
     const mobileNavTargets = navGeometry?.links.map(({ text, href }) => ({ text, href }));
     ok(
       JSON.stringify(mobileNavTargets) === JSON.stringify([
-        { text: 'Proof', href: '#proof' },
+        { text: 'Work', href: '/work/' },
         { text: 'Experience', href: '/experience/' },
         { text: 'Fit', href: '/fit/' },
-        { text: 'Contact', href: '#contact' },
       ]),
-      `${name}: mobile section-nav contains Proof, Experience, Fit, and Contact`,
+      `${name}: primary nav contains Work, Experience, and Fit`,
       JSON.stringify(mobileNavTargets),
     );
     ok(
       Boolean(navGeometry?.links.every((target) => target.width >= 44 && target.height >= 44)),
-      `${name}: mobile section-nav targets are at least 44×44`,
+      `${name}: primary nav targets are at least 44×44`,
       JSON.stringify(navGeometry?.links),
     );
     ok(
       Boolean(navGeometry?.links.every((target) => !target.textClipped)),
-      `${name}: mobile section-nav labels remain fully visible`,
+      `${name}: primary nav labels remain fully visible`,
       JSON.stringify(navGeometry?.links),
     );
     ok(
       Boolean(navGeometry && !navGeometry.navOverflows),
-      `${name}: mobile section-nav does not overflow horizontally`,
+      `${name}: primary nav does not overflow horizontally`,
       JSON.stringify({
         scrollWidth: navGeometry?.navScrollWidth,
         clientWidth: navGeometry?.navClientWidth,
@@ -574,7 +573,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     );
     ok(
       Boolean(navGeometry?.links.every((target) => target.insideNav && target.insideViewport)),
-      `${name}: mobile section-nav link rectangles stay inside nav/viewport`,
+      `${name}: primary nav link rectangles stay inside nav/viewport`,
       JSON.stringify(navGeometry?.links),
     );
 
@@ -1128,11 +1127,11 @@ try {
     'Homepage signal field affordance names hover, focus, and tap',
     String(signalFieldAffordanceLabel),
   );
-  const mixedNavLabel = await animatedPage.locator('.mobile-section-nav').getAttribute('aria-label');
+  const primaryNavLabel = await animatedPage.locator('.primary-nav').getAttribute('aria-label');
   ok(
-    mixedNavLabel === 'Primary section navigation',
-    'Homepage mixed mobile navigation has an accurate accessible label',
-    String(mixedNavLabel),
+    primaryNavLabel === 'Primary navigation',
+    'Homepage primary navigation has an accurate accessible label',
+    String(primaryNavLabel),
   );
   const fitInstructions = await signalContacts.first().evaluate((link) => ({
     heading: (link.querySelector('strong')?.textContent ?? '').trim(),

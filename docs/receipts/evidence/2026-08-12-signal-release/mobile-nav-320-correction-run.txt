@@ -1,3 +1,66 @@
+npm notice run davebettner-com@0.1.0 test
+npm notice run npm run generate-resume && npm run generate-og && node scripts/verify-resume-reproducibility.mjs && node scripts/verify-og-reproducibility.mjs && npm run build && node scripts/verify-site.mjs && node scripts/verify-audit-regressions.mjs && bash scripts/test-deploy-preflight.sh prepush
+npm notice run davebettner-com@0.1.0 generate-resume
+npm notice run node scripts/generate-resume-pdf.mjs
+RESUME_PDF_PASS
+source=/srv/hermes/work/davebettner.com-signal-touch-release/resume/dave-bettner-resume.html
+output=/srv/hermes/work/davebettner.com-signal-touch-release/public/dave-bettner-resume.pdf
+pdftotext=/srv/hermes/work/davebettner.com-signal-touch-release/tmp/resume-pdf/dave-bettner-resume.txt
+pdfinfo=/srv/hermes/work/davebettner.com-signal-touch-release/tmp/resume-pdf/dave-bettner-resume.meta.txt
+first_line=Dave Bettner
+pages=1
+npm notice run davebettner-com@0.1.0 generate-og
+npm notice run node scripts/generate-og-image.mjs
+OG_IMAGE_PASS
+source=/srv/hermes/work/davebettner.com-signal-touch-release/social/dave-bettner-og.html
+output=/srv/hermes/work/davebettner.com-signal-touch-release/public/images/dave-bettner-og.jpg
+dimensions=1200x630
+bytes=114620
+sha256=4c9302d7203872fd0435c7531f57fe2f3d83482dc053f270765f30569381c5e8
+RESUME_REPRODUCIBILITY_PASS sha256=0a47dc828b8c2e9c1afdbfc39553934b6e79c5dc057b5aed5eaac75b8105d829
+OG_REPRODUCIBILITY_PASS sha256=4c9302d7203872fd0435c7531f57fe2f3d83482dc053f270765f30569381c5e8 dimensions=1200x630
+npm notice run davebettner-com@0.1.0 build
+npm notice run astro check && astro build
+23:36:49 [types] Generated 41ms
+23:36:49 [check] Getting diagnostics for Astro files in /srv/hermes/work/davebettner.com-signal-touch-release...
+Result (36 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+
+23:36:56 [types] Generated 31ms
+23:36:56 [build] output: "static"
+23:36:56 [build] mode: "static"
+23:36:56 [build] directory: /srv/hermes/work/davebettner.com-signal-touch-release/dist/
+23:36:56 [build] Collecting build info...
+23:36:56 [build] ✓ Completed in 71ms.
+23:36:56 [build] Building static entrypoints...
+23:36:57 [vite] ✓ built in 794ms
+23:36:57 [vite] ✓ built in 43ms
+23:36:57 [build] Rearranging server assets...
+
+ generating static routes
+23:36:57   ├─ /404.html (+14ms)
+23:36:57   ├─ /about/index.html (+6ms)
+23:36:57   ├─ /experience/index.html (+5ms)
+23:36:57   ├─ /fit/index.html (+5ms)
+23:36:57   ├─ /mockups/mts-broadcast/index.html (+5ms)
+23:36:57   ├─ /mockups/mts-wire/index.html (+3ms)
+23:36:57   ├─ /mockups/rig-inspiration/index.html (+5ms)
+23:36:57   ├─ /mockups/index.html (+4ms)
+23:36:57   ├─ /preview-dither/index.html (+3ms)
+23:36:57   ├─ /work/regulated-reporting-mcp/index.html (+5ms)
+23:36:57   ├─ /work/hermes-deployment-lab/index.html (+2ms)
+23:36:57   ├─ /work/hermes-field-kit/index.html (+1ms)
+23:36:57   ├─ /work/wingman/index.html (+2ms)
+23:36:57   ├─ /work/index.html (+3ms)
+23:36:57   ├─ /index.html (+4ms)
+23:36:57 ✓ Completed in 92ms.
+
+23:36:57 [build] ✓ Completed in 978ms.
+23:36:57 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+23:36:57 [build] 15 page(s) built in 1.07s
+23:36:57 [build] Complete!
 {
   "pass": true,
   "count": 940,
@@ -4705,3 +4768,133 @@
   ],
   "errors": []
 }
+{
+  "pass": true,
+  "count": 21,
+  "checks": [
+    {
+      "label": "Fit empty input opens no provider",
+      "pass": true,
+      "detail": "0"
+    },
+    {
+      "label": "Fit empty input copies no generic prompt",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "label": "Fit empty input is marked invalid",
+      "pass": true,
+      "detail": "true"
+    },
+    {
+      "label": "Fit empty input has actionable status",
+      "pass": true,
+      "detail": "Paste a job description before opening or copying a fit prompt."
+    },
+    {
+      "label": "Fit oversized input opens no provider",
+      "pass": true,
+      "detail": "0"
+    },
+    {
+      "label": "Fit oversized input is marked invalid",
+      "pass": true,
+      "detail": "true"
+    },
+    {
+      "label": "Fit oversized input reports limit",
+      "pass": true,
+      "detail": "Job description must be 12,000 characters or fewer."
+    },
+    {
+      "label": "Fit long prompt opens one provider",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "label": "Fit long prompt opens provider base URL",
+      "pass": true,
+      "detail": "https://chatgpt.com/"
+    },
+    {
+      "label": "Fit long prompt is copied",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "label": "Fit valid long input clears invalid state",
+      "pass": true,
+      "detail": "false"
+    },
+    {
+      "label": "Fit long prompt explains base-URL fallback",
+      "pass": true,
+      "detail": "Copied prompt. Opened ChatGPT without pre-fill because the prompt is too long for a safe URL. Paste it there."
+    },
+    {
+      "label": "Hero experience CTA links to experience page",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "label": "Hero experience CTA is not a mislabeled download",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "label": "Redirect manifest includes /dither",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "label": "Redirect manifest includes /dither/",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "label": "Redirect manifest includes /mockups/dither",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "label": "Redirect manifest includes /mockups/dither/",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "label": "Redirect manifest includes /work/deployment-lab → hermes-deployment-lab",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "label": "Redirect manifest includes /work/deployment-lab/ → hermes-deployment-lab",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "label": "Mockup index links resolve",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}
+PASS missing session identity
+PASS primary checkout is not an isolated worktree
+PASS dirty release worktree
+DEPLOY_GATE_TEST_PASS mode=prepush
+WROTE research/production-qa/homepage-desktop-1440x900.png
+WROTE research/production-qa/homepage-laptop-1280x720.png
+WROTE research/production-qa/homepage-mobile-390x844.png
+WROTE research/production-qa/experience-desktop-1440x900.png
+WROTE research/production-qa/experience-mobile-390x844.png
+PASS: homepage-desktop-1440x900.png: no horizontal overflow — {"scrollWidth":1440,"clientWidth":1440}
+PASS: homepage-laptop-1280x720.png: no horizontal overflow — {"scrollWidth":1280,"clientWidth":1280}
+PASS: homepage-laptop-1280x720.png: primary hiring CTA visible in first viewport — {"top":346.71875,"bottom":390.71875,"inViewport":true}
+PASS: homepage-mobile-390x844.png: no horizontal overflow — {"scrollWidth":390,"clientWidth":390}
+PASS: homepage-mobile-390x844.png: primary hiring CTA visible in first viewport — {"top":463.546875,"bottom":507.546875,"inViewport":true}
+PASS: experience-desktop-1440x900.png: no horizontal overflow — {"scrollWidth":1440,"clientWidth":1440}
+PASS: experience-mobile-390x844.png: no horizontal overflow — {"scrollWidth":390,"clientWidth":390}
+PASS: touch: first contact tap reveals Check Fit without leaving the page — {"events":{"path":"/","locked":true,"clickFired":true,"defaultPrevented":true},"visual":{"locked":true,"opacity":1,"pointerEvents":"auto"}}
+PASS: touch: Check Fit opens /fit/ on the second touch
+DESIGN_REVISION_QA_PASS (9/9)

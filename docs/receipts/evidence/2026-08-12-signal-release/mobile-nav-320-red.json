@@ -1,5 +1,5 @@
 {
-  "pass": true,
+  "pass": false,
   "count": 940,
   "checks": [
     {
@@ -3590,12 +3590,12 @@
     {
       "label": "mobile-320: mobile section-nav targets are at least 44×44",
       "pass": true,
-      "detail": "[{\"href\":\"#proof\",\"text\":\"Proof\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":14,\"right\":87,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/experience/\",\"text\":\"Experience\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":87,\"right\":160,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/fit/\",\"text\":\"Fit\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":160,\"right\":233,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"#contact\",\"text\":\"Contact\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":233,\"right\":306,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true}]"
+      "detail": "[{\"href\":\"#proof\",\"text\":\"Proof\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":14,\"right\":87,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/experience/\",\"text\":\"Experience\",\"clientWidth\":73,\"scrollWidth\":75,\"textClipped\":true,\"width\":73,\"height\":44,\"left\":87,\"right\":160,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/fit/\",\"text\":\"Fit\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":160,\"right\":233,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"#contact\",\"text\":\"Contact\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":233,\"right\":306,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true}]"
     },
     {
       "label": "mobile-320: mobile section-nav labels remain fully visible",
-      "pass": true,
-      "detail": "[{\"href\":\"#proof\",\"text\":\"Proof\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":14,\"right\":87,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/experience/\",\"text\":\"Experience\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":87,\"right\":160,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/fit/\",\"text\":\"Fit\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":160,\"right\":233,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"#contact\",\"text\":\"Contact\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":233,\"right\":306,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true}]"
+      "pass": false,
+      "detail": "[{\"href\":\"#proof\",\"text\":\"Proof\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":14,\"right\":87,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/experience/\",\"text\":\"Experience\",\"clientWidth\":73,\"scrollWidth\":75,\"textClipped\":true,\"width\":73,\"height\":44,\"left\":87,\"right\":160,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/fit/\",\"text\":\"Fit\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":160,\"right\":233,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"#contact\",\"text\":\"Contact\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":233,\"right\":306,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true}]"
     },
     {
       "label": "mobile-320: mobile section-nav does not overflow horizontally",
@@ -3605,7 +3605,7 @@
     {
       "label": "mobile-320: mobile section-nav link rectangles stay inside nav/viewport",
       "pass": true,
-      "detail": "[{\"href\":\"#proof\",\"text\":\"Proof\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":14,\"right\":87,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/experience/\",\"text\":\"Experience\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":87,\"right\":160,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/fit/\",\"text\":\"Fit\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":160,\"right\":233,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"#contact\",\"text\":\"Contact\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":233,\"right\":306,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true}]"
+      "detail": "[{\"href\":\"#proof\",\"text\":\"Proof\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":14,\"right\":87,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/experience/\",\"text\":\"Experience\",\"clientWidth\":73,\"scrollWidth\":75,\"textClipped\":true,\"width\":73,\"height\":44,\"left\":87,\"right\":160,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/fit/\",\"text\":\"Fit\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":160,\"right\":233,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"#contact\",\"text\":\"Contact\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":233,\"right\":306,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true}]"
     },
     {
       "label": "mobile-320: terracotta small-text contrast is at least 4.5:1",
@@ -4703,5 +4703,7 @@
       "detail": ""
     }
   ],
-  "errors": []
+  "errors": [
+    "mobile-320: mobile section-nav labels remain fully visible: [{\"href\":\"#proof\",\"text\":\"Proof\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":14,\"right\":87,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/experience/\",\"text\":\"Experience\",\"clientWidth\":73,\"scrollWidth\":75,\"textClipped\":true,\"width\":73,\"height\":44,\"left\":87,\"right\":160,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"/fit/\",\"text\":\"Fit\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":160,\"right\":233,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true},{\"href\":\"#contact\",\"text\":\"Contact\",\"clientWidth\":73,\"scrollWidth\":73,\"textClipped\":false,\"width\":73,\"height\":44,\"left\":233,\"right\":306,\"top\":69,\"bottom\":113,\"insideNav\":true,\"insideViewport\":true}]"
+  ]
 }

@@ -10,7 +10,7 @@ Canonical checkout `/srv/hermes/work/davebettner.com`: not modified by this pack
 
 **DEPLOYED AND VERIFIED — Git authority, Cloudflare activation, and live interaction contracts are green.**
 
-Release commit: `8d5178abfeed46885d04df43c7259bda00198a27` on `origin/main`. Cloudflare version `6268a0a6-9d97-4a4b-bf4e-d828d5d9f51f` is active at **100%**.
+Initial release commit: `8d5178abfeed46885d04df43c7259bda00198a27`. The reviewed 320px navigation correction is commit `e6ab778d900f792c812e642a32051ef6e4ee2a6d` on `origin/main`. Cloudflare version `5459a4c6-bd89-4ca0-bdb5-3badbf0f8a16` is active at **100%**.
 
 The original Cursor worker could not run shell commands and correctly left this receipt as unverified. Hermes subsequently froze the worker output, corrected two false-negative browser assertions, ran the canonical suite and dedicated design QA, and visually reviewed all five required renders.
 
@@ -27,11 +27,11 @@ The original Cursor worker could not run shell commands and correctly left this 
 | `scripts/capture-design-revision-qa.mjs` | Five-viewport screenshots plus overflow, fold, and first-/second-touch assertions |
 | `scripts/run-design-revision-qa.sh` | Canonical test + dedicated design QA runner |
 | `docs/receipts/2026-08-12-design-system-revision.md` | Verification record |
-| `docs/receipts/evidence/2026-08-12-signal-release/` | Six pre-release RED/GREEN artifacts plus the post-deploy live GREEN result |
+| `docs/receipts/evidence/2026-08-12-signal-release/` | Six original pre-release artifacts plus the correction runner log, superseding live GREEN result, 320px correction RED result, and focused live screenshot |
 
 Scratch prompt/probe files, a deploy-hook backup, and a duplicate screenshot-only helper were excluded.
 
-## RED evidence — current production
+## RED evidence — pre-release production
 
 Command: `SITE_URL=https://davebettner.com node scripts/verify-site.mjs`  
 Artifact: `docs/receipts/evidence/2026-08-12-signal-release/live-production-red.json`  
@@ -46,7 +46,7 @@ Confirmed failures:
 4. HUD stacked above the resolved contact (`contactsZ: 3`, `hudZ: 4`, HUD opacity `1`).
 5. Reduced-motion contact disappeared after focus left (`locked: false`, opacity `0`, pointer events `none`).
 
-## GREEN evidence — current packet
+## GREEN evidence — initial release packet
 
 ### Canonical pipeline
 
@@ -97,19 +97,19 @@ Verified:
 
 | Render | SHA-256 |
 |---|---|
-| `research/production-qa/homepage-desktop-1440x900.png` | `9aafb4e50e03146429e825203c02fe3956c4b3e23d1257bf19bc17c430985c71` |
-| `research/production-qa/homepage-laptop-1280x720.png` | `5e0ecfc44a53011e934c3e11a7f247c5bc2c1d05f16ffd94ca18a5f43d92a1b9` |
-| `research/production-qa/homepage-mobile-390x844.png` | `deb365761c2b7d22de2803fbab5e4f4aaad297748a5560dfee30d4f23022f4f9` |
+| `research/production-qa/homepage-desktop-1440x900.png` | `990f28b1bc4899041ddc11941728c7d1ec4c8ec035f24a2c3f5320ad073edec5` |
+| `research/production-qa/homepage-laptop-1280x720.png` | `2ceb38e264964baf8190688a6afb2327cc430d0574608c76815c265f68d5ecc5` |
+| `research/production-qa/homepage-mobile-390x844.png` | `38cec778b601b44897344651aea38a5d6ec44a01a5374b2ad114b989c7529a12` |
 | `research/production-qa/experience-desktop-1440x900.png` | `e914a3aacedfbb310e0f372e7f48518c5d92b320ec73a46b5cfbe260322e8aef` |
 | `research/production-qa/experience-mobile-390x844.png` | `0ce8d53a0a245555caeb8e8875d69fb4c9fe6c095cc144b4ebcd0752a430d04b` |
 
 Visual disposition: **PASS**. Hero/CTA hierarchy is clear on desktop, short laptop, and mobile; mobile navigation is readable; the CTA remains above the fold; Signal Field and Experience have no clipping or release-blocking overlap; the Experience dot field does not impair readability.
 
-The five PNGs are gitignored, worktree-local visual evidence. Their current digests are recorded above; the durable committed proof bundle contains the machine-readable RED/GREEN outputs and logs, not the image binaries.
+The five standard design-QA PNGs are gitignored, worktree-local visual evidence. Their current digests are recorded above. The durable committed proof bundle contains the machine-readable RED/GREEN outputs and logs plus the focused post-correction 320px production screenshot cited below; it does not contain the five standard design-QA image binaries.
 
 ## Review state
 
-The focused three-file touch repair received an independent **APPROVE** with no P0–P3 findings after its test-harness correction. Combined-packet review then found four concrete residual classes: 3.94:1 effective proof-context contrast, inaccessible early-return behavior when WebGL initialization fails, stale touch modality blocking later keyboard activation, and an unexpired marker after canceled/abandoned touch gestures. Each now has RED/GREEN browser coverage: 5.40:1 contrast, one-touch static-fallback navigation, successful mouse/keyboard navigation alongside first-/second-touch behavior, and marker cleanup after `pointercancel` or a touch sequence without click. Keyboard RED artifact: `docs/receipts/evidence/2026-08-12-signal-release/hybrid-keyboard-red.json` (`875440e3f0e370f781d2897c36f3c39e9668216ace6182f662c5fae02dbd34d2`). Touch-lifecycle RED artifact: `docs/receipts/evidence/2026-08-12-signal-release/touch-lifecycle-red.json` (`3ef5adf9ac86e1e7a4db36db7b03a7c3433fdb21e128744ce9bb84972ece26d0`). The definitive source review found no further product-code finding; it identified only stale evidence citations in this receipt after the final QA recapture. Those citations now point to durable, hash-matched files. Independent receipt-integrity review approved the exact 15-path packet with zero P0–P3 findings; the reviewed pre-correction receipt SHA-256 was `83a183151137d87a1541f3ef44608ca9a10a04c15cfdd2f29782a2e1ae6d11cc`.
+The focused three-file touch repair received an independent **APPROVE** with no P0–P3 findings after its test-harness correction. Combined-packet review then found four concrete residual classes: 3.94:1 effective proof-context contrast, inaccessible early-return behavior when WebGL initialization fails, stale touch modality blocking later keyboard activation, and an unexpired marker after canceled/abandoned touch gestures. Each now has RED/GREEN browser coverage: 5.40:1 contrast, one-touch static-fallback navigation, successful mouse/keyboard navigation alongside first-/second-touch behavior, and marker cleanup after `pointercancel` or a touch sequence without click. Keyboard RED artifact: `docs/receipts/evidence/2026-08-12-signal-release/hybrid-keyboard-red.json` (`875440e3f0e370f781d2897c36f3c39e9668216ace6182f662c5fae02dbd34d2`). Touch-lifecycle RED artifact: `docs/receipts/evidence/2026-08-12-signal-release/touch-lifecycle-red.json` (`3ef5adf9ac86e1e7a4db36db7b03a7c3433fdb21e128744ce9bb84972ece26d0`). The final pre-release source review at that stage found no further product-code finding; it identified only stale evidence citations in this receipt after the final QA recapture. Those citations now point to durable, hash-matched files. Independent receipt-integrity review approved the exact 15-path packet with zero P0–P3 findings; the reviewed pre-correction receipt SHA-256 was `83a183151137d87a1541f3ef44608ca9a10a04c15cfdd2f29782a2e1ae6d11cc`. A later review of the deployed packet then found the separate 320px navigation issue documented and closed below.
 
 ## Release gate — completed
 
@@ -122,14 +122,27 @@ The release followed the required order:
 5. Wrangler ran the native preflight before and after generation/build from the clean linked worktree; both passed at the release commit.
 6. Cloudflare deployment `bb8f7f82-4199-457a-ad37-07e80cad12c1` activated version `6268a0a6-9d97-4a4b-bf4e-d828d5d9f51f` at **100%** on `davebettner.com`.
 
+### 320px navigation correction — completed
+
+1. A late independent review found that the intermediate 320px `Experience` label required 75px inside its 73px cell and was ellipsized. The proof-context contrast finding from the same review was already superseded: production computed **5.40:1** with opacity `1`.
+2. A rendered text-width regression contract was added first. The unchanged source produced **RED: 939/940** with only `mobile-320: mobile section-nav labels remain fully visible` failing. Durable RED artifact: `docs/receipts/evidence/2026-08-12-signal-release/mobile-nav-320-red.json` (`d6d52b1bb1cfa5812c582b06af4ac448541d1f3c3eb333654e9b445987e81b04`).
+3. The ≤340px navigation typography was tightened without changing labels, destinations, grid geometry, or 44px targets. The same verifier produced **GREEN: 940/940**; `Experience` measured `scrollWidth == clientWidth == 73px`.
+4. The canonical suite passed, including **940/940** site checks, **21/21** audit regressions, and deployment-gate probes. Dedicated design QA passed **9/9**, and independent review of the exact two-file packet returned **APPROVE** with no P0–P3 findings. Durable correction-run log: `docs/receipts/evidence/2026-08-12-signal-release/mobile-nav-320-correction-run.txt` (`1d236bf58c65952105f049b6c978736fcb62b5cc44ab99c152af12e503f224c2`).
+5. Commit `e6ab778d900f792c812e642a32051ef6e4ee2a6d` was pushed by non-force fast-forward; `HEAD == origin/main == remote main`.
+6. Session `hermes-davebettner-nav-clip-20260813` acquired both required ACP leases. Post-push preflight and ownership/foreign-session probes passed, and the governed deployment activated Cloudflare deployment `6c9c1009-ebf0-4a1f-9226-98e92221bb78`, version `5459a4c6-bd89-4ca0-bdb5-3badbf0f8a16`, at **100%**.
+7. The live homepage returned HTTP 200 and was byte-identical to the gated build (`04007b1101cd2a7414483080c11f38bb2a67a95fadd28f88ba617e10d6fc9bdb`). At 320px, all four navigation targets measured 73×44px inside the viewport; `Experience` measured 73/73px with no clipping. Both deployment leases were then released and verified absent.
+
 ## Post-deploy live proof
 
 Command: `SITE_URL=https://davebettner.com node scripts/verify-site.mjs`
 
 Artifact: `docs/receipts/evidence/2026-08-12-signal-release/live-production-green.json`
 
-SHA-256: `3bc23e5f07bd2c3fddaaa2a44dfdba1dfbdc4e466ba65e99a15a8349d928c906`
+SHA-256: `01541d5e69a5511b0360d0a959897704cd7d72e76e648193369d2c74a680482f`
 
-Result: **938/938, zero failures**
+Result: **940/940, zero failures**
 
-The live result is byte-identical to the approved candidate GREEN artifact. It confirms first-touch reveal, second-touch `/fit/` navigation, mouse and keyboard activation after touch, cleanup after `pointercancel` and touch-without-click, sticky reduced-motion actionability, resolved-contact/HUD stacking, WebGL-unavailable static fallback, responsive layout, and 5.40:1 effective proof-context contrast. Direct requests to `/`, `/fit/`, and `/experience/` also returned HTTP 200 after activation.
+The live result is byte-identical to the approved candidate GREEN artifact. It confirms first-touch reveal, second-touch `/fit/` navigation, mouse and keyboard activation after touch, cleanup after `pointercancel` and touch-without-click, sticky reduced-motion actionability, resolved-contact/HUD stacking, WebGL-unavailable static fallback, responsive layout, 5.40:1 effective proof-context contrast, and fully visible mobile navigation labels at 320px and 390px. A late independent review correctly found that the intermediate 320px `Experience` label required 75px inside a 73px cell; the released correction tightens only the ≤340px navigation typography and adds a rendered text-width regression contract. Direct requests to `/`, `/fit/`, and `/experience/` also returned HTTP 200 after activation.
+
+Live 320px screenshot: `docs/receipts/evidence/2026-08-12-signal-release/homepage-mobile-320-live.png`
+SHA-256: `f9cadef50ee9ae42d2f5e7ad78218fe6ec39b47d9343c1281c4a7c3a7d718535`

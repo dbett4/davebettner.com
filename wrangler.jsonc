@@ -2,6 +2,9 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "davebettner-com",
   "compatibility_date": "2026-08-08",
+  "build": {
+    "command": "./scripts/deploy-build.sh"
+  },
   "routes": [
     { "pattern": "davebettner.com", "custom_domain": true }
   ],

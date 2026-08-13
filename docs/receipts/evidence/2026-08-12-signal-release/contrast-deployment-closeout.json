@@ -1,0 +1,129 @@
+{
+  "observed_at_utc": "2026-08-13T06:02:08Z",
+  "deployed_product_commit": "dc91803074214fa24325cc5e256c1e6f1a4eac66",
+  "git": {
+    "head": "dc91803074214fa24325cc5e256c1e6f1a4eac66",
+    "origin_main": "dc91803074214fa24325cc5e256c1e6f1a4eac66",
+    "remote_main": "dc91803074214fa24325cc5e256c1e6f1a4eac66",
+    "clean_before_receipt_write": true
+  },
+  "deployment_build": {
+    "entrypoint": "./scripts/deploy.sh",
+    "preflight_before_wrangler": true,
+    "preflight_before_build": true,
+    "preflight_after_build": true,
+    "astro_errors": 0,
+    "astro_warnings": 0,
+    "astro_hints": 0,
+    "pages": 15
+  },
+  "cloudflare": {
+    "deployment_id": "0abae6fb-ed73-4b4f-88f9-48ee555f1c67",
+    "strategy": "percentage",
+    "versions": [
+      {
+        "version_id": "1e890b4d-9169-4f43-908f-70747c8f2b4e",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-08-13T05:59:22.367643Z"
+  },
+  "homepage": {
+    "url": "https://davebettner.com/",
+    "http_status": 200,
+    "local_build_path": "dist/index.html",
+    "local_bytes": 30783,
+    "live_bytes": 30783,
+    "local_sha256": "84c0ad9c2ff7108bb9a44365f0ae3628ad32a9f42d7c8307a411dfda1dead5aa",
+    "live_sha256": "84c0ad9c2ff7108bb9a44365f0ae3628ad32a9f42d7c8307a411dfda1dead5aa",
+    "byte_identical": true
+  },
+  "live_verifier": {
+    "command": "SITE_URL=https://davebettner.com node scripts/verify-site.mjs",
+    "artifact": "docs/receipts/evidence/2026-08-12-signal-release/live-production-contrast-green.json",
+    "artifact_sha256": "27cff94f40814daf6efadcf89203a8bbdc0ec2b8b2f5c1ed7f8b34a2216d1af0",
+    "pass": true,
+    "count": 944,
+    "failed": 0,
+    "errors": [],
+    "contrast_checks": [
+      {
+        "label": "mobile-390: CTA kicker small-text contrast is at least 4.5:1",
+        "pass": true,
+        "detail": "{\"color\":\"rgb(154, 152, 147)\",\"backgroundColor\":\"rgb(15, 17, 21)\",\"opacity\":1,\"composited\":[154,152,147],\"ratio\":6.556723597345951}",
+        "measurement": {
+          "color": "rgb(154, 152, 147)",
+          "backgroundColor": "rgb(15, 17, 21)",
+          "opacity": 1,
+          "composited": [
+            154,
+            152,
+            147
+          ],
+          "ratio": 6.556723597345951
+        }
+      },
+      {
+        "label": "mobile-390: Signal Field accent small-text contrast is at least 4.5:1",
+        "pass": true,
+        "detail": "{\"color\":\"rgb(154, 47, 20)\",\"backgroundColor\":\"rgb(243, 239, 229)\",\"opacity\":1,\"composited\":[154,47,20],\"ratio\":6.553511878223388}",
+        "measurement": {
+          "color": "rgb(154, 47, 20)",
+          "backgroundColor": "rgb(243, 239, 229)",
+          "opacity": 1,
+          "composited": [
+            154,
+            47,
+            20
+          ],
+          "ratio": 6.553511878223388
+        }
+      },
+      {
+        "label": "mobile-320: CTA kicker small-text contrast is at least 4.5:1",
+        "pass": true,
+        "detail": "{\"color\":\"rgb(154, 152, 147)\",\"backgroundColor\":\"rgb(15, 17, 21)\",\"opacity\":1,\"composited\":[154,152,147],\"ratio\":6.556723597345951}",
+        "measurement": {
+          "color": "rgb(154, 152, 147)",
+          "backgroundColor": "rgb(15, 17, 21)",
+          "opacity": 1,
+          "composited": [
+            154,
+            152,
+            147
+          ],
+          "ratio": 6.556723597345951
+        }
+      },
+      {
+        "label": "mobile-320: Signal Field accent small-text contrast is at least 4.5:1",
+        "pass": true,
+        "detail": "{\"color\":\"rgb(154, 47, 20)\",\"backgroundColor\":\"rgb(243, 239, 229)\",\"opacity\":1,\"composited\":[154,47,20],\"ratio\":6.553511878223388}",
+        "measurement": {
+          "color": "rgb(154, 47, 20)",
+          "backgroundColor": "rgb(243, 239, 229)",
+          "opacity": 1,
+          "composited": [
+            154,
+            47,
+            20
+          ],
+          "ratio": 6.553511878223388
+        }
+      }
+    ]
+  },
+  "leases_during_deploy_and_readback": {
+    "session_id": "hermes-davebettner-contrast-20260813",
+    "runtime": "hermes",
+    "required_scopes": [
+      "repo:/srv/hermes/work/davebettner.com:deploy",
+      "cloudflare-worker:davebettner-com"
+    ],
+    "ownership_lines": [
+      "LIVE  cloudflare-worker-davebettner-com-21d30bd161ef.lease  hermes@davgent  session=hermes-davebettner-contrast-20260813  scope=cloudflare-worker:davebettner-com  age=165s  ttl=1200s",
+      "LIVE  repo-srv-hermes-work-davebettner-com-deploy-16f247fe449f.lease  hermes@davgent  session=hermes-davebettner-contrast-20260813  scope=repo:/srv/hermes/work/davebettner.com:deploy  age=167s  ttl=1200s"
+    ],
+    "ownership_verified": true
+  }
+}

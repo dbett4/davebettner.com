@@ -10,7 +10,7 @@ Canonical checkout `/srv/hermes/work/davebettner.com`: not modified by this pack
 
 **DEPLOYED AND VERIFIED — Git authority, Cloudflare activation, and live interaction contracts are green.**
 
-Initial release commit: `8d5178abfeed46885d04df43c7259bda00198a27`. The reviewed 320px navigation correction is commit `e6ab778d900f792c812e642a32051ef6e4ee2a6d` on `origin/main`. Cloudflare version `5459a4c6-bd89-4ca0-bdb5-3badbf0f8a16` is active at **100%**.
+Initial release commit: `8d5178abfeed46885d04df43c7259bda00198a27`. The reviewed 320px navigation correction is commit `e6ab778d900f792c812e642a32051ef6e4ee2a6d`. The subsequent small-text contrast correction is commit `dc91803074214fa24325cc5e256c1e6f1a4eac66` on `origin/main`; Cloudflare version `1e890b4d-9169-4f43-908f-70747c8f2b4e` is active at **100%**.
 
 The original Cursor worker could not run shell commands and correctly left this receipt as unverified. Hermes subsequently froze the worker output, corrected two false-negative browser assertions, ran the canonical suite and dedicated design QA, and visually reviewed all five required renders.
 
@@ -27,7 +27,7 @@ The original Cursor worker could not run shell commands and correctly left this 
 | `scripts/capture-design-revision-qa.mjs` | Five-viewport screenshots plus overflow, fold, and first-/second-touch assertions |
 | `scripts/run-design-revision-qa.sh` | Canonical test + dedicated design QA runner |
 | `docs/receipts/2026-08-12-design-system-revision.md` | Verification record |
-| `docs/receipts/evidence/2026-08-12-signal-release/` | Six original pre-release artifacts plus the correction runner log, superseding live GREEN result, 320px correction RED result, focused live screenshot, and deployment-closeout sidecar |
+| `docs/receipts/evidence/2026-08-12-signal-release/` | Six original pre-release artifacts plus the navigation correction proofs and distinct contrast-release live result/closeout sidecar |
 
 Scratch prompt/probe files, a deploy-hook backup, and a duplicate screenshot-only helper were excluded.
 
@@ -97,15 +97,15 @@ Verified:
 
 | Render | SHA-256 |
 |---|---|
-| `research/production-qa/homepage-desktop-1440x900.png` | `990f28b1bc4899041ddc11941728c7d1ec4c8ec035f24a2c3f5320ad073edec5` |
-| `research/production-qa/homepage-laptop-1280x720.png` | `2ceb38e264964baf8190688a6afb2327cc430d0574608c76815c265f68d5ecc5` |
-| `research/production-qa/homepage-mobile-390x844.png` | `38cec778b601b44897344651aea38a5d6ec44a01a5374b2ad114b989c7529a12` |
+| `research/production-qa/homepage-desktop-1440x900.png` | `03839314a9bc37d8daf22630a2a5543a3701f0352d5e4cd6d2dba17cc716e4d1` |
+| `research/production-qa/homepage-laptop-1280x720.png` | `def4530d462690b7bc37c7928bed428518e55abc2ff783cc813f253bd8029e1e` |
+| `research/production-qa/homepage-mobile-390x844.png` | `f78b4a068105a1e2262dfc1491ca7213113d24d0f88cf0d3fe2b81879a5edbad` |
 | `research/production-qa/experience-desktop-1440x900.png` | `e914a3aacedfbb310e0f372e7f48518c5d92b320ec73a46b5cfbe260322e8aef` |
 | `research/production-qa/experience-mobile-390x844.png` | `0ce8d53a0a245555caeb8e8875d69fb4c9fe6c095cc144b4ebcd0752a430d04b` |
 
 Visual disposition: **PASS**. Hero/CTA hierarchy is clear on desktop, short laptop, and mobile; mobile navigation is readable; the CTA remains above the fold; Signal Field and Experience have no clipping or release-blocking overlap; the Experience dot field does not impair readability.
 
-The five standard design-QA PNGs are gitignored, worktree-local visual evidence. Their current digests are recorded above. The durable committed proof bundle contains the machine-readable RED/GREEN outputs and logs plus the focused post-correction 320px production screenshot cited below; it does not contain the five standard design-QA image binaries.
+The five standard design-QA PNGs are gitignored, worktree-local visual evidence. The table records the files captured for the contrast closeout; because these local paths are reused by later QA runs, the digests are historical capture identities rather than a permanent claim about future on-disk bytes. The durable committed proof bundle contains the machine-readable RED/GREEN outputs and logs plus the focused post-correction 320px production screenshot cited below; it does not contain the five standard design-QA image binaries.
 
 ## Review state
 
@@ -132,7 +132,16 @@ The release followed the required order:
 6. Session `hermes-davebettner-nav-clip-20260813` acquired both required ACP leases. Post-push preflight and ownership/foreign-session probes passed, and the governed deployment activated Cloudflare deployment `6c9c1009-ebf0-4a1f-9226-98e92221bb78`, version `5459a4c6-bd89-4ca0-bdb5-3badbf0f8a16`, at **100%**.
 7. The live homepage returned HTTP 200 and was byte-identical to the fresh build (`04007b1101cd2a7414483080c11f38bb2a67a95fadd28f88ba617e10d6fc9bdb`). At 320px, all four navigation targets measured 73×44px inside the viewport; `Experience` measured 73/73px with no clipping. Both required deployment lease scopes had no live overlap at closeout readback. Durable deployment/HTML/lease readback: `docs/receipts/evidence/2026-08-12-signal-release/deployment-closeout.json` (`10bb2f547a075068d1ead7e1e81b6308c23765a300a13c3ba276a96626a551ac`).
 
-## Post-deploy live proof
+### Small-text contrast correction — completed
+
+1. A late contrast/IA review was reconciled against live production. Proof-context contrast and mobile navigation were already corrected, and the alleged CTA defect was a runtime false positive: computed `.cta-kicker` text was `rgb(154, 152, 147)` on `rgb(15, 17, 21)`, **6.5567:1**. One real defect remained: the 0.64rem Signal Field accent tag rendered `rgb(207, 65, 32)` on paper `rgb(243, 239, 229)`, **4.1284:1**, below the WCAG AA 4.5:1 small-text threshold at 390px and 320px.
+2. Browser computed-style contracts were added first for both surfaces. They parse optional RGBA alpha, composite element opacity onto an opaque sampled background, and fail closed for a non-opaque background. The unchanged source produced **RED: 942/944**, with only the two Signal Field accent checks failing.
+3. A paper-safe terracotta token, `--sf-orange-ink: #9a2f14`, replaced the decorative orange only for `.signal-field__tag--accent`. The corrected build produced **GREEN: 944/944**; Signal Field measured **6.5535:1** and CTA measured **6.5567:1** at both widths. `npm test`, `npm run check`, `node --check`, `git diff --check`, and design QA **9/9** passed. An independent review of the exact final two-file hashes returned **APPROVE** with zero P0–P3 findings.
+4. Commit `dc91803074214fa24325cc5e256c1e6f1a4eac66` was pushed by non-force fast-forward; `HEAD == origin/main == remote main` and the release worktree was clean before deployment.
+5. Session `hermes-davebettner-contrast-20260813` acquired both required ACP deployment scopes. The complete post-push gate passed, including current-session ownership, missing-lease rejection, and foreign-session rejection. The supported `./scripts/deploy.sh` entrypoint ran preflight before pinned Wrangler, and Wrangler's build hook repeated preflight before and after the fresh 15-page build.
+6. Cloudflare deployment `0abae6fb-ed73-4b4f-88f9-48ee555f1c67` activated version `1e890b4d-9169-4f43-908f-70747c8f2b4e` at **100%**. The live verifier returned **944/944 with zero failures**; the live homepage returned HTTP 200 and was byte-identical to the fresh build (`84c0ad9c2ff7108bb9a44365f0ae3628ad32a9f42d7c8307a411dfda1dead5aa`, 30,783 bytes). Durable live result: `docs/receipts/evidence/2026-08-12-signal-release/live-production-contrast-green.json` (`27cff94f40814daf6efadcf89203a8bbdc0ec2b8b2f5c1ed7f8b34a2216d1af0`). Durable deployment/Git/HTML/lease readback: `docs/receipts/evidence/2026-08-12-signal-release/contrast-deployment-closeout.json` (`6f8ce2c0be63ad0923f2ed520be0687ef508a84ff4068087937d1f8c95edcb4e`).
+
+## Post-deploy live proof — 320px navigation release
 
 Command: `SITE_URL=https://davebettner.com node scripts/verify-site.mjs`
 

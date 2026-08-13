@@ -16,7 +16,7 @@
     class="signal-field__frame"
     tabindex="0"
     role="group"
-    aria-label="An animated field of visual noise that resolves into an AI role-fit check on hover or focus."
+    aria-label="An animated field of visual noise that resolves into an AI role-fit check on hover, focus, or tap."
   >
     <div class="signal-field__fallback" aria-hidden="true"></div>
     <canvas class="signal-field__canvas" aria-hidden="true" data-signal-canvas></canvas>
@@ -200,11 +200,12 @@
     let pointerTarget = { x: 0, y: 0 };
     let lock = reduced ? 1 : 0;
     let lockTarget = reduced ? 1 : 0;
-    let touchLocked = false;
+    let touchLocked = reduced;
 
     const setLockTarget = (locked) => {
-      lockTarget = locked ? 1 : 0;
-      root.classList.toggle('is-locked', locked);
+      const shouldLock = reduced || locked;
+      lockTarget = shouldLock ? 1 : 0;
+      root.classList.toggle('is-locked', shouldLock);
     };
 
     if (reduced) root.classList.add('is-locked');
@@ -295,6 +296,8 @@
     });
     root.addEventListener('pointerup', (event) => {
       if (event.pointerType !== 'touch') return;
+      const target = event.target;
+      if (target instanceof Element && target.closest('[data-signal-contact]')) return;
       touchLocked = !touchLocked;
       setLockTarget(touchLocked);
       startLoop();
@@ -453,7 +456,7 @@
   .signal-field__contacts {
     position: absolute;
     inset: 0;
-    z-index: 3;
+    z-index: 4;
     display: grid;
     place-items: center;
     padding: clamp(26px, 7%, 44px) clamp(14px, 5%, 30px) clamp(32px, 9%, 50px);
@@ -590,7 +593,14 @@
     color: var(--sf-ink);
     mix-blend-mode: multiply;
     pointer-events: none;
-    z-index: 4;
+    z-index: 3;
+    transition: opacity 160ms ease;
+  }
+
+  .signal-field:hover .signal-field__hud,
+  .signal-field:focus-within .signal-field__hud,
+  .signal-field.is-locked .signal-field__hud {
+    opacity: 0;
   }
 
   .signal-field__meaning {
@@ -614,6 +624,20 @@
     .signal-field__contacts,
     .signal-field__contact {
       transition: none;
+    }
+
+    .signal-field__contacts {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .signal-field__contact {
+      transform: translateY(0);
+    }
+
+    .signal-field__hud {
+      opacity: 0;
     }
   }
 </style>

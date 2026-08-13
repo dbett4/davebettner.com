@@ -875,6 +875,16 @@ try {
     'Homepage Check Fit action explains input, AI handoff, evidence, and destination',
     JSON.stringify(fitInstructions),
   );
+  ok(
+    (await signalFrame.getAttribute('aria-label'))?.includes('hover, focus, or tap'),
+    'Homepage signal field affordance names hover, focus, and tap',
+    String(await signalFrame.getAttribute('aria-label')),
+  );
+  ok(
+    (await animatedPage.locator('.mobile-section-nav').getAttribute('aria-label')) === 'Site and profile navigation',
+    'Homepage mixed mobile navigation has an accurate accessible label',
+    String(await animatedPage.locator('.mobile-section-nav').getAttribute('aria-label')),
+  );
   await signalFrame.screenshot({ path: `${out}/signal-field-noise.png` });
   const animatedFrameA = await animatedCanvas.screenshot();
   await animatedPage.waitForTimeout(700);
@@ -910,9 +920,77 @@ try {
   await signalFrame.screenshot({ path: `${out}/signal-field-contacts.png` });
   await animatedContext.close();
 
+  const touchContext = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+  });
+  const touchPage = await touchContext.newPage();
+  await touchPage.goto(base, { waitUntil: 'networkidle' });
+  const touchFrame = touchPage.locator('.signal-field__frame');
+  const touchContact = touchPage.locator('[data-signal-contact="fit"]');
+  await touchFrame.tap({ position: { x: 20, y: 20 } });
+  await touchPage.waitForTimeout(50);
+  await touchPage.locator('[data-signal-field]').evaluate((field) => {
+    field.addEventListener('pointerup', (event) => {
+      const target = event.target;
+      if (target instanceof Element && target.closest('[data-signal-contact]')) {
+        field.setAttribute('data-contact-locked-at-pointerup', String(field.classList.contains('is-locked')));
+      }
+    }, { once: true });
+  });
+  await touchContact.evaluate((link) => link.addEventListener('click', (event) => event.preventDefault(), { once: true }));
+  await touchContact.tap();
+  await touchPage.waitForTimeout(50);
+  const touchContactState = await touchPage.locator('[data-signal-field]').evaluate((field) => {
+    const contacts = field.querySelector('.signal-field__contacts');
+    const hud = field.querySelector('.signal-field__hud');
+    if (!(contacts instanceof HTMLElement) || !(hud instanceof HTMLElement)) return null;
+    const contactsStyle = getComputedStyle(contacts);
+    const hudStyle = getComputedStyle(hud);
+    return {
+      locked: field.classList.contains('is-locked'),
+      opacity: Number(contactsStyle.opacity),
+      pointerEvents: contactsStyle.pointerEvents,
+      contactsZ: Number(contactsStyle.zIndex),
+      hudZ: Number(hudStyle.zIndex),
+      hudOpacity: Number(hudStyle.opacity),
+      lockedAtContactPointerup: field.getAttribute('data-contact-locked-at-pointerup'),
+    };
+  });
+  ok(
+    Boolean(
+      touchContactState?.locked &&
+      touchContactState.lockedAtContactPointerup === 'true' &&
+      touchContactState.opacity > 0.95 &&
+      touchContactState.pointerEvents === 'auto'
+    ),
+    'Homepage touch activation keeps Check Fit visible and actionable through link activation',
+    JSON.stringify(touchContactState),
+  );
+  ok(
+    Boolean(
+      touchContactState &&
+      touchContactState.contactsZ > touchContactState.hudZ &&
+      touchContactState.hudOpacity < 0.05
+    ),
+    'Homepage resolved Check Fit card stacks above and hides the field HUD on mobile',
+    JSON.stringify(touchContactState),
+  );
+  await touchFrame.screenshot({ path: `${out}/signal-field-touch-390.png` });
+  await touchPage.reload({ waitUntil: 'networkidle' });
+  await touchPage.locator('.signal-field__frame').tap({ position: { x: 20, y: 20 } });
+  await Promise.all([
+    touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
+    touchPage.locator('[data-signal-contact="fit"]').tap(),
+  ]);
+  ok(new URL(touchPage.url()).pathname === '/fit/', 'Homepage Check Fit opens /fit/ on the second touch');
+  await touchContext.close();
+
   const reducedContext = await browser.newContext({
     viewport: { width: 960, height: 720 },
     reducedMotion: 'reduce',
+    hasTouch: true,
   });
   const reducedPage = await reducedContext.newPage();
   await reducedPage.goto(base, { waitUntil: 'networkidle' });
@@ -929,6 +1007,52 @@ try {
     reducedContactState.opacity > 0.95 && reducedContactState.pointerEvents === 'auto',
     'Homepage Check Fit tool is immediately readable with reduced motion',
     JSON.stringify(reducedContactState),
+  );
+  await reducedPage.locator('[data-signal-contact="fit"]').focus();
+  await reducedPage.locator('.mast-brand').focus();
+  await reducedPage.waitForTimeout(50);
+  const reducedAfterFocusout = await reducedPage.locator('[data-signal-field]').evaluate((field) => {
+    const contacts = field.querySelector('.signal-field__contacts');
+    if (!(contacts instanceof HTMLElement)) return null;
+    const style = getComputedStyle(contacts);
+    return {
+      locked: field.classList.contains('is-locked'),
+      opacity: Number(style.opacity),
+      pointerEvents: style.pointerEvents,
+    };
+  });
+  ok(
+    Boolean(
+      reducedAfterFocusout?.locked &&
+      reducedAfterFocusout.opacity > 0.95 &&
+      reducedAfterFocusout.pointerEvents === 'auto'
+    ),
+    'Homepage reduced-motion Check Fit stays readable after focus leaves the field',
+    JSON.stringify(reducedAfterFocusout),
+  );
+  await reducedPage.reload({ waitUntil: 'networkidle' });
+  const reducedTouchContact = reducedPage.locator('[data-signal-contact="fit"]');
+  await reducedTouchContact.evaluate((link) => link.addEventListener('click', (event) => event.preventDefault(), { once: true }));
+  await reducedTouchContact.tap();
+  await reducedPage.waitForTimeout(50);
+  const reducedAfterTap = await reducedPage.locator('[data-signal-field]').evaluate((field) => {
+    const contacts = field.querySelector('.signal-field__contacts');
+    if (!(contacts instanceof HTMLElement)) return null;
+    const style = getComputedStyle(contacts);
+    return {
+      locked: field.classList.contains('is-locked'),
+      opacity: Number(style.opacity),
+      pointerEvents: style.pointerEvents,
+    };
+  });
+  ok(
+    Boolean(
+      reducedAfterTap?.locked &&
+      reducedAfterTap.opacity > 0.95 &&
+      reducedAfterTap.pointerEvents === 'auto'
+    ),
+    'Homepage reduced-motion Check Fit stays readable after touch activation',
+    JSON.stringify(reducedAfterTap),
   );
   await reducedContext.close();
 

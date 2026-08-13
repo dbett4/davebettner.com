@@ -8,9 +8,9 @@ Canonical checkout `/srv/hermes/work/davebettner.com`: not modified by this pack
 
 ## Status
 
-**VERIFIED — source and receipt-integrity reviews approved; ready for the Git-authority deployment gate.**
+**DEPLOYED AND VERIFIED — Git authority, Cloudflare activation, and live interaction contracts are green.**
 
-Commit/push/deploy state: **pending**. This packet has not been committed, pushed, or deployed.
+Release commit: `8d5178abfeed46885d04df43c7259bda00198a27` on `origin/main`. Cloudflare version `6268a0a6-9d97-4a4b-bf4e-d828d5d9f51f` is active at **100%**.
 
 The original Cursor worker could not run shell commands and correctly left this receipt as unverified. Hermes subsequently froze the worker output, corrected two false-negative browser assertions, ran the canonical suite and dedicated design QA, and visually reviewed all five required renders.
 
@@ -27,7 +27,7 @@ The original Cursor worker could not run shell commands and correctly left this 
 | `scripts/capture-design-revision-qa.mjs` | Five-viewport screenshots plus overflow, fold, and first-/second-touch assertions |
 | `scripts/run-design-revision-qa.sh` | Canonical test + dedicated design QA runner |
 | `docs/receipts/2026-08-12-design-system-revision.md` | Verification record |
-| `docs/receipts/evidence/2026-08-12-signal-release/` (six files) | Durable, byte-identical RED/GREEN runner and verifier evidence |
+| `docs/receipts/evidence/2026-08-12-signal-release/` | Six pre-release RED/GREEN artifacts plus the post-deploy live GREEN result |
 
 Scratch prompt/probe files, a deploy-hook backup, and a duplicate screenshot-only helper were excluded.
 
@@ -111,13 +111,25 @@ The five PNGs are gitignored, worktree-local visual evidence. Their current dige
 
 The focused three-file touch repair received an independent **APPROVE** with no P0–P3 findings after its test-harness correction. Combined-packet review then found four concrete residual classes: 3.94:1 effective proof-context contrast, inaccessible early-return behavior when WebGL initialization fails, stale touch modality blocking later keyboard activation, and an unexpired marker after canceled/abandoned touch gestures. Each now has RED/GREEN browser coverage: 5.40:1 contrast, one-touch static-fallback navigation, successful mouse/keyboard navigation alongside first-/second-touch behavior, and marker cleanup after `pointercancel` or a touch sequence without click. Keyboard RED artifact: `docs/receipts/evidence/2026-08-12-signal-release/hybrid-keyboard-red.json` (`875440e3f0e370f781d2897c36f3c39e9668216ace6182f662c5fae02dbd34d2`). Touch-lifecycle RED artifact: `docs/receipts/evidence/2026-08-12-signal-release/touch-lifecycle-red.json` (`3ef5adf9ac86e1e7a4db36db7b03a7c3433fdb21e128744ce9bb84972ece26d0`). The definitive source review found no further product-code finding; it identified only stale evidence citations in this receipt after the final QA recapture. Those citations now point to durable, hash-matched files. Independent receipt-integrity review approved the exact 15-path packet with zero P0–P3 findings; the reviewed pre-correction receipt SHA-256 was `83a183151137d87a1541f3ef44608ca9a10a04c15cfdd2f29782a2e1ae6d11cc`.
 
-## Release gate
+## Release gate — completed
 
-Do not deploy from an unpushed or dirty tree. Required order:
+The release followed the required order:
 
-1. Final independent review.
-2. Stage only the nine implementation/receipt files plus the six durable evidence files listed above.
-3. Commit and push so `HEAD == origin/main`.
-4. Acquire session-owned repository-deploy and `cloudflare-worker:davebettner-com` ACP leases.
-5. Deploy through Wrangler so the native preflight runs before and after generation/build.
-6. Re-run live verification and update this receipt with commit, Cloudflare version, and live result.
+1. Final source and receipt-integrity reviews approved with zero P0–P3 findings.
+2. Exactly nine implementation/receipt files plus six durable pre-release evidence files were staged.
+3. Commit `8d5178abfeed46885d04df43c7259bda00198a27` was pushed by non-force fast-forward; `HEAD == origin/main == remote main`.
+4. Session `hermes-davebettner-signal-release-20260813` acquired the repository-deploy and `cloudflare-worker:davebettner-com` ACP leases.
+5. Wrangler ran the native preflight before and after generation/build from the clean linked worktree; both passed at the release commit.
+6. Cloudflare deployment `bb8f7f82-4199-457a-ad37-07e80cad12c1` activated version `6268a0a6-9d97-4a4b-bf4e-d828d5d9f51f` at **100%** on `davebettner.com`.
+
+## Post-deploy live proof
+
+Command: `SITE_URL=https://davebettner.com node scripts/verify-site.mjs`
+
+Artifact: `docs/receipts/evidence/2026-08-12-signal-release/live-production-green.json`
+
+SHA-256: `3bc23e5f07bd2c3fddaaa2a44dfdba1dfbdc4e466ba65e99a15a8349d928c906`
+
+Result: **938/938, zero failures**
+
+The live result is byte-identical to the approved candidate GREEN artifact. It confirms first-touch reveal, second-touch `/fit/` navigation, mouse and keyboard activation after touch, cleanup after `pointercancel` and touch-without-click, sticky reduced-motion actionability, resolved-contact/HUD stacking, WebGL-unavailable static fallback, responsive layout, and 5.40:1 effective proof-context contrast. Direct requests to `/`, `/fit/`, and `/experience/` also returned HTTP 200 after activation.

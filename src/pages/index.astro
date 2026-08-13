@@ -106,21 +106,18 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
           <span class="mast-name">{identity.name}</span>
         </a>
         <nav class="primary-nav" aria-label="Primary navigation">
-          <a href="#direction">Loop</a>
           <a href="#work">Work</a>
-          <a href="#proof">Delivery</a>
           <a href="#about">About</a>
-          <a href="#contact">Contact</a>
+          <a href={linkedinUrl} rel="me">LinkedIn <span aria-hidden="true">↗</span></a>
           <a href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
         </nav>
         <a class="mast-cta" href={emailHref}>Email <span aria-hidden="true">↗</span></a>
       </div>
       <nav class="mobile-section-nav wrap" aria-label="Section navigation">
-        <a href="#direction">Loop</a>
         <a href="#work">Work</a>
-        <a href="#proof">Delivery</a>
         <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href={linkedinUrl} rel="me">LinkedIn</a>
+        <a href={githubUrl} rel="me">GitHub</a>
       </nav>
     </header>
 
@@ -128,7 +125,21 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <section id="top" class="cover" aria-labelledby="thesis-heading">
         <div id="thesis" class="wrap cover-grid">
           <div class="cover-copy">
-            <p class="cover-kicker mono">Forward-deployed · solutions engineering</p>
+            <div class="cover-identity">
+              <img
+                src="/images/dave-bettner-headshot-20260808-square.webp"
+                srcset="/images/dave-bettner-headshot-20260808-square.webp 800w, /images/dave-bettner-headshot-20260808-square.jpg 800w"
+                sizes="(max-width: 720px) 72px, 96px"
+                alt="Dave Bettner smiling in a gray suit"
+                width="800"
+                height="800"
+                loading="eager"
+                decoding="async"
+              />
+              <div>
+                <p class="cover-kicker mono">Forward-deployed · solutions engineering</p>
+              </div>
+            </div>
             <h1 id="thesis-heading">{thesis.title}</h1>
             <p class="cover-support">{thesis.body[0]} {thesis.body[1]}</p>
             <dl class="cover-meta">
@@ -269,18 +280,6 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
       <section id="about" class="about-section" aria-labelledby="about-heading">
         <div class="wrap section-pad about-grid">
-          <div class="about-portrait">
-            <img
-              src="/images/dave-bettner-headshot-20260808-square.webp"
-              srcset="/images/dave-bettner-headshot-20260808-square.webp 800w, /images/dave-bettner-headshot-20260808-square.jpg 800w"
-              sizes="(max-width: 560px) 72vw, 280px"
-              alt="Dave Bettner smiling in a gray suit"
-              width="800"
-              height="800"
-              loading="eager"
-              decoding="async"
-            />
-          </div>
           <div class="about-copy">
             <p class="mono section-index">About</p>
             <h2 id="about-heading">{aboutSection.title}</h2>
@@ -593,8 +592,25 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
   .cover-kicker {
     color: var(--muted);
+  }
+
+  .cover-identity {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
     margin-bottom: var(--space-3);
   }
+
+  .cover-identity img {
+    display: block;
+    width: clamp(76px, 7vw, 96px);
+    height: clamp(76px, 7vw, 96px);
+    flex: 0 0 auto;
+    border: 1px solid var(--ink);
+    object-fit: cover;
+    object-position: center 12%;
+  }
+
 
   .cover h1 {
     font-family: 'Newsreader Variable', Georgia, serif;
@@ -1114,25 +1130,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .about-grid {
-    display: grid;
-    grid-template-columns: minmax(180px, 280px) minmax(0, 1fr);
-    gap: var(--space-5);
-    align-items: start;
-  }
-
-  .about-portrait {
-    border: 1px solid var(--ink);
-    background: var(--card);
-    overflow: hidden;
-    aspect-ratio: 1;
-  }
-
-  .about-portrait img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 12%;
+    max-width: 78ch;
   }
 
   .about-lead {
@@ -1223,7 +1221,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
     .mobile-section-nav {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       align-items: stretch;
       gap: 0;
       overflow-x: hidden;
@@ -1343,14 +1341,6 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       grid-column: 2;
     }
 
-    .about-grid {
-      grid-template-columns: minmax(160px, 220px) minmax(0, 1fr);
-      gap: var(--space-4);
-    }
-
-    .about-portrait {
-      max-width: 220px;
-    }
 
     .cta-grid {
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
@@ -1377,8 +1367,14 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       display: contents;
     }
 
-    .cover-kicker {
+    .cover-identity {
       order: 1;
+      margin-bottom: 0;
+    }
+
+    .cover-identity img {
+      width: 72px;
+      height: 72px;
     }
 
     .cover h1 {
@@ -1480,13 +1476,8 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       display: inline;
     }
 
-    .about-grid,
     .cta-grid {
       grid-template-columns: 1fr;
-    }
-
-    .about-portrait {
-      max-width: min(240px, 72vw);
     }
 
     .section-pad {

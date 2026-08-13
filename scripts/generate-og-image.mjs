@@ -42,7 +42,7 @@ async function main() {
   for (const marker of [
     'Forward-deployed · solutions engineering',
     'Enterprise agents · customer environments',
-    'The hard part starts after the demo.',
+    'Agents earn their place in the workflow.',
     'Scope',
     'Connect',
     'Prove',

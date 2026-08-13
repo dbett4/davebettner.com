@@ -1,7 +1,7 @@
 import { publicEngineeringCases } from './public-proof';
 
 export const thesis = {
-  title: 'The hard part starts after the demo.',
+  title: 'Agents earn their place in the workflow.',
   body: [
     'An agent earns its place when it can carry real work inside a customer environment, not just produce an impressive answer.',
     'That means connecting private systems, respecting permissions, handling failures, and leaving evidence a person can review.',
@@ -88,7 +88,7 @@ export const aboutSection = {
 } as const;
 
 export const closingCta = {
-  title: "Let's get the hard thing working.",
+  title: 'Put the system to work.',
   body:
     'I am looking for forward-deployed and solutions engineering roles where I can scope the problem with customers, integrate the systems around it, prove the deployment, and stay through iteration and adoption.',
 } as const;

@@ -16,7 +16,7 @@
     class="signal-field__frame"
     tabindex="0"
     role="group"
-    aria-label="An animated field of visual noise that resolves into an AI role-fit check on hover or focus."
+    aria-label="An animated field of visual noise that resolves into an AI role-fit check on hover, focus, or tap."
   >
     <div class="signal-field__fallback" aria-hidden="true"></div>
     <canvas class="signal-field__canvas" aria-hidden="true" data-signal-canvas></canvas>
@@ -56,13 +56,17 @@
     }
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fallback = root.querySelector('.signal-field__fallback');
+    const activateStaticFallback = () => {
+      root.classList.add('is-static', 'is-locked');
+      if (fallback instanceof HTMLElement) fallback.hidden = false;
+    };
     const gl =
       canvas.getContext('webgl', { alpha: false, antialias: false, premultipliedAlpha: false }) ||
       canvas.getContext('experimental-webgl', { alpha: false, antialias: false, premultipliedAlpha: false });
 
-    const fallback = root.querySelector('.signal-field__fallback');
     if (!gl) {
-      root.classList.add('is-static');
+      activateStaticFallback();
       return;
     }
 
@@ -165,20 +169,20 @@
     const vs = compile(gl.VERTEX_SHADER, vertSrc);
     const fs = compile(gl.FRAGMENT_SHADER, fragSrc);
     if (!vs || !fs) {
-      root.classList.add('is-static');
+      activateStaticFallback();
       return;
     }
 
     const program = gl.createProgram();
     if (!program) {
-      root.classList.add('is-static');
+      activateStaticFallback();
       return;
     }
     gl.attachShader(program, vs);
     gl.attachShader(program, fs);
     gl.linkProgram(program);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      root.classList.add('is-static');
+      activateStaticFallback();
       return;
     }
 
@@ -200,11 +204,20 @@
     let pointerTarget = { x: 0, y: 0 };
     let lock = reduced ? 1 : 0;
     let lockTarget = reduced ? 1 : 0;
-    let touchLocked = false;
+    let touchLocked = reduced;
+    let pendingTouchContact = null;
+    let pendingTouchClearTimer = 0;
+
+    const clearPendingTouchContact = () => {
+      window.clearTimeout(pendingTouchClearTimer);
+      pendingTouchClearTimer = 0;
+      pendingTouchContact = null;
+    };
 
     const setLockTarget = (locked) => {
-      lockTarget = locked ? 1 : 0;
-      root.classList.toggle('is-locked', locked);
+      const shouldLock = reduced || locked;
+      lockTarget = shouldLock ? 1 : 0;
+      root.classList.toggle('is-locked', shouldLock);
     };
 
     if (reduced) root.classList.add('is-locked');
@@ -281,11 +294,25 @@
     }, { passive: true });
 
     root.addEventListener('pointermove', onPointer, { passive: true });
+    root.addEventListener('pointerdown', (event) => {
+      clearPendingTouchContact();
+      const target = event.target;
+      const contact = target instanceof Element ? target.closest('[data-signal-contact]') : null;
+      pendingTouchContact = event.pointerType === 'touch' ? contact : null;
+      // Reveal on first contact press so lock is visible before click/navigation.
+      if (reduced || event.pointerType !== 'touch' || touchLocked) return;
+      if (contact) {
+        setLockTarget(true);
+        startLoop();
+      }
+    }, true);
     root.addEventListener('pointerenter', (event) => {
       if (event.pointerType !== 'touch') setLockTarget(true);
     });
     root.addEventListener('pointerleave', (event) => {
-      if (event.pointerType !== 'touch' && !root.contains(document.activeElement)) setLockTarget(false);
+      // Keep intentional touch locks; ignore mouse leave after touch (Playwright/hybrid).
+      if (event.pointerType === 'touch' || touchLocked) return;
+      if (!root.contains(document.activeElement)) setLockTarget(false);
     });
     root.addEventListener('focusin', () => {
       setLockTarget(true);
@@ -295,10 +322,36 @@
     });
     root.addEventListener('pointerup', (event) => {
       if (event.pointerType !== 'touch') return;
+      const target = event.target;
+      if (target instanceof Element && target.closest('[data-signal-contact]')) {
+        // A synthesized click normally follows in this task. Expire the marker
+        // immediately afterward when the gesture ends without a click.
+        pendingTouchClearTimer = window.setTimeout(clearPendingTouchContact, 0);
+        return;
+      }
+      clearPendingTouchContact();
       touchLocked = !touchLocked;
       setLockTarget(touchLocked);
       startLoop();
     });
+    root.addEventListener('pointercancel', clearPendingTouchContact);
+    // First intentional contact tap on touch reveals/locks; second opens /fit/.
+    // Guards sticky-hover click-through when :hover briefly enables the link.
+    root.addEventListener('click', (event) => {
+      const target = event.target;
+      const contact = target instanceof Element ? target.closest('[data-signal-contact]') : null;
+      if (!contact) return;
+      const isCurrentTouchActivation = pendingTouchContact === contact;
+      clearPendingTouchContact();
+      // Require a touch pointerdown on this same contact. Keyboard, assistive,
+      // and mouse clicks must never inherit modality from an earlier touch.
+      if (reduced || !isCurrentTouchActivation) return;
+      if (touchLocked) return;
+      event.preventDefault();
+      touchLocked = true;
+      setLockTarget(true);
+      startLoop();
+    }, true);
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) stop();
@@ -453,7 +506,7 @@
   .signal-field__contacts {
     position: absolute;
     inset: 0;
-    z-index: 3;
+    z-index: 4;
     display: grid;
     place-items: center;
     padding: clamp(26px, 7%, 44px) clamp(14px, 5%, 30px) clamp(32px, 9%, 50px);
@@ -464,12 +517,19 @@
     transition: opacity 360ms ease, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .signal-field:hover .signal-field__contacts,
   .signal-field:focus-within .signal-field__contacts,
   .signal-field.is-locked .signal-field__contacts {
     opacity: 1;
     transform: scale(1);
     pointer-events: auto;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .signal-field:hover .signal-field__contacts {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
   }
 
   .signal-field__contact {
@@ -493,10 +553,15 @@
       transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .signal-field:hover .signal-field__contact,
   .signal-field:focus-within .signal-field__contact,
   .signal-field.is-locked .signal-field__contact {
     transform: translateY(0);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .signal-field:hover .signal-field__contact {
+      transform: translateY(0);
+    }
   }
 
 
@@ -531,7 +596,7 @@
   }
 
   .signal-field__contact-name {
-    color: var(--sf-orange);
+    color: #9a2f14;
     font-size: clamp(0.55rem, 1.2vw, 0.68rem);
     font-weight: 500;
     letter-spacing: 0.1em;
@@ -590,7 +655,19 @@
     color: var(--sf-ink);
     mix-blend-mode: multiply;
     pointer-events: none;
-    z-index: 4;
+    z-index: 3;
+    transition: opacity 160ms ease;
+  }
+
+  .signal-field:focus-within .signal-field__hud,
+  .signal-field.is-locked .signal-field__hud {
+    opacity: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .signal-field:hover .signal-field__hud {
+      opacity: 0;
+    }
   }
 
   .signal-field__meaning {
@@ -614,6 +691,20 @@
     .signal-field__contacts,
     .signal-field__contact {
       transition: none;
+    }
+
+    .signal-field__contacts {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .signal-field__contact {
+      transform: translateY(0);
+    }
+
+    .signal-field__hud {
+      opacity: 0;
     }
   }
 </style>

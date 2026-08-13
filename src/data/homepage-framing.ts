@@ -4,7 +4,6 @@ export const thesis = {
   title: 'I carry complex customer deployments from discovery through adoption.',
   body: [
     'I scope the customer problem, integrate the systems around it, validate the path, and stay through handoff and adoption.',
-    'Public repos show the same habits on inspectable agent labs and MCP integrations. Those labs are engineering proof, not customer-production agent deployments or a claim of production software-engineering tenure.',
   ],
 } as const;
 
@@ -19,7 +18,7 @@ export const whereHeading = {
     'Handoff, controls, training and operating cadence, then iterate',
   ],
   close:
-    'I support that path without claiming quota ownership, revenue credit, or final contract-signature authority. Finance, audit, and assurance are my deepest domain experience; the pattern applies wherever customer environments demand proof.',
+    'Finance, audit, and assurance are my deepest domain experience; the pattern applies wherever customer environments demand proof.',
 } as const;
 
 export const whatIBring = {
@@ -59,11 +58,11 @@ export const buildingNow = {
 
 export const selectedProof = {
   title: 'Customer delivery outcomes',
-  lead: 'Three client-delivery outcomes carried through integration, validation, sign-off, and adoption. Separate from the public systems below.',
+  lead: 'Three delivery outcomes carried through integration, validation, sign-off, and adoption. Separate from the public systems below.',
   stories: [
     {
       id: 'insurance-certification',
-      label: 'National healthcare enterprise',
+      label: 'Statutory certification handoff',
       context: 'Manager of Digital Services · Citrin Cooperman',
       title: 'Bidirectional API workflow carried through sign-off',
       summary:
@@ -72,7 +71,7 @@ export const selectedProof = {
     },
     {
       id: 'gov-reporting',
-      label: 'Concurrent GRC programs',
+      label: 'GRC reporting with human review',
       context: 'Solutions Architect · Workiva',
       title: 'Controlled reporting with human review and native readback',
       summary:
@@ -81,7 +80,7 @@ export const selectedProof = {
     },
     {
       id: 'clinical-imaging',
-      label: 'Regulated clinical imaging',
+      label: 'HIPAA imaging integration',
       context: 'Solutions Consultant · Ambra Health',
       title: 'HIPAA imaging, EHR, and portal integrations through acquisition',
       summary:

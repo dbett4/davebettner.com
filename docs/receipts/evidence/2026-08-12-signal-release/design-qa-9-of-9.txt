@@ -1,0 +1,15 @@
+WROTE research/production-qa/homepage-desktop-1440x900.png
+WROTE research/production-qa/homepage-laptop-1280x720.png
+WROTE research/production-qa/homepage-mobile-390x844.png
+WROTE research/production-qa/experience-desktop-1440x900.png
+WROTE research/production-qa/experience-mobile-390x844.png
+PASS: homepage-desktop-1440x900.png: no horizontal overflow — {"scrollWidth":1440,"clientWidth":1440}
+PASS: homepage-laptop-1280x720.png: no horizontal overflow — {"scrollWidth":1280,"clientWidth":1280}
+PASS: homepage-laptop-1280x720.png: primary hiring CTA visible in first viewport — {"top":346.71875,"bottom":390.71875,"inViewport":true}
+PASS: homepage-mobile-390x844.png: no horizontal overflow — {"scrollWidth":390,"clientWidth":390}
+PASS: homepage-mobile-390x844.png: primary hiring CTA visible in first viewport — {"top":463.546875,"bottom":507.546875,"inViewport":true}
+PASS: experience-desktop-1440x900.png: no horizontal overflow — {"scrollWidth":1440,"clientWidth":1440}
+PASS: experience-mobile-390x844.png: no horizontal overflow — {"scrollWidth":390,"clientWidth":390}
+PASS: touch: first contact tap reveals Check Fit without leaving the page — {"events":{"path":"/","locked":true,"clickFired":true,"defaultPrevented":true},"visual":{"locked":true,"opacity":1,"pointerEvents":"auto"}}
+PASS: touch: Check Fit opens /fit/ on the second touch
+DESIGN_REVISION_QA_PASS (9/9)

@@ -89,19 +89,19 @@ const caseStepCounts = {
 
 const outcomeStories = [
   {
-    label: 'National healthcare enterprise',
+    label: 'Statutory certification handoff',
     context: 'Manager of Digital Services · Citrin Cooperman',
     title: 'Bidirectional API workflow carried through sign-off',
     result: 'Production workflow delivered; handoff became a repeatable operating model.',
   },
   {
-    label: 'Concurrent GRC programs',
+    label: 'GRC reporting with human review',
     context: 'Solutions Architect · Workiva',
     title: 'Controlled reporting with human review and native readback',
     result: 'Multiple concurrent implementations through adoption with journaled changesets and native readback.',
   },
   {
-    label: 'Regulated clinical imaging',
+    label: 'HIPAA imaging integration',
     context: 'Solutions Consultant · Ambra Health',
     title: 'HIPAA imaging, EHR, and portal integrations through acquisition',
     result: 'Four workflow types in production; integrations cleared HIPAA review before go-live.',
@@ -227,7 +227,7 @@ async function assertCausalDeliveryLoopContracts(page, name) {
       row.title === outcomeStories[index].title &&
       row.result === outcomeStories[index].result,
     ),
-    `${name}: delivery outcome copy includes role context`,
+    `${name}: delivery outcome copy leads with domain/result labels and keeps role context`,
     JSON.stringify(outcomeRows),
   );
   const markClassSets = outcomeRows.map((row) =>
@@ -262,6 +262,11 @@ async function assertCausalDeliveryLoopContracts(page, name) {
     body.includes('not a customer Hermes Enterprise deployment') ||
       body.includes('not a customer Hermes Enterprise'),
     `${name}: evidence boundary denies customer Hermes Enterprise deployment claim`,
+  );
+  ok(
+    body.includes('not customer-production agent deployments') ||
+      body.includes('engineering proof, not customer-production'),
+    `${name}: provenance keeps production-tenure claim boundary`,
   );
 }
 
@@ -495,7 +500,7 @@ async function assertLoopCausalGeometry(page, name, width) {
 }
 
 async function assertHomepageResponsiveContracts(page, viewport) {
-  const { name, width } = viewport;
+  const { name, width, height } = viewport;
 
   if (width <= 390) {
     const navGeometry = await page.evaluate(() => {
@@ -535,11 +540,16 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     });
     ok(Boolean(navGeometry), `${name}: mobile section-nav present`);
     ok(navGeometry?.linkCount === 4, `${name}: mobile section-nav has four links`, String(navGeometry?.linkCount));
+    const mobileNavTargets = navGeometry?.links.map(({ text, href }) => ({ text, href }));
     ok(
-      navGeometry?.links.map((link) => `${link.text}/${link.href}`).join('|') ===
-        'Work/#work|About/#about|LinkedIn/https://www.linkedin.com/in/dave-bettner/|GitHub/https://github.com/dbett4',
-      `${name}: mobile section-nav contains Work, About, LinkedIn, and GitHub`,
-      navGeometry?.links.map((link) => `${link.text}/${link.href}`).join('|'),
+      JSON.stringify(mobileNavTargets) === JSON.stringify([
+        { text: 'Proof', href: '#proof' },
+        { text: 'Experience', href: '/experience/' },
+        { text: 'Fit', href: '/fit/' },
+        { text: 'Contact', href: '#contact' },
+      ]),
+      `${name}: mobile section-nav contains Proof, Experience, Fit, and Contact`,
+      JSON.stringify(mobileNavTargets),
     );
     ok(
       Boolean(navGeometry?.links.every((target) => target.width >= 44 && target.height >= 44)),
@@ -558,6 +568,77 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       Boolean(navGeometry?.links.every((target) => target.insideNav && target.insideViewport)),
       `${name}: mobile section-nav link rectangles stay inside nav/viewport`,
       JSON.stringify(navGeometry?.links),
+    );
+
+    const orangeContrast = await page.evaluate(() => {
+      const sample = document.querySelector('.section-index, .proof-label, .loop-cue');
+      if (!(sample instanceof HTMLElement)) return null;
+      const color = getComputedStyle(sample).color;
+      const bg = getComputedStyle(document.body).backgroundColor;
+      const parse = (value) => {
+        const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+        if (!match) return null;
+        return [Number(match[1]), Number(match[2]), Number(match[3])].map((channel) => {
+          const srgb = channel / 255;
+          return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
+        });
+      };
+      const fg = parse(color);
+      const paper = parse(bg);
+      if (!fg || !paper) return { color, bg, ratio: 0 };
+      const lum = (rgb) => 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+      const l1 = lum(fg);
+      const l2 = lum(paper);
+      const lighter = Math.max(l1, l2);
+      const darker = Math.min(l1, l2);
+      return { color, bg, ratio: (lighter + 0.05) / (darker + 0.05) };
+    });
+    ok(
+      Boolean(orangeContrast && orangeContrast.ratio >= 4.5),
+      `${name}: terracotta small-text contrast is at least 4.5:1`,
+      JSON.stringify(orangeContrast),
+    );
+
+    const proofContextContrast = await page.evaluate(() => {
+      const sample = document.querySelector('.proof-context');
+      if (!(sample instanceof HTMLElement)) return null;
+      const style = getComputedStyle(sample);
+      const background = getComputedStyle(document.body).backgroundColor;
+      const parse = (value) => {
+        const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+        return match ? [Number(match[1]), Number(match[2]), Number(match[3])] : null;
+      };
+      const foregroundRgb = parse(style.color);
+      const backgroundRgb = parse(background);
+      const opacity = Number(style.opacity);
+      if (!foregroundRgb || !backgroundRgb || !Number.isFinite(opacity)) {
+        return { color: style.color, background, opacity, ratio: 0 };
+      }
+      const composited = foregroundRgb.map((channel, index) =>
+        channel * opacity + backgroundRgb[index] * (1 - opacity),
+      );
+      const linearize = (channel) => {
+        const srgb = channel / 255;
+        return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
+      };
+      const luminance = (rgb) =>
+        0.2126 * linearize(rgb[0]) + 0.7152 * linearize(rgb[1]) + 0.0722 * linearize(rgb[2]);
+      const foregroundLuminance = luminance(composited);
+      const backgroundLuminance = luminance(backgroundRgb);
+      const lighter = Math.max(foregroundLuminance, backgroundLuminance);
+      const darker = Math.min(foregroundLuminance, backgroundLuminance);
+      return {
+        color: style.color,
+        background,
+        opacity,
+        composited,
+        ratio: (lighter + 0.05) / (darker + 0.05),
+      };
+    });
+    ok(
+      Boolean(proofContextContrast && proofContextContrast.ratio >= 4.5),
+      `${name}: proof context text effective contrast is at least 4.5:1`,
+      JSON.stringify(proofContextContrast),
     );
   }
 
@@ -600,21 +681,66 @@ async function assertHomepageResponsiveContracts(page, viewport) {
 
   await assertLoopCausalGeometry(page, name, width);
 
+  if (width === 1280 && height === 720) {
+    const hireCtaVisible = await page.evaluate(() => {
+      const cta = document.querySelector('.cover-actions-primary a.round.blue');
+      if (!(cta instanceof HTMLElement)) return null;
+      const rect = cta.getBoundingClientRect();
+      return {
+        top: rect.top,
+        bottom: rect.bottom,
+        inViewport: rect.top >= 0 && rect.bottom <= innerHeight && rect.height > 0,
+      };
+    });
+    ok(Boolean(hireCtaVisible?.inViewport), `${name}: primary hiring CTA visible in first viewport`, JSON.stringify(hireCtaVisible));
+  }
+
   if (width <= 390) {
     const phoneOrder = await page.evaluate(() => {
       const heading = document.querySelector('#thesis-heading');
       const portrait = document.querySelector('.cover-identity img');
       const specimen = document.querySelector('.cover-specimen');
       const support = document.querySelector('.cover-support');
-      if (!heading || !portrait || !specimen || !support) return null;
+      const actions = document.querySelector('.cover-actions');
+      if (!heading || !portrait || !specimen || !support || !actions) return null;
       const pt = portrait.getBoundingClientRect().top;
       const ht = heading.getBoundingClientRect().top;
-      const st = specimen.getBoundingClientRect().top;
       const spt = support.getBoundingClientRect().top;
-      return { pt, ht, st, spt, portraitBeforeHeading: pt < ht, headingBeforeSpecimen: ht < st, specimenBeforeSupport: st < spt };
+      const at = actions.getBoundingClientRect().top;
+      const st = specimen.getBoundingClientRect().top;
+      return {
+        pt,
+        ht,
+        spt,
+        at,
+        st,
+        portraitBeforeHeading: pt < ht,
+        headingBeforeSupport: ht < spt,
+        supportBeforeActions: spt < at,
+        actionsBeforeSpecimen: at < st,
+      };
     });
     ok(Boolean(phoneOrder), `${name}: phone cover order nodes present`);
-    ok(phoneOrder?.portraitBeforeHeading && phoneOrder?.headingBeforeSpecimen && phoneOrder?.specimenBeforeSupport, `${name}: phone visual order is headshot → H1 → specimen → support`, JSON.stringify(phoneOrder));
+    ok(
+      phoneOrder?.portraitBeforeHeading &&
+        phoneOrder?.headingBeforeSupport &&
+        phoneOrder?.supportBeforeActions &&
+        phoneOrder?.actionsBeforeSpecimen,
+      `${name}: phone visual order is headshot → H1 → support → actions → specimen`,
+      JSON.stringify(phoneOrder),
+    );
+
+    const hireCtaVisible = await page.evaluate(() => {
+      const cta = document.querySelector('.cover-actions-primary a.round.blue');
+      if (!(cta instanceof HTMLElement)) return null;
+      const rect = cta.getBoundingClientRect();
+      return {
+        top: rect.top,
+        bottom: rect.bottom,
+        inViewport: rect.top >= 0 && rect.bottom <= innerHeight && rect.height > 0,
+      };
+    });
+    ok(Boolean(hireCtaVisible?.inViewport), `${name}: primary hiring CTA visible in first viewport`, JSON.stringify(hireCtaVisible));
 
     const proofScroll = await page.evaluate(() => {
       const list = document.querySelector('.building-list');
@@ -735,6 +861,7 @@ async function auditPage(page, route, label) {
 try {
   for (const viewport of [
     { name: 'desktop-1440', width: 1440, height: 1000 },
+    { name: 'laptop-1280x720', width: 1280, height: 720 },
     { name: 'horizontal-min-961', width: 961, height: 1024 },
     { name: 'vertical-max-960', width: 960, height: 1024 },
     { name: 'tablet-768', width: 768, height: 1024 },
@@ -760,6 +887,20 @@ try {
     ok(
       body.includes('I carry complex customer deployments from discovery through adoption.'),
       `${viewport.name}: H1 names customer deployments through adoption`,
+    );
+    const coverSupport = ((await page.locator('.cover-support').textContent()) ?? '').trim();
+    const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
+    ok(
+      !/customer-production agent deployments|production software-engineering tenure/i.test(coverSupport),
+      `${viewport.name}: hero support omits defensive tenure caveats`,
+      coverSupport,
+    );
+    ok(
+      /engineering proof/.test(provenance) &&
+        /customer-production/.test(provenance) &&
+        /quota ownership/.test(provenance),
+      `${viewport.name}: provenance keeps engineering-proof and quota claim boundaries`,
+      provenance,
     );
     ok(
       body.includes('forward-deployed and solutions engineering'),
@@ -922,6 +1063,18 @@ try {
     'Homepage signal field exposes Check Fit as its only resolved action',
     JSON.stringify(contactChannels),
   );
+  const signalFieldAffordanceLabel = await signalFrame.getAttribute('aria-label');
+  ok(
+    signalFieldAffordanceLabel?.includes('hover, focus, or tap'),
+    'Homepage signal field affordance names hover, focus, and tap',
+    String(signalFieldAffordanceLabel),
+  );
+  const mixedNavLabel = await animatedPage.locator('.mobile-section-nav').getAttribute('aria-label');
+  ok(
+    mixedNavLabel === 'Primary section navigation',
+    'Homepage mixed mobile navigation has an accurate accessible label',
+    String(mixedNavLabel),
+  );
   const fitInstructions = await signalContacts.first().evaluate((link) => ({
     heading: (link.querySelector('strong')?.textContent ?? '').trim(),
     instructions: (link.querySelector('.signal-field__contact-instructions')?.textContent ?? '').trim(),
@@ -969,11 +1122,220 @@ try {
     JSON.stringify(resolvedContactState),
   );
   await signalFrame.screenshot({ path: `${out}/signal-field-contacts.png` });
+  await Promise.all([
+    animatedPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
+    signalContacts.first().click(),
+  ]);
+  ok(
+    new URL(animatedPage.url()).pathname === '/fit/',
+    'Homepage Check Fit opens /fit/ with a mouse click after hover resolution',
+  );
   await animatedContext.close();
+
+  const touchContext = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+  });
+  const touchPage = await touchContext.newPage();
+  await touchPage.goto(base, { waitUntil: 'networkidle' });
+  const touchFrame = touchPage.locator('.signal-field__frame');
+  const touchContact = touchPage.locator('[data-signal-contact="fit"]');
+
+  // Direct first contact activation must reveal/lock without navigating.
+  const firstDirectTapEvents = await touchPage.evaluate(() => {
+    const field = document.querySelector('[data-signal-field]');
+    const link = document.querySelector('[data-signal-contact="fit"]');
+    const contacts = field?.querySelector('.signal-field__contacts');
+    if (!(field instanceof HTMLElement) || !(link instanceof HTMLElement) || !(contacts instanceof HTMLElement)) {
+      return null;
+    }
+    let clickFired = false;
+    let defaultPrevented = false;
+    link.addEventListener('click', (event) => {
+      clickFired = true;
+      defaultPrevented = event.defaultPrevented;
+    }, { once: true });
+    link.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, pointerType: 'touch' }));
+    link.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, pointerType: 'touch' }));
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, detail: 1 }));
+    return {
+      path: location.pathname,
+      locked: field.classList.contains('is-locked'),
+      clickFired,
+      defaultPrevented,
+    };
+  });
+  await touchPage.waitForTimeout(450);
+  const firstDirectTapVisual = await touchPage.locator('[data-signal-field]').evaluate((field) => {
+    const contacts = field.querySelector('.signal-field__contacts');
+    if (!(contacts instanceof HTMLElement)) return null;
+    const style = getComputedStyle(contacts);
+    return {
+      locked: field.classList.contains('is-locked'),
+      opacity: Number(style.opacity),
+      pointerEvents: style.pointerEvents,
+    };
+  });
+  ok(
+    Boolean(
+      firstDirectTapEvents?.path === '/' &&
+        firstDirectTapEvents.locked &&
+        firstDirectTapEvents.clickFired &&
+        firstDirectTapEvents.defaultPrevented &&
+        firstDirectTapVisual?.locked &&
+        firstDirectTapVisual.opacity > 0.95 &&
+        firstDirectTapVisual.pointerEvents === 'auto'
+    ),
+    'Homepage first contact tap reveals Check Fit without leaving the page',
+    JSON.stringify({ events: firstDirectTapEvents, visual: firstDirectTapVisual }),
+  );
+
+  await touchPage.reload({ waitUntil: 'networkidle' });
+  await touchFrame.tap({ position: { x: 20, y: 20 } });
+  await touchPage.waitForTimeout(50);
+  await touchPage.locator('[data-signal-field]').evaluate((field) => {
+    field.addEventListener('pointerup', (event) => {
+      const target = event.target;
+      if (target instanceof Element && target.closest('[data-signal-contact]')) {
+        field.setAttribute('data-contact-locked-at-pointerup', String(field.classList.contains('is-locked')));
+      }
+    }, { once: true });
+  });
+  await touchContact.evaluate((link) => link.addEventListener('click', (event) => event.preventDefault(), { once: true }));
+  await touchContact.tap();
+  await touchPage.waitForTimeout(50);
+  const touchContactState = await touchPage.locator('[data-signal-field]').evaluate((field) => {
+    const contacts = field.querySelector('.signal-field__contacts');
+    const hud = field.querySelector('.signal-field__hud');
+    if (!(contacts instanceof HTMLElement) || !(hud instanceof HTMLElement)) return null;
+    const contactsStyle = getComputedStyle(contacts);
+    const hudStyle = getComputedStyle(hud);
+    return {
+      locked: field.classList.contains('is-locked'),
+      opacity: Number(contactsStyle.opacity),
+      pointerEvents: contactsStyle.pointerEvents,
+      contactsZ: Number(contactsStyle.zIndex),
+      hudZ: Number(hudStyle.zIndex),
+      hudOpacity: Number(hudStyle.opacity),
+      lockedAtContactPointerup: field.getAttribute('data-contact-locked-at-pointerup'),
+    };
+  });
+  ok(
+    Boolean(
+      touchContactState?.locked &&
+      touchContactState.lockedAtContactPointerup === 'true' &&
+      touchContactState.opacity > 0.95 &&
+      touchContactState.pointerEvents === 'auto'
+    ),
+    'Homepage touch activation keeps Check Fit visible and actionable through link activation',
+    JSON.stringify(touchContactState),
+  );
+  ok(
+    Boolean(
+      touchContactState &&
+      touchContactState.contactsZ > touchContactState.hudZ &&
+      touchContactState.hudOpacity < 0.05
+    ),
+    'Homepage resolved Check Fit card stacks above and hides the field HUD on mobile',
+    JSON.stringify(touchContactState),
+  );
+  await touchFrame.screenshot({ path: `${out}/signal-field-touch-390.png` });
+  await touchPage.reload({ waitUntil: 'networkidle' });
+  await touchPage.locator('.signal-field__frame').tap({ position: { x: 20, y: 20 } });
+  await Promise.all([
+    touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
+    touchPage.locator('[data-signal-contact="fit"]').tap(),
+  ]);
+  ok(new URL(touchPage.url()).pathname === '/fit/', 'Homepage Check Fit opens /fit/ on the second touch');
+
+  await touchPage.goto(base, { waitUntil: 'networkidle' });
+  const hybridFrame = touchPage.locator('.signal-field__frame');
+  const hybridContact = touchPage.locator('[data-signal-contact="fit"]');
+  await hybridFrame.tap({ position: { x: 20, y: 20 } });
+  await hybridFrame.tap({ position: { x: 20, y: 20 } });
+  await hybridContact.focus();
+  let hybridKeyboardError = '';
+  try {
+    await Promise.all([
+      touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
+      hybridContact.press('Enter'),
+    ]);
+  } catch (error) {
+    hybridKeyboardError = error instanceof Error ? error.message : String(error);
+  }
+  ok(
+    new URL(touchPage.url()).pathname === '/fit/',
+    'Homepage Check Fit keyboard activation still opens /fit/ after touch unlocks the field',
+    hybridKeyboardError,
+  );
+
+  await touchPage.goto(base, { waitUntil: 'networkidle' });
+  const canceledContact = touchPage.locator('[data-signal-contact="fit"]');
+  await canceledContact.dispatchEvent('pointerdown', {
+    bubbles: true,
+    cancelable: true,
+    pointerId: 41,
+    pointerType: 'touch',
+  });
+  await canceledContact.dispatchEvent('pointercancel', {
+    bubbles: true,
+    cancelable: true,
+    pointerId: 41,
+    pointerType: 'touch',
+  });
+  await canceledContact.focus();
+  let canceledKeyboardError = '';
+  try {
+    await Promise.all([
+      touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
+      canceledContact.press('Enter'),
+    ]);
+  } catch (error) {
+    canceledKeyboardError = error instanceof Error ? error.message : String(error);
+  }
+  ok(
+    new URL(touchPage.url()).pathname === '/fit/',
+    'Homepage canceled touch does not block later keyboard activation of Check Fit',
+    canceledKeyboardError,
+  );
+
+  await touchPage.goto(base, { waitUntil: 'networkidle' });
+  const abandonedContact = touchPage.locator('[data-signal-contact="fit"]');
+  await abandonedContact.dispatchEvent('pointerdown', {
+    bubbles: true,
+    cancelable: true,
+    pointerId: 42,
+    pointerType: 'touch',
+  });
+  await abandonedContact.dispatchEvent('pointerup', {
+    bubbles: true,
+    cancelable: true,
+    pointerId: 42,
+    pointerType: 'touch',
+  });
+  await touchPage.waitForTimeout(20);
+  await abandonedContact.focus();
+  let abandonedKeyboardError = '';
+  try {
+    await Promise.all([
+      touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
+      abandonedContact.press('Enter'),
+    ]);
+  } catch (error) {
+    abandonedKeyboardError = error instanceof Error ? error.message : String(error);
+  }
+  ok(
+    new URL(touchPage.url()).pathname === '/fit/',
+    'Homepage touch sequence without click expires before later keyboard activation',
+    abandonedKeyboardError,
+  );
+  await touchContext.close();
 
   const reducedContext = await browser.newContext({
     viewport: { width: 960, height: 720 },
     reducedMotion: 'reduce',
+    hasTouch: true,
   });
   const reducedPage = await reducedContext.newPage();
   await reducedPage.goto(base, { waitUntil: 'networkidle' });
@@ -991,7 +1353,111 @@ try {
     'Homepage Check Fit tool is immediately readable with reduced motion',
     JSON.stringify(reducedContactState),
   );
+  await reducedPage.locator('.signal-field__frame').focus();
+  await reducedPage.locator('.mast-cta').focus();
+  await reducedPage.waitForTimeout(50);
+  const reducedAfterBlur = await reducedPage.locator('[data-signal-field]').evaluate((field) => {
+    const contacts = field.querySelector('.signal-field__contacts');
+    if (!(contacts instanceof HTMLElement)) return null;
+    const style = getComputedStyle(contacts);
+    return {
+      locked: field.classList.contains('is-locked'),
+      opacity: Number(style.opacity),
+      pointerEvents: style.pointerEvents,
+    };
+  });
+  ok(
+    Boolean(
+      reducedAfterBlur?.locked &&
+      reducedAfterBlur.opacity > 0.95 &&
+      reducedAfterBlur.pointerEvents === 'auto'
+    ),
+    'Homepage reduced-motion Check Fit stays readable after focus leaves the field',
+    JSON.stringify(reducedAfterBlur),
+  );
+  await reducedPage.locator('.signal-field__frame').dispatchEvent('pointerup', { pointerType: 'touch' });
+  await reducedPage.waitForTimeout(50);
+  const reducedAfterTap = await reducedPage.locator('[data-signal-field]').evaluate((field) => {
+    const contacts = field.querySelector('.signal-field__contacts');
+    if (!(contacts instanceof HTMLElement)) return null;
+    const style = getComputedStyle(contacts);
+    return {
+      locked: field.classList.contains('is-locked'),
+      opacity: Number(style.opacity),
+      pointerEvents: style.pointerEvents,
+    };
+  });
+  ok(
+    Boolean(
+      reducedAfterTap?.locked &&
+      reducedAfterTap.opacity > 0.95 &&
+      reducedAfterTap.pointerEvents === 'auto'
+    ),
+    'Homepage reduced-motion Check Fit stays readable after touch activation',
+    JSON.stringify(reducedAfterTap),
+  );
   await reducedContext.close();
+
+  const noWebGlContext = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+  });
+  await noWebGlContext.addInitScript(() => {
+    const originalGetContext = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function getContext(type, ...args) {
+      if (type === 'webgl' || type === 'experimental-webgl') return null;
+      return originalGetContext.call(this, type, ...args);
+    };
+  });
+  const noWebGlPage = await noWebGlContext.newPage();
+  await noWebGlPage.goto(base, { waitUntil: 'networkidle' });
+  const noWebGlState = await noWebGlPage.locator('[data-signal-field]').evaluate((field) => {
+    const contacts = field.querySelector('.signal-field__contacts');
+    const fallback = field.querySelector('.signal-field__fallback');
+    if (!(contacts instanceof HTMLElement) || !(fallback instanceof HTMLElement)) return null;
+    const contactsStyle = getComputedStyle(contacts);
+    const fallbackStyle = getComputedStyle(fallback);
+    return {
+      isStatic: field.classList.contains('is-static'),
+      locked: field.classList.contains('is-locked'),
+      contactsOpacity: Number(contactsStyle.opacity),
+      contactsPointerEvents: contactsStyle.pointerEvents,
+      fallbackDisplay: fallbackStyle.display,
+      fallbackHidden: fallback.hidden,
+    };
+  });
+  ok(
+    Boolean(
+      noWebGlState?.isStatic &&
+        noWebGlState.locked &&
+        noWebGlState.contactsOpacity > 0.95 &&
+        noWebGlState.contactsPointerEvents === 'auto' &&
+        !noWebGlState.fallbackHidden &&
+        noWebGlState.fallbackDisplay !== 'none'
+    ),
+    'Homepage static fallback exposes an immediately readable and actionable Check Fit card without WebGL',
+    JSON.stringify(noWebGlState),
+  );
+  let noWebGlNavigationError = '';
+  if (noWebGlState?.contactsPointerEvents === 'auto' && noWebGlState.contactsOpacity > 0.95) {
+    try {
+      await Promise.all([
+        noWebGlPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
+        noWebGlPage.locator('[data-signal-contact="fit"]').tap(),
+      ]);
+    } catch (error) {
+      noWebGlNavigationError = error instanceof Error ? error.message : String(error);
+    }
+  } else {
+    noWebGlNavigationError = 'Static Check Fit contact is not pointer-active and visible.';
+  }
+  ok(
+    new URL(noWebGlPage.url()).pathname === '/fit/',
+    'Homepage static fallback opens /fit/ on the first touch without WebGL',
+    noWebGlNavigationError,
+  );
+  await noWebGlContext.close();
 
   const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   const page = await context.newPage();

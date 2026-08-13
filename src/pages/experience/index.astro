@@ -34,9 +34,17 @@ const description =
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <header class="page-mast">
+      <div class="wrap mast-row">
+        <a class="back-link mono" href="/">← Home</a>
+        <div class="mast-utils" aria-label="Profile utilities">
+          <a href={githubUrl} rel="me">GitHub</a>
+          <a href={linkedinUrl} rel="me">LinkedIn</a>
+        </div>
+      </div>
+    </header>
     <main id="main" class="wrap content-page">
-      <a class="back-link mono" href="/">← Home</a>
-      <p class="eyebrow mono">Experience</p>
+      <p class="eyebrow mono">EXP · TIMELINE</p>
       <h1>Experience</h1>
       <p class="lead">
         Enterprise agent deployment and solutions engineering across regulated customer environments.
@@ -46,6 +54,7 @@ const description =
       <ol class="timeline">
         {cvEntries.map((entry) => (
           <li>
+            <span class="timeline-mark" aria-hidden="true"></span>
             <p class="mono dates">{entry.dates}</p>
             <h2>{entry.title}</h2>
             {entry.location ? <p class="location">{entry.location}</p> : null}
@@ -68,35 +77,228 @@ const description =
       <nav class="page-links" aria-label="Related pages">
         <a href="/about/">About Dave Bettner</a>
         <a href="/work/">Selected work</a>
-        <a href={githubUrl} rel="me">GitHub</a>
-        <a href={linkedinUrl} rel="me">LinkedIn</a>
+        <a href="/fit/">Role fit</a>
+        <a href="/#contact">Contact</a>
       </nav>
     </main>
   </body>
 </html>
 
 <style is:global>
-  :root{--paper:#f3efe5;--ink:#151515;--muted:#62615d}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Plus Jakarta Sans Variable",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
-  a{color:inherit}
-  .skip-link{position:absolute;left:-9999px}
-  .skip-link:focus{left:16px;top:16px;z-index:9;background:#fff;padding:8px 12px}
-  .content-page{padding:clamp(32px,6vw,72px) 24px 80px;max-width:760px;margin:0 auto}
-  .mono{font-family:"DM Mono",ui-monospace,monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
-  .back-link{display:inline-block;margin-bottom:24px;color:var(--muted)}
-  .eyebrow{color:var(--muted);margin-bottom:12px}
-  h1{font-family:"Newsreader Variable",Georgia,serif;font-size:clamp(2rem,4vw,2.8rem);margin-bottom:16px}
-  .lead{margin-bottom:32px}
-  .timeline{list-style:none;display:grid;gap:28px}
-  .timeline li{padding-top:20px;border-top:1px solid #c9c3b5}
-  .dates{color:var(--muted);margin-bottom:8px}
-  .timeline h2{font-size:1.1rem;font-weight:650;margin-bottom:6px}
-  .location{font-size:.92rem;color:var(--muted);margin-bottom:8px}
-  .timeline ul{margin:10px 0 0 18px}
-  .timeline ul li{padding-top:0;border-top:0;margin-bottom:6px}
-  .pdf-note{margin-top:32px}
-  .pdf-note a{text-decoration:underline;text-underline-offset:3px}
-  .page-links{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:28px}
-  .page-links a{text-decoration:underline;text-underline-offset:3px}
+  :root {
+    --paper: #f3efe5;
+    --ink: #151515;
+    --muted: #62615d;
+    --rule: #c9c3b5;
+    --blue: #214fe5;
+    --orange: #cf4120;
+    --orange-ink: #9a2f14;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+    background:
+      radial-gradient(circle, rgba(33, 79, 229, 0.12) 0 1px, transparent 1.4px),
+      var(--paper);
+    background-size: 10px 10px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .skip-link {
+    position: fixed;
+    left: 16px;
+    top: 16px;
+    z-index: 1000;
+    background: #fff;
+    padding: 8px 12px;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  .wrap {
+    width: min(100% - 32px, 760px);
+    margin-inline: auto;
+  }
+
+  .page-mast {
+    border-bottom: 1px solid var(--ink);
+    background: rgba(243, 239, 229, 0.92);
+  }
+
+  .mast-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    min-height: 52px;
+  }
+
+  .mono {
+    font-family: 'DM Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .back-link:hover,
+  .back-link:focus-visible {
+    color: var(--ink);
+  }
+
+  .mast-utils {
+    display: flex;
+    gap: 16px;
+    font-size: 0.8rem;
+  }
+
+  .mast-utils a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .content-page {
+    padding: clamp(28px, 5vw, 64px) 0 80px;
+  }
+
+  .eyebrow {
+    color: var(--orange-ink);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  .lead {
+    margin-bottom: 36px;
+    max-width: 58ch;
+    color: var(--muted);
+  }
+
+  .timeline {
+    list-style: none;
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--ink);
+  }
+
+  .timeline > li {
+    position: relative;
+    padding: 22px 0 22px 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .timeline-mark {
+    position: absolute;
+    left: 0;
+    top: 28px;
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .timeline > li:nth-child(3n + 1) .timeline-mark {
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+
+  .timeline > li:nth-child(3n + 2) .timeline-mark {
+    transform: rotate(45deg);
+    border-color: var(--orange);
+  }
+
+  .dates {
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .timeline h2 {
+    font-size: 1.08rem;
+    font-weight: 650;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .location {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .timeline ul {
+    margin: 10px 0 0 18px;
+  }
+
+  .timeline ul li {
+    padding: 0;
+    border: 0;
+    margin-bottom: 6px;
+  }
+
+  .pdf-note {
+    margin-top: 32px;
+  }
+
+  .pdf-note a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .page-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--ink);
+  }
+
+  .page-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 520px) {
+    .wrap {
+      width: min(100% - 28px, 760px);
+    }
+
+    .timeline > li {
+      padding-left: 22px;
+    }
+  }
 </style>

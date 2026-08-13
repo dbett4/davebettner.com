@@ -112,18 +112,18 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
           <span class="mast-name">{identity.name}</span>
         </a>
         <nav class="primary-nav" aria-label="Primary navigation">
-          <a href="#work">Work</a>
-          <a href="#about">About</a>
-          <a href={linkedinUrl} rel="me">LinkedIn <span aria-hidden="true">↗</span></a>
-          <a href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
+          <a href="#proof">Proof</a>
+          <a href="/experience/">Experience</a>
+          <a href="/fit/">Fit</a>
+          <a href="#contact">Contact</a>
         </nav>
         <a class="mast-cta" href={emailHref}>Email <span aria-hidden="true">↗</span></a>
       </div>
-      <nav class="mobile-section-nav wrap" aria-label="Section navigation">
-        <a href="#work">Work</a>
-        <a href="#about">About</a>
-        <a href={linkedinUrl} rel="me">LinkedIn</a>
-        <a href={githubUrl} rel="me">GitHub</a>
+      <nav class="mobile-section-nav wrap" aria-label="Primary section navigation">
+        <a href="#proof">Proof</a>
+        <a href="/experience/">Experience</a>
+        <a href="/fit/">Fit</a>
+        <a href="#contact">Contact</a>
       </nav>
     </header>
 
@@ -147,17 +147,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
               </div>
             </div>
             <h1 id="thesis-heading">{thesis.title}</h1>
-            <p class="cover-support">{thesis.body[0]} {thesis.body[1]}</p>
-            <dl class="cover-meta">
-              <div>
-                <dt>Location</dt>
-                <dd>{identity.location}</dd>
-              </div>
-              <div>
-                <dt>Direction</dt>
-                <dd>{whereHeading.title}</dd>
-              </div>
-            </dl>
+            <p class="cover-support">{thesis.body[0]}</p>
             <div class="cover-actions" aria-label="Candidate actions">
               <div class="cover-actions-primary">
                 <a class="round blue" href={emailHref}>Start a conversation <span aria-hidden="true">↗</span></a>
@@ -169,6 +159,16 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
                 <a class="text-link" href="/fit/">Check role fit <span aria-hidden="true">→</span></a>
               </div>
             </div>
+            <dl class="cover-meta">
+              <div>
+                <dt>Location</dt>
+                <dd>{identity.location}</dd>
+              </div>
+              <div>
+                <dt>Direction</dt>
+                <dd>{whereHeading.title}</dd>
+              </div>
+            </dl>
           </div>
           <div class="cover-specimen">
             <SignalField />
@@ -202,12 +202,17 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <section id="direction" class="loop-section" aria-labelledby="loop-heading">
         <div class="wrap section-pad">
           <div class="loop-head">
-            <p class="mono section-index">Engagement method</p>
+            <p class="mono section-index">Operating loop</p>
             <h2 id="loop-heading">Presales through delivery</h2>
             <p class="loop-lead">{whereHeading.lead}</p>
           </div>
           <div class="loop-field-wrap">
             <div class="loop-field" aria-label="Engagement method inside a customer environment">
+              <div class="loop-chrome" aria-hidden="true">
+                <span class="loop-chrome-tag">STATE · LOOP</span>
+                <span class="loop-chrome-tag loop-chrome-tag--muted">RES · CONTROLLED</span>
+                <span class="loop-chrome-tag loop-chrome-tag--accent">5 STAGES</span>
+              </div>
               <div class="loop-context">
                 <p class="loop-context-label mono">Inside the customer environment</p>
                 <div class="loop-mechanism">
@@ -258,6 +263,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
             {featuredProjects.map((project, index) => (
               <article class={`building-card motif-${motifByIndex[index]}`} id={project.id}>
                 <div class="building-visual">
+                  <span class="building-chrome mono" aria-hidden="true">PLATE · EVIDENCE</span>
                   <span class="building-role mono">{roleByProjectId[project.id]}</span>
                   <div class="building-motif" aria-hidden="true"></div>
                 </div>
@@ -356,6 +362,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     --ink: #151515;
     --blue: #214fe5;
     --orange: #cf4120;
+    --orange-ink: #9a2f14;
     --muted: #62615d;
     --rule: #c9c3b5;
     --card: #eee8dc;
@@ -487,6 +494,13 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     transition: background-size 0.2s;
   }
 
+  .primary-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 2px;
+  }
+
   .primary-nav a:hover,
   .footer-links a:hover,
   .text-link:hover {
@@ -570,7 +584,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .section-index {
-    color: var(--orange);
+    color: var(--orange-ink);
     margin-bottom: var(--space-2);
   }
 
@@ -593,13 +607,13 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   /* Cover */
   .cover {
     border-bottom: 1px solid var(--ink);
-    padding: var(--space-5) 0 var(--space-6);
+    padding: var(--space-4) 0 var(--space-5);
   }
 
   .cover-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: var(--space-5) var(--space-6);
+    gap: var(--space-4) var(--space-5);
     align-items: start;
   }
 
@@ -627,7 +641,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
   .cover h1 {
     font-family: 'Newsreader Variable', Georgia, serif;
-    font-size: clamp(2.1rem, 4.8vw, 3.8rem);
+    font-size: clamp(1.9rem, 4.2vw, 3.2rem);
     font-weight: 500;
     line-height: 1.02;
     letter-spacing: -0.04em;
@@ -636,17 +650,17 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .cover-support {
-    margin-top: var(--space-4);
+    margin-top: var(--space-3);
     max-width: 42ch;
-    font-size: 1.02rem;
-    line-height: 1.55;
+    font-size: 0.98rem;
+    line-height: 1.5;
     color: var(--ink);
   }
 
   .cover-meta {
     display: grid;
-    gap: var(--space-3);
-    margin-top: var(--space-4);
+    gap: var(--space-2);
+    margin-top: var(--space-3);
     padding-top: var(--space-3);
     border-top: 1px solid var(--rule);
     max-width: 46ch;
@@ -674,8 +688,8 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
   .cover-actions {
     display: grid;
-    gap: 12px;
-    margin-top: var(--space-4);
+    gap: 10px;
+    margin-top: var(--space-3);
   }
 
   .cover-actions-primary,
@@ -731,6 +745,32 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       var(--paper);
     background-size: 8px 8px;
     padding: var(--space-3);
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .loop-chrome {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    align-items: baseline;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .loop-chrome-tag {
+    color: var(--ink);
+  }
+
+  .loop-chrome-tag--muted {
+    color: var(--muted);
+  }
+
+  .loop-chrome-tag--accent {
+    color: var(--orange-ink);
+    margin-left: auto;
   }
 
   .loop-context {
@@ -784,7 +824,9 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     height: 100%;
     min-width: 0;
     border: 1px solid var(--ink);
-    background: var(--paper);
+    background:
+      linear-gradient(180deg, rgba(21, 21, 21, 0.03), transparent 28%),
+      var(--paper);
     padding: 10px;
     display: grid;
     gap: 4px;
@@ -794,7 +836,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
   .loop-cue {
     display: block;
-    color: var(--orange);
+    color: var(--orange-ink);
     margin: 0;
   }
 
@@ -893,7 +935,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
   .loop-feedback-cue {
     margin: 0;
-    color: var(--orange);
+    color: var(--orange-ink);
     font-size: 0.72rem;
     letter-spacing: 0.04em;
     text-transform: none;
@@ -984,6 +1026,19 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     color: var(--ink);
     background: rgba(243, 239, 229, 0.88);
     border: 1px solid var(--ink);
+  }
+
+  .building-chrome {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    z-index: 2;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    color: var(--orange-ink);
+    background: rgba(243, 239, 229, 0.82);
+    padding: 4px 6px;
+    border: 1px solid var(--rule);
   }
 
   .building-motif {
@@ -1113,15 +1168,15 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
   .proof-label {
     font-family: 'DM Mono', monospace;
-    font-size: 0.64rem;
+    font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--orange);
+    color: var(--orange-ink);
     margin-bottom: 4px;
   }
 
   .proof-context {
-    font-size: 0.82rem;
+    font-size: 0.72rem;
     line-height: 1.35;
     color: var(--muted);
     margin-bottom: 6px;
@@ -1177,7 +1232,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .cta-kicker {
-    color: var(--orange);
+    color: var(--orange-ink);
     margin-bottom: var(--space-2);
   }
 
@@ -1245,9 +1300,9 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       min-height: 48px;
       border-top: 1px solid var(--rule);
       font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
+      font-size: 0.72rem;
       text-transform: uppercase;
-      letter-spacing: 0.055em;
+      letter-spacing: 0.04em;
     }
 
     .mobile-section-nav a {
@@ -1258,6 +1313,9 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       min-width: 44px;
       width: 100%;
       padding-inline: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .cover-grid {
@@ -1397,22 +1455,25 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     .cover h1 {
       order: 2;
       max-width: 18ch;
-      font-size: clamp(1.85rem, 8.5vw, 2.4rem);
-    }
-
-    .cover-specimen {
-      order: 3;
+      font-size: clamp(1.7rem, 7.5vw, 2.15rem);
     }
 
     .cover-support {
-      order: 4;
-    }
-
-    .cover-meta {
-      order: 5;
+      order: 3;
+      margin-top: var(--space-2);
+      font-size: 0.92rem;
     }
 
     .cover-actions {
+      order: 4;
+      margin-top: var(--space-2);
+    }
+
+    .cover-specimen {
+      order: 5;
+    }
+
+    .cover-meta {
       order: 6;
     }
 
@@ -1539,6 +1600,49 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
     .building-list {
       grid-auto-columns: minmax(84%, 280px);
+    }
+  }
+
+  @media (min-width: 961px) and (max-height: 740px) {
+    .cover {
+      padding: var(--space-2) 0 var(--space-3);
+    }
+
+    .cover-grid {
+      gap: var(--space-2) var(--space-4);
+      align-items: start;
+    }
+
+    .cover-identity {
+      margin-bottom: var(--space-1);
+    }
+
+    .cover-identity img {
+      width: 72px;
+      height: 72px;
+    }
+
+    .cover h1 {
+      font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+      margin-bottom: var(--space-1);
+    }
+
+    .cover-support {
+      margin-bottom: var(--space-2);
+      font-size: 0.9rem;
+    }
+
+    .cover-meta {
+      display: none;
+    }
+
+    .cover-actions {
+      margin-top: var(--space-1);
+    }
+
+    .cover-specimen .signal-field__frame {
+      aspect-ratio: 16 / 10;
+      max-height: min(42vh, 280px);
     }
   }
 

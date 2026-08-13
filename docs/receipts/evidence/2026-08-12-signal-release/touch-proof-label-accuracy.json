@@ -1,0 +1,125 @@
+{
+  "observed_at_utc": "2026-08-13T06:16:27Z",
+  "packet_type": "proof-label accuracy; no product behavior change; no deployment",
+  "base_commit": "31593a6da29f56c5a6833cecc86da178b5ddfd61",
+  "git": {
+    "head": "31593a6da29f56c5a6833cecc86da178b5ddfd61",
+    "origin_main": "31593a6da29f56c5a6833cecc86da178b5ddfd61",
+    "equal": true
+  },
+  "changed_script_hashes": {
+    "scripts/verify-site.mjs": "d16acbd0aa9162f1b00ba9ca827e62bb1e39977c8f0abd0fb8b1142b78f3b1c0",
+    "scripts/capture-design-revision-qa.mjs": "20ed944ecdc61987b31caaf2972f4f2faaf06368c6682927d042e87ebab8dae9"
+  },
+  "unchanged_product_hash": {
+    "src/components/SignalField.astro": "0e4028edfa6f1f99ba667633e1609e0dfb52111ed8799900be48d155404bf9a5"
+  },
+  "terminology_contract": {
+    "synthetic_probe_description": "Direct PointerEvent/MouseEvent dispatch exercises same-contact click-guard logic and does not claim hit-testing.",
+    "hit_tested_probe_description": "Playwright frame tap reveals the contact; a subsequent Playwright contact tap navigates to /fit/.",
+    "pass": true
+  },
+  "verification": {
+    "npm_test": {
+      "exit": 0,
+      "pass": true
+    },
+    "npm_run_check": {
+      "exit": 0,
+      "errors": 0,
+      "warnings": 0,
+      "hints": 0,
+      "pass": true
+    },
+    "node_check_and_diff_check": {
+      "exit": 0,
+      "pass": true
+    },
+    "design_revision_qa": {
+      "exit": 0,
+      "pass": true,
+      "count": 9,
+      "failed": 0,
+      "artifact": {
+        "path": "docs/receipts/evidence/2026-08-12-signal-release/touch-proof-label-design-qa-9-of-9.txt",
+        "sha256": "9c9174abe6b028692d94bd3aea492498de5ffdea815cffe4134e7b4b80778c6b"
+      }
+    },
+    "live_verifier": {
+      "command": "SITE_URL=https://davebettner.com node scripts/verify-site.mjs",
+      "pass": true,
+      "count": 944,
+      "failed": 0,
+      "errors": [],
+      "selected_checks": [
+        {
+          "label": "Homepage Check Fit opens /fit/ with a mouse click after hover resolution",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "label": "Homepage synthetic same-contact touch/click sequence locks Check Fit without navigation",
+          "pass": true,
+          "detail": "{\"events\":{\"path\":\"/\",\"locked\":true,\"clickFired\":true,\"defaultPrevented\":true},\"visual\":{\"locked\":true,\"opacity\":1,\"pointerEvents\":\"auto\"}}"
+        },
+        {
+          "label": "Homepage hit-tested frame reveal followed by Check Fit tap opens /fit/",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "label": "Homepage Check Fit keyboard activation still opens /fit/ after touch unlocks the field",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "label": "Homepage canceled touch does not block later keyboard activation of Check Fit",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "label": "Homepage touch sequence without click expires before later keyboard activation",
+          "pass": true,
+          "detail": ""
+        }
+      ],
+      "artifact": {
+        "path": "docs/receipts/evidence/2026-08-12-signal-release/live-production-touch-proof-label-green.json",
+        "sha256": "242966d8514d600c638ff7fc9c0991fefba03d7229068402f59b421dfe8ae046"
+      }
+    }
+  },
+  "unchanged_production_readback": {
+    "deployment_id": "0abae6fb-ed73-4b4f-88f9-48ee555f1c67",
+    "versions": [
+      {
+        "version_id": "1e890b4d-9169-4f43-908f-70747c8f2b4e",
+        "percentage": 100
+      }
+    ],
+    "http_status": 200,
+    "local_bytes": 30783,
+    "live_bytes": 30783,
+    "local_sha256": "84c0ad9c2ff7108bb9a44365f0ae3628ad32a9f42d7c8307a411dfda1dead5aa",
+    "live_sha256": "84c0ad9c2ff7108bb9a44365f0ae3628ad32a9f42d7c8307a411dfda1dead5aa",
+    "byte_identical": true,
+    "redeployed_for_packet": false
+  },
+  "lease": {
+    "scope": "repo:/srv/hermes/work/davebettner.com:touch-probe-accuracy",
+    "session_id": "hermes-davebettner-touch-probe-20260813",
+    "worker_deploy_scope_acquired": false
+  },
+  "evidence_boundary": {
+    "historical_artifacts_retain_original_labels": {
+      "docs/receipts/evidence/2026-08-12-signal-release/touch-lifecycle-green.json": "3bc23e5f07bd2c3fddaaa2a44dfdba1dfbdc4e466ba65e99a15a8349d928c906",
+      "docs/receipts/evidence/2026-08-12-signal-release/design-qa-9-of-9.txt": "ae76abd39c7787a07d2a8a694a6914f557208fdbf2f9bf7d0d2d3f0816e536fd",
+      "docs/receipts/evidence/2026-08-12-signal-release/live-production-green.json": "01541d5e69a5511b0360d0a959897704cd7d72e76e648193369d2c74a680482f"
+    },
+    "current_artifacts_use_corrected_labels": {
+      "docs/receipts/evidence/2026-08-12-signal-release/touch-proof-label-design-qa-9-of-9.txt": "9c9174abe6b028692d94bd3aea492498de5ffdea815cffe4134e7b4b80778c6b",
+      "docs/receipts/evidence/2026-08-12-signal-release/live-production-touch-proof-label-green.json": "242966d8514d600c638ff7fc9c0991fefba03d7229068402f59b421dfe8ae046"
+    }
+  },
+  "finalized_at_utc": "2026-08-13T06:24:55Z"
+}

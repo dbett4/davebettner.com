@@ -24,10 +24,10 @@ The original Cursor worker could not run shell commands and correctly left this 
 | `src/data/public-proof.ts` | Clearer public-proof provenance boundary |
 | `src/pages/experience/index.astro` | Shared new-industrial tokens and accessible timeline treatment |
 | `src/pages/index.astro` | Proof/Experience/Fit/Contact IA, hiring-first mobile ordering, tighter hero, instrument-style operating loop, evidence chrome |
-| `scripts/capture-design-revision-qa.mjs` | Five-viewport screenshots plus overflow, fold, and first-/second-touch assertions |
+| `scripts/capture-design-revision-qa.mjs` | Five-viewport screenshots plus overflow, fold, synthetic guard-path, and hit-tested touch assertions |
 | `scripts/run-design-revision-qa.sh` | Canonical test + dedicated design QA runner |
 | `docs/receipts/2026-08-12-design-system-revision.md` | Verification record |
-| `docs/receipts/evidence/2026-08-12-signal-release/` | Six original pre-release artifacts plus the navigation correction proofs and distinct contrast-release live result/closeout sidecar |
+| `docs/receipts/evidence/2026-08-12-signal-release/` | Original pre-release artifacts, navigation and contrast closeouts, plus distinct corrected-label 9/9 and 944/944 outputs with their no-redeploy sidecar |
 
 Scratch prompt/probe files, a deploy-hook backup, and a duplicate screenshot-only helper were excluded.
 
@@ -69,8 +69,8 @@ SHA-256: `3bc23e5f07bd2c3fddaaa2a44dfdba1dfbdc4e466ba65e99a15a8349d928c906`
 
 Touch proof:
 
-- First contact activation stayed on `/`, set the lock, fired the click, prevented navigation, and settled at opacity `1` with pointer events `auto`.
-- Second intentional activation navigated to `/fit/`.
+- The historical artifact labeled its direct-dispatch guard probe `Homepage first contact tap reveals Check Fit without leaving the page`; it stayed on `/`, set the lock, fired the click, prevented navigation, and settled at opacity `1` with pointer events `auto`. That historical label is corrected prospectively in the no-redeploy packet below.
+- The historical artifact labeled its Playwright navigation sequence `Homepage Check Fit opens /fit/ on the second touch`; the current scripts clarify that this was a hit-tested frame tap followed by a hit-tested contact tap.
 - Mouse click navigated to `/fit/` after hover resolution.
 - Keyboard Enter navigated to `/fit/` after a prior touch lock/unlock cycle; the click guard now binds only to the current touch pointerdown on the same contact rather than sticky prior-pointer state.
 - Canceled touch gestures and touch sequences that end without a synthesized click expire their one-gesture marker before later keyboard activation.
@@ -91,7 +91,7 @@ Verified:
 - No horizontal overflow at 1440×900, 1280×720, or 390×844 homepage widths.
 - No horizontal overflow on desktop/mobile Experience.
 - Primary hiring CTA is fully in the first viewport at 1280×720 and 390×844.
-- First touch reveals without leaving; second touch opens `/fit/`.
+- The historical log records `touch: first contact tap reveals Check Fit without leaving the page` and `touch: Check Fit opens /fit/ on the second touch`. The no-redeploy packet below preserves a distinct current 9/9 log with corrected synthetic-versus-hit-tested labels.
 
 ## Visual evidence
 
@@ -151,7 +151,13 @@ SHA-256: `01541d5e69a5511b0360d0a959897704cd7d72e76e648193369d2c74a680482f`
 
 Result: **940/940, zero failures**
 
-The durable live result records **940/940 with zero failures** at the digest cited above. It confirms first-touch reveal, second-touch `/fit/` navigation, mouse and keyboard activation after touch, cleanup after `pointercancel` and touch-without-click, sticky reduced-motion actionability, resolved-contact/HUD stacking, WebGL-unavailable static fallback, responsive layout, 5.40:1 effective proof-context contrast, and fully visible mobile navigation labels at 320px and 390px. A late independent review correctly found that the intermediate 320px `Experience` label required 75px inside a 73px cell; the released correction tightens only the ≤340px navigation typography and adds a rendered text-width regression contract. Direct requests to `/`, `/fit/`, and `/experience/` also returned HTTP 200 after activation.
+The durable historical live result records **940/940 with zero failures** at the digest cited above. Its touch checks retain the original labels `Homepage first contact tap reveals Check Fit without leaving the page` and `Homepage Check Fit opens /fit/ on the second touch`; the corrected terminology belongs only to the later 944/944 artifact cited below. The 940-result also confirms mouse and keyboard activation after touch, cleanup after `pointercancel` and touch-without-click, sticky reduced-motion actionability, resolved-contact/HUD stacking, WebGL-unavailable static fallback, responsive layout, 5.40:1 effective proof-context contrast, and fully visible mobile navigation labels at 320px and 390px. A late independent review correctly found that the intermediate 320px `Experience` label required 75px inside a 73px cell; the released correction tightens only the ≤340px navigation typography and adds a rendered text-width regression contract. Direct requests to `/`, `/fit/`, and `/experience/` also returned HTTP 200 after activation.
 
 Live 320px screenshot: `docs/receipts/evidence/2026-08-12-signal-release/homepage-mobile-320-live.png`
 SHA-256: `f9cadef50ee9ae42d2f5e7ad78218fe6ec39b47d9343c1281c4a7c3a7d718535`
+
+## Touch-proof terminology correction — no redeploy
+
+A late review correctly identified that the direct-dispatch guard probes in both QA scripts bypass browser hit-testing but were labeled as a first contact “tap.” The probes remain useful for deterministic same-contact click-guard coverage, so their variables, comments, and assertions now say **synthetic same-contact touch/click sequence**. The separate Playwright sequence is explicitly labeled **hit-tested frame reveal followed by Check Fit tap**. This changes proof semantics only; it does not change `SignalField.astro` or production behavior.
+
+Verification after the terminology correction: `npm test` passed, `npm run check` returned 0 errors/warnings/hints, static syntax/diff checks passed, dedicated design QA returned **9/9**, and the renamed live verifier returned **944/944 with zero failures**. Current corrected-label artifacts are `docs/receipts/evidence/2026-08-12-signal-release/touch-proof-label-design-qa-9-of-9.txt` (`9c9174abe6b028692d94bd3aea492498de5ffdea815cffe4134e7b4b80778c6b`) and `docs/receipts/evidence/2026-08-12-signal-release/live-production-touch-proof-label-green.json` (`242966d8514d600c638ff7fc9c0991fefba03d7229068402f59b421dfe8ae046`). Cloudflare remained on deployment `0abae6fb-ed73-4b4f-88f9-48ee555f1c67`, version `1e890b4d-9169-4f43-908f-70747c8f2b4e` at 100%; the live homepage remained byte-identical to the local build (`84c0ad9c2ff7108bb9a44365f0ae3628ad32a9f42d7c8307a411dfda1dead5aa`). No Worker deployment scope was acquired and no redeploy occurred. Durable terminology/source-hash/test/live-state sidecar: `docs/receipts/evidence/2026-08-12-signal-release/touch-proof-label-accuracy.json` (`1eeab0aeb23963ff4416231ee4dbe1fd06f43699c356996415a40f019880d3b2`).

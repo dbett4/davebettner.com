@@ -1201,8 +1201,8 @@ try {
   const touchFrame = touchPage.locator('.signal-field__frame');
   const touchContact = touchPage.locator('[data-signal-contact="fit"]');
 
-  // Direct first contact activation must reveal/lock without navigating.
-  const firstDirectTapEvents = await touchPage.evaluate(() => {
+  // Synthetic same-contact events exercise the click guard without claiming hit-testing.
+  const syntheticContactGuardEvents = await touchPage.evaluate(() => {
     const field = document.querySelector('[data-signal-field]');
     const link = document.querySelector('[data-signal-contact="fit"]');
     const contacts = field?.querySelector('.signal-field__contacts');
@@ -1226,7 +1226,7 @@ try {
     };
   });
   await touchPage.waitForTimeout(450);
-  const firstDirectTapVisual = await touchPage.locator('[data-signal-field]').evaluate((field) => {
+  const syntheticContactGuardVisual = await touchPage.locator('[data-signal-field]').evaluate((field) => {
     const contacts = field.querySelector('.signal-field__contacts');
     if (!(contacts instanceof HTMLElement)) return null;
     const style = getComputedStyle(contacts);
@@ -1238,16 +1238,16 @@ try {
   });
   ok(
     Boolean(
-      firstDirectTapEvents?.path === '/' &&
-        firstDirectTapEvents.locked &&
-        firstDirectTapEvents.clickFired &&
-        firstDirectTapEvents.defaultPrevented &&
-        firstDirectTapVisual?.locked &&
-        firstDirectTapVisual.opacity > 0.95 &&
-        firstDirectTapVisual.pointerEvents === 'auto'
+      syntheticContactGuardEvents?.path === '/' &&
+        syntheticContactGuardEvents.locked &&
+        syntheticContactGuardEvents.clickFired &&
+        syntheticContactGuardEvents.defaultPrevented &&
+        syntheticContactGuardVisual?.locked &&
+        syntheticContactGuardVisual.opacity > 0.95 &&
+        syntheticContactGuardVisual.pointerEvents === 'auto'
     ),
-    'Homepage first contact tap reveals Check Fit without leaving the page',
-    JSON.stringify({ events: firstDirectTapEvents, visual: firstDirectTapVisual }),
+    'Homepage synthetic same-contact touch/click sequence locks Check Fit without navigation',
+    JSON.stringify({ events: syntheticContactGuardEvents, visual: syntheticContactGuardVisual }),
   );
 
   await touchPage.reload({ waitUntil: 'networkidle' });
@@ -1306,7 +1306,10 @@ try {
     touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
     touchPage.locator('[data-signal-contact="fit"]').tap(),
   ]);
-  ok(new URL(touchPage.url()).pathname === '/fit/', 'Homepage Check Fit opens /fit/ on the second touch');
+  ok(
+    new URL(touchPage.url()).pathname === '/fit/',
+    'Homepage hit-tested frame reveal followed by Check Fit tap opens /fit/',
+  );
 
   await touchPage.goto(base, { waitUntil: 'networkidle' });
   const hybridFrame = touchPage.locator('.signal-field__frame');

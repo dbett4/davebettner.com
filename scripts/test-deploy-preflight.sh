@@ -3,9 +3,11 @@ set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel)"
 GATE="$ROOT/scripts/deploy-preflight.sh"
+DEPLOY_WRAPPER="$ROOT/scripts/deploy.sh"
 CANONICAL_ROOT="/srv/hermes/work/davebettner.com"
 MODE="${1:-prepush}"
 CURRENT_SESSION="${ACP_SESSION_ID:-}"
+cd "$ROOT"
 
 fail() {
   printf 'DEPLOY_GATE_TEST_FAIL: %s\n' "$*" >&2
@@ -26,6 +28,49 @@ expect_failure() {
 }
 
 [[ -f "$GATE" ]] || fail "missing gate: $GATE"
+[[ -f "$DEPLOY_WRAPPER" ]] || fail "missing deploy wrapper: $DEPLOY_WRAPPER"
+[[ "$(node -p "require('./package.json').scripts.deploy")" == "./scripts/deploy.sh" ]] || \
+  fail "package deploy script does not use the guarded wrapper"
+[[ "$(node -p "require('./package.json').scripts['deploy:wrangler'] || ''")" == "" ]] || \
+  fail "package exposes an unguarded Wrangler deploy script"
+grep -Fq 'WRANGLER="$ROOT/node_modules/.bin/wrangler"' "$DEPLOY_WRAPPER" || \
+  fail "deploy wrapper does not pin the project-local Wrangler binary"
+! grep -Eq '(^|[[:space:]])npx([[:space:]]|$)' "$DEPLOY_WRAPPER" || \
+  fail "deploy wrapper uses version-sensitive npx dispatch"
+
+fake_identity_bin="$(mktemp -d)"
+trap 'rm -rf "$fake_identity_bin"' EXIT
+cat > "$fake_identity_bin/id" <<'EOF'
+#!/usr/bin/env bash
+printf 'not-hermes\n'
+EOF
+chmod 755 "$fake_identity_bin/id"
+expect_failure \
+  "non-hermes user cannot deploy" \
+  "deploys must run as the hermes user" \
+  env PATH="$fake_identity_bin:$PATH" ACP_SESSION_ID="deploy-gate-test" bash "$GATE"
+rm -rf "$fake_identity_bin"
+trap - EXIT
+
+fake_root="$(mktemp -d)"
+fake_runner_marker="$fake_root/wrangler-invoked"
+trap 'rm -rf "$fake_root"' EXIT
+mkdir -p "$fake_root/scripts" "$fake_root/node_modules/.bin"
+cp "$DEPLOY_WRAPPER" "$fake_root/scripts/deploy.sh"
+cp "$GATE" "$fake_root/scripts/deploy-preflight.sh"
+cat > "$fake_root/node_modules/.bin/wrangler" <<'EOF'
+#!/usr/bin/env bash
+printf 'invoked\n' > "$DEPLOY_RUNNER_MARKER"
+exit 0
+EOF
+chmod 755 "$fake_root/scripts/deploy.sh" "$fake_root/scripts/deploy-preflight.sh" "$fake_root/node_modules/.bin/wrangler"
+expect_failure \
+  "deploy wrapper checks preflight before Wrangler" \
+  "ACP_SESSION_ID is required" \
+  env -u ACP_SESSION_ID DEPLOY_RUNNER_MARKER="$fake_runner_marker" bash "$fake_root/scripts/deploy.sh"
+[[ ! -e "$fake_runner_marker" ]] || fail "deploy wrapper invoked Wrangler before preflight"
+rm -rf "$fake_root"
+trap - EXIT
 
 expect_failure \
   "missing session identity" \

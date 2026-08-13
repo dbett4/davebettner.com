@@ -39,7 +39,7 @@ This writes a deterministic one-page Letter PDF to `public/dave-bettner-resume.p
 npm run deploy
 ```
 
-Always regenerates the résumé, then runs check/build and `wrangler deploy`. On the production host, prefer `./scripts/deploy.sh` (see `DEPLOY.md`), which adds hermes-user and canonical-checkout guards before the same npm path.
+On the production host, `npm run deploy` and `./scripts/deploy.sh` use the same guarded wrapper. The wrapper checks Git/session/lease authority before invoking the project-local Wrangler binary; Wrangler's project build hook regenerates the résumé and OG image, builds the site, and repeats the gate before upload. See `DEPLOY.md` for the required linked-worktree and ACP lease procedure.
 
 ## Provenance
 

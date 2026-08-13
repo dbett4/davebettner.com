@@ -27,7 +27,9 @@ Edit in the canonical checkout, but deploy only from a clean linked release work
 
 4. Run `./scripts/deploy.sh`.
 
-Wrangler's native build hook runs `scripts/deploy-build.sh`, so direct `wrangler deploy` cannot bypass the gate. It fails closed unless the process is `hermes`, `ACP_SESSION_ID` is explicit, the worktree is a clean linked worktree, `HEAD` equals freshly fetched `origin/main`, and both leases are live and owned by that session. It then regenerates the résumé and OG image, builds the site, and runs the gate again before Wrangler uploads `dist/`.
+Both supported entrypoints—`./scripts/deploy.sh` and `npm run deploy`—run `scripts/deploy-preflight.sh` before invoking the project-local Wrangler binary. Wrangler's project build hook then runs `scripts/deploy-build.sh`, which repeats the gate before and after generation/build. The supported path fails closed unless the process is `hermes`, `ACP_SESSION_ID` is explicit, the worktree is a clean linked worktree, `HEAD` equals freshly fetched `origin/main`, and both leases are live and owned by that session.
+
+Do not invoke Wrangler with an alternate config. Repository scripts cannot police an arbitrary external Wrangler configuration that omits this project's guarded build hook; that is an unsupported out-of-band deployment path, not an approved bypass.
 
 5. Verify production, release both scopes, and remove the release worktree.
 
@@ -42,6 +44,8 @@ ssh davgent 'sudo -u hermes bash -lc "cd /srv/hermes/work/davebettner.com && npm
 ```
 
 `npm test` starts and tears down its own local preview server. Set `SITE_URL=https://davebettner.com` to run the same browser assertions against production.
+
+The pre-push harness verifies wrapper ordering and fail-closed rejection for a non-`hermes` user, missing session identity, the primary checkout, and a dirty linked worktree. It does not substitute for release-time authority: the real deploy preflight freshly fetches `origin/main` and verifies the current session's two live ACP leases before Wrangler runs.
 
 ## Agent rule
 

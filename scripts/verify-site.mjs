@@ -648,6 +648,57 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       `${name}: proof context text effective contrast is at least 4.5:1`,
       JSON.stringify(proofContextContrast),
     );
+
+    const smallTextContrast = await page.evaluate(() => {
+      const parse = (value) => {
+        const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/i);
+        return match
+          ? [Number(match[1]), Number(match[2]), Number(match[3]), match[4] === undefined ? 1 : Number(match[4])]
+          : null;
+      };
+      const linearize = (channel) => {
+        const srgb = channel / 255;
+        return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
+      };
+      const luminance = (rgb) =>
+        0.2126 * linearize(rgb[0]) + 0.7152 * linearize(rgb[1]) + 0.0722 * linearize(rgb[2]);
+      const measure = (foregroundSelector, backgroundSelector) => {
+        const foreground = document.querySelector(foregroundSelector);
+        const background = document.querySelector(backgroundSelector);
+        if (!(foreground instanceof HTMLElement) || !(background instanceof HTMLElement)) return null;
+        const color = getComputedStyle(foreground).color;
+        const backgroundColor = getComputedStyle(background).backgroundColor;
+        const foregroundRgb = parse(color);
+        const backgroundRgb = parse(backgroundColor);
+        const opacity = Number(getComputedStyle(foreground).opacity);
+        if (!foregroundRgb || !backgroundRgb || !Number.isFinite(opacity) || backgroundRgb[3] < 0.999) {
+          return { color, backgroundColor, opacity, ratio: 0 };
+        }
+        const foregroundAlpha = foregroundRgb[3] * opacity;
+        const composited = foregroundRgb.slice(0, 3).map((channel, index) =>
+          channel * foregroundAlpha + backgroundRgb[index] * (1 - foregroundAlpha),
+        );
+        const foregroundLuminance = luminance(composited);
+        const backgroundLuminance = luminance(backgroundRgb);
+        const lighter = Math.max(foregroundLuminance, backgroundLuminance);
+        const darker = Math.min(foregroundLuminance, backgroundLuminance);
+        return { color, backgroundColor, opacity, composited, ratio: (lighter + 0.05) / (darker + 0.05) };
+      };
+      return {
+        ctaKicker: measure('.cta-kicker', '.cta-block'),
+        signalAccent: measure('.signal-field__tag--accent', 'body'),
+      };
+    });
+    ok(
+      Boolean(smallTextContrast.ctaKicker && smallTextContrast.ctaKicker.ratio >= 4.5),
+      `${name}: CTA kicker small-text contrast is at least 4.5:1`,
+      JSON.stringify(smallTextContrast.ctaKicker),
+    );
+    ok(
+      Boolean(smallTextContrast.signalAccent && smallTextContrast.signalAccent.ratio >= 4.5),
+      `${name}: Signal Field accent small-text contrast is at least 4.5:1`,
+      JSON.stringify(smallTextContrast.signalAccent),
+    );
   }
 
   if (width === 768) {

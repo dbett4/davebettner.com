@@ -516,7 +516,13 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       };
     });
     ok(Boolean(navGeometry), `${name}: mobile section-nav present`);
-    ok(navGeometry?.linkCount === 5, `${name}: mobile section-nav has five links`, String(navGeometry?.linkCount));
+    ok(navGeometry?.linkCount === 4, `${name}: mobile section-nav has four links`, String(navGeometry?.linkCount));
+    ok(
+      navGeometry?.links.map((link) => `${link.text}/${link.href}`).join('|') ===
+        'Work/#work|About/#about|LinkedIn/https://www.linkedin.com/in/dave-bettner/|GitHub/https://github.com/dbett4',
+      `${name}: mobile section-nav contains Work, About, LinkedIn, and GitHub`,
+      navGeometry?.links.map((link) => `${link.text}/${link.href}`).join('|'),
+    );
     ok(
       Boolean(navGeometry?.links.every((target) => target.width >= 44 && target.height >= 44)),
       `${name}: mobile section-nav targets are at least 44×44`,
@@ -542,7 +548,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const copy = document.querySelector('.cover-copy');
       const specimen = document.querySelector('.cover-specimen');
       const cards = [...document.querySelectorAll('.building-card')];
-      const portrait = document.querySelector('.about-portrait');
+      const portrait = document.querySelector('.cover-identity img');
       const aboutCopy = document.querySelector('.about-copy');
       if (!copy || !specimen || !portrait || !aboutCopy) {
         return { ok: false, reason: 'missing cover/about nodes' };
@@ -550,28 +556,27 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const cr = copy.getBoundingClientRect();
       const sr = specimen.getBoundingClientRect();
       const pr = portrait.getBoundingClientRect();
-      const ar = aboutCopy.getBoundingClientRect();
       const coverVerticalOverlap = Math.min(cr.bottom, sr.bottom) > Math.max(cr.top, sr.top) + 24;
       const coverSeparateColumns = Math.abs(cr.left - sr.left) > 80;
       const cardRects = cards.map((card) => card.getBoundingClientRect());
       const leftColumn = cardRects.filter((rect) => Math.abs(rect.left - cardRects[0].left) <= 2);
       const proofTwoColumns = cards.length === 4 && leftColumn.length === 2;
-      const aboutVerticalOverlap = Math.min(pr.bottom, ar.bottom) > Math.max(pr.top, ar.top) + 24;
-      const aboutSeparateColumns = Math.abs(pr.left - ar.left) > 80;
+      const portraitInsideCover = pr.top >= cr.top - 1 && pr.bottom <= cr.bottom + 1;
+      const portraitAboveFold = pr.top < innerHeight;
       return {
         ok: true,
         coverVerticalOverlap,
         coverSeparateColumns,
         proofTwoColumns,
         leftColumnCount: leftColumn.length,
-        aboutVerticalOverlap,
-        aboutSeparateColumns,
+        portraitInsideCover,
+        portraitAboveFold,
       };
     });
     ok(tabletGeometry.ok, `${name}: tablet geometry nodes present`, tabletGeometry.reason ?? '');
     ok(tabletGeometry.coverVerticalOverlap && tabletGeometry.coverSeparateColumns, `${name}: tablet cover is two-column / vertically paired`, JSON.stringify(tabletGeometry));
     ok(tabletGeometry.proofTwoColumns, `${name}: tablet proof index is two columns`, String(tabletGeometry.leftColumnCount));
-    ok(tabletGeometry.aboutVerticalOverlap && tabletGeometry.aboutSeparateColumns, `${name}: tablet About portrait and copy are paired`, JSON.stringify(tabletGeometry));
+    ok(tabletGeometry.portraitInsideCover && tabletGeometry.portraitAboveFold, `${name}: tablet headshot anchors the top hero`, JSON.stringify(tabletGeometry));
   }
 
   await assertLoopCausalGeometry(page, name, width);
@@ -579,16 +584,18 @@ async function assertHomepageResponsiveContracts(page, viewport) {
   if (width <= 390) {
     const phoneOrder = await page.evaluate(() => {
       const heading = document.querySelector('#thesis-heading');
+      const portrait = document.querySelector('.cover-identity img');
       const specimen = document.querySelector('.cover-specimen');
       const support = document.querySelector('.cover-support');
-      if (!heading || !specimen || !support) return null;
+      if (!heading || !portrait || !specimen || !support) return null;
+      const pt = portrait.getBoundingClientRect().top;
       const ht = heading.getBoundingClientRect().top;
       const st = specimen.getBoundingClientRect().top;
       const spt = support.getBoundingClientRect().top;
-      return { ht, st, spt, headingBeforeSpecimen: ht < st, specimenBeforeSupport: st < spt };
+      return { pt, ht, st, spt, portraitBeforeHeading: pt < ht, headingBeforeSpecimen: ht < st, specimenBeforeSupport: st < spt };
     });
     ok(Boolean(phoneOrder), `${name}: phone cover order nodes present`);
-    ok(phoneOrder?.headingBeforeSpecimen && phoneOrder?.specimenBeforeSupport, `${name}: phone visual order is H1 → specimen → support`, JSON.stringify(phoneOrder));
+    ok(phoneOrder?.portraitBeforeHeading && phoneOrder?.headingBeforeSpecimen && phoneOrder?.specimenBeforeSupport, `${name}: phone visual order is headshot → H1 → specimen → support`, JSON.stringify(phoneOrder));
 
     const proofScroll = await page.evaluate(() => {
       const list = document.querySelector('.building-list');
@@ -831,11 +838,76 @@ try {
   const animatedContext = await browser.newContext({ viewport: { width: 960, height: 720 } });
   const animatedPage = await animatedContext.newPage();
   await animatedPage.goto(base, { waitUntil: 'networkidle' });
+  ok(
+    (await animatedPage.locator('.mast-name').allTextContents()).join('|') === 'Dave Bettner' &&
+      (await animatedPage.locator('.cover-identity-name').count()) === 0,
+    'Homepage top area shows Dave Bettner once',
+  );
   const animatedCanvas = animatedPage.locator('[data-signal-canvas]');
+  const signalFrame = animatedPage.locator('.signal-field__frame');
+  const signalContacts = animatedPage.locator('[data-signal-contact]');
+  const contactChannels = await signalContacts.evaluateAll((links) =>
+    links.map((link) => ({
+      channel: link.getAttribute('data-signal-contact'),
+      href: link.getAttribute('href'),
+      name: (link.querySelector('.signal-field__contact-name')?.textContent ?? '').trim(),
+      hasIcon: Boolean(link.querySelector('svg')),
+    })),
+  );
+  ok(
+    JSON.stringify(contactChannels) === JSON.stringify([
+      { channel: 'fit', href: '/fit/', name: 'Check fit', hasIcon: true },
+    ]),
+    'Homepage signal field exposes Check Fit as its only resolved action',
+    JSON.stringify(contactChannels),
+  );
+  const fitInstructions = await signalContacts.first().evaluate((link) => ({
+    heading: (link.querySelector('strong')?.textContent ?? '').trim(),
+    instructions: (link.querySelector('.signal-field__contact-instructions')?.textContent ?? '').trim(),
+    action: (link.querySelector('.signal-field__contact-action')?.textContent ?? '').trim(),
+  }));
+  ok(
+    fitInstructions.heading === 'See how a role maps to my work.' &&
+      fitInstructions.instructions.includes('Paste a job description') &&
+      fitInstructions.instructions.includes('choose an AI assistant') &&
+      fitInstructions.instructions.includes('public profile and portfolio') &&
+      fitInstructions.action.includes('Open role-fit tool'),
+    'Homepage Check Fit action explains input, AI handoff, evidence, and destination',
+    JSON.stringify(fitInstructions),
+  );
+  await signalFrame.screenshot({ path: `${out}/signal-field-noise.png` });
   const animatedFrameA = await animatedCanvas.screenshot();
   await animatedPage.waitForTimeout(700);
   const animatedFrameB = await animatedCanvas.screenshot();
   ok(!animatedFrameA.equals(animatedFrameB), 'Homepage signal field changes over time');
+  await signalFrame.hover();
+  await animatedPage.waitForTimeout(800);
+  const resolvedContactState = await animatedPage.locator('[data-signal-field]').evaluate((field) => {
+    const contacts = field.querySelector('.signal-field__contacts');
+    const links = [...field.querySelectorAll('[data-signal-contact]')];
+    if (!(contacts instanceof HTMLElement)) return null;
+    const style = getComputedStyle(contacts);
+    return {
+      locked: field.classList.contains('is-locked'),
+      opacity: Number(style.opacity),
+      pointerEvents: style.pointerEvents,
+      linksVisible: links.every((link) => {
+        const rect = link.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+      }),
+    };
+  });
+  ok(
+    Boolean(
+      resolvedContactState?.locked &&
+      resolvedContactState.opacity > 0.95 &&
+      resolvedContactState.pointerEvents === 'auto' &&
+      resolvedContactState.linksVisible
+    ),
+    'Homepage signal noise resolves into the visible, actionable Check Fit tool on hover',
+    JSON.stringify(resolvedContactState),
+  );
+  await signalFrame.screenshot({ path: `${out}/signal-field-contacts.png` });
   await animatedContext.close();
 
   const reducedContext = await browser.newContext({
@@ -849,6 +921,15 @@ try {
   await reducedPage.waitForTimeout(700);
   const reducedFrameB = await reducedCanvas.screenshot();
   ok(reducedFrameA.equals(reducedFrameB), 'Homepage signal field is static with reduced motion');
+  const reducedContactState = await reducedPage.locator('.signal-field__contacts').evaluate((contacts) => ({
+    opacity: Number(getComputedStyle(contacts).opacity),
+    pointerEvents: getComputedStyle(contacts).pointerEvents,
+  }));
+  ok(
+    reducedContactState.opacity > 0.95 && reducedContactState.pointerEvents === 'auto',
+    'Homepage Check Fit tool is immediately readable with reduced motion',
+    JSON.stringify(reducedContactState),
+  );
   await reducedContext.close();
 
   const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });

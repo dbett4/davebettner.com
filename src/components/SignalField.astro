@@ -12,9 +12,31 @@
     <span class="signal-field__tag signal-field__tag--muted">RES · CONTROLLED</span>
     <span class="signal-field__tag signal-field__tag--accent">SCAN</span>
   </figcaption>
-  <div class="signal-field__frame">
+  <div
+    class="signal-field__frame"
+    tabindex="0"
+    role="group"
+    aria-label="An animated field of visual noise that resolves into an AI role-fit check on hover or focus."
+  >
     <div class="signal-field__fallback" aria-hidden="true"></div>
     <canvas class="signal-field__canvas" aria-hidden="true" data-signal-canvas></canvas>
+    <div class="signal-field__contacts" aria-label="AI role-fit check">
+      <a class="signal-field__contact" href="/fit/" data-signal-contact="fit">
+        <svg class="signal-field__contact-icon" viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M24 5l2.5 7.5L34 15l-7.5 2.5L24 25l-2.5-7.5L14 15l7.5-2.5L24 5Z"></path>
+          <path d="M8 31h9m14 0h9M24 28v12"></path>
+          <circle cx="24" cy="31" r="4"></circle>
+        </svg>
+        <span class="signal-field__contact-copy">
+          <span class="signal-field__contact-name">Check fit</span>
+          <strong>See how a role maps to my work.</strong>
+          <span class="signal-field__contact-instructions">
+            Paste a job description, choose an AI assistant, and get a grounded fit assessment using my public profile and portfolio.
+          </span>
+          <span class="signal-field__contact-action">Open role-fit tool <span aria-hidden="true">→</span></span>
+        </span>
+      </a>
+    </div>
     <div class="signal-field__hud" aria-hidden="true">
       <span>FIELD</span>
       <span>LOCK</span>
@@ -61,6 +83,7 @@
       uniform float u_time;
       uniform vec2 u_pointer;
       uniform float u_motion;
+      uniform float u_lock;
 
       float bayer(vec2 p) {
         float x = mod(p.x, 4.0);
@@ -98,7 +121,13 @@
         field = mix(field, 0.78, beam * 0.85);
         field = mix(field, 0.18, smoothstep(0.02, 0.14, corridor) * 0.55);
 
-        float gate = step(abs(uv.x - (0.72 + ptr.x * 0.05)), 0.018);
+        // As the channel locks, flatten the interference into a quiet ordered
+        // field so the actionable contact signals above it become readable.
+        float resolve = smoothstep(0.0, 1.0, u_lock);
+        float quietField = 0.045 + 0.035 * sin(uv.x * 14.0) * sin(uv.y * 10.0);
+        field = mix(field, quietField, resolve);
+
+        float gate = step(abs(uv.x - (0.72 + ptr.x * 0.05)), 0.018) * (1.0 - resolve);
         float tick = step(0.92, fract(uv.y * 28.0 + t * 0.2));
 
         float threshold = bayer(q);
@@ -111,8 +140,8 @@
 
         vec3 col = mix(paper, ink, on);
         col = mix(col, cobalt, gate * (0.55 + 0.25 * on));
-        col = mix(col, flare, beam * tick * 0.65);
-        col = mix(col, cobalt, beam * (1.0 - on) * 0.22);
+        col = mix(col, flare, beam * tick * 0.65 * (1.0 - resolve));
+        col = mix(col, cobalt, beam * (1.0 - on) * 0.22 * (1.0 - resolve));
 
         float frame = step(min(min(uv.x, uv.y), min(1.0 - uv.x, 1.0 - uv.y)), 0.012);
         col = mix(col, ink, frame * 0.35);
@@ -162,12 +191,23 @@
     const uTime = gl.getUniformLocation(program, 'u_time');
     const uPointer = gl.getUniformLocation(program, 'u_pointer');
     const uMotion = gl.getUniformLocation(program, 'u_motion');
+    const uLock = gl.getUniformLocation(program, 'u_lock');
 
     let raf = 0;
     let start = 0;
     let visible = true;
     let pointer = { x: 0, y: 0 };
     let pointerTarget = { x: 0, y: 0 };
+    let lock = reduced ? 1 : 0;
+    let lockTarget = reduced ? 1 : 0;
+    let touchLocked = false;
+
+    const setLockTarget = (locked) => {
+      lockTarget = locked ? 1 : 0;
+      root.classList.toggle('is-locked', locked);
+    };
+
+    if (reduced) root.classList.add('is-locked');
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -187,6 +227,7 @@
       const time = reduced ? 0.35 : (t - start) * 0.001;
       pointer.x += (pointerTarget.x - pointer.x) * 0.08;
       pointer.y += (pointerTarget.y - pointer.y) * 0.08;
+      lock += (lockTarget - lock) * (reduced ? 1 : 0.075);
 
       gl.useProgram(program);
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
@@ -196,6 +237,7 @@
       gl.uniform1f(uTime, time);
       gl.uniform2f(uPointer, pointer.x, pointer.y);
       gl.uniform1f(uMotion, reduced ? 0.0 : 1.0);
+      gl.uniform1f(uLock, lock);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     };
 
@@ -239,6 +281,24 @@
     }, { passive: true });
 
     root.addEventListener('pointermove', onPointer, { passive: true });
+    root.addEventListener('pointerenter', (event) => {
+      if (event.pointerType !== 'touch') setLockTarget(true);
+    });
+    root.addEventListener('pointerleave', (event) => {
+      if (event.pointerType !== 'touch' && !root.contains(document.activeElement)) setLockTarget(false);
+    });
+    root.addEventListener('focusin', () => {
+      setLockTarget(true);
+    });
+    root.addEventListener('focusout', () => {
+      queueMicrotask(() => setLockTarget(touchLocked || root.contains(document.activeElement)));
+    });
+    root.addEventListener('pointerup', (event) => {
+      if (event.pointerType !== 'touch') return;
+      touchLocked = !touchLocked;
+      setLockTarget(touchLocked);
+      startLoop();
+    });
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) stop();
@@ -315,6 +375,13 @@
     background: var(--sf-paper);
     overflow: hidden;
     isolation: isolate;
+    cursor: crosshair;
+    outline: none;
+  }
+
+  .signal-field__frame:focus-visible {
+    outline: 2px solid var(--sf-blue);
+    outline-offset: 3px;
   }
 
   .signal-field__frame::before,
@@ -383,6 +450,134 @@
     display: block;
   }
 
+  .signal-field__contacts {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    padding: clamp(26px, 7%, 44px) clamp(14px, 5%, 30px) clamp(32px, 9%, 50px);
+    background: rgba(243, 239, 229, 0.82);
+    opacity: 0;
+    transform: scale(0.985);
+    pointer-events: none;
+    transition: opacity 360ms ease, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .signal-field:hover .signal-field__contacts,
+  .signal-field:focus-within .signal-field__contacts,
+  .signal-field.is-locked .signal-field__contacts {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .signal-field__contact {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    min-width: 0;
+    align-items: center;
+    gap: clamp(14px, 4vw, 28px);
+    width: min(100%, 470px);
+    min-height: min(75%, 220px);
+    padding: clamp(16px, 4vw, 26px);
+    border: 1px solid rgba(21, 21, 21, 0.74);
+    color: var(--sf-ink);
+    background: rgba(243, 239, 229, 0.88);
+    text-decoration: none;
+    transform: translateY(8px);
+    transition:
+      color 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease,
+      transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .signal-field:hover .signal-field__contact,
+  .signal-field:focus-within .signal-field__contact,
+  .signal-field.is-locked .signal-field__contact {
+    transform: translateY(0);
+  }
+
+
+  .signal-field__contact:hover,
+  .signal-field__contact:focus-visible {
+    color: var(--sf-paper);
+    background: var(--sf-blue);
+    border-color: var(--sf-blue);
+    outline: none;
+  }
+
+  .signal-field__contact-icon {
+    width: clamp(42px, 9vw, 68px);
+    height: clamp(42px, 9vw, 68px);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+  }
+
+  .signal-field__contact-copy {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .signal-field__contact-name,
+  .signal-field__contact-action {
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+  }
+
+  .signal-field__contact-name {
+    color: var(--sf-orange);
+    font-size: clamp(0.55rem, 1.2vw, 0.68rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  .signal-field__contact-copy strong {
+    font-family: 'Newsreader Variable', Georgia, serif;
+    font-size: clamp(1rem, 2.4vw, 1.42rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .signal-field__contact-instructions {
+    max-width: 38ch;
+    color: var(--sf-muted);
+    font-size: clamp(0.62rem, 1.25vw, 0.76rem);
+    line-height: 1.45;
+  }
+
+  .signal-field__contact-action {
+    margin-top: 2px;
+    font-size: clamp(0.5rem, 1vw, 0.6rem);
+    letter-spacing: 0.08em;
+  }
+
+  .signal-field__contact:hover .signal-field__contact-name,
+  .signal-field__contact:focus-visible .signal-field__contact-name,
+  .signal-field__contact:hover .signal-field__contact-instructions,
+  .signal-field__contact:focus-visible .signal-field__contact-instructions {
+    color: inherit;
+  }
+
+  @media (max-width: 480px) {
+    .signal-field__contact {
+      grid-template-columns: 40px minmax(0, 1fr);
+      gap: 12px;
+      min-height: calc(100% - 46px);
+      padding: 14px;
+    }
+
+    .signal-field__contact-copy {
+      gap: 4px;
+    }
+  }
+
   .signal-field__hud {
     position: absolute;
     inset: auto 12px 10px 12px;
@@ -395,7 +590,7 @@
     color: var(--sf-ink);
     mix-blend-mode: multiply;
     pointer-events: none;
-    z-index: 2;
+    z-index: 4;
   }
 
   .signal-field__meaning {
@@ -414,6 +609,11 @@
   @media (prefers-reduced-motion: reduce) {
     .signal-field__fallback {
       animation: none;
+    }
+
+    .signal-field__contacts,
+    .signal-field__contact {
+      transition: none;
     }
   }
 </style>

@@ -27,7 +27,7 @@ The original Cursor worker could not run shell commands and correctly left this 
 | `scripts/capture-design-revision-qa.mjs` | Five-viewport screenshots plus overflow, fold, and first-/second-touch assertions |
 | `scripts/run-design-revision-qa.sh` | Canonical test + dedicated design QA runner |
 | `docs/receipts/2026-08-12-design-system-revision.md` | Verification record |
-| `docs/receipts/evidence/2026-08-12-signal-release/` | Six original pre-release artifacts plus the correction runner log, superseding live GREEN result, 320px correction RED result, and focused live screenshot |
+| `docs/receipts/evidence/2026-08-12-signal-release/` | Six original pre-release artifacts plus the correction runner log, superseding live GREEN result, 320px correction RED result, focused live screenshot, and deployment-closeout sidecar |
 
 Scratch prompt/probe files, a deploy-hook backup, and a duplicate screenshot-only helper were excluded.
 
@@ -130,7 +130,7 @@ The release followed the required order:
 4. The canonical suite passed, including **940/940** site checks, **21/21** audit regressions, and deployment-gate probes. Dedicated design QA passed **9/9**, and independent review of the exact two-file packet returned **APPROVE** with no P0–P3 findings. Durable correction-run log: `docs/receipts/evidence/2026-08-12-signal-release/mobile-nav-320-correction-run.txt` (`1d236bf58c65952105f049b6c978736fcb62b5cc44ab99c152af12e503f224c2`).
 5. Commit `e6ab778d900f792c812e642a32051ef6e4ee2a6d` was pushed by non-force fast-forward; `HEAD == origin/main == remote main`.
 6. Session `hermes-davebettner-nav-clip-20260813` acquired both required ACP leases. Post-push preflight and ownership/foreign-session probes passed, and the governed deployment activated Cloudflare deployment `6c9c1009-ebf0-4a1f-9226-98e92221bb78`, version `5459a4c6-bd89-4ca0-bdb5-3badbf0f8a16`, at **100%**.
-7. The live homepage returned HTTP 200 and was byte-identical to the gated build (`04007b1101cd2a7414483080c11f38bb2a67a95fadd28f88ba617e10d6fc9bdb`). At 320px, all four navigation targets measured 73×44px inside the viewport; `Experience` measured 73/73px with no clipping. Both deployment leases were then released and verified absent.
+7. The live homepage returned HTTP 200 and was byte-identical to the fresh build (`04007b1101cd2a7414483080c11f38bb2a67a95fadd28f88ba617e10d6fc9bdb`). At 320px, all four navigation targets measured 73×44px inside the viewport; `Experience` measured 73/73px with no clipping. Both required deployment lease scopes had no live overlap at closeout readback. Durable deployment/HTML/lease readback: `docs/receipts/evidence/2026-08-12-signal-release/deployment-closeout.json` (`10bb2f547a075068d1ead7e1e81b6308c23765a300a13c3ba276a96626a551ac`).
 
 ## Post-deploy live proof
 

@@ -1,0 +1,62 @@
+{
+  "observed_at_utc": "2026-08-13T04:55:23Z",
+  "proof_base_commit": "94f7d20b3f9bde4a9857395de80be6c563d6d012",
+  "deployed_product_commit": "e6ab778d900f792c812e642a32051ef6e4ee2a6d",
+  "git": {
+    "head": "94f7d20b3f9bde4a9857395de80be6c563d6d012",
+    "origin_main": "94f7d20b3f9bde4a9857395de80be6c563d6d012",
+    "remote_main": "94f7d20b3f9bde4a9857395de80be6c563d6d012",
+    "clean": true,
+    "product_source_unchanged_since_deploy": true,
+    "paths_changed_since_deployed_product": [
+      "docs/receipts/2026-08-12-design-system-revision.md",
+      "docs/receipts/evidence/2026-08-12-signal-release/homepage-mobile-320-live.png",
+      "docs/receipts/evidence/2026-08-12-signal-release/live-production-green.json",
+      "docs/receipts/evidence/2026-08-12-signal-release/mobile-nav-320-correction-run.txt",
+      "docs/receipts/evidence/2026-08-12-signal-release/mobile-nav-320-red.json"
+    ]
+  },
+  "fresh_build": {
+    "command": "npm run build",
+    "exit": 0,
+    "astro_errors": 0,
+    "astro_warnings": 0,
+    "astro_hints": 0,
+    "pages": 15
+  },
+  "homepage": {
+    "url": "https://davebettner.com/",
+    "http_status": 200,
+    "local_build_path": "dist/index.html",
+    "local_bytes": 30783,
+    "live_bytes": 30783,
+    "local_sha256": "04007b1101cd2a7414483080c11f38bb2a67a95fadd28f88ba617e10d6fc9bdb",
+    "live_sha256": "04007b1101cd2a7414483080c11f38bb2a67a95fadd28f88ba617e10d6fc9bdb",
+    "byte_identical": true
+  },
+  "cloudflare": {
+    "command": "npx wrangler deployments status --name davebettner-com --json",
+    "exit": 0,
+    "deployment_id": "6c9c1009-ebf0-4a1f-9226-98e92221bb78",
+    "strategy": "percentage",
+    "versions": [
+      {
+        "version_id": "5459a4c6-bd89-4ca0-bdb5-3badbf0f8a16",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-08-13T04:21:58.701014Z"
+  },
+  "leases": {
+    "repo:/srv/hermes/work/davebettner.com:deploy": {
+      "command_exit": 0,
+      "result": "no live leases overlap",
+      "no_live_overlap": true
+    },
+    "cloudflare-worker:davebettner-com": {
+      "command_exit": 0,
+      "result": "no live leases overlap",
+      "no_live_overlap": true
+    }
+  }
+}

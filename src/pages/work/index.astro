@@ -47,21 +47,16 @@ const description =
           <p class="eyebrow mono">Public engineering proof</p>
           <h1>Inspectable systems, not portfolio theater.</h1>
           <p class="lead">
-            Credential-free tests, offline demos, and explicit boundaries. Each plate links to the
-            implementation and states what the evidence supports.
+            Public proof paths and explicit boundaries. Each plate links to the implementation and
+            states exactly what its evidence supports.
           </p>
-          <div class="proof-key mono" aria-label="How to read the work index">
-            <span><i class="key-square" aria-hidden="true"></i> System</span>
-            <span><i class="key-line" aria-hidden="true"></i> Proof path</span>
-            <span><i class="key-dot" aria-hidden="true"></i> Boundary stated</span>
-          </div>
         </div>
       </section>
 
       <section class="work-section" aria-labelledby="plates-heading">
         <div class="wrap content-page">
           <div class="section-head">
-            <p class="eyebrow mono">Evidence plates · 04</p>
+            <p class="eyebrow mono">Evidence plates · {String(cases.length).padStart(2, '0')}</p>
             <h2 id="plates-heading">Systems built for the hard parts.</h2>
           </div>
           <ul class="work-list">
@@ -71,7 +66,7 @@ const description =
                   <span class="work-visual" aria-hidden="true">
                     <span class="work-visual-index mono">PLATE · {String(index + 1).padStart(2, '0')}</span>
                     <span class="work-visual-mark"></span>
-                    <span class="work-visual-state mono">{item.visual}</span>
+
                   </span>
                   <span class="work-copy">
                     <span class="work-eyebrow mono">{item.eyebrow}</span>
@@ -126,12 +121,7 @@ const description =
   h1 { max-width:18ch; font-size:clamp(2.35rem,5vw,4.5rem); }
   h2 { font-size:clamp(1.8rem,3.4vw,2.8rem); }
   .lead { max-width:60ch; margin-top:20px; color:var(--muted); font-size:clamp(.96rem,1.5vw,1.08rem); }
-  .proof-key { display:flex; flex-wrap:wrap; gap:12px 24px; margin-top:32px; color:var(--muted); }
-  .proof-key span { display:inline-flex; align-items:center; gap:7px; }
-  .proof-key i { display:inline-block; width:9px; height:9px; border:1px solid var(--ink); }
-  .key-square { background:var(--blue); border-color:var(--blue)!important; }
-  .key-line { width:16px!important; height:1px!important; background:var(--ink); border:0!important; }
-  .key-dot { border-radius:50%; background:var(--orange); border-color:var(--orange)!important; }
+
   .work-section { background:var(--card); border-bottom:1px solid var(--ink); }
   .section-head { display:grid; gap:10px; margin-bottom:32px; }
   .work-list { list-style:none; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
@@ -145,9 +135,8 @@ const description =
   .visual-rings .work-visual::after { inset:36% 22%; border:1px solid var(--blue); transform:rotate(45deg); }
   .visual-difference .work-visual::before { background:linear-gradient(90deg,rgba(207,65,32,.9) 0 48%,transparent 48% 52%,rgba(33,79,229,.9) 52% 100%),repeating-linear-gradient(0deg,transparent 0 7px,rgba(243,239,229,.6) 7px 8px); }
   .visual-difference .work-visual::after { inset:14px; border:1px dashed var(--ink); }
-  .work-visual-index, .work-visual-state { position:absolute; z-index:2; color:var(--paper); background:var(--ink); padding:5px 6px; }
+  .work-visual-index { position:absolute; z-index:2; color:var(--paper); background:var(--ink); padding:5px 6px; }
   .work-visual-index { top:10px; left:10px; }
-  .work-visual-state { right:10px; bottom:10px; writing-mode:vertical-rl; }
   .work-visual-mark { position:absolute; z-index:2; width:9px; height:9px; right:10px; top:10px; background:var(--orange); box-shadow:-3px 3px 0 var(--blue); }
   .work-copy { min-width:0; padding:20px; display:flex; flex-direction:column; align-items:flex-start; }
   .work-eyebrow { color:var(--orange-ink); line-height:1.35; }
@@ -155,12 +144,12 @@ const description =
   .work-summary { color:var(--muted); font-size:.88rem; line-height:1.48; }
   .work-evidence { margin-top:14px; padding-top:12px; border-top:1px solid var(--rule); color:var(--ink); font-size:.76rem; line-height:1.42; }
   .work-footer { width:100%; display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 12px; align-items:flex-end; margin-top:auto; padding-top:18px; }
-  .work-repo { color:var(--muted); font-size:.58rem; overflow-wrap:anywhere; }
-  .work-open { color:var(--blue); font-size:.62rem; white-space:nowrap; }
+  .work-repo { color:var(--muted); font-size:.7rem; overflow-wrap:anywhere; }
+  .work-open { color:var(--blue); font-size:.72rem; white-space:nowrap; }
   .provenance-note { max-width:75ch; margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); color:var(--muted); font-size:.8rem; line-height:1.5; }
   .page-links { display:flex; flex-wrap:wrap; gap:12px 22px; margin-top:32px; }
   .page-links a { min-height:44px; display:inline-flex; align-items:center; text-decoration:underline; text-underline-offset:4px; }
   @media (max-width:760px) { .wrap{width:min(100% - 28px,1280px)} .work-cover .content-page{margin-left:0} .work-list{grid-template-columns:1fr} .work-card{grid-template-columns:100px minmax(0,1fr); min-height:300px} .work-copy{padding:16px} .work-evidence{font-size:.74rem} }
-  @media (max-width:420px) { .mast-row{min-height:56px} .proof-key{gap:10px 14px} .work-card{grid-template-columns:1fr; min-height:0} .work-visual{min-height:82px; border-right:0; border-bottom:1px solid var(--ink)} .work-visual-state{writing-mode:initial} }
+  @media (max-width:420px) { .mast-row{min-height:56px} .work-card{grid-template-columns:1fr; min-height:0} .work-visual{min-height:82px; border-right:0; border-bottom:1px solid var(--ink)} }
   @media (prefers-reduced-motion:reduce) { .work-card{transition:none} .work-card:hover,.work-card:focus-visible{transform:none;box-shadow:none} }
 </style>

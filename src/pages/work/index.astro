@@ -35,60 +35,132 @@ const description =
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <main id="main" class="wrap content-page">
-      <a class="back-link mono" href="/">← Home</a>
-      <p class="eyebrow mono">Work</p>
-      <h1>Selected work</h1>
-      <p class="lead">
-        Inspectable public repositories with credential-free or offline proof. Each case links to the
-        exact GitHub repo and states what is, and is not, claimed.
-      </p>
+    <header class="page-mast">
+      <div class="wrap mast-row">
+        <a class="back-link mono" href="/">← Home</a>
+        <a class="mast-github" href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <main id="main">
+      <section class="work-cover">
+        <div class="wrap content-page">
+          <p class="eyebrow mono">Public engineering proof</p>
+          <h1>Inspectable systems, not portfolio theater.</h1>
+          <p class="lead">
+            Credential-free tests, offline demos, and explicit boundaries. Each plate links to the
+            implementation and states what the evidence supports.
+          </p>
+          <div class="proof-key mono" aria-label="How to read the work index">
+            <span><i class="key-square" aria-hidden="true"></i> System</span>
+            <span><i class="key-line" aria-hidden="true"></i> Proof path</span>
+            <span><i class="key-dot" aria-hidden="true"></i> Boundary stated</span>
+          </div>
+        </div>
+      </section>
 
-      <ul class="work-list">
-        {cases.map((item) => (
-          <li>
-            <a href={`/work/${item.id}/`}>
-              <span class="mono">{item.eyebrow}</span>
-              <span class="work-title">{item.title}</span>
-              <span class="work-summary">{item.summary}</span>
-              <span class="work-repo mono">{item.repoUrl.replace('https://github.com/', '')}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      <section class="work-section" aria-labelledby="plates-heading">
+        <div class="wrap content-page">
+          <div class="section-head">
+            <p class="eyebrow mono">Evidence plates · 04</p>
+            <h2 id="plates-heading">Systems built for the hard parts.</h2>
+          </div>
+          <ul class="work-list">
+            {cases.map((item, index) => (
+              <li>
+                <a class={`work-card visual-${item.visual}`} href={`/work/${item.id}/`}>
+                  <span class="work-visual" aria-hidden="true">
+                    <span class="work-visual-index mono">PLATE · {String(index + 1).padStart(2, '0')}</span>
+                    <span class="work-visual-mark"></span>
+                    <span class="work-visual-state mono">{item.visual}</span>
+                  </span>
+                  <span class="work-copy">
+                    <span class="work-eyebrow mono">{item.eyebrow}</span>
+                    <span class="work-title">{item.title}</span>
+                    <span class="work-summary">{item.summary}</span>
+                    <span class="work-evidence"><strong>Proof:</strong> {item.evidence}</span>
+                    <span class="work-footer">
+                      <span class="work-repo mono">{item.repoUrl.replace('https://github.com/', '')}</span>
+                      <span class="work-open mono">Open case →</span>
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
 
-      <p class="provenance-note">{provenanceNote}</p>
+          <p class="provenance-note">{provenanceNote}</p>
 
-      <nav class="page-links" aria-label="Related pages">
-        <a href="/">Home</a>
-        <a href="/about/">About Dave Bettner</a>
-        <a href="/experience/">Experience</a>
-        <a href={githubUrl} rel="me">GitHub</a>
-      </nav>
+          <nav class="page-links" aria-label="Related pages">
+            <a href="/">Home</a>
+            <a href="/about/">About Dave Bettner</a>
+            <a href="/experience/">Experience</a>
+            <a href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
+          </nav>
+        </div>
+      </section>
     </main>
   </body>
 </html>
 
 <style is:global>
-  :root{--paper:#f3efe5;--ink:#151515;--muted:#62615d}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Plus Jakarta Sans Variable",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
-  a{color:inherit;text-decoration:none}
-  .skip-link{position:absolute;left:-9999px}
-  .skip-link:focus{left:16px;top:16px;z-index:9;background:#fff;padding:8px 12px}
-  .content-page{padding:clamp(32px,6vw,72px) 24px 80px;max-width:900px;margin:0 auto}
-  .mono{font-family:"DM Mono",ui-monospace,monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
-  .back-link{display:inline-block;margin-bottom:24px;color:var(--muted)}
-  .eyebrow{color:var(--muted);margin-bottom:12px}
-  h1{font-family:"Newsreader Variable",Georgia,serif;font-size:clamp(2rem,4vw,2.8rem);margin-bottom:16px}
-  .lead{margin-bottom:32px;max-width:640px}
-  .work-list{list-style:none;display:grid;gap:20px}
-  .work-list a{display:block;padding:20px 0;border-top:1px solid #c9c3b5}
-  .work-list a:hover .work-title{text-decoration:underline}
-  .work-title{display:block;font-size:1.25rem;font-weight:600;margin:8px 0}
-  .work-summary{display:block;color:var(--muted);max-width:640px}
-  .work-repo{display:block;color:var(--muted);margin-top:8px;font-size:.68rem}
-  .provenance-note{margin-top:32px;font-size:.82rem;line-height:1.5;color:var(--muted);max-width:640px}
-  .page-links{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:36px}
-  .page-links a{text-decoration:underline;text-underline-offset:3px}
+  :root { --paper:#f3efe5; --ink:#151515; --blue:#214fe5; --orange:#cf4120; --orange-ink:#9a2f14; --muted:#62615d; --rule:#c9c3b5; --card:#eee8dc; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:"Plus Jakarta Sans Variable",system-ui,sans-serif; background:var(--paper); color:var(--ink); line-height:1.5; }
+  a { color:inherit; text-decoration:none; }
+  a:focus-visible { outline:3px solid var(--orange); outline-offset:4px; }
+  .skip-link { position:fixed; left:16px; top:16px; z-index:1000; background:var(--ink); color:var(--paper); padding:12px 16px; transform:translateY(-200%); }
+  .skip-link:focus { transform:none; }
+  .wrap { width:min(100% - 48px, 1280px); margin-inline:auto; }
+  .content-page { padding:clamp(40px, 6vw, 88px) 0; }
+  .mono { font-family:"DM Mono",ui-monospace,monospace; font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; }
+  .page-mast { position:sticky; top:0; z-index:10; background:var(--paper); border-bottom:1px solid var(--ink); }
+  .mast-row { min-height:64px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .back-link, .mast-github { min-height:44px; display:inline-flex; align-items:center; }
+  .back-link { color:var(--muted); }
+  .mast-github { border:1px solid var(--ink); padding:0 14px; font-size:.78rem; font-weight:650; }
+  .mast-github:hover { background:var(--ink); color:var(--paper); }
+  .work-cover { border-bottom:1px solid var(--ink); background:linear-gradient(90deg, transparent 79px, rgba(201,195,181,.32) 79px 80px, transparent 80px), var(--paper); }
+  .work-cover .content-page { max-width:900px; margin-left:max(0px, calc((100% - 1280px) / 2)); }
+  .eyebrow { color:var(--orange-ink); margin-bottom:12px; }
+  h1, h2 { font-family:"Newsreader Variable",Georgia,serif; font-weight:500; letter-spacing:-.04em; line-height:1.04; }
+  h1 { max-width:18ch; font-size:clamp(2.35rem,5vw,4.5rem); }
+  h2 { font-size:clamp(1.8rem,3.4vw,2.8rem); }
+  .lead { max-width:60ch; margin-top:20px; color:var(--muted); font-size:clamp(.96rem,1.5vw,1.08rem); }
+  .proof-key { display:flex; flex-wrap:wrap; gap:12px 24px; margin-top:32px; color:var(--muted); }
+  .proof-key span { display:inline-flex; align-items:center; gap:7px; }
+  .proof-key i { display:inline-block; width:9px; height:9px; border:1px solid var(--ink); }
+  .key-square { background:var(--blue); border-color:var(--blue)!important; }
+  .key-line { width:16px!important; height:1px!important; background:var(--ink); border:0!important; }
+  .key-dot { border-radius:50%; background:var(--orange); border-color:var(--orange)!important; }
+  .work-section { background:var(--card); border-bottom:1px solid var(--ink); }
+  .section-head { display:grid; gap:10px; margin-bottom:32px; }
+  .work-list { list-style:none; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+  .work-card { display:grid; grid-template-columns:minmax(126px,.42fr) minmax(0,1fr); min-height:340px; border:1px solid var(--ink); background:var(--paper); transition:transform .2s ease, box-shadow .2s ease; }
+  .work-card:hover, .work-card:focus-visible { transform:translate(-3px,-3px); box-shadow:3px 3px 0 var(--ink); }
+  .work-visual { position:relative; min-height:100%; overflow:hidden; border-right:1px solid var(--ink); background:var(--ink); }
+  .work-visual::before, .work-visual::after { content:""; position:absolute; inset:0; image-rendering:pixelated; }
+  .visual-flow .work-visual::before { background:linear-gradient(90deg, transparent 57%, rgba(33,79,229,.92) 57% 68%, transparent 68%), repeating-linear-gradient(0deg,rgba(243,239,229,.85) 0 1px,transparent 1px 5px); }
+  .visual-flow .work-visual::after { inset:25% 14% 25% 0; border:1px solid var(--orange); border-left:0; }
+  .visual-rings .work-visual::before { background:repeating-radial-gradient(circle at 50% 50%,transparent 0 12px,rgba(243,239,229,.78) 12px 13px,transparent 13px 24px); }
+  .visual-rings .work-visual::after { inset:36% 22%; border:1px solid var(--blue); transform:rotate(45deg); }
+  .visual-difference .work-visual::before { background:linear-gradient(90deg,rgba(207,65,32,.9) 0 48%,transparent 48% 52%,rgba(33,79,229,.9) 52% 100%),repeating-linear-gradient(0deg,transparent 0 7px,rgba(243,239,229,.6) 7px 8px); }
+  .visual-difference .work-visual::after { inset:14px; border:1px dashed var(--ink); }
+  .work-visual-index, .work-visual-state { position:absolute; z-index:2; color:var(--paper); background:var(--ink); padding:5px 6px; }
+  .work-visual-index { top:10px; left:10px; }
+  .work-visual-state { right:10px; bottom:10px; writing-mode:vertical-rl; }
+  .work-visual-mark { position:absolute; z-index:2; width:9px; height:9px; right:10px; top:10px; background:var(--orange); box-shadow:-3px 3px 0 var(--blue); }
+  .work-copy { min-width:0; padding:20px; display:flex; flex-direction:column; align-items:flex-start; }
+  .work-eyebrow { color:var(--orange-ink); line-height:1.35; }
+  .work-title { display:block; margin:12px 0 10px; font-size:clamp(1.16rem,2vw,1.46rem); font-weight:650; letter-spacing:-.025em; line-height:1.15; }
+  .work-summary { color:var(--muted); font-size:.88rem; line-height:1.48; }
+  .work-evidence { margin-top:14px; padding-top:12px; border-top:1px solid var(--rule); color:var(--ink); font-size:.76rem; line-height:1.42; }
+  .work-footer { width:100%; display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 12px; align-items:flex-end; margin-top:auto; padding-top:18px; }
+  .work-repo { color:var(--muted); font-size:.58rem; overflow-wrap:anywhere; }
+  .work-open { color:var(--blue); font-size:.62rem; white-space:nowrap; }
+  .provenance-note { max-width:75ch; margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); color:var(--muted); font-size:.8rem; line-height:1.5; }
+  .page-links { display:flex; flex-wrap:wrap; gap:12px 22px; margin-top:32px; }
+  .page-links a { min-height:44px; display:inline-flex; align-items:center; text-decoration:underline; text-underline-offset:4px; }
+  @media (max-width:760px) { .wrap{width:min(100% - 28px,1280px)} .work-cover .content-page{margin-left:0} .work-list{grid-template-columns:1fr} .work-card{grid-template-columns:100px minmax(0,1fr); min-height:300px} .work-copy{padding:16px} .work-evidence{font-size:.74rem} }
+  @media (max-width:420px) { .mast-row{min-height:56px} .proof-key{gap:10px 14px} .work-card{grid-template-columns:1fr; min-height:0} .work-visual{min-height:82px; border-right:0; border-bottom:1px solid var(--ink)} .work-visual-state{writing-mode:initial} }
+  @media (prefers-reduced-motion:reduce) { .work-card{transition:none} .work-card:hover,.work-card:focus-visible{transform:none;box-shadow:none} }
 </style>

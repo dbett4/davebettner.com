@@ -13,6 +13,7 @@ export type CaseStudy = {
   meta: string;
   size: 'large' | 'small';
   visual: 'flow' | 'rings' | 'difference';
+  plateProof: string;
   repoUrl: string;
   proofUrl?: string;
   constraint: string;
@@ -34,6 +35,7 @@ export const cases = [
     meta: 'MCP · OAuth · contract manifest · offline demo',
     size: 'large',
     visual: 'flow',
+    plateProof: 'Credential-free proof',
     repoUrl: 'https://github.com/dbett4/regulated-reporting-mcp',
     proofUrl: 'https://github.com/dbett4/regulated-reporting-mcp/blob/main/docs/PROOF.md',
     constraint:
@@ -62,6 +64,7 @@ export const cases = [
     meta: 'FastMCP · Docker Compose · failure replay · audit trail',
     size: 'small',
     visual: 'rings',
+    plateProof: 'Credential-free proof',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
     constraint:
@@ -90,6 +93,7 @@ export const cases = [
     meta: 'Capability map · negative tests · pinned reference suite',
     size: 'small',
     visual: 'rings',
+    plateProof: 'Pinned suite + receipt',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit/blob/main/PROOF.md',
     constraint:
@@ -118,6 +122,7 @@ export const cases = [
     meta: 'Chrome extension · local service · confirm-before-write · restore',
     size: 'small',
     visual: 'difference',
+    plateProof: 'CI test evidence',
     repoUrl: 'https://github.com/dbett4/wingman',
     constraint:
       'Statements can tie out while mappings, formulas, links, or presentation remain wrong—and manual review does not scale across large workbooks.',

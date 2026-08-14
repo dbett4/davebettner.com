@@ -20,6 +20,11 @@
   >
     <div class="signal-field__fallback" aria-hidden="true"></div>
     <canvas class="signal-field__canvas" aria-hidden="true" data-signal-canvas></canvas>
+    <div class="signal-field__map" aria-hidden="true">
+      <span class="signal-field__map-node signal-field__map-node--input">Customer context</span>
+      <span class="signal-field__map-route"></span>
+      <span class="signal-field__map-node signal-field__map-node--output">Proven handoff</span>
+    </div>
     <div class="signal-field__contacts" aria-label="AI role-fit check">
       <a class="signal-field__contact" href="/fit/" data-signal-contact="fit">
         <svg class="signal-field__contact-icon" viewBox="0 0 48 48" aria-hidden="true">
@@ -504,6 +509,64 @@
     display: block;
   }
 
+  .signal-field__map {
+    position: absolute;
+    inset: auto clamp(14px, 5%, 30px) clamp(52px, 11%, 68px);
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto minmax(28px, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    color: var(--sf-paper);
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(0.52rem, 1vw, 0.62rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    opacity: 0.94;
+    transition: opacity 180ms ease;
+  }
+
+  .signal-field__map-node {
+    max-width: 15ch;
+    padding: 5px 7px;
+    border: 1px solid currentColor;
+    background: rgba(21, 21, 21, 0.78);
+  }
+
+  .signal-field__map-node--output {
+    color: var(--sf-ink);
+    background: var(--sf-paper);
+  }
+
+  .signal-field__map-route {
+    display: block;
+    height: 1px;
+    min-width: 0;
+    background-image: repeating-linear-gradient(90deg, currentColor 0 4px, transparent 4px 8px);
+  }
+
+  .signal-field__map-route::after {
+    content: '→';
+    display: block;
+    width: max-content;
+    margin: -0.6em auto 0;
+    padding: 0 4px;
+    background: var(--sf-ink);
+  }
+
+  .signal-field:focus-within .signal-field__map,
+  .signal-field.is-locked .signal-field__map {
+    opacity: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .signal-field:hover .signal-field__map {
+      opacity: 0;
+    }
+  }
+
   .signal-field__contacts {
     position: absolute;
     inset: 0;
@@ -632,6 +695,15 @@
   }
 
   @media (max-width: 480px) {
+    .signal-field__map {
+      inset: auto 12px 46px;
+      gap: 6px;
+    }
+
+    .signal-field__map-node {
+      padding: 4px 5px;
+    }
+
     .signal-field__contact {
       grid-template-columns: 40px minmax(0, 1fr);
       gap: 12px;
@@ -705,6 +777,10 @@
     }
 
     .signal-field__hud {
+      opacity: 0;
+    }
+
+    .signal-field__map {
       opacity: 0;
     }
   }

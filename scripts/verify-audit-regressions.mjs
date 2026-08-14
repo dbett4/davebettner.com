@@ -118,9 +118,9 @@ try {
   check(state.status.includes('without pre-fill'), 'Fit long prompt explains base-URL fallback', state.status);
 
   await page.goto(`${base}/`, { waitUntil: 'networkidle' });
-  const experienceCta = page.locator('.cover-actions a[href="/experience/"]');
-  check((await experienceCta.count()) >= 1, 'Hero experience CTA links to experience page');
-  check((await experienceCta.getAttribute('download')) === null, 'Hero experience CTA is not a mislabeled download');
+  const fitCta = page.locator('[data-signal-field] a[href="/fit/"]');
+  check((await fitCta.count()) === 1, 'Hero specimen links to the role-fit tool once');
+  check((await fitCta.getAttribute('download')) === null, 'Hero role-fit tool is not a mislabeled download');
 
   const redirects = await readFile('dist/_redirects', 'utf8');
   for (const source of ['/dither', '/dither/', '/mockups/dither', '/mockups/dither/']) {

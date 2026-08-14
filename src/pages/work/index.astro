@@ -8,9 +8,9 @@ import { siteUrl } from '../../data/seo';
 import { githubUrl } from '../../data/site-links';
 
 const canonical = `${siteUrl}/work/`;
-const title = 'Work | Dave Bettner — Enterprise Agent Deployment and Solutions Engineering';
+const title = 'Work | Dave Bettner — Forward-Deployed Delivery and Agent Systems';
 const description =
-  'Case studies from Dave Bettner on agent workflows, deployment labs, and quality control.';
+  'Public labs and case studies from Dave Bettner on enterprise deployment recovery, guarded API tools, and customer workflow quality.';
 ---
 
 <!doctype html>
@@ -45,10 +45,10 @@ const description =
       <section class="work-cover">
         <div class="wrap content-page">
           <p class="eyebrow mono">Public engineering proof</p>
-          <h1>Inspectable systems, not portfolio theater.</h1>
+          <h1>Four public repos. Each page says what the tests actually prove.</h1>
           <p class="lead">
-            Public proof paths and explicit boundaries. Each plate links to the implementation and
-            states exactly what its evidence supports.
+            Deployment recovery, guarded API tools, evaluation, and confirm-before-write quality.
+            Each plate links to the repo, the proof, and the stated limits.
           </p>
         </div>
       </section>
@@ -73,6 +73,7 @@ const description =
                     <span class="work-title">{item.title}</span>
                     <span class="work-summary">{item.summary}</span>
                     <span class="work-evidence"><strong>Proof:</strong> {item.evidence}</span>
+                    <span class="work-boundary"><strong>Boundary:</strong> {item.boundary}</span>
                     <span class="work-footer">
                       <span class="work-repo mono">{item.repoUrl.replace('https://github.com/', '')}</span>
                       <span class="work-open mono">Open case →</span>
@@ -143,6 +144,7 @@ const description =
   .work-title { display:block; margin:12px 0 10px; font-size:clamp(1.16rem,2vw,1.46rem); font-weight:650; letter-spacing:-.025em; line-height:1.15; }
   .work-summary { color:var(--muted); font-size:.88rem; line-height:1.48; }
   .work-evidence { margin-top:14px; padding-top:12px; border-top:1px solid var(--rule); color:var(--ink); font-size:.76rem; line-height:1.42; }
+  .work-boundary { margin-top:8px; color:var(--muted); font-size:.72rem; line-height:1.42; }
   .work-footer { width:100%; display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 12px; align-items:flex-end; margin-top:auto; padding-top:18px; }
   .work-repo { color:var(--muted); font-size:.7rem; overflow-wrap:anywhere; }
   .work-open { color:var(--blue); font-size:.72rem; white-space:nowrap; }

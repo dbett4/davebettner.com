@@ -23,6 +23,7 @@ const projectNames = {
   wingman: 'Confirm-before-write spreadsheet quality',
 } as const;
 const projectName = projectNames[item.id as keyof typeof projectNames];
+const plateNumber = String(cases.findIndex((candidate) => candidate.id === item.id) + 1).padStart(2, '0');
 const canonical = `${siteUrl}/work/${item.id}/`;
 const title = `${projectName} | Dave Bettner`;
 ---
@@ -72,7 +73,7 @@ const title = `${projectName} | Dave Bettner`;
             </p>
           </div>
           <div class="case-plate" aria-hidden="true">
-            <span class="plate-chrome mono">PLATE · {item.visual}</span>
+            <span class="plate-chrome mono">PLATE · {plateNumber}</span>
             <span class="plate-mark"></span>
             <div class="plate-diagram">
               <span>Constraint</span><i></i><span>Controlled path</span><i></i><span>Readback</span>
@@ -169,7 +170,7 @@ const title = `${projectName} | Dave Bettner`;
   .evidence-steps li{flex:1 1 140px;min-width:0;border:1px solid var(--ink);padding:10px 12px 10px 36px;font-size:.78rem;font-weight:650;line-height:1.25;position:relative;counter-increment:step}
   .evidence-steps li::before{content:counter(step,decimal-leading-zero);position:absolute;left:10px;top:10px;font-family:"DM Mono",monospace;font-size:.62rem;color:var(--blue)}
   .evidence-boundary{border-top:2px solid var(--orange);padding-top:14px}
-  .evidence-boundary .mono{display:block;color:var(--orange);margin-bottom:6px}
+  .evidence-boundary .mono{display:block;color:var(--orange-ink);margin-bottom:6px}
   .evidence-boundary p{font-size:.84rem;font-weight:600;max-width:620px}
   .detail-head{display:grid;gap:10px;margin-bottom:24px}.detail-head h2,.contact-block h2{font-family:"Newsreader Variable",Georgia,serif;font-size:clamp(1.8rem,3.4vw,2.8rem);font-weight:500;letter-spacing:-.035em;line-height:1.05}
   .case-list{display:grid;grid-template-columns:145px 1fr;font-size:.9rem;margin-bottom:64px}

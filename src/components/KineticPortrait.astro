@@ -1,0 +1,157 @@
+---
+const source = '/images/dave-bettner-headshot-portrait.webp';
+---
+
+<figure class="kinetic-portrait" data-kinetic-portrait>
+  <div class="kinetic-portrait__image">
+    <img
+      src={source}
+      alt="Dave Bettner smiling in a gray suit"
+      width="1200"
+      height="1600"
+      loading="eager"
+      decoding="async"
+      data-portrait-source
+    />
+    <canvas class="kinetic-portrait__dither" aria-hidden="true" data-portrait-dither></canvas>
+    <span class="kinetic-portrait__scan" aria-hidden="true"></span>
+  </div>
+  <figcaption>
+    <span>Portrait / source pixels</span>
+    <span>Move to resolve</span>
+  </figcaption>
+</figure>
+
+<script>
+  const matrix = [
+    [0, 48, 12, 60, 3, 51, 15, 63],
+    [32, 16, 44, 28, 35, 19, 47, 31],
+    [8, 56, 4, 52, 11, 59, 7, 55],
+    [40, 24, 36, 20, 43, 27, 39, 23],
+    [2, 50, 14, 62, 1, 49, 13, 61],
+    [34, 18, 46, 30, 33, 17, 45, 29],
+    [10, 58, 6, 54, 9, 57, 5, 53],
+    [42, 26, 38, 22, 41, 25, 37, 21],
+  ];
+
+  document.querySelectorAll<HTMLElement>('[data-kinetic-portrait]').forEach((portrait) => {
+    const image = portrait.querySelector<HTMLImageElement>('[data-portrait-source]');
+    const canvas = portrait.querySelector<HTMLCanvasElement>('[data-portrait-dither]');
+    if (!image || !canvas) return;
+
+    const render = () => {
+      const width = 320;
+      const height = Math.round(width * (image.naturalHeight / image.naturalWidth));
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext('2d', { willReadFrequently: true });
+      if (!context) return;
+      context.drawImage(image, 0, 0, width, height);
+      const frame = context.getImageData(0, 0, width, height);
+      const pixels = frame.data;
+      for (let y = 0; y < height; y += 1) {
+        for (let x = 0; x < width; x += 1) {
+          const index = (y * width + x) * 4;
+          const luminance = pixels[index] * 0.2126 + pixels[index + 1] * 0.7152 + pixels[index + 2] * 0.0722;
+          const threshold = (matrix[y % 8][x % 8] + 0.5) * 4;
+          const light = luminance > threshold;
+          pixels[index] = light ? 234 : 17;
+          pixels[index + 1] = light ? 232 : 32;
+          pixels[index + 2] = light ? 220 : 255;
+          pixels[index + 3] = 255;
+        }
+      }
+      context.putImageData(frame, 0, 0);
+      portrait.dataset.ready = 'true';
+    };
+
+    if (image.complete) render();
+    else image.addEventListener('load', render, { once: true });
+
+    const move = (event: PointerEvent) => {
+      const bounds = portrait.getBoundingClientRect();
+      portrait.style.setProperty('--portrait-x', `${((event.clientX - bounds.left) / bounds.width) * 100}%`);
+      portrait.style.setProperty('--portrait-y', `${((event.clientY - bounds.top) / bounds.height) * 100}%`);
+    };
+    portrait.addEventListener('pointermove', move);
+    portrait.addEventListener('pointerleave', () => {
+      portrait.style.removeProperty('--portrait-x');
+      portrait.style.removeProperty('--portrait-y');
+    });
+  });
+</script>
+
+<style>
+  .kinetic-portrait {
+    --portrait-x: 56%;
+    --portrait-y: 42%;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    min-height: 0;
+    margin: 0;
+    color: var(--profile-paper, #f2f0e8);
+  }
+
+  .kinetic-portrait__image {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    background: #76736e;
+    isolation: isolate;
+  }
+
+  .kinetic-portrait img,
+  .kinetic-portrait canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 35%;
+  }
+
+  .kinetic-portrait__dither {
+    image-rendering: pixelated;
+    mix-blend-mode: hard-light;
+    opacity: 0;
+    mask-image: radial-gradient(circle 24% at var(--portrait-x) var(--portrait-y), transparent 0 45%, #000 72%);
+    transition: opacity 600ms ease-out;
+  }
+
+  .kinetic-portrait[data-ready='true'] .kinetic-portrait__dither {
+    opacity: 0.46;
+  }
+
+  .kinetic-portrait__scan {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent 0 66%, rgba(255, 76, 48, 0.9) 66% 66.35%, transparent 66.35%);
+    mix-blend-mode: screen;
+  }
+
+  .kinetic-portrait figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0 0;
+    font: 500 0.66rem/1.2 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 720px) {
+    .kinetic-portrait__image {
+      aspect-ratio: 4 / 5;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kinetic-portrait__dither {
+      transition: none;
+      mask-image: linear-gradient(90deg, transparent 0 72%, #000 92%);
+      opacity: 0.4 !important;
+    }
+  }
+</style>

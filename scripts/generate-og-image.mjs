@@ -40,8 +40,9 @@ async function main() {
   const chrome = resolveChrome();
   const source = await readFile(sourceHtml, 'utf8');
   for (const marker of [
-    'Enterprise agent deployment · Solutions engineering',
-    'I carry complex customer deployments from discovery through adoption.',
+    'Forward-deployed delivery · AI-agent systems',
+    'Messy customer workflows → deployed systems that hold up.',
+    'Discovery, integration, debugging, proof, and adoption',
     'Discover',
     'Shape',
     'Deliver',

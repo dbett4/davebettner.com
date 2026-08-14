@@ -5,11 +5,11 @@ export const recruiterFitSubhead =
   'Paste your job description, then open a pre-filled evaluation prompt in your preferred AI assistant, or copy the prompt to paste manually.';
 
 /** Public profile context embedded in the recruiter evaluation prompt. */
-export const profileContext = `Dave Bettner — enterprise agent deployment and solutions engineering.
+export const profileContext = `Dave Bettner — forward-deployed delivery and solutions engineering for complex enterprise environments.
 
-**Headline:** Forward-deployed solutions engineering, AI implementation, and deployment strategy for complex customer environments.
+**Headline:** Customer discovery → scoped solution → integration → debugging → proof → adoption. Ten-plus years of enterprise delivery paired with hands-on, inspectable AI-agent engineering.
 
-**Summary:** Solutions and implementation leader with 10+ years of regulated enterprise delivery who carries customer work from discovery through adoption. Supports proposals, SOW scoping and negotiation, estimates, quotes, RFP responses, persona-specific and on-site demos, pitch presentations, and delivery handoffs. Does not claim quota ownership, revenue credit, or final contract-signature authority. Recent hands-on Python work covers agent integration, failure recovery, and deployment-proof labs; Rust evidence is a bounded, open upstream work sample. Public agent and MCP work is inspectable and synthetic or sanitized. Not a claim of production software-engineering tenure or customer-production agent deployments.
+**Summary:** Customer-facing solutions and implementation leader with 10+ years turning unfamiliar enterprise workflows and technical constraints into signed-off deployments. Supports proposals, SOW scoping and negotiation, estimates, quotes, RFP responses, persona-specific and on-site demos, pitch presentations, integration design, debugging, validation, and delivery handoffs. Hands-on Python work covers MCP integrations, guarded agent tools, failure injection, idempotent recovery, and deployment-proof labs. Hermes Agent Desktop PR #84621 is an open, unreviewed TypeScript/Electron work sample, not Nous acceptance. A separate open Rust work sample is block/buzz PR #5620, also unreviewed. Public agent and MCP work is inspectable and synthetic or sanitized. It is engineering evidence, not multi-year production software engineering or a customer Hermes Enterprise deployment. Does not claim quota ownership, revenue credit, or final contract-signature authority.
 
 **Current:** Senior Manager, LSL, LLP (Nov 2025–present, Chicago then Des Moines). Municipal finance and ERP-connected reporting delivery; proposals, SOW support, estimates, quotes, RFP responses, on-site demos, pitch presentations, and delivery handoffs through adoption.
 
@@ -17,17 +17,18 @@ export const profileContext = `Dave Bettner — enterprise agent deployment and 
 - Manager of Digital Services, Citrin Cooperman (Dec 2024–Oct 2025): Workiva-platform rollouts; national healthcare enterprise certification with bidirectional API integration and executive sign-off through go-live.
 - Solutions Architect, Workiva (Oct 2022–Oct 2024): concurrent GRC and financial-reporting implementations; SSO, API, and ERP integration architecture.
 - Solutions Consultant, Ambra Health (Sept 2021–Oct 2022): HIPAA imaging deployments, EHR interfaces, and portal integrations through an acquisition transition.
-- SEC Reporting Consultant, Workiva (Sept 2015–Sept 2021): XBRL, technical accounting, quarterly filing execution.
+- SEC Reporting Consultant, Workiva (Sept 2015–Sept 2021): SEC reporting and XBRL across GAAP, IFRS, and ESEF under quarterly filing deadlines.
 
 **Public engineering proof (inspectable GitHub repos):**
+- Hermes Deployment Lab — 203 public credential-free tests at attested commit 9185ab5; synthetic failure/replay with idempotent recovery. Public Actions run 31637042354 attests container-proof, test (native telemetry and trace), fresh-clone, and no-apply cloud-IaC validation. Container startup and restart/replay are attested. Cloud remains no-apply. Synthetic lab, not a customer deployment. https://github.com/dbett4/hermes-enterprise-deployment-lab
+- Hermes Agent Desktop PR #84621 — open, unreviewed TypeScript/Electron fix for sessions hidden by stale legacy profile shadows; not merged, accepted, shipped, or Nous-endorsed. https://github.com/NousResearch/hermes-agent/pull/84621
 - Regulated Reporting MCP — 126 credential-free tests; 117 tool contracts; offline demo without credentials. https://github.com/dbett4/regulated-reporting-mcp
-- Hermes Deployment Lab — 73 public credential-free tests; synthetic failure/replay with idempotent recovery. A larger local revision adds independently reviewed observability evidence and validate-only cloud IaC, but remains unpublished; container runtime and cloud operation remain unverified. Synthetic lab, not a customer deployment claim. https://github.com/dbett4/hermes-enterprise-deployment-lab
 - Hermes Enterprise Evaluation Kit — 318-row mapping; 8 negative tests; pinned v2026.8.3 suite with 214 tests; one synthetic native-runtime S1 receipt with oracle pass. It remains needs_review with no external action, no human disposition, a $0.406986 estimate rather than actual billed cost, and two recorded exceptions. https://github.com/dbett4/hermes-enterprise-field-kit
 - Wingman (confirm-before-write spreadsheet quality) — 462 Python pass + 13 skip; 243 extension pass. Fictional demo data only. https://github.com/dbett4/wingman
 
 **Proof limits:** Public repos are sanitized extracts published August 2026. They show methods and tests, not client tenants. GitHub dates are publication dates. Independent work is not a customer Hermes Enterprise deployment or Nous affiliation. No client data or credentials.
 
-**Role targets:** Forward-deployed engineer, solutions engineer, AI implementation lead, deployment strategist. Especially where customer deployment and adoption matter as much as the demo.
+**Role targets:** Forward-deployed engineer, customer engineer, solutions engineer, AI implementation lead, and deployment strategist. Best fit where learning an unfamiliar customer environment, integrating real systems, debugging deployed workflows, and iterating through adoption matter as much as the demo. Do not infer deep production-SWE or customer-production agent tenure from the public labs.
 
 **Logistics:** Des Moines, Iowa. Available for travel for deployment and executive-facing work.`;
 
@@ -106,6 +107,6 @@ export const aiProviders: readonly AiProvider[] = [
 export function buildFitPrompt(jobDescription: string): string {
   const jd =
     jobDescription.trim() ||
-    '(No job description pasted. Evaluate general fit for forward-deployed, solutions engineering, AI implementation, or deployment strategy roles.)';
+    '(No job description pasted. Evaluate general fit for forward-deployed engineering, customer engineering, solutions engineering, AI implementation, or deployment strategy roles.)';
   return fitPromptTemplate.replace('{{JOB_DESCRIPTION}}', jd);
 }

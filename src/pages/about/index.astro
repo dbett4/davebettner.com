@@ -7,9 +7,9 @@ import { personSchema, siteUrl } from '../../data/seo';
 import { emailHref, githubUrl, linkedinUrl } from '../../data/site-links';
 
 const canonical = `${siteUrl}/about/`;
-const title = 'About Dave Bettner | Enterprise Agent Deployment and Solutions Engineering';
+const title = 'About Dave Bettner | Forward-Deployed Delivery and AI-Agent Systems';
 const description =
-  'Dave Bettner leads enterprise solution delivery for agent workflows and customer deployments, with domain depth in finance and regulated work.';
+  'Dave Bettner turns complex customer workflows and technical constraints into deployed systems, pairing enterprise delivery with hands-on agent and MCP engineering.';
 ---
 
 <!doctype html>
@@ -47,8 +47,8 @@ const description =
         <div class="wrap about-cover-grid">
           <div class="about-intro">
             <p class="eyebrow mono">About Dave Bettner</p>
-            <h1>Customer context, engineering rigor, and a path to adoption.</h1>
-            <p class="cover-lead">Enterprise solutions are useful only when the deployment holds from first decision through handoff.</p>
+            <h1>Learn the environment. Ship the path. Stay through the hard parts.</h1>
+            <p class="cover-lead">I work with customer teams from messy discovery through integration, debugging, proof, adoption, and iteration. Public agent and MCP labs make the engineering habits inspectable: explicit permissions, visible failures, readback, and recovery.</p>
             <p class="cover-actions">
               <a class="round blue" href={emailHref}>Start a conversation <span aria-hidden="true">↗</span></a>
               <a class="round" href="/experience/">Career timeline <span aria-hidden="true">→</span></a>
@@ -65,8 +65,8 @@ const description =
       <section class="principles-section" aria-labelledby="principles-heading">
         <div class="wrap content-page">
           <div class="section-head">
-            <p class="eyebrow mono">Operating principles</p>
-            <h2 id="principles-heading">What survives contact with a customer.</h2>
+            <p class="eyebrow mono">How I work</p>
+            <h2 id="principles-heading">The controls that keep customer work legible.</h2>
           </div>
           <ol class="principles">
             <li><span class="principle-mark principle-mark--square" aria-hidden="true"></span><div><p class="mono">01 · Visible permissions</p><strong>Clear permissions</strong><span>Systems should make authority and scope explicit.</span></div></li>
@@ -80,7 +80,7 @@ const description =
         <div class="wrap narrative-grid">
           <div class="section-head">
             <p class="eyebrow mono">The throughline</p>
-            <h2>One operating pattern across regulated work and agent systems.</h2>
+            <h2>One operating pattern across regulated work and AI-agent systems.</h2>
           </div>
           <div class="prose">
             {aboutSection.body.map((paragraph) => <p>{paragraph}</p>)}

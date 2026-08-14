@@ -157,11 +157,11 @@ const templateJson = JSON.stringify(fitPromptTemplate);
 
     const prompt = buildPrompt(jobDescription);
     const encoded = encodeURIComponent(prompt);
-    const copied = await copyPrompt(prompt);
     const prefillUrl = provider.prefix + encoded;
     const usesPrefill = prefillUrl.length <= MAX_PREFILL_URL_LENGTH;
 
     window.open(usesPrefill ? prefillUrl : provider.baseUrl, '_blank', 'noopener,noreferrer');
+    const copied = await copyPrompt(prompt);
 
     setStatus(
       usesPrefill
@@ -308,8 +308,8 @@ const templateJson = JSON.stringify(fitPromptTemplate);
     border: 1px solid var(--ink);
     color: var(--ink);
     font-size: 0.8rem;
-    min-height: 40px;
-    padding: 8px 14px;
+    min-height: 44px;
+    padding: 10px 14px;
     border-radius: 999px;
     transition: background 0.15s, border-color 0.15s;
   }

@@ -62,6 +62,7 @@ const browser = await chromium.launch({
 
 const buildingRoles = [
   'Failure recovery',
+  'Upstream product fix',
   'Guarded integration',
 ];
 
@@ -92,19 +93,19 @@ const outcomeStories = [
     label: 'Statutory certification handoff',
     context: 'Manager of Digital Services · Citrin Cooperman',
     title: 'Bidirectional API workflow carried through sign-off',
-    result: 'Production workflow delivered; handoff became a repeatable operating model.',
+    result: 'Bidirectional reporting ↔ system-of-record handoff with audit trail and finance, IT, and executive sign-off at go-live.',
   },
   {
     label: 'GRC reporting with human review',
     context: 'Solutions Architect · Workiva',
     title: 'Controlled reporting with human review and native readback',
-    result: 'Multiple concurrent implementations through adoption with journaled changesets and native readback.',
+    result: 'SSO, API, and ERP-scoped GRC and reporting implementations with controlled writes, human sign-off, and native readback.',
   },
   {
     label: 'HIPAA imaging integration',
     context: 'Solutions Consultant · Ambra Health',
     title: 'HIPAA imaging, EHR, and portal integrations through acquisition',
-    result: 'Four workflow types in production; integrations cleared HIPAA review before go-live.',
+    result: 'HIPAA imaging, EHR, portal, and billing workflows through acquisition; integrations cleared review before go-live.',
   },
 ];
 
@@ -119,7 +120,8 @@ const projects = [
     slug: 'hermes-deployment-lab',
     title: 'Hermes Deployment Lab',
     repo: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
-    proof: '73 public credential-free tests',
+    proof: '203 public credential-free tests',
+    boundaries: ['31637042354', '9185ab5', 'container-proof', 'no-apply'],
   },
   {
     slug: 'hermes-field-kit',
@@ -238,6 +240,28 @@ async function assertCausalDeliveryLoopContracts(page, name) {
     `${name}: delivery outcome marks are geometrically distinct`,
     markClassSets.join('|'),
   );
+
+  if ((page.viewportSize()?.width ?? Number.POSITIVE_INFINITY) <= 960) {
+    const outcomeTextGeometry = await page.locator('.proof-row').evaluateAll((rows) =>
+      rows.map((row) => {
+        const main = row.querySelector('.proof-main')?.getBoundingClientRect();
+        const summary = row.querySelector('.proof-summary')?.getBoundingClientRect();
+        const result = row.querySelector('.proof-result')?.getBoundingClientRect();
+        return main && summary && result
+          ? {
+              aligned: Math.abs(main.left - summary.left) < 1 && Math.abs(main.left - result.left) < 1,
+              readableWidth: summary.width >= 180 && result.width >= 180,
+              stacked: summary.top >= main.bottom && result.top >= summary.bottom,
+            }
+          : null;
+      }),
+    );
+    ok(
+      outcomeTextGeometry.every((row) => row?.aligned && row.readableWidth && row.stacked),
+      `${name}: mobile delivery outcome copy stacks at a readable width without overlap`,
+      JSON.stringify(outcomeTextGeometry),
+    );
+  }
   ok((await page.locator('ol.proof-ledger').count()) === 0, `${name}: delivery outcomes are not an ordered list`);
 
   const body = await page.locator('body').innerText();
@@ -246,26 +270,34 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   for (const token of ['01 ·', '02 ·', '03 ·', '04 ·']) {
     ok(!body.includes(token), `${name}: decorative serial token absent (${token})`);
   }
-  for (const marker of ['73', '126']) {
-    ok(body.includes(marker), `${name}: factual evidence marker retained (${marker})`);
+  for (const marker of [
+    'Containerized deployment lab with a FastMCP server',
+    'MCP server for a Workiva-shaped reporting API',
+  ]) {
+    ok(body.includes(marker), `${name}: public proof problem statement retained (${marker})`);
   }
-  for (const trivia of ['needs_review', '$0.406986', 'v2026.8.3', 'Chief of Staff', 'Remote-friendly']) {
+  for (const trivia of [
+    'needs_review',
+    '$0.406986',
+    'v2026.8.3',
+    'Chief of Staff',
+    'Remote-friendly',
+    'container startup is not attested',
+    'parses Compose',
+  ]) {
     ok(!body.includes(trivia), `${name}: homepage omits forbidden positioning trivia (${trivia})`);
   }
   ok((await page.locator('.building-limit, .limit-label').count()) === 0, `${name}: homepage has no per-card Limit blocks`);
   ok(
-    body.includes('sanitized extracts published August 2026') ||
-      body.includes('sanitized extracts published Aug 2026'),
-    `${name}: shared evidence-boundary note present`,
+    body.includes('Labs and sanitized extracts') && body.includes('Nous/Hermes Enterprise affiliation'),
+    `${name}: homepage evidence-boundary note present`,
   );
   ok(
-    body.includes('not a customer Hermes Enterprise deployment') ||
-      body.includes('not a customer Hermes Enterprise'),
-    `${name}: evidence boundary denies customer Hermes Enterprise deployment claim`,
+    body.includes('Nous/Hermes Enterprise affiliation'),
+    `${name}: evidence boundary denies Hermes Enterprise affiliation claim`,
   );
   ok(
-    body.includes('not customer-production agent deployments') ||
-      body.includes('engineering proof, not customer-production'),
+    body.includes('production-engineering tenure'),
     `${name}: provenance keeps production-tenure claim boundary`,
   );
 }
@@ -717,8 +749,9 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const coverSeparateColumns = Math.abs(cr.left - sr.left) > 80;
       const cardRects = cards.map((card) => card.getBoundingClientRect());
       const leftColumn = cardRects.filter((rect) => Math.abs(rect.left - cardRects[0].left) <= 2);
-      const proofTwoColumns = cards.length === 2 && leftColumn.length === 1 && cardRects.length === 2 &&
-        Math.abs(cardRects[0].left - cardRects[1].left) > 80;
+      const proofTwoColumns = cards.length === 3 && leftColumn.length === 2 &&
+        Math.abs(cardRects[0].left - cardRects[1].left) > 80 &&
+        Math.abs(cardRects[0].left - cardRects[2].left) <= 2;
       const portraitInsideCover = pr.top >= cr.top - 1 && pr.bottom <= cr.bottom + 1;
       const portraitAboveFold = pr.top < innerHeight;
       return {
@@ -823,20 +856,20 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       JSON.stringify(proofScroll),
     );
 
-    const secondReachable = await page.evaluate(() => {
+    const lastReachable = await page.evaluate(() => {
       const list = document.querySelector('.building-list');
       const cards = [...document.querySelectorAll('.building-card')];
-      const second = cards[1];
-      if (!(list instanceof HTMLElement) || !second) return { ok: false, reason: 'missing list/card' };
-      const link = second.querySelector('a');
+      const last = cards.at(-1);
+      if (!(list instanceof HTMLElement) || !last) return { ok: false, reason: 'missing list/card' };
+      const link = last.querySelector('a');
       if (!(link instanceof HTMLElement)) return { ok: false, reason: 'missing link' };
       list.scrollLeft = list.scrollWidth;
       link.focus({ preventScroll: false });
       link.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       const rect = link.getBoundingClientRect();
-      const style = getComputedStyle(second);
-      const evidence = second.querySelector('.building-evidence')?.textContent?.trim() ?? '';
-      const limit = second.querySelector('.building-limit');
+      const style = getComputedStyle(last);
+      const evidence = last.querySelector('.building-evidence')?.textContent?.trim() ?? '';
+      const limit = last.querySelector('.building-limit');
       return {
         ok: true,
         focused: document.activeElement === link,
@@ -846,9 +879,9 @@ async function assertHomepageResponsiveContracts(page, viewport) {
         evidence,
       };
     });
-    ok(secondReachable.ok, `${name}: second proof card present`, secondReachable.reason ?? '');
-    ok(secondReachable.focused && secondReachable.inView, `${name}: second proof card link reachable after horizontal scroll`, JSON.stringify(secondReachable));
-    ok(secondReachable.evidenceVisible && secondReachable.limitAbsent, `${name}: second proof card keeps evidence and omits Limit`, JSON.stringify(secondReachable));
+    ok(lastReachable.ok, `${name}: final proof card present`, lastReachable.reason ?? '');
+    ok(lastReachable.focused && lastReachable.inView, `${name}: final proof card link reachable after horizontal scroll`, JSON.stringify(lastReachable));
+    ok(lastReachable.evidenceVisible && lastReachable.limitAbsent, `${name}: final proof card keeps evidence and omits Limit`, JSON.stringify(lastReachable));
 
     const allCardText = await page.locator('.building-card').evaluateAll((cards) =>
       cards.map((card) => ({
@@ -857,8 +890,8 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       })),
     );
     ok(
-      allCardText.length === 2 && allCardText.every((card) => card.evidence.length > 0 && card.limit.length === 0),
-      `${name}: both featured proof cards keep evidence and omit Limit`,
+      allCardText.length === 3 && allCardText.every((card) => card.evidence.length > 0 && card.limit.length === 0),
+      `${name}: all three featured proof cards keep evidence and omit Limit`,
       JSON.stringify(allCardText.map((card) => ({ evidence: card.evidence.length, limit: card.limit.length }))),
     );
   }
@@ -931,41 +964,43 @@ try {
     const page = await context.newPage();
     await auditPage(page, '/', viewport.name);
     ok(await page.locator('#work').count() === 1, `${viewport.name}: work section exists`);
-    ok(await page.locator('#work .building-card').count() === 2, `${viewport.name}: two featured public engineering cards`);
+    ok(await page.locator('#work .building-card').count() === 3, `${viewport.name}: three featured public engineering cards`);
     ok(await page.locator('a[href="https://github.com/dbett4"]').count() >= 1, `${viewport.name}: GitHub profile is linked`);
     const body = await page.locator('body').innerText();
     ok(body.includes('publication dates'), `${viewport.name}: publication provenance visible`);
     ok(!body.includes('459 Python'), `${viewport.name}: stale Wingman count absent`);
     const coverKicker = await page.locator('.cover-kicker').textContent();
     ok(
-      coverKicker?.trim() === 'Enterprise agent deployment · Solutions engineering',
-      `${viewport.name}: homepage kicker targets enterprise agent deployment / solutions engineering`,
+      coverKicker?.trim() === 'Forward-deployed delivery · AI-agent systems',
+      `${viewport.name}: homepage kicker targets forward-deployed AI-agent work`,
       String(coverKicker),
     );
     ok(
-      body.includes('I carry complex customer deployments from discovery through adoption.'),
-      `${viewport.name}: H1 names customer deployments through adoption`,
+      body.includes('I turn messy customer workflows into deployed systems that hold up.'),
+      `${viewport.name}: H1 names customer workflows and durable deployment`,
     );
     const coverSupport = ((await page.locator('.cover-support').textContent()) ?? '').trim();
     const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
     ok(
-      !/customer-production agent deployments|production software-engineering tenure/i.test(coverSupport),
-      `${viewport.name}: hero support omits defensive tenure caveats`,
+      /discovery through integration, debugging, sign-off, and adoption/i.test(coverSupport) &&
+        /customer delivery/i.test(coverSupport) &&
+        /agent and MCP engineering/i.test(coverSupport),
+      `${viewport.name}: hero support states the forward-deployed operating loop and technical proof`,
       coverSupport,
     );
     ok(
-      /engineering proof/.test(provenance) &&
-        /customer-production/.test(provenance) &&
-        /quota ownership/.test(provenance),
-      `${viewport.name}: provenance keeps engineering-proof and quota claim boundaries`,
+      /Labs and sanitized extracts/.test(provenance) &&
+        /production-engineering tenure/.test(provenance) &&
+        /Nous\/Hermes Enterprise affiliation/.test(provenance),
+      `${viewport.name}: homepage provenance keeps lab and affiliation boundaries`,
       provenance,
     );
     ok(
-      body.includes('forward-deployed and solutions engineering'),
-      `${viewport.name}: direction names forward-deployed and solutions engineering roles`,
+      body.toLowerCase().includes('forward-deployed delivery and solutions engineering'),
+      `${viewport.name}: direction names forward-deployed delivery and solutions engineering`,
     );
     ok(body.includes('proposals') || body.includes('SOW') || body.includes('RFP'), `${viewport.name}: engagement method includes shape/presales work`);
-    ok(body.includes('on-site demos') || body.includes('pitch presentations'), `${viewport.name}: engagement method includes demonstrate work`);
+    ok(body.includes('Demonstrate the path against buyer and operator criteria'), `${viewport.name}: engagement method includes demonstrate work`);
     ok(
       body.toLowerCase().includes('finance, audit, and assurance'),
       `${viewport.name}: domain depth names finance, audit, and assurance`,
@@ -1014,18 +1049,18 @@ try {
       JSON.stringify(coverActions),
     );
     ok(
-      coverActions.some((link) => link.href === '/experience/' && link.text.includes('Experience')),
-      `${viewport.name}: primary CTA includes Experience`,
+      !coverActions.some((link) => link.href === '/experience/'),
+      `${viewport.name}: cover CTA avoids duplicating Experience navigation`,
       JSON.stringify(coverActions),
     );
     ok(
-      coverActions.some((link) => link.href === '#work' && link.text.includes('Public engineering proof')),
-      `${viewport.name}: secondary CTA includes Public engineering proof`,
+      !coverActions.some((link) => link.href === '#work'),
+      `${viewport.name}: cover CTA leaves proof discovery to the page flow`,
       JSON.stringify(coverActions),
     );
     ok(
-      coverActions.some((link) => link.href === '/fit/' && /role fit|Check fit/i.test(link.text)),
-      `${viewport.name}: secondary CTA includes Check role fit`,
+      !coverActions.some((link) => link.href === '/fit/'),
+      `${viewport.name}: cover actions do not duplicate the adjacent role-fit tool`,
       JSON.stringify(coverActions),
     );
     const buildingCardOrder = await page.locator('.building-card').evaluateAll((cards) =>
@@ -1033,8 +1068,8 @@ try {
     );
     ok(
       buildingCardOrder.join(',') ===
-        'hermes-deployment-lab,regulated-reporting-mcp',
-      `${viewport.name}: building-card order is deployment lab → MCP`,
+        'hermes-deployment-lab,hermes-agent-pr-84621,regulated-reporting-mcp',
+      `${viewport.name}: building-card order is deployment lab → Hermes PR → MCP`,
       buildingCardOrder.join(','),
     );
     await assertCausalDeliveryLoopContracts(page, viewport.name);
@@ -1123,8 +1158,8 @@ try {
   );
   const signalFieldAffordanceLabel = await signalFrame.getAttribute('aria-label');
   ok(
-    signalFieldAffordanceLabel?.includes('hover, focus, or tap'),
-    'Homepage signal field affordance names hover, focus, and tap',
+    signalFieldAffordanceLabel === null,
+    'Homepage signal field has no inert frame tab stop or redundant accessible label',
     String(signalFieldAffordanceLabel),
   );
   const primaryNavLabel = await animatedPage.locator('.primary-nav').getAttribute('aria-label');
@@ -1139,7 +1174,7 @@ try {
     action: (link.querySelector('.signal-field__contact-action')?.textContent ?? '').trim(),
   }));
   ok(
-    fitInstructions.heading === 'See how a role maps to my work.' &&
+    fitInstructions.heading === 'Role-fit, grounded in the work.' &&
       fitInstructions.instructions.includes('Paste a job description') &&
       fitInstructions.instructions.includes('choose an AI assistant') &&
       fitInstructions.instructions.includes('public profile and portfolio') &&
@@ -1200,7 +1235,26 @@ try {
   const touchFrame = touchPage.locator('.signal-field__frame');
   const touchContact = touchPage.locator('[data-signal-contact="fit"]');
 
-  // Synthetic same-contact events exercise the click guard without claiming hit-testing.
+  // Replaced touch-lock behavior: the Fit card is now an immediately visible link.
+  const defaultTouchContactState = await touchPage.locator('[data-signal-field]').evaluate((field) => {
+    const contacts = field.querySelector('.signal-field__contacts');
+    if (!(contacts instanceof HTMLElement)) return null;
+    const style = getComputedStyle(contacts);
+    return { opacity: Number(style.opacity), pointerEvents: style.pointerEvents };
+  });
+  ok(
+    Boolean(defaultTouchContactState?.opacity > 0.95 && defaultTouchContactState.pointerEvents === 'auto'),
+    'Homepage Check Fit card is immediately visible and touch-actionable',
+    JSON.stringify(defaultTouchContactState),
+  );
+  await Promise.all([
+    touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
+    touchContact.tap(),
+  ]);
+  ok(new URL(touchPage.url()).pathname === '/fit/', 'Homepage Check Fit opens /fit/ on one touch');
+
+  if (process.env.RUN_LEGACY_SIGNAL_FIELD_TOUCH_TESTS === '1') {
+  // Optional legacy touch-lock regression coverage for the prior progressive-reveal interaction.
   const syntheticContactGuardEvents = await touchPage.evaluate(() => {
     const field = document.querySelector('[data-signal-field]');
     const link = document.querySelector('[data-signal-contact="fit"]');
@@ -1391,6 +1445,7 @@ try {
     'Homepage touch sequence without click expires before later keyboard activation',
     abandonedKeyboardError,
   );
+  }
   await touchContext.close();
 
   const reducedContext = await browser.newContext({
@@ -1543,14 +1598,14 @@ try {
   ok(metadata.canonical === 'https://davebettner.com/', 'Homepage canonical URL', String(metadata.canonical));
   ok(
     Boolean(
-      metadata.description?.includes('customer deployments') &&
-        metadata.description?.includes('solutions'),
+      metadata.description?.includes('technical constraints') &&
+        metadata.description?.includes('public AI-agent engineering proof'),
     ),
-    'Homepage meta description targets customer deployments and solutions work',
+    'Homepage meta description targets customer constraints and public AI-agent proof',
     String(metadata.description),
   );
   ok(
-    metadata.ogTitle === 'Dave Bettner | Enterprise Agent Deployment · Solutions Engineering',
+    metadata.ogTitle === 'Dave Bettner | Forward-Deployed Delivery · AI-Agent Systems',
     'Homepage Open Graph title matches launch positioning',
     String(metadata.ogTitle),
   );
@@ -1591,6 +1646,12 @@ try {
   try {
     const jsonLd = JSON.parse(metadata.jsonLd ?? '');
     ok(jsonLd.sameAs?.includes('https://github.com/dbett4'), 'JSON-LD includes GitHub identity');
+    ok(jsonLd.jobTitle === 'Senior Manager', 'JSON-LD keeps the current job title', String(jsonLd.jobTitle));
+    ok(
+      jsonLd.homeLocation?.name === 'Des Moines, Iowa',
+      'JSON-LD keeps the current Des Moines location',
+      String(jsonLd.homeLocation?.name),
+    );
   } catch (error) {
     ok(false, 'JSON-LD parses', error.message);
   }
@@ -1633,6 +1694,12 @@ try {
     );
     const projectText = await page.locator('body').innerText();
     ok(projectText.includes(project.proof), `${route}: exact proof marker`, project.proof);
+    ok(
+      !/parses Compose|does not attest container|container startup is not attested|runtime-unverified/i.test(
+        projectText,
+      ),
+      `${route}: obsolete parse-only / unattested-container language absent`,
+    );
     for (const boundary of project.boundaries ?? []) {
       ok(projectText.includes(boundary), `${route}: proof boundary ${boundary}`);
     }
@@ -1643,6 +1710,7 @@ try {
   ok((await page.locator('ol.timeline li').count()) >= 1, 'Experience timeline has dated entries');
   const experienceText = await page.locator('main').innerText();
   for (const marker of [
+    'since 2015',
     'Senior Manager · LSL, LLP',
     'Manager of Digital Services · Citrin Cooperman',
     'Solutions Architect · Workiva',
@@ -1660,6 +1728,7 @@ try {
     ok(experienceText.includes(marker), `Experience contains ${marker}`);
   }
   ok(!experienceText.includes('Remote'), 'Experience omits Remote labels');
+  ok(!experienceText.includes('Technical accounting judgment'), 'Experience omits accountant-screen framing');
   ok(!experienceText.includes('Kaiser Permanente'), 'Experience anonymizes private client name');
   ok(!experienceText.includes('quota'), 'Experience omits quota ownership claims');
   ok(!experienceText.includes('signature authority'), 'Experience omits signature-authority claims');
@@ -1669,10 +1738,10 @@ try {
   ok(!aboutText.includes('My career has moved from accounting'), 'About omits accountant-first career framing');
   const aboutLower = aboutText.toLowerCase();
   ok(
-    aboutLower.includes('enterprise') &&
-      (aboutLower.includes('agent') || aboutLower.includes('deployment')) &&
-      aboutLower.includes('solution'),
-    'About leads from enterprise solutions / agent deployment framing',
+    aboutLower.includes('learn the environment') &&
+      aboutLower.includes('ship the path') &&
+      aboutLower.includes('stay through the hard parts'),
+    'About leads from embedded delivery framing',
   );
   const aboutParagraphs = aboutText.split(/\n+/).map((line) => line.trim()).filter(Boolean);
   const openingDupes = aboutParagraphs.filter((line) =>
@@ -1682,7 +1751,16 @@ try {
 
   await page.goto(`${base}/fit/`, { waitUntil: 'networkidle' });
   const fitPayload = await page.locator('#fit-profile-data').textContent();
-  ok(fitPayload?.includes('github.com/dbett4/regulated-reporting-mcp'), 'Fit payload includes repository proof');
+  ok(fitPayload?.includes('github.com/dbett4/hermes-enterprise-deployment-lab'), 'Fit payload includes deployment lab');
+  ok(fitPayload?.includes('31637042354'), 'Fit payload cites public Actions run for container proof');
+  ok(fitPayload?.includes('9185ab5'), 'Fit payload cites attested Deployment Lab commit');
+  ok(!/parses Compose|container startup is not attested|runtime-unverified/i.test(fitPayload ?? ''), 'Fit payload omits obsolete parse-only lab language');
+  ok(fitPayload?.includes('PR #84621'), 'Fit payload names open Hermes Agent PR as work sample');
+  ok(fitPayload?.includes('TypeScript/Electron'), 'Fit payload identifies PR #84621 as TypeScript/Electron');
+  ok(
+    !fitPayload?.includes('Rust evidence is open Hermes Agent PR #84621'),
+    'Fit payload does not falsely attribute Rust to PR #84621',
+  );
   ok(fitPayload?.includes('462 Python'), 'Fit payload includes corrected Wingman count');
   ok(!fitPayload?.includes('CPA-firm practice lead'), 'Fit payload omits unsupported practice-lead claim');
   ok(

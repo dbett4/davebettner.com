@@ -1,12 +1,12 @@
 ---
-import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/archivo/wght.css';
 import '@fontsource-variable/plus-jakarta-sans/wght.css';
 import '@fontsource/dm-mono/400.css';
 import '@fontsource/dm-mono/500.css';
-import newsreaderFont from '@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url';
+import archivoFont from '@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2?url';
 import jakartaFont from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
 import monoFont from '@fontsource/dm-mono/files/dm-mono-latin-400-normal.woff2?url';
-import SignalField from '../components/SignalField.astro';
+import KineticPortrait from '../components/KineticPortrait.astro';
 import {
   aboutSection,
   buildingNow,
@@ -16,7 +16,7 @@ import {
   whereHeading,
 } from '../data/homepage-framing';
 import { identity } from '../data/portfolio-entries';
-import { provenanceNote } from '../data/public-proof';
+import { homepageProvenanceNote } from '../data/public-proof';
 import {
   personSchema,
   siteDescription,
@@ -60,6 +60,7 @@ const operatingLoop = [
 
 const roleByProjectId: Record<string, string> = {
   'hermes-deployment-lab': 'Failure recovery',
+  'hermes-agent-pr-84621': 'Upstream product fix',
   'regulated-reporting-mcp': 'Guarded integration',
   'hermes-field-kit': 'Evaluation',
   wingman: 'Readback + restore',
@@ -79,9 +80,9 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={siteDescription} />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#f3efe5" />
-    <meta name="color-scheme" content="light" />
-    <link rel="preload" href={newsreaderFont} as="font" type="font/woff2" crossorigin />
+    <meta name="theme-color" content="#0b0c0e" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="preload" href={archivoFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={jakartaFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={monoFont} as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={`${siteUrl}/`} />
@@ -94,7 +95,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     <meta property="og:image" content={`${siteUrl}/images/dave-bettner-og.jpg`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Dave Bettner — enterprise agent deployment and solutions engineering" />
+    <meta property="og:image:alt" content="Dave Bettner — forward-deployed delivery and AI-agent systems" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={siteTitle} />
     <meta name="twitter:description" content={siteDescription} />
@@ -103,6 +104,14 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     <title>{siteTitle}</title>
   </head>
   <body>
+    <!--
+      THESIS: Dave is the subject; the interface refuses a product-style metaphor and makes a profile memorable through portrait, type, and evidence.
+      OWN-WORLD: Ink-black and bone fields, signal vermilion, electric periwinkle, condensed Archivo typography, exact rules, source-pixel portraiture, and ordered dither.
+      STORY: A visitor identifies Dave, understands the enterprise-agent deployment lane, inspects bounded proof, and starts a conversation.
+      FIRST VIEWPORT: Monumental two-line name and role at left; a full-height original portrait at right shifts between ordered dither and clean source pixels; actions stay under the thesis.
+      FORM: Profile-first kinetic identity, selected after the cable and product-narrative concepts were rejected; seed 1bc436e6.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+    -->
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header">
@@ -124,32 +133,14 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <section id="top" class="cover" aria-labelledby="thesis-heading">
         <div id="thesis" class="wrap cover-grid">
           <div class="cover-copy">
-            <div class="cover-identity">
-              <img
-                src="/images/dave-bettner-headshot-20260808-square.webp"
-                srcset="/images/dave-bettner-headshot-20260808-square.webp 800w, /images/dave-bettner-headshot-20260808-square.jpg 800w"
-                sizes="(max-width: 720px) 72px, 96px"
-                alt="Dave Bettner smiling in a gray suit"
-                width="800"
-                height="800"
-                loading="eager"
-                decoding="async"
-              />
-              <div>
-                <p class="cover-kicker mono">Enterprise agent deployment · Solutions engineering</p>
-              </div>
-            </div>
-            <h1 id="thesis-heading">{thesis.title}</h1>
-            <p class="cover-support">{thesis.body[0]}</p>
+            <p class="cover-kicker mono">Profile · Enterprise agent deployment</p>
+            <h1 id="thesis-heading"><span>Dave</span><span>Bettner</span></h1>
+            <p class="cover-role">Customer-facing AI implementation and forward-deployed delivery.</p>
+            <p class="cover-support">{thesis.title}</p>
             <div class="cover-actions" aria-label="Candidate actions">
               <div class="cover-actions-primary">
                 <a class="round blue" href={emailHref}>Start a conversation <span aria-hidden="true">↗</span></a>
                 <a class="round ghost" href="/dave-bettner-resume.pdf" download>Résumé</a>
-                <a class="round ghost" href="/experience/">Experience <span aria-hidden="true">→</span></a>
-              </div>
-              <div class="cover-actions-secondary">
-                <a class="text-link identity-action-secondary" href="#work">Public engineering proof <span aria-hidden="true">↓</span></a>
-                <a class="text-link" href="/fit/">Check role fit <span aria-hidden="true">→</span></a>
               </div>
             </div>
             <dl class="cover-meta">
@@ -158,13 +149,13 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
                 <dd>{identity.location}</dd>
               </div>
               <div>
-                <dt>Direction</dt>
-                <dd>{whereHeading.title}</dd>
+                <dt>Proof</dt>
+                <dd>Customer delivery + public engineering</dd>
               </div>
             </dl>
           </div>
           <div class="cover-specimen">
-            <SignalField />
+            <KineticPortrait />
           </div>
         </div>
       </section>
@@ -185,6 +176,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
                   <p class="proof-context">{story.context}</p>
                   <h3>{story.title}</h3>
                 </div>
+                <p class="proof-summary">{story.summary}</p>
                 <p class="proof-result">{story.result}</p>
               </article>
             ))}
@@ -196,7 +188,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
         <div class="wrap section-pad">
           <div class="loop-head">
             <p class="mono section-index">Operating loop</p>
-            <h2 id="loop-heading">Presales through delivery</h2>
+            <h2 id="loop-heading">{whereHeading.title}</h2>
             <p class="loop-lead">{whereHeading.lead}</p>
           </div>
           <div class="loop-field-wrap">
@@ -256,7 +248,6 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
             {featuredProjects.map((project, index) => (
               <article class={`building-card motif-${motifByIndex[index]}`} id={project.id}>
                 <div class="building-visual">
-                  <span class="building-chrome mono" aria-hidden="true">PLATE · EVIDENCE</span>
                   <span class="building-role mono">{roleByProjectId[project.id]}</span>
                   <div class="building-motif" aria-hidden="true"></div>
                 </div>
@@ -264,7 +255,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
                   <h3>
                     <a href={project.href}>{project.title}</a>
                   </h3>
-                  <p class="building-evidence">{project.built}</p>
+                  <p class="building-evidence">{project.problem}</p>
                   <p class="building-links">
                     <a class="text-link" href={project.href}>Detail</a>
                     <span aria-hidden="true"> · </span>
@@ -272,10 +263,10 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
                       class="text-link external-repo"
                       href={project.repoUrl}
                       rel="noopener noreferrer"
-                      aria-label={`Repository github.com/dbett4/${project.repoUrl.replace('https://github.com/dbett4/', '')}`}
+                      aria-label={`GitHub ${project.repoUrl.replace('https://github.com/', '')}`}
                     >
-                      <span class="repo-slug">github.com/dbett4/{project.repoUrl.replace('https://github.com/dbett4/', '')}</span>
-                      <span class="repo-short">Repository</span>
+                      <span class="repo-slug">github.com/{project.repoUrl.replace('https://github.com/', '')}</span>
+                      <span class="repo-short">GitHub</span>
                       <span aria-hidden="true"> ↗</span>
                     </a>
                   </p>
@@ -286,7 +277,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
           <p class="work-more">
             <a class="text-link" href="/work/">See remaining public work <span aria-hidden="true">→</span></a>
           </p>
-          <p class="provenance-note">{provenanceNote}</p>
+          <p class="provenance-note">{homepageProvenanceNote}</p>
         </div>
       </section>
 
@@ -384,6 +375,15 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     overflow-x: hidden;
   }
 
+  ::selection {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  * {
+    scrollbar-color: var(--orange) var(--paper);
+  }
+
   a {
     color: inherit;
     text-decoration: none;
@@ -455,7 +455,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .mast-name {
-    font-family: 'Newsreader Variable', Georgia, serif;
+    font-family: 'Archivo Variable', 'Arial Narrow', sans-serif;
     font-size: 1.05rem;
     font-weight: 500;
     letter-spacing: -0.02em;
@@ -471,6 +471,9 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   .primary-nav a,
   .footer-links a,
   .text-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     background-image: linear-gradient(currentColor, currentColor);
     background-position: 0 100%;
     background-repeat: no-repeat;
@@ -627,20 +630,20 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
 
   .cover h1 {
-    font-family: 'Newsreader Variable', Georgia, serif;
+    font-family: 'Archivo Variable', 'Arial Narrow', sans-serif;
     font-size: clamp(1.9rem, 4.2vw, 3.2rem);
     font-weight: 500;
-    line-height: 1.02;
+    line-height: 1.12;
     letter-spacing: -0.04em;
     text-wrap: balance;
-    max-width: 18ch;
+    max-width: 15ch;
   }
 
   .cover-support {
     margin-top: var(--space-3);
-    max-width: 42ch;
-    font-size: 0.98rem;
-    line-height: 1.5;
+    max-width: 48ch;
+    font-size: 1rem;
+    line-height: 1.55;
     color: var(--ink);
   }
 
@@ -679,19 +682,11 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     margin-top: var(--space-3);
   }
 
-  .cover-actions-primary,
-  .cover-actions-secondary {
+  .cover-actions-primary {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
     align-items: center;
-  }
-
-  .cover-actions-secondary {
-    gap: 18px;
-    padding-left: 2px;
-    color: var(--muted);
-    font-size: 0.82rem;
   }
 
   .cover-specimen {
@@ -705,7 +700,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .loop-head h2 {
-    font-family: 'Newsreader Variable', Georgia, serif;
+    font-family: 'Archivo Variable', 'Arial Narrow', sans-serif;
     font-size: clamp(1.9rem, 3.4vw, 2.8rem);
     font-weight: 500;
     letter-spacing: -0.03em;
@@ -954,7 +949,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   .work-head h2,
   .proof-head h2,
   .about-copy h2 {
-    font-family: 'Newsreader Variable', Georgia, serif;
+    font-family: 'Archivo Variable', 'Arial Narrow', sans-serif;
     font-size: clamp(1.9rem, 3.4vw, 2.8rem);
     font-weight: 500;
     letter-spacing: -0.03em;
@@ -1127,7 +1122,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
   .proof-row {
     display: grid;
-    grid-template-columns: 28px minmax(0, 1.2fr) minmax(0, 0.9fr);
+    grid-template-columns: 28px minmax(0, 1.05fr) minmax(0, 1.15fr) minmax(0, 0.9fr);
     gap: var(--space-3);
     align-items: start;
     padding: var(--space-4) 0;
@@ -1183,6 +1178,13 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     max-width: 42ch;
   }
 
+  .proof-summary {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--ink);
+    max-width: 48ch;
+  }
+
   /* About */
   .about-section {
     border-bottom: 1px solid var(--ink);
@@ -1224,7 +1226,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .cta-copy h2 {
-    font-family: 'Newsreader Variable', Georgia, serif;
+    font-family: 'Archivo Variable', 'Arial Narrow', sans-serif;
     font-size: clamp(2rem, 4vw, 3.2rem);
     font-weight: 500;
     letter-spacing: -0.035em;
@@ -1308,7 +1310,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     }
 
     .cover h1 {
-      max-width: 18ch;
+      max-width: 15ch;
       font-size: clamp(1.9rem, 4vw, 2.9rem);
     }
 
@@ -1395,6 +1397,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       grid-template-columns: 44px 1fr;
     }
 
+    .proof-summary,
     .proof-result {
       grid-column: 2;
     }
@@ -1409,7 +1412,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   /* Phone compositional boundary */
   @media (max-width: 720px) {
     :root {
-      --content-width: min(100% - 28px, var(--max));
+      --content-width: min(calc(100% - 28px), var(--max));
     }
 
     .cover {
@@ -1469,10 +1472,6 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       width: 100%;
     }
 
-    .cover-actions-secondary {
-      justify-content: center;
-      padding: 4px 0 0;
-    }
 
     .cover-meta div {
       grid-template-columns: 1fr;
@@ -1649,6 +1648,545 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       animation-duration: 0.001ms !important;
       animation-iteration-count: 1 !important;
       scroll-behavior: auto !important;
+    }
+  }
+</style>
+
+<style is:global>
+  :root {
+    --profile-ink: #0b0c0e;
+    --profile-paper: #f0eee7;
+    --profile-vermilion: #ff4c30;
+    --profile-periwinkle: #747cff;
+    --profile-line: rgba(240, 238, 231, 0.25);
+    --paper-line: rgba(11, 12, 14, 0.22);
+    --paper: var(--profile-paper);
+    --ink: var(--profile-ink);
+    --blue: var(--profile-periwinkle);
+    --orange: var(--profile-vermilion);
+    --orange-ink: #b82412;
+    --muted: #686862;
+    --rule: #b9b6ad;
+    --card: #e5e2d8;
+    --panel: var(--profile-ink);
+    --panel-ink: var(--profile-paper);
+    --panel-muted: #aaa9a2;
+    --max: 1440px;
+  }
+
+  body {
+    background: var(--profile-ink);
+    color: var(--profile-paper);
+  }
+
+  h1,
+  h2,
+  h3,
+  .mast-name {
+    font-family: 'Archivo Variable', 'Arial Narrow', sans-serif;
+  }
+
+  .site-header {
+    background: var(--profile-ink);
+    color: var(--profile-paper);
+    border-color: var(--profile-line);
+  }
+
+  .masthead {
+    min-height: 72px;
+  }
+
+  .mast-mark {
+    width: 18px;
+    height: 4px;
+    background: var(--profile-vermilion);
+    box-shadow: none;
+  }
+
+  .mast-name {
+    font-size: 0.9rem;
+    font-weight: 760;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+  }
+
+  .primary-nav {
+    font-size: 0.78rem;
+    font-weight: 620;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .mast-cta {
+    border-color: var(--profile-paper);
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  .mast-cta:hover {
+    background: var(--profile-paper);
+    color: var(--profile-ink);
+  }
+
+  .cover {
+    position: relative;
+    min-height: calc(100svh - 72px);
+    padding: 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--profile-line);
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.18;
+    background-image: radial-gradient(circle, var(--profile-paper) 0 0.7px, transparent 0.85px);
+    background-size: 6px 6px;
+    mask-image: linear-gradient(90deg, #000, transparent 62%);
+  }
+
+  .cover-grid {
+    position: relative;
+    min-height: calc(100svh - 72px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+    gap: clamp(24px, 4vw, 72px);
+    align-items: stretch;
+  }
+
+  .cover-copy {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(56px, 8vh, 108px) 0 28px;
+  }
+
+  .cover-kicker {
+    margin: 0 0 clamp(30px, 5vh, 64px);
+    color: var(--profile-periwinkle);
+  }
+
+  .cover h1 {
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+    margin: 0;
+    color: var(--profile-paper);
+    font-size: clamp(5.2rem, 10.2vw, 10.8rem);
+    font-weight: 820;
+    line-height: 0.76;
+    letter-spacing: -0.075em;
+    text-transform: uppercase;
+  }
+
+  .cover h1 span:last-child {
+    margin-left: clamp(18px, 5vw, 78px);
+    color: var(--profile-vermilion);
+  }
+
+  .cover-role {
+    max-width: 28ch;
+    margin: clamp(36px, 5vh, 64px) 0 0;
+    font-family: 'Archivo Variable', sans-serif;
+    font-size: clamp(1.28rem, 2.2vw, 2.1rem);
+    font-weight: 540;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+  }
+
+  .cover-support {
+    max-width: 46ch;
+    margin: 18px 0 0;
+    color: #b9b8b1;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+  }
+
+  .cover-actions {
+    margin-top: clamp(28px, 4vh, 46px);
+  }
+
+  .cover-actions-primary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .round {
+    min-height: 50px;
+    border-radius: 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .round.blue {
+    background: var(--profile-vermilion);
+    border-color: var(--profile-vermilion);
+    color: var(--profile-ink);
+  }
+
+  .round.blue:hover {
+    background: var(--profile-paper);
+    border-color: var(--profile-paper);
+  }
+
+  .cover .round.ghost {
+    color: var(--profile-paper);
+    border-color: var(--profile-line);
+  }
+
+  .cover .round.ghost:hover {
+    background: var(--profile-paper);
+    color: var(--profile-ink);
+  }
+
+  .cover-meta {
+    display: grid;
+    grid-template-columns: minmax(130px, 0.45fr) minmax(230px, 1fr);
+    margin-top: auto;
+    padding-top: 30px;
+    border-top: 1px solid var(--profile-line);
+    color: var(--profile-paper);
+  }
+
+  .cover-meta div {
+    border-color: var(--profile-line);
+  }
+
+  .cover-meta dt {
+    color: #888985;
+  }
+
+  .cover-specimen {
+    min-width: 0;
+    padding: 28px 0 20px;
+  }
+
+  .cover-specimen > * {
+    height: 100%;
+  }
+
+  .section-index {
+    color: var(--profile-vermilion);
+  }
+
+  .proof-section,
+  .work-section {
+    background: var(--profile-paper);
+    color: var(--profile-ink);
+  }
+
+  .proof-section {
+    border-bottom: 1px solid var(--profile-ink);
+  }
+
+  .proof-head,
+  .work-head {
+    display: grid;
+    grid-template-columns: minmax(150px, 0.35fr) minmax(0, 1.2fr) minmax(280px, 0.65fr);
+    gap: clamp(24px, 4vw, 72px);
+    align-items: end;
+  }
+
+  .proof-head .section-index,
+  .work-head .section-index {
+    grid-column: 1;
+  }
+
+  .proof-head h2,
+  .work-head h2 {
+    grid-column: 2;
+    font-size: clamp(3.4rem, 7vw, 7rem);
+    font-weight: 780;
+    line-height: 0.88;
+    letter-spacing: -0.07em;
+    text-transform: uppercase;
+  }
+
+  .proof-head .section-lead,
+  .work-head .section-lead {
+    grid-column: 3;
+    margin: 0;
+  }
+
+  .proof-ledger {
+    margin-top: clamp(48px, 7vw, 96px);
+    border-top: 2px solid var(--profile-ink);
+  }
+
+  .proof-row {
+    grid-template-columns: 32px minmax(240px, 0.8fr) minmax(260px, 1fr) minmax(300px, 1fr);
+    padding: 26px 0;
+    border-color: var(--paper-line);
+  }
+
+  .proof-row h3 {
+    font-weight: 650;
+    letter-spacing: -0.035em;
+  }
+
+  .outcome-mark {
+    border-color: var(--profile-ink);
+    background: transparent;
+  }
+
+  .proof-row:hover .outcome-mark {
+    background: var(--profile-vermilion);
+    border-color: var(--profile-vermilion);
+  }
+
+  .loop-section {
+    background: var(--profile-periwinkle);
+    color: var(--profile-ink);
+  }
+
+  .loop-section .section-index,
+  .loop-section .loop-context-label,
+  .loop-section .loop-cue,
+  .loop-section .loop-feedback-cue {
+    color: var(--profile-ink);
+  }
+
+  .loop-head h2 {
+    max-width: 16ch;
+    font-size: clamp(3.4rem, 6.5vw, 6.8rem);
+    font-weight: 790;
+    line-height: 0.88;
+    letter-spacing: -0.065em;
+    text-transform: uppercase;
+  }
+
+  .loop-field {
+    background: transparent;
+    border: 2px solid var(--profile-ink);
+    color: var(--profile-ink);
+  }
+
+  .loop-chrome {
+    border-color: var(--profile-ink);
+  }
+
+  .loop-context {
+    background: transparent;
+    border: 0;
+  }
+
+  .loop-stage-panel {
+    background: transparent;
+    border-color: var(--profile-ink);
+    box-shadow: none;
+  }
+
+  .loop-transition::before,
+  .loop-transition::after,
+  .loop-return-rail,
+  .loop-return-rail::before,
+  .loop-return-rail::after {
+    border-color: var(--profile-ink);
+    color: var(--profile-ink);
+  }
+
+  .building-list {
+    margin-top: clamp(48px, 7vw, 90px);
+  }
+
+  .building-card {
+    border-radius: 0;
+    border: 2px solid var(--profile-ink);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .building-card:hover,
+  .building-card:focus-within {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 36px rgba(11, 12, 14, 0.16);
+  }
+
+  .building-visual {
+    background: var(--profile-ink);
+    color: var(--profile-paper);
+    border-color: var(--profile-ink);
+  }
+
+  .about-section {
+    background: var(--profile-ink);
+    color: var(--profile-paper);
+    border-color: var(--profile-line);
+  }
+
+  .about-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-copy h2 {
+    font-size: clamp(3.5rem, 8vw, 8rem);
+    font-weight: 790;
+    line-height: 0.86;
+    letter-spacing: -0.07em;
+    text-transform: uppercase;
+  }
+
+  .about-lead {
+    max-width: 58ch;
+    color: #c0bfb8;
+  }
+
+  .cta-block {
+    background: var(--profile-vermilion);
+    color: var(--profile-ink);
+  }
+
+  .cta-block h2 {
+    font-size: clamp(3.2rem, 7vw, 7.2rem);
+    font-weight: 790;
+    line-height: 0.86;
+    letter-spacing: -0.07em;
+    text-transform: uppercase;
+  }
+
+  .cta-block .round {
+    color: var(--profile-ink);
+    border-color: var(--profile-ink);
+  }
+
+  .cta-block .round.blue {
+    background: var(--profile-ink);
+    color: var(--profile-paper);
+  }
+
+  footer {
+    background: var(--profile-ink);
+    color: var(--profile-paper);
+    border-color: var(--profile-line);
+  }
+
+  @media (max-width: 960px) {
+    .cover-grid {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .cover-copy {
+      min-height: 70svh;
+      padding-bottom: 34px;
+    }
+
+    .cover-specimen {
+      height: min(84svh, 820px);
+      padding-top: 0;
+    }
+
+    .proof-head,
+    .work-head {
+      grid-template-columns: 1fr;
+    }
+
+    .proof-head .section-index,
+    .proof-head h2,
+    .proof-head .section-lead,
+    .work-head .section-index,
+    .work-head h2,
+    .work-head .section-lead {
+      grid-column: 1;
+    }
+
+    .proof-row {
+      grid-template-columns: 24px minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .wrap {
+      width: calc(100% - 28px);
+      max-width: var(--max);
+    }
+
+    .masthead {
+      min-height: 62px;
+    }
+
+    .cover-copy {
+      display: flex;
+      min-height: auto;
+      padding: 44px 0 28px;
+    }
+
+    .cover-kicker {
+      order: 0;
+      margin-bottom: 30px;
+    }
+
+    body .cover h1 {
+      order: 1;
+      max-width: none;
+      font-size: clamp(3.8rem, 18.2vw, 5.2rem);
+      line-height: 0.8;
+    }
+
+    .cover h1 span:last-child {
+      margin-left: 0;
+    }
+
+    .cover-role {
+      order: 2;
+      margin-top: 36px;
+      font-size: 1.35rem;
+    }
+
+    .cover-support {
+      order: 3;
+      font-size: 0.9rem;
+    }
+
+    .cover-actions {
+      order: 4;
+      margin-top: 28px;
+    }
+
+    .cover-actions-primary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .cover-actions-primary .round {
+      width: 100%;
+    }
+
+    body .cover-meta {
+      display: none;
+    }
+
+    .cover-specimen {
+      height: 76svh;
+      min-height: 560px;
+    }
+
+    .proof-head h2,
+    .work-head h2,
+    .loop-head h2,
+    .about-copy h2,
+    .cta-block h2 {
+      font-size: clamp(2.7rem, 15vw, 4.6rem);
+    }
+
+    body .proof-head,
+    body .work-head {
+      min-width: 0;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    body .proof-head > *,
+    body .work-head > * {
+      min-width: 0;
+      max-width: 100%;
+      grid-column: 1;
     }
   }
 </style>

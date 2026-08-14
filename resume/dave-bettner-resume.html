@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Dave Bettner — Résumé</title>
 <meta name="author" content="Dave Bettner">
-<meta name="description" content="Dave Bettner — enterprise agent deployment and solutions engineering for complex customer environments.">
+<meta name="description" content="Dave Bettner — forward-deployed delivery, AI-agent workflows, and solutions engineering for complex customer environments.">
 <style>
   @page { size: Letter; margin: 0.34in 0.46in 0.32in; }
   * { box-sizing: border-box; }
@@ -114,7 +114,7 @@
 <body>
 <header>
   <h1>Dave Bettner</h1>
-  <p class="headline">Enterprise Agent Deployment · Solutions Engineering · Forward-Deployed Delivery</p>
+  <p class="headline">Forward-Deployed Delivery · AI-Agent Workflows · Solutions Engineering</p>
   <p class="contact">
     Des Moines, Iowa ·
     <a href="mailto:dbett4@gmail.com">dbett4@gmail.com</a> ·
@@ -127,13 +127,11 @@
 <section>
   <h2>Summary</h2>
   <p class="summary">
-    Enterprise solutions and implementation leader with 10+ years carrying complex customer deployments
-    from discovery through adoption: proposals and SOW support, estimates and quotes, RFP responses,
-    on-site demos, pitch presentations, integration, validation, and delivery handoffs. Bounded public
-    agent-engineering work covers MCP integrations, Compose-configured labs, confirm-before-write quality
-    checks, and credential-free proof harnesses. Rust evidence is a bounded, open upstream work sample.
-    Public CI parses Compose but does not attest container startup; labs are engineering proof, not
-    customer-production agent deployments.
+    Customer-facing solutions and implementation leader with 10+ years turning unfamiliar enterprise
+    workflows and technical constraints into signed-off deployments. Owns discovery, scoping, demos,
+    integration design, debugging, validation, and adoption across regulated environments. Hands-on Python
+    and TypeScript work includes MCP integrations, guarded agent tools, failure injection, idempotent recovery,
+    Docker Compose labs, and an open Hermes Agent Desktop fix.
   </p>
 </section>
 
@@ -188,8 +186,15 @@
   <article class="project">
     <h3>Hermes Deployment Lab</h3>
     <p class="repo"><a href="https://github.com/dbett4/hermes-enterprise-deployment-lab">github.com/dbett4/hermes-enterprise-deployment-lab</a></p>
-    <p>Compose-configured lab with FastMCP, mock enterprise API, and workflow runner. Exercises remote-write/local-failure mismatch, separated operator approval, and idempotent retry so side effects happen once. Public CI parses Compose; container startup is not attested. Synthetic lab, not a customer deployment.</p>
-    <p class="proof">73 public credential-free tests · synthetic failure/replay</p>
+    <p>Compose-configured lab with FastMCP, mock enterprise API, and workflow runner. Exercises remote-write/local-failure mismatch, separated operator approval, and idempotent retry so side effects happen once. Public Actions run 31637042354 attests container startup/restart/replay, native Prometheus, causally linked OpenTelemetry, fresh-clone reproduction, and no-apply cloud IaC. Synthetic lab, not a customer deployment.</p>
+    <p class="proof">203 public credential-free tests at commit 9185ab5 · four-job CI · synthetic failure/replay</p>
+  </article>
+
+  <article class="project">
+    <h3>Hermes Agent Desktop PR #84621</h3>
+    <p class="repo"><a href="https://github.com/NousResearch/hermes-agent/pull/84621">github.com/NousResearch/hermes-agent/pull/84621</a></p>
+    <p>TypeScript/Electron fix that narrows legacy profile-shadow detection so stale empty shadows do not hide materialized sessions while legitimate zero-message drafts remain visible.</p>
+    <p class="proof">Open and unreviewed · focused Vitest regressions · not merged, accepted, shipped, or Nous-endorsed</p>
   </article>
 
   <article class="project">
@@ -197,20 +202,6 @@
     <p class="repo"><a href="https://github.com/dbett4/regulated-reporting-mcp">github.com/dbett4/regulated-reporting-mcp</a></p>
     <p>OAuth-backed MCP integration for a Workiva-shaped reporting API: pagination, async jobs, controlled mutations, and a three-tool guarded default over a 117-tool catalog.</p>
     <p class="proof">126 credential-free tests · 117 contracts · offline demo</p>
-  </article>
-
-  <article class="project">
-    <h3>Hermes Enterprise Evaluation Kit</h3>
-    <p class="repo"><a href="https://github.com/dbett4/hermes-enterprise-field-kit">github.com/dbett4/hermes-enterprise-field-kit</a></p>
-    <p>318-row capability map, negative tests, and pinned reference suite for evaluating agent configuration before claiming production readiness. Synthetic evaluation artifacts; needs review.</p>
-    <p class="proof">318 rows · 8 negative tests · 214-test suite · one attested synthetic one-shot · needs review</p>
-  </article>
-
-  <article class="project">
-    <h3>Confirm-before-write spreadsheet quality (Wingman)</h3>
-    <p class="repo"><a href="https://github.com/dbett4/wingman">github.com/dbett4/wingman</a></p>
-    <p>Chrome extension and local service that detects workbook defects, applies only reversible fixes after confirmation, and restores on readback mismatch.</p>
-    <p class="proof">462 Python pass + 13 skip · 243 extension pass</p>
   </article>
 </section>
 
@@ -225,7 +216,7 @@
     <span>idempotency/failure recovery</span>
     <span>GitHub Actions</span>
     <span>forward-deployed delivery</span>
-    <span>Rust (open PR work sample)</span>
+    <span>TypeScript/Electron (open PR #84621)</span>
     <span>failure injection/debugging</span>
   </div>
 </section>

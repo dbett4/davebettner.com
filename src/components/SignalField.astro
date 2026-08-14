@@ -14,18 +14,15 @@
   </figcaption>
   <div
     class="signal-field__frame"
-    tabindex="0"
-    role="group"
-    aria-label="An animated field of visual noise that resolves into an AI role-fit check on hover, focus, or tap."
   >
     <div class="signal-field__fallback" aria-hidden="true"></div>
     <canvas class="signal-field__canvas" aria-hidden="true" data-signal-canvas></canvas>
     <div class="signal-field__map" aria-hidden="true">
       <span class="signal-field__map-node signal-field__map-node--input">Customer context</span>
       <span class="signal-field__map-route"></span>
-      <span class="signal-field__map-node signal-field__map-node--output">Proven handoff</span>
+      <span class="signal-field__map-node signal-field__map-node--output">Role-fit check</span>
     </div>
-    <div class="signal-field__contacts" aria-label="AI role-fit check">
+    <div class="signal-field__contacts">
       <a class="signal-field__contact" href="/fit/" data-signal-contact="fit">
         <svg class="signal-field__contact-icon" viewBox="0 0 48 48" aria-hidden="true">
           <path d="M24 5l2.5 7.5L34 15l-7.5 2.5L24 25l-2.5-7.5L14 15l7.5-2.5L24 5Z"></path>
@@ -34,22 +31,15 @@
         </svg>
         <span class="signal-field__contact-copy">
           <span class="signal-field__contact-name">Check fit</span>
-          <strong>See how a role maps to my work.</strong>
+          <strong>Role-fit, grounded in the work.</strong>
           <span class="signal-field__contact-instructions">
-            Paste a job description, choose an AI assistant, and get a grounded fit assessment using my public profile and portfolio.
+            Paste a job description, choose an AI assistant, and compare the role with this public profile and portfolio.
           </span>
           <span class="signal-field__contact-action">Open role-fit tool <span aria-hidden="true">→</span></span>
         </span>
       </a>
     </div>
-    <div class="signal-field__hud" aria-hidden="true">
-      <span>FIELD</span>
-      <span>LOCK</span>
-    </div>
   </div>
-  <p class="signal-field__meaning">
-    Noise resolves into a readable channel.
-  </p>
 </figure>
 
 <script is:inline>
@@ -210,14 +200,6 @@
     let lock = reduced ? 1 : 0;
     let lockTarget = reduced ? 1 : 0;
     let touchLocked = reduced;
-    let pendingTouchContact = null;
-    let pendingTouchClearTimer = 0;
-
-    const clearPendingTouchContact = () => {
-      window.clearTimeout(pendingTouchClearTimer);
-      pendingTouchClearTimer = 0;
-      pendingTouchContact = null;
-    };
 
     const setLockTarget = (locked) => {
       const shouldLock = reduced || locked;
@@ -300,16 +282,7 @@
 
     root.addEventListener('pointermove', onPointer, { passive: true });
     root.addEventListener('pointerdown', (event) => {
-      clearPendingTouchContact();
-      const target = event.target;
-      const contact = target instanceof Element ? target.closest('[data-signal-contact]') : null;
-      pendingTouchContact = event.pointerType === 'touch' ? contact : null;
-      // Reveal on first contact press so lock is visible before click/navigation.
       if (reduced || event.pointerType !== 'touch' || touchLocked) return;
-      if (contact) {
-        setLockTarget(true);
-        startLoop();
-      }
     }, true);
     root.addEventListener('pointerenter', (event) => {
       if (event.pointerType !== 'touch') setLockTarget(true);
@@ -329,34 +302,12 @@
       if (event.pointerType !== 'touch') return;
       const target = event.target;
       if (target instanceof Element && target.closest('[data-signal-contact]')) {
-        // A synthesized click normally follows in this task. Expire the marker
-        // immediately afterward when the gesture ends without a click.
-        pendingTouchClearTimer = window.setTimeout(clearPendingTouchContact, 0);
         return;
       }
-      clearPendingTouchContact();
       touchLocked = !touchLocked;
       setLockTarget(touchLocked);
       startLoop();
     });
-    root.addEventListener('pointercancel', clearPendingTouchContact);
-    // First intentional contact tap on touch reveals/locks; second opens /fit/.
-    // Guards sticky-hover click-through when :hover briefly enables the link.
-    root.addEventListener('click', (event) => {
-      const target = event.target;
-      const contact = target instanceof Element ? target.closest('[data-signal-contact]') : null;
-      if (!contact) return;
-      const isCurrentTouchActivation = pendingTouchContact === contact;
-      clearPendingTouchContact();
-      // Require a touch pointerdown on this same contact. Keyboard, assistive,
-      // and mouse clicks must never inherit modality from an earlier touch.
-      if (reduced || !isCurrentTouchActivation) return;
-      if (touchLocked) return;
-      event.preventDefault();
-      touchLocked = true;
-      setLockTarget(true);
-      startLoop();
-    }, true);
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) stop();
@@ -438,10 +389,6 @@
     outline: none;
   }
 
-  .signal-field__frame:focus-visible {
-    outline: 2px solid var(--sf-blue);
-    outline-offset: 3px;
-  }
 
   .signal-field__frame::before,
   .signal-field__frame::after {
@@ -524,7 +471,7 @@
     letter-spacing: 0.08em;
     line-height: 1.2;
     text-transform: uppercase;
-    opacity: 0.94;
+    opacity: 0;
     transition: opacity 180ms ease;
   }
 
@@ -572,12 +519,12 @@
     inset: 0;
     z-index: 4;
     display: grid;
-    place-items: center;
-    padding: clamp(26px, 7%, 44px) clamp(14px, 5%, 30px) clamp(32px, 9%, 50px);
-    background: rgba(243, 239, 229, 0.82);
-    opacity: 0;
-    transform: scale(0.985);
-    pointer-events: none;
+    place-items: end start;
+    padding: clamp(18px, 5%, 32px);
+    background: linear-gradient(180deg, transparent 0 28%, rgba(243, 239, 229, 0.18) 100%);
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
     transition: opacity 360ms ease, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -601,13 +548,13 @@
     grid-template-columns: auto minmax(0, 1fr);
     min-width: 0;
     align-items: center;
-    gap: clamp(14px, 4vw, 28px);
-    width: min(100%, 470px);
-    min-height: min(75%, 220px);
-    padding: clamp(16px, 4vw, 26px);
+    gap: clamp(12px, 2.4vw, 20px);
+    width: min(88%, 430px);
+    min-height: 0;
+    padding: clamp(14px, 2.6vw, 20px);
     border: 1px solid rgba(21, 21, 21, 0.74);
     color: var(--sf-ink);
-    background: rgba(243, 239, 229, 0.88);
+    background: rgba(243, 239, 229, 0.96);
     text-decoration: none;
     transform: translateY(8px);
     transition:
@@ -638,8 +585,8 @@
   }
 
   .signal-field__contact-icon {
-    width: clamp(42px, 9vw, 68px);
-    height: clamp(42px, 9vw, 68px);
+    width: clamp(38px, 6vw, 52px);
+    height: clamp(38px, 6vw, 52px);
     fill: none;
     stroke: currentColor;
     stroke-width: 2;
@@ -668,7 +615,7 @@
 
   .signal-field__contact-copy strong {
     font-family: 'Newsreader Variable', Georgia, serif;
-    font-size: clamp(1rem, 2.4vw, 1.42rem);
+    font-size: clamp(1rem, 2vw, 1.28rem);
     font-weight: 500;
     line-height: 1.05;
     letter-spacing: -0.02em;
@@ -695,6 +642,14 @@
   }
 
   @media (max-width: 480px) {
+    .signal-field__frame {
+      aspect-ratio: 3 / 2;
+    }
+
+    .signal-field__contacts {
+      padding: 12px;
+    }
+
     .signal-field__map {
       inset: auto 12px 46px;
       gap: 6px;
@@ -707,7 +662,8 @@
     .signal-field__contact {
       grid-template-columns: 40px minmax(0, 1fr);
       gap: 12px;
-      min-height: calc(100% - 46px);
+      width: 100%;
+      min-height: 0;
       padding: 14px;
     }
 
@@ -743,16 +699,10 @@
     }
   }
 
-  .signal-field__meaning {
-    font-size: 0.78rem;
-    line-height: 1.45;
-    color: var(--sf-muted);
-    max-width: 42ch;
-  }
 
   @media (min-width: 721px) and (max-width: 960px) {
     .signal-field__frame {
-      aspect-ratio: 16 / 9;
+      min-height: 220px;
     }
   }
 

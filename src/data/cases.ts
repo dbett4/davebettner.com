@@ -27,6 +27,36 @@ export type CaseStudy = {
 
 export const cases = [
   {
+    id: 'hermes-deployment-lab',
+    eyebrow: 'Failure recovery · Hermes Deployment Lab',
+    title: 'Synthetic failure lab with attested container recovery and 203 public tests',
+    summary:
+      'Containerized lab that exercises remote-write/local-failure mismatch, operator approval, and idempotent recovery. Public CI attests container startup and restart/replay; cloud IaC remains no-apply.',
+    meta: 'FastMCP · Docker Compose · failure replay · audit trail',
+    size: 'small',
+    visual: 'rings',
+    plateProof: 'Container-proof CI',
+    repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
+    proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
+    constraint:
+      'A demo that answers once is not evidence that a second operator can deploy, observe failures, and recover without duplicating side effects.',
+    built:
+      'I built a FastMCP server, mock enterprise API, workflow runner, and Docker Compose stack. The lab reproduces a write that succeeds remotely but appears to fail locally, then retries with the same idempotency key so the side effect happens once. Operator approval is stored separately from workflow state; capabilities expire.',
+    role: 'I owned the deployment shape, failure taxonomy, test harness, and operating runbooks.',
+    boundary:
+      'Synthetic lab with credential-free tests, not a live client tenant. Cloud IaC is no-apply only.',
+    evidence:
+      '203 public credential-free tests at commit 9185ab5; synthetic failure/replay. Actions run 31637042354 attests container-proof, native Prometheus telemetry, causally linked OpenTelemetry traces, fresh-clone, and no-apply cloud IaC.',
+    scope: 'Lab architecture and recovery discipline are public; client data and credentials are not.',
+    evidenceMap: {
+      signal: '203 public tests with attested container startup and restart/replay',
+      method:
+        'Public GitHub Actions run 31637042354: container-proof, test with native telemetry and trace, fresh-clone, and no-apply cloud-IaC validation.',
+      steps: ['Container proof', 'Telemetry/trace', 'Approval gate', 'Idempotent retry', 'No-apply IaC'],
+      boundary: 'Synthetic lab evidence. Cloud apply is not attested.',
+    },
+  },
+  {
     id: 'regulated-reporting-mcp',
     eyebrow: 'Guarded integration · Regulated Reporting MCP',
     title: 'OAuth-backed MCP server with guarded writes and credential-free proof',
@@ -56,35 +86,6 @@ export const cases = [
     },
   },
   {
-    id: 'hermes-deployment-lab',
-    eyebrow: 'Failure recovery · Hermes Deployment Lab',
-    title: 'Synthetic failure lab with idempotent retry and 73 public credential-free tests',
-    summary:
-      'Compose-configured lab that exercises remote-write/local-failure mismatch, operator approval separation, and idempotent recovery. Public CI parses the configuration but does not attest container startup.',
-    meta: 'FastMCP · Docker Compose · failure replay · audit trail',
-    size: 'small',
-    visual: 'rings',
-    plateProof: 'Credential-free proof',
-    repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
-    proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
-    constraint:
-      'A demo that answers once is not evidence that a second operator can deploy, observe failures, and recover without duplicating side effects.',
-    built:
-      'I built a FastMCP server, mock enterprise API, workflow runner, and Docker Compose stack. The lab reproduces a write that succeeds remotely but appears to fail locally, then retries with the same idempotency key so the side effect happens once. Operator approval is stored separately from workflow state; capabilities expire.',
-    role: 'I owned the deployment shape, failure taxonomy, test harness, and operating runbooks.',
-    boundary:
-      'This is a synthetic lab with credential-free tests—not a live client tenant or production deployment claim.',
-    evidence:
-      '73 public credential-free tests; synthetic failure/replay path; MCP inspect, compose parse, and demo checks in ./scripts/proof.sh.',
-    scope: 'Lab architecture and recovery discipline are public; client data and credentials are not.',
-    evidenceMap: {
-      signal: '73 public credential-free tests with synthetic failure replay',
-      method: 'Proof script runs pytest, MCP inspect, compose parse, and an offline demo without provider credentials.',
-      steps: ['Compose parse', 'MCP inspect', 'Approval gate', 'Idempotent retry', 'Audit record'],
-      boundary: 'Synthetic lab evidence—not customer-environment deployment.',
-    },
-  },
-  {
     id: 'hermes-field-kit',
     eyebrow: 'Evaluation · Hermes Enterprise Evaluation Kit',
     title: '318-row capability map with pinned v2026.8.3 reference suite',
@@ -93,7 +94,7 @@ export const cases = [
     meta: 'Capability map · negative tests · pinned reference suite',
     size: 'small',
     visual: 'rings',
-    plateProof: 'Pinned suite + receipt',
+    plateProof: 'Pinned suite; S1 receipt needs_review',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit/blob/main/PROOF.md',
     constraint:

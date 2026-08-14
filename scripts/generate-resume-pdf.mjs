@@ -114,9 +114,8 @@ async function main() {
     'Workiva · SEC Reporting Consultant',
     'PUBLIC ENGINEERING (BY FUNCTION)',
     'Hermes Deployment Lab',
+    'Hermes Agent Desktop PR #84621',
     'Regulated Reporting MCP',
-    'Hermes Enterprise Evaluation Kit',
-    'Confirm-before-write spreadsheet quality',
     'SKILLS',
     'EDUCATION',
   ];
@@ -136,7 +135,7 @@ async function main() {
   }
   for (const marker of [
     'Python',
-    'Rust (open PR work sample)',
+    'TypeScript/Electron (open PR #84621)',
     'Docker Compose',
     'Hermes Agent',
     'GitHub Actions',
@@ -149,11 +148,26 @@ async function main() {
   if (text.includes('Docker Compose (public CI parse-only)')) {
     throw new Error('skills must use Docker Compose without parse-only qualifier');
   }
+  if (/parses Compose|container startup is not attested/i.test(text)) {
+    throw new Error('résumé must not use obsolete parse-only container language');
+  }
+  if (!text.includes('container startup and restart/replay')) {
+    if (!text.includes('container startup/restart/replay')) {
+      throw new Error('résumé must attest Deployment Lab container startup and restart/replay');
+    }
+  }
+  for (const marker of ['203 public credential-free tests', 'native Prometheus', 'causally linked OpenTelemetry', 'open and unreviewed']) {
+    if (!text.toLowerCase().includes(marker.toLowerCase())) {
+      throw new Error(`public résumé missing evidence marker: ${marker}`);
+    }
+  }
+  if (!/no-apply/i.test(text)) {
+    throw new Error('résumé must keep Deployment Lab no-apply cloud boundary');
+  }
   for (const repo of [
     'github.com/dbett4/hermes-enterprise-deployment-lab',
+    'github.com/NousResearch/hermes-agent/pull/84621',
     'github.com/dbett4/regulated-reporting-mcp',
-    'github.com/dbett4/hermes-enterprise-field-kit',
-    'github.com/dbett4/wingman',
   ]) {
     if (!text.includes(repo)) {
       throw new Error(`public résumé missing flagship repo link text: ${repo}`);
@@ -171,9 +185,8 @@ async function main() {
   }
   for (const href of [
     'https://github.com/dbett4/hermes-enterprise-deployment-lab',
+    'https://github.com/NousResearch/hermes-agent/pull/84621',
     'https://github.com/dbett4/regulated-reporting-mcp',
-    'https://github.com/dbett4/hermes-enterprise-field-kit',
-    'https://github.com/dbett4/wingman',
   ]) {
     if (!html.includes(`href="${href}"`)) {
       throw new Error(`résumé HTML missing clickable flagship repo link: ${href}`);
@@ -189,7 +202,7 @@ async function main() {
     'idempotency/failure recovery',
     'GitHub Actions',
     'forward-deployed delivery',
-    'Rust (open PR work sample)',
+    'TypeScript/Electron (open PR #84621)',
     'failure injection/debugging',
   ];
   let skillPrevious = -1;

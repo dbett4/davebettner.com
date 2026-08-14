@@ -51,7 +51,7 @@ export const experienceEntries: readonly ExperienceEntry[] = [
     title: 'SEC Reporting Consultant · Workiva',
     line: 'SEC reporting and XBRL across GAAP, IFRS, and ESEF under quarterly filing deadline pressure.',
     bullets: [
-      'Technical accounting judgment, disclosure drafting, and quarterly filing execution.',
+      'SEC reporting and XBRL (GAAP, IFRS, and ESEF), disclosure drafting, and quarterly filing execution.',
     ],
   },
 ] as const satisfies readonly ExperienceEntry[];

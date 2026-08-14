@@ -2,13 +2,13 @@ import { githubUrl, linkedinUrl } from './site-links';
 
 export const siteUrl = 'https://davebettner.com';
 
-export const siteTitle = 'Dave Bettner | Enterprise Agent Deployment · Solutions Engineering';
+export const siteTitle = 'Dave Bettner | Forward-Deployed Delivery · AI-Agent Systems';
 
 export const siteDescription =
-  'Dave Bettner carries complex customer deployments from discovery through adoption, with public engineering proof for agent workflows and enterprise solutions engineering.';
+  'Dave Bettner turns complex customer workflows and technical constraints into deployed systems, backed by 10+ years of customer delivery and public AI-agent engineering proof.';
 
 export const identitySeoLead =
-  'I lead enterprise solution delivery for agent workflows and customer deployments: discovery, integrations, validation, sign-off, and adoption.';
+  'I work with customer teams across discovery, solution design, integration, debugging, validation, and adoption, pairing enterprise delivery with hands-on AI-agent engineering.';
 
 export const personSchema = {
   '@context': 'https://schema.org',
@@ -17,8 +17,8 @@ export const personSchema = {
   url: `${siteUrl}/`,
   image: `${siteUrl}/images/dave-bettner-headshot-20260808-square.jpg`,
   description:
-    'Enterprise agent deployment and solutions engineering leader focused on customer-facing workflows, regulated delivery, and inspectable proof.',
-  jobTitle: 'Enterprise agent deployment and solutions engineering',
+    'Forward-deployed delivery and solutions engineering leader focused on complex workflows and inspectable AI-agent engineering proof.',
+  jobTitle: 'Senior Manager',
   homeLocation: {
     '@type': 'Place',
     name: 'Des Moines, Iowa',

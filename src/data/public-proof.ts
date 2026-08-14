@@ -16,13 +16,27 @@ export const publicEngineeringCases = [
     name: 'Hermes Deployment Lab',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
-    title: 'Synthetic failure lab with idempotent retry and 73 public credential-free tests',
+    title: 'Synthetic failure lab with attested container recovery and 203 public tests',
     summary:
       'Containerized deployment lab with a FastMCP server, mock enterprise API, workflow runner, and Docker Compose. Exercises the failure path where a write succeeds remotely and then appears to fail locally.',
     evidence:
-      '73 public credential-free tests covering approval, authorization, audit records, and recovery; synthetic failure/replay with idempotency-key reuse. A larger persistence/container-proof revision remains local and runtime-unverified.',
-    limit: 'A synthetic lab—not a claim of customer-environment deployment or production scale.',
+      '203 public credential-free tests at commit 9185ab5 covering approval, authorization, audit records, and recovery; synthetic failure/replay with idempotency-key reuse. Public Actions run 31637042354 attests container startup, restart/replay, native Prometheus telemetry, causally linked OpenTelemetry traces, and fresh-clone. Cloud IaC remains no-apply.',
+    limit: 'Synthetic lab, not a customer tenant. Cloud apply is not attested.',
     href: '/work/hermes-deployment-lab/',
+  },
+  {
+    id: 'hermes-agent-pr-84621',
+    name: 'Hermes Agent Desktop PR #84621',
+    repoUrl: 'https://github.com/NousResearch/hermes-agent/pull/84621',
+    proofUrl: 'https://github.com/NousResearch/hermes-agent/pull/84621',
+    title: 'Open Desktop session-recovery fix in Hermes Agent',
+    summary:
+      'TypeScript/Electron fix that narrows legacy profile-shadow detection so stale empty shadows do not hide materialized sessions while legitimate zero-message drafts remain visible.',
+    evidence:
+      'Focused Vitest regression cases cover cross-profile materialized twins, known-source zero-message drafts, omitted message counts, and the exact legacy empty-shadow shape.',
+    limit:
+      'Open and unreviewed. Not merged, accepted, shipped, or endorsed by Nous Research.',
+    href: 'https://github.com/NousResearch/hermes-agent/pull/84621',
   },
   {
     id: 'regulated-reporting-mcp',
@@ -68,3 +82,6 @@ export const publicEngineeringCases = [
 
 export const provenanceNote =
   'Public repositories are sanitized extracts published August 2026. They show methods and tests, not client tenants. Dates on GitHub are publication dates, not original delivery dates. These labs are engineering proof, not customer-production agent deployments or a claim of production software-engineering tenure. Independent work is not a customer Hermes Enterprise deployment or Nous affiliation. Delivery outcomes describe scoped customer work under engagement; they are not claims of quota ownership, revenue credit, or final contract-signature authority. No client data or credentials appear in these repos; private client history remains confidential and public claims are limited to inspectable artifacts.';
+
+export const homepageProvenanceNote =
+  'Public GitHub dates are publication dates (August 2026). Labs and sanitized extracts — not client tenants, production-engineering tenure, or Nous/Hermes Enterprise affiliation.';

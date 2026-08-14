@@ -1,37 +1,38 @@
 import { publicEngineeringCases } from './public-proof';
 
 export const thesis = {
-  title: 'I carry complex customer deployments from discovery through adoption.',
+  title: 'I deploy AI systems with customers—from discovery through adoption.',
   body: [
-    'I scope the customer problem, integrate the systems around it, validate the path, and stay through handoff and adoption.',
+    'I embed from discovery through integration, debugging, sign-off, and adoption—pairing customer delivery with hands-on agent and MCP engineering.',
   ],
 } as const;
 
 export const whereHeading = {
-  title: 'Forward-deployed and solutions engineering roles',
-  lead: 'Supported work across the presales-to-delivery path:',
+  title: 'Forward-deployed delivery and solutions engineering',
+  lead: 'The operating loop I bring into an unfamiliar customer environment:',
   items: [
-    'Workflow, stakeholders, constraints, decision criteria',
-    'Scoped solution via proposals, SOWs, estimates, quotes, and RFP responses',
-    'Persona-specific and on-site demos and pitch presentations against those criteria',
-    'Integration, validation, issue resolution, and sign-off through go-live',
-    'Handoff, controls, training and operating cadence, then iterate',
+    'Map the workflow, stakeholders, constraints, and decision criteria',
+    'Shape a scoped solution through proposals, SOWs, estimates, quotes, and RFP responses',
+    'Demonstrate the path against buyer and operator criteria',
+    'Integrate, debug, validate, and secure sign-off through go-live',
+    'Hand off a controlled operating cadence, measure adoption, and iterate',
   ],
   close:
     'Finance, audit, and assurance are my deepest domain experience; the pattern applies wherever customer environments demand proof.',
 } as const;
 
 export const whatIBring = {
-  title: 'Customer context and engineering rigor belong in the same room.',
+  title: 'Customer context and engineering proof belong in the same room.',
   body: [
     'I have spent years turning complex reporting and controls workflows into systems teams can operate under deadline.',
-    'I can move from executive discovery into API behavior, deployment constraints, validation, and failure recovery, then back into a demo or rollout plan without losing the thread.',
+    'I can move from executive discovery into API behavior, deployment constraints, debugging, validation, and failure recovery, then back into a demo or rollout plan without losing the thread.',
     'I care about working software, clear failure states, and enough evidence for the person accountable to decide.',
   ],
 } as const;
 
 export const featuredPublicProjectIds = [
   'hermes-deployment-lab',
+  'hermes-agent-pr-84621',
   'regulated-reporting-mcp',
 ] as const;
 
@@ -49,7 +50,7 @@ const mappedProjects = publicEngineeringCases.map((item) => ({
 
 export const buildingNow = {
   title: 'Public engineering proof',
-  lead: 'Two inspectable systems that show guarded integration and failure recovery. Remaining work lives on the work index.',
+  lead: 'Three inspectable signals: deployment recovery, an open Hermes Agent Desktop fix, and guarded API integration. Remaining work lives on the work index.',
   projects: mappedProjects,
   featuredProjects: mappedProjects.filter((project) =>
     (featuredPublicProjectIds as readonly string[]).includes(project.id),
@@ -58,7 +59,7 @@ export const buildingNow = {
 
 export const selectedProof = {
   title: 'Customer delivery outcomes',
-  lead: 'Three delivery outcomes carried through integration, validation, sign-off, and adoption. Separate from the public systems below.',
+  lead: 'Regulated delivery is the vertical proof. The public systems below show the controls I bring into new environments.',
   stories: [
     {
       id: 'insurance-certification',
@@ -67,7 +68,7 @@ export const selectedProof = {
       title: 'Bidirectional API workflow carried through sign-off',
       summary:
         'Statutory certification needed a controlled handoff between a reporting platform and an internal system of record. I owned diagnosis through go-live, designed bidirectional integration with audit trail, and aligned finance, IT, and executives on sign-off.',
-      result: 'Production workflow delivered; handoff became a repeatable operating model.',
+      result: 'Bidirectional reporting ↔ system-of-record handoff with audit trail and finance, IT, and executive sign-off at go-live.',
     },
     {
       id: 'gov-reporting',
@@ -76,7 +77,7 @@ export const selectedProof = {
       title: 'Controlled reporting with human review and native readback',
       summary:
         'Concurrent GRC and financial-reporting programs with no room for silent errors. I led solution design, scoped integration architecture, and built controlled-write workflows with human sign-off on customer-impacting changes.',
-      result: 'Multiple concurrent implementations through adoption with journaled changesets and native readback.',
+      result: 'SSO, API, and ERP-scoped GRC and reporting implementations with controlled writes, human sign-off, and native readback.',
     },
     {
       id: 'clinical-imaging',
@@ -85,22 +86,22 @@ export const selectedProof = {
       title: 'HIPAA imaging, EHR, and portal integrations through acquisition',
       summary:
         'Imaging orders and results had to move across practice and health-system boundaries under HIPAA, with billing and access controls intact through an acquisition transition.',
-      result: 'Four workflow types in production; integrations cleared HIPAA review before go-live.',
+      result: 'HIPAA imaging, EHR, portal, and billing workflows through acquisition; integrations cleared review before go-live.',
     },
   ],
 } as const;
 
 export const aboutSection = {
-  title: 'How I got here',
+  title: 'How I work',
   body: [
-    'I lead enterprise solution delivery for agent workflows and customer deployments: discovery, integrations, validation, sign-off, and adoption.',
-    'That work taught me what survives contact with a customer: clear permissions, visible failures, reliable readback, and a recovery path. I apply those habits to agent systems and deployment labs.',
-    'Finance, audit, and assurance are where my domain depth is deepest. The operating pattern applies anywhere agent software has to survive a real customer environment.',
+    'I run customer delivery across discovery, integrations, validation, sign-off, and adoption. I pair that record with hands-on Python, MCP, agent integration, failure recovery, and deployment-proof work.',
+    'The public labs show permissions, visible failures, readback, and recovery. They are synthetic, sanitized, and inspectable. They are not customer tenants.',
+    'Finance, audit, and assurance are my deepest domain proof; the operating pattern travels to other regulated customer environments.',
   ],
 } as const;
 
 export const closingCta = {
-  title: 'Put the system to work.',
+  title: 'Bring AI into the workflow, not just the demo.',
   body:
-    'I am looking for forward-deployed and solutions engineering roles where I can scope the problem with customers, integrate the systems around it, prove the deployment, and stay through iteration and adoption.',
+    'I am targeting forward-deployed and solutions engineering roles where I can learn the customer environment, integrate the systems around it, ship a working path, and stay through debugging, adoption, and iteration.',
 } as const;

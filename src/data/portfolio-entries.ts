@@ -14,9 +14,9 @@ export type PortfolioEntry = {
 
 export const identity = {
   name: 'Dave Bettner',
-  headline: 'I carry complex customer deployments from discovery through adoption.',
+  headline: 'I turn messy customer workflows and technical constraints into deployed systems that hold up in production.',
   caption:
-    'I scope customer problems, integrate the systems around them, validate the path, and stay through adoption. Public engineering shows the same habits on inspectable agent labs and MCP work.',
+    'I work across discovery, integration, debugging, validation, and adoption. Public agent and MCP engineering makes the technical operating pattern inspectable.',
   location: 'Des Moines, Iowa',
   availability: '',
 };
@@ -59,14 +59,14 @@ export const portfolioEntries = [
   {
     id: 'workiva-mcp',
     title: 'Hermes Deployment Lab — synthetic failure and idempotent recovery',
-    meta: '73 public credential-free tests · failure replay',
+    meta: '203 public credential-free tests · container-proof CI',
     situation:
       'A sophisticated integration is not adopted until a second operator can stand it up on a clean machine and recover from realistic failure modes.',
     role: 'Owned the deployment shape, test harness, and operating runbooks for the public lab.',
     work:
-      'Compose-configured lab with FastMCP server, mock enterprise API, and workflow runner. Exercises remote-write/local-failure mismatch with idempotent retry; public CI parses Compose but does not attest container startup.',
+      'Compose-configured lab with FastMCP server, mock enterprise API, and workflow runner. Exercises remote-write/local-failure mismatch with idempotent retry. Public Actions run 31637042354 on commit 9185ab5 attests container startup, restart/replay, native telemetry/trace, and fresh-clone. Cloud IaC remains no-apply.',
     result:
-      '73 public credential-free tests; synthetic failure/replay; documented in the public Hermes Deployment Lab repository.',
+      '203 public credential-free tests at attested commit 9185ab5; native Prometheus and causally linked OpenTelemetry proof; synthetic lab, not a customer deployment.',
     href: '/work/hermes-deployment-lab/',
   },
   {

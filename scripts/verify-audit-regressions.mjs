@@ -118,12 +118,16 @@ try {
   check(state.status.includes('without pre-fill'), 'Fit long prompt explains base-URL fallback', state.status);
 
   await page.goto(`${base}/`, { waitUntil: 'networkidle' });
-  const portrait = page.locator('[data-kinetic-portrait]');
-  const sourcePortrait = portrait.locator('[data-portrait-source]');
-  check((await portrait.count()) === 1, 'Hero contains one kinetic portrait');
+  const sourcePortrait = page.locator('[data-source-portrait]');
   check(
-    (await sourcePortrait.getAttribute('src')) === '/images/dave-bettner-headshot-portrait.webp',
-    'Hero kinetic treatment preserves the approved source portrait',
+    (await sourcePortrait.count()) === 1 &&
+      (await page.locator('[data-kinetic-portrait]').count()) === 0,
+    'Hero contains one unprocessed source portrait',
+  );
+  check(
+    (await sourcePortrait.getAttribute('src')) === '/images/dave-bettner-headshot-c13-navy.png' &&
+      (await page.locator('.cover-specimen canvas').count()) === 0,
+    'Hero preserves the approved navy-tie portrait without a processing canvas',
   );
   const heroResume = page.locator('.cover-actions-primary a[download]');
   check((await heroResume.count()) === 1, 'Hero contains one résumé download');

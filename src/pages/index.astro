@@ -4,7 +4,7 @@ import '@fontsource/dm-mono/400.css';
 import '@fontsource/dm-mono/500.css';
 import archivoFont from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
 import monoFont from '@fontsource/dm-mono/files/dm-mono-latin-400-normal.woff2?url';
-import KineticPortrait from '../components/KineticPortrait.astro';
+
 import {
   aboutSection,
   buildingNow,
@@ -102,11 +102,11 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   </head>
   <body>
     <!--
-      THESIS: Dave is the subject; a tailored professional monograph makes customer judgment and technical proof feel composed, human, and exact without borrowing a product metaphor.
-      OWN-WORLD: Matte silk-black, warm ivory, muted gold, graphite rules, narrow tailored lettering, source-pixel portraiture, and precise seam lines.
+      THESIS: Dave is the subject inside one cool precision system; the page refuses both a split-personality design merge and product-dashboard chrome.
+      OWN-WORLD: Carbon black, zinc, cool pearl, blue steel, compressed industrial lettering, clean seams, and one spectral shader control; no gold, warm ivory, or cutout portrait effects.
       STORY: A visitor meets Dave at portrait scale, understands the enterprise-agent deployment lane, inspects a ruled evidence ledger, and starts a conversation.
-      FIRST VIEWPORT: Monumental stacked name, delivery role, support, and actions lead a direct two-column split; the cleaned source portrait owns the right half, while mobile preserves identity, support, action, then portrait.
-      FORM: Tailored Monograph with Institutional Ledger evidence organization; selected from the design-shotgun round; seed 665b8deb.
+      FIRST VIEWPORT: Monumental stacked name and concise delivery role occupy the left; the unchanged navy-tie C13 portrait owns the right; one shader action sits below the role and the cool evidence ledger continues without a visual-world change.
+      FORM: Precision Material Profile with an evidence ledger; corrected from the rejected hybrid using the approved premium-control system.
       FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
     -->
     <a class="skip-link" href="#main">Skip to content</a>
@@ -136,24 +136,25 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
             <p class="cover-support">{thesis.title}</p>
             <div class="cover-actions" aria-label="Candidate actions">
               <div class="cover-actions-primary">
-                <a class="round blue" href={emailHref}>Start a conversation <span aria-hidden="true">↗</span></a>
-                <a class="round ghost" href="/dave-bettner-resume.pdf" download>Résumé</a>
+                <a class="round blue" href={emailHref} data-primary-action data-shader-host><span class="action-label">Start a conversation</span></a>
+                <a class="round ghost" href="/dave-bettner-resume.pdf" download><span class="action-label">Résumé</span></a>
               </div>
             </div>
-            <dl class="cover-meta">
-              <div>
-                <dt>Location</dt>
-                <dd>{identity.location}</dd>
-              </div>
-              <div>
-                <dt>Proof</dt>
-                <dd>Customer delivery + public engineering</dd>
-              </div>
-            </dl>
           </div>
-          <div class="cover-specimen">
-            <KineticPortrait />
-          </div>
+          <figure class="cover-specimen">
+            <img
+              class="cover-portrait"
+              src="/images/dave-bettner-headshot-c13-navy.png"
+              alt="Dave Bettner in a gray suit and navy tie"
+              width="1537"
+              height="1023"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              data-portrait-source
+              data-source-portrait
+            />
+          </figure>
         </div>
       </section>
 
@@ -325,6 +326,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
         </div>
       </div>
     </footer>
+    <script type="module" src="/correction/main.js"></script>
   </body>
 </html>
 
@@ -2201,5 +2203,5 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 </style>
 
 <style is:global>
-  @import url('/styles/tailored-monograph.css');
+  @import url('/styles/premium-profile-correction.css');
 </style>

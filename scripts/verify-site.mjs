@@ -114,21 +114,21 @@ const projects = [
     slug: 'regulated-reporting-mcp',
     title: 'Regulated Reporting MCP',
     repo: 'https://github.com/dbett4/regulated-reporting-mcp',
-    proof: '126 credential-free tests',
+    proof: 'Credential-free test suite',
   },
   {
     slug: 'hermes-deployment-lab',
     title: 'Hermes Deployment Lab',
     repo: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
-    proof: '203 public credential-free tests',
-    boundaries: ['31637042354', '9185ab5', 'container-proof', 'no-apply'],
+    proof: 'Public Actions attests container restart/replay',
+    boundaries: ['Synthetic lab', 'Cloud apply is not attested', 'not a model-driven production run claim', 'no-apply'],
   },
   {
     slug: 'hermes-field-kit',
     title: 'Hermes Enterprise Evaluation Kit',
     repo: 'https://github.com/dbett4/hermes-enterprise-field-kit',
-    proof: '318-row',
-    boundaries: ['needs_review', '$0.406986 estimate', 'actual billed cost', 'two recorded execution-time exceptions'],
+    proof: 'Offline FIELD_KIT_PROOF_PASS',
+    boundaries: ['needs_review', 'estimated rather than billed cost', 'two recorded execution-time exceptions'],
   },
   {
     slug: 'wingman',
@@ -266,12 +266,15 @@ async function assertCausalDeliveryLoopContracts(page, name) {
 
   const body = await page.locator('body').innerText();
   ok(!body.includes('SIG/01'), `${name}: decorative SIG/01 removed`);
-  ok(body.includes('PORTRAIT / SOURCE PIXELS'), `${name}: source-pixel portrait label is visible`);
+  ok(
+    (await page.locator('img[data-source-portrait][src="/images/dave-bettner-headshot-c13-navy.png"][width="1537"][height="1023"]').count()) === 1,
+    `${name}: approved navy-tie source portrait is present`,
+  );
   for (const token of ['01 ·', '02 ·', '03 ·', '04 ·']) {
     ok(!body.includes(token), `${name}: decorative serial token absent (${token})`);
   }
   for (const marker of [
-    'Containerized deployment lab with a FastMCP server',
+    'Synthetic lab for agent-touching-internal-system failure modes',
     'MCP server for a Workiva-shaped reporting API',
   ]) {
     ok(body.includes(marker), `${name}: public proof problem statement retained (${marker})`);
@@ -859,7 +862,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     );
 
     const phonePortraitBox = await page.evaluate(() => {
-      const portrait = document.querySelector('[data-kinetic-portrait]');
+      const portrait = document.querySelector('[data-source-portrait]');
       const doc = document.documentElement;
       if (!(portrait instanceof HTMLElement)) return null;
       const rect = portrait.getBoundingClientRect();
@@ -875,10 +878,10 @@ async function assertHomepageResponsiveContracts(page, viewport) {
         noDocumentOverflow: doc.scrollWidth <= doc.clientWidth,
       };
     });
-    ok(Boolean(phonePortraitBox), `${name}: phone kinetic portrait node present`);
+    ok(Boolean(phonePortraitBox), `${name}: phone source portrait node present`);
     ok(
       Boolean(phonePortraitBox?.insideViewport),
-      `${name}: phone kinetic portrait geometry stays inside the viewport with a useful box`,
+      `${name}: phone source portrait geometry stays inside the viewport with a useful box`,
       JSON.stringify(phonePortraitBox),
     );
     ok(
@@ -1212,8 +1215,9 @@ try {
   const profilePage = await profileContext.newPage();
   await profilePage.goto(base, { waitUntil: 'networkidle' });
   ok(
-    (await profilePage.locator('[data-kinetic-portrait]').count()) === 1,
-    'Homepage has exactly one kinetic portrait',
+    (await profilePage.locator('[data-source-portrait]').count()) === 1 &&
+      (await profilePage.locator('[data-kinetic-portrait]').count()) === 0,
+    'Homepage has exactly one unprocessed source portrait',
   );
   ok(
     (await profilePage.locator('.mast-name').allTextContents()).join('|') === 'Dave Bettner' &&
@@ -1232,106 +1236,49 @@ try {
     'Homepage profile has one conversation action and one résumé action',
   );
 
-  await profilePage.waitForFunction(
-    () => document.querySelector('[data-kinetic-portrait]')?.getAttribute('data-ready') === 'true',
-    null,
-    { timeout: 15_000 },
-  );
+  await profilePage.waitForFunction(() => {
+    const source = document.querySelector('[data-source-portrait]');
+    return source instanceof HTMLImageElement &&
+      source.complete &&
+      source.naturalWidth === 1537 &&
+      document.documentElement.dataset.effectsReady === 'true';
+  }, null, { timeout: 15_000 });
 
-  const portraitContract = await profilePage.locator('[data-kinetic-portrait]').evaluate((portrait) => {
-    const source = portrait.querySelector('[data-portrait-source]');
-    const canvas = portrait.querySelector('[data-portrait-dither]');
-    if (!(source instanceof HTMLImageElement) || !(canvas instanceof HTMLCanvasElement)) return null;
-    const context = canvas.getContext('2d', { willReadFrequently: true });
-    if (!context) return null;
-    const frame = context.getImageData(0, 0, canvas.width, canvas.height);
-    const pixels = frame.data;
-    const colors = new Set();
-    let light = 0;
-    let dark = 0;
-    for (let index = 0; index < pixels.length; index += 4) {
-      const key = `${pixels[index]},${pixels[index + 1]},${pixels[index + 2]}`;
-      colors.add(key);
-      if (pixels[index] === 234 && pixels[index + 1] === 232 && pixels[index + 2] === 220) light += 1;
-      if (pixels[index] === 17 && pixels[index + 1] === 32 && pixels[index + 2] === 255) dark += 1;
-    }
+  const portraitContract = await profilePage.locator('[data-source-portrait]').evaluate((source) => {
+    if (!(source instanceof HTMLImageElement)) return null;
+    const box = source.getBoundingClientRect();
     return {
-      ready: portrait.getAttribute('data-ready'),
       src: source.getAttribute('src'),
       alt: source.getAttribute('alt'),
       declaredWidth: source.getAttribute('width'),
       declaredHeight: source.getAttribute('height'),
-      canvasWidth: canvas.width,
-      canvasHeight: canvas.height,
-      colorCount: colors.size,
-      light,
-      dark,
-      inlineX: portrait.style.getPropertyValue('--portrait-x'),
-      inlineY: portrait.style.getPropertyValue('--portrait-y'),
+      naturalWidth: source.naturalWidth,
+      naturalHeight: source.naturalHeight,
+      renderedWidth: box.width,
+      renderedHeight: box.height,
+      portraitCanvasCount: source.closest('.cover-specimen')?.querySelectorAll('canvas').length,
+      primaryCanvasCount: document.querySelector('[data-primary-action]')?.querySelectorAll('canvas').length,
+      effectsReady: document.documentElement.dataset.effectsReady,
     };
   });
   ok(
     Boolean(
-      portraitContract?.ready === 'true' &&
-        portraitContract.src === '/images/dave-bettner-headshot-portrait.webp' &&
-        portraitContract.alt === 'Dave Bettner smiling in a gray suit' &&
-        portraitContract.declaredWidth === '1200' &&
-        portraitContract.declaredHeight === '1200' &&
-        portraitContract.canvasWidth > 0 &&
-        portraitContract.canvasHeight > 0 &&
-        portraitContract.colorCount === 2 &&
-        portraitContract.light > 0 &&
-        portraitContract.dark > 0
+      portraitContract?.src === '/images/dave-bettner-headshot-c13-navy.png' &&
+        portraitContract.alt === 'Dave Bettner in a gray suit and navy tie' &&
+        portraitContract.declaredWidth === '1537' &&
+        portraitContract.declaredHeight === '1023' &&
+        portraitContract.naturalWidth === 1537 &&
+        portraitContract.naturalHeight === 1023 &&
+        portraitContract.renderedWidth > 80 &&
+        portraitContract.renderedHeight > 80 &&
+        portraitContract.portraitCanvasCount === 0 &&
+        portraitContract.primaryCanvasCount <= 1 &&
+        portraitContract.effectsReady === 'true'
     ),
-    'Homepage kinetic portrait dithers the approved source image onto a nonblank two-color canvas',
+    'Homepage renders the approved navy-tie source portrait without a processing canvas',
     JSON.stringify(portraitContract),
   );
-  ok(
-    portraitContract?.inlineX === '' && portraitContract?.inlineY === '',
-    'Homepage kinetic portrait has no inline pointer custom properties before movement',
-    JSON.stringify({ x: portraitContract?.inlineX, y: portraitContract?.inlineY }),
-  );
-
-  await profilePage.locator('[data-kinetic-portrait]').scrollIntoViewIfNeeded();
-  const portraitBox = await profilePage.locator('[data-kinetic-portrait]').boundingBox();
-  ok(Boolean(portraitBox && portraitBox.width > 80 && portraitBox.height > 80), 'Homepage kinetic portrait has a useful box', JSON.stringify(portraitBox));
-  const pointerTarget = {
-    x: (portraitBox?.x ?? 0) + (portraitBox?.width ?? 0) * 0.28,
-    y: (portraitBox?.y ?? 0) + (portraitBox?.height ?? 0) * 0.67,
-  };
-  await profilePage.mouse.move(pointerTarget.x, pointerTarget.y);
-  const movedPointer = await profilePage.locator('[data-kinetic-portrait]').evaluate((portrait) => {
-    const parsePercent = (value) => Number.parseFloat(String(value).replace('%', ''));
-    return {
-      x: parsePercent(portrait.style.getPropertyValue('--portrait-x')),
-      y: parsePercent(portrait.style.getPropertyValue('--portrait-y')),
-    };
-  });
-  ok(
-    Number.isFinite(movedPointer.x) &&
-      Number.isFinite(movedPointer.y) &&
-      Math.abs(movedPointer.x - 28) <= 4 &&
-      Math.abs(movedPointer.y - 67) <= 4,
-    'Homepage pointer movement updates --portrait-x and --portrait-y within portrait bounds',
-    JSON.stringify(movedPointer),
-  );
-
-  await profilePage.locator('[data-kinetic-portrait]').dispatchEvent('pointerleave');
-  const leftPointer = await profilePage.locator('[data-kinetic-portrait]').evaluate((portrait) => ({
-    inlineX: portrait.style.getPropertyValue('--portrait-x'),
-    inlineY: portrait.style.getPropertyValue('--portrait-y'),
-    computedX: getComputedStyle(portrait).getPropertyValue('--portrait-x').trim(),
-    computedY: getComputedStyle(portrait).getPropertyValue('--portrait-y').trim(),
-  }));
-  ok(
-    leftPointer.inlineX === '' &&
-      leftPointer.inlineY === '' &&
-      leftPointer.computedX === '56%' &&
-      leftPointer.computedY === '42%',
-    'Homepage pointer leave removes inline portrait custom properties',
-    JSON.stringify(leftPointer),
-  );
-  await profilePage.locator('[data-kinetic-portrait]').screenshot({ path: `${out}/kinetic-portrait.png` });
+  await profilePage.locator('[data-source-portrait]').screenshot({ path: `${out}/source-portrait.png` });
   await profileContext.close();
 
   const profileReducedContext = await browser.newContext({
@@ -1341,36 +1288,27 @@ try {
   const profileReducedPage = await profileReducedContext.newPage();
   await profileReducedPage.goto(base, { waitUntil: 'networkidle' });
   await profileReducedPage.waitForFunction(
-    () => document.querySelector('[data-kinetic-portrait]')?.getAttribute('data-ready') === 'true',
+    () => document.documentElement.dataset.effectsReady === 'true',
     null,
     { timeout: 15_000 },
   );
-  const reducedPortrait = await profileReducedPage.locator('[data-kinetic-portrait]').evaluate((portrait) => {
-    const source = portrait.querySelector('[data-portrait-source]');
-    const canvas = portrait.querySelector('[data-portrait-dither]');
-    if (!(source instanceof HTMLImageElement) || !(canvas instanceof HTMLCanvasElement)) return null;
-    const style = getComputedStyle(canvas);
+  const reducedPortrait = await profileReducedPage.evaluate(() => {
+    const source = document.querySelector('[data-source-portrait]');
     return {
-      ready: portrait.getAttribute('data-ready'),
-      inlineX: portrait.style.getPropertyValue('--portrait-x'),
-      inlineY: portrait.style.getPropertyValue('--portrait-y'),
-      transition: style.transitionDuration,
-      mask: style.maskImage || style.webkitMaskImage,
-      opacity: Number(style.opacity),
-      sourceVisible: source.naturalWidth > 0 && getComputedStyle(source).opacity !== '0',
+      sourceVisible: source instanceof HTMLImageElement &&
+        source.naturalWidth === 1537 &&
+        getComputedStyle(source).opacity !== '0',
+      shaderSpeed: window.premiumControlState?.shaderSpeed,
+      motionReduced: window.premiumControlState?.motionReduced,
     };
   });
   ok(
     Boolean(
-      reducedPortrait?.ready === 'true' &&
-        reducedPortrait.inlineX === '' &&
-        reducedPortrait.inlineY === '' &&
-        reducedPortrait.transition === '0s' &&
-        /linear-gradient/i.test(reducedPortrait.mask) &&
-        reducedPortrait.opacity > 0.2 &&
-        reducedPortrait.sourceVisible
+      reducedPortrait?.sourceVisible &&
+        reducedPortrait.motionReduced === true &&
+        reducedPortrait.shaderSpeed === 0
     ),
-    'Homepage reduced-motion portrait stays readable without pointer animation',
+    'Homepage reduced-motion mode keeps the source portrait visible and shader stationary',
     JSON.stringify(reducedPortrait),
   );
   await profileReducedContext.close();
@@ -1552,8 +1490,8 @@ try {
   await page.goto(`${base}/fit/`, { waitUntil: 'networkidle' });
   const fitPayload = await page.locator('#fit-profile-data').textContent();
   ok(fitPayload?.includes('github.com/dbett4/hermes-enterprise-deployment-lab'), 'Fit payload includes deployment lab');
-  ok(fitPayload?.includes('31637042354'), 'Fit payload cites public Actions run for container proof');
-  ok(fitPayload?.includes('9185ab5'), 'Fit payload cites attested Deployment Lab commit');
+  ok(fitPayload?.includes('container restart/replay'), 'Fit payload cites public container restart/replay proof');
+  ok(fitPayload?.includes('resume without double-writing'), 'Fit payload cites the Deployment Lab recovery contract');
   ok(!/parses Compose|container startup is not attested|runtime-unverified/i.test(fitPayload ?? ''), 'Fit payload omits obsolete parse-only lab language');
   ok(fitPayload?.includes('PR #84621'), 'Fit payload names open Hermes Agent PR as work sample');
   ok(fitPayload?.includes('TypeScript/Electron'), 'Fit payload identifies PR #84621 as TypeScript/Electron');

@@ -120,7 +120,7 @@ const projects = [
     slug: 'hermes-deployment-lab',
     title: 'Hermes Deployment Lab',
     repo: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
-    proof: 'Public Actions run 31891411678 at commit 3da5938 attests container restart/replay',
+    proof: 'Public Actions run 31892965924 at release commit 1e68676 attests container restart/replay',
     boundaries: ['Synthetic lab', 'Cloud apply is not attested', 'not a model-driven production run claim', 'no-apply'],
   },
   {

@@ -12,8 +12,7 @@
     "generate-resume": "node scripts/generate-resume-pdf.mjs",
     "generate-og": "node scripts/generate-og-image.mjs",
     "verify:portrait": "node scripts/verify-portrait-cutout.mjs",
-    "deploy": "./scripts/deploy.sh",
-    "rebuild:portrait": "node scripts/rebuild-portrait-cutout.mjs --input=public/images/dave-bettner-headshot-c13-navy.png --output=public/images/dave-bettner-headshot-c13-navy-cutout.png"
+    "deploy": "./scripts/deploy.sh"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",

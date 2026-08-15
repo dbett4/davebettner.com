@@ -4,6 +4,7 @@ import { once } from 'node:events';
 import { mkdir, readFile } from 'node:fs/promises';
 import { createServer } from 'node:net';
 import { resolve } from 'node:path';
+import { CUTOUT_SIZE } from './portrait-key.mjs';
 
 const configuredBase = process.env.SITE_URL;
 const localPort = configuredBase
@@ -267,7 +268,7 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   const body = await page.locator('body').innerText();
   ok(!body.includes('SIG/01'), `${name}: decorative SIG/01 removed`);
   ok(
-    (await page.locator('img[data-source-portrait][src="/images/dave-bettner-headshot-c13-navy-cutout.png"][width="1100"][height="1023"]').count()) === 1,
+    (await page.locator(`img[data-source-portrait][src="/images/dave-bettner-headshot-c13-navy-cutout.png"][width="${CUTOUT_SIZE.width}"][height="${CUTOUT_SIZE.height}"]`).count()) === 1,
     `${name}: approved source-preserving navy-tie cutout is present`,
   );
   for (const token of ['01 ·', '02 ·', '03 ·', '04 ·']) {
@@ -1264,13 +1265,13 @@ try {
     'Homepage profile has one conversation action and one résumé action',
   );
 
-  await profilePage.waitForFunction(() => {
+  await profilePage.waitForFunction((expectedWidth) => {
     const source = document.querySelector('[data-source-portrait]');
     return source instanceof HTMLImageElement &&
       source.complete &&
-      source.naturalWidth === 1100 &&
+      source.naturalWidth === expectedWidth &&
       document.documentElement.dataset.effectsReady === 'true';
-  }, null, { timeout: 15_000 });
+  }, CUTOUT_SIZE.width, { timeout: 15_000 });
 
   const portraitContract = await profilePage.locator('[data-source-portrait]').evaluate((source) => {
     if (!(source instanceof HTMLImageElement)) return null;
@@ -1306,10 +1307,10 @@ try {
     Boolean(
       portraitContract?.src === '/images/dave-bettner-headshot-c13-navy-cutout.png' &&
         portraitContract.alt === 'Dave Bettner in a gray suit and navy tie' &&
-        portraitContract.declaredWidth === '1100' &&
-        portraitContract.declaredHeight === '1023' &&
-        portraitContract.naturalWidth === 1100 &&
-        portraitContract.naturalHeight === 1023 &&
+        portraitContract.declaredWidth === String(CUTOUT_SIZE.width) &&
+        portraitContract.declaredHeight === String(CUTOUT_SIZE.height) &&
+        portraitContract.naturalWidth === CUTOUT_SIZE.width &&
+        portraitContract.naturalHeight === CUTOUT_SIZE.height &&
         portraitContract.renderedWidth > 80 &&
         portraitContract.renderedHeight > 80 &&
         portraitContract.portraitCanvasCount === 0 &&
@@ -1375,16 +1376,16 @@ try {
     null,
     { timeout: 15_000 },
   );
-  const reducedPortrait = await profileReducedPage.evaluate(() => {
+  const reducedPortrait = await profileReducedPage.evaluate((expectedWidth) => {
     const source = document.querySelector('[data-source-portrait]');
     return {
       sourceVisible: source instanceof HTMLImageElement &&
-        source.naturalWidth === 1100 &&
+        source.naturalWidth === expectedWidth &&
         getComputedStyle(source).opacity !== '0',
       shaderSpeed: window.premiumControlState?.shaderSpeed,
       motionReduced: window.premiumControlState?.motionReduced,
     };
-  });
+  }, CUTOUT_SIZE.width);
   ok(
     Boolean(
       reducedPortrait?.sourceVisible &&

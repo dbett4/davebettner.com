@@ -45,4 +45,16 @@ corner_sum="$(convert "$cutout_image" -alpha extract -format '%[fx:p{0,0}+p{1099
   exit 1
 }
 
-printf 'Portrait cutout verified: lossless crop 1100x1023, source RGB unchanged, alpha contract valid.\n'
+pocket_sum="$(convert "$cutout_image" -alpha extract -format '%[fx:p{290,950}+p{290,1000}+p{820,950}+p{825,1000}]' info:)"
+[[ "$pocket_sum" == "0" ]] || {
+  printf 'Cutout retains background between a sleeve and the torso\n' >&2
+  exit 1
+}
+
+suit_anchor_min="$(convert "$cutout_image" -alpha extract -format '%[fx:min(min(p{278,950},p{307,950}),min(p{798,950},p{842,950}))]' info:)"
+awk -v value="$suit_anchor_min" 'BEGIN { exit !(value > 0.95) }' || {
+  printf 'Cutout removes suit pixels beside an interior pocket\n' >&2
+  exit 1
+}
+
+printf 'Portrait cutout verified: lossless crop 1100x1023, source RGB unchanged, sleeve-to-torso pockets transparent, suit anchors preserved.\n'

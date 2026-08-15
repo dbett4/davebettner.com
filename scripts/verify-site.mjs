@@ -1285,6 +1285,19 @@ try {
       renderedWidth: box.width,
       renderedHeight: box.height,
       portraitCanvasCount: source.closest('.cover-specimen')?.querySelectorAll('canvas').length,
+      backdrop: (() => {
+        const node = source.closest('.cover-specimen')?.querySelector('[data-portrait-backdrop]');
+        if (!(node instanceof HTMLElement)) return null;
+        const style = getComputedStyle(node);
+        return {
+          count: source.closest('.cover-specimen')?.querySelectorAll('[data-portrait-backdrop]').length,
+          backgroundImage: style.backgroundImage,
+          display: style.display,
+          opacity: Number(style.opacity),
+          zIndex: Number(style.zIndex),
+        };
+      })(),
+      portraitZIndex: Number(getComputedStyle(source).zIndex),
       primaryCanvasCount: document.querySelector('[data-primary-action]')?.querySelectorAll('canvas').length,
       effectsReady: document.documentElement.dataset.effectsReady,
     };
@@ -1300,10 +1313,15 @@ try {
         portraitContract.renderedWidth > 80 &&
         portraitContract.renderedHeight > 80 &&
         portraitContract.portraitCanvasCount === 0 &&
+        portraitContract.backdrop?.count === 1 &&
+        portraitContract.backdrop.backgroundImage.includes('radial-gradient') &&
+        portraitContract.backdrop.display !== 'none' &&
+        portraitContract.backdrop.opacity >= 0.7 &&
+        portraitContract.backdrop.zIndex < portraitContract.portraitZIndex &&
         portraitContract.primaryCanvasCount <= 1 &&
         portraitContract.effectsReady === 'true'
     ),
-    'Homepage renders the approved source-preserving navy-tie cutout without a processing canvas',
+    'Homepage renders the approved source-preserving navy-tie cutout over one halftone backdrop without a processing canvas',
     JSON.stringify(portraitContract),
   );
 

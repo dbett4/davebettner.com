@@ -9,13 +9,12 @@ import {
   aboutSection,
   buildingNow,
   closingCta,
-  heroRole,
   selectedProof,
   thesis,
   whereHeading,
 } from '../data/homepage-framing';
 import { identity } from '../data/portfolio-entries';
-import { deliveryOutcomesNote, homepageProvenanceNote } from '../data/public-proof';
+import { homepageProvenanceNote } from '../data/public-proof';
 import {
   personSchema,
   siteDescription,
@@ -29,41 +28,41 @@ const operatingLoop = [
     cue: 'Discover',
     title: 'Discover',
     detail: whereHeading.items[0],
-    handoff: 'What they will judge it on',
+    handoff: 'Decision criteria',
   },
   {
     cue: 'Shape',
     title: 'Shape',
     detail: whereHeading.items[1],
-    handoff: 'A scoped proposal',
+    handoff: 'Scoped proposal / SOW',
   },
   {
     cue: 'Demonstrate',
     title: 'Demonstrate',
     detail: whereHeading.items[2],
-    handoff: 'A working demo',
+    handoff: 'Demo against criteria',
   },
   {
     cue: 'Deliver',
     title: 'Deliver',
     detail: whereHeading.items[3],
-    handoff: 'A signed go-live',
+    handoff: 'Signed-off go-live',
   },
   {
     cue: 'Adopt',
     title: 'Adopt',
     detail: whereHeading.items[4],
-    handoff: 'A team that runs it',
+    handoff: 'Operating cadence',
   },
 ] as const;
 
-const roleByProjectId = {
+const roleByProjectId: Record<string, string> = {
   'hermes-deployment-lab': 'Failure recovery',
   'hermes-agent-pr-84621': 'Upstream product fix',
   'regulated-reporting-mcp': 'Guarded integration',
   'hermes-field-kit': 'Evaluation',
   wingman: 'Readback + restore',
-} satisfies Record<string, string>;
+};
 
 const outcomeMarks = ['outcome-mark--square', 'outcome-mark--circle', 'outcome-mark--diamond'] as const;
 
@@ -79,8 +78,8 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={siteDescription} />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#0b0c0e" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#f3efe5" />
+    <meta name="color-scheme" content="light" />
     <link rel="preload" href={archivoFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={monoFont} as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={`${siteUrl}/`} />
@@ -103,11 +102,11 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   </head>
   <body>
     <!--
-      THESIS: Dave is the subject inside one cool precision system; the page refuses both a split-personality design merge and product-dashboard chrome.
-      OWN-WORLD: Carbon black, zinc, cool pearl, blue steel, compressed industrial lettering, clean seams, and one spectral shader control; no gold, warm ivory, or cutout portrait effects.
+      THESIS: Dave is the subject inside one warm editorial system; the page refuses both a split-personality design merge and product-dashboard chrome.
+      OWN-WORLD: Warm paper, dense ink, cobalt and vermilion signals, compressed industrial lettering, clean rules, and one spectral shader control; no cool-metal overlay or cutout portrait effects.
       STORY: A visitor meets Dave at portrait scale, understands the enterprise-agent deployment lane, inspects a ruled evidence ledger, and starts a conversation.
-      FIRST VIEWPORT: Monumental stacked name and concise delivery role occupy the left; the unchanged navy-tie C13 portrait owns the right; one shader action sits below the role and the cool evidence ledger continues without a visual-world change.
-      FORM: Precision Material Profile with an evidence ledger; corrected from the rejected hybrid using the approved premium-control system.
+      FIRST VIEWPORT: Monumental stacked name and concise delivery role occupy the left; the unchanged navy-tie C13 portrait owns the right; one shader action sits below the role and the paper evidence ledger continues without a visual-world change.
+      FORM: Editorial Operator profile with an evidence ledger; the premium layout is reconciled into the established paper-and-ink system.
       FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
     -->
     <a class="skip-link" href="#main">Skip to content</a>
@@ -131,22 +130,24 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <section id="top" class="cover" aria-labelledby="thesis-heading">
         <div id="thesis" class="wrap cover-grid">
           <div class="cover-copy">
+            <p class="cover-kicker mono">Profile · Enterprise agent deployment</p>
             <h1 id="thesis-heading"><span>Dave</span><span>Bettner</span></h1>
-            <p class="cover-role">{heroRole}</p>
+            <p class="cover-role">Customer-facing AI implementation and forward-deployed delivery.</p>
             <p class="cover-support">{thesis.title}</p>
             <div class="cover-actions" aria-label="Candidate actions">
               <div class="cover-actions-primary">
-                <a class="round blue" href={emailHref} data-primary-action data-shader-host><span class="action-label">Email me</span></a>
+                <a class="round blue" href={emailHref} data-primary-action data-shader-host><span class="action-label" data-shader-label>Start a conversation</span></a>
                 <a class="round ghost" href="/dave-bettner-resume.pdf" download><span class="action-label">Résumé</span></a>
               </div>
             </div>
           </div>
           <figure class="cover-specimen">
+            <span class="portrait-halftone" data-portrait-backdrop aria-hidden="true"></span>
             <img
               class="cover-portrait"
-              src="/images/dave-bettner-headshot-c13-navy.png"
+              src="/images/dave-bettner-headshot-c13-navy-cutout.png"
               alt="Dave Bettner in a gray suit and navy tie"
-              width="1537"
+              width="1100"
               height="1023"
               loading="eager"
               decoding="async"
@@ -161,6 +162,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <section id="proof" class="proof-section" aria-labelledby="proof-heading">
         <div class="wrap section-pad">
           <div class="proof-head">
+            <p class="mono section-index">Delivery outcomes</p>
             <h2 id="proof-heading">{selectedProof.title}</h2>
             <p class="section-lead">{selectedProof.lead}</p>
           </div>
@@ -178,19 +180,21 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
               </article>
             ))}
           </div>
-          <p class="provenance-note outcomes-note">{deliveryOutcomesNote}</p>
         </div>
       </section>
 
       <section id="direction" class="loop-section" aria-labelledby="loop-heading">
         <div class="wrap section-pad">
           <div class="loop-head">
+            <p class="mono section-index">Operating loop</p>
             <h2 id="loop-heading">{whereHeading.title}</h2>
             <p class="loop-lead">{whereHeading.lead}</p>
           </div>
           <div class="loop-field-wrap">
             <div class="loop-field" aria-label="Engagement method inside a customer environment">
               <div class="loop-chrome" aria-hidden="true">
+                <span class="loop-chrome-tag">STATE · LOOP</span>
+                <span class="loop-chrome-tag loop-chrome-tag--muted">RES · CONTROLLED</span>
                 <span class="loop-chrome-tag loop-chrome-tag--accent">5 STAGES</span>
               </div>
               <div class="loop-context">
@@ -220,7 +224,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
                   </div>
                   <div class="loop-feedback">
                     <p class="loop-feedback-cue mono">Adopt → next Discover</p>
-                    <p class="loop-feedback-copy">What the team adopts tells me what to ask about next time.</p>
+                    <p class="loop-feedback-copy">Adoption evidence reshapes the next discovery.</p>
                   </div>
                 </div>
               </div>
@@ -234,9 +238,10 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <section id="work" class="work-section" aria-labelledby="work-heading">
         <div class="wrap section-pad">
           <div class="work-head">
+            <p class="mono section-index">Evidence plates</p>
             <h2 id="work-heading">{buildingNow.title}</h2>
             <p class="section-lead">{buildingNow.lead}</p>
-            <p class="proof-index-cue mono" id="proof-index-cue">Swipe for more →</p>
+            <p class="proof-index-cue mono" id="proof-index-cue">Swipe / drag evidence plates →</p>
           </div>
           <div class="building-list" role="region" aria-label="Public engineering evidence" aria-describedby="proof-index-cue">
             {featuredProjects.map((project, index) => (
@@ -269,7 +274,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
             ))}
           </div>
           <p class="work-more">
-            <a class="text-link" href="/work/">All public work <span aria-hidden="true">→</span></a>
+            <a class="text-link" href="/work/">See remaining public work <span aria-hidden="true">→</span></a>
           </p>
           <p class="provenance-note">{homepageProvenanceNote}</p>
         </div>
@@ -278,10 +283,11 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <section id="about" class="about-section" aria-labelledby="about-heading">
         <div class="wrap section-pad about-grid">
           <div class="about-copy">
+            <p class="mono section-index">About</p>
             <h2 id="about-heading">{aboutSection.title}</h2>
             <p class="about-lead">{aboutLead}</p>
             <p class="resume-link-line">
-              <a class="text-link" href="/experience/">Experience</a>
+              <a class="text-link" href="/experience/">Career timeline</a>
               <span aria-hidden="true"> · </span>
               <a class="text-link" href="/dave-bettner-resume.pdf" download>Full résumé (PDF)</a>
               <span aria-hidden="true"> · </span>
@@ -296,11 +302,12 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       <section class="cta-block" id="contact" aria-labelledby="contact-heading">
         <div class="wrap cta-grid">
           <div class="cta-copy">
+            <p class="mono cta-kicker">Next</p>
             <h2 id="contact-heading">{closingCta.title}</h2>
             <p>{closingCta.body}</p>
           </div>
           <div class="cta-actions">
-            <a class="round blue" href={emailHref}>Email me <span aria-hidden="true">↗</span></a>
+            <a class="round blue" href={emailHref} data-shader-host><span data-shader-label>Start a conversation <span aria-hidden="true">↗</span></span></a>
             <a class="round ghost-dark" href="/dave-bettner-resume.pdf" download>Résumé</a>
             <a class="round ghost-dark" href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
             <a class="round ghost-dark" href={linkedinUrl} rel="me">LinkedIn <span aria-hidden="true">↗</span></a>
@@ -320,23 +327,12 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
         </div>
       </div>
     </footer>
-    <script type="module" src="/correction/main.js"></script>
+    <script is:inline type="module" src="/correction/main.js"></script>
   </body>
 </html>
 
 <style is:global>
   :root {
-    --paper: #f3efe5;
-    --ink: #151515;
-    --blue: #214fe5;
-    --orange: #cf4120;
-    --orange-ink: #9a2f14;
-    --muted: #62615d;
-    --rule: #c9c3b5;
-    --card: #eee8dc;
-    --panel: #0f1115;
-    --panel-ink: #e8e6e1;
-    --panel-muted: #9a9893;
     --space-1: 4px;
     --space-2: 8px;
     --space-3: 16px;
@@ -2198,4 +2194,5 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
 <style is:global>
   @import url('/styles/premium-profile-correction.css');
+  @import url('/styles/editorial-paper-system.css');
 </style>

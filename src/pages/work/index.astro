@@ -10,7 +10,7 @@ import { githubUrl } from '../../data/site-links';
 const canonical = `${siteUrl}/work/`;
 const title = 'Work | Dave Bettner — Forward-Deployed Delivery and Agent Systems';
 const description =
-  'Four public labs from Dave Bettner testing scoped tools, human approval, verified writes, and recovery after failure. Synthetic data, not client systems.';
+  'Public labs and case studies from Dave Bettner on enterprise deployment recovery, guarded API tools, and customer workflow quality.';
 ---
 
 <!doctype html>
@@ -21,6 +21,7 @@ const description =
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#f3efe5" />
+    <meta name="color-scheme" content="light" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:type" content="website" />
@@ -44,11 +45,11 @@ const description =
     <main id="main">
       <section class="work-cover">
         <div class="wrap content-page">
-          <h1>Enterprise agents need more than a successful demo.</h1>
+          <p class="eyebrow mono">Public engineering proof</p>
+          <h1>Four public repos. Each page says what the tests actually prove.</h1>
           <p class="lead">
-            These public labs test the controls an agent needs before it can act on an enterprise
-            system. They limit its tools, keep approval with a person, check writes, recover from
-            failure, and record what remains unproven. They use synthetic data, not client systems.
+            Deployment recovery, guarded API tools, evaluation, and confirm-before-write quality.
+            Each plate links to the repo, the proof, and the stated limits.
           </p>
         </div>
       </section>
@@ -56,7 +57,8 @@ const description =
       <section class="work-section" aria-labelledby="plates-heading">
         <div class="wrap content-page">
           <div class="section-head">
-            <h2 id="plates-heading">Four labs</h2>
+            <p class="eyebrow mono">Evidence plates · {String(cases.length).padStart(2, '0')}</p>
+            <h2 id="plates-heading">Systems built for the hard parts.</h2>
           </div>
           <ul class="work-list">
             {cases.map((item, index) => (
@@ -75,7 +77,7 @@ const description =
                     <span class="work-boundary"><strong>Boundary:</strong> {item.boundary}</span>
                     <span class="work-footer">
                       <span class="work-repo mono">{item.repoUrl.replace('https://github.com/', '')}</span>
-                      <span class="work-open mono">Open lab →</span>
+                      <span class="work-open mono">Open case →</span>
                     </span>
                   </span>
                 </a>
@@ -87,7 +89,7 @@ const description =
 
           <nav class="page-links" aria-label="Related pages">
             <a href="/">Home</a>
-            <a href="/about/">About</a>
+            <a href="/about/">About Dave Bettner</a>
             <a href="/experience/">Experience</a>
             <a href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
           </nav>
@@ -98,7 +100,6 @@ const description =
 </html>
 
 <style is:global>
-  :root { --paper:#f3efe5; --ink:#151515; --blue:#214fe5; --orange:#cf4120; --orange-ink:#9a2f14; --muted:#62615d; --rule:#c9c3b5; --card:#eee8dc; }
   * { box-sizing:border-box; margin:0; padding:0; }
   body { font-family:"Plus Jakarta Sans Variable",system-ui,sans-serif; background:var(--paper); color:var(--ink); line-height:1.5; }
   a { color:inherit; text-decoration:none; }
@@ -153,4 +154,8 @@ const description =
   @media (max-width:760px) { .wrap{width:min(100% - 28px,1280px)} .work-cover .content-page{margin-left:0} .work-list{grid-template-columns:1fr} .work-card{grid-template-columns:100px minmax(0,1fr); min-height:300px} .work-copy{padding:16px} .work-evidence{font-size:.74rem} }
   @media (max-width:420px) { .mast-row{min-height:56px} .work-card{grid-template-columns:1fr; min-height:0} .work-visual{min-height:82px; border-right:0; border-bottom:1px solid var(--ink)} }
   @media (prefers-reduced-motion:reduce) { .work-card{transition:none} .work-card:hover,.work-card:focus-visible{transform:none;box-shadow:none} }
+</style>
+
+<style is:global>
+  @import url('/styles/editorial-paper-system.css');
 </style>

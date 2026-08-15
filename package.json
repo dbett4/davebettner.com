@@ -11,8 +11,9 @@
     "test": "npm run generate-resume && npm run generate-og && node scripts/verify-resume-reproducibility.mjs && node scripts/verify-og-reproducibility.mjs && npm run verify:portrait && npm run build && node scripts/verify-site.mjs && node scripts/verify-audit-regressions.mjs && bash scripts/test-deploy-preflight.sh prepush",
     "generate-resume": "node scripts/generate-resume-pdf.mjs",
     "generate-og": "node scripts/generate-og-image.mjs",
-    "verify:portrait": "bash scripts/verify-portrait-cutout.sh",
-    "deploy": "./scripts/deploy.sh"
+    "verify:portrait": "node scripts/verify-portrait-cutout.mjs",
+    "deploy": "./scripts/deploy.sh",
+    "rebuild:portrait": "node scripts/rebuild-portrait-cutout.mjs --input=public/images/dave-bettner-headshot-c13-navy.png --output=public/images/dave-bettner-headshot-c13-navy-cutout.png"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@astrojs/check": "0.9.6",
     "playwright-core": "^1.62.1",
+    "sharp": "0.35.3",
     "typescript": "5.9.3",
     "wrangler": "4.120.0"
   }

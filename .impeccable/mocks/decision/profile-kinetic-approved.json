@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "approved": true,
+  "direction": "Kinetic Portrait + Typographic Identity",
+  "source": "User delegated the final direction to Impeccable's recommendation",
+  "artifact": "profile-kinetic-approved.png",
+  "mobileArtifact": "profile-kinetic-mobile.png",
+  "implementationTarget": "src/pages/index.astro",
+  "portraitConstraint": "Use only original source pixels from public/images/dave-bettner-headshot-portrait.webp; no regenerated face, body, clothing, pose, or crop.",
+  "decision": "Profile-first personal identity. No governing product narrative or workflow metaphor."
+}

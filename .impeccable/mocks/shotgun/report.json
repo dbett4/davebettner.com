@@ -1,0 +1,122 @@
+[
+  {
+    "variant": "institutional-ledger",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "errors": [],
+    "metrics": {
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "scrollHeight": 1796,
+      "h1": "DaveBettner",
+      "image": {
+        "complete": true,
+        "naturalWidth": 1200,
+        "naturalHeight": 1200,
+        "alt": "Dave Bettner smiling in a gray suit"
+      },
+      "buttons": 11
+    }
+  },
+  {
+    "variant": "institutional-ledger",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "metrics": {
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "scrollHeight": 2602,
+      "h1": "DaveBettner",
+      "image": {
+        "complete": true,
+        "naturalWidth": 1200,
+        "naturalHeight": 1200,
+        "alt": "Dave Bettner smiling in a gray suit"
+      },
+      "buttons": 11
+    }
+  },
+  {
+    "variant": "movida-profile-cover",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "errors": [],
+    "metrics": {
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "scrollHeight": 1424,
+      "h1": "Dave Bettner",
+      "image": {
+        "complete": true,
+        "naturalWidth": 1200,
+        "naturalHeight": 1200,
+        "alt": "Dave Bettner, portrait photograph"
+      },
+      "buttons": 11
+    }
+  },
+  {
+    "variant": "movida-profile-cover",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "metrics": {
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "scrollHeight": 2030,
+      "h1": "Dave Bettner",
+      "image": {
+        "complete": true,
+        "naturalWidth": 1200,
+        "naturalHeight": 1200,
+        "alt": "Dave Bettner, portrait photograph"
+      },
+      "buttons": 11
+    }
+  },
+  {
+    "variant": "tailored-monograph",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "errors": [],
+    "metrics": {
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "scrollHeight": 900,
+      "h1": "DaveBettner",
+      "image": {
+        "complete": true,
+        "naturalWidth": 1200,
+        "naturalHeight": 1200,
+        "alt": "Dave Bettner smiling in a gray suit"
+      },
+      "buttons": 10
+    }
+  },
+  {
+    "variant": "tailored-monograph",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "metrics": {
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "scrollHeight": 1525,
+      "h1": "DaveBettner",
+      "image": {
+        "complete": true,
+        "naturalWidth": 1200,
+        "naturalHeight": 1200,
+        "alt": "Dave Bettner smiling in a gray suit"
+      },
+      "buttons": 10
+    }
+  }
+]

@@ -1,0 +1,287 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 900,
+    "status": 200,
+    "errors": [],
+    "metrics": {
+      "title": "Dave Bettner | Forward-Deployed Delivery · AI-Agent Systems",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "cta": {
+        "top": 754.34375,
+        "bottom": 796.34375,
+        "left": 974.234375,
+        "right": 1170.421875,
+        "width": 196.1875,
+        "height": 42
+      },
+      "ctaInViewport": true,
+      "heading": {
+        "top": 370.8125,
+        "bottom": 515.28125,
+        "left": 24,
+        "right": 436.296875,
+        "width": 412.296875,
+        "height": 144.46875
+      },
+      "support": {
+        "top": 302.703125,
+        "bottom": 583.390625,
+        "left": 974.234375,
+        "right": 1310.703125,
+        "width": 336.46875,
+        "height": 280.6875
+      },
+      "specimen": {
+        "top": 116,
+        "bottom": 881,
+        "left": 479.484375,
+        "right": 931.046875,
+        "width": 451.5625,
+        "height": 765
+      },
+      "portrait": {
+        "top": 116,
+        "bottom": 858.328125,
+        "left": 479.484375,
+        "right": 931.046875,
+        "width": 451.5625,
+        "height": 742.328125
+      },
+      "portraitNatural": [
+        1200,
+        1200
+      ]
+    }
+  },
+  {
+    "name": "laptop",
+    "width": 1280,
+    "height": 720,
+    "status": 200,
+    "errors": [],
+    "metrics": {
+      "title": "Dave Bettner | Forward-Deployed Delivery · AI-Agent Systems",
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "cta": {
+        "top": 574.34375,
+        "bottom": 616.34375,
+        "left": 865.125,
+        "right": 1061.3125,
+        "width": 196.1875,
+        "height": 42
+      },
+      "ctaInViewport": true,
+      "heading": {
+        "top": 282.34375,
+        "bottom": 410.75,
+        "left": 24,
+        "right": 388.796875,
+        "width": 364.796875,
+        "height": 128.40625
+      },
+      "support": {
+        "top": 223.8125,
+        "bottom": 473.28125,
+        "left": 865.125,
+        "right": 1164.21875,
+        "width": 299.09375,
+        "height": 249.46875
+      },
+      "specimen": {
+        "top": 107,
+        "bottom": 701,
+        "left": 427.1875,
+        "right": 826.734375,
+        "width": 399.546875,
+        "height": 594
+      },
+      "portrait": {
+        "top": 107,
+        "bottom": 678.328125,
+        "left": 427.1875,
+        "right": 826.734375,
+        "width": 399.546875,
+        "height": 571.328125
+      },
+      "portraitNatural": [
+        1200,
+        1200
+      ]
+    }
+  },
+  {
+    "name": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "errors": [],
+    "metrics": {
+      "title": "Dave Bettner | Forward-Deployed Delivery · AI-Agent Systems",
+      "scrollWidth": 768,
+      "clientWidth": 768,
+      "cta": {
+        "top": 580.53125,
+        "bottom": 622.53125,
+        "left": 24,
+        "right": 220.1875,
+        "width": 196.1875,
+        "height": 42
+      },
+      "ctaInViewport": true,
+      "heading": {
+        "top": 201.90625,
+        "bottom": 308.90625,
+        "left": 24,
+        "right": 744,
+        "width": 720,
+        "height": 107
+      },
+      "support": {
+        "top": 440.78125,
+        "bottom": 552.53125,
+        "left": 24,
+        "right": 492.671875,
+        "width": 468.671875,
+        "height": 111.75
+      },
+      "specimen": {
+        "top": 749.359375,
+        "bottom": 1449.359375,
+        "left": 24,
+        "right": 744,
+        "width": 720,
+        "height": 700
+      },
+      "portrait": {
+        "top": 749.359375,
+        "bottom": 1426.6875,
+        "left": 24,
+        "right": 744,
+        "width": 720,
+        "height": 677.328125
+      },
+      "portraitNatural": [
+        1200,
+        1200
+      ]
+    }
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "errors": [],
+    "metrics": {
+      "title": "Dave Bettner | Forward-Deployed Delivery · AI-Agent Systems",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "cta": {
+        "top": 423.125,
+        "bottom": 465.125,
+        "left": 16,
+        "right": 252.25,
+        "width": 236.25,
+        "height": 42
+      },
+      "ctaInViewport": true,
+      "heading": {
+        "top": 153.765625,
+        "bottom": 275.421875,
+        "left": 16,
+        "right": 374,
+        "width": 358,
+        "height": 121.65625
+      },
+      "support": {
+        "top": 364.3125,
+        "bottom": 405.125,
+        "left": 16,
+        "right": 258.421875,
+        "width": 242.421875,
+        "height": 40.8125
+      },
+      "specimen": {
+        "top": 487.125,
+        "bottom": 971.296875,
+        "left": 16,
+        "right": 374,
+        "width": 358,
+        "height": 484.171875
+      },
+      "portrait": {
+        "top": 487.125,
+        "bottom": 934.625,
+        "left": 16,
+        "right": 374,
+        "width": 358,
+        "height": 447.5
+      },
+      "portraitNatural": [
+        1200,
+        1200
+      ]
+    }
+  },
+  {
+    "name": "mobile-320",
+    "width": 320,
+    "height": 720,
+    "status": 200,
+    "errors": [],
+    "metrics": {
+      "title": "Dave Bettner | Forward-Deployed Delivery · AI-Agent Systems",
+      "scrollWidth": 320,
+      "clientWidth": 320,
+      "cta": {
+        "top": 395.0625,
+        "bottom": 437.0625,
+        "left": 16,
+        "right": 193.203125,
+        "width": 177.203125,
+        "height": 42
+      },
+      "ctaInViewport": true,
+      "heading": {
+        "top": 153.765625,
+        "bottom": 247.359375,
+        "left": 16,
+        "right": 304,
+        "width": 288,
+        "height": 93.59375
+      },
+      "support": {
+        "top": 336.25,
+        "bottom": 377.0625,
+        "left": 16,
+        "right": 258.421875,
+        "width": 242.421875,
+        "height": 40.8125
+      },
+      "specimen": {
+        "top": 459.0625,
+        "bottom": 855.734375,
+        "left": 16,
+        "right": 304,
+        "width": 288,
+        "height": 396.671875
+      },
+      "portrait": {
+        "top": 459.0625,
+        "bottom": 819.0625,
+        "left": 16,
+        "right": 304,
+        "width": 288,
+        "height": 360
+      },
+      "portraitNatural": [
+        1200,
+        1200
+      ]
+    }
+  }
+]

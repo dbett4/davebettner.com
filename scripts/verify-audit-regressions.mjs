@@ -118,9 +118,15 @@ try {
   check(state.status.includes('without pre-fill'), 'Fit long prompt explains base-URL fallback', state.status);
 
   await page.goto(`${base}/`, { waitUntil: 'networkidle' });
-  const fitCta = page.locator('[data-signal-field] a[href="/fit/"]');
-  check((await fitCta.count()) === 1, 'Hero specimen links to the role-fit tool once');
-  check((await fitCta.getAttribute('download')) === null, 'Hero role-fit tool is not a mislabeled download');
+  const portrait = page.locator('[data-kinetic-portrait]');
+  const sourcePortrait = portrait.locator('[data-portrait-source]');
+  check((await portrait.count()) === 1, 'Hero contains one kinetic portrait');
+  check(
+    (await sourcePortrait.getAttribute('src')) === '/images/dave-bettner-headshot-portrait.webp',
+    'Hero kinetic treatment preserves the approved source portrait',
+  );
+  const heroResume = page.locator('.cover-actions-primary a[download]');
+  check((await heroResume.count()) === 1, 'Hero contains one résumé download');
 
   const redirects = await readFile('dist/_redirects', 'utf8');
   for (const source of ['/dither', '/dither/', '/mockups/dither', '/mockups/dither/']) {

@@ -266,7 +266,7 @@ async function assertCausalDeliveryLoopContracts(page, name) {
 
   const body = await page.locator('body').innerText();
   ok(!body.includes('SIG/01'), `${name}: decorative SIG/01 removed`);
-  ok(body.includes('SPEC · SIGNAL FIELD'), `${name}: signal field tag updated`);
+  ok(body.includes('PORTRAIT / SOURCE PIXELS'), `${name}: source-pixel portrait label is visible`);
   for (const token of ['01 ·', '02 ·', '03 ·', '04 ·']) {
     ok(!body.includes(token), `${name}: decorative serial token absent (${token})`);
   }
@@ -613,7 +613,16 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const sample = document.querySelector('.section-index, .proof-label, .loop-cue');
       if (!(sample instanceof HTMLElement)) return null;
       const color = getComputedStyle(sample).color;
-      const bg = getComputedStyle(document.body).backgroundColor;
+      let surface = sample.parentElement;
+      let bg = 'transparent';
+      while (surface) {
+        const candidate = getComputedStyle(surface).backgroundColor;
+        if (candidate !== 'transparent' && candidate !== 'rgba(0, 0, 0, 0)') {
+          bg = candidate;
+          break;
+        }
+        surface = surface.parentElement;
+      }
       const parse = (value) => {
         const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
         if (!match) return null;
@@ -642,7 +651,10 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const sample = document.querySelector('.proof-context');
       if (!(sample instanceof HTMLElement)) return null;
       const style = getComputedStyle(sample);
-      const background = getComputedStyle(document.body).backgroundColor;
+      const section = sample.closest('.proof-section');
+      const background = section instanceof HTMLElement
+        ? getComputedStyle(section).backgroundColor
+        : getComputedStyle(document.body).backgroundColor;
       const parse = (value) => {
         const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
         return match ? [Number(match[1]), Number(match[2]), Number(match[3])] : null;
@@ -717,7 +729,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       };
       return {
         ctaKicker: measure('.cta-kicker', '.cta-block'),
-        signalAccent: measure('.signal-field__tag--accent', 'body'),
+        profileAccent: measure('.cover-kicker', '.cover'),
       };
     });
     ok(
@@ -726,9 +738,9 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       JSON.stringify(smallTextContrast.ctaKicker),
     );
     ok(
-      Boolean(smallTextContrast.signalAccent && smallTextContrast.signalAccent.ratio >= 4.5),
-      `${name}: Signal Field accent small-text contrast is at least 4.5:1`,
-      JSON.stringify(smallTextContrast.signalAccent),
+      Boolean(smallTextContrast.profileAccent && smallTextContrast.profileAccent.ratio >= 4.5),
+      `${name}: profile accent small-text contrast is at least 4.5:1`,
+      JSON.stringify(smallTextContrast.profileAccent),
     );
   }
 
@@ -737,7 +749,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const copy = document.querySelector('.cover-copy');
       const specimen = document.querySelector('.cover-specimen');
       const cards = [...document.querySelectorAll('.building-card')];
-      const portrait = document.querySelector('.cover-identity img');
+      const portrait = document.querySelector('[data-portrait-source]');
       const aboutCopy = document.querySelector('.about-copy');
       if (!copy || !specimen || !portrait || !aboutCopy) {
         return { ok: false, reason: 'missing cover/about nodes' };
@@ -745,34 +757,59 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const cr = copy.getBoundingClientRect();
       const sr = specimen.getBoundingClientRect();
       const pr = portrait.getBoundingClientRect();
-      const coverVerticalOverlap = Math.min(cr.bottom, sr.bottom) > Math.max(cr.top, sr.top) + 24;
-      const coverSeparateColumns = Math.abs(cr.left - sr.left) > 80;
       const cardRects = cards.map((card) => card.getBoundingClientRect());
       const leftColumn = cardRects.filter((rect) => Math.abs(rect.left - cardRects[0].left) <= 2);
       const proofTwoColumns = cards.length === 3 && leftColumn.length === 2 &&
         Math.abs(cardRects[0].left - cardRects[1].left) > 80 &&
         Math.abs(cardRects[0].left - cardRects[2].left) <= 2;
-      const portraitInsideCover = pr.top >= cr.top - 1 && pr.bottom <= cr.bottom + 1;
-      const portraitAboveFold = pr.top < innerHeight;
       return {
         ok: true,
-        coverVerticalOverlap,
-        coverSeparateColumns,
+        specimenFollowsCopy: sr.top >= cr.bottom - 1,
         proofTwoColumns,
         leftColumnCount: leftColumn.length,
-        portraitInsideCover,
-        portraitAboveFold,
+        portraitInsideSpecimen: pr.top >= sr.top - 1 && pr.bottom <= sr.bottom + 1,
       };
     });
     ok(tabletGeometry.ok, `${name}: tablet geometry nodes present`, tabletGeometry.reason ?? '');
-    ok(tabletGeometry.coverVerticalOverlap && tabletGeometry.coverSeparateColumns, `${name}: tablet cover is two-column / vertically paired`, JSON.stringify(tabletGeometry));
+    ok(tabletGeometry.specimenFollowsCopy, `${name}: tablet profile copy leads the portrait`, JSON.stringify(tabletGeometry));
     ok(tabletGeometry.proofTwoColumns, `${name}: tablet proof index is two columns`, String(tabletGeometry.leftColumnCount));
-    ok(tabletGeometry.portraitInsideCover && tabletGeometry.portraitAboveFold, `${name}: tablet headshot anchors the top hero`, JSON.stringify(tabletGeometry));
+    ok(tabletGeometry.portraitInsideSpecimen, `${name}: tablet source portrait stays inside its specimen`, JSON.stringify(tabletGeometry));
   }
 
   await assertLoopCausalGeometry(page, name, width);
 
   if (width === 1280 && height === 720) {
+    const identityHero = await page.evaluate(() => {
+      const grid = document.querySelector('.cover-grid');
+      const copy = document.querySelector('.cover-copy');
+      const specimen = document.querySelector('.cover-specimen');
+      const heading = document.querySelector('#thesis-heading');
+      if (!(grid instanceof HTMLElement) || !(copy instanceof HTMLElement) ||
+          !(specimen instanceof HTMLElement) || !(heading instanceof HTMLElement)) return null;
+      const gridStyle = getComputedStyle(grid);
+      const copyRect = copy.getBoundingClientRect();
+      const specimenRect = specimen.getBoundingClientRect();
+      const headingRect = heading.getBoundingClientRect();
+      return {
+        columnCount: gridStyle.gridTemplateColumns.split(' ').filter(Boolean).length,
+        copyLeadsPortrait: copyRect.left < specimenRect.left,
+        balancedSplit: copyRect.width >= innerWidth * 0.4 && specimenRect.width >= innerWidth * 0.3,
+        monumentalName: Number.parseFloat(getComputedStyle(heading).fontSize) >= 120,
+        headingWidth: headingRect.width,
+      };
+    });
+    ok(Boolean(identityHero), `${name}: identity hero nodes present`);
+    ok(
+      Boolean(identityHero?.columnCount === 2 && identityHero.copyLeadsPortrait && identityHero.balancedSplit),
+      `${name}: homepage hero is a balanced two-column identity and portrait split`,
+      JSON.stringify(identityHero),
+    );
+    ok(
+      Boolean(identityHero?.monumentalName),
+      `${name}: Dave Bettner is monumental in the first viewport`,
+      JSON.stringify(identityHero),
+    );
+
     const hireCtaVisible = await page.evaluate(() => {
       const cta = document.querySelector('.cover-actions-primary a.round.blue');
       if (!(cta instanceof HTMLElement)) return null;
@@ -789,7 +826,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
   if (width <= 390) {
     const phoneOrder = await page.evaluate(() => {
       const heading = document.querySelector('#thesis-heading');
-      const portrait = document.querySelector('.cover-identity img');
+      const portrait = document.querySelector('[data-portrait-source]');
       const specimen = document.querySelector('.cover-specimen');
       const support = document.querySelector('.cover-support');
       const actions = document.querySelector('.cover-actions');
@@ -805,20 +842,49 @@ async function assertHomepageResponsiveContracts(page, viewport) {
         spt,
         at,
         st,
-        portraitBeforeHeading: pt < ht,
         headingBeforeSupport: ht < spt,
         supportBeforeActions: spt < at,
         actionsBeforeSpecimen: at < st,
+        specimenContainsPortrait: pt >= st,
       };
     });
     ok(Boolean(phoneOrder), `${name}: phone cover order nodes present`);
     ok(
-      phoneOrder?.portraitBeforeHeading &&
-        phoneOrder?.headingBeforeSupport &&
+      phoneOrder?.headingBeforeSupport &&
         phoneOrder?.supportBeforeActions &&
-        phoneOrder?.actionsBeforeSpecimen,
-      `${name}: phone visual order is headshot → H1 → support → actions → specimen`,
+        phoneOrder?.actionsBeforeSpecimen &&
+        phoneOrder?.specimenContainsPortrait,
+      `${name}: phone visual order is identity → support → actions → source portrait`,
       JSON.stringify(phoneOrder),
+    );
+
+    const phonePortraitBox = await page.evaluate(() => {
+      const portrait = document.querySelector('[data-kinetic-portrait]');
+      const doc = document.documentElement;
+      if (!(portrait instanceof HTMLElement)) return null;
+      const rect = portrait.getBoundingClientRect();
+      return {
+        width: rect.width,
+        height: rect.height,
+        left: rect.left,
+        right: rect.right,
+        top: rect.top,
+        docScrollWidth: doc.scrollWidth,
+        docClientWidth: doc.clientWidth,
+        insideViewport: rect.width > 80 && rect.height > 80 && rect.left >= -1 && rect.right <= innerWidth + 1,
+        noDocumentOverflow: doc.scrollWidth <= doc.clientWidth,
+      };
+    });
+    ok(Boolean(phonePortraitBox), `${name}: phone kinetic portrait node present`);
+    ok(
+      Boolean(phonePortraitBox?.insideViewport),
+      `${name}: phone kinetic portrait geometry stays inside the viewport with a useful box`,
+      JSON.stringify(phonePortraitBox),
+    );
+    ok(
+      Boolean(phonePortraitBox?.noDocumentOverflow),
+      `${name}: phone document does not overflow horizontally around the portrait`,
+      JSON.stringify(phonePortraitBox),
     );
 
     const hireCtaVisible = await page.evaluate(() => {
@@ -832,6 +898,19 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       };
     });
     ok(Boolean(hireCtaVisible?.inViewport), `${name}: primary hiring CTA visible in first viewport`, JSON.stringify(hireCtaVisible));
+
+    if (width === 320) {
+      const primaryActionFit = await page.locator('.cover-actions-primary a.round.blue').evaluate((action) => {
+        const style = getComputedStyle(action);
+        return {
+          whiteSpace: style.whiteSpace,
+          clientWidth: action.clientWidth,
+          scrollWidth: action.scrollWidth,
+          fits: style.whiteSpace === 'nowrap' && action.scrollWidth <= action.clientWidth,
+        };
+      });
+      ok(primaryActionFit.fits, `${name}: primary CTA stays on one line`, JSON.stringify(primaryActionFit));
+    }
 
     const proofScroll = await page.evaluate(() => {
       const list = document.querySelector('.building-list');
@@ -971,21 +1050,20 @@ try {
     ok(!body.includes('459 Python'), `${viewport.name}: stale Wingman count absent`);
     const coverKicker = await page.locator('.cover-kicker').textContent();
     ok(
-      coverKicker?.trim() === 'Forward-deployed delivery · AI-agent systems',
-      `${viewport.name}: homepage kicker targets forward-deployed AI-agent work`,
+      coverKicker?.trim() === 'Profile · Enterprise agent deployment',
+      `${viewport.name}: homepage kicker identifies a profile and enterprise-agent lane`,
       String(coverKicker),
     );
     ok(
-      body.includes('I turn messy customer workflows into deployed systems that hold up.'),
-      `${viewport.name}: H1 names customer workflows and durable deployment`,
+      ((await page.locator('#thesis-heading').textContent()) ?? '').replace(/\s+/g, '') === 'DaveBettner',
+      `${viewport.name}: H1 is Dave Bettner's identity`,
     );
     const coverSupport = ((await page.locator('.cover-support').textContent()) ?? '').trim();
     const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
     ok(
-      /discovery through integration, debugging, sign-off, and adoption/i.test(coverSupport) &&
-        /customer delivery/i.test(coverSupport) &&
-        /agent and MCP engineering/i.test(coverSupport),
-      `${viewport.name}: hero support states the forward-deployed operating loop and technical proof`,
+      coverSupport === 'I deploy AI systems with customers—from discovery through adoption.' &&
+        body.includes('Customer-facing AI implementation and forward-deployed delivery.'),
+      `${viewport.name}: hero states customer-facing deployment and the adoption span`,
       coverSupport,
     );
     ok(
@@ -1130,450 +1208,172 @@ try {
     await context.close();
   }
 
-  const animatedContext = await browser.newContext({ viewport: { width: 960, height: 720 } });
-  const animatedPage = await animatedContext.newPage();
-  await animatedPage.goto(base, { waitUntil: 'networkidle' });
+  const profileContext = await browser.newContext({ viewport: { width: 960, height: 720 } });
+  const profilePage = await profileContext.newPage();
+  await profilePage.goto(base, { waitUntil: 'networkidle' });
   ok(
-    (await animatedPage.locator('.mast-name').allTextContents()).join('|') === 'Dave Bettner' &&
-      (await animatedPage.locator('.cover-identity-name').count()) === 0,
+    (await profilePage.locator('[data-kinetic-portrait]').count()) === 1,
+    'Homepage has exactly one kinetic portrait',
+  );
+  ok(
+    (await profilePage.locator('.mast-name').allTextContents()).join('|') === 'Dave Bettner' &&
+      (await profilePage.locator('.cover-identity-name').count()) === 0,
     'Homepage top area shows Dave Bettner once',
   );
-  const animatedCanvas = animatedPage.locator('[data-signal-canvas]');
-  const signalFrame = animatedPage.locator('.signal-field__frame');
-  const signalContacts = animatedPage.locator('[data-signal-contact]');
-  const contactChannels = await signalContacts.evaluateAll((links) =>
-    links.map((link) => ({
-      channel: link.getAttribute('data-signal-contact'),
-      href: link.getAttribute('href'),
-      name: (link.querySelector('.signal-field__contact-name')?.textContent ?? '').trim(),
-      hasIcon: Boolean(link.querySelector('svg')),
-    })),
-  );
-  ok(
-    JSON.stringify(contactChannels) === JSON.stringify([
-      { channel: 'fit', href: '/fit/', name: 'Check fit', hasIcon: true },
-    ]),
-    'Homepage signal field exposes Check Fit as its only resolved action',
-    JSON.stringify(contactChannels),
-  );
-  const signalFieldAffordanceLabel = await signalFrame.getAttribute('aria-label');
-  ok(
-    signalFieldAffordanceLabel === null,
-    'Homepage signal field has no inert frame tab stop or redundant accessible label',
-    String(signalFieldAffordanceLabel),
-  );
-  const primaryNavLabel = await animatedPage.locator('.primary-nav').getAttribute('aria-label');
+  const primaryNavLabel = await profilePage.locator('.primary-nav').getAttribute('aria-label');
   ok(
     primaryNavLabel === 'Primary navigation',
     'Homepage primary navigation has an accurate accessible label',
     String(primaryNavLabel),
   );
-  const fitInstructions = await signalContacts.first().evaluate((link) => ({
-    heading: (link.querySelector('strong')?.textContent ?? '').trim(),
-    instructions: (link.querySelector('.signal-field__contact-instructions')?.textContent ?? '').trim(),
-    action: (link.querySelector('.signal-field__contact-action')?.textContent ?? '').trim(),
+  ok(
+    (await profilePage.locator('.cover-actions-primary a[href^="mailto:"]').count()) === 1 &&
+      (await profilePage.locator('.cover-actions-primary a[download]').count()) === 1,
+    'Homepage profile has one conversation action and one résumé action',
+  );
+
+  await profilePage.waitForFunction(
+    () => document.querySelector('[data-kinetic-portrait]')?.getAttribute('data-ready') === 'true',
+    null,
+    { timeout: 15_000 },
+  );
+
+  const portraitContract = await profilePage.locator('[data-kinetic-portrait]').evaluate((portrait) => {
+    const source = portrait.querySelector('[data-portrait-source]');
+    const canvas = portrait.querySelector('[data-portrait-dither]');
+    if (!(source instanceof HTMLImageElement) || !(canvas instanceof HTMLCanvasElement)) return null;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    if (!context) return null;
+    const frame = context.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = frame.data;
+    const colors = new Set();
+    let light = 0;
+    let dark = 0;
+    for (let index = 0; index < pixels.length; index += 4) {
+      const key = `${pixels[index]},${pixels[index + 1]},${pixels[index + 2]}`;
+      colors.add(key);
+      if (pixels[index] === 234 && pixels[index + 1] === 232 && pixels[index + 2] === 220) light += 1;
+      if (pixels[index] === 17 && pixels[index + 1] === 32 && pixels[index + 2] === 255) dark += 1;
+    }
+    return {
+      ready: portrait.getAttribute('data-ready'),
+      src: source.getAttribute('src'),
+      alt: source.getAttribute('alt'),
+      declaredWidth: source.getAttribute('width'),
+      declaredHeight: source.getAttribute('height'),
+      canvasWidth: canvas.width,
+      canvasHeight: canvas.height,
+      colorCount: colors.size,
+      light,
+      dark,
+      inlineX: portrait.style.getPropertyValue('--portrait-x'),
+      inlineY: portrait.style.getPropertyValue('--portrait-y'),
+    };
+  });
+  ok(
+    Boolean(
+      portraitContract?.ready === 'true' &&
+        portraitContract.src === '/images/dave-bettner-headshot-portrait.webp' &&
+        portraitContract.alt === 'Dave Bettner smiling in a gray suit' &&
+        portraitContract.declaredWidth === '1200' &&
+        portraitContract.declaredHeight === '1200' &&
+        portraitContract.canvasWidth > 0 &&
+        portraitContract.canvasHeight > 0 &&
+        portraitContract.colorCount === 2 &&
+        portraitContract.light > 0 &&
+        portraitContract.dark > 0
+    ),
+    'Homepage kinetic portrait dithers the approved source image onto a nonblank two-color canvas',
+    JSON.stringify(portraitContract),
+  );
+  ok(
+    portraitContract?.inlineX === '' && portraitContract?.inlineY === '',
+    'Homepage kinetic portrait has no inline pointer custom properties before movement',
+    JSON.stringify({ x: portraitContract?.inlineX, y: portraitContract?.inlineY }),
+  );
+
+  await profilePage.locator('[data-kinetic-portrait]').scrollIntoViewIfNeeded();
+  const portraitBox = await profilePage.locator('[data-kinetic-portrait]').boundingBox();
+  ok(Boolean(portraitBox && portraitBox.width > 80 && portraitBox.height > 80), 'Homepage kinetic portrait has a useful box', JSON.stringify(portraitBox));
+  const pointerTarget = {
+    x: (portraitBox?.x ?? 0) + (portraitBox?.width ?? 0) * 0.28,
+    y: (portraitBox?.y ?? 0) + (portraitBox?.height ?? 0) * 0.67,
+  };
+  await profilePage.mouse.move(pointerTarget.x, pointerTarget.y);
+  const movedPointer = await profilePage.locator('[data-kinetic-portrait]').evaluate((portrait) => {
+    const parsePercent = (value) => Number.parseFloat(String(value).replace('%', ''));
+    return {
+      x: parsePercent(portrait.style.getPropertyValue('--portrait-x')),
+      y: parsePercent(portrait.style.getPropertyValue('--portrait-y')),
+    };
+  });
+  ok(
+    Number.isFinite(movedPointer.x) &&
+      Number.isFinite(movedPointer.y) &&
+      Math.abs(movedPointer.x - 28) <= 4 &&
+      Math.abs(movedPointer.y - 67) <= 4,
+    'Homepage pointer movement updates --portrait-x and --portrait-y within portrait bounds',
+    JSON.stringify(movedPointer),
+  );
+
+  await profilePage.locator('[data-kinetic-portrait]').dispatchEvent('pointerleave');
+  const leftPointer = await profilePage.locator('[data-kinetic-portrait]').evaluate((portrait) => ({
+    inlineX: portrait.style.getPropertyValue('--portrait-x'),
+    inlineY: portrait.style.getPropertyValue('--portrait-y'),
+    computedX: getComputedStyle(portrait).getPropertyValue('--portrait-x').trim(),
+    computedY: getComputedStyle(portrait).getPropertyValue('--portrait-y').trim(),
   }));
   ok(
-    fitInstructions.heading === 'Role-fit, grounded in the work.' &&
-      fitInstructions.instructions.includes('Paste a job description') &&
-      fitInstructions.instructions.includes('choose an AI assistant') &&
-      fitInstructions.instructions.includes('public profile and portfolio') &&
-      fitInstructions.action.includes('Open role-fit tool'),
-    'Homepage Check Fit action explains input, AI handoff, evidence, and destination',
-    JSON.stringify(fitInstructions),
+    leftPointer.inlineX === '' &&
+      leftPointer.inlineY === '' &&
+      leftPointer.computedX === '56%' &&
+      leftPointer.computedY === '42%',
+    'Homepage pointer leave removes inline portrait custom properties',
+    JSON.stringify(leftPointer),
   );
-  await signalFrame.screenshot({ path: `${out}/signal-field-noise.png` });
-  const animatedFrameA = await animatedCanvas.screenshot();
-  await animatedPage.waitForTimeout(700);
-  const animatedFrameB = await animatedCanvas.screenshot();
-  ok(!animatedFrameA.equals(animatedFrameB), 'Homepage signal field changes over time');
-  await signalFrame.hover();
-  await animatedPage.waitForTimeout(800);
-  const resolvedContactState = await animatedPage.locator('[data-signal-field]').evaluate((field) => {
-    const contacts = field.querySelector('.signal-field__contacts');
-    const links = [...field.querySelectorAll('[data-signal-contact]')];
-    if (!(contacts instanceof HTMLElement)) return null;
-    const style = getComputedStyle(contacts);
-    return {
-      locked: field.classList.contains('is-locked'),
-      opacity: Number(style.opacity),
-      pointerEvents: style.pointerEvents,
-      linksVisible: links.every((link) => {
-        const rect = link.getBoundingClientRect();
-        return rect.width > 0 && rect.height > 0;
-      }),
-    };
-  });
-  ok(
-    Boolean(
-      resolvedContactState?.locked &&
-      resolvedContactState.opacity > 0.95 &&
-      resolvedContactState.pointerEvents === 'auto' &&
-      resolvedContactState.linksVisible
-    ),
-    'Homepage signal noise resolves into the visible, actionable Check Fit tool on hover',
-    JSON.stringify(resolvedContactState),
-  );
-  await signalFrame.screenshot({ path: `${out}/signal-field-contacts.png` });
-  await Promise.all([
-    animatedPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
-    signalContacts.first().click(),
-  ]);
-  ok(
-    new URL(animatedPage.url()).pathname === '/fit/',
-    'Homepage Check Fit opens /fit/ with a mouse click after hover resolution',
-  );
-  await animatedContext.close();
+  await profilePage.locator('[data-kinetic-portrait]').screenshot({ path: `${out}/kinetic-portrait.png` });
+  await profileContext.close();
 
-  const touchContext = await browser.newContext({
-    viewport: { width: 390, height: 844 },
-    hasTouch: true,
-    isMobile: true,
-  });
-  const touchPage = await touchContext.newPage();
-  await touchPage.goto(base, { waitUntil: 'networkidle' });
-  const touchFrame = touchPage.locator('.signal-field__frame');
-  const touchContact = touchPage.locator('[data-signal-contact="fit"]');
-
-  // Replaced touch-lock behavior: the Fit card is now an immediately visible link.
-  const defaultTouchContactState = await touchPage.locator('[data-signal-field]').evaluate((field) => {
-    const contacts = field.querySelector('.signal-field__contacts');
-    if (!(contacts instanceof HTMLElement)) return null;
-    const style = getComputedStyle(contacts);
-    return { opacity: Number(style.opacity), pointerEvents: style.pointerEvents };
-  });
-  ok(
-    Boolean(defaultTouchContactState?.opacity > 0.95 && defaultTouchContactState.pointerEvents === 'auto'),
-    'Homepage Check Fit card is immediately visible and touch-actionable',
-    JSON.stringify(defaultTouchContactState),
-  );
-  await Promise.all([
-    touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
-    touchContact.tap(),
-  ]);
-  ok(new URL(touchPage.url()).pathname === '/fit/', 'Homepage Check Fit opens /fit/ on one touch');
-
-  if (process.env.RUN_LEGACY_SIGNAL_FIELD_TOUCH_TESTS === '1') {
-  // Optional legacy touch-lock regression coverage for the prior progressive-reveal interaction.
-  const syntheticContactGuardEvents = await touchPage.evaluate(() => {
-    const field = document.querySelector('[data-signal-field]');
-    const link = document.querySelector('[data-signal-contact="fit"]');
-    const contacts = field?.querySelector('.signal-field__contacts');
-    if (!(field instanceof HTMLElement) || !(link instanceof HTMLElement) || !(contacts instanceof HTMLElement)) {
-      return null;
-    }
-    let clickFired = false;
-    let defaultPrevented = false;
-    link.addEventListener('click', (event) => {
-      clickFired = true;
-      defaultPrevented = event.defaultPrevented;
-    }, { once: true });
-    link.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, pointerType: 'touch' }));
-    link.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, pointerType: 'touch' }));
-    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, detail: 1 }));
-    return {
-      path: location.pathname,
-      locked: field.classList.contains('is-locked'),
-      clickFired,
-      defaultPrevented,
-    };
-  });
-  await touchPage.waitForTimeout(450);
-  const syntheticContactGuardVisual = await touchPage.locator('[data-signal-field]').evaluate((field) => {
-    const contacts = field.querySelector('.signal-field__contacts');
-    if (!(contacts instanceof HTMLElement)) return null;
-    const style = getComputedStyle(contacts);
-    return {
-      locked: field.classList.contains('is-locked'),
-      opacity: Number(style.opacity),
-      pointerEvents: style.pointerEvents,
-    };
-  });
-  ok(
-    Boolean(
-      syntheticContactGuardEvents?.path === '/' &&
-        syntheticContactGuardEvents.locked &&
-        syntheticContactGuardEvents.clickFired &&
-        syntheticContactGuardEvents.defaultPrevented &&
-        syntheticContactGuardVisual?.locked &&
-        syntheticContactGuardVisual.opacity > 0.95 &&
-        syntheticContactGuardVisual.pointerEvents === 'auto'
-    ),
-    'Homepage synthetic same-contact touch/click sequence locks Check Fit without navigation',
-    JSON.stringify({ events: syntheticContactGuardEvents, visual: syntheticContactGuardVisual }),
-  );
-
-  await touchPage.reload({ waitUntil: 'networkidle' });
-  await touchFrame.tap({ position: { x: 20, y: 20 } });
-  await touchPage.waitForTimeout(50);
-  await touchPage.locator('[data-signal-field]').evaluate((field) => {
-    field.addEventListener('pointerup', (event) => {
-      const target = event.target;
-      if (target instanceof Element && target.closest('[data-signal-contact]')) {
-        field.setAttribute('data-contact-locked-at-pointerup', String(field.classList.contains('is-locked')));
-      }
-    }, { once: true });
-  });
-  await touchContact.evaluate((link) => link.addEventListener('click', (event) => event.preventDefault(), { once: true }));
-  await touchContact.tap();
-  await touchPage.waitForTimeout(50);
-  const touchContactState = await touchPage.locator('[data-signal-field]').evaluate((field) => {
-    const contacts = field.querySelector('.signal-field__contacts');
-    const hud = field.querySelector('.signal-field__hud');
-    if (!(contacts instanceof HTMLElement) || !(hud instanceof HTMLElement)) return null;
-    const contactsStyle = getComputedStyle(contacts);
-    const hudStyle = getComputedStyle(hud);
-    return {
-      locked: field.classList.contains('is-locked'),
-      opacity: Number(contactsStyle.opacity),
-      pointerEvents: contactsStyle.pointerEvents,
-      contactsZ: Number(contactsStyle.zIndex),
-      hudZ: Number(hudStyle.zIndex),
-      hudOpacity: Number(hudStyle.opacity),
-      lockedAtContactPointerup: field.getAttribute('data-contact-locked-at-pointerup'),
-    };
-  });
-  ok(
-    Boolean(
-      touchContactState?.locked &&
-      touchContactState.lockedAtContactPointerup === 'true' &&
-      touchContactState.opacity > 0.95 &&
-      touchContactState.pointerEvents === 'auto'
-    ),
-    'Homepage touch activation keeps Check Fit visible and actionable through link activation',
-    JSON.stringify(touchContactState),
-  );
-  ok(
-    Boolean(
-      touchContactState &&
-      touchContactState.contactsZ > touchContactState.hudZ &&
-      touchContactState.hudOpacity < 0.05
-    ),
-    'Homepage resolved Check Fit card stacks above and hides the field HUD on mobile',
-    JSON.stringify(touchContactState),
-  );
-  await touchFrame.screenshot({ path: `${out}/signal-field-touch-390.png` });
-  await touchPage.reload({ waitUntil: 'networkidle' });
-  await touchPage.locator('.signal-field__frame').tap({ position: { x: 20, y: 20 } });
-  await Promise.all([
-    touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
-    touchPage.locator('[data-signal-contact="fit"]').tap(),
-  ]);
-  ok(
-    new URL(touchPage.url()).pathname === '/fit/',
-    'Homepage hit-tested frame reveal followed by Check Fit tap opens /fit/',
-  );
-
-  await touchPage.goto(base, { waitUntil: 'networkidle' });
-  const hybridFrame = touchPage.locator('.signal-field__frame');
-  const hybridContact = touchPage.locator('[data-signal-contact="fit"]');
-  await hybridFrame.tap({ position: { x: 20, y: 20 } });
-  await hybridFrame.tap({ position: { x: 20, y: 20 } });
-  await hybridContact.focus();
-  let hybridKeyboardError = '';
-  try {
-    await Promise.all([
-      touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
-      hybridContact.press('Enter'),
-    ]);
-  } catch (error) {
-    hybridKeyboardError = error instanceof Error ? error.message : String(error);
-  }
-  ok(
-    new URL(touchPage.url()).pathname === '/fit/',
-    'Homepage Check Fit keyboard activation still opens /fit/ after touch unlocks the field',
-    hybridKeyboardError,
-  );
-
-  await touchPage.goto(base, { waitUntil: 'networkidle' });
-  const canceledContact = touchPage.locator('[data-signal-contact="fit"]');
-  await canceledContact.dispatchEvent('pointerdown', {
-    bubbles: true,
-    cancelable: true,
-    pointerId: 41,
-    pointerType: 'touch',
-  });
-  await canceledContact.dispatchEvent('pointercancel', {
-    bubbles: true,
-    cancelable: true,
-    pointerId: 41,
-    pointerType: 'touch',
-  });
-  await canceledContact.focus();
-  let canceledKeyboardError = '';
-  try {
-    await Promise.all([
-      touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
-      canceledContact.press('Enter'),
-    ]);
-  } catch (error) {
-    canceledKeyboardError = error instanceof Error ? error.message : String(error);
-  }
-  ok(
-    new URL(touchPage.url()).pathname === '/fit/',
-    'Homepage canceled touch does not block later keyboard activation of Check Fit',
-    canceledKeyboardError,
-  );
-
-  await touchPage.goto(base, { waitUntil: 'networkidle' });
-  const abandonedContact = touchPage.locator('[data-signal-contact="fit"]');
-  await abandonedContact.dispatchEvent('pointerdown', {
-    bubbles: true,
-    cancelable: true,
-    pointerId: 42,
-    pointerType: 'touch',
-  });
-  await abandonedContact.dispatchEvent('pointerup', {
-    bubbles: true,
-    cancelable: true,
-    pointerId: 42,
-    pointerType: 'touch',
-  });
-  await touchPage.waitForTimeout(20);
-  await abandonedContact.focus();
-  let abandonedKeyboardError = '';
-  try {
-    await Promise.all([
-      touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
-      abandonedContact.press('Enter'),
-    ]);
-  } catch (error) {
-    abandonedKeyboardError = error instanceof Error ? error.message : String(error);
-  }
-  ok(
-    new URL(touchPage.url()).pathname === '/fit/',
-    'Homepage touch sequence without click expires before later keyboard activation',
-    abandonedKeyboardError,
-  );
-  }
-  await touchContext.close();
-
-  const reducedContext = await browser.newContext({
+  const profileReducedContext = await browser.newContext({
     viewport: { width: 960, height: 720 },
     reducedMotion: 'reduce',
-    hasTouch: true,
   });
-  const reducedPage = await reducedContext.newPage();
-  await reducedPage.goto(base, { waitUntil: 'networkidle' });
-  const reducedCanvas = reducedPage.locator('[data-signal-canvas]');
-  const reducedFrameA = await reducedCanvas.screenshot();
-  await reducedPage.waitForTimeout(700);
-  const reducedFrameB = await reducedCanvas.screenshot();
-  ok(reducedFrameA.equals(reducedFrameB), 'Homepage signal field is static with reduced motion');
-  const reducedContactState = await reducedPage.locator('.signal-field__contacts').evaluate((contacts) => ({
-    opacity: Number(getComputedStyle(contacts).opacity),
-    pointerEvents: getComputedStyle(contacts).pointerEvents,
-  }));
-  ok(
-    reducedContactState.opacity > 0.95 && reducedContactState.pointerEvents === 'auto',
-    'Homepage Check Fit tool is immediately readable with reduced motion',
-    JSON.stringify(reducedContactState),
+  const profileReducedPage = await profileReducedContext.newPage();
+  await profileReducedPage.goto(base, { waitUntil: 'networkidle' });
+  await profileReducedPage.waitForFunction(
+    () => document.querySelector('[data-kinetic-portrait]')?.getAttribute('data-ready') === 'true',
+    null,
+    { timeout: 15_000 },
   );
-  await reducedPage.locator('.signal-field__frame').focus();
-  await reducedPage.locator('.mast-cta').focus();
-  await reducedPage.waitForTimeout(50);
-  const reducedAfterBlur = await reducedPage.locator('[data-signal-field]').evaluate((field) => {
-    const contacts = field.querySelector('.signal-field__contacts');
-    if (!(contacts instanceof HTMLElement)) return null;
-    const style = getComputedStyle(contacts);
+  const reducedPortrait = await profileReducedPage.locator('[data-kinetic-portrait]').evaluate((portrait) => {
+    const source = portrait.querySelector('[data-portrait-source]');
+    const canvas = portrait.querySelector('[data-portrait-dither]');
+    if (!(source instanceof HTMLImageElement) || !(canvas instanceof HTMLCanvasElement)) return null;
+    const style = getComputedStyle(canvas);
     return {
-      locked: field.classList.contains('is-locked'),
+      ready: portrait.getAttribute('data-ready'),
+      inlineX: portrait.style.getPropertyValue('--portrait-x'),
+      inlineY: portrait.style.getPropertyValue('--portrait-y'),
+      transition: style.transitionDuration,
+      mask: style.maskImage || style.webkitMaskImage,
       opacity: Number(style.opacity),
-      pointerEvents: style.pointerEvents,
+      sourceVisible: source.naturalWidth > 0 && getComputedStyle(source).opacity !== '0',
     };
   });
   ok(
     Boolean(
-      reducedAfterBlur?.locked &&
-      reducedAfterBlur.opacity > 0.95 &&
-      reducedAfterBlur.pointerEvents === 'auto'
+      reducedPortrait?.ready === 'true' &&
+        reducedPortrait.inlineX === '' &&
+        reducedPortrait.inlineY === '' &&
+        reducedPortrait.transition === '0s' &&
+        /linear-gradient/i.test(reducedPortrait.mask) &&
+        reducedPortrait.opacity > 0.2 &&
+        reducedPortrait.sourceVisible
     ),
-    'Homepage reduced-motion Check Fit stays readable after focus leaves the field',
-    JSON.stringify(reducedAfterBlur),
+    'Homepage reduced-motion portrait stays readable without pointer animation',
+    JSON.stringify(reducedPortrait),
   );
-  await reducedPage.locator('.signal-field__frame').dispatchEvent('pointerup', { pointerType: 'touch' });
-  await reducedPage.waitForTimeout(50);
-  const reducedAfterTap = await reducedPage.locator('[data-signal-field]').evaluate((field) => {
-    const contacts = field.querySelector('.signal-field__contacts');
-    if (!(contacts instanceof HTMLElement)) return null;
-    const style = getComputedStyle(contacts);
-    return {
-      locked: field.classList.contains('is-locked'),
-      opacity: Number(style.opacity),
-      pointerEvents: style.pointerEvents,
-    };
-  });
-  ok(
-    Boolean(
-      reducedAfterTap?.locked &&
-      reducedAfterTap.opacity > 0.95 &&
-      reducedAfterTap.pointerEvents === 'auto'
-    ),
-    'Homepage reduced-motion Check Fit stays readable after touch activation',
-    JSON.stringify(reducedAfterTap),
-  );
-  await reducedContext.close();
-
-  const noWebGlContext = await browser.newContext({
-    viewport: { width: 390, height: 844 },
-    hasTouch: true,
-    isMobile: true,
-  });
-  await noWebGlContext.addInitScript(() => {
-    const originalGetContext = HTMLCanvasElement.prototype.getContext;
-    HTMLCanvasElement.prototype.getContext = function getContext(type, ...args) {
-      if (type === 'webgl' || type === 'experimental-webgl') return null;
-      return originalGetContext.call(this, type, ...args);
-    };
-  });
-  const noWebGlPage = await noWebGlContext.newPage();
-  await noWebGlPage.goto(base, { waitUntil: 'networkidle' });
-  const noWebGlState = await noWebGlPage.locator('[data-signal-field]').evaluate((field) => {
-    const contacts = field.querySelector('.signal-field__contacts');
-    const fallback = field.querySelector('.signal-field__fallback');
-    if (!(contacts instanceof HTMLElement) || !(fallback instanceof HTMLElement)) return null;
-    const contactsStyle = getComputedStyle(contacts);
-    const fallbackStyle = getComputedStyle(fallback);
-    return {
-      isStatic: field.classList.contains('is-static'),
-      locked: field.classList.contains('is-locked'),
-      contactsOpacity: Number(contactsStyle.opacity),
-      contactsPointerEvents: contactsStyle.pointerEvents,
-      fallbackDisplay: fallbackStyle.display,
-      fallbackHidden: fallback.hidden,
-    };
-  });
-  ok(
-    Boolean(
-      noWebGlState?.isStatic &&
-        noWebGlState.locked &&
-        noWebGlState.contactsOpacity > 0.95 &&
-        noWebGlState.contactsPointerEvents === 'auto' &&
-        !noWebGlState.fallbackHidden &&
-        noWebGlState.fallbackDisplay !== 'none'
-    ),
-    'Homepage static fallback exposes an immediately readable and actionable Check Fit card without WebGL',
-    JSON.stringify(noWebGlState),
-  );
-  let noWebGlNavigationError = '';
-  if (noWebGlState?.contactsPointerEvents === 'auto' && noWebGlState.contactsOpacity > 0.95) {
-    try {
-      await Promise.all([
-        noWebGlPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
-        noWebGlPage.locator('[data-signal-contact="fit"]').tap(),
-      ]);
-    } catch (error) {
-      noWebGlNavigationError = error instanceof Error ? error.message : String(error);
-    }
-  } else {
-    noWebGlNavigationError = 'Static Check Fit contact is not pointer-active and visible.';
-  }
-  ok(
-    new URL(noWebGlPage.url()).pathname === '/fit/',
-    'Homepage static fallback opens /fit/ on the first touch without WebGL',
-    noWebGlNavigationError,
-  );
-  await noWebGlContext.close();
+  await profileReducedContext.close();
 
   const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   const page = await context.newPage();

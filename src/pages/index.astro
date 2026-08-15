@@ -1,10 +1,8 @@
 ---
-import '@fontsource-variable/archivo/wght.css';
-import '@fontsource-variable/plus-jakarta-sans/wght.css';
+import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/dm-mono/400.css';
 import '@fontsource/dm-mono/500.css';
-import archivoFont from '@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2?url';
-import jakartaFont from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
+import archivoFont from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
 import monoFont from '@fontsource/dm-mono/files/dm-mono-latin-400-normal.woff2?url';
 import KineticPortrait from '../components/KineticPortrait.astro';
 import {
@@ -83,7 +81,6 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     <meta name="theme-color" content="#0b0c0e" />
     <meta name="color-scheme" content="dark light" />
     <link rel="preload" href={archivoFont} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={jakartaFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={monoFont} as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={`${siteUrl}/`} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -105,11 +102,11 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   </head>
   <body>
     <!--
-      THESIS: Dave is the subject; the interface refuses a product-style metaphor and makes a profile memorable through portrait, type, and evidence.
-      OWN-WORLD: Ink-black and bone fields, signal vermilion, electric periwinkle, condensed Archivo typography, exact rules, source-pixel portraiture, and ordered dither.
-      STORY: A visitor identifies Dave, understands the enterprise-agent deployment lane, inspects bounded proof, and starts a conversation.
-      FIRST VIEWPORT: Monumental two-line name and role at left; a full-height original portrait at right shifts between ordered dither and clean source pixels; actions stay under the thesis.
-      FORM: Profile-first kinetic identity, selected after the cable and product-narrative concepts were rejected; seed 1bc436e6.
+      THESIS: Dave is the subject; a tailored professional monograph makes customer judgment and technical proof feel composed, human, and exact without borrowing a product metaphor.
+      OWN-WORLD: Matte silk-black, warm ivory, muted gold, graphite rules, narrow tailored lettering, source-pixel portraiture, and precise seam lines.
+      STORY: A visitor meets Dave at portrait scale, understands the enterprise-agent deployment lane, inspects a ruled evidence ledger, and starts a conversation.
+      FIRST VIEWPORT: Monumental stacked name, delivery role, support, and actions lead a direct two-column split; the cleaned source portrait owns the right half, while mobile preserves identity, support, action, then portrait.
+      FORM: Tailored Monograph with Institutional Ledger evidence organization; selected from the design-shotgun round; seed 665b8deb.
       FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
     -->
     <a class="skip-link" href="#main">Skip to content</a>
@@ -364,10 +361,11 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 112px;
+    overflow-x: clip;
   }
 
   body {
-    font-family: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+    font-family: 'Archivo Variable', system-ui, sans-serif;
     background: var(--paper);
     color: var(--ink);
     line-height: 1.45;
@@ -849,7 +847,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     display: block;
     margin-top: 2px;
     color: var(--ink);
-    font-family: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+    font-family: 'Archivo Variable', system-ui, sans-serif;
     font-weight: 600;
     font-size: 0.76rem;
   }
@@ -1037,12 +1035,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .motif-lattice .building-motif {
-    background-image:
-      radial-gradient(circle, rgba(207, 65, 32, 0.42) 0 1px, transparent 1px),
-      linear-gradient(90deg, transparent 54%, rgba(207, 65, 32, 0.16) 54% 72%, transparent 72%),
-      repeating-linear-gradient(0deg, transparent 0 7px, rgba(21, 21, 21, 0.35) 7px 8px),
-      repeating-linear-gradient(90deg, transparent 0 7px, rgba(21, 21, 21, 0.35) 7px 8px);
-    background-size: 6px 6px, 100% 100%, 100% 100%, 100% 100%;
+    background-image: linear-gradient(90deg, transparent 54%, rgba(207, 65, 32, 0.32) 54% 72%, transparent 72%);
   }
 
   .motif-pulse .building-motif {
@@ -1653,6 +1646,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 </style>
 
 <style is:global>
+  @media not all {
   :root {
     --profile-ink: #0b0c0e;
     --profile-paper: #f0eee7;
@@ -1731,6 +1725,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
   .cover {
     position: relative;
+    background: var(--profile-ink);
     min-height: calc(100svh - 72px);
     padding: 0;
     overflow: hidden;
@@ -2043,6 +2038,10 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     color: var(--profile-ink);
   }
 
+  .cta-block .cta-kicker {
+    color: var(--profile-ink);
+  }
+
   .cta-block h2 {
     font-size: clamp(3.2rem, 7vw, 7.2rem);
     font-weight: 790;
@@ -2163,17 +2162,22 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       display: none;
     }
 
-    .cover-specimen {
-      height: 76svh;
-      min-height: 560px;
+    body .cover-specimen {
+      height: auto;
+      min-height: 0;
+      padding-bottom: 20px;
     }
 
-    .proof-head h2,
-    .work-head h2,
-    .loop-head h2,
-    .about-copy h2,
-    .cta-block h2 {
-      font-size: clamp(2.7rem, 15vw, 4.6rem);
+    body .cover-specimen > * {
+      height: auto;
+    }
+
+    body .proof-head h2,
+    body .work-head h2,
+    body .loop-head h2,
+    body .about-copy h2,
+    body .cta-block h2 {
+      font-size: clamp(2.45rem, 12.5vw, 4.2rem);
     }
 
     body .proof-head,
@@ -2188,5 +2192,14 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
       max-width: 100%;
       grid-column: 1;
     }
+
+    body .work-section {
+      overflow-x: clip;
+    }
   }
+  }
+</style>
+
+<style is:global>
+  @import url('/styles/tailored-monograph.css');
 </style>

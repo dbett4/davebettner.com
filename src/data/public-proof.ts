@@ -16,12 +16,12 @@ export const publicEngineeringCases = [
     name: 'Hermes Deployment Lab',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
-    title: 'Synthetic failure lab with attested container recovery and 203 public tests',
+    title: 'Scope tools, separate approval, survive post-commit failure',
     summary:
-      'Containerized deployment lab with a FastMCP server, mock enterprise API, workflow runner, and Docker Compose. Exercises the failure path where a write succeeds remotely and then appears to fail locally.',
+      'Synthetic lab for agent-touching-internal-system failure modes: scoped MCP tools, separate operator approval, forced post-commit error, and resume without double-writing.',
     evidence:
-      '203 public credential-free tests at commit 9185ab5 covering approval, authorization, audit records, and recovery; synthetic failure/replay with idempotency-key reuse. Public Actions run 31637042354 attests container startup, restart/replay, native Prometheus telemetry, causally linked OpenTelemetry traces, and fresh-clone. Cloud IaC remains no-apply.',
-    limit: 'Synthetic lab, not a customer tenant. Cloud apply is not attested.',
+      'Public Actions attests container restart/replay, native telemetry/trace, fresh-clone, and a large credential-free suite; cloud IaC remains validate-only.',
+    limit: 'Synthetic lab, not a customer tenant. Cloud apply is not attested. Not a model-driven production run claim.',
     href: '/work/hermes-deployment-lab/',
   },
   {
@@ -56,13 +56,13 @@ export const publicEngineeringCases = [
     name: 'Hermes Enterprise Evaluation Kit',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit/blob/main/PROOF.md',
-    title: '318-row capability map with pinned v2026.8.3 reference suite',
+    title: 'Govern Hermes with policy, checks, and human review gates',
     summary:
-      'Version-pinned evaluation kit for enterprise agent configuration: explicit unsupported cases, negative tests, and a one-command local check.',
+      'Version-pinned kit that turns a plain-language job into a policy-bounded Hermes run, independent checks, and a receipt — without letting a green script invent human approval.',
     evidence:
-      '318-row mapping; 8 negative tests; exact pinned v2026.8.3 suite with 214 tests; one native-runtime S1 receipt passes offline hash and oracle verification.',
+      'Offline proof with no keys or network; capability map + explicit gaps; 8 negative tests; pinned v2026.8.3 preflight; one native-runtime S1 receipt still ending in needs_review.',
     limit:
-      'The synthetic live one-shot remains needs_review: no external action or human disposition, a $0.406986 estimate rather than actual billed cost, and two recorded execution-time exceptions.',
+      'Synthetic cases only. The live one-shot remains needs_review: no external action or human disposition, estimated rather than billed cost, and two recorded execution-time exceptions.',
     href: '/work/hermes-field-kit/',
   },
   {

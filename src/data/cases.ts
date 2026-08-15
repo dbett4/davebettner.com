@@ -29,10 +29,10 @@ export const cases = [
   {
     id: 'hermes-deployment-lab',
     eyebrow: 'Failure recovery · Hermes Deployment Lab',
-    title: 'Synthetic failure lab with attested container recovery and 203 public tests',
+    title: 'Scope tools, separate approval, survive post-commit failure',
     summary:
-      'Containerized lab that exercises remote-write/local-failure mismatch, operator approval, and idempotent recovery. Public CI attests container startup and restart/replay; cloud IaC remains no-apply.',
-    meta: 'FastMCP · Docker Compose · failure replay · audit trail',
+      'Synthetic lab for the hard case: an agent can touch an internal system. Scope the tools, keep operator approval separate, force the ugly post-commit error, and resume without double-writing.',
+    meta: 'Scoped tools · operator gate · idempotent resume',
     size: 'small',
     visual: 'rings',
     plateProof: 'Container-proof CI',
@@ -41,28 +41,28 @@ export const cases = [
     constraint:
       'A demo that answers once is not evidence that a second operator can deploy, observe failures, and recover without duplicating side effects.',
     built:
-      'I built a FastMCP server, mock enterprise API, workflow runner, and Docker Compose stack. The lab reproduces a write that succeeds remotely but appears to fail locally, then retries with the same idempotency key so the side effect happens once. Operator approval is stored separately from workflow state; capabilities expire.',
+      'I built a FastMCP server, mock enterprise API, workflow runner, and Compose stack. The lab stops the first write for a separate operator grant, then injects failure after commit and resumes with the same idempotency key so exactly one side effect remains.',
     role: 'I owned the deployment shape, failure taxonomy, test harness, and operating runbooks.',
     boundary:
-      'Synthetic lab with credential-free tests, not a live client tenant. Cloud IaC is no-apply only.',
+      'Synthetic lab with credential-free tests, not a live client tenant. Cloud IaC is no-apply only. Scripts and tests call tools; this is not a model-driven production run claim.',
     evidence:
-      '203 public credential-free tests at commit 9185ab5; synthetic failure/replay. Actions run 31637042354 attests container-proof, native Prometheus telemetry, causally linked OpenTelemetry traces, fresh-clone, and no-apply cloud IaC.',
+      'Public Actions attests container restart/replay, native telemetry/trace, fresh-clone, and a large credential-free suite; cloud IaC remains validate-only.',
     scope: 'Lab architecture and recovery discipline are public; client data and credentials are not.',
     evidenceMap: {
-      signal: '203 public tests with attested container startup and restart/replay',
+      signal: 'Scoped tools + separate operator approval + one side effect after failure/resume',
       method:
-        'Public GitHub Actions run 31637042354: container-proof, test with native telemetry and trace, fresh-clone, and no-apply cloud-IaC validation.',
-      steps: ['Container proof', 'Telemetry/trace', 'Approval gate', 'Idempotent retry', 'No-apply IaC'],
+        'Public GitHub Actions: container-proof, native telemetry and trace, fresh-clone, and no-apply cloud-IaC validation.',
+      steps: ['Scope tools', 'Operator grant', 'Post-commit fault', 'Idempotent resume', 'Receipt'],
       boundary: 'Synthetic lab evidence. Cloud apply is not attested.',
     },
   },
   {
     id: 'regulated-reporting-mcp',
     eyebrow: 'Guarded integration · Regulated Reporting MCP',
-    title: 'OAuth-backed MCP server with guarded writes and credential-free proof',
+    title: 'Accepted is not applied; applied is not verified',
     summary:
-      'MCP server for a Workiva-shaped reporting API with OAuth, pagination, async jobs, and controlled mutations behind a three-tool guarded default.',
-    meta: 'MCP · OAuth · contract manifest · offline demo',
+      'Guarded reporting MCP where writes need confirmation, results are read back, and receipts stay redacted. Default surface is three safe tools; the full catalog stays behind an explicit unsafe opt-in.',
+    meta: 'Confirm-before-write · readback · offline demo',
     size: 'large',
     visual: 'flow',
     plateProof: 'Credential-free proof',
@@ -71,46 +71,46 @@ export const cases = [
     constraint:
       'Reporting APIs need structured reads and writes, but exposing a full tool catalog without policy gates is unsafe for agent use.',
     built:
-      'I built an MCP server with OAuth client credentials, token refresh after 401, rate-limit backoff, pagination, async operation polling, and a write gate enforced in code. The default server exposes three guarded tools; the full 117-tool registry requires an explicit unsafe opt-in.',
+      'I built an MCP server with OAuth, retries, pagination, async polling, and a write gate enforced in code. The default server exposes three guarded tools; the full registry requires an explicit unsafe opt-in.',
     role: 'I designed the transport layer, contract manifest, guarded default surface, and credential-free proof harness.',
     boundary:
       'A local write receipt is not treated as remote verification. Uncertain formula results are reported as indeterminate, not guessed.',
     evidence:
-      '126 credential-free tests; 117 registered tool contracts with exact manifest coverage; offline end-to-end demo runs without credentials.',
+      'Credential-free test suite, full tool-contract coverage, and an offline end-to-end demo that runs without credentials.',
     scope: 'Sanitized API integration lab—not foundation-model or ML-research work.',
     evidenceMap: {
-      signal: '126 credential-free tests and 117 tool contracts',
+      signal: 'Confirm-before-write default surface with offline demo',
       method: 'Lint, contract-manifest check, pytest suite, and offline demo run without credentials.',
-      steps: ['Guarded default', 'Contract manifest', 'Transport fakes', 'Offline demo', 'Proof script'],
-      boundary: 'Full 117-tool registry is not policy-safe when served directly.',
+      steps: ['Guarded default', 'Confirm write', 'Readback', 'Redacted receipt', 'Offline demo'],
+      boundary: 'Full tool registry is not policy-safe when served directly.',
     },
   },
   {
     id: 'hermes-field-kit',
     eyebrow: 'Evaluation · Hermes Enterprise Evaluation Kit',
-    title: '318-row capability map with pinned v2026.8.3 reference suite',
+    title: 'Govern Hermes with policy, checks, and human review gates',
     summary:
-      'Version-pinned evaluation kit for enterprise agent configuration with explicit unsupported cases and negative tests.',
-    meta: 'Capability map · negative tests · pinned reference suite',
+      'Version-pinned kit that turns a plain-language job into a policy-bounded Hermes run, independent checks, and a receipt — without letting a green script invent human approval.',
+    meta: 'Policy packs · human gates · offline proof',
     size: 'small',
     visual: 'rings',
-    plateProof: 'Pinned suite; S1 receipt needs_review',
+    plateProof: 'Offline proof; live S1 needs_review',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit/blob/main/PROOF.md',
     constraint:
-      'Enterprise agent rollouts need a traceable map from requirements to supported behavior, explicit gaps, and reproducible checks—not a slide-deck promise.',
+      'Hermes primitives alone are not enough for enterprise use. Organizations still need job qualification, approved configs, independent checks, and accountable human judgment.',
     built:
-      'I built a 318-row capability map with schema validation, eight negative tests, a pinned v2026.8.3 reference suite, an older explicitly unattested record, and one native-runtime S1 receipt.',
-    role: 'I designed the mapping contract, adjudication workflow, and public verification scripts.',
+      'I built the surrounding evaluation layer for Hermes v0.20: policy packs, a version-pinned capability map with explicit gaps, eight negative tests, offline proof, and receipts that keep weak evidence labeled weak.',
+    role: 'I designed the operating model, mapping contract, adjudication workflow, and public verification scripts.',
     boundary:
-      'One synthetic live one-shot has native CLI attestation and an oracle pass, but remains needs_review with no external action, no human disposition, a $0.406986 estimate rather than actual billed cost, and two recorded exceptions.',
+      'Synthetic cases only. One live one-shot has native CLI attestation and an oracle pass, but remains needs_review with no external action, no human disposition, an estimated rather than billed cost, and two recorded exceptions.',
     evidence:
-      '318-row mapping; 8 negative tests; exact pinned v2026.8.3 suite with 214 tests; one committed native-runtime S1 receipt; PUBLIC_MAPPING_PASS and FIELD_KIT_PROOF_PASS.',
+      'Offline FIELD_KIT_PROOF_PASS; capability map + gap list; 8 negative tests; pinned v2026.8.3 preflight; one committed native-runtime S1 receipt still ending in needs_review.',
     scope: 'Synthetic configuration and evaluation artifacts only; not a customer deployment or accepted policy decision.',
     evidenceMap: {
-      signal: '318-row map, 214-test pinned suite, and one native-runtime S1 receipt',
-      method: 'Mapping verification, negative tests, pinned-suite replay, receipt hash checks, and deterministic-oracle recomputation.',
-      steps: ['Row manifest', 'Gap ledger', 'Negative tests', 'Pinned suite', 'Live receipt'],
+      signal: 'Policy-bounded mission flow with offline proof and one attested needs_review receipt',
+      method: 'Demo mission, mapping verification, negative tests, pinned-suite replay, receipt hash checks, and deterministic-oracle recomputation.',
+      steps: ['Policy pack', 'Approved config', 'Independent checks', 'Human gate', 'Receipt'],
       boundary: 'Live one-shot remains needs_review with two recorded execution-time exceptions.',
     },
   },

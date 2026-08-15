@@ -57,16 +57,16 @@ export const portfolioEntries = [
     flagship: true,
   },
   {
-    id: 'workiva-mcp',
-    title: 'Hermes Deployment Lab — synthetic failure and idempotent recovery',
-    meta: '203 public credential-free tests · container-proof CI',
+    id: 'hermes-deployment-lab',
+    title: 'Hermes Deployment Lab — scope tools, separate approval, safe resume',
+    meta: 'Operator gate · post-commit fault · one side effect',
     situation:
-      'A sophisticated integration is not adopted until a second operator can stand it up on a clean machine and recover from realistic failure modes.',
+      'When an agent can touch an internal system, the hard failures are operational: too many tools, self-approval, and retries after a commit that already happened.',
     role: 'Owned the deployment shape, test harness, and operating runbooks for the public lab.',
     work:
-      'Compose-configured lab with FastMCP server, mock enterprise API, and workflow runner. Exercises remote-write/local-failure mismatch with idempotent retry. Public Actions run 31637042354 on commit 9185ab5 attests container startup, restart/replay, native telemetry/trace, and fresh-clone. Cloud IaC remains no-apply.',
+      'Synthetic Compose lab with FastMCP server, mock enterprise API, and workflow runner. First write stops for a separate operator grant; post-commit failure resumes with the same idempotency key. Public CI attests container restart/replay and native telemetry/trace; cloud IaC remains no-apply.',
     result:
-      '203 public credential-free tests at attested commit 9185ab5; native Prometheus and causally linked OpenTelemetry proof; synthetic lab, not a customer deployment.',
+      'Credential-free suite and container-proof CI on the public lab; synthetic evidence only, not a customer deployment.',
     href: '/work/hermes-deployment-lab/',
   },
   {
@@ -108,16 +108,16 @@ export const portfolioEntries = [
     href: '/work/wingman/',
   },
   {
-    id: 'deployment-lab',
-    title: 'Hermes Enterprise Evaluation Kit — 318-row map with one attested live one-shot',
-    meta: '318 rows · 8 negative tests · 214-test suite · native receipt',
+    id: 'hermes-field-kit',
+    title: 'Hermes Enterprise Evaluation Kit — policy, checks, and human review gates',
+    meta: 'Policy packs · offline proof · needs_review gate',
     situation:
-      'Enterprise agent configuration needs a traceable capability map, explicit gaps, and reproducible checks before anyone claims production readiness.',
-    role: 'Designed the mapping contract, adjudication workflow, and public verification scripts.',
+      'Hermes primitives alone are not enough for enterprise use. Organizations still need job qualification, approved configs, independent checks, and accountable human judgment.',
+    role: 'Designed the operating model, mapping contract, adjudication workflow, and public verification scripts.',
     work:
-      '318-row capability map with schema validation, eight negative tests, pinned v2026.8.3 reference suite, and one committed native-runtime S1 receipt.',
+      'Version-pinned evaluation layer for Hermes v0.20: policy packs, capability map with explicit gaps, eight negative tests, offline proof, and receipts that keep weak evidence labeled weak.',
     result:
-      'Receipt hashes and deterministic oracle verify; the synthetic live one-shot remains needs_review with no external action and two recorded exceptions.',
+      'Offline proof passes without keys or network; synthetic live one-shot remains needs_review with no external action and two recorded exceptions.',
     href: '/work/hermes-field-kit/',
   },
   {

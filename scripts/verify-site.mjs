@@ -267,8 +267,8 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   const body = await page.locator('body').innerText();
   ok(!body.includes('SIG/01'), `${name}: decorative SIG/01 removed`);
   ok(
-    (await page.locator('img[data-source-portrait][src="/images/dave-bettner-headshot-c13-navy.png"][width="1537"][height="1023"]').count()) === 1,
-    `${name}: approved navy-tie source portrait is present`,
+    (await page.locator('img[data-source-portrait][src="/images/dave-bettner-headshot-c13-navy-cutout.png"][width="1100"][height="1023"]').count()) === 1,
+    `${name}: approved source-preserving navy-tie cutout is present`,
   );
   for (const token of ['01 ·', '02 ·', '03 ·', '04 ·']) {
     ok(!body.includes(token), `${name}: decorative serial token absent (${token})`);
@@ -1011,6 +1011,34 @@ async function auditPage(page, route, label) {
       .map((image) => image.getAttribute('src')),
   );
   ok(brokenImages.length === 0, `${label}: images load`, brokenImages.join(', '));
+  if (['/', '/experience/', '/work/', '/fit/'].includes(route)) {
+    const editorialPalette = await page.evaluate(() => {
+      const root = getComputedStyle(document.documentElement);
+      const body = getComputedStyle(document.body);
+      return {
+        theme: document.querySelector('meta[name="theme-color"]')?.getAttribute('content'),
+        scheme: document.querySelector('meta[name="color-scheme"]')?.getAttribute('content'),
+        paper: root.getPropertyValue('--paper').trim(),
+        ink: root.getPropertyValue('--ink').trim(),
+        blue: root.getPropertyValue('--blue').trim(),
+        orange: root.getPropertyValue('--orange').trim(),
+        bodyBackground: body.backgroundColor,
+        bodyColor: body.color,
+      };
+    });
+    ok(
+      editorialPalette.theme === '#f3efe5' &&
+        editorialPalette.scheme === 'light' &&
+        editorialPalette.paper === '#f3efe5' &&
+        editorialPalette.ink === '#151515' &&
+        editorialPalette.blue === '#214fe5' &&
+        editorialPalette.orange === '#cf4120' &&
+        editorialPalette.bodyBackground === 'rgb(243, 239, 229)' &&
+        editorialPalette.bodyColor === 'rgb(21, 21, 21)',
+      `${label}: shared editorial paper palette is active`,
+      JSON.stringify(editorialPalette),
+    );
+  }
   const missingFragmentTargets = await page.locator('a[href^="#"]').evaluateAll((links) =>
     links
       .map((link) => link.getAttribute('href'))
@@ -1240,7 +1268,7 @@ try {
     const source = document.querySelector('[data-source-portrait]');
     return source instanceof HTMLImageElement &&
       source.complete &&
-      source.naturalWidth === 1537 &&
+      source.naturalWidth === 1100 &&
       document.documentElement.dataset.effectsReady === 'true';
   }, null, { timeout: 15_000 });
 
@@ -1263,11 +1291,11 @@ try {
   });
   ok(
     Boolean(
-      portraitContract?.src === '/images/dave-bettner-headshot-c13-navy.png' &&
+      portraitContract?.src === '/images/dave-bettner-headshot-c13-navy-cutout.png' &&
         portraitContract.alt === 'Dave Bettner in a gray suit and navy tie' &&
-        portraitContract.declaredWidth === '1537' &&
+        portraitContract.declaredWidth === '1100' &&
         portraitContract.declaredHeight === '1023' &&
-        portraitContract.naturalWidth === 1537 &&
+        portraitContract.naturalWidth === 1100 &&
         portraitContract.naturalHeight === 1023 &&
         portraitContract.renderedWidth > 80 &&
         portraitContract.renderedHeight > 80 &&
@@ -1275,7 +1303,7 @@ try {
         portraitContract.primaryCanvasCount <= 1 &&
         portraitContract.effectsReady === 'true'
     ),
-    'Homepage renders the approved navy-tie source portrait without a processing canvas',
+    'Homepage renders the approved source-preserving navy-tie cutout without a processing canvas',
     JSON.stringify(portraitContract),
   );
   await profilePage.locator('[data-source-portrait]').screenshot({ path: `${out}/source-portrait.png` });
@@ -1296,7 +1324,7 @@ try {
     const source = document.querySelector('[data-source-portrait]');
     return {
       sourceVisible: source instanceof HTMLImageElement &&
-        source.naturalWidth === 1537 &&
+        source.naturalWidth === 1100 &&
         getComputedStyle(source).opacity !== '0',
       shaderSpeed: window.premiumControlState?.shaderSpeed,
       motionReduced: window.premiumControlState?.motionReduced,

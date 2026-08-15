@@ -78,8 +78,8 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={siteDescription} />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#0b0c0e" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#f3efe5" />
+    <meta name="color-scheme" content="light" />
     <link rel="preload" href={archivoFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={monoFont} as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={`${siteUrl}/`} />
@@ -102,11 +102,11 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   </head>
   <body>
     <!--
-      THESIS: Dave is the subject inside one cool precision system; the page refuses both a split-personality design merge and product-dashboard chrome.
-      OWN-WORLD: Carbon black, zinc, cool pearl, blue steel, compressed industrial lettering, clean seams, and one spectral shader control; no gold, warm ivory, or cutout portrait effects.
+      THESIS: Dave is the subject inside one warm editorial system; the page refuses both a split-personality design merge and product-dashboard chrome.
+      OWN-WORLD: Warm paper, dense ink, cobalt and vermilion signals, compressed industrial lettering, clean rules, and one spectral shader control; no cool-metal overlay or cutout portrait effects.
       STORY: A visitor meets Dave at portrait scale, understands the enterprise-agent deployment lane, inspects a ruled evidence ledger, and starts a conversation.
-      FIRST VIEWPORT: Monumental stacked name and concise delivery role occupy the left; the unchanged navy-tie C13 portrait owns the right; one shader action sits below the role and the cool evidence ledger continues without a visual-world change.
-      FORM: Precision Material Profile with an evidence ledger; corrected from the rejected hybrid using the approved premium-control system.
+      FIRST VIEWPORT: Monumental stacked name and concise delivery role occupy the left; the unchanged navy-tie C13 portrait owns the right; one shader action sits below the role and the paper evidence ledger continues without a visual-world change.
+      FORM: Editorial Operator profile with an evidence ledger; the premium layout is reconciled into the established paper-and-ink system.
       FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
     -->
     <a class="skip-link" href="#main">Skip to content</a>
@@ -144,9 +144,9 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
           <figure class="cover-specimen">
             <img
               class="cover-portrait"
-              src="/images/dave-bettner-headshot-c13-navy.png"
+              src="/images/dave-bettner-headshot-c13-navy-cutout.png"
               alt="Dave Bettner in a gray suit and navy tie"
-              width="1537"
+              width="1100"
               height="1023"
               loading="eager"
               decoding="async"
@@ -332,17 +332,6 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
 <style is:global>
   :root {
-    --paper: #f3efe5;
-    --ink: #151515;
-    --blue: #214fe5;
-    --orange: #cf4120;
-    --orange-ink: #9a2f14;
-    --muted: #62615d;
-    --rule: #c9c3b5;
-    --card: #eee8dc;
-    --panel: #0f1115;
-    --panel-ink: #e8e6e1;
-    --panel-muted: #9a9893;
     --space-1: 4px;
     --space-2: 8px;
     --space-3: 16px;
@@ -2204,4 +2193,5 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
 <style is:global>
   @import url('/styles/premium-profile-correction.css');
+  @import url('/styles/editorial-paper-system.css');
 </style>

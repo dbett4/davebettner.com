@@ -122,12 +122,12 @@ try {
   check(
     (await sourcePortrait.count()) === 1 &&
       (await page.locator('[data-kinetic-portrait]').count()) === 0,
-    'Hero contains one unprocessed source portrait',
+    'Hero contains one source-preserving portrait cutout',
   );
   check(
-    (await sourcePortrait.getAttribute('src')) === '/images/dave-bettner-headshot-c13-navy.png' &&
+    (await sourcePortrait.getAttribute('src')) === '/images/dave-bettner-headshot-c13-navy-cutout.png' &&
       (await page.locator('.cover-specimen canvas').count()) === 0,
-    'Hero preserves the approved navy-tie portrait without a processing canvas',
+    'Hero preserves the approved navy-tie cutout without a processing canvas',
   );
   const heroResume = page.locator('.cover-actions-primary a[download]');
   check((await heroResume.count()) === 1, 'Hero contains one résumé download');

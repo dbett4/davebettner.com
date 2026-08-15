@@ -35,7 +35,7 @@ export const cases = [
     meta: 'Scoped tools · operator gate · idempotent resume',
     size: 'small',
     visual: 'rings',
-    plateProof: 'Container-proof CI',
+    plateProof: 'CI run 31891411678',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
     constraint:
@@ -46,12 +46,12 @@ export const cases = [
     boundary:
       'Synthetic lab with credential-free tests, not a live client tenant. Cloud IaC is no-apply only. Scripts and tests call tools; this is not a model-driven production run claim.',
     evidence:
-      'Public Actions attests container restart/replay, native telemetry/trace, fresh-clone, and a large credential-free suite; cloud IaC remains validate-only.',
+      'Public Actions run 31891411678 at commit 3da5938 attests container restart/replay, native telemetry/trace, fresh-clone, and 240 credential-free tests; cloud IaC remains validate-only.',
     scope: 'Lab architecture and recovery discipline are public; client data and credentials are not.',
     evidenceMap: {
       signal: 'Scoped tools + separate operator approval + one side effect after failure/resume',
       method:
-        'Public GitHub Actions: container-proof, native telemetry and trace, fresh-clone, and no-apply cloud-IaC validation.',
+        'Public GitHub Actions run 31891411678: container-proof, native telemetry and trace, fresh-clone, 240 tests, and no-apply cloud-IaC validation.',
       steps: ['Scope tools', 'Operator grant', 'Post-commit fault', 'Idempotent resume', 'Receipt'],
       boundary: 'Synthetic lab evidence. Cloud apply is not attested.',
     },

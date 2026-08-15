@@ -156,7 +156,7 @@ async function main() {
       throw new Error('résumé must attest Deployment Lab container startup and restart/replay');
     }
   }
-  for (const marker of ['203 public credential-free tests', 'native Prometheus', 'causally linked OpenTelemetry', 'open and unreviewed']) {
+  for (const marker of ['240 public credential-free tests', 'Public Actions run 31891411678', 'native Prometheus', 'causally linked OpenTelemetry', 'open and unreviewed']) {
     if (!text.toLowerCase().includes(marker.toLowerCase())) {
       throw new Error(`public résumé missing evidence marker: ${marker}`);
     }

@@ -3,20 +3,19 @@ import { ShaderFitOptions } from './vendor/paper-shaders/shader-sizing.js';
 import { pulsingBorderFragmentShader } from './vendor/paper-shaders/shaders/pulsing-border.js';
 import { getShaderNoiseTexture } from './vendor/paper-shaders/get-shader-noise-texture.js';
 
-const MAX_PIXEL_COUNT = 131_072;
+const MAX_PIXEL_COUNT = 262_144;
 const MIN_PIXEL_RATIO = 1;
-const RELEASE_MS = 360;
-const AMBIENT_SPEED = 0.58;
-const ACTIVE_SPEED = 1.65;
-const REST_FRAME = 48;
-const AMBIENT_INTENSITY = 0.18;
-const ACTIVE_INTENSITY = 0.52;
-const AMBIENT_BLOOM = 0.06;
-const ACTIVE_BLOOM = 0.13;
-const AMBIENT_SPOT_SIZE = 0.2;
-const ACTIVE_SPOT_SIZE = 0.3;
-const AMBIENT_PULSE = 0.04;
-const ACTIVE_PULSE = 0.18;
+const SWEEP_MS = 800;
+const REST_INTENSITY = 0.09;
+const SWEEP_INTENSITY = 0.28;
+const SWEEP_SPEED = 0.34;
+const REST_FRAME = 96;
+const REST_BLOOM = 0.07;
+const SWEEP_BLOOM = 0.08;
+const REST_SPOT_SIZE = 0.22;
+const SWEEP_SPOT_SIZE = 0.26;
+const REST_SPOTS = 1;
+const SWEEP_SPOTS = 2;
 
 const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -25,15 +24,12 @@ const state = {
   motionReduced: motionQuery.matches,
   shaderSpeed: 0,
   maxPixelCount: MAX_PIXEL_COUNT,
-  hostCount: 0,
-  mountCount: 0,
-  activeCount: 0,
 };
 
-/** @type {Map<HTMLElement, { mount: ShaderMount, active: boolean, visible: boolean, releaseTimer: ReturnType<typeof setTimeout> | null }>} */
-const controllers = new Map();
-/** @type {IntersectionObserver | null} */
-let visibilityObserver = null;
+/** @type {ShaderMount | null} */
+let mount = null;
+/** @type {ReturnType<typeof setTimeout> | null} */
+let settleTimer = null;
 
 function sizingUniforms() {
   return {
@@ -60,80 +56,70 @@ function waitForImage(image) {
   });
 }
 
-function ambientUniforms(noise) {
+function restUniforms(noise) {
   return {
     ...sizingUniforms(),
-    u_colorBack: [0.082, 0.082, 0.082, 1],
+    u_colorBack: [0.039, 0.043, 0.047, 0.94],
     u_colors: [
-      [0.953, 0.937, 0.898, 0.9],
-      [0.812, 0.255, 0.125, 0.98],
-      [0.129, 0.31, 0.898, 0.98],
-      [0.953, 0.937, 0.898, 0.42],
+      [0.906, 0.914, 0.929, 0.82],
+      [0.545, 0.569, 0.604, 0.72],
+      [0.412, 0.376, 0.706, 0.42],
+      [0.42, 0.706, 0.745, 0.32],
     ],
     u_colorsCount: 4,
     u_roundness: 0.32,
-    u_thickness: 0.078,
+    u_thickness: 0.065,
     u_marginLeft: 0.02,
     u_marginRight: 0.02,
     u_marginTop: 0.06,
     u_marginBottom: 0.06,
     u_aspectRatio: 0,
-    u_softness: 0.1,
-    u_intensity: AMBIENT_INTENSITY,
-    u_bloom: AMBIENT_BLOOM,
-    u_spotSize: AMBIENT_SPOT_SIZE,
-    u_spots: 3,
-    u_pulse: AMBIENT_PULSE,
-    u_smoke: 0.025,
+    u_softness: 0.14,
+    u_intensity: REST_INTENSITY,
+    u_bloom: REST_BLOOM,
+    u_spotSize: REST_SPOT_SIZE,
+    u_spots: REST_SPOTS,
+    u_pulse: 0,
+    u_smoke: 0,
     u_smokeSize: 0.4,
     u_noiseTexture: noise,
   };
 }
 
-function refreshState() {
-  const mounted = [...controllers.values()];
-  const speeds = mounted.map(({ mount }) => mount.speed);
-  state.mountCount = mounted.length;
-  state.activeCount = mounted.filter(({ active }) => active).length;
-  state.shaderSpeed = speeds.length ? Math.max(...speeds) : 0;
-  state.webglAvailable = mounted.length > 0;
-  document.documentElement.dataset.effectsWebgl = state.webglAvailable ? 'true' : 'false';
-}
-
-function syncController(controller) {
-  const running = !state.motionReduced && !document.hidden && controller.visible;
-  controller.mount.setUniforms({
-    u_intensity: controller.active ? ACTIVE_INTENSITY : AMBIENT_INTENSITY,
-    u_bloom: controller.active ? ACTIVE_BLOOM : AMBIENT_BLOOM,
-    u_spotSize: controller.active ? ACTIVE_SPOT_SIZE : AMBIENT_SPOT_SIZE,
-    u_spots: controller.active ? 4 : 3,
-    u_pulse: controller.active ? ACTIVE_PULSE : AMBIENT_PULSE,
-    u_smoke: controller.active ? 0.07 : 0.025,
-  });
-  controller.mount.setSpeed(running ? (controller.active ? ACTIVE_SPEED : AMBIENT_SPEED) : 0);
-  refreshState();
-}
-
-function clearRelease(controller) {
-  if (controller.releaseTimer !== null) {
-    clearTimeout(controller.releaseTimer);
-    controller.releaseTimer = null;
+function clearSettle() {
+  if (settleTimer !== null) {
+    clearTimeout(settleTimer);
+    settleTimer = null;
   }
 }
 
-function activate(controller) {
-  clearRelease(controller);
-  controller.active = true;
-  syncController(controller);
+function settle() {
+  if (!mount) return;
+  mount.setSpeed(0);
+  mount.setUniforms({
+    u_intensity: REST_INTENSITY,
+    u_bloom: REST_BLOOM,
+    u_spotSize: REST_SPOT_SIZE,
+    u_spots: REST_SPOTS,
+  });
+  state.shaderSpeed = 0;
 }
 
-function release(controller) {
-  clearRelease(controller);
-  controller.releaseTimer = setTimeout(() => {
-    controller.active = false;
-    controller.releaseTimer = null;
-    syncController(controller);
-  }, RELEASE_MS);
+function startSweep() {
+  if (!mount || state.motionReduced) return;
+  mount.setUniforms({
+    u_intensity: SWEEP_INTENSITY,
+    u_bloom: SWEEP_BLOOM,
+    u_spotSize: SWEEP_SPOT_SIZE,
+    u_spots: SWEEP_SPOTS,
+  });
+  mount.setSpeed(SWEEP_SPEED);
+  state.shaderSpeed = SWEEP_SPEED;
+  clearSettle();
+  settleTimer = setTimeout(() => {
+    settle();
+    settleTimer = null;
+  }, SWEEP_MS);
 }
 
 function confineCanvas(host) {
@@ -143,32 +129,40 @@ function confineCanvas(host) {
   canvas.style.pointerEvents = 'none';
 }
 
-function mountPrimary(host, noise) {
-  const mount = new ShaderMount(
+async function mountPrimary(host) {
+  const noise = getShaderNoiseTexture();
+  if (!(noise instanceof HTMLImageElement)) {
+    return;
+  }
+  await waitForImage(noise);
+
+  mount = new ShaderMount(
     host,
     pulsingBorderFragmentShader,
-    ambientUniforms(noise),
+    restUniforms(noise),
     { alpha: true, antialias: true, failIfMajorPerformanceCaveat: false },
     0,
     REST_FRAME,
     MIN_PIXEL_RATIO,
     MAX_PIXEL_COUNT,
   );
+  mount.setSpeed(0);
+  state.shaderSpeed = 0;
+  state.webglAvailable = true;
   confineCanvas(host);
-  const controller = { mount, active: false, visible: true, releaseTimer: null };
-  controllers.set(host, controller);
-  syncController(controller);
-  return controller;
 }
 
-function bindPrimary(host, controller) {
-  host.addEventListener('pointerenter', () => activate(controller));
-  host.addEventListener('pointerdown', () => activate(controller));
-  host.addEventListener('focus', () => activate(controller));
-  host.addEventListener('pointerleave', () => release(controller));
-  host.addEventListener('pointerup', () => release(controller));
-  host.addEventListener('pointercancel', () => release(controller));
-  host.addEventListener('blur', () => release(controller));
+function bindPrimary(host) {
+  host.addEventListener('pointerenter', startSweep);
+  host.addEventListener('focus', startSweep);
+  host.addEventListener('pointerleave', () => {
+    if (state.motionReduced) return;
+    clearSettle();
+    settleTimer = setTimeout(() => {
+      settle();
+      settleTimer = null;
+    }, SWEEP_MS);
+  });
 }
 
 
@@ -179,7 +173,8 @@ function exposeState() {
     get() {
       return {
         ...state,
-        speeds: [...controllers.values()].map(({ mount }) => mount.speed),
+        shaderSpeed: mount ? mount.speed : state.shaderSpeed,
+        mountSpeed: mount ? mount.speed : null,
       };
     },
   });
@@ -193,60 +188,33 @@ async function init() {
   exposeState();
   motionQuery.addEventListener('change', (event) => {
     state.motionReduced = event.matches;
-    controllers.forEach(syncController);
+    if (state.motionReduced) {
+      clearSettle();
+      settle();
+    }
   });
 
-  document.addEventListener('visibilitychange', () => controllers.forEach(syncController));
-
-  const hosts = [...document.querySelectorAll('[data-shader-host]')].filter(
-    (host) => host instanceof HTMLElement,
-  );
-  state.hostCount = hosts.length;
-
+  const host = document.querySelector('[data-shader-host]');
   try {
-    const noise = getShaderNoiseTexture();
-    if (!(noise instanceof HTMLImageElement)) throw new Error('noise texture unavailable');
-    await waitForImage(noise);
-
-    visibilityObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const controller = controllers.get(entry.target);
-        if (!controller) return;
-        controller.visible = entry.isIntersecting;
-        syncController(controller);
-      });
-    }, { rootMargin: '96px 0px', threshold: 0.01 });
-
-    for (const host of hosts) {
-      try {
-        const controller = mountPrimary(host, noise);
-        bindPrimary(host, controller);
-        visibilityObserver.observe(host);
-      } catch {
-        host.querySelectorAll('canvas').forEach((node) => node.remove());
-      }
+    if (host instanceof HTMLElement) {
+      await mountPrimary(host);
+      bindPrimary(host);
     }
-    refreshState();
   } catch {
     state.webglAvailable = false;
-    for (const host of hosts) {
+    mount = null;
+    if (host instanceof HTMLElement) {
       host.querySelectorAll('canvas').forEach((node) => node.remove());
     }
-    refreshState();
   } finally {
     markReady();
   }
 }
 
 window.addEventListener('pagehide', () => {
-  visibilityObserver?.disconnect();
-  visibilityObserver = null;
-  controllers.forEach((controller) => {
-    clearRelease(controller);
-    controller.mount.dispose();
-  });
-  controllers.clear();
-  refreshState();
+  clearSettle();
+  mount?.dispose();
+  mount = null;
 });
 
 init();

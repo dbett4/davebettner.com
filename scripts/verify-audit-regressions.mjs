@@ -1,9 +1,21 @@
 import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
+import { createServer } from 'node:net';
 import { chromium } from 'playwright-core';
 
 const externalBase = process.env.SITE_URL?.replace(/\/$/, '');
-const base = externalBase || 'http://127.0.0.1:4322';
+const localPort = externalBase
+  ? null
+  : await new Promise((resolve, reject) => {
+      const server = createServer();
+      server.once('error', reject);
+      server.listen(0, '127.0.0.1', () => {
+        const address = server.address();
+        const port = address && 'port' in Object(address) ? address.port : null;
+        server.close((error) => (error ? reject(error) : resolve(port)));
+      });
+    });
+const base = externalBase || `http://127.0.0.1:${localPort}`;
 let preview;
 let browser;
 const checks = [];
@@ -24,18 +36,9 @@ async function waitForPreview() {
   throw new Error(`Preview did not become ready at ${base}`);
 }
 
-async function previewIsReady() {
-  try {
-    const response = await fetch(base);
-    return response.ok;
-  } catch {
-    return false;
-  }
-}
-
 try {
-  if (!externalBase && !(await previewIsReady())) {
-    preview = spawn('npm', ['run', 'preview', '--', '--host', '127.0.0.1', '--port', '4322'], {
+  if (!externalBase) {
+    preview = spawn('python3', ['-m', 'http.server', String(localPort), '--bind', '127.0.0.1', '--directory', 'dist'], {
       cwd: process.cwd(),
       stdio: 'ignore',
     });
@@ -115,19 +118,19 @@ try {
   check(state.opens[0]?.url === 'https://chatgpt.com/', 'Fit long prompt opens provider base URL', state.opens[0]?.url);
   check(state.clipboard.includes(longJobDescription), 'Fit long prompt is copied');
   check(state.invalid === 'false', 'Fit valid long input clears invalid state', String(state.invalid));
-  check(state.status.includes('without pre-fill'), 'Fit long prompt explains base-URL fallback', state.status);
+  check(state.status.includes('too long to pre-fill'), 'Fit long prompt explains base-URL fallback', state.status);
 
   await page.goto(`${base}/`, { waitUntil: 'networkidle' });
   const sourcePortrait = page.locator('[data-source-portrait]');
   check(
     (await sourcePortrait.count()) === 1 &&
       (await page.locator('[data-kinetic-portrait]').count()) === 0,
-    'Hero contains one source-preserving portrait cutout',
+    'Hero contains one unprocessed source portrait',
   );
   check(
-    (await sourcePortrait.getAttribute('src')) === '/images/dave-bettner-headshot-c13-navy-cutout.png' &&
+    (await sourcePortrait.getAttribute('src')) === '/images/dave-bettner-headshot-c13-navy.png' &&
       (await page.locator('.cover-specimen canvas').count()) === 0,
-    'Hero preserves the approved navy-tie cutout without a processing canvas',
+    'Hero preserves the approved navy-tie portrait without a processing canvas',
   );
   const heroResume = page.locator('.cover-actions-primary a[download]');
   check((await heroResume.count()) === 1, 'Hero contains one résumé download');

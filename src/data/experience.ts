@@ -12,11 +12,11 @@ export const experienceEntries: readonly ExperienceEntry[] = [
     dates: 'Nov 2025–Present',
     title: 'Senior Manager · LSL, LLP',
     location: 'Chicago, then Des Moines',
-    line: 'Senior manager on municipal finance and ERP-connected reporting implementations; scoped delivery from diagnosis through adoption.',
+    line: 'Municipal finance and ERP-connected reporting implementations, from the first scoping call through adoption.',
     bullets: [
-      'Support proposals, SOW scoping and negotiation, estimates, quotes, and RFP responses for municipal finance and ERP-connected reporting work.',
-      'Run on-site demos and pitch presentations against customer decision criteria, then carry delivery handoffs through adoption.',
-      'Build controlled review workflows with human sign-off on customer-impacting changes.',
+      'Support proposals, SOWs, estimates, quotes, and RFP responses.',
+      'Run on-site demos and pitches, then stay on the account through the handoff.',
+      'Build review workflows where a person signs off before a change reaches a client.',
     ],
   },
   {
@@ -24,8 +24,8 @@ export const experienceEntries: readonly ExperienceEntry[] = [
     title: 'Manager of Digital Services · Citrin Cooperman',
     line: 'Directed finance and regulatory reporting rollouts on the Workiva platform.',
     bullets: [
-      'Owned a national healthcare enterprise certification special project: bidirectional API integration and executive stakeholder sign-off through go-live.',
-      'Directed reporting rollouts across a five-person team.',
+      'Owned a statutory certification project for a national healthcare enterprise. The work included a bidirectional API integration with a full audit trail and sign-off from finance, IT, and executives at go-live.',
+      'Led a five-person delivery team.',
     ],
   },
   {
@@ -34,24 +34,24 @@ export const experienceEntries: readonly ExperienceEntry[] = [
     line: 'Led concurrent GRC and financial-reporting implementations from discovery through go-live.',
     bullets: [
       'Scoped SSO, API, and ERP integration architecture with finance, audit, IT, and executive sponsors.',
-      'Built controlled-write workflows with human sign-off on customer-impacting changes.',
+      'Built source-first reconciliation and batched writes that stopped for human sign-off before anything reached a published statement.',
     ],
   },
   {
     dates: 'Sept 2021–Oct 2022',
     title: 'Solutions Consultant · Ambra Health',
-    line: 'Regulated clinical delivery outside finance: HIPAA imaging, EHR interfaces, and customer-facing portals.',
+    line: 'HIPAA imaging workflows, EHR interfaces, and customer-facing portals.',
     bullets: [
-      'Deployed HIPAA-controlled imaging workflows, EHR interfaces, and customer-facing portal integrations with billing and access controls.',
+      'Put four workflow types into production with billing and access controls. Each integration cleared HIPAA review before go-live.',
       'Carried cross-practice implementations through an acquisition transition.',
     ],
   },
   {
     dates: 'Sept 2015–Sept 2021',
     title: 'SEC Reporting Consultant · Workiva',
-    line: 'SEC reporting and XBRL across GAAP, IFRS, and ESEF under quarterly filing deadline pressure.',
+    line: 'SEC reporting and XBRL across GAAP, IFRS, and ESEF on quarterly filing deadlines.',
     bullets: [
-      'SEC reporting and XBRL (GAAP, IFRS, and ESEF), disclosure drafting, and quarterly filing execution.',
+      'Drafted disclosures and executed quarterly filings.',
     ],
   },
 ] as const satisfies readonly ExperienceEntry[];

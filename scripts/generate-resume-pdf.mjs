@@ -95,7 +95,6 @@ async function main() {
   await writeFile(metaOut, pdfinfo, 'utf8');
 
   const text = await readFile(textOut, 'utf8');
-  const normalizedText = text.replace(/\s+/g, ' ');
   const lines = text
     .split(/\r?\n/)
     .map((line) => line.trim())
@@ -152,12 +151,12 @@ async function main() {
   if (/parses Compose|container startup is not attested/i.test(text)) {
     throw new Error('résumé must not use obsolete parse-only container language');
   }
-  if (!normalizedText.includes('container startup and restart/replay')) {
-    if (!normalizedText.includes('container startup/restart/replay')) {
+  if (!text.includes('container startup and restart/replay')) {
+    if (!text.includes('container startup/restart/replay')) {
       throw new Error('résumé must attest Deployment Lab container startup and restart/replay');
     }
   }
-  for (const marker of ['241 public credential-free tests', 'Public Actions run 31892965924', 'native Prometheus', 'causally linked OpenTelemetry', 'open and unreviewed']) {
+  for (const marker of ['203 public credential-free tests', 'native Prometheus', 'causally linked OpenTelemetry', 'open and unreviewed']) {
     if (!text.toLowerCase().includes(marker.toLowerCase())) {
       throw new Error(`public résumé missing evidence marker: ${marker}`);
     }

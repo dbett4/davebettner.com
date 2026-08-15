@@ -22,8 +22,6 @@ const description =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="robots" content="noindex" />
-    <meta name="theme-color" content="#f3efe5" />
-    <meta name="color-scheme" content="light" />
     <link rel="preload" href={newsreaderFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={jakartaFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={monoFont} as="font" type="font/woff2" crossorigin />
@@ -35,7 +33,7 @@ const description =
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="wrap fit-page-header">
       <a class="back-link mono" href="/">← Home</a>
-      <a class="round blue" href={emailHref}>Contact <span aria-hidden="true">↗</span></a>
+      <a class="round blue" href={emailHref}>Email <span aria-hidden="true">↗</span></a>
     </header>
     <main id="main">
       <RecruiterFit />
@@ -49,12 +47,18 @@ const description =
         <a href={emailHref}>Email <span aria-hidden="true">↗</span></a>
       </div>
     </footer>
-    <script is:inline type="module" src="/correction/main.js"></script>
   </body>
 </html>
 
 <style is:global>
   :root {
+    --paper: #f3efe5;
+    --ink: #151515;
+    --blue: #214fe5;
+    --orange: #cf4120;
+    --muted: #62615d;
+    --rule: #c9c3b5;
+    --card: #eee8dc;
     --max: 920px;
   }
   * {
@@ -119,7 +123,7 @@ const description =
     justify-content: center;
     gap: 8px;
     border: 1px solid var(--ink);
-    border-radius: 0;
+    border-radius: 999px;
     min-height: 44px;
     padding: 10px 16px;
     font-size: 0.8rem;
@@ -174,8 +178,4 @@ const description =
       padding: 20px 0;
     }
   }
-</style>
-
-<style is:global>
-  @import url('/styles/editorial-paper-system.css');
 </style>

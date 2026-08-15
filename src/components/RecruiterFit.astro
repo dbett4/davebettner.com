@@ -26,7 +26,6 @@ const templateJson = JSON.stringify(fitPromptTemplate);
 
     <div class="fit-form fit-form--deposition">
       <div class="fit-field">
-        <span class="fit-field-label mono">Scope</span>
         <label class="fit-label" for="job-description">Job description</label>
         <textarea
           id="job-description"
@@ -36,14 +35,13 @@ const templateJson = JSON.stringify(fitPromptTemplate);
           maxlength="12000"
           aria-describedby="fit-job-hint fit-status"
           aria-invalid="false"
-          placeholder="Paste the role title, requirements, and responsibilities from your job posting…"
+          placeholder="Paste the posting — title, requirements, and responsibilities…"
         ></textarea>
         <p class="fit-input-hint" id="fit-job-hint">Required. Maximum 12,000 characters.</p>
       </div>
 
       <div class="fit-field">
-        <span class="fit-field-label mono">Evidence</span>
-        <p class="fit-hint">Pick an assistant. The prompt copies to your clipboard and opens with pre-fill where supported.</p>
+        <p class="fit-hint">Pick an assistant. The prompt copies to your clipboard and pre-fills if that assistant accepts it.</p>
 
         <div class="fit-actions" role="group" aria-label="Open in AI assistant">
           {aiProviders.map((provider) => (
@@ -55,22 +53,21 @@ const templateJson = JSON.stringify(fitPromptTemplate);
               {provider.label} <span aria-hidden="true">↗</span>
             </button>
           ))}
-          <button type="button" class="round blue fit-copy-btn" id="fit-copy-prompt" data-shader-host>
-            <span data-shader-label>Copy prompt <span aria-hidden="true">⧉</span></span>
+          <button type="button" class="round blue fit-copy-btn" id="fit-copy-prompt">
+            Copy prompt <span aria-hidden="true">⧉</span>
           </button>
         </div>
       </div>
 
       <div class="fit-field fit-field--readback">
-        <span class="fit-field-label mono">Readback</span>
         <p class="fit-status mono" id="fit-status" role="status" aria-live="polite"></p>
 
         <details class="fit-details">
           <summary>What the prompt includes</summary>
           <p>
-            A structured fit evaluation request, your pasted job description, and a concise public profile
-            (experience, portfolio projects, skills, logistics). Résumé and LinkedIn links are included.
-            Nothing is sent to this site. Processing happens in the assistant you choose.
+            The scoring instructions, the job description you paste, and a public summary of my roles,
+            projects, and location, plus links to my résumé and LinkedIn. Nothing is sent to this site.
+            It all happens in the assistant you choose.
           </p>
         </details>
       </div>
@@ -105,7 +102,7 @@ const templateJson = JSON.stringify(fitPromptTemplate);
     if (!value) {
       el.setAttribute('aria-invalid', 'true');
       el.focus();
-      setStatus('Paste a job description before opening or copying a fit prompt.');
+      setStatus('Paste a job description first.');
       return null;
     }
     if (value.length > MAX_JOB_DESCRIPTION_LENGTH) {
@@ -120,7 +117,7 @@ const templateJson = JSON.stringify(fitPromptTemplate);
 
   function buildPrompt(jobDescription) {
     const template = readJsonScript('fit-profile-data', '""');
-    return typeof template === 'string' ? template.replace(PROMPT_PLACEHOLDER, jobDescription) : '';
+    return template.replace(PROMPT_PLACEHOLDER, jobDescription);
   }
 
   function setStatus(message) {
@@ -140,9 +137,8 @@ const templateJson = JSON.stringify(fitPromptTemplate);
       ta.style.left = '-9999px';
       document.body.appendChild(ta);
       ta.select();
-      // Avoid Document.execCommand typings (deprecated); keep legacy copy fallback.
-      const legacyCopy = Reflect.get(document, 'execCommand');
-      const ok = typeof legacyCopy === 'function' ? Boolean(legacyCopy.call(document, 'copy')) : false;
+      // Keep the legacy copy fallback for browsers that reject Clipboard API writes.
+      const ok = Boolean(document.execCommand?.('copy'));
       document.body.removeChild(ta);
       return ok;
     }
@@ -166,11 +162,11 @@ const templateJson = JSON.stringify(fitPromptTemplate);
     setStatus(
       usesPrefill
         ? copied
-          ? `Copied prompt. Opened ${provider.label}. Paste if the assistant did not pre-fill.`
-          : `Opened ${provider.label}. Copy the prompt manually if needed.`
+          ? `Copied and opened ${provider.label}. Paste it there if it did not pre-fill.`
+          : `Opened ${provider.label}. If it did not pre-fill, come back and try Copy prompt.`
         : copied
-          ? `Copied prompt. Opened ${provider.label} without pre-fill because the prompt is too long for a safe URL. Paste it there.`
-          : `Opened ${provider.label} without pre-fill. Copy the prompt manually if needed.`,
+          ? `Copied. The prompt is too long to pre-fill, so paste it into ${provider.label}.`
+          : `Opened ${provider.label}, but the prompt did not pre-fill or copy. Try Copy prompt again.`,
     );
   }
 
@@ -186,7 +182,11 @@ const templateJson = JSON.stringify(fitPromptTemplate);
     if (jobDescription === null) return;
     const prompt = buildPrompt(jobDescription);
     const copied = await copyPrompt(prompt);
-    setStatus(copied ? 'Prompt copied to clipboard.' : 'Could not copy. Select and copy manually from the job description area.');
+    setStatus(
+      copied
+        ? 'Prompt copied to clipboard.'
+        : 'Copy failed because the browser blocked clipboard access. Use one of the assistant buttons instead.',
+    );
   });
 
   document.getElementById('job-description')?.addEventListener('input', () => {

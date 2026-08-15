@@ -1,24 +1,28 @@
 import { publicEngineeringCases } from './public-proof';
 
 export const thesis = {
-  title: 'I deploy AI systems with customers—from discovery through adoption.',
+  title:
+    'I have spent ten years leading enterprise implementations in reporting, finance, audit, and healthcare. The agent and MCP work is newer. It is public, synthetic, and built for the customer-facing AI deployment roles I am pursuing now.',
   body: [
     'I embed from discovery through integration, debugging, sign-off, and adoption—pairing customer delivery with hands-on agent and MCP engineering.',
   ],
 } as const;
 
+export const heroRole = 'I get software live inside customer environments.';
+
 export const whereHeading = {
-  title: 'Forward-deployed delivery and solutions engineering',
-  lead: 'The operating loop I bring into an unfamiliar customer environment:',
+  title: 'Discovery through adoption',
+  lead:
+    'I use the same five stages in each customer environment. Every stage leaves the customer with something they can act on.',
   items: [
-    'Map the workflow, stakeholders, constraints, and decision criteria',
-    'Shape a scoped solution through proposals, SOWs, estimates, quotes, and RFP responses',
-    'Demonstrate the path against buyer and operator criteria',
-    'Integrate, debug, validate, and secure sign-off through go-live',
-    'Hand off a controlled operating cadence, measure adoption, and iterate',
+    'Sit with the people doing the work and learn what they are judged on.',
+    'Write the proposal or SOW and put a real number on it.',
+    'Demo the working path against the criteria the customer gave me.',
+    'Integrate it, debug it in the customer’s stack, and get it signed off.',
+    'Hand it to the team that owns it, then watch what they use.',
   ],
   close:
-    'Finance, audit, and assurance are my deepest domain experience; the pattern applies wherever customer environments demand proof.',
+    'Finance, audit, and assurance are where I know the work best. My accounting degrees help me follow the argument, but I am not the accountant in the room. I build the system for the person who is. The healthcare work shows that the delivery pattern travels.',
 } as const;
 
 export const whatIBring = {
@@ -49,59 +53,68 @@ const mappedProjects = publicEngineeringCases.map((item) => ({
 }));
 
 export const buildingNow = {
-  title: 'Public engineering proof',
-  lead: 'Three inspectable signals: deployment recovery, an open Hermes Agent Desktop fix, and guarded API integration. Remaining work lives on the work index.',
+  title: 'What I build in public',
+  lead:
+    'Synthetic labs and open-source fixes. The labs run without client data or credentials, so anyone can check the claims.',
   projects: mappedProjects,
   featuredProjects: mappedProjects.filter((project) =>
-    (featuredPublicProjectIds as readonly string[]).includes(project.id),
+    featuredPublicProjectIds.some((projectId) => projectId === project.id),
   ),
 } as const;
 
 export const selectedProof = {
   title: 'Customer delivery outcomes',
-  lead: 'Regulated delivery is the vertical proof. The public systems below show the controls I bring into new environments.',
+  lead: 'Three customer programs I carried from diagnosis to signed-off go-live.',
   stories: [
     {
       id: 'insurance-certification',
       label: 'Statutory certification handoff',
       context: 'Manager of Digital Services · Citrin Cooperman',
-      title: 'Bidirectional API workflow carried through sign-off',
+      title: 'A bidirectional reporting handoff signed off by finance, IT, and executives',
       summary:
-        'Statutory certification needed a controlled handoff between a reporting platform and an internal system of record. I owned diagnosis through go-live, designed bidirectional integration with audit trail, and aligned finance, IT, and executives on sign-off.',
-      result: 'Bidirectional reporting ↔ system-of-record handoff with audit trail and finance, IT, and executive sign-off at go-live.',
+        'Statutory certification needed a controlled handoff between a reporting platform and an internal system of record. I took it from diagnosis to go-live, designed the bidirectional integration and audit trail, and aligned the teams responsible for the handoff.',
+      result: 'The certification workflow went live and became a repeatable operating model.',
     },
     {
       id: 'gov-reporting',
-      label: 'GRC reporting with human review',
+      label: 'Concurrent GRC programs',
       context: 'Solutions Architect · Workiva',
-      title: 'Controlled reporting with human review and native readback',
+      title: 'Controlled writes with a person approving every customer-facing change',
       summary:
-        'Concurrent GRC and financial-reporting programs with no room for silent errors. I led solution design, scoped integration architecture, and built controlled-write workflows with human sign-off on customer-impacting changes.',
-      result: 'SSO, API, and ERP-scoped GRC and reporting implementations with controlled writes, human sign-off, and native readback.',
+        'Concurrent GRC and financial-reporting programs left no room for silent errors. I scoped the SSO, API, and ERP architecture with finance, audit, and IT, then built write workflows that stopped for human sign-off before a change reached a published statement.',
+      result: 'Implementations reached adoption with journaled changes, tie-out checks, and native readback.',
     },
     {
       id: 'clinical-imaging',
-      label: 'HIPAA imaging integration',
+      label: 'Regulated work outside finance',
       context: 'Solutions Consultant · Ambra Health',
-      title: 'HIPAA imaging, EHR, and portal integrations through acquisition',
+      title: 'Moving patient imaging between health systems during an acquisition',
       summary:
-        'Imaging orders and results had to move across practice and health-system boundaries under HIPAA, with billing and access controls intact through an acquisition transition.',
-      result: 'HIPAA imaging, EHR, portal, and billing workflows through acquisition; integrations cleared review before go-live.',
+        'Imaging orders and results had to cross practice and health-system boundaries under HIPAA while billing and access controls stayed intact. I ran the cross-practice implementations through the acquisition transition.',
+      result: 'Four workflow types reached production, and each integration cleared HIPAA review before go-live.',
     },
   ],
 } as const;
 
 export const aboutSection = {
-  title: 'How I work',
+  title: 'Who you would be hiring',
   body: [
-    'I run customer delivery across discovery, integrations, validation, sign-off, and adoption. I pair that record with hands-on Python, MCP, agent integration, failure recovery, and deployment-proof work.',
-    'The public labs show permissions, visible failures, readback, and recovery. They are synthetic, sanitized, and inspectable. They are not customer tenants.',
-    'Finance, audit, and assurance are my deepest domain proof; the operating pattern travels to other regulated customer environments.',
+    'I am a senior manager who runs customer delivery. I sit with the customer, learn the workflow, build the integration, and stay until the team is using it. Most of that work has been in finance and reporting. The agent and MCP work is newer and public. It uses synthetic or sanitized data, not customer tenants.',
+  ],
+} as const;
+
+/** About-page throughline prose; distinct from the homepage About block lead. */
+export const aboutThroughline = {
+  title: 'The same habits, whether the deadline is a filing or a deploy.',
+  body: [
+    'Most of my work has been getting reporting and controls systems into production where a wrong number creates a real problem. That means learning the workflow, designing the integration, debugging the edge cases, and staying past go-live until the team can run it.',
+    'The labs on GitHub show the engineering. They run on synthetic data in my own repos. No client tenants, client data, or credentials. They show how I narrow a tool surface, separate approval from execution, verify a write, and recover after failure.',
+    'I know finance, audit, and assurance well enough to follow the argument with a controller. I have accounting degrees, but I have not worked as an accountant. The healthcare-imaging work shows that the same delivery habits hold outside finance.',
   ],
 } as const;
 
 export const closingCta = {
-  title: 'Bring AI into the workflow, not just the demo.',
+  title: 'Let’s talk about the rollout.',
   body:
-    'I am targeting forward-deployed and solutions engineering roles where I can learn the customer environment, integrate the systems around it, ship a working path, and stay through debugging, adoption, and iteration.',
+    'I am looking for customer-facing AI deployment work where I can learn the environment, integrate the systems around it, and stay through go-live and adoption. I am also open to focused consulting work that uses the same skills.',
 } as const;

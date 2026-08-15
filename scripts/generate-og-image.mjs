@@ -79,9 +79,7 @@ async function main() {
     await page.evaluate(async () => {
       await document.fonts.ready;
       await Promise.all(
-        Array.from(document.images, (image) =>
-          typeof image.decode === 'function' ? image.decode() : Promise.resolve(),
-        ),
+        Array.from(document.images, (image) => image.decode()),
       );
     });
 

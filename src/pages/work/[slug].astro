@@ -11,18 +11,22 @@ import { provenanceNote } from '../../data/public-proof';
 import { siteUrl } from '../../data/seo';
 import { emailHref } from '../../data/site-links';
 
+interface Props {
+  item: CaseStudy;
+}
+
 export function getStaticPaths() {
   return cases.map((item) => ({ params: { slug: item.id }, props: { item } }));
 }
 
-const { item } = Astro.props as { item: CaseStudy };
+const { item } = Astro.props;
 const projectNames = {
   'regulated-reporting-mcp': 'Regulated Reporting MCP',
   'hermes-deployment-lab': 'Hermes Deployment Lab',
   'hermes-field-kit': 'Hermes Enterprise Evaluation Kit',
-  wingman: 'Confirm-before-write spreadsheet quality',
+  wingman: 'Wingman',
 } as const;
-const projectName = projectNames[item.id as keyof typeof projectNames];
+const projectName = projectNames[item.id];
 const plateNumber = String(cases.findIndex((candidate) => candidate.id === item.id) + 1).padStart(2, '0');
 const canonical = `${siteUrl}/work/${item.id}/`;
 const title = `${projectName} | Dave Bettner`;
@@ -53,20 +57,18 @@ const title = `${projectName} | Dave Bettner`;
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="page-mast">
       <div class="wrap mast-row">
-        <a class="back-link mono" href="/work/">← Evidence index</a>
-        <span class="mast-status mono">Case study · public proof</span>
+        <a class="back-link mono" href="/work/">← All labs</a>
       </div>
     </header>
     <main id="main">
       <section class={`case-cover visual-${item.visual}`}>
         <div class="wrap case-cover-grid">
           <div class="case-intro">
-            <p class="eyebrow mono">{item.eyebrow}</p>
             <h1>{projectName}</h1>
             <p class="case-headline">{item.title}</p>
             <p class="summary">{item.summary}</p>
             <p class="repo-links">
-              <a class="round blue" href={item.repoUrl} rel="noopener noreferrer" data-shader-host><span data-shader-label>View repository <span aria-hidden="true">↗</span></span></a>
+              <a class="round blue" href={item.repoUrl} rel="noopener noreferrer">Repository <span aria-hidden="true">↗</span></a>
               {item.proofUrl ? (
                 <a class="round" href={item.proofUrl} rel="noopener noreferrer">Proof guide <span aria-hidden="true">↗</span></a>
               ) : null}
@@ -75,9 +77,6 @@ const title = `${projectName} | Dave Bettner`;
           <div class="case-plate" aria-hidden="true">
             <span class="plate-chrome mono">PLATE · {plateNumber}</span>
             <span class="plate-mark"></span>
-            <div class="plate-diagram">
-              <span>Constraint</span><i></i><span>Controlled path</span><i></i><span>Readback</span>
-            </div>
             <span class="plate-proof mono">{item.plateProof}</span>
           </div>
         </div>
@@ -87,7 +86,6 @@ const title = `${projectName} | Dave Bettner`;
         <section class="evidence-map" aria-labelledby="evidence-map-heading">
           <div class="evidence-heading">
             <p class="mono evidence-map-label" id="evidence-map-heading">Evidence map</p>
-            <p class="mono evidence-state">Method → proof → boundary</p>
           </div>
           <h2 class="evidence-signal">{item.evidenceMap.signal}</h2>
           <p class="evidence-method">{item.evidenceMap.method}</p>
@@ -95,34 +93,31 @@ const title = `${projectName} | Dave Bettner`;
             {item.evidenceMap.steps.map((step) => <li>{step}</li>)}
           </ol>
           <div class="evidence-boundary">
-            <span class="mono">Boundary</span>
+            <span class="mono">Not proven</span>
             <p>{item.evidenceMap.boundary}</p>
           </div>
         </section>
 
         <section class="case-detail" aria-labelledby="case-detail-heading">
           <div class="detail-head">
-            <p class="eyebrow mono">Build record</p>
-            <h2 id="case-detail-heading">What the plate records.</h2>
+            <h2 id="case-detail-heading">What it does, and where it stops.</h2>
           </div>
           <dl class="case-list">
             <dt>Constraint</dt><dd>{item.constraint}</dd>
             <dt>Built</dt><dd>{item.built}</dd>
             <dt>Role</dt><dd>{item.role}</dd>
-            <dt>Human boundary</dt><dd>{item.boundary}</dd>
+            <dt>Boundary</dt><dd>{item.boundary}</dd>
             <dt>Evidence</dt><dd>{item.evidence}</dd>
-            <dt>Scope</dt><dd>{item.scope}</dd>
+            <dt>Not claimed</dt><dd>{item.scope}</dd>
           </dl>
         </section>
         <section class="contact-block" aria-labelledby="contact-heading">
-          <p class="mono">Next</p>
-          <h2 id="contact-heading">Need this kind of deployment rigor?</h2>
-          <a class="round blue contact-link" href={emailHref} data-shader-host><span data-shader-label>Get in touch <span aria-hidden="true">↗</span></span></a>
+          <h2 id="contact-heading">I am looking for forward-deployed work on customer AI agents.</h2>
+          <a class="round blue contact-link" href={emailHref}>Email me <span aria-hidden="true">↗</span></a>
         </section>
         <p class="provenance-note">{provenanceNote}</p>
       </div>
     </main>
-    <script is:inline type="module" src="/correction/main.js"></script>
   </body>
 </html>
 
@@ -144,7 +139,6 @@ const title = `${projectName} | Dave Bettner`;
   .case-page{padding:clamp(48px,6vw,88px) 0 100px;max-width:900px}
   .back-link{display:inline-flex;align-items:center;min-height:44px;color:var(--muted)}
   .back-link:hover{color:var(--ink)}
-  .eyebrow{color:var(--orange-ink);margin-bottom:18px}
   h1{font-family:"Newsreader Variable",Georgia,serif;font-size:clamp(2.8rem,6vw,4.8rem);font-weight:500;line-height:1.02;letter-spacing:-.04em;margin-bottom:20px}
   .case-headline{font-family:"Newsreader Variable",Georgia,serif;font-size:clamp(1.35rem,2.7vw,2.1rem);font-weight:500;line-height:1.16;max-width:760px;margin:-4px 0 14px;color:var(--ink)}
   .summary{color:var(--muted);font-size:1.05rem;max-width:620px;margin-bottom:20px}
@@ -160,8 +154,7 @@ const title = `${projectName} | Dave Bettner`;
   .visual-difference .case-plate::after{inset:16px;border:1px dashed var(--ink)}
   .plate-chrome,.plate-proof{position:absolute;background:var(--ink);color:var(--paper);padding:6px 7px;font-size:.62rem}
   .plate-chrome{top:12px;left:12px}.plate-proof{right:12px;bottom:12px}.plate-mark{position:absolute;top:12px;right:12px;width:10px;height:10px;background:var(--orange);box-shadow:-3px 3px 0 var(--blue)}
-  .plate-diagram{position:absolute;left:clamp(20px,7%,44px);right:clamp(20px,7%,44px);bottom:30%;display:flex;align-items:center;gap:10px;color:var(--paper);font-family:"DM Mono",monospace;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase}
-  .plate-diagram span{padding:6px;border:1px solid currentColor;background:rgba(21,21,21,.78)}.plate-diagram i{height:1px;flex:1;background:repeating-linear-gradient(90deg,currentColor 0 5px,transparent 5px 9px)}
+
   .evidence-map{border:1px solid var(--ink);padding:24px 22px 20px;margin-bottom:64px;background:radial-gradient(circle,rgba(33,79,229,.16) 0 1px,transparent 1.4px),var(--paper);background-size:8px 8px}
   .evidence-heading{display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-bottom:14px}.evidence-state{color:var(--muted);font-size:.6rem}
   .evidence-map-label{color:var(--orange-ink)}
@@ -193,8 +186,4 @@ const title = `${projectName} | Dave Bettner`;
     .evidence-heading{display:block}.evidence-state{margin-top:6px}.evidence-steps{flex-direction:column}
     .evidence-steps li{flex-basis:auto}
   }
-</style>
-
-<style is:global>
-  @import url('/styles/editorial-paper-system.css');
 </style>

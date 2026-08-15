@@ -13,7 +13,7 @@ const localPort = configuredBase
       server.once('error', reject);
       server.listen(0, '127.0.0.1', () => {
         const address = server.address();
-        const port = typeof address === 'object' && address ? address.port : null;
+        const port = address && 'port' in Object(address) ? address.port : null;
         server.close((error) => (error ? reject(error) : resolve(port)));
       });
     });
@@ -67,22 +67,26 @@ const buildingRoles = [
 ];
 
 const loopStagesExpected = [
-  { cue: 'Discover', handoff: 'Decision criteria' },
-  { cue: 'Shape', handoff: 'Scoped proposal / SOW' },
-  { cue: 'Demonstrate', handoff: 'Demo against criteria' },
-  { cue: 'Deliver', handoff: 'Signed-off go-live' },
-  { cue: 'Adopt', handoff: 'Operating cadence' },
+  { cue: 'Discover', handoff: 'What they will judge it on' },
+  { cue: 'Shape', handoff: 'A scoped proposal' },
+  { cue: 'Demonstrate', handoff: 'A working demo' },
+  { cue: 'Deliver', handoff: 'A signed go-live' },
+  { cue: 'Adopt', handoff: 'A team that runs it' },
 ];
 
+/**
+ * Role labels now live only on the /work/ index cards; the case pages dropped their
+ * eyebrows in the approved copy rewrite.
+ */
 const caseEyebrows = {
   'regulated-reporting-mcp': 'Guarded integration · Regulated Reporting MCP',
   'hermes-deployment-lab': 'Failure recovery · Hermes Deployment Lab',
   'hermes-field-kit': 'Evaluation · Hermes Enterprise Evaluation Kit',
-  wingman: 'Readback + restore · Confirm-before-write quality',
+  wingman: 'Readback + restore · Wingman',
 };
 
 const caseStepCounts = {
-  'regulated-reporting-mcp': 5,
+  'regulated-reporting-mcp': 4,
   'hermes-deployment-lab': 5,
   'hermes-field-kit': 5,
   wingman: 6,
@@ -92,20 +96,20 @@ const outcomeStories = [
   {
     label: 'Statutory certification handoff',
     context: 'Manager of Digital Services · Citrin Cooperman',
-    title: 'Bidirectional API workflow carried through sign-off',
-    result: 'Bidirectional reporting ↔ system-of-record handoff with audit trail and finance, IT, and executive sign-off at go-live.',
+    title: 'A bidirectional reporting handoff signed off by finance, IT, and executives',
+    result: 'The certification workflow went live and became a repeatable operating model.',
   },
   {
-    label: 'GRC reporting with human review',
+    label: 'Concurrent GRC programs',
     context: 'Solutions Architect · Workiva',
-    title: 'Controlled reporting with human review and native readback',
-    result: 'SSO, API, and ERP-scoped GRC and reporting implementations with controlled writes, human sign-off, and native readback.',
+    title: 'Controlled writes with a person approving every customer-facing change',
+    result: 'Implementations reached adoption with journaled changes, tie-out checks, and native readback.',
   },
   {
-    label: 'HIPAA imaging integration',
+    label: 'Regulated work outside finance',
     context: 'Solutions Consultant · Ambra Health',
-    title: 'HIPAA imaging, EHR, and portal integrations through acquisition',
-    result: 'HIPAA imaging, EHR, portal, and billing workflows through acquisition; integrations cleared review before go-live.',
+    title: 'Moving patient imaging between health systems during an acquisition',
+    result: 'Four workflow types reached production, and each integration cleared HIPAA review before go-live.',
   },
 ];
 
@@ -114,25 +118,30 @@ const projects = [
     slug: 'regulated-reporting-mcp',
     title: 'Regulated Reporting MCP',
     repo: 'https://github.com/dbett4/regulated-reporting-mcp',
-    proof: 'Credential-free test suite',
+    proof: '126 credential-free tests',
+    boundaries: ['explicit unsafe opt-in', 'A local receipt does not prove remote state'],
   },
   {
     slug: 'hermes-deployment-lab',
     title: 'Hermes Deployment Lab',
     repo: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
-    proof: 'Public Actions run 31892965924 at release commit 1e68676 attests container restart/replay',
-    boundaries: ['Synthetic lab', 'Cloud apply is not attested', 'not a model-driven production run claim', 'no-apply'],
+    proof: 'Public Actions attests container restart and replay',
+    boundaries: ['Synthetic lab', 'Cloud apply is not attested', 'no model drives a production run', 'no-apply'],
   },
   {
     slug: 'hermes-field-kit',
     title: 'Hermes Enterprise Evaluation Kit',
     repo: 'https://github.com/dbett4/hermes-enterprise-field-kit',
-    proof: 'Offline FIELD_KIT_PROOF_PASS',
-    boundaries: ['needs_review', 'estimated rather than billed cost', 'two recorded execution-time exceptions'],
+    proof: 'Offline proof passes without keys or a network',
+    boundaries: [
+      'needs_review',
+      'an estimate rather than a billed amount',
+      'two execution-time exceptions on record',
+    ],
   },
   {
     slug: 'wingman',
-    title: 'Confirm-before-write spreadsheet quality',
+    title: 'Wingman',
     repo: 'https://github.com/dbett4/wingman',
     proof: '462 Python tests pass',
   },
@@ -183,7 +192,7 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   const feedbackText = feedbackCount === 1 ? await page.locator('.loop-feedback').innerText() : '';
   ok(
     feedbackText.includes('Adopt → next Discover') &&
-      feedbackText.includes('Adoption evidence reshapes the next discovery.'),
+      feedbackText.includes('What the team adopts tells me what to ask about next time.'),
     `${name}: feedback states what Adopt changes in the next Discover`,
     feedbackText,
   );
@@ -267,14 +276,14 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   const body = await page.locator('body').innerText();
   ok(!body.includes('SIG/01'), `${name}: decorative SIG/01 removed`);
   ok(
-    (await page.locator('img[data-source-portrait][src="/images/dave-bettner-headshot-c13-navy-cutout.png"][width="1100"][height="1023"]').count()) === 1,
-    `${name}: approved source-preserving navy-tie cutout is present`,
+    (await page.locator('img[data-source-portrait][src="/images/dave-bettner-headshot-c13-navy.png"][width="1537"][height="1023"]').count()) === 1,
+    `${name}: approved navy-tie source portrait is present`,
   );
   for (const token of ['01 ·', '02 ·', '03 ·', '04 ·']) {
     ok(!body.includes(token), `${name}: decorative serial token absent (${token})`);
   }
   for (const marker of [
-    'Synthetic lab for agent-touching-internal-system failure modes',
+    'An agent writes to a mock enterprise API',
     'MCP server for a Workiva-shaped reporting API',
   ]) {
     ok(body.includes(marker), `${name}: public proof problem statement retained (${marker})`);
@@ -292,16 +301,21 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   }
   ok((await page.locator('.building-limit, .limit-label').count()) === 0, `${name}: homepage has no per-card Limit blocks`);
   ok(
-    body.includes('Labs and sanitized extracts') && body.includes('Nous/Hermes Enterprise affiliation'),
+    body.includes('synthetic labs and sanitized extracts') &&
+      body.includes('no client tenants, client data, or credentials'),
     `${name}: homepage evidence-boundary note present`,
   );
   ok(
-    body.includes('Nous/Hermes Enterprise affiliation'),
+    body.includes('an affiliation with Nous or Hermes Enterprise'),
     `${name}: evidence boundary denies Hermes Enterprise affiliation claim`,
   );
   ok(
-    body.includes('production-engineering tenure'),
-    `${name}: provenance keeps production-tenure claim boundary`,
+    body.includes('do not represent customer production-agent work'),
+    `${name}: provenance keeps the customer-production-agent claim boundary`,
+  );
+  ok(
+    body.includes('not claims of quota ownership, revenue credit, or final contract-signature authority'),
+    `${name}: customer-outcomes surface carries the engagement disclaimer`,
   );
 }
 
@@ -730,20 +744,22 @@ async function assertHomepageResponsiveContracts(page, viewport) {
         const darker = Math.min(foregroundLuminance, backgroundLuminance);
         return { color, backgroundColor, opacity, composited, ratio: (lighter + 0.05) / (darker + 0.05) };
       };
+      // The Next / Profile eyebrows were removed in the approved copy rewrite, so these
+      // probes now sample the smallest remaining text on the same two surfaces.
       return {
-        ctaKicker: measure('.cta-kicker', '.cta-block'),
-        profileAccent: measure('.cover-kicker', '.cover'),
+        ctaBody: measure('.cta-copy p', '.cta-block'),
+        profileSupport: measure('.cover-support', '.cover'),
       };
     });
     ok(
-      Boolean(smallTextContrast.ctaKicker && smallTextContrast.ctaKicker.ratio >= 4.5),
-      `${name}: CTA kicker small-text contrast is at least 4.5:1`,
-      JSON.stringify(smallTextContrast.ctaKicker),
+      Boolean(smallTextContrast.ctaBody && smallTextContrast.ctaBody.ratio >= 4.5),
+      `${name}: CTA body small-text contrast is at least 4.5:1`,
+      JSON.stringify(smallTextContrast.ctaBody),
     );
     ok(
-      Boolean(smallTextContrast.profileAccent && smallTextContrast.profileAccent.ratio >= 4.5),
-      `${name}: profile accent small-text contrast is at least 4.5:1`,
-      JSON.stringify(smallTextContrast.profileAccent),
+      Boolean(smallTextContrast.profileSupport && smallTextContrast.profileSupport.ratio >= 4.5),
+      `${name}: cover support small-text contrast is at least 4.5:1`,
+      JSON.stringify(smallTextContrast.profileSupport),
     );
   }
 
@@ -1011,34 +1027,6 @@ async function auditPage(page, route, label) {
       .map((image) => image.getAttribute('src')),
   );
   ok(brokenImages.length === 0, `${label}: images load`, brokenImages.join(', '));
-  if (['/', '/experience/', '/work/', '/fit/'].includes(route)) {
-    const editorialPalette = await page.evaluate(() => {
-      const root = getComputedStyle(document.documentElement);
-      const body = getComputedStyle(document.body);
-      return {
-        theme: document.querySelector('meta[name="theme-color"]')?.getAttribute('content'),
-        scheme: document.querySelector('meta[name="color-scheme"]')?.getAttribute('content'),
-        paper: root.getPropertyValue('--paper').trim(),
-        ink: root.getPropertyValue('--ink').trim(),
-        blue: root.getPropertyValue('--blue').trim(),
-        orange: root.getPropertyValue('--orange').trim(),
-        bodyBackground: body.backgroundColor,
-        bodyColor: body.color,
-      };
-    });
-    ok(
-      editorialPalette.theme === '#f3efe5' &&
-        editorialPalette.scheme === 'light' &&
-        editorialPalette.paper === '#f3efe5' &&
-        editorialPalette.ink === '#151515' &&
-        editorialPalette.blue === '#214fe5' &&
-        editorialPalette.orange === '#cf4120' &&
-        editorialPalette.bodyBackground === 'rgb(243, 239, 229)' &&
-        editorialPalette.bodyColor === 'rgb(21, 21, 21)',
-      `${label}: shared editorial paper palette is active`,
-      JSON.stringify(editorialPalette),
-    );
-  }
   const missingFragmentTargets = await page.locator('a[href^="#"]').evaluateAll((links) =>
     links
       .map((link) => link.getAttribute('href'))
@@ -1079,50 +1067,53 @@ try {
     const body = await page.locator('body').innerText();
     ok(body.includes('publication dates'), `${viewport.name}: publication provenance visible`);
     ok(!body.includes('459 Python'), `${viewport.name}: stale Wingman count absent`);
-    const coverKicker = await page.locator('.cover-kicker').textContent();
     ok(
-      coverKicker?.trim() === 'Profile · Enterprise agent deployment',
-      `${viewport.name}: homepage kicker identifies a profile and enterprise-agent lane`,
-      String(coverKicker),
+      (await page.locator('.cover-kicker').count()) === 0,
+      `${viewport.name}: homepage cover eyebrow removed`,
     );
     ok(
       ((await page.locator('#thesis-heading').textContent()) ?? '').replace(/\s+/g, '') === 'DaveBettner',
       `${viewport.name}: H1 is Dave Bettner's identity`,
     );
     const coverSupport = ((await page.locator('.cover-support').textContent()) ?? '').trim();
-    const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
+    const provenance = ((await page.locator('#work .provenance-note').textContent()) ?? '').trim();
     ok(
-      coverSupport === 'I deploy AI systems with customers—from discovery through adoption.' &&
-        body.includes('Customer-facing AI implementation and forward-deployed delivery.'),
-      `${viewport.name}: hero states customer-facing deployment and the adoption span`,
+      coverSupport.includes('ten years leading enterprise implementations') &&
+        coverSupport.includes('customer-facing AI deployment roles I am pursuing now') &&
+        body.includes('I get software live inside customer environments.'),
+      `${viewport.name}: hero states customer-facing deployment and bounds the agent-work tenure`,
       coverSupport,
     );
     ok(
-      /Labs and sanitized extracts/.test(provenance) &&
-        /production-engineering tenure/.test(provenance) &&
-        /Nous\/Hermes Enterprise affiliation/.test(provenance),
+      /synthetic labs and sanitized extracts/.test(provenance) &&
+        /do not represent customer production-agent work/.test(provenance) &&
+        /an affiliation with Nous or Hermes Enterprise/.test(provenance),
       `${viewport.name}: homepage provenance keeps lab and affiliation boundaries`,
       provenance,
     );
     ok(
-      body.toLowerCase().includes('forward-deployed delivery and solutions engineering'),
-      `${viewport.name}: direction names forward-deployed delivery and solutions engineering`,
+      // The section heading renders uppercase, so compare case-insensitively.
+      body.toLowerCase().includes('discovery through adoption'),
+      `${viewport.name}: direction names the discovery-through-adoption arc`,
     );
     ok(body.includes('proposals') || body.includes('SOW') || body.includes('RFP'), `${viewport.name}: engagement method includes shape/presales work`);
-    ok(body.includes('Demonstrate the path against buyer and operator criteria'), `${viewport.name}: engagement method includes demonstrate work`);
+    ok(
+      body.includes('Demo the working path against the criteria the customer gave me.'),
+      `${viewport.name}: engagement method includes demonstrate work`,
+    );
     ok(
       body.toLowerCase().includes('finance, audit, and assurance'),
       `${viewport.name}: domain depth names finance, audit, and assurance`,
     );
     ok(
-      body.includes('forward-deployed and solutions engineering roles'),
-      `${viewport.name}: closing CTA names forward-deployed / solutions engineering roles`,
+      body.includes('customer-facing AI deployment work'),
+      `${viewport.name}: closing CTA names customer-facing AI deployment work`,
     );
     ok(body.includes('Hermes Deployment Lab'), `${viewport.name}: features Hermes Deployment Lab`);
     ok(body.includes('Regulated Reporting MCP'), `${viewport.name}: features Regulated Reporting MCP`);
     ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
     ok(!body.includes('Hermes Enterprise Evaluation Kit'), `${viewport.name}: field kit is not featured on homepage`);
-    ok(!body.includes('Financial reporting QA with readback'), `${viewport.name}: Wingman is not featured on homepage`);
+    ok(!body.includes('Wingman'), `${viewport.name}: Wingman is not featured on homepage`);
     ok(!body.includes('Fieldguide'), `${viewport.name}: Fieldguide string absent`);
     ok(!body.includes('Nous Research'), `${viewport.name}: Nous Research string absent`);
     ok(!body.includes('I am an auditor'), `${viewport.name}: auditor identity claim absent`);
@@ -1148,8 +1139,8 @@ try {
       })),
     );
     ok(
-      coverActions.some((link) => link.href?.startsWith('mailto:') && link.text.includes('Start a conversation')),
-      `${viewport.name}: primary CTA includes Start a conversation`,
+      coverActions.some((link) => link.href?.startsWith('mailto:') && link.text.includes('Email me')),
+      `${viewport.name}: primary CTA includes Email me`,
       JSON.stringify(coverActions),
     );
     ok(
@@ -1186,9 +1177,7 @@ try {
     await page.evaluate(async () => {
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
       await Promise.all(
-        Array.from(document.images, (image) =>
-          typeof image.decode === 'function' ? image.decode().catch(() => undefined) : Promise.resolve(),
-        ),
+        Array.from(document.images, (image) => image.decode().catch(() => undefined)),
       );
       const list = document.querySelector('.building-list');
       if (list instanceof HTMLElement) list.scrollLeft = 0;
@@ -1268,7 +1257,7 @@ try {
     const source = document.querySelector('[data-source-portrait]');
     return source instanceof HTMLImageElement &&
       source.complete &&
-      source.naturalWidth === 1100 &&
+      source.naturalWidth === 1537 &&
       document.documentElement.dataset.effectsReady === 'true';
   }, null, { timeout: 15_000 });
 
@@ -1285,81 +1274,26 @@ try {
       renderedWidth: box.width,
       renderedHeight: box.height,
       portraitCanvasCount: source.closest('.cover-specimen')?.querySelectorAll('canvas').length,
-      backdrop: (() => {
-        const node = source.closest('.cover-specimen')?.querySelector('[data-portrait-backdrop]');
-        if (!(node instanceof HTMLElement)) return null;
-        const style = getComputedStyle(node);
-        return {
-          count: source.closest('.cover-specimen')?.querySelectorAll('[data-portrait-backdrop]').length,
-          backgroundImage: style.backgroundImage,
-          display: style.display,
-          opacity: Number(style.opacity),
-          zIndex: Number(style.zIndex),
-        };
-      })(),
-      portraitZIndex: Number(getComputedStyle(source).zIndex),
       primaryCanvasCount: document.querySelector('[data-primary-action]')?.querySelectorAll('canvas').length,
       effectsReady: document.documentElement.dataset.effectsReady,
     };
   });
   ok(
     Boolean(
-      portraitContract?.src === '/images/dave-bettner-headshot-c13-navy-cutout.png' &&
+      portraitContract?.src === '/images/dave-bettner-headshot-c13-navy.png' &&
         portraitContract.alt === 'Dave Bettner in a gray suit and navy tie' &&
-        portraitContract.declaredWidth === '1100' &&
+        portraitContract.declaredWidth === '1537' &&
         portraitContract.declaredHeight === '1023' &&
-        portraitContract.naturalWidth === 1100 &&
+        portraitContract.naturalWidth === 1537 &&
         portraitContract.naturalHeight === 1023 &&
         portraitContract.renderedWidth > 80 &&
         portraitContract.renderedHeight > 80 &&
         portraitContract.portraitCanvasCount === 0 &&
-        portraitContract.backdrop?.count === 1 &&
-        portraitContract.backdrop.backgroundImage.includes('radial-gradient') &&
-        portraitContract.backdrop.display !== 'none' &&
-        portraitContract.backdrop.opacity >= 0.7 &&
-        portraitContract.backdrop.zIndex < portraitContract.portraitZIndex &&
         portraitContract.primaryCanvasCount <= 1 &&
         portraitContract.effectsReady === 'true'
     ),
-    'Homepage renders the approved source-preserving navy-tie cutout over one halftone backdrop without a processing canvas',
+    'Homepage renders the approved navy-tie source portrait without a processing canvas',
     JSON.stringify(portraitContract),
-  );
-
-  const ambientShader = await profilePage.evaluate(() => ({
-    hostCount: document.querySelectorAll('[data-shader-host]').length,
-    canvasCount: document.querySelectorAll('[data-shader-host] canvas').length,
-    labelCount: document.querySelectorAll('[data-shader-host] [data-shader-label]').length,
-    mountCount: window.premiumControlState?.mountCount,
-    shaderSpeed: window.premiumControlState?.shaderSpeed,
-    motionReduced: window.premiumControlState?.motionReduced,
-  }));
-  ok(
-    Boolean(
-      ambientShader.hostCount === 2 &&
-        ambientShader.canvasCount === 2 &&
-        ambientShader.labelCount === 2 &&
-        ambientShader.mountCount === 2 &&
-        ambientShader.motionReduced === false &&
-        ambientShader.shaderSpeed >= 0.5
-    ),
-    'Homepage primary actions keep a visibly moving ambient shader at rest',
-    JSON.stringify(ambientShader),
-  );
-
-  await profilePage.locator('[data-primary-action]').hover();
-  await profilePage.waitForFunction(
-    () => window.premiumControlState?.activeCount === 1 && window.premiumControlState?.shaderSpeed > 1,
-    null,
-    { timeout: 3_000 },
-  );
-  const activeShader = await profilePage.evaluate(() => ({
-    activeCount: window.premiumControlState?.activeCount,
-    shaderSpeed: window.premiumControlState?.shaderSpeed,
-  }));
-  ok(
-    activeShader.activeCount === 1 && activeShader.shaderSpeed > ambientShader.shaderSpeed,
-    'Homepage primary action accelerates and brightens on hover or focus',
-    JSON.stringify({ ambientShader, activeShader }),
   );
   await profilePage.locator('[data-source-portrait]').screenshot({ path: `${out}/source-portrait.png` });
   await profileContext.close();
@@ -1379,7 +1313,7 @@ try {
     const source = document.querySelector('[data-source-portrait]');
     return {
       sourceVisible: source instanceof HTMLImageElement &&
-        source.naturalWidth === 1100 &&
+        source.naturalWidth === 1537 &&
         getComputedStyle(source).opacity !== '0',
       shaderSpeed: window.premiumControlState?.shaderSpeed,
       motionReduced: window.premiumControlState?.motionReduced,
@@ -1395,40 +1329,6 @@ try {
     JSON.stringify(reducedPortrait),
   );
   await profileReducedContext.close();
-
-  const shaderRolloutContext = await browser.newContext({ viewport: { width: 1100, height: 800 } });
-  const shaderRolloutPage = await shaderRolloutContext.newPage();
-  for (const route of ['/about/', '/fit/', '/experience/', projectRoutes[0]]) {
-    await shaderRolloutPage.goto(new URL(route, base).href, { waitUntil: 'networkidle' });
-    await shaderRolloutPage.waitForFunction(
-      () => document.documentElement.dataset.effectsReady === 'true',
-      null,
-      { timeout: 15_000 },
-    );
-    await shaderRolloutPage.locator('[data-shader-host]').first().scrollIntoViewIfNeeded();
-    await shaderRolloutPage.waitForFunction(
-      () => window.premiumControlState?.shaderSpeed >= 0.5,
-      null,
-      { timeout: 3_000 },
-    );
-    const rollout = await shaderRolloutPage.evaluate(() => ({
-      hosts: document.querySelectorAll('[data-shader-host]').length,
-      canvases: document.querySelectorAll('[data-shader-host] canvas').length,
-      labels: document.querySelectorAll('[data-shader-host] [data-shader-label]').length,
-      mounts: window.premiumControlState?.mountCount,
-      speed: window.premiumControlState?.shaderSpeed,
-    }));
-    ok(
-      rollout.hosts >= 1 &&
-        rollout.canvases === rollout.hosts &&
-        rollout.labels === rollout.hosts &&
-        rollout.mounts === rollout.hosts &&
-        rollout.speed >= 0.5,
-      `${route}: selected primary actions use the shared ambient shader system`,
-      JSON.stringify(rollout),
-    );
-  }
-  await shaderRolloutContext.close();
 
   const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   const page = await context.newPage();
@@ -1516,12 +1416,7 @@ try {
     await auditPage(page, route, route);
     ok((await page.locator('h1').innerText()).includes(project.title), `${route}: project title`);
     ok(await page.locator(`a[href="${project.repo}"]`).count() >= 1, `${route}: direct repository link`);
-    const eyebrow = (await page.locator('.eyebrow').first().innerText()).trim();
-    ok(
-      eyebrow.localeCompare(caseEyebrows[project.slug], undefined, { sensitivity: 'accent' }) === 0,
-      `${route}: case-study eyebrow role label`,
-      eyebrow,
-    );
+    ok((await page.locator('.eyebrow').count()) === 0, `${route}: case-page eyebrows removed`);
     const evidenceSteps = page.locator('.evidence-steps');
     ok((await evidenceSteps.evaluate((list) => list?.tagName ?? '')) === 'OL', `${route}: evidence map remains ordered list`);
     const stepCount = await evidenceSteps.locator('li').count();
@@ -1558,7 +1453,28 @@ try {
     for (const boundary of project.boundaries ?? []) {
       ok(projectText.includes(boundary), `${route}: proof boundary ${boundary}`);
     }
+    ok(
+      projectText.includes('not customer production-agent work or production software-engineering tenure'),
+      `${route}: lab provenance keeps the production-tenure boundary`,
+    );
   }
+
+  await page.goto(`${base}/work/`, { waitUntil: 'networkidle' });
+  const workIndexEyebrows = await page.locator('.work-eyebrow').allTextContents();
+  ok(
+    workIndexEyebrows.length === Object.keys(caseEyebrows).length &&
+      workIndexEyebrows.every((label) =>
+        Object.values(caseEyebrows).some(
+          (expected) => label.trim().localeCompare(expected, undefined, { sensitivity: 'accent' }) === 0,
+        ),
+      ),
+    'Work index cards keep their role label and project name',
+    workIndexEyebrows.join('|'),
+  );
+  // Card labels render uppercase through the mono style, so compare case-insensitively.
+  const workIndexText = (await page.locator('main').innerText()).toLowerCase();
+  ok(workIndexText.includes('open lab →'), 'Work index cards open a lab');
+  ok(!workIndexText.includes('open case →'), 'Work index drops case-study card label');
 
   await page.goto(`${base}/experience/`, { waitUntil: 'networkidle' });
   ok((await page.locator('ol.timeline').count()) === 1, 'Experience keeps dated timeline ordered list');
@@ -1576,7 +1492,8 @@ try {
     'SOW',
     'RFP',
     'on-site demos',
-    'pitch presentations',
+    'pitches',
+    'Drafted disclosures and executed quarterly filings.',
     'HIPAA',
     'EHR',
   ]) {
@@ -1593,10 +1510,13 @@ try {
   ok(!aboutText.includes('My career has moved from accounting'), 'About omits accountant-first career framing');
   const aboutLower = aboutText.toLowerCase();
   ok(
-    aboutLower.includes('learn the environment') &&
-      aboutLower.includes('ship the path') &&
-      aboutLower.includes('stay through the hard parts'),
+    aboutLower.includes('i stay until the system runs without me') &&
+      aboutLower.includes('ten years on enterprise implementations'),
     'About leads from embedded delivery framing',
+  );
+  ok(
+    aboutText.includes('I have accounting degrees, but I have not worked as an accountant.'),
+    'About keeps the accounting-fluency boundary',
   );
   const aboutParagraphs = aboutText.split(/\n+/).map((line) => line.trim()).filter(Boolean);
   const openingDupes = aboutParagraphs.filter((line) =>
@@ -1685,7 +1605,7 @@ try {
   await page.locator('#job-description').fill(fitJobDescription);
   await page.locator('.fit-ai-btn[data-provider="chatgpt"]').click();
   await page.waitForFunction(() =>
-    (document.getElementById('fit-status')?.textContent ?? '').includes('Opened ChatGPT'),
+    (document.getElementById('fit-status')?.textContent ?? '').includes('Copied and opened ChatGPT'),
   );
   const providerLaunch = await page.evaluate(() => ({
     opens: window.__fitOpenCalls ?? [],
@@ -1700,7 +1620,7 @@ try {
   );
   ok(providerLaunch.clipboard.includes(fitJobDescription), 'Fit provider click copies prompt with job description');
   ok(
-    providerLaunch.status.includes('Copied prompt') && providerLaunch.status.includes('Opened ChatGPT'),
+    providerLaunch.status.includes('Copied and opened ChatGPT'),
     'Fit provider click shows success status',
     providerLaunch.status,
   );

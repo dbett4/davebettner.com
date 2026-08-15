@@ -9,7 +9,7 @@ import { githubUrl, linkedinUrl } from '../../data/site-links';
 const canonical = `${siteUrl}/experience/`;
 const title = 'Experience | Dave Bettner — Forward-Deployed Delivery and Solutions Engineering';
 const description =
-  'Dave Bettner\'s experience in forward-deployed delivery, solutions engineering, regulated customer systems, and hands-on AI-agent engineering.';
+  'Dave Bettner\'s roles since 2015 across SEC reporting, solutions architecture, HIPAA imaging, regulatory reporting, and municipal finance systems.';
 ---
 
 <!doctype html>
@@ -20,7 +20,6 @@ const description =
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#f3efe5" />
-    <meta name="color-scheme" content="light" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:type" content="profile" />
@@ -45,10 +44,9 @@ const description =
       </div>
     </header>
     <main id="main" class="wrap content-page">
-      <p class="eyebrow mono">EXP · TIMELINE</p>
       <h1>Experience</h1>
       <p class="lead">
-        Customer-facing enterprise implementation since 2015, from Workiva SEC reporting through LSL. Solutions and architecture roles since 2021 span Ambra, Workiva, Citrin, and LSL. The throughline is forward-deployed delivery: learn the environment, integrate and debug the path, validate it with stakeholders, and stay through adoption. Public Python, MCP, and agent labs make the engineering habits inspectable.
+        Customer-facing implementation work since 2015, beginning with SEC filings and XBRL at Workiva. Since 2021 I have held solutions and architecture roles at Ambra Health, Workiva, Citrin Cooperman, and LSL. The job has stayed consistent: learn an unfamiliar environment, make the integration work, and stay until the customer can use it. The Python, MCP, and agent labs are separate work. They are synthetic, public, and open to inspect.
       </p>
 
       <ol class="timeline">
@@ -71,21 +69,30 @@ const description =
       </ol>
 
       <p class="pdf-note">
-        <a href="/dave-bettner-resume.pdf" download data-shader-host><span data-shader-label>Download full résumé (PDF) <span aria-hidden="true">↓</span></span></a>
+        <a href="/dave-bettner-resume.pdf" download>Résumé (PDF)</a>
       </p>
 
       <nav class="page-links" aria-label="Related pages">
-        <a href="/about/">About Dave Bettner</a>
+        <a href="/about/">About</a>
         <a href="/work/">Selected work</a>
         <a href="/fit/">Role fit</a>
         <a href="/#contact">Contact</a>
       </nav>
     </main>
-    <script is:inline type="module" src="/correction/main.js"></script>
   </body>
 </html>
 
 <style is:global>
+  :root {
+    --paper: #f3efe5;
+    --ink: #151515;
+    --muted: #62615d;
+    --rule: #c9c3b5;
+    --blue: #214fe5;
+    --orange: #cf4120;
+    --orange-ink: #9a2f14;
+  }
+
   * {
     box-sizing: border-box;
     margin: 0;
@@ -262,15 +269,8 @@ const description =
   }
 
   .pdf-note a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 46px;
-    padding: 10px 16px;
-    border: 1px solid var(--ink);
-    font-size: 0.8rem;
-    font-weight: 650;
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .page-links {
@@ -299,8 +299,4 @@ const description =
       padding-left: 22px;
     }
   }
-</style>
-
-<style is:global>
-  @import url('/styles/editorial-paper-system.css');
 </style>

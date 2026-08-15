@@ -5,7 +5,7 @@ export type EvidenceMap = {
   boundary: string;
 };
 
-export type CaseStudy = {
+type CaseStudyContract = {
   id: string;
   eyebrow: string;
   title: string;
@@ -29,39 +29,39 @@ export const cases = [
   {
     id: 'hermes-deployment-lab',
     eyebrow: 'Failure recovery · Hermes Deployment Lab',
-    title: 'Scope tools, separate approval, survive post-commit failure',
+    title: 'An agent retries a write that already succeeded.',
     summary:
-      'Synthetic lab for the hard case: an agent can touch an internal system. Scope the tools, keep operator approval separate, force the ugly post-commit error, and resume without double-writing.',
+      'The lab gives an agent a narrow set of tools against a mock enterprise API. A person approves the first write. The run then fails after the commit lands, retries with the same idempotency key, and leaves one side effect instead of two.',
     meta: 'Scoped tools · operator gate · idempotent resume',
     size: 'small',
     visual: 'rings',
-    plateProof: 'v1.0.0 · CI 31892965924',
+    plateProof: 'Container-proof CI',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
     constraint:
-      'A demo that answers once is not evidence that a second operator can deploy, observe failures, and recover without duplicating side effects.',
+      'A demo that works once says nothing about what a second operator sees when the run fails halfway through.',
     built:
-      'I built a FastMCP server, mock enterprise API, workflow runner, and Compose stack. The lab stops the first write for a separate operator grant, then injects failure after commit and resumes with the same idempotency key so exactly one side effect remains.',
-    role: 'I owned the deployment shape, failure taxonomy, test harness, and operating runbooks.',
+      'A FastMCP server, mock enterprise API, workflow runner, and Compose stack. The first write stops until a separate operator approves it. The lab injects failure after the commit and resumes with the same idempotency key, so exactly one side effect remains.',
+    role: 'I chose the failure modes worth testing, built the harness, and wrote the operator runbooks.',
     boundary:
-      'Synthetic lab with credential-free tests, not a live client tenant. Cloud IaC is no-apply only. Scripts and tests call tools; this is not a model-driven production run claim.',
+      'This is a synthetic lab with credential-free tests, not a live client tenant. Cloud infrastructure stays no-apply. Scripts and tests call the tools; no model drives a production run.',
     evidence:
-      'Public Actions run 31892965924 at release commit 1e68676 attests container restart/replay, native telemetry/trace, fresh-clone, and 241 credential-free tests; cloud IaC remains validate-only.',
-    scope: 'Lab architecture and recovery discipline are public; client data and credentials are not.',
+      'Public Actions attests container restart and replay, native metrics and traces, and a fresh-clone rebuild. Cloud infrastructure stays validate-only.',
+    scope: 'Not a customer deployment. No client data or credentials appear in the repo.',
     evidenceMap: {
-      signal: 'Scoped tools + separate operator approval + one side effect after failure/resume',
+      signal: 'Approval stays with a person, and the retry leaves one side effect.',
       method:
-        'Public GitHub Actions run 31892965924 for v1.0.0: container-proof, native telemetry and trace, fresh-clone, 241 tests, and no-apply cloud-IaC validation.',
-      steps: ['Scope tools', 'Operator grant', 'Post-commit fault', 'Idempotent resume', 'Receipt'],
+        'Public GitHub Actions restarts the containers and replays the run, emits native metrics and linked traces, rebuilds from a fresh clone, and validates the cloud infrastructure without applying it.',
+      steps: ['Scope tools', 'Operator grant', 'Post-commit fault', 'Idempotent resume', 'One side effect'],
       boundary: 'Synthetic lab evidence. Cloud apply is not attested.',
     },
   },
   {
     id: 'regulated-reporting-mcp',
     eyebrow: 'Guarded integration · Regulated Reporting MCP',
-    title: 'Accepted is not applied; applied is not verified',
+    title: 'An accepted write is not a verified write.',
     summary:
-      'Guarded reporting MCP where writes need confirmation, results are read back, and receipts stay redacted. Default surface is three safe tools; the full catalog stays behind an explicit unsafe opt-in.',
+      'This MCP server targets a Workiva-shaped reporting API. Writes wait for confirmation, then get read back, and receipts omit sensitive fields. The server exposes three guarded tools by default. The full 117-tool registry requires an explicit unsafe opt-in.',
     meta: 'Confirm-before-write · readback · offline demo',
     size: 'large',
     visual: 'flow',
@@ -69,76 +69,82 @@ export const cases = [
     repoUrl: 'https://github.com/dbett4/regulated-reporting-mcp',
     proofUrl: 'https://github.com/dbett4/regulated-reporting-mcp/blob/main/docs/PROOF.md',
     constraint:
-      'Reporting APIs need structured reads and writes, but exposing a full tool catalog without policy gates is unsafe for agent use.',
+      'A reporting API gives an agent 117 things it can call. Expose all of them without a gate and the agent can write something nobody approved.',
     built:
-      'I built an MCP server with OAuth, retries, pagination, async polling, and a write gate enforced in code. The default server exposes three guarded tools; the full registry requires an explicit unsafe opt-in.',
-    role: 'I designed the transport layer, contract manifest, guarded default surface, and credential-free proof harness.',
+      'An MCP server with OAuth client credentials, token refresh, rate-limit backoff, pagination, and async job polling. The write gate is enforced in code, not in a prompt.',
+    role: 'I designed the server and chose to ship the small guarded surface as the default instead of the full catalog.',
     boundary:
-      'A local write receipt is not treated as remote verification. Uncertain formula results are reported as indeterminate, not guessed.',
+      'A local write receipt is not remote verification. Uncertain formula results are reported as indeterminate, not guessed.',
     evidence:
-      'Credential-free test suite, full tool-contract coverage, and an offline end-to-end demo that runs without credentials.',
-    scope: 'Sanitized API integration lab—not foundation-model or ML-research work.',
+      '126 credential-free tests, contracts for all 117 registered tools, and an offline end-to-end demo.',
+    scope: 'A sanitized integration lab, not a customer tenant and not model or ML research.',
     evidenceMap: {
-      signal: 'Confirm-before-write default surface with offline demo',
-      method: 'Lint, contract-manifest check, pytest suite, and offline demo run without credentials.',
-      steps: ['Guarded default', 'Confirm write', 'Readback', 'Redacted receipt', 'Offline demo'],
-      boundary: 'Full tool registry is not policy-safe when served directly.',
+      signal: 'Three guarded tools by default, and every promised readback must prove itself.',
+      method:
+        'Lint, a contract check across all 117 registered tools, 126 credential-free tests, and an end-to-end demo that runs offline.',
+      steps: ['Guarded default', 'Confirm', 'Readback', 'Redacted receipt'],
+      boundary:
+        'The full 117-tool registry has no shared write gate. That is why it requires an explicit unsafe opt-in. A local receipt does not prove remote state.',
     },
   },
   {
     id: 'hermes-field-kit',
     eyebrow: 'Evaluation · Hermes Enterprise Evaluation Kit',
-    title: 'Govern Hermes with policy, checks, and human review gates',
+    title: 'A green script is not a human approval.',
     summary:
-      'Version-pinned kit that turns a plain-language job into a policy-bounded Hermes run, independent checks, and a receipt — without letting a green script invent human approval.',
+      'The kit checks a plain-language job against a policy pack before Hermes runs it, grades the result with independent checks, and writes a receipt. When no person has signed off, the receipt ends at needs_review.',
     meta: 'Policy packs · human gates · offline proof',
     size: 'small',
     visual: 'rings',
-    plateProof: 'Offline proof; live S1 needs_review',
+    plateProof: 'Offline proof; live run needs_review',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit/blob/main/PROOF.md',
     constraint:
-      'Hermes primitives alone are not enough for enterprise use. Organizations still need job qualification, approved configs, independent checks, and accountable human judgment.',
+      'Hermes provides the runtime. It does not decide which jobs are safe to hand it, which configuration was approved, or who is accountable for the answer.',
     built:
-      'I built the surrounding evaluation layer for Hermes v0.20: policy packs, a version-pinned capability map with explicit gaps, eight negative tests, offline proof, and receipts that keep weak evidence labeled weak.',
-    role: 'I designed the operating model, mapping contract, adjudication workflow, and public verification scripts.',
+      'An evaluation layer around Hermes v0.20 with policy packs, a version-pinned capability map that names its gaps, eight negative tests, and offline proof. Receipts keep weak evidence labeled weak.',
+    role: 'I decided what the kit refuses to approve on its own and wrote the public verification scripts.',
     boundary:
-      'Synthetic cases only. One live one-shot has native CLI attestation and an oracle pass, but remains needs_review with no external action, no human disposition, an estimated rather than billed cost, and two recorded exceptions.',
+      'The cases and organization are fictional. One synthetic case ran through the live Hermes runtime. Native CLI evidence and an oracle check both pass, but the receipt remains needs_review. No person signed it off, no external action occurred, the cost is an estimate rather than a billed amount, and two exceptions remain on record.',
     evidence:
-      'Offline FIELD_KIT_PROOF_PASS; capability map + gap list; 8 negative tests; pinned v2026.8.3 preflight; one committed native-runtime S1 receipt still ending in needs_review.',
-    scope: 'Synthetic configuration and evaluation artifacts only; not a customer deployment or accepted policy decision.',
+      'Offline proof passes without keys or a network. The repo includes a capability map with an explicit gap list, eight negative tests, a pinned v2026.8.3 preflight, and one committed native-runtime receipt that still ends in needs_review.',
+    scope: 'Not a customer deployment and not an accepted customer policy.',
     evidenceMap: {
-      signal: 'Policy-bounded mission flow with offline proof and one attested needs_review receipt',
-      method: 'Demo mission, mapping verification, negative tests, pinned-suite replay, receipt hash checks, and deterministic-oracle recomputation.',
+      signal: 'Offline proof passes, and the committed live run still ends at needs_review.',
+      method:
+        'A demo run, a check that the capability map matches the runtime, eight negative tests, a replay of the pinned v2026.8.3 suite, receipt hash checks, and a deterministic oracle that recomputes the answer.',
       steps: ['Policy pack', 'Approved config', 'Independent checks', 'Human gate', 'Receipt'],
-      boundary: 'Live one-shot remains needs_review with two recorded execution-time exceptions.',
+      boundary: 'The committed live run still ends at needs_review, with two execution-time exceptions on record.',
     },
   },
   {
     id: 'wingman',
-    eyebrow: 'Readback + restore · Confirm-before-write quality',
-    title: 'Chrome extension + local service with readback and restore on mismatch',
+    eyebrow: 'Readback + restore · Wingman',
+    title: 'It only fixes what it can put back.',
     summary:
-      'Wingman finds spreadsheet defects that survive export, explains each issue, and applies only changes it can check, reverse, and read back.',
+      'Wingman scans a connected workbook for broken links, hardcoded formulas, and formatting drift. It explains each defect it finds. It fixes only what it can reverse and read back.',
     meta: 'Chrome extension · local service · confirm-before-write · restore',
     size: 'small',
     visual: 'difference',
     plateProof: 'CI test evidence',
     repoUrl: 'https://github.com/dbett4/wingman',
     constraint:
-      'Statements can tie out while mappings, formulas, links, or presentation remain wrong—and manual review does not scale across large workbooks.',
+      'A statement can tie out while the mapping, formula, or source link underneath it is wrong. Nobody reviews a large workbook by hand forever.',
     built:
-      'I built a Chrome extension and Python service that scan live sheets through the API, flag formula and link defects, explain each issue, and apply narrow fixes only after user confirmation. Before writing, the service saves prior state; after writing, it reads the cell back and restores on mismatch.',
-    role: 'I designed and built the detectors, write gate, and restore path from repeated government reporting review patterns.',
+      'A Chrome extension and Python service that scan a connected workbook through the API and flag formula and link defects. Each fix waits for the user to confirm. The service saves the prior state before writing, reads the cell back afterward, and restores it if the result does not match.',
+    role: 'I built the detectors, write gate, and restore path. The defect list came from years of reviewing the same government-reporting errors by hand.',
     boundary:
       'Findings that require accounting judgment stay in review. Activity logs contain coordinates and hashes, not cell values or formulas.',
-    evidence: '462 Python tests pass + 13 skip; 243 extension tests pass in CI.',
-    scope: 'Fictional demo workbook only; extracted tooling pattern, not a full private delivery history.',
+    evidence: 'In CI, 462 Python tests pass with 13 skipped, and 243 extension tests pass.',
+    scope:
+      'The demo workbook is fictional. This is an extracted pattern, not a record of the private work it came from. It is not affiliated with or endorsed by Workiva.',
     evidenceMap: {
-      signal: '462 Python pass + 13 skip; 243 extension pass',
-      method: 'Detector self-test without credentials; full pytest and extension test suites in CI.',
+      signal: 'Every automated fix is checked, reversible, and read back.',
+      method: 'The detectors self-test without credentials. The full Python and extension suites run in CI.',
       steps: ['Detect', 'Classify', 'Confirm', 'Write', 'Readback', 'Restore'],
-      boundary: 'Automated fixes only when check, reverse, and readback are all possible.',
+      boundary: 'If a fix cannot be checked, reversed, and read back, Wingman does not make it.',
     },
   },
-] as const satisfies readonly CaseStudy[];
+] as const satisfies readonly CaseStudyContract[];
+
+export type CaseStudy = CaseStudyContract & (typeof cases)[number];

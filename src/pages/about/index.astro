@@ -50,7 +50,7 @@ const description =
             <h1>Learn the environment. Ship the path. Stay through the hard parts.</h1>
             <p class="cover-lead">I work with customer teams from messy discovery through integration, debugging, proof, adoption, and iteration. Public agent and MCP labs make the engineering habits inspectable: explicit permissions, visible failures, readback, and recovery.</p>
             <p class="cover-actions">
-              <a class="round blue" href={emailHref}>Start a conversation <span aria-hidden="true">↗</span></a>
+              <a class="round blue" href={emailHref} data-shader-host><span data-shader-label>Start a conversation <span aria-hidden="true">↗</span></span></a>
               <a class="round" href="/experience/">Career timeline <span aria-hidden="true">→</span></a>
             </p>
           </div>
@@ -102,6 +102,7 @@ const description =
         </div>
       </section>
     </main>
+    <script is:inline type="module" src="/correction/main.js"></script>
   </body>
 </html>
 
@@ -122,4 +123,8 @@ const description =
   .next-section{background:var(--ink);color:var(--paper)}.next-grid{padding:clamp(40px,6vw,72px) 0;display:grid;gap:12px}.next-section .eyebrow{color:#c9c3b5}.page-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.page-links a{min-height:44px;display:inline-flex;align-items:center;padding:0 14px;border:1px solid #c9c3b5;font-size:.82rem}.page-links a:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
   @media(max-width:700px){.wrap{width:min(100% - 28px,var(--max))}.mast-status{display:none}.about-cover-grid,.narrative-grid{grid-template-columns:1fr}.portrait-plate{max-width:360px}.principles{grid-template-columns:1fr}.principles li{border-right:0;border-bottom:1px solid var(--ink)}.principles li:last-child{border-bottom:0}}
   @media(prefers-reduced-motion:reduce){.round{transition:none}}
+</style>
+
+<style is:global>
+  @import url('/styles/editorial-paper-system.css');
 </style>

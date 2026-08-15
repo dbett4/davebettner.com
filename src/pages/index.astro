@@ -136,7 +136,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
             <p class="cover-support">{thesis.title}</p>
             <div class="cover-actions" aria-label="Candidate actions">
               <div class="cover-actions-primary">
-                <a class="round blue" href={emailHref} data-primary-action data-shader-host><span class="action-label">Start a conversation</span></a>
+                <a class="round blue" href={emailHref} data-primary-action data-shader-host><span class="action-label" data-shader-label>Start a conversation</span></a>
                 <a class="round ghost" href="/dave-bettner-resume.pdf" download><span class="action-label">Résumé</span></a>
               </div>
             </div>
@@ -306,7 +306,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
             <p>{closingCta.body}</p>
           </div>
           <div class="cta-actions">
-            <a class="round blue" href={emailHref}>Start a conversation <span aria-hidden="true">↗</span></a>
+            <a class="round blue" href={emailHref} data-shader-host><span data-shader-label>Start a conversation <span aria-hidden="true">↗</span></span></a>
             <a class="round ghost-dark" href="/dave-bettner-resume.pdf" download>Résumé</a>
             <a class="round ghost-dark" href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
             <a class="round ghost-dark" href={linkedinUrl} rel="me">LinkedIn <span aria-hidden="true">↗</span></a>
@@ -326,7 +326,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
         </div>
       </div>
     </footer>
-    <script type="module" src="/correction/main.js"></script>
+    <script is:inline type="module" src="/correction/main.js"></script>
   </body>
 </html>
 

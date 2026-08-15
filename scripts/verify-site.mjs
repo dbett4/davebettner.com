@@ -1306,6 +1306,43 @@ try {
     'Homepage renders the approved source-preserving navy-tie cutout without a processing canvas',
     JSON.stringify(portraitContract),
   );
+
+  const ambientShader = await profilePage.evaluate(() => ({
+    hostCount: document.querySelectorAll('[data-shader-host]').length,
+    canvasCount: document.querySelectorAll('[data-shader-host] canvas').length,
+    labelCount: document.querySelectorAll('[data-shader-host] [data-shader-label]').length,
+    mountCount: window.premiumControlState?.mountCount,
+    shaderSpeed: window.premiumControlState?.shaderSpeed,
+    motionReduced: window.premiumControlState?.motionReduced,
+  }));
+  ok(
+    Boolean(
+      ambientShader.hostCount === 2 &&
+        ambientShader.canvasCount === 2 &&
+        ambientShader.labelCount === 2 &&
+        ambientShader.mountCount === 2 &&
+        ambientShader.motionReduced === false &&
+        ambientShader.shaderSpeed >= 0.5
+    ),
+    'Homepage primary actions keep a visibly moving ambient shader at rest',
+    JSON.stringify(ambientShader),
+  );
+
+  await profilePage.locator('[data-primary-action]').hover();
+  await profilePage.waitForFunction(
+    () => window.premiumControlState?.activeCount === 1 && window.premiumControlState?.shaderSpeed > 1,
+    null,
+    { timeout: 3_000 },
+  );
+  const activeShader = await profilePage.evaluate(() => ({
+    activeCount: window.premiumControlState?.activeCount,
+    shaderSpeed: window.premiumControlState?.shaderSpeed,
+  }));
+  ok(
+    activeShader.activeCount === 1 && activeShader.shaderSpeed > ambientShader.shaderSpeed,
+    'Homepage primary action accelerates and brightens on hover or focus',
+    JSON.stringify({ ambientShader, activeShader }),
+  );
   await profilePage.locator('[data-source-portrait]').screenshot({ path: `${out}/source-portrait.png` });
   await profileContext.close();
 
@@ -1340,6 +1377,40 @@ try {
     JSON.stringify(reducedPortrait),
   );
   await profileReducedContext.close();
+
+  const shaderRolloutContext = await browser.newContext({ viewport: { width: 1100, height: 800 } });
+  const shaderRolloutPage = await shaderRolloutContext.newPage();
+  for (const route of ['/about/', '/fit/', '/experience/', projectRoutes[0]]) {
+    await shaderRolloutPage.goto(new URL(route, base).href, { waitUntil: 'networkidle' });
+    await shaderRolloutPage.waitForFunction(
+      () => document.documentElement.dataset.effectsReady === 'true',
+      null,
+      { timeout: 15_000 },
+    );
+    await shaderRolloutPage.locator('[data-shader-host]').first().scrollIntoViewIfNeeded();
+    await shaderRolloutPage.waitForFunction(
+      () => window.premiumControlState?.shaderSpeed >= 0.5,
+      null,
+      { timeout: 3_000 },
+    );
+    const rollout = await shaderRolloutPage.evaluate(() => ({
+      hosts: document.querySelectorAll('[data-shader-host]').length,
+      canvases: document.querySelectorAll('[data-shader-host] canvas').length,
+      labels: document.querySelectorAll('[data-shader-host] [data-shader-label]').length,
+      mounts: window.premiumControlState?.mountCount,
+      speed: window.premiumControlState?.shaderSpeed,
+    }));
+    ok(
+      rollout.hosts >= 1 &&
+        rollout.canvases === rollout.hosts &&
+        rollout.labels === rollout.hosts &&
+        rollout.mounts === rollout.hosts &&
+        rollout.speed >= 0.5,
+      `${route}: selected primary actions use the shared ambient shader system`,
+      JSON.stringify(rollout),
+    );
+  }
+  await shaderRolloutContext.close();
 
   const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   const page = await context.newPage();

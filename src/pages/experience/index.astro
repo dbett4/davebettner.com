@@ -71,7 +71,7 @@ const description =
       </ol>
 
       <p class="pdf-note">
-        <a href="/dave-bettner-resume.pdf" download>Download full résumé (PDF)</a>
+        <a href="/dave-bettner-resume.pdf" download data-shader-host><span data-shader-label>Download full résumé (PDF) <span aria-hidden="true">↓</span></span></a>
       </p>
 
       <nav class="page-links" aria-label="Related pages">
@@ -81,6 +81,7 @@ const description =
         <a href="/#contact">Contact</a>
       </nav>
     </main>
+    <script is:inline type="module" src="/correction/main.js"></script>
   </body>
 </html>
 
@@ -261,8 +262,15 @@ const description =
   }
 
   .pdf-note a {
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 10px 16px;
+    border: 1px solid var(--ink);
+    font-size: 0.8rem;
+    font-weight: 650;
+    text-decoration: none;
   }
 
   .page-links {

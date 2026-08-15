@@ -66,7 +66,7 @@ const title = `${projectName} | Dave Bettner`;
             <p class="case-headline">{item.title}</p>
             <p class="summary">{item.summary}</p>
             <p class="repo-links">
-              <a class="round blue" href={item.repoUrl} rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
+              <a class="round blue" href={item.repoUrl} rel="noopener noreferrer" data-shader-host><span data-shader-label>View repository <span aria-hidden="true">↗</span></span></a>
               {item.proofUrl ? (
                 <a class="round" href={item.proofUrl} rel="noopener noreferrer">Proof guide <span aria-hidden="true">↗</span></a>
               ) : null}
@@ -117,11 +117,12 @@ const title = `${projectName} | Dave Bettner`;
         <section class="contact-block" aria-labelledby="contact-heading">
           <p class="mono">Next</p>
           <h2 id="contact-heading">Need this kind of deployment rigor?</h2>
-          <a class="round blue contact-link" href={emailHref}>Get in touch <span aria-hidden="true">↗</span></a>
+          <a class="round blue contact-link" href={emailHref} data-shader-host><span data-shader-label>Get in touch <span aria-hidden="true">↗</span></span></a>
         </section>
         <p class="provenance-note">{provenanceNote}</p>
       </div>
     </main>
+    <script is:inline type="module" src="/correction/main.js"></script>
   </body>
 </html>
 
@@ -192,4 +193,8 @@ const title = `${projectName} | Dave Bettner`;
     .evidence-heading{display:block}.evidence-state{margin-top:6px}.evidence-steps{flex-direction:column}
     .evidence-steps li{flex-basis:auto}
   }
+</style>
+
+<style is:global>
+  @import url('/styles/editorial-paper-system.css');
 </style>

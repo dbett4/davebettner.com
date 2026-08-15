@@ -27,7 +27,6 @@ export const personSchema = {
 } as const;
 
 export const nonIndexPathPrefixes = [
-  '/fit',
   '/mockups',
   '/preview-dither',
   '/dither',

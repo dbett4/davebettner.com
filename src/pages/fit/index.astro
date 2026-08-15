@@ -5,14 +5,13 @@ import '@fontsource/dm-mono/400.css';
 import newsreaderFont from '@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url';
 import jakartaFont from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
 import monoFont from '@fontsource/dm-mono/files/dm-mono-latin-400-normal.woff2?url';
-import RecruiterFit from '../../components/RecruiterFit.astro';
 import { identity } from '../../data/portfolio-entries';
 import { emailHref, githubUrl, linkedinUrl } from '../../data/site-links';
 
 const siteUrl = 'https://davebettner.com';
-const title = 'Role fit | Dave Bettner';
+const title = 'How I would approach your first 90 days | Dave Bettner';
 const description =
-  'Paste a job description and evaluate fit for forward-deployed engineering, solutions engineering, AI implementation, or deployment roles.';
+  'How Dave Bettner approaches the first 90 days on a forward-deployed or solutions engineering team: discovery, guarded integration, proof, and adoption.';
 ---
 
 <!doctype html>
@@ -21,7 +20,7 @@ const description =
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="robots" content="noindex" />
+    <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#f3efe5" />
     <meta name="color-scheme" content="light" />
     <link rel="preload" href={newsreaderFont} as="font" type="font/woff2" crossorigin />
@@ -38,7 +37,80 @@ const description =
       <a class="round blue" href={emailHref}>Contact <span aria-hidden="true">↗</span></a>
     </header>
     <main id="main">
-      <RecruiterFit />
+      <section id="ninety-days" class="fit-check has-reg-marks" aria-labelledby="fit-check-heading">
+        <div class="wrap fit-check-wrap">
+          <div class="fit-check-header">
+            <p class="mono fit-check-eyebrow">First 90 days</p>
+            <h1 class="section-title fit-check-title" id="fit-check-heading">
+              How I would approach your first 90 days.
+            </h1>
+            <p class="fit-lead">
+              The same operating pattern across every engagement: learn the environment before touching it,
+              integrate with guardrails in place from day one, prove the work with evidence instead of a
+              demo, and stay through adoption.
+            </p>
+          </div>
+
+          <ol class="ninety-plan">
+            <li>
+              <span class="ninety-plan-mark mono">Weeks 1–2</span>
+              <div>
+                <strong>Discovery, not assumptions.</strong>
+                <p>
+                  Learn the customer's real workflow, systems, and constraints before proposing a solution.
+                  Discovery, solution design, and scoping come first — the same sequence behind every
+                  engagement on my <a href="/experience/">experience page</a>.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="ninety-plan-mark mono">Weeks 3–6</span>
+              <div>
+                <strong>Integrate with visible permissions.</strong>
+                <p>
+                  Scope tools and access explicitly, default to guarded writes over broad ones, and make
+                  authority legible from the start. This is the same pattern behind the guarded-default MCP
+                  server and confirm-before-write tooling in my
+                  {' '}<a href="/work/">public engineering proof</a>.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="ninety-plan-mark mono">Weeks 6–10</span>
+              <div>
+                <strong>Prove it with readback and receipts, not a demo.</strong>
+                <p>
+                  Changes need evidence: readback confirms what actually happened, and a receipt makes the
+                  result checkable after the fact instead of taken on faith. Failure states stay readable
+                  before they get expensive, with a recovery path back when something breaks.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="ninety-plan-mark mono">Weeks 10–13</span>
+              <div>
+                <strong>Independent verification before sign-off.</strong>
+                <p>
+                  A builder does not mark its own material work verified. Machine-checkable changes get
+                  checked against a predicted result; anything else gets a second, independent look before
+                  it is called done — then the handoff continues through debugging, adoption, and
+                  iteration, not a one-time cutover.
+                </p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="fit-field fit-field--readback">
+            <span class="fit-field-label mono">More</span>
+            <nav class="page-links" aria-label="Related pages">
+              <a href="/about/">About Dave Bettner</a>
+              <a href="/experience/">Career timeline</a>
+              <a href="/work/">Public engineering proof</a>
+              <a href={emailHref}>Start a conversation <span aria-hidden="true">↗</span></a>
+            </nav>
+          </div>
+        </div>
+      </section>
     </main>
     <footer class="wrap fit-page-footer">
       <span>{identity.location}</span>
@@ -172,6 +244,113 @@ const description =
     }
     .fit-page-header {
       padding: 20px 0;
+    }
+  }
+</style>
+
+<style>
+  .fit-check {
+    background: var(--card);
+    border-bottom: 1px solid var(--ink);
+    padding: 72px 0;
+  }
+  .fit-check-wrap {
+    display: grid;
+    gap: 28px;
+    max-width: 920px;
+  }
+  .fit-check-header {
+    max-width: 760px;
+  }
+  .fit-check-eyebrow {
+    color: var(--orange-ink, var(--muted));
+    margin-bottom: 10px;
+  }
+  .fit-check-title {
+    margin-bottom: 12px;
+  }
+  .fit-lead {
+    max-width: 720px;
+    color: var(--muted);
+    margin: 0;
+    font-size: 1.02rem;
+  }
+  .ninety-plan {
+    list-style: none;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+  .ninety-plan li {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 20px;
+    padding: 24px 28px;
+    border-top: 1px solid var(--rule);
+  }
+  .ninety-plan li:first-child {
+    border-top: 0;
+  }
+  .ninety-plan-mark {
+    color: var(--muted);
+    padding-top: 3px;
+  }
+  .ninety-plan strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+  .ninety-plan p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .ninety-plan a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .fit-field {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+    margin-top: 4px;
+  }
+  .fit-field-label {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 0.58rem;
+  }
+  .page-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .page-links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 14px;
+    border: 1px solid var(--ink);
+    font-size: 0.82rem;
+  }
+  .page-links a:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  @media (max-width: 560px) {
+    .fit-check {
+      padding: 52px 0;
+    }
+    .ninety-plan li {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 20px;
+    }
+    .fit-check-title {
+      font-size: clamp(1.75rem, 7.5vw, 2.35rem);
     }
   }
 </style>

@@ -43,6 +43,7 @@ const title = `${projectName} | Dave Bettner`;
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/styles/editorial-paper-system.css" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={item.summary} />
@@ -127,7 +128,7 @@ const title = `${projectName} | Dave Bettner`;
 </html>
 
 <style is:global>
-  :root{--paper:#f3efe5;--ink:#151515;--blue:#214fe5;--orange:#cf4120;--orange-ink:#9a2f14;--muted:#62615d;--rule:#c9c3b5;--card:#eee8dc;--max:1280px}
+  :root{--max:1280px}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:"Plus Jakarta Sans Variable",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
@@ -193,8 +194,4 @@ const title = `${projectName} | Dave Bettner`;
     .evidence-heading{display:block}.evidence-state{margin-top:6px}.evidence-steps{flex-direction:column}
     .evidence-steps li{flex-basis:auto}
   }
-</style>
-
-<style is:global>
-  @import url('/styles/editorial-paper-system.css');
 </style>

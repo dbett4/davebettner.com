@@ -584,9 +584,9 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       JSON.stringify(mobileNavTargets) === JSON.stringify([
         { text: 'Work', href: '/work/' },
         { text: 'Experience', href: '/experience/' },
-        { text: 'Fit', href: '/fit/' },
+        { text: 'First 90 days', href: '/fit/' },
       ]),
-      `${name}: primary nav contains Work, Experience, and Fit`,
+      `${name}: primary nav contains Work, Experience, and First 90 days`,
       JSON.stringify(mobileNavTargets),
     );
     ok(
@@ -1606,128 +1606,59 @@ try {
   ok(openingDupes.length <= 1, 'About does not duplicate opening background paragraph', String(openingDupes.length));
 
   await page.goto(`${base}/fit/`, { waitUntil: 'networkidle' });
-  const fitPayload = await page.locator('#fit-profile-data').textContent();
-  ok(fitPayload?.includes('github.com/dbett4/hermes-enterprise-deployment-lab'), 'Fit payload includes deployment lab');
-  ok(fitPayload?.includes('container restart/replay'), 'Fit payload cites public container restart/replay proof');
-  ok(fitPayload?.includes('resume without double-writing'), 'Fit payload cites the Deployment Lab recovery contract');
-  ok(!/parses Compose|container startup is not attested|runtime-unverified/i.test(fitPayload ?? ''), 'Fit payload omits obsolete parse-only lab language');
-  ok(fitPayload?.includes('PR #84621'), 'Fit payload names open Hermes Agent PR as work sample');
-  ok(fitPayload?.includes('TypeScript/Electron'), 'Fit payload identifies PR #84621 as TypeScript/Electron');
-  ok(
-    !fitPayload?.includes('Rust evidence is open Hermes Agent PR #84621'),
-    'Fit payload does not falsely attribute Rust to PR #84621',
-  );
-  ok(fitPayload?.includes('462 Python'), 'Fit payload includes corrected Wingman count');
-  ok(!fitPayload?.includes('CPA-firm practice lead'), 'Fit payload omits unsupported practice-lead claim');
-  ok(
-    !fitPayload?.includes('not career software engineering or ML research'),
-    'Fit payload omits self-rejecting career framing',
-  );
-  ok(
-    fitPayload?.includes('10+ years') || fitPayload?.includes('Ten-plus years') || fitPayload?.includes('More than ten years'),
-    'Fit payload keeps bounded enterprise-delivery tenure',
-  );
-  ok(
-    Boolean(fitPayload?.match(/Python/i) && fitPayload?.match(/agent/i)),
-    'Fit payload mentions recent hands-on agent-integration work',
-  );
-  ok(!fitPayload?.includes('Chief of Staff'), 'Fit payload omits Chief of Staff targeting');
-  ok(!fitPayload?.includes('strategic operations'), 'Fit payload omits strategic operations targeting');
-  ok(!fitPayload?.includes('Remote-friendly'), 'Fit payload omits Remote-friendly targeting');
-  ok(!/operator\s*\/\s*strategic/i.test(fitPayload ?? ''), 'Fit payload omits operator/strategic targeting');
-  ok(
-    /proposal|SOW|RFP|estimate|quote|demo|pitch/i.test(fitPayload ?? ''),
-    'Fit payload includes supported presales evidence',
-  );
-  ok(
-    /production software-engineering|customer-production agent|synthetic/i.test(fitPayload ?? ''),
-    'Fit payload keeps honest production-engineering gaps / synthetic proof boundaries',
-  );
-  const fitMeta = await page.evaluate(() => ({
+  const fitSurface = await page.evaluate(() => ({
+    heading: document.querySelector('h1')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
+    lead: document.querySelector('.fit-lead')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
+    phases: [...document.querySelectorAll('.ninety-plan > li')].map((item) => ({
+      range: item.querySelector('.ninety-plan-mark')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
+      title: item.querySelector('strong')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
+      detail: item.querySelector('p')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
+    })),
+    related: [...document.querySelectorAll('.page-links a')].map((link) => ({
+      text: link.textContent?.replace(/\s+/g, ' ').trim() ?? '',
+      href: link.getAttribute('href') ?? '',
+    })),
     description: document.querySelector('meta[name="description"]')?.getAttribute('content') ?? '',
     robots: document.querySelector('meta[name="robots"]')?.getAttribute('content') ?? '',
   }));
-  ok(fitMeta.robots.includes('noindex'), 'Fit page remains noindex');
-  ok(!fitMeta.description.includes('Chief of Staff'), 'Fit meta omits Chief of Staff');
-  ok(!fitMeta.description.includes('strategic operations'), 'Fit meta omits strategic operations');
+  ok(fitSurface.heading === 'How I would approach your first 90 days.', 'First 90 days page has the approved heading', fitSurface.heading);
+  ok(fitSurface.phases.length === 4, 'First 90 days page has four dated phases', String(fitSurface.phases.length));
   ok(
-    /forward-deployed|solutions engineering|AI implementation|deployment/i.test(fitMeta.description),
-    'Fit meta targets forward-deployed / solutions / implementation roles',
-    fitMeta.description,
+    fitSurface.phases.map((phase) => phase.range).join('|') === 'Weeks 1–2|Weeks 3–6|Weeks 6–10|Weeks 10–13',
+    'First 90 days phases retain their chronological ranges',
+    fitSurface.phases.map((phase) => phase.range).join('|'),
   );
-
-  const providersPayload = await page.locator('#fit-providers-data').textContent();
-  ok(Boolean(providersPayload), 'Fit providers payload is embedded');
-  try {
-    const providers = JSON.parse(providersPayload ?? 'null');
-    ok(Array.isArray(providers) && providers.length > 0, 'Fit providers payload parses', String(providers?.length));
-    ok(providers.every((provider) => provider.id && provider.label && provider.prefix), 'Fit providers include launch prefixes');
-  } catch (error) {
-    ok(false, 'Fit providers payload parses', error.message);
+  ok(
+    fitSurface.lead.includes('learn the environment before touching it') &&
+      fitSurface.lead.includes('guardrails') &&
+      fitSurface.lead.includes('evidence') &&
+      fitSurface.lead.includes('adoption'),
+    'First 90 days lead states the discovery-through-adoption operating pattern',
+    fitSurface.lead,
+  );
+  const phaseText = fitSurface.phases.map((phase) => `${phase.title} ${phase.detail}`).join(' ');
+  for (const marker of ['Discovery, not assumptions.', 'visible permissions', 'readback and receipts', 'Independent verification']) {
+    ok(phaseText.includes(marker), `First 90 days plan includes ${marker}`);
   }
-
-  const fitJobDescription =
-    'Senior forward-deployed AI implementation lead for regulated enterprise software rollouts.';
-  await page.evaluate(() => {
-    window.__fitOpenCalls = [];
-    window.open = (url, target, features) => {
-      window.__fitOpenCalls.push({ url: String(url ?? ''), target, features });
-      return null;
-    };
-    Object.defineProperty(navigator, 'clipboard', {
-      configurable: true,
-      value: {
-        writeText: async (text) => {
-          window.__fitClipboard = String(text ?? '');
-        },
-      },
-    });
-  });
-  await page.locator('#job-description').fill(fitJobDescription);
-  await page.locator('.fit-ai-btn[data-provider="chatgpt"]').click();
-  await page.waitForFunction(() =>
-    (document.getElementById('fit-status')?.textContent ?? '').includes('Opened ChatGPT'),
-  );
-  const providerLaunch = await page.evaluate(() => ({
-    opens: window.__fitOpenCalls ?? [],
-    clipboard: window.__fitClipboard ?? '',
-    status: document.getElementById('fit-status')?.textContent ?? '',
-  }));
-  ok(providerLaunch.opens.length === 1, 'Fit provider click opens exactly one stubbed window', String(providerLaunch.opens.length));
+  for (const route of ['/about/', '/experience/', '/work/']) {
+    ok(fitSurface.related.some((link) => link.href === route), `First 90 days page links to ${route}`);
+  }
+  ok(fitSurface.related.some((link) => link.href.startsWith('mailto:')), 'First 90 days page includes a conversation action');
+  ok(fitSurface.robots.includes('index'), 'First 90 days page is indexable', fitSurface.robots);
+  ok(!fitSurface.description.includes('Chief of Staff'), 'First 90 days meta omits Chief of Staff');
+  ok(!fitSurface.description.includes('strategic operations'), 'First 90 days meta omits strategic operations');
   ok(
-    providerLaunch.opens[0]?.url.startsWith('https://chatgpt.com/?q=') &&
-      decodeURIComponent(providerLaunch.opens[0].url).includes(fitJobDescription),
-    'Fit provider URL includes pasted job description without a real tab',
+    /first 90 days|forward-deployed|solutions engineering/i.test(fitSurface.description),
+    'First 90 days meta describes the current static page',
+    fitSurface.description,
   );
-  ok(providerLaunch.clipboard.includes(fitJobDescription), 'Fit provider click copies prompt with job description');
-  ok(
-    providerLaunch.status.includes('Copied prompt') && providerLaunch.status.includes('Opened ChatGPT'),
-    'Fit provider click shows success status',
-    providerLaunch.status,
-  );
-
-  await page.evaluate(() => {
-    window.__fitClipboard = '';
-  });
-  await page.locator('#fit-copy-prompt').click();
-  await page.waitForFunction(() =>
-    document.getElementById('fit-status')?.textContent === 'Prompt copied to clipboard.',
-  );
-  const copyResult = await page.evaluate(() => ({
-    opens: window.__fitOpenCalls ?? [],
-    clipboard: window.__fitClipboard ?? '',
-    status: document.getElementById('fit-status')?.textContent ?? '',
-  }));
-  ok(copyResult.opens.length === 1, 'Fit copy button does not open another window', String(copyResult.opens.length));
-  ok(copyResult.clipboard.includes(fitJobDescription), 'Fit copy button copies prompt with job description');
-  ok(copyResult.status === 'Prompt copied to clipboard.', 'Fit copy button shows success status', copyResult.status);
 
   const resumeResponse = await page.request.get(`${base}/dave-bettner-resume.pdf`);
   ok(resumeResponse.status() === 200, 'Public résumé HTTP 200', String(resumeResponse.status()));
   ok(resumeResponse.headers()['content-type']?.includes('application/pdf'), 'Public résumé has PDF content type', resumeResponse.headers()['content-type']);
 
   const sitemap = await readFile('dist/sitemap-0.xml', 'utf8');
-  for (const route of [...coreRoutes.filter((route) => route !== '/' && route !== '/fit/'), ...projectRoutes]) {
+  for (const route of [...coreRoutes.filter((route) => route !== '/'), ...projectRoutes]) {
     ok(sitemap.includes(`https://davebettner.com${route}`), `Sitemap includes ${route}`);
   }
 

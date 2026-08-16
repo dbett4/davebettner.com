@@ -85,6 +85,8 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     <link rel="canonical" href={`${siteUrl}/`} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/styles/editorial-paper-system.css" />
+
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={siteTitle} />
     <meta property="og:description" content={siteDescription} />
@@ -625,7 +627,6 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     font-weight: 500;
     line-height: 1.12;
     letter-spacing: -0.04em;
-    text-wrap: balance;
     max-width: 15ch;
   }
 
@@ -2194,5 +2195,4 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
 <style is:global>
   @import url('/styles/premium-profile-correction.css');
-  @import url('/styles/editorial-paper-system.css');
 </style>

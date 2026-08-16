@@ -49,73 +49,18 @@ try {
   const page = await browser.newPage();
 
   await page.goto(`${base}/fit/`, { waitUntil: 'networkidle' });
-  await page.evaluate(() => {
-    window.__fitOpenCalls = [];
-    window.open = (url, target, features) => {
-      window.__fitOpenCalls.push({ url: String(url ?? ''), target, features });
-      return null;
-    };
-    Object.defineProperty(navigator, 'clipboard', {
-      configurable: true,
-      value: {
-        writeText: async (text) => {
-          window.__fitClipboard = String(text ?? '');
-        },
-      },
-    });
-  });
-
-  await page.locator('#job-description').fill('');
-  await page.locator('.fit-ai-btn[data-provider="chatgpt"]').click();
-  await page.waitForTimeout(50);
-  let state = await page.evaluate(() => ({
-    opens: window.__fitOpenCalls ?? [],
-    clipboard: window.__fitClipboard ?? '',
-    invalid: document.getElementById('job-description')?.getAttribute('aria-invalid'),
-    status: document.getElementById('fit-status')?.textContent ?? '',
+  const fitRegression = await page.evaluate(() => ({
+    phases: document.querySelectorAll('.ninety-plan > li').length,
+    oldToolControls: document.querySelectorAll('#job-description, .fit-ai-btn, #fit-copy-prompt').length,
+    horizontalOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    relatedTargets: [...document.querySelectorAll('.page-links a')].map((link) => link.getAttribute('href') ?? ''),
   }));
-  check(state.opens.length === 0, 'Fit empty input opens no provider', String(state.opens.length));
-  check(state.clipboard === '', 'Fit empty input copies no generic prompt');
-  check(state.invalid === 'true', 'Fit empty input is marked invalid', String(state.invalid));
-  check(state.status.includes('Paste a job description'), 'Fit empty input has actionable status', state.status);
-
-  await page.evaluate(() => {
-    const input = document.getElementById('job-description');
-    input.value = 'A'.repeat(12_001);
-    input.dispatchEvent(new Event('input', { bubbles: true }));
-    window.__fitOpenCalls = [];
-    window.__fitClipboard = '';
-  });
-  await page.locator('.fit-ai-btn[data-provider="chatgpt"]').click();
-  await page.waitForTimeout(50);
-  state = await page.evaluate(() => ({
-    opens: window.__fitOpenCalls ?? [],
-    invalid: document.getElementById('job-description')?.getAttribute('aria-invalid'),
-    status: document.getElementById('fit-status')?.textContent ?? '',
-  }));
-  check(state.opens.length === 0, 'Fit oversized input opens no provider', String(state.opens.length));
-  check(state.invalid === 'true', 'Fit oversized input is marked invalid', String(state.invalid));
-  check(state.status.includes('12,000'), 'Fit oversized input reports limit', state.status);
-
-  const longJobDescription = `Senior implementation role ${'x'.repeat(9_000)}`;
-  await page.locator('#job-description').fill(longJobDescription);
-  await page.evaluate(() => {
-    window.__fitOpenCalls = [];
-    window.__fitClipboard = '';
-  });
-  await page.locator('.fit-ai-btn[data-provider="chatgpt"]').click();
-  await page.waitForTimeout(50);
-  state = await page.evaluate(() => ({
-    opens: window.__fitOpenCalls ?? [],
-    clipboard: window.__fitClipboard ?? '',
-    invalid: document.getElementById('job-description')?.getAttribute('aria-invalid'),
-    status: document.getElementById('fit-status')?.textContent ?? '',
-  }));
-  check(state.opens.length === 1, 'Fit long prompt opens one provider', String(state.opens.length));
-  check(state.opens[0]?.url === 'https://chatgpt.com/', 'Fit long prompt opens provider base URL', state.opens[0]?.url);
-  check(state.clipboard.includes(longJobDescription), 'Fit long prompt is copied');
-  check(state.invalid === 'false', 'Fit valid long input clears invalid state', String(state.invalid));
-  check(state.status.includes('without pre-fill'), 'Fit long prompt explains base-URL fallback', state.status);
+  check(fitRegression.phases === 4, 'First 90 days plan keeps four phases', String(fitRegression.phases));
+  check(fitRegression.oldToolControls === 0, 'Removed fit-prompt controls do not regress into the static page', String(fitRegression.oldToolControls));
+  check(fitRegression.horizontalOverflow === 0, 'First 90 days page has no horizontal overflow', String(fitRegression.horizontalOverflow));
+  for (const route of ['/about/', '/experience/', '/work/']) {
+    check(fitRegression.relatedTargets.includes(route), `First 90 days related links include ${route}`);
+  }
 
   await page.goto(`${base}/`, { waitUntil: 'networkidle' });
   const sourcePortrait = page.locator('[data-source-portrait]');

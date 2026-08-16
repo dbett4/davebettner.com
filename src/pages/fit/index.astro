@@ -28,13 +28,16 @@ const description =
     <link rel="preload" href={monoFont} as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={`${siteUrl}/fit/`} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles/editorial-paper-system.css" />
     <title>{title}</title>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="wrap fit-page-header">
       <a class="back-link mono" href="/">← Home</a>
-      <a class="round blue" href={emailHref}>Contact <span aria-hidden="true">↗</span></a>
+      <a class="round blue" href={emailHref} data-shader-host>
+        <span data-shader-label>Contact <span aria-hidden="true">↗</span></span>
+      </a>
     </header>
     <main id="main">
       <section id="ninety-days" class="fit-check has-reg-marks" aria-labelledby="fit-check-heading">
@@ -353,8 +356,4 @@ const description =
       font-size: clamp(1.75rem, 7.5vw, 2.35rem);
     }
   }
-</style>
-
-<style is:global>
-  @import url('/styles/editorial-paper-system.css');
 </style>

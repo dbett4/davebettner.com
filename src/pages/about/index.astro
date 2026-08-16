@@ -20,8 +20,10 @@ const description =
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#f3efe5" />
+    <meta name="color-scheme" content="light" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles/editorial-paper-system.css" />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -107,7 +109,7 @@ const description =
 </html>
 
 <style is:global>
-  :root{--paper:#f3efe5;--ink:#151515;--blue:#214fe5;--orange:#cf4120;--orange-ink:#9a2f14;--muted:#62615d;--rule:#c9c3b5;--card:#eee8dc;--max:1280px}
+  :root{--max:1280px}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:"Plus Jakarta Sans Variable",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.52}
   a{color:inherit;text-decoration:none}a:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
@@ -123,8 +125,4 @@ const description =
   .next-section{background:var(--ink);color:var(--paper)}.next-grid{padding:clamp(40px,6vw,72px) 0;display:grid;gap:12px}.next-section .eyebrow{color:#c9c3b5}.page-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.page-links a{min-height:44px;display:inline-flex;align-items:center;padding:0 14px;border:1px solid #c9c3b5;font-size:.82rem}.page-links a:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
   @media(max-width:700px){.wrap{width:min(100% - 28px,var(--max))}.mast-status{display:none}.about-cover-grid,.narrative-grid{grid-template-columns:1fr}.portrait-plate{max-width:360px}.principles{grid-template-columns:1fr}.principles li{border-right:0;border-bottom:1px solid var(--ink)}.principles li:last-child{border-bottom:0}}
   @media(prefers-reduced-motion:reduce){.round{transition:none}}
-</style>
-
-<style is:global>
-  @import url('/styles/editorial-paper-system.css');
 </style>

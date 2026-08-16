@@ -24,6 +24,7 @@ const description =
     <meta name="color-scheme" content="light" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles/editorial-paper-system.css" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -154,8 +155,4 @@ const description =
   @media (max-width:760px) { .wrap{width:min(100% - 28px,1280px)} .work-cover .content-page{margin-left:0} .work-list{grid-template-columns:1fr} .work-card{grid-template-columns:100px minmax(0,1fr); min-height:300px} .work-copy{padding:16px} .work-evidence{font-size:.74rem} }
   @media (max-width:420px) { .mast-row{min-height:56px} .work-card{grid-template-columns:1fr; min-height:0} .work-visual{min-height:82px; border-right:0; border-bottom:1px solid var(--ink)} }
   @media (prefers-reduced-motion:reduce) { .work-card{transition:none} .work-card:hover,.work-card:focus-visible{transform:none;box-shadow:none} }
-</style>
-
-<style is:global>
-  @import url('/styles/editorial-paper-system.css');
 </style>

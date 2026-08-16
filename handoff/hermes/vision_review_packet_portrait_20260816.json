@@ -1,0 +1,39 @@
+{
+  "type": "vision_review_packet",
+  "state": "awaiting_named_human",
+  "scope": "davebettner.com homepage portrait halo and lower arm-to-torso backdrop exposure",
+  "base_revision": "d69b6a1f2299d4df9bb939e57e2270208628a4b5",
+  "capture_route": "local Astro preview on 127.0.0.1:4322 with Playwright and system Chrome",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "capture": "/tmp/dave-review-desktop-portrait.png",
+      "sha256": "efe1edf9562b061130aebc5bd328f8b3d4e215c4b45e7864d45afa8bbb3fa5cc"
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "capture": "/tmp/dave-review-mobile-portrait.png",
+      "sha256": "9b033e23ad9a8b5641c9a72c7e2ac67991f332da02dce5ae6e0aecc0ceb69ef7"
+    }
+  ],
+  "contact_sheet": {
+    "path": "/srv/hermes/work/agent-stack-autonomy-interaction-cursor/OUTBOX/hermes/attachments/dave-portrait-correction-review.png",
+    "sha256": "d228de7778bf368cf17e181bac294fb9ef6c20d3612657602499a7c4b24b4d65"
+  },
+  "deterministic_evidence": {
+    "portrait_dimensions": "1312x1100",
+    "visible_pixels_fully_opaque": "98.3%",
+    "interior_rgb_pixels_changed": 0,
+    "edge_rgb_pixels_changed": 12217,
+    "lower_central_clear_pixels": 0,
+    "test_command": "npm run test && npm run check && npm run build",
+    "test_result": "pass"
+  },
+  "builder_visual_observation": "Corrected captures no longer show the blue/orange edge bleed or the lower arm-to-torso background wedges; portrait proportions remain undistorted.",
+  "named_human_verdict": null,
+  "deploy_state": "not_deployed"
+}

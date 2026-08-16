@@ -21,12 +21,12 @@ import {
 const HALO_SEARCH_RADIUS = 3;
 const HALO_COVERAGE_FLOOR = 128;
 const CLEAR_FRACTION_RANGE = [0.40, 0.55];
-// Each sleeve-to-torso wedge must stay open. Windows cover the lower frame either side of
-// the torso, where the wedges run down to the bottom edge.
-const WEDGES = [
-  { name: 'left', x: [270, 330], y: [1100, CUTOUT_SIZE.height], minimumClearPixels: 700 },
-  { name: 'right', x: [995, 1060], y: [1100, CUTOUT_SIZE.height], minimumClearPixels: 700 },
-];
+// The published crop ends before the sleeve-to-torso wedges open. The central lower band
+// must therefore remain fully covered by the subject instead of exposing the page backdrop.
+const LOWER_TORSO_BAND = {
+  x: [250, 1060],
+  y: [CUTOUT_SIZE.height - 12, CUTOUT_SIZE.height],
+};
 
 const failures = [];
 const check = (condition, message) => {
@@ -60,13 +60,23 @@ for (const [x, y] of [[0, 0], [width - 1, 0], [0, height - 1], [width - 1, heigh
 }
 
 let clearPixels = 0;
+let opaquePixels = 0;
+let partiallyTransparentPixels = 0;
 for (let pixel = 0; pixel < width * height; pixel += 1) {
-  if (data[(pixel * 4) + 3] === 0) clearPixels += 1;
+  const alpha = data[(pixel * 4) + 3];
+  if (alpha === 0) clearPixels += 1;
+  else if (alpha === 255) opaquePixels += 1;
+  else partiallyTransparentPixels += 1;
 }
 const clearFraction = clearPixels / (width * height);
+const opaqueVisibleFraction = opaquePixels / (opaquePixels + partiallyTransparentPixels);
 check(
   clearFraction >= CLEAR_FRACTION_RANGE[0] && clearFraction <= CLEAR_FRACTION_RANGE[1],
   `Cutout clears ${(clearFraction * 100).toFixed(1)}% of the frame, outside the accepted portrait contract`,
+);
+check(
+  opaqueVisibleFraction >= 0.98,
+  `Only ${(opaqueVisibleFraction * 100).toFixed(1)}% of visible portrait pixels are fully opaque; the page backdrop will bleed through the subject`,
 );
 
 /**
@@ -129,18 +139,16 @@ check(
   `Cutout keeps ${edgeBackdropPixels} backdrop-coloured pixels along its edge (background between a sleeve and the torso, or a halo)`,
 );
 
-for (const wedge of WEDGES) {
-  let wedgeClear = 0;
-  for (let y = wedge.y[0]; y < wedge.y[1]; y += 1) {
-    for (let x = wedge.x[0]; x < wedge.x[1]; x += 1) {
-      if (alphaAt(x, y) === 0) wedgeClear += 1;
-    }
+let lowerTorsoClearPixels = 0;
+for (let y = LOWER_TORSO_BAND.y[0]; y < LOWER_TORSO_BAND.y[1]; y += 1) {
+  for (let x = LOWER_TORSO_BAND.x[0]; x < LOWER_TORSO_BAND.x[1]; x += 1) {
+    if (alphaAt(x, y) === 0) lowerTorsoClearPixels += 1;
   }
-  check(
-    wedgeClear >= wedge.minimumClearPixels,
-    `Cutout only clears ${wedgeClear} pixels between the ${wedge.name} sleeve and the torso`,
-  );
 }
+check(
+  lowerTorsoClearPixels === 0,
+  `Cutout exposes ${lowerTorsoClearPixels} backdrop pixels between the lower sleeves and torso`,
+);
 
 if (failures.length) {
   for (const failure of failures) process.stderr.write(`${failure}\n`);
@@ -149,6 +157,6 @@ if (failures.length) {
 
 process.stdout.write(
   `Portrait cutout verified: ${width}x${height} matching the declared intrinsic size, `
-  + `${(clearFraction * 100).toFixed(1)}% of the frame cleared, both sleeve-to-torso wedges open, `
+  + `${(clearFraction * 100).toFixed(1)}% of the frame cleared, ${(opaqueVisibleFraction * 100).toFixed(1)}% of visible pixels fully opaque, lower sleeve-to-torso gaps cropped out, `
   + 'no backdrop-coloured pixel left along the edge.\n',
 );

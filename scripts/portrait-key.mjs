@@ -15,7 +15,7 @@ export const CUTOUT_IMAGE = 'public/images/dave-bettner-headshot-c13-navy-cutout
 // The one place these dimensions are written down: the markup, the site contract and the
 // cutout contract all read them from here, so swapping the asset cannot leave a stale
 // width/height attribute behind.
-export const CUTOUT_SIZE = { width: 1312, height: 1199 };
+export const CUTOUT_SIZE = { width: 1312, height: 1100 };
 
 export const BACKGROUND_KEY_MIN = 0.30;
 export const BACKGROUND_KEY_MAX = 0.55;

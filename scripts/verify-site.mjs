@@ -1170,7 +1170,7 @@ try {
     );
     ok(
       !coverActions.some((link) => link.href === '/fit/'),
-      `${viewport.name}: cover actions do not duplicate the adjacent role-fit tool`,
+      `${viewport.name}: cover actions do not duplicate the adjacent first-90-days page`,
       JSON.stringify(coverActions),
     );
     const buildingCardOrder = await page.locator('.building-card').evaluateAll((cards) =>
@@ -1399,7 +1399,7 @@ try {
 
   const shaderRolloutContext = await browser.newContext({ viewport: { width: 1100, height: 800 } });
   const shaderRolloutPage = await shaderRolloutContext.newPage();
-  for (const route of ['/about/', '/fit/', '/experience/', projectRoutes[0]]) {
+  for (const route of ['/about/', '/experience/', projectRoutes[0]]) {
     await shaderRolloutPage.goto(new URL(route, base).href, { waitUntil: 'networkidle' });
     await shaderRolloutPage.waitForFunction(
       () => document.documentElement.dataset.effectsReady === 'true',

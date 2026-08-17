@@ -10,12 +10,13 @@
  * still (~0.8), hence the upper bound on the band.
  */
 
-export const CUTOUT_IMAGE = 'public/images/dave-bettner-headshot-c13-navy-cutout.png';
+export const CUTOUT_IMAGE = 'public/images/dave-bettner-headshot-20260816-cutout.png';
+export const CUTOUT_SHA256 = 'b34ff1a55c4025f92593a8e2c6685f64dc2ba117604aaa0b1efbb52abb2fd102';
 
 // The one place these dimensions are written down: the markup, the site contract and the
 // cutout contract all read them from here, so swapping the asset cannot leave a stale
 // width/height attribute behind.
-export const CUTOUT_SIZE = { width: 1312, height: 1100 };
+export const CUTOUT_SIZE = { width: 1312, height: 1199 };
 
 export const BACKGROUND_KEY_MIN = 0.30;
 export const BACKGROUND_KEY_MAX = 0.55;

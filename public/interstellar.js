@@ -1,0 +1,18 @@
+if(!document.querySelector('[data-interstellar-field]')){const surface=document.querySelector('.about-cover,.work-cover,.case-cover,.fit-check,main');if(surface){surface.classList.add('has-interstellar-accent');const field=document.createElement('div');field.className='interstellar-field interstellar-field--accent';field.dataset.interstellarField='';field.setAttribute('aria-hidden','true');surface.prepend(field)}}
+const fields = [...document.querySelectorAll('[data-interstellar-field]')];
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const vertex = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+const fragment = `precision mediump float;uniform vec2 r;uniform float t;uniform vec2 m;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+void main(){vec2 uv=(gl_FragCoord.xy-.5*r)/min(r.x,r.y);uv.x+=m.x*.035;uv.y+=m.y*.018;
+float horizon=-.13+.075*sin(uv.x*1.7+t*.07)+.035*sin(uv.x*4.1-t*.045);
+float warp=uv.y-horizon+.1*sin(uv.x*2.2+uv.y*3.0+t*.055);
+float b1=exp(-abs(warp)*4.8),b2=exp(-abs(warp+.19+.06*sin(uv.x*3.))*9.0),b3=exp(-abs(warp-.17)*12.0),b4=exp(-abs(warp-.34)*9.0);
+vec3 c=vec3(.025,.027,.035);c+=b1*vec3(.58,.17,.055);c+=b2*vec3(.92,.28,.035);c+=b3*vec3(.48,.34,.62);c+=b4*vec3(.34,.27,.38);
+c+=.18*exp(-abs(warp+.39)*6.5)*vec3(.78,.52,.32);float d=(hash(floor(gl_FragCoord.xy/2.))*2.-1.)/220.;c+=d;gl_FragColor=vec4(c,1.);}`;
+let visible=!document.hidden, pointer={x:0,y:0};
+addEventListener('pointermove',e=>{pointer.x=e.clientX/innerWidth*2-1;pointer.y=1-e.clientY/innerHeight*2},{passive:true});
+document.addEventListener('visibilitychange',()=>{visible=!document.hidden});
+const observer=new IntersectionObserver(es=>es.forEach(e=>e.target._active=e.isIntersecting));
+for(const host of fields){const canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');host.append(canvas);host._active=true;observer.observe(host);const gl=canvas.getContext('webgl',{antialias:false,alpha:false,powerPreference:'low-power'});if(!gl){host.dataset.fallback='true';continue}try{const shader=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s};const prog=gl.createProgram();gl.attachShader(prog,shader(gl.VERTEX_SHADER,vertex));gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(prog);if(!gl.getProgramParameter(prog,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(prog));gl.useProgram(prog);const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);const p=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(p);gl.vertexAttribPointer(p,2,gl.FLOAT,false,0,0);const ur=gl.getUniformLocation(prog,'r'),ut=gl.getUniformLocation(prog,'t'),um=gl.getUniformLocation(prog,'m');const start=performance.now();const draw=now=>{if(visible&&host._active){const rect=host.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,1.5),max=1400000,scale=Math.min(d,Math.sqrt(max/(rect.width*rect.height)));const w=Math.max(1,Math.floor(rect.width*scale)),h=Math.max(1,Math.floor(rect.height*scale));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h)}gl.uniform2f(ur,w,h);gl.uniform1f(ut,reduced?18:(now-start)/1000);gl.uniform2f(um,reduced?0:pointer.x,reduced?0:pointer.y);gl.drawArrays(gl.TRIANGLES,0,3)}if(!reduced)requestAnimationFrame(draw)};requestAnimationFrame(draw);host.dataset.webgl='ready'}catch(e){host.dataset.fallback='true'}}
+document.documentElement.dataset.interstellarReady='true';

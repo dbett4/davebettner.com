@@ -122,78 +122,45 @@ try {
     await context.close();
   }
 
-  // Exercise the synthetic click guard separately from the hit-tested Playwright touch sequence.
-  const touchContext = await browser.newContext({
-    viewport: { width: 390, height: 844 },
-    hasTouch: true,
-    isMobile: true,
-  });
-  const touchPage = await touchContext.newPage();
-  await touchPage.goto(base, { waitUntil: 'networkidle' });
-
-  const syntheticContactGuardEvents = await touchPage.evaluate(() => {
-    const field = document.querySelector('[data-signal-field]');
-    const link = document.querySelector('[data-signal-contact="fit"]');
-    const contacts = field?.querySelector('.signal-field__contacts');
-    if (!(field instanceof HTMLElement) || !(link instanceof HTMLElement) || !(contacts instanceof HTMLElement)) {
-      return null;
-    }
-    let clickFired = false;
-    let defaultPrevented = false;
-    link.addEventListener(
-      'click',
-      (event) => {
-        clickFired = true;
-        defaultPrevented = event.defaultPrevented;
-      },
-      { once: true },
-    );
-    link.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, pointerType: 'touch' }));
-    link.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, pointerType: 'touch' }));
-    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+  const shaderContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const shaderPage = await shaderContext.newPage();
+  await shaderPage.goto(base, { waitUntil: 'networkidle' });
+  const shaderContract = await shaderPage.locator('[data-interstellar-field]').evaluate((field) => {
+    const canvas = field.querySelector('canvas');
     return {
-      path: location.pathname,
-      locked: field.classList.contains('is-locked'),
-      clickFired,
-      defaultPrevented,
-    };
-  });
-  await touchPage.waitForTimeout(450);
-  const syntheticContactGuardVisual = await touchPage.locator('[data-signal-field]').evaluate((field) => {
-    const contacts = field.querySelector('.signal-field__contacts');
-    if (!(contacts instanceof HTMLElement)) return null;
-    const style = getComputedStyle(contacts);
-    return {
-      locked: field.classList.contains('is-locked'),
-      opacity: Number(style.opacity),
-      pointerEvents: style.pointerEvents,
+      ready: document.documentElement.dataset.interstellarReady === 'true',
+      webgl: field.getAttribute('data-webgl'),
+      fallback: field.getAttribute('data-fallback'),
+      canvasCount: field.querySelectorAll('canvas').length,
+      pointerEvents: canvas instanceof HTMLCanvasElement ? getComputedStyle(canvas).pointerEvents : null,
+      ariaHidden: canvas?.getAttribute('aria-hidden'),
     };
   });
   ok(
     Boolean(
-      syntheticContactGuardEvents?.path === '/' &&
-        syntheticContactGuardEvents.locked &&
-        syntheticContactGuardEvents.clickFired &&
-        syntheticContactGuardEvents.defaultPrevented &&
-        syntheticContactGuardVisual?.locked &&
-        syntheticContactGuardVisual.opacity > 0.95 &&
-        syntheticContactGuardVisual.pointerEvents === 'auto',
+      shaderContract.ready &&
+        shaderContract.canvasCount === 1 &&
+        (shaderContract.webgl === 'ready' || shaderContract.fallback === 'true') &&
+        shaderContract.pointerEvents === 'none' &&
+        shaderContract.ariaHidden === 'true'
     ),
-    'touch: synthetic same-contact touch/click sequence locks Check Fit without navigation',
-    JSON.stringify({ events: syntheticContactGuardEvents, visual: syntheticContactGuardVisual }),
+    'shader: mobile field is ready, decorative, and pointer-inert',
+    JSON.stringify(shaderContract),
   );
+  await shaderContext.close();
 
-  await touchPage.reload({ waitUntil: 'networkidle' });
-  await touchPage.locator('.signal-field__frame').tap({ position: { x: 20, y: 20 } });
-  await Promise.all([
-    touchPage.waitForURL((url) => url.pathname === '/fit/', { timeout: 3000 }),
-    touchPage.locator('[data-signal-contact="fit"]').tap(),
-  ]);
-  ok(
-    new URL(touchPage.url()).pathname === '/fit/',
-    'touch: hit-tested frame reveal followed by Check Fit tap opens /fit/',
-  );
-  await touchContext.close();
+  const reducedContext = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    reducedMotion: 'reduce',
+  });
+  const reducedPage = await reducedContext.newPage();
+  await reducedPage.goto(base, { waitUntil: 'networkidle' });
+  const reducedCanvas = reducedPage.locator('[data-interstellar-field] canvas');
+  const firstFrame = await reducedCanvas.evaluate((canvas) => canvas.toDataURL());
+  await reducedPage.waitForTimeout(500);
+  const secondFrame = await reducedCanvas.evaluate((canvas) => canvas.toDataURL());
+  ok(firstFrame === secondFrame, 'shader: reduced-motion field remains on one authored frame');
+  await reducedContext.close();
 } finally {
   await browser.close();
   preview.kill('SIGTERM');

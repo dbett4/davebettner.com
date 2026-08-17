@@ -78,14 +78,16 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={siteDescription} />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#f3efe5" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#08090b" />
+    <meta name="color-scheme" content="dark" />
     <link rel="preload" href={archivoFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={monoFont} as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={`${siteUrl}/`} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/styles/editorial-paper-system.css" />
+    <link rel="stylesheet" href="/styles/interstellar-system.css" />
+    <link rel="stylesheet" href="/styles/sphere-gradient.css" />
 
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={siteTitle} />
@@ -104,11 +106,12 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   </head>
   <body>
     <!--
-      THESIS: Dave is the subject inside one warm editorial system; the page refuses both a split-personality design merge and product-dashboard chrome.
-      OWN-WORLD: Warm paper, dense ink, cobalt and vermilion signals, compressed industrial lettering, clean rules, and one spectral shader control; no cool-metal overlay or cutout portrait effects.
-      STORY: A visitor meets Dave at portrait scale, understands the enterprise-agent deployment lane, inspects a ruled evidence ledger, and starts a conversation.
-      FIRST VIEWPORT: Monumental stacked name and concise delivery role occupy the left; the unchanged navy-tie C13 portrait owns the right; one shader action sits below the role and the paper evidence ledger continues without a visual-world change.
-      FORM: Editorial Operator profile with an evidence ledger; the premium layout is reconciled into the established paper-and-ink system.
+      AUDIT-SEED: interstellar-tide-sphere-20260816
+      THESIS: Dave stands in front of one sculptural Tide sphere; the site refuses cream editorial default, dashboard chrome, and literal sci-fi UI.
+      OWN-WORLD: Near-black carbon ground, warm white type, tide teal #73bfc4, signal orange #ff810a, periwinkle #8da0ce, restrained graphite rules, and film grain. One shader system owns motion and depth across the site.
+      STORY: Visitors identify Dave and his customer-facing deployment lane in seconds, then descend through outcomes, process, public proof, experience, and contact without leaving the world.
+      FIRST VIEWPORT: Monumental DAVE BETTNER left, concise role/support/actions below, exact source portrait large at right, full fluid shader field behind both, evidence beginning below fold.
+      FORM: Tide Sphere, selected by Dave. Preserve semantic content and accessibility while translating the comp responsively.
       FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
     -->
     <a class="skip-link" href="#main">Skip to content</a>
@@ -130,6 +133,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
 
     <main id="main">
       <section id="top" class="cover" aria-labelledby="thesis-heading">
+        <div class="interstellar-field sphere-field" data-interstellar-field data-sphere-gradient aria-hidden="true"></div>
         <div id="thesis" class="wrap cover-grid">
           <div class="cover-copy">
             <p class="cover-kicker mono">Profile · Enterprise agent deployment</p>
@@ -147,10 +151,10 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
             <span class="portrait-halftone" data-portrait-backdrop aria-hidden="true"></span>
             <img
               class="cover-portrait"
-              src="/images/dave-bettner-headshot-c13-navy-cutout.png"
+              src="/images/dave-bettner-headshot-20260816-cutout.png"
               alt="Dave Bettner in a gray suit and navy tie"
               width="1312"
-              height="1100"
+              height="1199"
               loading="eager"
               decoding="async"
               fetchpriority="high"
@@ -329,7 +333,9 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
         </div>
       </div>
     </footer>
-    <script is:inline type="module" src="/correction/main.js"></script>
+    <script>
+      import '../scripts/sphere-gradient';
+    </script>
   </body>
 </html>
 

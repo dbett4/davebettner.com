@@ -70,7 +70,7 @@ try {
     'Hero contains one source-preserving portrait cutout',
   );
   check(
-    (await sourcePortrait.getAttribute('src')) === '/images/dave-bettner-headshot-c13-navy-cutout.png' &&
+    (await sourcePortrait.getAttribute('src')) === '/images/dave-bettner-headshot-20260816-cutout.png' &&
       (await page.locator('.cover-specimen canvas').count()) === 0,
     'Hero preserves the approved navy-tie cutout without a processing canvas',
   );

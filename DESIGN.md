@@ -1,91 +1,46 @@
-# DESIGN.md
+# Interstellar — Tide Sphere
 
-## 1. Direction & Feel
+Interstellar is the single visual system for davebettner.com. Dave is the subject; the moving field is atmosphere, not a product metaphor. The system leads with enterprise-agent deployment and uses finance, assurance, healthcare, and public engineering as bounded proof.
 
-**Tailored Monograph + Evidence Ledger** is a profile-first editorial system for Dave Bettner. Dave—not a framework, product, or metaphor—is the subject. The opening establishes his name, customer-facing enterprise-agent deployment lane, concise claim, cleaned source portrait, and direct contact actions before presenting proof.
+## Direction
 
-The visual character is tailored rather than SaaS: narrow uppercase type, silk-black and warm-ivory material fields, muted-gold seam lines, exact graphite rules, and restrained technical labels. The result should feel composed, personal, exact, and human. It must never require a visitor to decode a governing visual narrative before understanding who Dave is.
+- **Composition:** a tightly cropped, sculptural sphere field using the approved Tide / Signal palette.
+- **Ground:** carbon `#08090b` and lifted carbon `#101114`.
+- **Type:** warm white `#f2eadf`, with muted copy `#b9b2aa`.
+- **Signals:** tide teal `#73bfc4`, signal orange `#ff810a`, periwinkle `#8da0ce`, graphite rules `#34353a`.
+- **Typography:** self-hosted Archivo Variable for display and body; DM Mono only for labels and data.
+- **Shape language:** hard rules, rectangular actions, large condensed headings, asymmetric fields. No pills, glass cards, dashboard chrome, stars, planets, or literal science-fiction interface elements.
 
-The portrait is source-bound. The production matte removes only semi-transparent edge contamination; every originally opaque RGB and alpha pixel remains unchanged. Never regenerate or composite Dave's face, head, neck, body, suit, pose, or crop.
+## Shared implementation
 
-## 2. Colors
+`public/styles/interstellar-system.css` is the site-wide source of truth. It overrides the former paper theme on every public route, supplies browser theming, focus states, grain, responsive geometry, and the designed no-WebGL fallback.
 
-| Token | Value | Use |
-| --- | --- | --- |
-| `--tm-silk` | `#090b0d` | Primary ground, dark sections, dark type on light surfaces |
-| `--tm-black` | `#030405` | Deepest inset fields and strong actions |
-| `--tm-ivory` | `#eee8d9` | Primary light surface and type on dark surfaces |
-| `--tm-gold` | `#bd9250` | Seam lines, primary actions, state marks, closing field |
-| `--tm-graphite` | `#33383d` | Rules and technical borders on dark surfaces |
-| `--tm-slate` | `#939ca2` | Secondary copy on dark surfaces |
+`src/scripts/sphere-gradient.ts` mounts the homepage ShaderGradient sphere with the approved Tide / Signal palette and authored camera, surface, reflection, and motion settings. It uses a DPR of 1, disables camera controls, freezes at the authored frame under reduced motion, and keeps the canvas `aria-hidden` and pointer-inert. If WebGL cannot initialize, the carbon field remains. `public/interstellar.js` continues the restrained site-wide field on secondary routes.
 
-Muted gold is a seam and action signal, not decoration. Silk black and warm ivory carry most of the page. Graphite separates technical evidence without introducing dashboard chrome. Avoid decorative gradients, saturated signal colors, and generic neon-on-black AI palettes.
+The homepage owns the full field. Secondary route introductions receive the same field at restrained opacity. Reading regions remain solid or near-solid carbon rather than translucent glass.
 
-## 3. Typography
+## Homepage topology
 
-- **Display and body:** Archivo Variable with its width axis enabled. Display settings use `font-stretch` around 66–72%, moderate weights around 520–600, tight tracking, and uppercase composition. Body settings use readable sentence case at normal width.
-- **Technical labels:** DM Mono at 0.66–0.72rem, uppercase, with approximately `0.06em–0.08em` tracking.
-- The homepage name is two warm-ivory lines: `DAVE` and `BETTNER`. It is the dominant identity mark without relying on an accent color.
-- Section titles are large, compact, and left aligned. Do not introduce serif display faces, generic geometric UI faces, centered marketing headlines, or unnecessary type families.
+The masthead is thin and dark. The opening field fills the first viewport. Monumental stacked DAVE BETTNER sits left, with the customer-facing implementation role, exact existing support copy, and rectangular conversation/résumé actions. The exact source portrait sits large at right and overlaps the field. Delivery evidence begins at or below the fold.
 
-## 4. Components
+The only visible homepage portrait carrying `data-source-portrait` is `/images/dave-bettner-headshot-20260816-cutout.png`, declared at its intrinsic `1312 × 1199`. It is the user-supplied RGBA image byte-for-byte, rendered as an ordinary image, never a canvas, and receives no pixel manipulation.
 
-### Masthead
-A dark sticky bar with the compact name mark, three profile routes, and an outlined email action. Desktop is one row. Mobile intentionally becomes a compact identity row followed by the three-route row.
+## Route system
 
-### Source Portrait
-`src/components/KineticPortrait.astro` keeps the original WebP source as the visible image and retains its established source-pixel contract. The Tailored Monograph stylesheet suppresses the prior dither and scan overlays, so the cleaned source cutout is shown directly inside an authored gold seam field.
+Home, Work, each Work detail, Experience, First 90 Days, About, and 404 share the carbon palette, rules, typography, focus treatment, and event-horizon field. Existing semantic landmarks, headings, links, provenance, evidence boundaries, data-backed copy, and route behavior remain intact. Lists are ruled editorial sequences rather than card walls.
 
-### Primary actions
-Rectangular, bordered controls use DM Mono. The primary action is muted gold on dark surfaces and silk black on the final gold field. Do not convert actions into pill shapes.
+## Accessibility and performance
 
-### Proof ledger
-Outcome stories use ruled rows rather than floating cards. Each row includes a small geometric mark, customer-delivery context, intervention summary, and result. Regulated delivery is vertical proof, not the full identity.
+- Body text is warm white or muted warm gray on carbon, meeting 4.5:1 contrast.
+- Focus-visible uses a three-pixel ember outline with offset.
+- Interactive targets are at least 44px tall.
+- The layout clips decorative overflow and remains usable from 320px through 1440px.
+- Content and the CSS field render before JavaScript and survive JavaScript/WebGL failure.
+- Reduced motion removes transitions and fixes the shader at one frame.
+- Selection, scrollbars, link underlines, and browser theme surfaces are explicitly themed.
 
-### Operating loop
-A silk-black technical field preserves the existing Discover → Shape → Demonstrate → Deliver → Adopt content. Gold handoff rails clarify causality. It is supporting evidence below the identity and must not become the site's governing metaphor.
+## Finish review
 
-### Public engineering plates
-Inspectable public projects use hard-edged plates with a dark visual register and a light evidence body. Synthetic and sanitized scope boundaries remain visible.
+The implementation matches the approved Tide Sphere topology while using Dave’s exact supplied cutout. The system is profile-first, avoids the prohibited literal space/HUD vocabulary, and carries one shader-led world across every public route.
 
-### Closing field
-A full-width muted-gold field contains the final role-fit statement and contact actions. It is the strongest color moment on the page.
-
-## 5. Layout & Spacing
-
-- Maximum content width: `1440px` with a 24px desktop inset and 16px mobile inset.
-- Opening desktop grid: three columns for name/role, source portrait, and claim/actions.
-- Opening height: at least the viewport minus the 70px masthead.
-- Section padding is based on the existing 4/8/16/24/32/48/64px scale, with large section openings using responsive `clamp()` values.
-- Proof and work headings use a three-part desktop grid: small index, monumental title, supporting lead.
-- Mobile collapses to one column. Metadata that delays the portrait is omitted at 720px and below.
-- Horizontal evidence plates may scroll inside their own region on mobile; the document itself must never scroll horizontally.
-
-## 6. Reusable Visual & Interaction Grammar
-
-- Use exact 1px or 2px rules to structure information.
-- Use gold seam lines only to frame the portrait or clarify a causal handoff. Do not apply decorative line textures to every surface.
-- Hover and focus can reveal gold, underline a text route, or tint a ruled evidence row. Avoid generalized scale and lift animations.
-- Motion must clarify state; the homepage portrait itself is static.
-- `prefers-reduced-motion` disables animated transitions and keeps a static, readable portrait treatment.
-- Focus states use a visible muted-gold outline with offset.
-- Public proof must preserve repository links, claim limits, and provenance notes.
-
-## 7. Responsive Behavior
-
-- **Above 960px:** three-column hero, full navigation row, multi-column proof ledger, horizontal operating-loop stages.
-- **721–960px:** hero stacks; portrait remains large; heading grids collapse; proof rows simplify.
-- **720px and below:** two-row masthead, one-column hero, smaller but still monumental name, a wide primary action beside a compact résumé action, portrait immediately after actions, single-column proof, vertical operating loop, and horizontally scrollable evidence plates.
-- Long uppercase headings must fit a 390px viewport without clipping. The root clips accidental horizontal paint while nested evidence scrolling remains available.
-- The portrait uses a 4:5 mobile frame and contains no artificial blank tail.
-
-## 8. What to Avoid
-
-- No cable, rack, patch-panel, routing-map, workflow-transformation, flight-recorder, or other governing product metaphor.
-- No product-style narrative that makes a visitor understand a system before understanding Dave.
-- No regenerated portrait pixels, swapped backgrounds, composited heads, or altered clothing/body geometry.
-- No generic SaaS hero, dashboard chrome, card wall, glowing AI orb, or excessive rounded containers.
-- No overused display fonts or serif fallback on the homepage identity.
-- No decorative line-field backgrounds that imitate generated UI texture without carrying information.
-- No unsupported production claims, hidden provenance boundaries, or implications that public labs are client tenants.
-- No duplicate primary actions in the same viewport.
+**Verdict:** ready for GREEN/YELLOW local visual review. Browser captures should confirm portrait overlap, mobile crop, shader band character, and long-page reading rhythm before any release decision.

@@ -1,6 +1,5 @@
 ---
-import '@fontsource-variable/newsreader/wght.css';
-import '@fontsource-variable/plus-jakarta-sans/wght.css';
+import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/dm-mono/400.css';
 import { cvEntries } from '../../data/portfolio-entries';
 import { siteUrl } from '../../data/seo';
@@ -19,11 +18,12 @@ const description =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#f3efe5" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#08090b" />
+    <meta name="color-scheme" content="dark" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles/editorial-paper-system.css" />
+    <link rel="stylesheet" href="/styles/interstellar-system.css" />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -82,7 +82,7 @@ const description =
         <a href="/#contact">Contact</a>
       </nav>
     </main>
-    <script is:inline type="module" src="/correction/main.js"></script>
+    <script is:inline type="module" src="/interstellar.js"></script>
   </body>
 </html>
 
@@ -94,7 +94,7 @@ const description =
   }
 
   body {
-    font-family: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+    font-family: 'Archivo Variable', system-ui, sans-serif;
     background:
       radial-gradient(circle, rgba(33, 79, 229, 0.12) 0 1px, transparent 1.4px),
       var(--paper);

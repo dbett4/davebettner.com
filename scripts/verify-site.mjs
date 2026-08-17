@@ -268,7 +268,7 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   const body = await page.locator('body').innerText();
   ok(!body.includes('SIG/01'), `${name}: decorative SIG/01 removed`);
   ok(
-    (await page.locator(`img[data-source-portrait][src="/images/dave-bettner-headshot-c13-navy-cutout.png"][width="${CUTOUT_SIZE.width}"][height="${CUTOUT_SIZE.height}"]`).count()) === 1,
+    (await page.locator(`img[data-source-portrait][src="/images/dave-bettner-headshot-20260816-cutout.png"][width="${CUTOUT_SIZE.width}"][height="${CUTOUT_SIZE.height}"]`).count()) === 1,
     `${name}: approved source-preserving navy-tie cutout is present`,
   );
   for (const token of ['01 ·', '02 ·', '03 ·', '04 ·']) {
@@ -1013,31 +1013,33 @@ async function auditPage(page, route, label) {
   );
   ok(brokenImages.length === 0, `${label}: images load`, brokenImages.join(', '));
   if (['/', '/experience/', '/work/', '/fit/'].includes(route)) {
-    const editorialPalette = await page.evaluate(() => {
+    const interstellarPalette = await page.evaluate(() => {
       const root = getComputedStyle(document.documentElement);
       const body = getComputedStyle(document.body);
       return {
         theme: document.querySelector('meta[name="theme-color"]')?.getAttribute('content'),
         scheme: document.querySelector('meta[name="color-scheme"]')?.getAttribute('content'),
-        paper: root.getPropertyValue('--paper').trim(),
-        ink: root.getPropertyValue('--ink').trim(),
-        blue: root.getPropertyValue('--blue').trim(),
-        orange: root.getPropertyValue('--orange').trim(),
+        carbon: root.getPropertyValue('--space').trim(),
+        warm: root.getPropertyValue('--warm').trim(),
+        ember: root.getPropertyValue('--ember').trim(),
+        rose: root.getPropertyValue('--rose').trim(),
+        lavender: root.getPropertyValue('--lavender').trim(),
         bodyBackground: body.backgroundColor,
         bodyColor: body.color,
       };
     });
     ok(
-      editorialPalette.theme === '#f3efe5' &&
-        editorialPalette.scheme === 'light' &&
-        editorialPalette.paper === '#f3efe5' &&
-        editorialPalette.ink === '#151515' &&
-        editorialPalette.blue === '#214fe5' &&
-        editorialPalette.orange === '#cf4120' &&
-        editorialPalette.bodyBackground === 'rgb(243, 239, 229)' &&
-        editorialPalette.bodyColor === 'rgb(21, 21, 21)',
-      `${label}: shared editorial paper palette is active`,
-      JSON.stringify(editorialPalette),
+      interstellarPalette.theme === '#08090b' &&
+        interstellarPalette.scheme === 'dark' &&
+        interstellarPalette.carbon === '#08090b' &&
+        interstellarPalette.warm === '#f2eadf' &&
+        interstellarPalette.ember === '#ff5005' &&
+        interstellarPalette.rose === '#dbba95' &&
+        interstellarPalette.lavender === '#d0bce1' &&
+        interstellarPalette.bodyBackground === 'rgb(8, 9, 11)' &&
+        interstellarPalette.bodyColor === 'rgb(242, 234, 223)',
+      `${label}: shared Interstellar palette is active`,
+      JSON.stringify(interstellarPalette),
     );
   }
   const missingFragmentTargets = await page.locator('a[href^="#"]').evaluateAll((links) =>
@@ -1270,7 +1272,7 @@ try {
     return source instanceof HTMLImageElement &&
       source.complete &&
       source.naturalWidth === expectedWidth &&
-      document.documentElement.dataset.effectsReady === 'true';
+      document.documentElement.dataset.interstellarReady === 'true';
   }, CUTOUT_SIZE.width, { timeout: 15_000 });
 
   const portraitContract = await profilePage.locator('[data-source-portrait]').evaluate((source) => {
@@ -1298,14 +1300,22 @@ try {
           zIndex: Number(style.zIndex),
         };
       })(),
+      legacyPlate: (() => {
+        const specimen = source.closest('.cover-specimen');
+        if (!(specimen instanceof HTMLElement)) return null;
+        return {
+          before: getComputedStyle(specimen, '::before').display,
+          after: getComputedStyle(specimen, '::after').display,
+        };
+      })(),
       portraitZIndex: Number(getComputedStyle(source).zIndex),
       primaryCanvasCount: document.querySelector('[data-primary-action]')?.querySelectorAll('canvas').length,
-      effectsReady: document.documentElement.dataset.effectsReady,
+      effectsReady: document.documentElement.dataset.interstellarReady,
     };
   });
   ok(
     Boolean(
-      portraitContract?.src === '/images/dave-bettner-headshot-c13-navy-cutout.png' &&
+      portraitContract?.src === '/images/dave-bettner-headshot-20260816-cutout.png' &&
         portraitContract.alt === 'Dave Bettner in a gray suit and navy tie' &&
         portraitContract.declaredWidth === String(CUTOUT_SIZE.width) &&
         portraitContract.declaredHeight === String(CUTOUT_SIZE.height) &&
@@ -1315,52 +1325,28 @@ try {
         portraitContract.renderedHeight > 80 &&
         portraitContract.portraitCanvasCount === 0 &&
         portraitContract.backdrop?.count === 1 &&
-        portraitContract.backdrop.backgroundImage.includes('radial-gradient') &&
-        portraitContract.backdrop.display !== 'none' &&
-        portraitContract.backdrop.opacity >= 0.7 &&
-        portraitContract.backdrop.zIndex < portraitContract.portraitZIndex &&
+        portraitContract.backdrop.display === 'none' &&
+        portraitContract.legacyPlate?.before === 'none' &&
+        portraitContract.legacyPlate?.after === 'none' &&
         portraitContract.primaryCanvasCount <= 1 &&
         portraitContract.effectsReady === 'true'
     ),
-    'Homepage renders the approved source-preserving navy-tie cutout over one halftone backdrop without a processing canvas',
+    'Homepage renders the approved source-preserving navy-tie cutout directly over the event horizon without legacy plate effects or a processing canvas',
     JSON.stringify(portraitContract),
   );
 
-  const ambientShader = await profilePage.evaluate(() => ({
-    hostCount: document.querySelectorAll('[data-shader-host]').length,
-    canvasCount: document.querySelectorAll('[data-shader-host] canvas').length,
-    labelCount: document.querySelectorAll('[data-shader-host] [data-shader-label]').length,
-    mountCount: window.premiumControlState?.mountCount,
-    shaderSpeed: window.premiumControlState?.shaderSpeed,
-    motionReduced: window.premiumControlState?.motionReduced,
+  const eventHorizon = await profilePage.evaluate(() => ({
+    fieldCount: document.querySelectorAll('[data-interstellar-field]').length,
+    canvasCount: document.querySelectorAll('[data-interstellar-field] canvas[aria-hidden="true"]').length,
+    pointerEvents: getComputedStyle(document.querySelector('[data-interstellar-field] canvas')).pointerEvents,
+    state: document.querySelector('[data-interstellar-field]')?.dataset.webgl,
+    ready: document.documentElement.dataset.interstellarReady,
   }));
   ok(
-    Boolean(
-      ambientShader.hostCount === 2 &&
-        ambientShader.canvasCount === 2 &&
-        ambientShader.labelCount === 2 &&
-        ambientShader.mountCount === 2 &&
-        ambientShader.motionReduced === false &&
-        ambientShader.shaderSpeed >= 0.5
-    ),
-    'Homepage primary actions keep a visibly moving ambient shader at rest',
-    JSON.stringify(ambientShader),
-  );
-
-  await profilePage.locator('[data-primary-action]').hover();
-  await profilePage.waitForFunction(
-    () => window.premiumControlState?.activeCount === 1 && window.premiumControlState?.shaderSpeed > 1,
-    null,
-    { timeout: 3_000 },
-  );
-  const activeShader = await profilePage.evaluate(() => ({
-    activeCount: window.premiumControlState?.activeCount,
-    shaderSpeed: window.premiumControlState?.shaderSpeed,
-  }));
-  ok(
-    activeShader.activeCount === 1 && activeShader.shaderSpeed > ambientShader.shaderSpeed,
-    'Homepage primary action accelerates and brightens on hover or focus',
-    JSON.stringify({ ambientShader, activeShader }),
+    eventHorizon.fieldCount === 1 && eventHorizon.canvasCount === 1 &&
+      eventHorizon.pointerEvents === 'none' && eventHorizon.state === 'ready' && eventHorizon.ready === 'true',
+    'Homepage owns one pointer-inert, aria-hidden WebGL event-horizon field',
+    JSON.stringify(eventHorizon),
   );
   await profilePage.locator('[data-source-portrait]').screenshot({ path: `${out}/source-portrait.png` });
   await profileContext.close();
@@ -1372,7 +1358,7 @@ try {
   const profileReducedPage = await profileReducedContext.newPage();
   await profileReducedPage.goto(base, { waitUntil: 'networkidle' });
   await profileReducedPage.waitForFunction(
-    () => document.documentElement.dataset.effectsReady === 'true',
+    () => document.documentElement.dataset.interstellarReady === 'true',
     null,
     { timeout: 15_000 },
   );
@@ -1382,15 +1368,13 @@ try {
       sourceVisible: source instanceof HTMLImageElement &&
         source.naturalWidth === expectedWidth &&
         getComputedStyle(source).opacity !== '0',
-      shaderSpeed: window.premiumControlState?.shaderSpeed,
-      motionReduced: window.premiumControlState?.motionReduced,
+      canvas: document.querySelectorAll('[data-interstellar-field] canvas[aria-hidden="true"]').length,
+      reduced: matchMedia('(prefers-reduced-motion: reduce)').matches,
     };
   }, CUTOUT_SIZE.width);
   ok(
     Boolean(
-      reducedPortrait?.sourceVisible &&
-        reducedPortrait.motionReduced === true &&
-        reducedPortrait.shaderSpeed === 0
+      reducedPortrait?.sourceVisible && reducedPortrait.reduced === true && reducedPortrait.canvas === 1
     ),
     'Homepage reduced-motion mode keeps the source portrait visible and shader stationary',
     JSON.stringify(reducedPortrait),
@@ -1402,30 +1386,18 @@ try {
   for (const route of ['/about/', '/experience/', projectRoutes[0]]) {
     await shaderRolloutPage.goto(new URL(route, base).href, { waitUntil: 'networkidle' });
     await shaderRolloutPage.waitForFunction(
-      () => document.documentElement.dataset.effectsReady === 'true',
+      () => document.documentElement.dataset.interstellarReady === 'true',
       null,
       { timeout: 15_000 },
     );
-    await shaderRolloutPage.locator('[data-shader-host]').first().scrollIntoViewIfNeeded();
-    await shaderRolloutPage.waitForFunction(
-      () => window.premiumControlState?.shaderSpeed >= 0.5,
-      null,
-      { timeout: 3_000 },
-    );
     const rollout = await shaderRolloutPage.evaluate(() => ({
-      hosts: document.querySelectorAll('[data-shader-host]').length,
-      canvases: document.querySelectorAll('[data-shader-host] canvas').length,
-      labels: document.querySelectorAll('[data-shader-host] [data-shader-label]').length,
-      mounts: window.premiumControlState?.mountCount,
-      speed: window.premiumControlState?.shaderSpeed,
+      fields: document.querySelectorAll('[data-interstellar-field].interstellar-field--accent').length,
+      canvases: document.querySelectorAll('[data-interstellar-field] canvas[aria-hidden="true"]').length,
+      sharedStylesheet: Boolean(document.querySelector('link[href="/styles/interstellar-system.css"]')),
     }));
     ok(
-      rollout.hosts >= 1 &&
-        rollout.canvases === rollout.hosts &&
-        rollout.labels === rollout.hosts &&
-        rollout.mounts === rollout.hosts &&
-        rollout.speed >= 0.5,
-      `${route}: selected primary actions use the shared ambient shader system`,
+      rollout.fields === 1 && rollout.canvases === 1 && rollout.sharedStylesheet,
+      `${route}: shared Interstellar system supplies one restrained route-header field`,
       JSON.stringify(rollout),
     );
   }

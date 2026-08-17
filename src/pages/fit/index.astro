@@ -10,9 +10,9 @@ import { identity } from '../../data/portfolio-entries';
 import { emailHref, githubUrl, linkedinUrl } from '../../data/site-links';
 
 const siteUrl = 'https://davebettner.com';
-const title = 'How I would approach your first 90 days | Dave Bettner';
+const title = 'My first 90 days on an FDE team | Dave Bettner';
 const description =
-  'How Dave Bettner approaches the first 90 days on a forward-deployed or solutions engineering team: discovery, guarded integration, proof, and adoption.';
+  'Dave Bettner\'s approach to forward-deployed engineering: learn the product and customer workflow, own a bounded integration, debug real failures, and feed the lessons back to the team.';
 ---
 
 <!doctype html>
@@ -45,14 +45,13 @@ const description =
       <section id="ninety-days" class="fit-check has-reg-marks" aria-labelledby="fit-check-heading">
         <div class="wrap fit-check-wrap">
           <div class="fit-check-header">
-            <p class="mono fit-check-eyebrow">First 90 days</p>
+            <p class="mono fit-check-eyebrow">First 90 days on an FDE team</p>
             <h1 class="section-title fit-check-title" id="fit-check-heading">
-              How I would approach your first 90 days.
+              My first 90 days on an FDE team.
             </h1>
             <p class="fit-lead">
-              The same operating pattern across every engagement: learn the environment before touching it,
-              integrate with guardrails in place from day one, prove the work with evidence instead of a
-              demo, and stay through adoption.
+              I would learn the product and its deployment path, spend time with the people using it, own a bounded
+              integration, and turn what breaks into better product feedback and a more repeatable deployment.
             </p>
           </div>
 
@@ -60,46 +59,42 @@ const description =
             <li>
               <span class="ninety-plan-mark mono">Weeks 1–2</span>
               <div>
-                <strong>Discovery, not assumptions.</strong>
+                <strong>Learn the product and the work.</strong>
                 <p>
-                  Learn the customer's real workflow, systems, and constraints before proposing a solution.
-                  Discovery, solution design, and scoping come first — the same sequence behind every
-                  engagement on my <a href="/experience/">experience page</a>.
+                  Understand how the product is built, deployed, supported, and used. Pair with product,
+                  engineering, and customer-facing teammates. Spend time with the customer workflow before drawing
+                  conclusions. See my <a href="/experience/">experience</a>.
                 </p>
               </div>
             </li>
             <li>
               <span class="ninety-plan-mark mono">Weeks 3–6</span>
               <div>
-                <strong>Integrate with visible permissions.</strong>
+                <strong>Own a bounded deployment slice.</strong>
                 <p>
-                  Scope tools and access explicitly, default to guarded writes over broad ones, and make
-                  authority legible from the start. This is the same pattern behind the guarded-default MCP
-                  server and confirm-before-write tooling in my
-                  {' '}<a href="/work/">public engineering proof</a>.
+                  Take responsibility for one contained integration or workflow. Trace it from the user need
+                  through APIs, tools, and environment. Ship something small enough to verify and real enough to
+                  expose the hard parts. See the <a href="/work/">public engineering proof</a>.
                 </p>
               </div>
             </li>
             <li>
               <span class="ninety-plan-mark mono">Weeks 6–10</span>
               <div>
-                <strong>Prove it with readback and receipts, not a demo.</strong>
+                <strong>Debug the hard path and feed back.</strong>
                 <p>
-                  Changes need evidence: readback confirms what actually happened, and a receipt makes the
-                  result checkable after the fact instead of taken on faith. Failure states stay readable
-                  before they get expensive, with a recovery path back when something breaks.
+                  Work through a real failure. Reproduce it, make the boundary clear, fix what belongs in the
+                  implementation, and bring product gaps back to the team. A good deployment teaches us something.
                 </p>
               </div>
             </li>
             <li>
               <span class="ninety-plan-mark mono">Weeks 10–13</span>
               <div>
-                <strong>Independent verification before sign-off.</strong>
+                <strong>Make the next deployment easier.</strong>
                 <p>
-                  A builder does not mark its own material work verified. Machine-checkable changes get
-                  checked against a predicted result; anything else gets a second, independent look before
-                  it is called done — then the handoff continues through debugging, adoption, and
-                  iteration, not a one-time cutover.
+                  Turn what I learned into better tests, examples, integration guidance, or runbooks. Stay close
+                  to adoption, and leave the team with a clearer product and a better path for the next customer.
                 </p>
               </div>
             </li>

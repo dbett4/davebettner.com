@@ -1080,8 +1080,8 @@ try {
     ok(!body.includes('459 Python'), `${viewport.name}: stale Wingman count absent`);
     const coverKicker = await page.locator('.cover-kicker').textContent();
     ok(
-      coverKicker?.trim() === 'Profile · Enterprise agent deployment',
-      `${viewport.name}: homepage kicker identifies a profile and enterprise-agent lane`,
+      coverKicker?.trim() === 'Forward-deployed engineering · Agent systems',
+      `${viewport.name}: homepage kicker identifies the forward-deployed engineering lane`,
       String(coverKicker),
     );
     ok(
@@ -1091,9 +1091,9 @@ try {
     const coverRole = ((await page.locator('.cover-role').textContent()) ?? '').trim();
     const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
     ok(
-      coverRole === 'I turn unfamiliar customer environments into working, adopted AI systems.' &&
+      coverRole === 'I work between product, engineering, and the customer to make agent systems useful in real workflows.' &&
         (await page.locator('.cover-support').count()) === 0,
-      `${viewport.name}: hero states one concise customer-deployment thesis without a repeated support line`,
+      `${viewport.name}: hero states one concise FDE thesis without a repeated support line`,
       coverRole,
     );
     ok(
@@ -1104,18 +1104,23 @@ try {
       provenance,
     );
     ok(
-      body.toLowerCase().includes('forward-deployed delivery and solutions engineering'),
-      `${viewport.name}: direction names forward-deployed delivery and solutions engineering`,
+      body.toLowerCase().includes('where product meets the customer'),
+      `${viewport.name}: direction names the product/customer seam`,
     );
-    ok(body.includes('proposals') || body.includes('SOW') || body.includes('RFP'), `${viewport.name}: engagement method includes shape/presales work`);
-    ok(body.includes('Demonstrate the path against buyer and operator criteria'), `${viewport.name}: engagement method includes demonstrate work`);
+    ok(
+      body.includes('Turn the problem into a small path the product can support.') &&
+        body.includes('bring the useful feedback back to the team.'),
+      `${viewport.name}: engagement method covers bounded integration and product feedback`,
+    );
     ok(
       body.toLowerCase().includes('finance, audit, and assurance'),
       `${viewport.name}: domain depth names finance, audit, and assurance`,
     );
+    const closingTitle = ((await page.locator('#contact-heading').textContent()) ?? '').trim();
     ok(
-      body.includes('forward-deployed and solutions engineering roles'),
-      `${viewport.name}: closing CTA names forward-deployed / solutions engineering roles`,
+      closingTitle === 'Make the product work where the work happens.',
+      `${viewport.name}: closing CTA names the FDE outcome`,
+      closingTitle,
     );
     ok(body.includes('Hermes Deployment Lab'), `${viewport.name}: features Hermes Deployment Lab`);
     ok(body.includes('Regulated Reporting MCP'), `${viewport.name}: features Regulated Reporting MCP`);
@@ -1421,14 +1426,15 @@ try {
   ok(metadata.canonical === 'https://davebettner.com/', 'Homepage canonical URL', String(metadata.canonical));
   ok(
     Boolean(
-      metadata.description?.includes('technical constraints') &&
-        metadata.description?.includes('public AI-agent engineering proof'),
+      metadata.description?.includes('governed agent systems') &&
+        metadata.description?.includes('10+ years of implementation delivery') &&
+        metadata.description?.includes('inspectable engineering proof'),
     ),
-    'Homepage meta description targets customer constraints and public AI-agent proof',
+    'Homepage meta description connects governed agent systems, implementation delivery, and proof',
     String(metadata.description),
   );
   ok(
-    metadata.ogTitle === 'Dave Bettner | Forward-Deployed Delivery · AI-Agent Systems',
+    metadata.ogTitle === 'Dave Bettner | Enterprise Agent Systems · Forward-Deployed Delivery',
     'Homepage Open Graph title matches launch positioning',
     String(metadata.ogTitle),
   );
@@ -1562,9 +1568,9 @@ try {
   const aboutLower = aboutText.toLowerCase();
   ok(
     aboutLower.includes('learn the environment') &&
-      aboutLower.includes('ship the path') &&
-      aboutLower.includes('stay through the hard parts'),
-    'About leads from embedded delivery framing',
+      aboutLower.includes('connect the systems') &&
+      aboutLower.includes('make the agent operable'),
+    'About leads from customer environment to an operable agent system',
   );
   const aboutParagraphs = aboutText.split(/\n+/).map((line) => line.trim()).filter(Boolean);
   const openingDupes = aboutParagraphs.filter((line) =>
@@ -1588,7 +1594,7 @@ try {
     description: document.querySelector('meta[name="description"]')?.getAttribute('content') ?? '',
     robots: document.querySelector('meta[name="robots"]')?.getAttribute('content') ?? '',
   }));
-  ok(fitSurface.heading === 'How I would approach your first 90 days.', 'First 90 days page has the approved heading', fitSurface.heading);
+  ok(fitSurface.heading === 'My first 90 days on an FDE team.', 'First 90 days page has the approved heading', fitSurface.heading);
   ok(fitSurface.phases.length === 4, 'First 90 days page has four dated phases', String(fitSurface.phases.length));
   ok(
     fitSurface.phases.map((phase) => phase.range).join('|') === 'Weeks 1–2|Weeks 3–6|Weeks 6–10|Weeks 10–13',
@@ -1596,15 +1602,15 @@ try {
     fitSurface.phases.map((phase) => phase.range).join('|'),
   );
   ok(
-    fitSurface.lead.includes('learn the environment before touching it') &&
-      fitSurface.lead.includes('guardrails') &&
-      fitSurface.lead.includes('evidence') &&
-      fitSurface.lead.includes('adoption'),
-    'First 90 days lead states the discovery-through-adoption operating pattern',
+    fitSurface.lead.includes('product') &&
+      fitSurface.lead.includes('deployment path') &&
+      fitSurface.lead.includes('bounded integration') &&
+      fitSurface.lead.includes('product feedback'),
+    'First 90 days lead states the FDE learning-through-feedback pattern',
     fitSurface.lead,
   );
   const phaseText = fitSurface.phases.map((phase) => `${phase.title} ${phase.detail}`).join(' ');
-  for (const marker of ['Discovery, not assumptions.', 'visible permissions', 'readback and receipts', 'Independent verification']) {
+  for (const marker of ['Learn the product and the work', 'Own a bounded deployment slice', 'Debug the hard path and feed back', 'Make the next deployment easier']) {
     ok(phaseText.includes(marker), `First 90 days plan includes ${marker}`);
   }
   for (const route of ['/about/', '/experience/', '/work/']) {
@@ -1615,7 +1621,7 @@ try {
   ok(!fitSurface.description.includes('Chief of Staff'), 'First 90 days meta omits Chief of Staff');
   ok(!fitSurface.description.includes('strategic operations'), 'First 90 days meta omits strategic operations');
   ok(
-    /first 90 days|forward-deployed|solutions engineering/i.test(fitSurface.description),
+    /first 90 days|forward-deployed engineering/i.test(fitSurface.description),
     'First 90 days meta describes the current static page',
     fitSurface.description,
   );

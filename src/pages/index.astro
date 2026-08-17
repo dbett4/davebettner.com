@@ -10,6 +10,7 @@ import {
   buildingNow,
   closingCta,
   selectedProof,
+  thesis,
   whereHeading,
 } from '../data/homepage-framing';
 import { identity } from '../data/portfolio-entries';
@@ -24,34 +25,34 @@ import { emailHref, githubUrl, linkedinUrl } from '../data/site-links';
 
 const operatingLoop = [
   {
-    cue: 'Discover',
-    title: 'Discover',
+    cue: 'Learn',
+    title: 'Learn',
     detail: whereHeading.items[0],
-    handoff: 'Decision criteria',
+    handoff: 'A shared picture of the work',
   },
   {
-    cue: 'Shape',
-    title: 'Shape',
+    cue: 'Build',
+    title: 'Build',
     detail: whereHeading.items[1],
-    handoff: 'Scoped proposal / SOW',
+    handoff: 'A bounded path',
   },
   {
-    cue: 'Demonstrate',
-    title: 'Demonstrate',
+    cue: 'Integrate',
+    title: 'Integrate',
     detail: whereHeading.items[2],
-    handoff: 'Demo against criteria',
+    handoff: 'A working connection',
   },
   {
-    cue: 'Deliver',
-    title: 'Deliver',
+    cue: 'Debug',
+    title: 'Debug',
     detail: whereHeading.items[3],
-    handoff: 'Signed-off go-live',
+    handoff: 'A clearer failure',
   },
   {
-    cue: 'Adopt',
-    title: 'Adopt',
+    cue: 'Improve',
+    title: 'Improve',
     detail: whereHeading.items[4],
-    handoff: 'Operating cadence',
+    handoff: 'Feedback the team can use',
   },
 ] as const;
 
@@ -136,9 +137,9 @@ const featuredProjects = buildingNow.featuredProjects;
         <div class="interstellar-field sphere-field" data-interstellar-field data-sphere-gradient aria-hidden="true"></div>
         <div id="thesis" class="wrap cover-grid">
           <div class="cover-copy">
-            <p class="cover-kicker mono">Profile · Enterprise agent deployment</p>
+            <p class="cover-kicker mono">Forward-deployed engineering · Agent systems</p>
             <h1 id="thesis-heading"><span>Dave</span><span>Bettner</span></h1>
-            <p class="cover-role">I turn unfamiliar customer environments into working, adopted AI systems.</p>
+            <p class="cover-role">{thesis.title}</p>
             <div class="cover-actions" aria-label="Candidate actions">
               <div class="cover-actions-primary">
                 <a class="round blue" href={emailHref} data-primary-action data-shader-host><span class="action-label" data-shader-label>Start a conversation</span></a>
@@ -195,11 +196,11 @@ const featuredProjects = buildingNow.featuredProjects;
             <p class="loop-lead">{whereHeading.lead}</p>
           </div>
           <div class="loop-field-wrap">
-            <div class="loop-field" aria-label="Engagement method inside a customer environment">
+            <div class="loop-field" aria-label="How Dave works between product, engineering, and the customer">
               <div class="loop-chrome" aria-hidden="true">
-                <span class="loop-chrome-tag">STATE · LOOP</span>
-                <span class="loop-chrome-tag loop-chrome-tag--muted">RES · CONTROLLED</span>
-                <span class="loop-chrome-tag loop-chrome-tag--accent">5 STAGES</span>
+                <span class="loop-chrome-tag">FIELD · LOOP</span>
+                <span class="loop-chrome-tag loop-chrome-tag--muted">PRODUCT ↔ CUSTOMER</span>
+                <span class="loop-chrome-tag loop-chrome-tag--accent">5 MOVES</span>
               </div>
               <div class="loop-context">
                 <div class="loop-mechanism">
@@ -225,8 +226,8 @@ const featuredProjects = buildingNow.featuredProjects;
                     <span class="loop-return-rail" aria-hidden="true"></span>
                   </div>
                   <div class="loop-feedback">
-                    <p class="loop-feedback-cue mono">Adopt → next Discover</p>
-                    <p class="loop-feedback-copy">Adoption evidence reshapes the next discovery.</p>
+                    <p class="loop-feedback-cue mono">Improve → next Learn</p>
+                    <p class="loop-feedback-copy">What we learn in the field shapes the next pass.</p>
                   </div>
                 </div>
               </div>

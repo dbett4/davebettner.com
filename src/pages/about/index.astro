@@ -6,9 +6,9 @@ import { personSchema, siteUrl } from '../../data/seo';
 import { emailHref, githubUrl, linkedinUrl } from '../../data/site-links';
 
 const canonical = `${siteUrl}/about/`;
-const title = 'About Dave Bettner | Forward-Deployed Delivery and AI-Agent Systems';
+const title = 'About Dave Bettner | Forward-Deployed Delivery and Agent Systems';
 const description =
-  'Dave Bettner turns complex customer workflows and technical constraints into deployed systems, pairing enterprise delivery with hands-on agent and MCP engineering.';
+  'Dave Bettner works between product, engineering, and the customer, with ten years of implementation delivery and hands-on agent and MCP proof.';
 ---
 
 <!doctype html>
@@ -49,8 +49,8 @@ const description =
         <div class="wrap about-cover-grid">
           <div class="about-intro">
             <p class="eyebrow mono">About Dave Bettner</p>
-            <h1>Learn the environment. Ship the path. Stay through the hard parts.</h1>
-            <p class="cover-lead">I work with customer teams from messy discovery through integration, debugging, proof, adoption, and iteration. Public agent and MCP labs make the engineering habits inspectable: explicit permissions, visible failures, readback, and recovery.</p>
+            <h1>Learn the environment. Make the path work. Stay through the hard parts.</h1>
+            <p class="cover-lead">I work between product, engineering, and the customer. I learn the workflow, connect the systems around it, debug what breaks, and stay close to adoption. My public agent and MCP work makes the technical habits inspectable.</p>
             <p class="cover-actions">
               <a class="round blue" href={emailHref} data-shader-host><span data-shader-label>Start a conversation <span aria-hidden="true">↗</span></span></a>
               <a class="round" href="/experience/">Career timeline <span aria-hidden="true">→</span></a>
@@ -59,7 +59,7 @@ const description =
           <figure class="portrait-plate">
             <span class="portrait-chrome mono">PROFILE · DES MOINES, IA</span>
             <img src="/images/dave-bettner-headshot-portrait.webp" alt="Dave Bettner smiling in a gray suit" width="1200" height="1200" />
-            <figcaption class="mono">Discovery → integration → proof → adoption</figcaption>
+            <figcaption class="mono">Customer workflow → working system → field feedback</figcaption>
           </figure>
         </div>
       </section>
@@ -68,12 +68,12 @@ const description =
         <div class="wrap content-page">
           <div class="section-head">
             <p class="eyebrow mono">How I work</p>
-            <h2 id="principles-heading">The controls that keep customer work legible.</h2>
+            <h2 id="principles-heading">How I work when the path is unclear.</h2>
           </div>
           <ol class="principles">
-            <li><span class="principle-mark principle-mark--square" aria-hidden="true"></span><div><p class="mono">01 · Visible permissions</p><strong>Clear permissions</strong><span>Systems should make authority and scope explicit.</span></div></li>
-            <li><span class="principle-mark principle-mark--circle" aria-hidden="true"></span><div><p class="mono">02 · Observable operation</p><strong>Visible failures</strong><span>Failure states should be readable before they become expensive.</span></div></li>
-            <li><span class="principle-mark principle-mark--diamond" aria-hidden="true"></span><div><p class="mono">03 · Proof + recovery</p><strong>Reliable readback and a recovery path</strong><span>Changes need evidence, and operators need a route back when a path breaks.</span></div></li>
+            <li><span class="principle-mark principle-mark--square" aria-hidden="true"></span><div><p class="mono">01 · Learn the work</p><strong>Start with the real workflow</strong><span>The product has to fit how people work, not just how the demo runs.</span></div></li>
+            <li><span class="principle-mark principle-mark--circle" aria-hidden="true"></span><div><p class="mono">02 · Make failure visible</p><strong>Know what broke and where</strong><span>A clear failure gives the team a place to start.</span></div></li>
+            <li><span class="principle-mark principle-mark--diamond" aria-hidden="true"></span><div><p class="mono">03 · Stay with the result</p><strong>Prove the change and keep learning</strong><span>Readback, recovery, and adoption matter after the first successful run.</span></div></li>
           </ol>
         </div>
       </section>
@@ -82,7 +82,7 @@ const description =
         <div class="wrap narrative-grid">
           <div class="section-head">
             <p class="eyebrow mono">The throughline</p>
-            <h2>One operating pattern across regulated work and AI-agent systems.</h2>
+            <h2>I work at the seam between product, engineering, and the customer.</h2>
           </div>
           <div class="prose">
             {aboutSection.body.map((paragraph) => <p>{paragraph}</p>)}

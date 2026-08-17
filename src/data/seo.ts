@@ -2,13 +2,13 @@ import { githubUrl, linkedinUrl } from './site-links';
 
 export const siteUrl = 'https://davebettner.com';
 
-export const siteTitle = 'Dave Bettner | Forward-Deployed Delivery · AI-Agent Systems';
+export const siteTitle = 'Dave Bettner | Forward-Deployed Engineering · Agent Systems';
 
 export const siteDescription =
-  'Dave Bettner turns complex customer workflows and technical constraints into deployed systems, backed by 10+ years of customer delivery and public AI-agent engineering proof.';
+  'Dave Bettner works between product, engineering, and the customer, bringing ten years of implementation delivery and hands-on agent and MCP proof.';
 
 export const identitySeoLead =
-  'I work with customer teams across discovery, solution design, integration, debugging, validation, and adoption, pairing enterprise delivery with hands-on AI-agent engineering.';
+  'I work between product, engineering, and the customer across discovery, integration, debugging, validation, and adoption, with hands-on agent and MCP engineering.';
 
 export const personSchema = {
   '@context': 'https://schema.org',
@@ -17,7 +17,7 @@ export const personSchema = {
   url: `${siteUrl}/`,
   image: `${siteUrl}/images/dave-bettner-headshot-20260808-square.jpg`,
   description:
-    'Forward-deployed delivery and solutions engineering leader focused on complex workflows and inspectable AI-agent engineering proof.',
+    'Forward-deployed engineering and customer delivery leader with hands-on agent and MCP engineering proof.',
   jobTitle: 'Senior Manager',
   homeLocation: {
     '@type': 'Place',

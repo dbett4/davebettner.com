@@ -14,9 +14,9 @@ export type PortfolioEntry = {
 
 export const identity = {
   name: 'Dave Bettner',
-  headline: 'I turn messy customer workflows and technical constraints into deployed systems that hold up in production.',
+  headline: 'I work between product, engineering, and the customer to make unfamiliar workflows usable.',
   caption:
-    'I work across discovery, integration, debugging, validation, and adoption. Public agent and MCP engineering makes the technical operating pattern inspectable.',
+    'Customer delivery since 2015. Public agent and MCP work shows how I handle integrations, failure, and recovery.',
   location: 'Des Moines, Iowa',
   availability: '',
 };

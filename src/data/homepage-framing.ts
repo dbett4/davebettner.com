@@ -1,32 +1,32 @@
 import { publicEngineeringCases } from './public-proof';
 
 export const thesis = {
-  title: 'I deploy AI systems with customers—from discovery through adoption.',
+  title: 'I work between product, engineering, and the customer to make agent systems useful in real workflows.',
   body: [
-    'I embed from discovery through integration, debugging, sign-off, and adoption—pairing customer delivery with hands-on agent and MCP engineering.',
+    'I bring ten years of customer implementation work and newer hands-on agent and MCP engineering. I learn the workflow, make the integration work, debug what breaks, and stay close to adoption.',
   ],
 } as const;
 
 export const whereHeading = {
-  title: 'Forward-deployed delivery and solutions engineering',
-  lead: 'The operating loop I bring into an unfamiliar customer environment:',
+  title: 'Where product meets the customer',
+  lead: 'I work between product, engineering, and the customer:',
   items: [
-    'Map the workflow, stakeholders, constraints, and decision criteria',
-    'Shape a scoped solution through proposals, SOWs, estimates, quotes, and RFP responses',
-    'Demonstrate the path against buyer and operator criteria',
-    'Integrate, debug, validate, and secure sign-off through go-live',
-    'Hand off a controlled operating cadence, measure adoption, and iterate',
+    'Learn the workflow, the people, and the constraints.',
+    'Turn the problem into a small path the product can support.',
+    'Connect the APIs, tools, and systems around it.',
+    'Debug the path in the real environment and make the limits clear.',
+    'Stay through adoption and bring the useful feedback back to the team.',
   ],
   close:
-    'Finance, audit, and assurance are my deepest domain experience; the pattern applies wherever customer environments demand proof.',
+    'Finance, audit, and assurance are where I have the deepest experience. The same habits carry into other complex customer environments.',
 } as const;
 
 export const whatIBring = {
-  title: 'Customer context and engineering proof belong in the same room.',
+  title: 'I work at the seam between product, engineering, and the customer.',
   body: [
-    'I have spent years turning complex reporting and controls workflows into systems teams can operate under deadline.',
-    'I can move from executive discovery into API behavior, deployment constraints, debugging, validation, and failure recovery, then back into a demo or rollout plan without losing the thread.',
-    'I care about working software, clear failure states, and enough evidence for the person accountable to decide.',
+    'I have spent ten years turning complex reporting and controls workflows into systems teams can use under deadline.',
+    'I can move from customer context to API behavior, integration details, debugging, and validation without losing the reason the work matters.',
+    'My public agent and MCP work shows how I think about tools, failure, recovery, and proof. It is synthetic or sanitized, not client production work.',
   ],
 } as const;
 
@@ -50,7 +50,7 @@ const mappedProjects = publicEngineeringCases.map((item) => ({
 
 export const buildingNow = {
   title: 'Public engineering proof',
-  lead: 'Three inspectable signals: deployment recovery, an open Hermes Agent Desktop fix, and guarded API integration. Remaining work lives on the work index.',
+  lead: 'Public labs and fixes show how I handle agent tools, failure, recovery, and integration. Each page states what the evidence does and does not prove.',
   projects: mappedProjects,
   featuredProjects: mappedProjects.filter((project) =>
     (featuredPublicProjectIds as readonly string[]).includes(project.id),
@@ -59,7 +59,7 @@ export const buildingNow = {
 
 export const selectedProof = {
   title: 'Customer delivery outcomes',
-  lead: 'Regulated delivery is the vertical proof. The public systems below show the controls I bring into new environments.',
+  lead: 'Ten years of customer deployment across finance, audit, and assurance show the field work. The public systems show how I approach agent tools, failure, and proof.',
   stories: [
     {
       id: 'insurance-certification',
@@ -94,14 +94,15 @@ export const selectedProof = {
 export const aboutSection = {
   title: 'How I work',
   body: [
-    'I am strongest in the messy middle: when the workflow is real, the constraints are incomplete, and the path to a dependable release still has to be found.',
-    'The public labs show permissions, visible failures, readback, and recovery. They are synthetic, sanitized, and inspectable. They are not customer tenants.',
-    'Finance, audit, and assurance are my deepest domain proof; the operating pattern travels to other regulated customer environments.',
+    'I am strongest in the messy middle: the workflow is real, the constraints are incomplete, and someone still has to make the path work.',
+    'I work between product, engineering, and the customer. I learn the workflow, connect the systems, debug the hard parts, and stay close to adoption.',
+    'The public labs show how I think about permissions, failure, readback, and recovery. They are synthetic, sanitized, and inspectable. They are not customer tenants.',
+    'Finance, audit, and assurance are my deepest domain proof. The work has also taken me through healthcare and other regulated environments.',
   ],
 } as const;
 
 export const closingCta = {
-  title: 'Bring AI into the workflow, not just the demo.',
+  title: 'Make the product work where the work happens.',
   body:
-    'I am targeting forward-deployed and solutions engineering roles where I can learn the customer environment, integrate the systems around it, ship a working path, and stay through debugging, adoption, and iteration.',
+    'I am looking for forward-deployed work at the seam between product, engineering, and the customer. I want to learn the environment, make a useful path work, stay through debugging and adoption, and bring the field lessons back to the team.',
 } as const;

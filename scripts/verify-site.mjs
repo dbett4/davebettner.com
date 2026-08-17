@@ -145,21 +145,20 @@ const projectRoutes = projects.map((project) => `/work/${project.slug}/`);
 async function assertCausalDeliveryLoopContracts(page, name) {
   const loopStages = await page.locator('.loop-stage').evaluateAll((stages) =>
     stages.map((stage) => ({
-      cue: (stage.querySelector('.loop-cue')?.textContent ?? '').trim(),
       title: (stage.querySelector('.loop-body h3')?.textContent ?? '').trim(),
       detail: (stage.querySelector('.loop-body p')?.textContent ?? '').trim(),
     })),
   );
   ok(loopStages.length === 5, `${name}: engagement method has five stages`, String(loopStages.length));
   ok(
-    loopStages.every((stage) => stage.cue && stage.title && stage.detail),
-    `${name}: engagement stages expose cue, title, and detail`,
+    loopStages.every((stage) => stage.title && stage.detail),
+    `${name}: engagement stages expose one title and one detail without duplicate labels`,
     JSON.stringify(loopStages),
   );
   ok(
-    loopStages.map((stage) => stage.cue).join('|') === loopStagesExpected.map((stage) => stage.cue).join('|'),
+    loopStages.map((stage) => stage.title).join('|') === loopStagesExpected.map((stage) => stage.cue).join('|'),
     `${name}: engagement order is Discover → Shape → Demonstrate → Deliver → Adopt`,
-    loopStages.map((stage) => stage.cue).join('|'),
+    loopStages.map((stage) => stage.title).join('|'),
   );
 
   const handoffs = await page.locator('.loop-handoff strong').allTextContents();
@@ -172,11 +171,9 @@ async function assertCausalDeliveryLoopContracts(page, name) {
 
   const boundaryCount = await page.locator('.loop-context').count();
   ok(boundaryCount === 1, `${name}: one customer-environment boundary frames the method`, String(boundaryCount));
-  const boundaryText = boundaryCount === 1 ? await page.locator('.loop-context').innerText() : '';
   ok(
-    boundaryText.includes('Inside the customer environment'),
-    `${name}: system boundary explicitly names the customer environment`,
-    boundaryText,
+    (await page.locator('.loop-context-label').count()) === 0,
+    `${name}: customer-environment boundary does not repeat the section lead`,
   );
 
   const feedbackCount = await page.locator('.loop-feedback').count();
@@ -246,13 +243,12 @@ async function assertCausalDeliveryLoopContracts(page, name) {
     const outcomeTextGeometry = await page.locator('.proof-row').evaluateAll((rows) =>
       rows.map((row) => {
         const main = row.querySelector('.proof-main')?.getBoundingClientRect();
-        const summary = row.querySelector('.proof-summary')?.getBoundingClientRect();
         const result = row.querySelector('.proof-result')?.getBoundingClientRect();
-        return main && summary && result
+        return main && result
           ? {
-              aligned: Math.abs(main.left - summary.left) < 1 && Math.abs(main.left - result.left) < 1,
-              readableWidth: summary.width >= 180 && result.width >= 180,
-              stacked: summary.top >= main.bottom && result.top >= summary.bottom,
+              aligned: Math.abs(main.left - result.left) < 1,
+              readableWidth: result.width >= 180,
+              stacked: result.top >= main.bottom,
             }
           : null;
       }),
@@ -832,33 +828,33 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const heading = document.querySelector('#thesis-heading');
       const portrait = document.querySelector('[data-portrait-source]');
       const specimen = document.querySelector('.cover-specimen');
-      const support = document.querySelector('.cover-support');
+      const role = document.querySelector('.cover-role');
       const actions = document.querySelector('.cover-actions');
-      if (!heading || !portrait || !specimen || !support || !actions) return null;
+      if (!heading || !portrait || !specimen || !role || !actions) return null;
       const pt = portrait.getBoundingClientRect().top;
       const ht = heading.getBoundingClientRect().top;
-      const spt = support.getBoundingClientRect().top;
+      const rt = role.getBoundingClientRect().top;
       const at = actions.getBoundingClientRect().top;
       const st = specimen.getBoundingClientRect().top;
       return {
         pt,
         ht,
-        spt,
+        rt,
         at,
         st,
-        headingBeforeSupport: ht < spt,
-        supportBeforeActions: spt < at,
+        headingBeforeRole: ht < rt,
+        roleBeforeActions: rt < at,
         actionsBeforeSpecimen: at < st,
         specimenContainsPortrait: pt >= st,
       };
     });
     ok(Boolean(phoneOrder), `${name}: phone cover order nodes present`);
     ok(
-      phoneOrder?.headingBeforeSupport &&
-        phoneOrder?.supportBeforeActions &&
+      phoneOrder?.headingBeforeRole &&
+        phoneOrder?.roleBeforeActions &&
         phoneOrder?.actionsBeforeSpecimen &&
         phoneOrder?.specimenContainsPortrait,
-      `${name}: phone visual order is identity → support → actions → source portrait`,
+      `${name}: phone visual order is identity → role → actions → source portrait`,
       JSON.stringify(phoneOrder),
     );
 
@@ -1092,13 +1088,13 @@ try {
       ((await page.locator('#thesis-heading').textContent()) ?? '').replace(/\s+/g, '') === 'DaveBettner',
       `${viewport.name}: H1 is Dave Bettner's identity`,
     );
-    const coverSupport = ((await page.locator('.cover-support').textContent()) ?? '').trim();
+    const coverRole = ((await page.locator('.cover-role').textContent()) ?? '').trim();
     const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
     ok(
-      coverSupport === 'I deploy AI systems with customers—from discovery through adoption.' &&
-        body.includes('Customer-facing AI implementation and forward-deployed delivery.'),
-      `${viewport.name}: hero states customer-facing deployment and the adoption span`,
-      coverSupport,
+      coverRole === 'I turn unfamiliar customer environments into working, adopted AI systems.' &&
+        (await page.locator('.cover-support').count()) === 0,
+      `${viewport.name}: hero states one concise customer-deployment thesis without a repeated support line`,
+      coverRole,
     );
     ok(
       /Labs and sanitized extracts/.test(provenance) &&
@@ -1348,6 +1344,10 @@ try {
     'Homepage owns one pointer-inert, aria-hidden WebGL event-horizon field',
     JSON.stringify(eventHorizon),
   );
+  // The continuously-rendering decorative canvas can keep Playwright's element-
+  // stability heuristic unsettled even though the portrait itself is static.
+  // Its contract is asserted above; remove it only for this artifact capture.
+  await profilePage.locator('[data-interstellar-field] canvas').evaluate((canvas) => canvas.remove());
   await profilePage.locator('[data-source-portrait]').screenshot({ path: `${out}/source-portrait.png` });
   await profileContext.close();
 
@@ -1357,11 +1357,6 @@ try {
   });
   const profileReducedPage = await profileReducedContext.newPage();
   await profileReducedPage.goto(base, { waitUntil: 'networkidle' });
-  await profileReducedPage.waitForFunction(
-    () => document.documentElement.dataset.interstellarReady === 'true',
-    null,
-    { timeout: 15_000 },
-  );
   const reducedPortrait = await profileReducedPage.evaluate((expectedWidth) => {
     const source = document.querySelector('[data-source-portrait]');
     return {

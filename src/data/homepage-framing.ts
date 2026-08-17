@@ -94,7 +94,7 @@ export const selectedProof = {
 export const aboutSection = {
   title: 'How I work',
   body: [
-    'I run customer delivery across discovery, integrations, validation, sign-off, and adoption. I pair that record with hands-on Python, MCP, agent integration, failure recovery, and deployment-proof work.',
+    'I am strongest in the messy middle: when the workflow is real, the constraints are incomplete, and the path to a dependable release still has to be found.',
     'The public labs show permissions, visible failures, readback, and recovery. They are synthetic, sanitized, and inspectable. They are not customer tenants.',
     'Finance, audit, and assurance are my deepest domain proof; the operating pattern travels to other regulated customer environments.',
   ],

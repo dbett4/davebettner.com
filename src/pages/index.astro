@@ -10,7 +10,6 @@ import {
   buildingNow,
   closingCta,
   selectedProof,
-  thesis,
   whereHeading,
 } from '../data/homepage-framing';
 import { identity } from '../data/portfolio-entries';
@@ -69,6 +68,7 @@ const outcomeMarks = ['outcome-mark--square', 'outcome-mark--circle', 'outcome-m
 const aboutLead = aboutSection.body[0];
 const featuredProjects = buildingNow.featuredProjects;
 const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
+
 ---
 
 <!doctype html>
@@ -138,8 +138,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
           <div class="cover-copy">
             <p class="cover-kicker mono">Profile · Enterprise agent deployment</p>
             <h1 id="thesis-heading"><span>Dave</span><span>Bettner</span></h1>
-            <p class="cover-role">Customer-facing AI implementation and forward-deployed delivery.</p>
-            <p class="cover-support">{thesis.title}</p>
+            <p class="cover-role">I turn unfamiliar customer environments into working, adopted AI systems.</p>
             <div class="cover-actions" aria-label="Candidate actions">
               <div class="cover-actions-primary">
                 <a class="round blue" href={emailHref} data-primary-action data-shader-host><span class="action-label" data-shader-label>Start a conversation</span></a>
@@ -181,7 +180,6 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
                   <p class="proof-context">{story.context}</p>
                   <h3>{story.title}</h3>
                 </div>
-                <p class="proof-summary">{story.summary}</p>
                 <p class="proof-result">{story.result}</p>
               </article>
             ))}
@@ -204,20 +202,18 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
                 <span class="loop-chrome-tag loop-chrome-tag--accent">5 STAGES</span>
               </div>
               <div class="loop-context">
-                <p class="loop-context-label mono">Inside the customer environment</p>
                 <div class="loop-mechanism">
                   <div class="loop-sequence">
                     <ol class="loop-rail">
                       {operatingLoop.map((stage, index) => (
                         <li class="loop-stage">
                           <div class="loop-stage-panel">
-                            <span class="loop-cue mono">{stage.cue}</span>
                             <div class="loop-body">
                               <h3>{stage.title}</h3>
                               <p>{stage.detail}</p>
                             </div>
                             <p class="loop-handoff">
-                              Hands off <strong>{stage.handoff}</strong>
+                              <strong>{stage.handoff}</strong>
                             </p>
                           </div>
                           {index < operatingLoop.length - 1 ? (
@@ -236,7 +232,6 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
               </div>
             </div>
           </div>
-          <p class="loop-close">{whereHeading.close}</p>
           <span id="bring" class="anchor-slot" tabindex="-1"></span>
         </div>
       </section>
@@ -806,7 +801,7 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
     background:
       linear-gradient(180deg, rgba(21, 21, 21, 0.03), transparent 28%),
       var(--paper);
-    padding: 10px;
+    padding: 14px;
     display: grid;
     gap: 4px;
     align-content: start;
@@ -820,15 +815,15 @@ const motifByIndex = ['scan', 'lattice', 'pulse', 'gate'] as const;
   }
 
   .loop-body h3 {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     letter-spacing: -0.015em;
     margin-bottom: var(--space-1);
     line-height: 1.15;
   }
 
   .loop-body p {
-    font-size: 0.8rem;
-    line-height: 1.4;
+    font-size: 0.9rem;
+    line-height: 1.5;
     color: var(--muted);
     margin: 0;
   }

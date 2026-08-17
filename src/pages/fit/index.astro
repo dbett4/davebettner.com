@@ -10,9 +10,9 @@ import { identity } from '../../data/portfolio-entries';
 import { emailHref, githubUrl, linkedinUrl } from '../../data/site-links';
 
 const siteUrl = 'https://davebettner.com';
-const title = 'My first 90 days on an FDE team | Dave Bettner';
+const title = 'How I would lead my first 90 days as an FDE | Dave Bettner';
 const description =
-  'Dave Bettner\'s approach to forward-deployed engineering: learn the product and customer workflow, own a bounded integration, debug real failures, and feed the lessons back to the team.';
+  'Dave Bettner\'s approach to leading forward-deployed engineering work: set direction, own a deployment, lead through failure, and turn field learning into product leverage.';
 ---
 
 <!doctype html>
@@ -45,13 +45,14 @@ const description =
       <section id="ninety-days" class="fit-check has-reg-marks" aria-labelledby="fit-check-heading">
         <div class="wrap fit-check-wrap">
           <div class="fit-check-header">
-            <p class="mono fit-check-eyebrow">First 90 days on an FDE team</p>
+            <p class="mono fit-check-eyebrow">First 90 days as an FDE</p>
             <h1 class="section-title fit-check-title" id="fit-check-heading">
-              My first 90 days on an FDE team.
+              How I would lead my first 90 days as an FDE.
             </h1>
             <p class="fit-lead">
-              I would learn the product and its deployment path, spend time with the people using it, own a bounded
-              integration, and turn what breaks into better product feedback and a more repeatable deployment.
+              I would take ownership early. Learn the product and the customer environment, choose a problem worth
+              solving, lead a real deployment through its hard parts, and turn what we learn into a better product
+              and a faster path for the next customer.
             </p>
           </div>
 
@@ -59,43 +60,44 @@ const description =
             <li>
               <span class="ninety-plan-mark mono">Weeks 1–2</span>
               <div>
-                <strong>Learn the product and the work.</strong>
+                <strong>Set the direction.</strong>
                 <p>
-                  Understand how the product is built, deployed, supported, and used. Pair with product,
-                  engineering, and customer-facing teammates. Spend time with the customer workflow before drawing
-                  conclusions. See my <a href="/experience/">experience</a>.
+                  Learn the product, deployment model, customer workflow, and current constraints. Pair with product,
+                  engineering, and customer-facing teammates. Leave the first two weeks with a clear problem to
+                  solve, a success measure, and explicit tradeoffs. See my <a href="/experience/">experience</a>.
                 </p>
               </div>
             </li>
             <li>
               <span class="ninety-plan-mark mono">Weeks 3–6</span>
               <div>
-                <strong>Own a bounded deployment slice.</strong>
+                <strong>Own the first deployment.</strong>
                 <p>
-                  Scope tools and access explicitly, default to guarded writes over broad ones, and make
-                  authority legible from the start. This is the same pattern behind the guarded-default MCP
-                  server and confirm-before-write tooling in my
-                  {' '}<a href="/work/">selected engineering work</a>.
+                  Lead one bounded workflow from technical approach through working integration. Coordinate the
+                  customer, product, and engineering sides. Make scope, speed, and quality tradeoffs visible. Ship a
+                  useful path quickly, then harden what real use exposes. See the <a href="/work/">public engineering proof</a>.
                 </p>
               </div>
             </li>
             <li>
               <span class="ninety-plan-mark mono">Weeks 6–10</span>
               <div>
-                <strong>Debug the hard path and feed back.</strong>
+                <strong>Lead through failure.</strong>
                 <p>
-                  Work through a real failure. Reproduce it, make the boundary clear, fix what belongs in the
-                  implementation, and bring product gaps back to the team. A good deployment teaches us something.
+                  When an integration or agent run breaks, own the diagnosis and the decision. Separate configuration
+                  issues, product gaps, and infrastructure problems. Communicate the impact, choose whether to fix,
+                  work around, or escalate, and bring the evidence and recommendation back to the team.
                 </p>
               </div>
             </li>
             <li>
               <span class="ninety-plan-mark mono">Weeks 10–13</span>
               <div>
-                <strong>Make the next deployment easier.</strong>
+                <strong>Turn the work into leverage.</strong>
                 <p>
-                  Turn what I learned into better tests, examples, integration guidance, or runbooks. Stay close
-                  to adoption, and leave the team with a clearer product and a better path for the next customer.
+                  Convert what the deployment teaches into reusable integration guidance, tests, observability,
+                  tooling, or runbooks. Feed important patterns back into product and engineering. Leave the next
+                  deployment faster and the team with clearer priorities.
                 </p>
               </div>
             </li>
@@ -106,7 +108,7 @@ const description =
             <nav class="page-links" aria-label="Related pages">
               <a href="/about/">About Dave Bettner</a>
               <a href="/experience/">Career timeline</a>
-              <a href="/work/">Selected work</a>
+              <a href="/work/">Public engineering proof</a>
               <a href={emailHref}>Start a conversation <span aria-hidden="true">↗</span></a>
             </nav>
           </div>

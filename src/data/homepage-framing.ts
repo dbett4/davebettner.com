@@ -22,7 +22,7 @@ export const whereHeading = {
 } as const;
 
 export const whatIBring = {
-  title: 'I work at the seam between product, engineering, and the customer.',
+  title: 'Customer context and engineering judgment belong in the same room.',
   body: [
     'I have spent ten years turning complex reporting and controls workflows into systems teams can use under deadline.',
     'I can move from customer context to API behavior, integration details, debugging, and validation without losing the reason the work matters.',
@@ -49,8 +49,8 @@ const mappedProjects = publicEngineeringCases.map((item) => ({
 }));
 
 export const buildingNow = {
-  title: 'Public engineering proof',
-  lead: 'Public labs and fixes show how I handle agent tools, failure, recovery, and integration. Each page states what the evidence does and does not prove.',
+  title: 'Selected engineering work',
+  lead: 'Three inspectable signals: deployment recovery, an open Hermes Agent Desktop fix, and guarded API integration. More work lives on the work index.',
   projects: mappedProjects,
   featuredProjects: mappedProjects.filter((project) =>
     (featuredPublicProjectIds as readonly string[]).includes(project.id),
@@ -59,7 +59,7 @@ export const buildingNow = {
 
 export const selectedProof = {
   title: 'Customer delivery outcomes',
-  lead: 'Ten years of customer deployment across finance, audit, and assurance show the field work. The public systems show how I approach agent tools, failure, and proof.',
+  lead: 'Regulated delivery is the deepest domain thread. The systems below show the controls I bring into new environments.',
   stories: [
     {
       id: 'insurance-certification',

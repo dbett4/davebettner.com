@@ -1594,7 +1594,7 @@ try {
     description: document.querySelector('meta[name="description"]')?.getAttribute('content') ?? '',
     robots: document.querySelector('meta[name="robots"]')?.getAttribute('content') ?? '',
   }));
-  ok(fitSurface.heading === 'My first 90 days on an FDE team.', 'First 90 days page has the approved heading', fitSurface.heading);
+  ok(fitSurface.heading === 'How I would lead my first 90 days as an FDE.', 'First 90 days page has the approved heading', fitSurface.heading);
   ok(fitSurface.phases.length === 4, 'First 90 days page has four dated phases', String(fitSurface.phases.length));
   ok(
     fitSurface.phases.map((phase) => phase.range).join('|') === 'Weeks 1–2|Weeks 3–6|Weeks 6–10|Weeks 10–13',
@@ -1602,15 +1602,15 @@ try {
     fitSurface.phases.map((phase) => phase.range).join('|'),
   );
   ok(
-    fitSurface.lead.includes('product') &&
-      fitSurface.lead.includes('deployment path') &&
-      fitSurface.lead.includes('bounded integration') &&
-      fitSurface.lead.includes('product feedback'),
-    'First 90 days lead states the FDE learning-through-feedback pattern',
+    fitSurface.lead.includes('take ownership early') &&
+      fitSurface.lead.includes('customer environment') &&
+      fitSurface.lead.includes('lead a real deployment') &&
+      fitSurface.lead.includes('product leverage'),
+    'First 90 days lead states the FDE leadership-through-leverage pattern',
     fitSurface.lead,
   );
   const phaseText = fitSurface.phases.map((phase) => `${phase.title} ${phase.detail}`).join(' ');
-  for (const marker of ['Learn the product and the work', 'Own a bounded deployment slice', 'Debug the hard path and feed back', 'Make the next deployment easier']) {
+  for (const marker of ['Set the direction', 'Own the first deployment', 'Lead through failure', 'Turn the work into leverage']) {
     ok(phaseText.includes(marker), `First 90 days plan includes ${marker}`);
   }
   for (const route of ['/about/', '/experience/', '/work/']) {

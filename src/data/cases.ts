@@ -99,8 +99,8 @@ export const cases = [
     visual: 'rings',
     motif: 'guarded-readback',
     plateProof: 'Offline proof; live S1 needs_review',
-    repoUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit',
-    proofUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit/blob/main/PROOF.md',
+    repoUrl: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit',
+    proofUrl: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit/blob/main/PROOF.md',
     constraint:
       'Hermes primitives alone are not enough for enterprise use. Organizations still need job qualification, approved configs, independent checks, and accountable human judgment.',
     built:

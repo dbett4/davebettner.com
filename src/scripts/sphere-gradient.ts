@@ -88,27 +88,7 @@ if (containers.length > 0) {
       uStrength: 0.35,
       uTime: 0,
     },
-    'hermes-agent-pr-84621': {
-      // Cool dense contour: restrained periwinkle with a precise ember edge.
-      brightness: 1.5,
-      cAzimuthAngle: 40,
-      cDistance: 6.5,
-      cPolarAngle: 100,
-      cameraZoom: 16,
-      color1: '#8da0ce',
-      color2: '#d0bce1',
-      color3: '#ff5005',
-      reflection: 0.55,
-      rotationY: 220,
-      rotationZ: 132,
-      envPreset: 'lobby',
-      uAmplitude: 1,
-      uDensity: 1.35,
-      uFrequency: 7.5,
-      uSpeed: 0.075,
-      uStrength: 0.32,
-      uTime: 1.4,
-    },
+
     'regulated-reporting-mcp': {
       // Blue/teal layered contour: a denser regulated field with a signal-orange flare.
       brightness: 1.35,

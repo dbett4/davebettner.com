@@ -115,7 +115,7 @@ async function main() {
     'Workiva · SEC Reporting Consultant',
     'PUBLIC ENGINEERING (BY FUNCTION)',
     'Hermes Deployment Lab',
-    'Hermes Agent Desktop PR #84621',
+    'Hermes Enterprise Evaluation Kit',
     'Regulated Reporting MCP',
     'SKILLS',
     'EDUCATION',
@@ -136,7 +136,7 @@ async function main() {
   }
   for (const marker of [
     'Python',
-    'TypeScript/Electron (open PR #84621)',
+    'policy packs/human review gates',
     'Docker Compose',
     'Hermes Agent',
     'GitHub Actions',
@@ -157,7 +157,7 @@ async function main() {
       throw new Error('résumé must attest Deployment Lab container startup and restart/replay');
     }
   }
-  for (const marker of ['241 public credential-free tests', 'Public Actions run 31892965924', 'native Prometheus', 'causally linked OpenTelemetry', 'open and unreviewed']) {
+  for (const marker of ['241 public credential-free tests', 'Public Actions run 31892965924', 'native Prometheus', 'causally linked OpenTelemetry', 'needs_review']) {
     if (!text.toLowerCase().includes(marker.toLowerCase())) {
       throw new Error(`public résumé missing evidence marker: ${marker}`);
     }
@@ -167,7 +167,7 @@ async function main() {
   }
   for (const repo of [
     'github.com/dbett4/hermes-enterprise-deployment-lab',
-    'github.com/NousResearch/hermes-agent/pull/84621',
+    'github.com/dbett4/hermes-enterprise-evaluation-kit',
     'github.com/dbett4/regulated-reporting-mcp',
   ]) {
     if (!text.includes(repo)) {
@@ -186,7 +186,7 @@ async function main() {
   }
   for (const href of [
     'https://github.com/dbett4/hermes-enterprise-deployment-lab',
-    'https://github.com/NousResearch/hermes-agent/pull/84621',
+    'https://github.com/dbett4/hermes-enterprise-evaluation-kit',
     'https://github.com/dbett4/regulated-reporting-mcp',
   ]) {
     if (!html.includes(`href="${href}"`)) {
@@ -203,7 +203,7 @@ async function main() {
     'idempotency/failure recovery',
     'GitHub Actions',
     'forward-deployed delivery',
-    'TypeScript/Electron (open PR #84621)',
+    'policy packs/human review gates',
     'failure injection/debugging',
   ];
   let skillPrevious = -1;

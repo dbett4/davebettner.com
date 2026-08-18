@@ -1,6 +1,5 @@
 import { chromium } from 'playwright-core';
 import { spawn } from 'node:child_process';
-import { once } from 'node:events';
 import { mkdir, readFile } from 'node:fs/promises';
 import { createServer } from 'node:net';
 import { resolve } from 'node:path';
@@ -30,6 +29,24 @@ const ok = (condition, label, detail = '') => {
   if (!condition) errors.push(`${label}${detail ? `: ${detail}` : ''}`);
 };
 
+async function stopPreview(child) {
+  if (!child || child.exitCode !== null || child.signalCode !== null) return;
+
+  const exited = new Promise((resolve) => {
+    const done = () => resolve(true);
+    child.once('exit', done);
+    child.once('error', done);
+  });
+  const timeout = (ms) => new Promise((resolve) => setTimeout(() => resolve(false), ms));
+
+  child.kill('SIGTERM');
+  if (await Promise.race([exited, timeout(2_000)])) return;
+
+  console.warn('VERIFY_SITE_PREVIEW_STOP_TIMEOUT: escalating to SIGKILL');
+  child.kill('SIGKILL');
+  await Promise.race([exited, timeout(2_000)]);
+}
+
 let preview;
 if (!configuredBase) {
   preview = spawn('python3', ['-m', 'http.server', String(localPort), '--bind', '127.0.0.1', '--directory', distDir], {
@@ -50,7 +67,7 @@ if (!configuredBase) {
     await new Promise((resolve) => setTimeout(resolve, 150));
   }
   if (!ready) {
-    preview.kill('SIGTERM');
+    await stopPreview(preview);
     throw new Error('Static production preview did not become ready within 15 seconds');
   }
 }
@@ -63,7 +80,7 @@ const browser = await chromium.launch({
 
 const buildingRoles = [
   'Failure recovery',
-  'Upstream product fix',
+  'Evaluation',
   'Guarded integration',
 ];
 
@@ -119,7 +136,7 @@ const projects = [
   {
     slug: 'hermes-field-kit',
     title: 'Hermes Enterprise Evaluation Kit',
-    repo: 'https://github.com/dbett4/hermes-enterprise-field-kit',
+    repo: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit',
     proof: 'Offline FIELD_KIT_PROOF_PASS',
     boundaries: ['needs_review', 'estimated rather than billed cost', 'two recorded execution-time exceptions'],
   },
@@ -872,7 +889,7 @@ try {
     ok(body.includes('Hermes Deployment Lab'), `${viewport.name}: features Hermes Deployment Lab`);
     ok(body.includes('Regulated Reporting MCP'), `${viewport.name}: features Regulated Reporting MCP`);
     ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
-    ok(!body.includes('Hermes Enterprise Evaluation Kit'), `${viewport.name}: field kit is not featured on homepage`);
+    ok(body.includes('Hermes Enterprise Evaluation Kit'), `${viewport.name}: features Hermes Enterprise Evaluation Kit`);
     ok(!body.includes('Financial reporting QA with readback'), `${viewport.name}: Wingman is not featured on homepage`);
     ok(!body.includes('Fieldguide'), `${viewport.name}: Fieldguide string absent`);
     ok(!body.includes('Nous Research'), `${viewport.name}: Nous Research string absent`);
@@ -928,8 +945,8 @@ try {
     );
     ok(
       buildingCardOrder.join(',') ===
-        'hermes-deployment-lab,hermes-agent-pr-84621,regulated-reporting-mcp',
-      `${viewport.name}: building-card order is deployment lab → Hermes PR → MCP`,
+        'hermes-deployment-lab,hermes-field-kit,regulated-reporting-mcp',
+      `${viewport.name}: building-card order is deployment lab → evaluation kit → MCP`,
       buildingCardOrder.join(','),
     );
     await assertCausalDeliveryLoopContracts(page, viewport.name);
@@ -1352,12 +1369,7 @@ try {
   await context.close();
 } finally {
   await browser.close();
-  if (preview) {
-    if (preview.exitCode === null) {
-      preview.kill('SIGTERM');
-      await once(preview, 'exit');
-    }
-  }
+  await stopPreview(preview);
 }
 
 console.log(JSON.stringify({ pass: errors.length === 0, count: checks.length, checks, errors }, null, 2));

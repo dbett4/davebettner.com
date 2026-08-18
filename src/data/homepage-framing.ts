@@ -6,7 +6,7 @@ export const thesis = {
 
 export const featuredPublicProjectIds = [
   'hermes-deployment-lab',
-  'hermes-agent-pr-84621',
+  'hermes-field-kit',
   'regulated-reporting-mcp',
 ] as const;
 
@@ -24,11 +24,11 @@ const mappedProjects = publicEngineeringCases.map((item) => ({
 
 export const buildingNow = {
   title: 'Selected engineering work',
-  lead: 'Deployment recovery, an open Hermes Agent Desktop fix, and a guarded API integration. Each item links to inspectable code and its limits.',
+  lead: 'Deployment recovery, policy-bounded evaluation, and a guarded API integration. Each item links to inspectable code and its limits.',
   projects: mappedProjects,
-  featuredProjects: mappedProjects.filter((project) =>
-    (featuredPublicProjectIds as readonly string[]).includes(project.id),
-  ),
+  featuredProjects: featuredPublicProjectIds
+    .map((projectId) => mappedProjects.find((project) => project.id === projectId))
+    .filter((project): project is (typeof mappedProjects)[number] => Boolean(project)),
 } as const;
 
 export const selectedProof = {

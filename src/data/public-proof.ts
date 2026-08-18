@@ -24,20 +24,7 @@ export const publicEngineeringCases = [
     limit: 'Synthetic lab, not a customer tenant. Cloud apply is not attested. Not a model-driven production run claim.',
     href: '/work/hermes-deployment-lab/',
   },
-  {
-    id: 'hermes-agent-pr-84621',
-    name: 'Hermes Agent Desktop PR #84621',
-    repoUrl: 'https://github.com/NousResearch/hermes-agent/pull/84621',
-    proofUrl: 'https://github.com/NousResearch/hermes-agent/pull/84621',
-    title: 'Open Desktop session-recovery fix in Hermes Agent',
-    summary:
-      'TypeScript/Electron fix that narrows legacy profile-shadow detection so stale empty shadows do not hide materialized sessions while legitimate zero-message drafts remain visible.',
-    evidence:
-      'Focused Vitest regression cases cover cross-profile materialized twins, known-source zero-message drafts, omitted message counts, and the exact legacy empty-shadow shape.',
-    limit:
-      'Open and unreviewed. Not merged, accepted, shipped, or endorsed by Nous Research.',
-    href: 'https://github.com/NousResearch/hermes-agent/pull/84621',
-  },
+
   {
     id: 'regulated-reporting-mcp',
     name: 'Regulated Reporting MCP',
@@ -54,8 +41,8 @@ export const publicEngineeringCases = [
   {
     id: 'hermes-field-kit',
     name: 'Hermes Enterprise Evaluation Kit',
-    repoUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit',
-    proofUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit/blob/main/PROOF.md',
+    repoUrl: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit',
+    proofUrl: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit/blob/main/PROOF.md',
     title: 'Govern Hermes with policy, checks, and human review gates',
     summary:
       'Version-pinned kit that turns a plain-language job into a policy-bounded Hermes run, independent checks, and a receipt — without letting a green script invent human approval.',

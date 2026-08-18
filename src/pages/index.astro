@@ -25,7 +25,7 @@ import { emailHref, githubUrl, linkedinUrl } from '../data/site-links';
 
 const roleByProjectId: Record<string, string> = {
   'hermes-deployment-lab': 'Failure recovery',
-  'hermes-agent-pr-84621': 'Upstream product fix',
+
   'regulated-reporting-mcp': 'Guarded integration',
   'hermes-field-kit': 'Evaluation',
   wingman: 'Readback + restore',
@@ -166,7 +166,7 @@ const featuredProjects = buildingNow.featuredProjects;
               <article class="building-card" id={project.id}>
                 <div class="building-visual">
                   <span class="building-role mono">{roleByProjectId[project.id]}</span>
-                  <EvidenceMotif motif={project.id === 'hermes-deployment-lab' ? 'failure-retry' : project.id === 'hermes-agent-pr-84621' ? 'code-fix' : 'guarded-readback'} compact />
+                  <EvidenceMotif motif={project.id === 'hermes-deployment-lab' ? 'failure-retry' : 'guarded-readback'} compact />
                 </div>
                 <div class="building-copy">
                   <h3>

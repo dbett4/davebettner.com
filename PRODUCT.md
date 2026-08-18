@@ -28,7 +28,7 @@ The profile is evaluated during recruiting, role-fit review, professional networ
 
 - The homepage leads with Dave’s identity, enterprise-agent deployment lane, concise claim, real portrait, and direct actions.
 - Existing routes and working actions remain available: Work, Experience, First 90 Days (`/fit/`), About, résumé download, email, GitHub, and LinkedIn.
-- Public proof includes the Hermes Deployment Lab, Hermes Agent Desktop PR #84621, and Regulated Reporting MCP, with provenance and claim limits intact.
+- Public proof includes the Hermes Deployment Lab, Hermes Enterprise Evaluation Kit, and Regulated Reporting MCP, with provenance and claim limits intact.
 - Customer-delivery evidence spans statutory reporting, GRC/reporting implementations, and HIPAA imaging integrations.
 - The portrait must use Dave’s supplied source pixels. Do not regenerate, composite, reshape, or replace his face, head, neck, body, suit, pose, or crop with synthetic content.
 - Do not imply that public labs are client tenants, production-engineering tenure, or Nous/Hermes Enterprise affiliation.

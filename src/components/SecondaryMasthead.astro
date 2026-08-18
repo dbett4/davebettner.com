@@ -1,0 +1,16 @@
+---
+type Props = {
+  backHref?: string;
+  backLabel?: string;
+  context: string;
+};
+
+const { backHref = '/', backLabel = 'Home', context } = Astro.props;
+---
+
+<header class="page-mast" data-secondary-masthead>
+  <div class="wrap mast-row">
+    <a class="back-link mono" href={backHref}>← {backLabel}</a>
+    <span class="mast-context mono">{context}</span>
+  </div>
+</header>

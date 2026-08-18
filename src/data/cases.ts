@@ -13,6 +13,7 @@ export type CaseStudy = {
   meta: string;
   size: 'large' | 'small';
   visual: 'flow' | 'rings' | 'difference';
+  motif: 'failure-retry' | 'guarded-readback' | 'code-fix';
   plateProof: string;
   repoUrl: string;
   proofUrl?: string;
@@ -35,6 +36,7 @@ export const cases = [
     meta: 'Scoped tools · operator gate · idempotent resume',
     size: 'small',
     visual: 'rings',
+    motif: 'failure-retry',
     plateProof: 'v1.0.0 · CI 31892965924',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
@@ -65,6 +67,7 @@ export const cases = [
     meta: 'Confirm-before-write · readback · offline demo',
     size: 'large',
     visual: 'flow',
+    motif: 'guarded-readback',
     plateProof: 'Credential-free proof',
     repoUrl: 'https://github.com/dbett4/regulated-reporting-mcp',
     proofUrl: 'https://github.com/dbett4/regulated-reporting-mcp/blob/main/docs/PROOF.md',
@@ -94,6 +97,7 @@ export const cases = [
     meta: 'Policy packs · human gates · offline proof',
     size: 'small',
     visual: 'rings',
+    motif: 'guarded-readback',
     plateProof: 'Offline proof; live S1 needs_review',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-field-kit/blob/main/PROOF.md',
@@ -123,6 +127,7 @@ export const cases = [
     meta: 'Chrome extension · local service · confirm-before-write · restore',
     size: 'small',
     visual: 'difference',
+    motif: 'guarded-readback',
     plateProof: 'CI test evidence',
     repoUrl: 'https://github.com/dbett4/wingman',
     constraint:

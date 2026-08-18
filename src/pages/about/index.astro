@@ -1,14 +1,15 @@
 ---
 import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/dm-mono/400.css';
+import SecondaryMasthead from '../../components/SecondaryMasthead.astro';
 import { aboutSection } from '../../data/homepage-framing';
 import { personSchema, siteUrl } from '../../data/seo';
 import { emailHref, githubUrl, linkedinUrl } from '../../data/site-links';
 
 const canonical = `${siteUrl}/about/`;
-const title = 'About Dave Bettner | Forward-Deployed Delivery and Agent Systems';
+const title = 'About Dave Bettner | Customer-Facing Technical Delivery';
 const description =
-  'Dave Bettner works between product, engineering, and the customer, with ten years of implementation delivery and hands-on agent and MCP proof.';
+  'The personal and professional throughline behind Dave Bettner’s customer-facing technical delivery work.';
 ---
 
 <!doctype html>
@@ -22,7 +23,6 @@ const description =
     <meta name="color-scheme" content="dark" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles/editorial-paper-system.css" />
     <link rel="stylesheet" href="/styles/interstellar-system.css" />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={title} />
@@ -38,19 +38,14 @@ const description =
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="page-mast">
-      <div class="wrap mast-row">
-        <a class="back-link mono" href="/">← Home</a>
-        <span class="mast-status mono">Operator profile</span>
-      </div>
-    </header>
+    <SecondaryMasthead context="About · operator profile" />
     <main id="main">
       <section class="about-cover">
-        <div class="wrap about-cover-grid">
+        <div class="wrap about-cover-grid route-intro">
           <div class="about-intro">
             <p class="eyebrow mono">About Dave Bettner</p>
-            <h1>Learn the environment. Make the path work. Stay through the hard parts.</h1>
-            <p class="cover-lead">I work between product, engineering, and the customer. I learn the workflow, connect the systems around it, debug what breaks, and stay close to adoption. My public agent and MCP work makes the technical habits inspectable.</p>
+            <h1>{aboutSection.title}</h1>
+            <p class="cover-lead">I have spent my career close to customer teams, translating unfamiliar workflows into systems people can run and trust.</p>
             <p class="cover-actions">
               <a class="round blue" href={emailHref} data-shader-host><span data-shader-label>Start a conversation <span aria-hidden="true">↗</span></span></a>
               <a class="round" href="/experience/">Career timeline <span aria-hidden="true">→</span></a>
@@ -64,25 +59,11 @@ const description =
         </div>
       </section>
 
-      <section class="principles-section" aria-labelledby="principles-heading">
-        <div class="wrap content-page">
-          <div class="section-head">
-            <p class="eyebrow mono">How I work</p>
-            <h2 id="principles-heading">How I work when the path is unclear.</h2>
-          </div>
-          <ol class="principles">
-            <li><span class="principle-mark principle-mark--square" aria-hidden="true"></span><div><p class="mono">01 · Learn the work</p><strong>Start with the real workflow</strong><span>The product has to fit how people work, not just how the demo runs.</span></div></li>
-            <li><span class="principle-mark principle-mark--circle" aria-hidden="true"></span><div><p class="mono">02 · Make failure visible</p><strong>Know what broke and where</strong><span>A clear failure gives the team a place to start.</span></div></li>
-            <li><span class="principle-mark principle-mark--diamond" aria-hidden="true"></span><div><p class="mono">03 · Stay with the result</p><strong>Prove the change and keep learning</strong><span>Readback, recovery, and adoption matter after the first successful run.</span></div></li>
-          </ol>
-        </div>
-      </section>
-
       <section class="narrative-section">
         <div class="wrap narrative-grid">
           <div class="section-head">
             <p class="eyebrow mono">The throughline</p>
-            <h2>I work at the seam between product, engineering, and the customer.</h2>
+            <h2 class="route-section-heading">What has kept me in customer-facing work.</h2>
           </div>
           <div class="prose">
             {aboutSection.body.map((paragraph) => <p>{paragraph}</p>)}
@@ -118,7 +99,7 @@ const description =
   .mono{font-family:"DM Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
   .page-mast{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:1px solid var(--ink)}.mast-row{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}.back-link{min-height:44px;display:inline-flex;align-items:center;color:var(--muted)}.mast-status{color:var(--muted)}
   .about-cover{border-bottom:1px solid var(--ink);background:linear-gradient(90deg,transparent 79px,rgba(201,195,181,.32) 79px 80px,transparent 80px),var(--paper)}.about-cover-grid{padding:clamp(40px,6vw,88px) 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.68fr);gap:clamp(28px,5vw,72px);align-items:center}
-  .eyebrow{color:var(--orange-ink);margin-bottom:14px}h1,h2{font-family:"Newsreader Variable",Georgia,serif;font-weight:500;letter-spacing:-.04em;line-height:1.04}h1{max-width:16ch;font-size:clamp(2.5rem,5vw,4.5rem)}h2{font-size:clamp(1.9rem,3.4vw,2.9rem)}.cover-lead{max-width:48ch;margin-top:20px;color:var(--muted);font-size:1.03rem}.cover-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}.round{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid var(--ink);font-size:.8rem;font-weight:650;transition:background .2s,color .2s,border-color .2s}.round.blue{background:var(--blue);color:#fff;border-color:var(--blue)}.round:hover,.round:focus-visible{background:var(--ink);color:var(--paper);border-color:var(--ink)}.round.blue:hover,.round.blue:focus-visible{background:var(--orange);border-color:var(--orange);color:#fff}
+  .eyebrow{color:var(--orange-ink);margin-bottom:14px}h1,h2{font-family:"Archivo Variable",system-ui,sans-serif;font-weight:650;letter-spacing:-.04em;line-height:1.04}h1{max-width:16ch;font-size:clamp(2.5rem,5vw,4.5rem)}h2{font-size:clamp(1.9rem,3.4vw,2.9rem)}.cover-lead{max-width:48ch;margin-top:20px;color:var(--muted);font-size:1.03rem}.cover-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}.round{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid var(--ink);font-size:.8rem;font-weight:650;transition:background .2s,color .2s,border-color .2s}.round.blue{background:var(--blue);color:#fff;border-color:var(--blue)}.round:hover,.round:focus-visible{background:var(--ink);color:var(--paper);border-color:var(--ink)}.round.blue:hover,.round.blue:focus-visible{background:var(--orange);border-color:var(--orange);color:#fff}
   .portrait-plate{position:relative;margin:0;border:1px solid var(--ink);background:var(--ink);padding:12px;overflow:hidden}.portrait-plate::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 8px,rgba(33,79,229,.22) 8px 9px);pointer-events:none}.portrait-plate img{display:block;position:relative;width:100%;height:auto;filter:grayscale(1) contrast(1.06)}.portrait-chrome,.portrait-plate figcaption{position:absolute;z-index:2;background:var(--ink);color:var(--paper);padding:5px 6px;font-size:.58rem}.portrait-chrome{top:12px;left:12px}.portrait-plate figcaption{right:12px;bottom:12px;max-width:23ch;text-align:right}
   .principles-section{background:var(--card);border-bottom:1px solid var(--ink)}.section-head{display:grid;gap:10px;max-width:700px}.principles{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:36px;border:1px solid var(--ink)}.principles li{min-width:0;padding:22px;display:grid;grid-template-columns:auto 1fr;gap:12px;border-right:1px solid var(--ink)}.principles li:last-child{border-right:0}.principle-mark{width:13px;height:13px;margin-top:3px;border:1px solid var(--ink)}.principle-mark--square{background:var(--blue);border-color:var(--blue)}.principle-mark--circle{border-radius:50%;background:var(--paper)}.principle-mark--diamond{transform:rotate(45deg);border-color:var(--orange)}.principles p{color:var(--orange-ink);font-size:.6rem;margin-bottom:7px}.principles strong{display:block;font-size:1rem;line-height:1.2}.principles span:not(.principle-mark){display:block;color:var(--muted);font-size:.82rem;line-height:1.45;margin-top:7px}
   .narrative-section{border-bottom:1px solid var(--ink)}.narrative-grid{padding:clamp(48px,6vw,88px) 0;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,6vw,96px)}.prose{max-width:59ch}.prose p{font-size:1.02rem;margin-bottom:1.25rem}.prose p:last-child{margin-bottom:0}

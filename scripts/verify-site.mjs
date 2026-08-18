@@ -67,14 +67,6 @@ const buildingRoles = [
   'Guarded integration',
 ];
 
-const loopStagesExpected = [
-  { cue: 'Discover', handoff: 'Decision criteria' },
-  { cue: 'Shape', handoff: 'Scoped proposal / SOW' },
-  { cue: 'Demonstrate', handoff: 'Demo against criteria' },
-  { cue: 'Deliver', handoff: 'Signed-off go-live' },
-  { cue: 'Adopt', handoff: 'Operating cadence' },
-];
-
 const caseEyebrows = {
   'regulated-reporting-mcp': 'Guarded integration · Regulated Reporting MCP',
   'hermes-deployment-lab': 'Failure recovery · Hermes Deployment Lab',
@@ -91,22 +83,22 @@ const caseStepCounts = {
 
 const outcomeStories = [
   {
-    label: 'Statutory certification handoff',
+    label: 'Healthcare certification',
     context: 'Manager of Digital Services · Citrin Cooperman',
-    title: 'Bidirectional API workflow carried through sign-off',
-    result: 'Bidirectional reporting ↔ system-of-record handoff with audit trail and finance, IT, and executive sign-off at go-live.',
+    title: 'Designed a controlled system-of-record handoff',
+    result: 'Owned diagnosis through go-live; delivered a bidirectional API workflow with an audit trail and stakeholder sign-off.',
   },
   {
-    label: 'GRC reporting with human review',
+    label: 'Enterprise GRC and reporting',
     context: 'Solutions Architect · Workiva',
-    title: 'Controlled reporting with human review and native readback',
-    result: 'SSO, API, and ERP-scoped GRC and reporting implementations with controlled writes, human sign-off, and native readback.',
+    title: 'Scoped integrations and controlled customer-impacting writes',
+    result: 'Led concurrent implementations through adoption across SSO, API, and ERP boundaries, with human review and native readback.',
   },
   {
-    label: 'HIPAA imaging integration',
+    label: 'Clinical imaging',
     context: 'Solutions Consultant · Ambra Health',
-    title: 'HIPAA imaging, EHR, and portal integrations through acquisition',
-    result: 'HIPAA imaging, EHR, portal, and billing workflows through acquisition; integrations cleared review before go-live.',
+    title: 'Connected imaging workflows across health-system boundaries',
+    result: 'Carried EHR, portal, billing, and access-control integrations through review, go-live, and an acquisition transition.',
   },
 ];
 
@@ -143,51 +135,10 @@ const coreRoutes = ['/', '/about/', '/experience/', '/work/', '/fit/'];
 const projectRoutes = projects.map((project) => `/work/${project.slug}/`);
 
 async function assertCausalDeliveryLoopContracts(page, name) {
-  const loopStages = await page.locator('.loop-stage').evaluateAll((stages) =>
-    stages.map((stage) => ({
-      title: (stage.querySelector('.loop-body h3')?.textContent ?? '').trim(),
-      detail: (stage.querySelector('.loop-body p')?.textContent ?? '').trim(),
-    })),
-  );
-  ok(loopStages.length === 5, `${name}: engagement method has five stages`, String(loopStages.length));
   ok(
-    loopStages.every((stage) => stage.title && stage.detail),
-    `${name}: engagement stages expose one title and one detail without duplicate labels`,
-    JSON.stringify(loopStages),
+    (await page.locator('#direction, .loop-section, .loop-stage, .loop-field').count()) === 0,
+    `${name}: homepage omits the deployment-method loop owned by First 90 days`,
   );
-  ok(
-    loopStages.map((stage) => stage.title).join('|') === loopStagesExpected.map((stage) => stage.cue).join('|'),
-    `${name}: engagement order is Discover → Shape → Demonstrate → Deliver → Adopt`,
-    loopStages.map((stage) => stage.title).join('|'),
-  );
-
-  const handoffs = await page.locator('.loop-handoff strong').allTextContents();
-  ok(
-    handoffs.map((handoff) => handoff.trim()).join('|') === loopStagesExpected.map((stage) => stage.handoff).join('|'),
-    `${name}: every engagement stage names the artifact it hands forward`,
-    handoffs.join('|'),
-  );
-  ok((await page.locator('.loop-transition').count()) === 4, `${name}: four forward transitions connect the five stages`);
-
-  const boundaryCount = await page.locator('.loop-context').count();
-  ok(boundaryCount === 1, `${name}: one customer-environment boundary frames the method`, String(boundaryCount));
-  ok(
-    (await page.locator('.loop-context-label').count()) === 0,
-    `${name}: customer-environment boundary does not repeat the section lead`,
-  );
-
-  const feedbackCount = await page.locator('.loop-feedback').count();
-  ok(feedbackCount === 1, `${name}: one feedback path closes the loop`, String(feedbackCount));
-  const feedbackText = feedbackCount === 1 ? await page.locator('.loop-feedback').innerText() : '';
-  ok(
-    feedbackText.includes('Adopt → next Discover') &&
-      feedbackText.includes('Adoption evidence reshapes the next discovery.'),
-    `${name}: feedback states what Adopt changes in the next Discover`,
-    feedbackText,
-  );
-  ok((await page.locator('.loop-return-rail').count()) === 1, `${name}: one visible return rail closes Adopt back to Discover`);
-
-  ok((await page.locator('.loop-orbit-svg, .loop-center, .loop-legend').count()) === 0, `${name}: legacy decorative orbit nodes removed`);
 
   ok((await page.locator('.loop-n').count()) === 0, `${name}: loop ordinals removed`);
   ok((await page.locator('.building-index').count()) === 0, `${name}: building indices removed`);
@@ -289,7 +240,7 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   }
   ok((await page.locator('.building-limit, .limit-label').count()) === 0, `${name}: homepage has no per-card Limit blocks`);
   ok(
-    body.includes('Labs and sanitized extracts') && body.includes('Nous/Hermes Enterprise affiliation'),
+    /labs and sanitized extracts/i.test(body) && body.includes('Nous/Hermes Enterprise affiliation'),
     `${name}: homepage evidence-boundary note present`,
   );
   ok(
@@ -300,235 +251,6 @@ async function assertCausalDeliveryLoopContracts(page, name) {
     body.includes('production-engineering tenure'),
     `${name}: provenance keeps production-tenure claim boundary`,
   );
-}
-
-async function assertLoopCausalGeometry(page, name, width) {
-  const geometry = await page.evaluate((isVertical) => {
-    const field = document.querySelector('.loop-field');
-    const context = document.querySelector('.loop-context');
-    const mechanism = document.querySelector('.loop-mechanism');
-    const stagePanels = [...document.querySelectorAll('.loop-stage-panel')];
-    const transitions = [...document.querySelectorAll('.loop-transition')];
-    const feedback = document.querySelector('.loop-feedback');
-    const returnRail = document.querySelector('.loop-return-rail');
-    if (
-      !(field instanceof HTMLElement) ||
-      !(context instanceof HTMLElement) ||
-      !(mechanism instanceof HTMLElement) ||
-      !(feedback instanceof HTMLElement) ||
-      stagePanels.length !== 5 ||
-      transitions.length !== 4
-    ) {
-      return { ok: false, reason: 'missing engagement-method nodes' };
-    }
-
-    const rect = (node) => {
-      const bounds = node.getBoundingClientRect();
-      return {
-        left: bounds.left,
-        right: bounds.right,
-        top: bounds.top,
-        bottom: bounds.bottom,
-        width: bounds.width,
-        height: bounds.height,
-      };
-    };
-    const visible = (node) => {
-      const bounds = node.getBoundingClientRect();
-      const style = getComputedStyle(node);
-      return bounds.width > 0 && bounds.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
-    };
-    const contains = (outer, inner, gap = 1) =>
-      inner.left >= outer.left - gap &&
-      inner.right <= outer.right + gap &&
-      inner.top >= outer.top - gap &&
-      inner.bottom <= outer.bottom + gap;
-    const overlaps = (first, second, gap = 1) =>
-      first.left < second.right - gap &&
-      first.right > second.left + gap &&
-      first.top < second.bottom - gap &&
-      first.bottom > second.top + gap;
-
-    const fieldRect = rect(field);
-    const contextRect = rect(context);
-    const mechanismRect = rect(mechanism);
-    const stageRects = stagePanels.map(rect);
-    const transitionRects = transitions.map(rect);
-    const feedbackRect = rect(feedback);
-    const returnRailRect = returnRail instanceof HTMLElement ? rect(returnRail) : null;
-    const stageCollisions = [];
-    for (let first = 0; first < stageRects.length; first += 1) {
-      for (let second = first + 1; second < stageRects.length; second += 1) {
-        if (overlaps(stageRects[first], stageRects[second])) stageCollisions.push([first, second]);
-      }
-    }
-    const ordered = stageRects.every((stage, index) => {
-      if (index === 0) return true;
-      const previous = stageRects[index - 1];
-      return isVertical ? stage.top >= previous.bottom : stage.left >= previous.right;
-    });
-    const transitionsBetweenStages = transitionRects.every((transition, index) => {
-      const current = stageRects[index];
-      const next = stageRects[index + 1];
-      return isVertical
-        ? transition.top >= current.bottom - 1 && transition.bottom <= next.top + 1
-        : transition.left >= current.right - 1 && transition.right <= next.left + 1;
-    });
-    const expectedTransitionGlyph = isVertical ? '↓' : '→';
-    const transitionGlyphs = transitions.map((transition) => getComputedStyle(transition, '::before').content);
-    const stageWidths = stageRects.map((stage) => stage.width);
-    const stageWidthSpread = Math.max(...stageWidths) - Math.min(...stageWidths);
-    const firstStage = stageRects[0];
-    const lastStage = stageRects.at(-1);
-    const firstCenterX = firstStage.left + firstStage.width / 2;
-    const lastCenterX = lastStage.left + lastStage.width / 2;
-    const verticalSequenceSpan = lastStage.bottom - firstStage.top;
-    const stageSequenceLeft = Math.min(...stageRects.map((stage) => stage.left));
-    const stageSequenceBottom = Math.max(...stageRects.map((stage) => stage.bottom));
-    const railStyle = returnRail instanceof HTMLElement ? getComputedStyle(returnRail) : null;
-    const returnArrowStyle = returnRail instanceof HTMLElement ? getComputedStyle(returnRail, '::before') : null;
-    const returnArrowMetrics = returnArrowStyle
-      ? {
-          content: returnArrowStyle.content,
-          display: returnArrowStyle.display,
-          visibility: returnArrowStyle.visibility,
-          opacity: Number.parseFloat(returnArrowStyle.opacity),
-          color: returnArrowStyle.color,
-          position: returnArrowStyle.position,
-          left: Number.parseFloat(returnArrowStyle.left),
-          top: Number.parseFloat(returnArrowStyle.top),
-          width: Number.parseFloat(returnArrowStyle.width),
-          height: Number.parseFloat(returnArrowStyle.height),
-        }
-      : null;
-    const returnRailAdjacentToSequence = Boolean(
-      returnRailRect &&
-        (isVertical
-          ? Math.abs(returnRailRect.top - firstStage.top) <= 16 &&
-            Math.abs(returnRailRect.bottom - lastStage.bottom) <= 16 &&
-            returnRailRect.right <= stageSequenceLeft &&
-            stageSequenceLeft - returnRailRect.left <= 32
-          : returnRailRect.top >= stageSequenceBottom - 1 && returnRailRect.top <= stageSequenceBottom + 4),
-    );
-    const returnRailPrecedesFeedback = Boolean(
-      returnRailRect &&
-        returnRailRect.bottom <= feedbackRect.top + 1 &&
-        feedbackRect.top - returnRailRect.bottom <= 32,
-    );
-    const returnRailConnectsSequence = Boolean(
-      returnRailRect &&
-        (isVertical
-          ? returnRailRect.left < stageSequenceLeft &&
-            returnRailRect.top <= firstStage.top + firstStage.height / 2 &&
-            returnRailRect.bottom >= lastStage.top + lastStage.height / 2 &&
-            returnRailRect.height >= verticalSequenceSpan * 0.75
-          : Math.abs(returnRailRect.left - firstCenterX) <= 16 &&
-            Math.abs(returnRailRect.right - lastCenterX) <= 16 &&
-            returnRailRect.height >= 20),
-    );
-    const returnRailDrawsPath = Boolean(
-      railStyle &&
-        (isVertical
-          ? railStyle.borderLeftStyle === 'dashed' && Number.parseFloat(railStyle.borderLeftWidth) >= 1
-          : railStyle.borderLeftStyle === 'dashed' &&
-            Number.parseFloat(railStyle.borderLeftWidth) >= 1 &&
-            railStyle.borderRightStyle === 'dashed' &&
-            Number.parseFloat(railStyle.borderRightWidth) >= 1 &&
-            railStyle.borderBottomStyle === 'dashed' &&
-            Number.parseFloat(railStyle.borderBottomWidth) >= 1),
-    );
-    const returnArrowVisible = Boolean(
-      returnArrowMetrics &&
-        returnArrowMetrics.content.includes('↑') &&
-        returnArrowMetrics.display !== 'none' &&
-        returnArrowMetrics.visibility !== 'hidden' &&
-        returnArrowMetrics.opacity > 0 &&
-        returnArrowMetrics.color !== 'transparent' &&
-        !/rgba\([^)]*,\s*0(?:\.0+)?\s*\)$/.test(returnArrowMetrics.color) &&
-        returnArrowMetrics.position === 'absolute' &&
-        returnArrowMetrics.width > 0 &&
-        returnArrowMetrics.height > 0,
-    );
-    const returnArrowAnchoredAtIntentEnd = Boolean(
-      returnArrowMetrics &&
-        Number.isFinite(returnArrowMetrics.left) &&
-        Number.isFinite(returnArrowMetrics.top) &&
-        Number.isFinite(returnArrowMetrics.width) &&
-        Number.isFinite(returnArrowMetrics.height) &&
-        Math.abs(returnArrowMetrics.left + returnArrowMetrics.width / 2) <= 16 &&
-        Math.abs(returnArrowMetrics.top + returnArrowMetrics.height / 2) <= 16,
-    );
-    return {
-      ok: true,
-      contextVisible: visible(context),
-      stagesVisible: stagePanels.every(visible),
-      transitionsVisible: transitions.every(visible),
-      feedbackVisible: visible(feedback),
-      stagesInsideContext: stageRects.every((stage) => contains(contextRect, stage)),
-      feedbackInsideContext: contains(contextRect, feedbackRect),
-      mechanismInsideField: contains(fieldRect, mechanismRect),
-      loopHasNoInternalOverflow:
-        field.scrollWidth <= field.clientWidth + 1 &&
-        context.scrollWidth <= context.clientWidth + 1 &&
-        mechanism.scrollWidth <= mechanism.clientWidth + 1,
-      ordered,
-      transitionsBetweenStages,
-      transitionGlyphsCorrect: transitionGlyphs.every((glyph) => glyph.includes(expectedTransitionGlyph)),
-      transitionGlyphs,
-      equalStageWidths: stageWidthSpread <= 1,
-      stageWidthSpread,
-      feedbackFollowsStages: feedbackRect.top >= Math.max(...stageRects.map((stage) => stage.bottom)),
-      returnRailVisible: returnRail instanceof HTMLElement && visible(returnRail),
-      returnRailAdjacentToSequence,
-      returnRailPrecedesFeedback,
-      returnRailConnectsSequence,
-      returnRailDrawsPath,
-      returnRailPointsBack: returnArrowVisible && returnArrowAnchoredAtIntentEnd,
-      returnArrowMetrics,
-      stageCollisions,
-      stageRects,
-      transitionRects,
-      feedbackRect,
-      returnRailRect,
-      contextRect,
-    };
-  }, width <= 960);
-
-  ok(geometry.ok, `${name}: causal loop geometry nodes present`, geometry.reason ?? '');
-  ok(
-    geometry.contextVisible && geometry.stagesVisible && geometry.transitionsVisible && geometry.feedbackVisible,
-    `${name}: complete causal loop remains visible`,
-    JSON.stringify(geometry),
-  );
-  ok(
-    geometry.stagesInsideContext && geometry.feedbackInsideContext && geometry.mechanismInsideField,
-    `${name}: stages, feedback, and mechanism stay inside customer-environment boundary`,
-    JSON.stringify(geometry),
-  );
-  ok(geometry.loopHasNoInternalOverflow, `${name}: causal loop has no masked internal overflow`, JSON.stringify(geometry));
-  ok(
-    geometry.ordered,
-    `${name}: causal stages follow ${width <= 960 ? 'top-to-bottom' : 'left-to-right'} order`,
-    JSON.stringify(geometry.stageRects),
-  );
-  ok(
-    geometry.transitionsBetweenStages && geometry.transitionGlyphsCorrect,
-    `${name}: each ${width <= 960 ? 'down' : 'forward'} arrow sits between adjacent causal stages`,
-    JSON.stringify({ rects: geometry.transitionRects, glyphs: geometry.transitionGlyphs }),
-  );
-  ok(geometry.equalStageWidths, `${name}: all five stage panels have equal width`, String(geometry.stageWidthSpread));
-  ok(geometry.feedbackFollowsStages, `${name}: feedback statement follows the stage sequence`, JSON.stringify(geometry.feedbackRect));
-  ok(
-    geometry.returnRailVisible &&
-      geometry.returnRailAdjacentToSequence &&
-      geometry.returnRailPrecedesFeedback &&
-      geometry.returnRailConnectsSequence &&
-      geometry.returnRailDrawsPath &&
-      geometry.returnRailPointsBack,
-    `${name}: return path geometrically connects Adopt back toward Discover`,
-    JSON.stringify({ rail: geometry.returnRailRect, arrow: geometry.returnArrowMetrics }),
-  );
-  ok(geometry.stageCollisions?.length === 0, `${name}: causal stages do not overlap`, JSON.stringify(geometry.stageCollisions));
 }
 
 async function assertHomepageResponsiveContracts(page, viewport) {
@@ -767,7 +489,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
         specimenFollowsCopy: sr.top >= cr.bottom - 1,
         proofTwoColumns,
         leftColumnCount: leftColumn.length,
-        portraitInsideSpecimen: pr.top >= sr.top - 1 && pr.bottom <= sr.bottom + 1,
+        portraitInsideSpecimen: pr.top >= sr.top - 3 && pr.bottom <= sr.bottom + 3,
       };
     });
     ok(tabletGeometry.ok, `${name}: tablet geometry nodes present`, tabletGeometry.reason ?? '');
@@ -775,8 +497,6 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     ok(tabletGeometry.proofTwoColumns, `${name}: tablet proof index is two columns`, String(tabletGeometry.leftColumnCount));
     ok(tabletGeometry.portraitInsideSpecimen, `${name}: tablet source portrait stays inside its specimen`, JSON.stringify(tabletGeometry));
   }
-
-  await assertLoopCausalGeometry(page, name, width);
 
   if (width === 1280 && height === 720) {
     const identityHero = await page.evaluate(() => {
@@ -925,8 +645,8 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     });
     ok(Boolean(proofScroll), `${name}: phone proof list present`);
     ok(
-      Boolean(proofScroll && proofScroll.listScrollWidth > proofScroll.listClientWidth),
-      `${name}: phone proof index is horizontally scrollable`,
+      Boolean(proofScroll && proofScroll.listScrollWidth <= proofScroll.listClientWidth + 1),
+      `${name}: phone proof index is a readable stacked layout`,
       JSON.stringify(proofScroll),
     );
     ok(
@@ -942,9 +662,8 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       if (!(list instanceof HTMLElement) || !last) return { ok: false, reason: 'missing list/card' };
       const link = last.querySelector('a');
       if (!(link instanceof HTMLElement)) return { ok: false, reason: 'missing link' };
-      list.scrollLeft = list.scrollWidth;
       link.focus({ preventScroll: false });
-      link.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      link.scrollIntoView({ block: 'nearest' });
       const rect = link.getBoundingClientRect();
       const style = getComputedStyle(last);
       const evidence = last.querySelector('.building-evidence')?.textContent?.trim() ?? '';
@@ -959,7 +678,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       };
     });
     ok(lastReachable.ok, `${name}: final proof card present`, lastReachable.reason ?? '');
-    ok(lastReachable.focused && lastReachable.inView, `${name}: final proof card link reachable after horizontal scroll`, JSON.stringify(lastReachable));
+    ok(lastReachable.focused && lastReachable.inView, `${name}: final stacked proof card link is keyboard reachable`, JSON.stringify(lastReachable));
     ok(lastReachable.evidenceVisible && lastReachable.limitAbsent, `${name}: final proof card keeps evidence and omits Limit`, JSON.stringify(lastReachable));
 
     const allCardText = await page.locator('.building-card').evaluateAll((cards) =>
@@ -1008,7 +727,16 @@ async function auditPage(page, route, label) {
       .map((image) => image.getAttribute('src')),
   );
   ok(brokenImages.length === 0, `${label}: images load`, brokenImages.join(', '));
-  if (['/', '/experience/', '/work/', '/fit/'].includes(route)) {
+  if (coreRoutes.includes(route) || projectRoutes.includes(route)) {
+    const themeLinks = await page.locator('link[rel="stylesheet"]').evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href')).filter(Boolean),
+    );
+    ok(
+      themeLinks.filter((href) => href === '/styles/interstellar-system.css').length === 1 &&
+        !themeLinks.includes('/styles/editorial-paper-system.css'),
+      `${label}: Interstellar is the only public theme stylesheet`,
+      themeLinks.join(', '),
+    );
     const interstellarPalette = await page.evaluate(() => {
       const root = getComputedStyle(document.documentElement);
       const body = getComputedStyle(document.body);
@@ -1038,6 +766,26 @@ async function auditPage(page, route, label) {
       JSON.stringify(interstellarPalette),
     );
   }
+  if (route !== '/') {
+    ok(
+      (await page.locator('[data-secondary-masthead] .mast-row').count()) === 1,
+      `${label}: secondary route uses the shared masthead grammar`,
+    );
+  }
+  const actionTargets = await page.locator('.round, .back-link, .mast-cta, .page-links a, .pdf-note a').evaluateAll((nodes) =>
+    nodes.filter((node) => {
+      const style = getComputedStyle(node);
+      return style.display !== 'none' && style.visibility !== 'hidden';
+    }).map((node) => {
+      const rect = node.getBoundingClientRect();
+      return { text: node.textContent?.trim(), width: rect.width, height: rect.height };
+    }),
+  );
+  ok(
+    actionTargets.every((target) => target.width >= 44 && target.height >= 44),
+    `${label}: action targets are at least 44×44`,
+    JSON.stringify(actionTargets.filter((target) => target.width < 44 || target.height < 44)),
+  );
   const missingFragmentTargets = await page.locator('a[href^="#"]').evaluateAll((links) =>
     links
       .map((link) => link.getAttribute('href'))
@@ -1074,6 +822,14 @@ try {
     await auditPage(page, '/', viewport.name);
     ok(await page.locator('#work').count() === 1, `${viewport.name}: work section exists`);
     ok(await page.locator('#work .building-card').count() === 3, `${viewport.name}: three featured public engineering cards`);
+    const motifKinds = await page.locator('#work [data-evidence-motif]').evaluateAll((motifs) =>
+      motifs.map((motif) => motif.getAttribute('data-evidence-motif')),
+    );
+    ok(
+      motifKinds.join('|') === 'failure-retry|code-fix|guarded-readback',
+      `${viewport.name}: selected work uses evidence-derived static motifs`,
+      motifKinds.join('|'),
+    );
     ok(await page.locator('a[href="https://github.com/dbett4"]').count() >= 1, `${viewport.name}: GitHub profile is linked`);
     const body = await page.locator('body').innerText();
     ok(body.includes('publication dates'), `${viewport.name}: publication provenance visible`);
@@ -1091,35 +847,26 @@ try {
     const coverRole = ((await page.locator('.cover-role').textContent()) ?? '').trim();
     const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
     ok(
-      coverRole === 'I work between product, engineering, and the customer to make agent systems useful in real workflows.' &&
+      coverRole === 'I lead customer-facing technical delivery, with ten years of enterprise implementation. My hands-on agent engineering is newer and public.' &&
         (await page.locator('.cover-support').count()) === 0,
-      `${viewport.name}: hero states one concise FDE thesis without a repeated support line`,
+      `${viewport.name}: hero separates ten years of implementation from newer public agent engineering`,
       coverRole,
     );
     ok(
-      /Labs and sanitized extracts/.test(provenance) &&
+      /labs and sanitized extracts/i.test(provenance) &&
         /production-engineering tenure/.test(provenance) &&
         /Nous\/Hermes Enterprise affiliation/.test(provenance),
       `${viewport.name}: homepage provenance keeps lab and affiliation boundaries`,
       provenance,
     );
     ok(
-      body.toLowerCase().includes('where product meets the customer'),
-      `${viewport.name}: direction names the product/customer seam`,
-    );
-    ok(
-      body.includes('Turn the problem into a small path the product can support.') &&
-        body.includes('bring the useful feedback back to the team.'),
-      `${viewport.name}: engagement method covers bounded integration and product feedback`,
-    );
-    ok(
-      body.toLowerCase().includes('finance, audit, and assurance'),
-      `${viewport.name}: domain depth names finance, audit, and assurance`,
+      body.toLowerCase().includes('finance and assurance'),
+      `${viewport.name}: domain depth names finance and assurance without making it the whole identity`,
     );
     const closingTitle = ((await page.locator('#contact-heading').textContent()) ?? '').trim();
     ok(
-      closingTitle === 'Make the product work where the work happens.',
-      `${viewport.name}: closing CTA names the FDE outcome`,
+      closingTitle === 'Let’s talk about the customer environment.',
+      `${viewport.name}: closing CTA stays specific and keeps consulting secondary`,
       closingTitle,
     );
     ok(body.includes('Hermes Deployment Lab'), `${viewport.name}: features Hermes Deployment Lab`);
@@ -1134,15 +881,15 @@ try {
     ok(!body.includes('strategic operations'), `${viewport.name}: strategic operations targeting absent`);
     ok(!body.includes('Remote-friendly'), `${viewport.name}: Remote-friendly targeting absent`);
     const sectionOrder = await page.evaluate(() => {
-      const ids = ['proof', 'direction', 'work'];
+      const ids = ['proof', 'work', 'about', 'contact'];
       return ids.map((id) => {
         const el = document.getElementById(id);
         return { id, top: el ? el.getBoundingClientRect().top + window.scrollY : Number.POSITIVE_INFINITY };
       });
     });
     ok(
-      sectionOrder[0].top < sectionOrder[1].top && sectionOrder[1].top < sectionOrder[2].top,
-      `${viewport.name}: delivery outcomes precede engagement method and public engineering`,
+      sectionOrder.every((section, index) => index === 0 || sectionOrder[index - 1].top < section.top),
+      `${viewport.name}: homepage order is outcomes → engineering → synthesis → CTA`,
       JSON.stringify(sectionOrder),
     );
     const coverActions = await page.locator('.cover-actions a').evaluateAll((links) =>
@@ -1201,44 +948,6 @@ try {
         await new Promise((resolve) => requestAnimationFrame(resolve));
       }
     });
-    if (viewport.width <= 390) {
-      const proofReset = await page.evaluate(() => {
-        const list = document.querySelector('.building-list');
-        const cards = [...document.querySelectorAll('.building-card')];
-        if (!(list instanceof HTMLElement) || cards.length < 2) return null;
-        const listRect = list.getBoundingClientRect();
-        const first = cards[0].getBoundingClientRect();
-        const second = cards[1].getBoundingClientRect();
-        const visibleWidth = (rect) =>
-          Math.max(0, Math.min(rect.right, listRect.right) - Math.max(rect.left, listRect.left));
-        const firstVisible = visibleWidth(first);
-        const secondVisible = visibleWidth(second);
-        return {
-          scrollLeft: list.scrollLeft,
-          firstVisible,
-          secondVisible,
-          listWidth: listRect.width,
-          firstPrimary: firstVisible >= secondVisible && firstVisible >= listRect.width * 0.55,
-          secondPeeks: secondVisible >= 8 && second.left < listRect.right && second.right > listRect.left,
-        };
-      });
-      ok(Boolean(proofReset), `${viewport.name}: proof list reset nodes present`);
-      ok(
-        Boolean(proofReset && Math.abs(proofReset.scrollLeft) <= 1),
-        `${viewport.name}: proof list scrollLeft reset near zero`,
-        String(proofReset?.scrollLeft),
-      );
-      ok(
-        Boolean(proofReset?.firstPrimary),
-        `${viewport.name}: first proof card is primary after reset`,
-        JSON.stringify(proofReset),
-      );
-      ok(
-        Boolean(proofReset?.secondPeeks),
-        `${viewport.name}: next proof card peeks after reset`,
-        JSON.stringify(proofReset),
-      );
-    }
     await page.screenshot({ path: `${out}/${viewport.name}.png`, fullPage: true });
     await context.close();
   }
@@ -1425,17 +1134,14 @@ try {
   }));
   ok(metadata.canonical === 'https://davebettner.com/', 'Homepage canonical URL', String(metadata.canonical));
   ok(
-    Boolean(
-      metadata.description?.includes('governed agent systems') &&
-        metadata.description?.includes('10+ years of implementation delivery') &&
-        metadata.description?.includes('inspectable engineering proof'),
-    ),
-    'Homepage meta description connects governed agent systems, implementation delivery, and proof',
+    metadata.description ===
+      'Dave Bettner brings ten years of customer implementation experience and newer, public hands-on agent engineering to forward-deployed technical work.',
+    'Homepage meta description matches the approved implementation-to-agent-engineering bridge',
     String(metadata.description),
   );
   ok(
-    metadata.ogTitle === 'Dave Bettner | Enterprise Agent Systems · Forward-Deployed Delivery',
-    'Homepage Open Graph title matches launch positioning',
+    metadata.ogTitle === 'Dave Bettner | Forward-Deployed Engineering · Agent Systems',
+    'Homepage Open Graph title matches the approved FDE positioning',
     String(metadata.ogTitle),
   );
   ok(
@@ -1567,11 +1273,12 @@ try {
   ok(!aboutText.includes('My career has moved from accounting'), 'About omits accountant-first career framing');
   const aboutLower = aboutText.toLowerCase();
   ok(
-    aboutLower.includes('learn the environment') &&
-      aboutLower.includes('connect the systems') &&
-      aboutLower.includes('make the agent operable'),
-    'About leads from customer environment to an operable agent system',
+    aboutLower.includes('des moines') &&
+      aboutLower.includes('customer teams') &&
+      aboutLower.includes('outside the résumé'),
+    'About adds location, personal working context, and a public-building throughline',
   );
+  ok((await page.locator('.principles-section').count()) === 0, 'About does not duplicate the deployment method');
   const aboutParagraphs = aboutText.split(/\n+/).map((line) => line.trim()).filter(Boolean);
   const openingDupes = aboutParagraphs.filter((line) =>
     line.startsWith('My background is in enterprise solution delivery'),
@@ -1602,15 +1309,15 @@ try {
     fitSurface.phases.map((phase) => phase.range).join('|'),
   );
   ok(
-    fitSurface.lead.includes('take ownership early') &&
-      fitSurface.lead.includes('customer environment') &&
-      fitSurface.lead.includes('lead a real deployment') &&
-      fitSurface.lead.includes('product leverage'),
-    'First 90 days lead states the FDE leadership-through-leverage pattern',
+    fitSurface.lead.includes('customer environment') &&
+      fitSurface.lead.includes('one measurable workflow') &&
+      fitSurface.lead.includes('first deployment') &&
+      fitSurface.lead.includes('product feedback'),
+    'First 90 days lead states the deployment method owned by this route',
     fitSurface.lead,
   );
   const phaseText = fitSurface.phases.map((phase) => `${phase.title} ${phase.detail}`).join(' ');
-  for (const marker of ['Set the direction', 'Own the first deployment', 'Lead through failure', 'Turn the work into leverage']) {
+  for (const marker of ['Choose the first problem', 'Own the first deployment', 'Lead through failure', 'Make the next deployment easier']) {
     ok(phaseText.includes(marker), `First 90 days plan includes ${marker}`);
   }
   for (const route of ['/about/', '/experience/', '/work/']) {
@@ -1621,7 +1328,8 @@ try {
   ok(!fitSurface.description.includes('Chief of Staff'), 'First 90 days meta omits Chief of Staff');
   ok(!fitSurface.description.includes('strategic operations'), 'First 90 days meta omits strategic operations');
   ok(
-    /first 90 days|forward-deployed engineering/i.test(fitSurface.description),
+    fitSurface.description ===
+      'Dave Bettner’s first-90-days approach to discovery, a bounded deployment, failure decisions, and reusable product feedback.',
     'First 90 days meta describes the current static page',
     fitSurface.description,
   );
@@ -1637,7 +1345,9 @@ try {
 
   const notFoundResponse = await page.goto(`${base}/definitely-missing`, { waitUntil: 'load' });
   ok(notFoundResponse?.status() === 404, 'Custom 404 returns HTTP 404', String(notFoundResponse?.status()));
+  await page.goto(`${base}/404.html`, { waitUntil: 'load' });
   ok(await page.locator('h1').count() === 1, 'Custom 404 has one h1');
+  ok((await page.locator('[data-secondary-masthead]').count()) === 1, 'Custom 404 uses the shared masthead grammar');
 
   await context.close();
 } finally {

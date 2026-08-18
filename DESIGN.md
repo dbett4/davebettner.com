@@ -13,11 +13,11 @@ Interstellar is the single visual system for davebettner.com. Dave is the subjec
 
 ## Shared implementation
 
-`public/styles/interstellar-system.css` is the site-wide source of truth. It overrides the former paper theme on every public route, supplies browser theming, focus states, grain, responsive geometry, and the designed no-WebGL fallback.
+`public/styles/interstellar-system.css` is the only public-route theme source of truth. Public routes do not load the obsolete editorial paper system. Astro’s self-hosted Archivo Variable and DM Mono imports supply the two live font families; Newsreader and Plus Jakarta remain preview/mockup-only.
 
 `src/scripts/sphere-gradient.ts` mounts the homepage ShaderGradient sphere with the approved Tide / Signal palette and authored camera, surface, reflection, and motion settings. It uses a DPR of 1, disables camera controls, freezes at the authored frame under reduced motion, and keeps the canvas `aria-hidden` and pointer-inert. If WebGL cannot initialize, the carbon field remains. `public/interstellar.js` continues the restrained site-wide field on secondary routes.
 
-The homepage owns the full field. Secondary route introductions receive the same field at restrained opacity. Reading regions remain solid or near-solid carbon rather than translucent glass.
+The homepage owns the full field. Secondary routes use `SecondaryMasthead.astro` and one compact route-introduction grammar; their introductions receive the same field at restrained opacity. Reading regions remain solid or near-solid carbon rather than translucent glass.
 
 ## Homepage topology
 
@@ -27,7 +27,9 @@ The only visible homepage portrait carrying `data-source-portrait` is `/images/d
 
 ## Route system
 
-Home, Work, each Work detail, Experience, First 90 Days, About, and 404 share the carbon palette, rules, typography, focus treatment, and event-horizon field. Existing semantic landmarks, headings, links, provenance, evidence boundaries, data-backed copy, and route behavior remain intact. Lists are ruled editorial sequences rather than card walls.
+Home stays compositionally distinct. Work, each Work detail, Experience, First 90 Days (`/fit/`), About, and 404 share the compact masthead, route-introduction spacing, carbon palette, rules, typography, focus treatment, and event-horizon field. Lists are ruled editorial sequences rather than card walls.
+
+Selected-work visuals are static CSS evidence motifs, not decorative spheres: failure/fault/resume/receipt, confirm/write/readback, and legacy-check/narrow-guard/tests. On mobile the three homepage cases stack in reading order with no clipped horizontal carousel.
 
 ## Accessibility and performance
 
@@ -43,4 +45,4 @@ Home, Work, each Work detail, Experience, First 90 Days, About, and 404 share th
 
 The implementation matches the approved Tide Sphere topology while using Dave’s exact supplied cutout. The system is profile-first, avoids the prohibited literal space/HUD vocabulary, and carries one shader-led world across every public route.
 
-**Verdict:** ready for GREEN/YELLOW local visual review. Browser captures should confirm portrait overlap, mobile crop, shader band character, and long-page reading rhythm before any release decision.
+**Verdict:** ready for GREEN/YELLOW local visual review. Browser captures should confirm portrait overlap, mobile crop, shader band character, stacked work rhythm, and secondary-route cohesion before any release decision.

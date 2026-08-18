@@ -76,6 +76,38 @@ try {
   );
   const heroResume = page.locator('.cover-actions-primary a[download]');
   check((await heroResume.count()) === 1, 'Hero contains one résumé download');
+  check((await page.locator('#direction, .loop-section, .loop-stage').count()) === 0, 'Home leaves the deployment method to First 90 days');
+  const homepageOrder = await page.locator('main > section').evaluateAll((sections) =>
+    sections.map((section) => section.id).filter(Boolean),
+  );
+  check(
+    ['top', 'proof', 'work', 'about', 'contact'].every((id, index) => homepageOrder[index] === id),
+    'Homepage order is identity, outcomes, engineering, synthesis, CTA',
+    homepageOrder.join(' → '),
+  );
+
+  const positioningSurfaces = [
+    ['/', '.cover-role, .proof-head .section-lead, .about-lead, .cta-copy > p:last-child'],
+    ['/work/', '.work-cover .lead'],
+    ['/experience/', '.lead'],
+    ['/fit/', '.fit-lead'],
+    ['/about/', '.cover-lead, .prose p'],
+  ];
+  const sentenceRoutes = new Map();
+  for (const [route, selector] of positioningSurfaces) {
+    await page.goto(`${base}${route}`, { waitUntil: 'networkidle' });
+    const copy = await page.locator(selector).allTextContents();
+    for (const sentence of copy.join(' ').split(/(?<=[.!?])\s+/)) {
+      const normalized = sentence.replace(/\s+/g, ' ').trim().toLowerCase();
+      if (normalized.split(/\s+/).length < 8) continue;
+      const routes = sentenceRoutes.get(normalized) ?? [];
+      sentenceRoutes.set(normalized, [...routes, route]);
+    }
+  }
+  const duplicatePositioning = [...sentenceRoutes]
+    .filter(([, routes]) => new Set(routes).size > 1)
+    .map(([sentence, routes]) => `${[...new Set(routes)].join(', ')}: ${sentence}`);
+  check(duplicatePositioning.length === 0, 'Top-level routes do not duplicate positioning sentences of eight or more words', duplicatePositioning.join(' | '));
 
   const redirects = await readFile('dist/_redirects', 'utf8');
   for (const source of ['/dither', '/dither/', '/mockups/dither', '/mockups/dither/']) {
@@ -91,7 +123,7 @@ try {
     );
   }
 
-  if (externalBase) {
+  if (externalBase && !externalBase.startsWith('http://127.0.0.1')) {
     for (const source of ['/dither', '/dither/', '/mockups/dither', '/mockups/dither/']) {
       const response = await page.request.get(`${base}${source}`, { maxRedirects: 0 });
       check(response.status() === 301, `Production ${source} returns 301`, String(response.status()));

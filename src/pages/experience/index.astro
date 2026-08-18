@@ -1,14 +1,14 @@
 ---
 import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/dm-mono/400.css';
+import SecondaryMasthead from '../../components/SecondaryMasthead.astro';
 import { cvEntries } from '../../data/portfolio-entries';
 import { siteUrl } from '../../data/seo';
-import { githubUrl, linkedinUrl } from '../../data/site-links';
 
 const canonical = `${siteUrl}/experience/`;
-const title = 'Experience | Dave Bettner — Forward-Deployed Delivery and Solutions Engineering';
+const title = 'Experience | Dave Bettner — Customer Implementation Since 2015';
 const description =
-  'Dave Bettner\'s experience in forward-deployed delivery, solutions engineering, regulated customer systems, and hands-on agent-systems engineering.';
+  'Dave Bettner’s dated career record across enterprise implementation, solutions architecture, healthcare integrations, and regulated reporting.';
 ---
 
 <!doctype html>
@@ -22,7 +22,6 @@ const description =
     <meta name="color-scheme" content="dark" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles/editorial-paper-system.css" />
     <link rel="stylesheet" href="/styles/interstellar-system.css" />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={title} />
@@ -36,21 +35,16 @@ const description =
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="page-mast">
-      <div class="wrap mast-row">
-        <a class="back-link mono" href="/">← Home</a>
-        <div class="mast-utils" aria-label="Profile utilities">
-          <a href={githubUrl} rel="me">GitHub</a>
-          <a href={linkedinUrl} rel="me">LinkedIn</a>
+    <SecondaryMasthead context="Experience · dated record" />
+    <main id="main">
+      <section class="work-cover route-intro">
+        <div class="wrap">
+          <p class="eyebrow mono">EXP · TIMELINE</p>
+          <h1>Experience</h1>
+          <p class="lead">A dated record of customer-facing enterprise implementation since 2015, including solutions and architecture roles across Ambra, Workiva, Citrin Cooperman, and LSL.</p>
         </div>
-      </div>
-    </header>
-    <main id="main" class="wrap content-page">
-      <p class="eyebrow mono">EXP · TIMELINE</p>
-      <h1>Experience</h1>
-      <p class="lead">
-        Customer-facing enterprise implementation since 2015, with solutions and architecture roles across Ambra, Workiva, Citrin, and LSL since 2021. The throughline is forward-deployed work: learn how people work, connect the systems around them, debug the path, and stay through adoption. My public agent and MCP work shows how I now apply those habits to agent systems and product-facing engineering.
-      </p>
+      </section>
+      <div class="wrap content-page experience-record">
 
       <ol class="timeline">
         {cvEntries.map((entry) => (
@@ -81,6 +75,7 @@ const description =
         <a href="/fit/">First 90 days</a>
         <a href="/#contact">Contact</a>
       </nav>
+      </div>
     </main>
     <script is:inline type="module" src="/interstellar.js"></script>
   </body>
@@ -184,7 +179,7 @@ const description =
   }
 
   h1 {
-    font-family: 'Newsreader Variable', Georgia, serif;
+    font-family: 'Archivo Variable', system-ui, sans-serif;
     font-size: clamp(2rem, 4vw, 2.8rem);
     font-weight: 500;
     letter-spacing: -0.03em;

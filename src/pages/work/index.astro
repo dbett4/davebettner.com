@@ -1,15 +1,17 @@
 ---
 import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/dm-mono/400.css';
+import EvidenceMotif from '../../components/EvidenceMotif.astro';
+import SecondaryMasthead from '../../components/SecondaryMasthead.astro';
 import { cases } from '../../data/cases';
 import { provenanceNote } from '../../data/public-proof';
 import { siteUrl } from '../../data/seo';
 import { githubUrl } from '../../data/site-links';
 
 const canonical = `${siteUrl}/work/`;
-const title = 'Work | Dave Bettner — Enterprise Agent Systems and Delivery Proof';
+const title = 'Work | Dave Bettner — Public Agent Engineering';
 const description =
-  'Public labs and fixes from Dave Bettner on agent integrations, failure recovery, evaluation, and customer workflow quality.';
+  'Inspect Dave Bettner’s public agent engineering: implementation details, tests, repositories, and explicit claim limits.';
 ---
 
 <!doctype html>
@@ -23,7 +25,6 @@ const description =
     <meta name="color-scheme" content="dark" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles/editorial-paper-system.css" />
     <link rel="stylesheet" href="/styles/interstellar-system.css" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -37,20 +38,15 @@ const description =
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="page-mast">
-      <div class="wrap mast-row">
-        <a class="back-link mono" href="/">← Home</a>
-        <a class="mast-github" href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
-      </div>
-    </header>
+    <SecondaryMasthead context="Work · public proof" />
     <main id="main">
       <section class="work-cover">
-        <div class="wrap content-page">
+        <div class="wrap content-page route-intro">
           <p class="eyebrow mono">Selected work</p>
-          <h1>Open systems work, with the decisions and limits left visible.</h1>
+          <h1>Public engineering work you can inspect.</h1>
           <p class="lead">
-            Deployment recovery, guarded API tools, evaluation, and confirm-before-write quality.
-            Each case links to the repo, the technical evidence, and the stated limits.
+            These cases cover recovery, guarded API tools, evaluation, and confirm-before-write quality.
+            Each one names what I built, the supporting tests or artifacts, and what remains unproven.
           </p>
         </div>
       </section>
@@ -59,7 +55,7 @@ const description =
         <div class="wrap content-page">
           <div class="section-head">
             <p class="eyebrow mono">Evidence plates · {String(cases.length).padStart(2, '0')}</p>
-            <h2 id="plates-heading">Systems built for the hard parts.</h2>
+            <h2 id="plates-heading" class="route-section-heading">Cases, repositories, and limits.</h2>
           </div>
           <ul class="work-list">
             {cases.map((item, index) => (
@@ -68,7 +64,7 @@ const description =
                   <span class="work-visual" aria-hidden="true">
                     <span class="work-visual-index mono">PLATE · {String(index + 1).padStart(2, '0')}</span>
                     <span class="work-visual-mark"></span>
-
+                    <EvidenceMotif motif={item.motif} compact />
                   </span>
                   <span class="work-copy">
                     <span class="work-eyebrow mono">{item.eyebrow}</span>
@@ -120,7 +116,7 @@ const description =
   .work-cover { border-bottom:1px solid var(--ink); background:linear-gradient(90deg, transparent 79px, rgba(201,195,181,.32) 79px 80px, transparent 80px), var(--paper); }
   .work-cover .content-page { max-width:900px; margin-left:max(0px, calc((100% - 1280px) / 2)); }
   .eyebrow { color:var(--orange-ink); margin-bottom:12px; }
-  h1, h2 { font-family:"Newsreader Variable",Georgia,serif; font-weight:500; letter-spacing:-.04em; line-height:1.04; }
+  h1, h2 { font-family:"Archivo Variable",system-ui,sans-serif; font-weight:650; letter-spacing:-.04em; line-height:1.04; }
   h1 { max-width:18ch; font-size:clamp(2.35rem,5vw,4.5rem); }
   h2 { font-size:clamp(1.8rem,3.4vw,2.8rem); }
   .lead { max-width:60ch; margin-top:20px; color:var(--muted); font-size:clamp(.96rem,1.5vw,1.08rem); }
@@ -131,13 +127,6 @@ const description =
   .work-card { display:grid; grid-template-columns:minmax(126px,.42fr) minmax(0,1fr); min-height:340px; border:1px solid var(--ink); background:var(--paper); transition:transform .2s ease, box-shadow .2s ease; }
   .work-card:hover, .work-card:focus-visible { transform:translate(-3px,-3px); box-shadow:3px 3px 0 var(--ink); }
   .work-visual { position:relative; min-height:100%; overflow:hidden; border-right:1px solid var(--ink); background:var(--ink); }
-  .work-visual::before, .work-visual::after { content:""; position:absolute; inset:0; image-rendering:pixelated; }
-  .visual-flow .work-visual::before { background:linear-gradient(90deg, transparent 57%, rgba(33,79,229,.92) 57% 68%, transparent 68%), repeating-linear-gradient(0deg,rgba(243,239,229,.85) 0 1px,transparent 1px 5px); }
-  .visual-flow .work-visual::after { inset:25% 14% 25% 0; border:1px solid var(--orange); border-left:0; }
-  .visual-rings .work-visual::before { background:repeating-radial-gradient(circle at 50% 50%,transparent 0 12px,rgba(243,239,229,.78) 12px 13px,transparent 13px 24px); }
-  .visual-rings .work-visual::after { inset:36% 22%; border:1px solid var(--blue); transform:rotate(45deg); }
-  .visual-difference .work-visual::before { background:linear-gradient(90deg,rgba(207,65,32,.9) 0 48%,transparent 48% 52%,rgba(33,79,229,.9) 52% 100%),repeating-linear-gradient(0deg,transparent 0 7px,rgba(243,239,229,.6) 7px 8px); }
-  .visual-difference .work-visual::after { inset:14px; border:1px dashed var(--ink); }
   .work-visual-index { position:absolute; z-index:2; color:var(--paper); background:var(--ink); padding:5px 6px; }
   .work-visual-index { top:10px; left:10px; }
   .work-visual-mark { position:absolute; z-index:2; width:9px; height:9px; right:10px; top:10px; background:var(--orange); box-shadow:-3px 3px 0 var(--blue); }

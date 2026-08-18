@@ -1,33 +1,7 @@
 import { publicEngineeringCases } from './public-proof';
 
 export const thesis = {
-  title: 'I work between product, engineering, and the customer to make agent systems useful in real workflows.',
-  body: [
-    'I bring ten years of customer implementation work and newer hands-on agent and MCP engineering. I learn the workflow, make the integration work, debug what breaks, and stay close to adoption.',
-  ],
-} as const;
-
-export const whereHeading = {
-  title: 'Where product meets the customer',
-  lead: 'I work between product, engineering, and the customer:',
-  items: [
-    'Learn the workflow, the people, and the constraints.',
-    'Turn the problem into a small path the product can support.',
-    'Connect the APIs, tools, and systems around it.',
-    'Debug the path in the real environment and make the limits clear.',
-    'Stay through adoption and bring the useful feedback back to the team.',
-  ],
-  close:
-    'Finance, audit, and assurance are where I have the deepest experience. The same habits carry into other complex customer environments.',
-} as const;
-
-export const whatIBring = {
-  title: 'Customer context and engineering judgment belong in the same room.',
-  body: [
-    'I have spent ten years turning complex reporting and controls workflows into systems teams can use under deadline.',
-    'I can move from customer context to API behavior, integration details, debugging, and validation without losing the reason the work matters.',
-    'My public agent and MCP work shows how I think about tools, failure, recovery, and proof. It is synthetic or sanitized, not client production work.',
-  ],
+  title: 'I lead customer-facing technical delivery, with ten years of enterprise implementation. My hands-on agent engineering is newer and public.',
 } as const;
 
 export const featuredPublicProjectIds = [
@@ -50,7 +24,7 @@ const mappedProjects = publicEngineeringCases.map((item) => ({
 
 export const buildingNow = {
   title: 'Selected engineering work',
-  lead: 'Three inspectable signals: deployment recovery, an open Hermes Agent Desktop fix, and guarded API integration. More work lives on the work index.',
+  lead: 'Deployment recovery, an open Hermes Agent Desktop fix, and a guarded API integration. Each item links to inspectable code and its limits.',
   projects: mappedProjects,
   featuredProjects: mappedProjects.filter((project) =>
     (featuredPublicProjectIds as readonly string[]).includes(project.id),
@@ -59,50 +33,48 @@ export const buildingNow = {
 
 export const selectedProof = {
   title: 'Customer delivery outcomes',
-  lead: 'Regulated delivery is the deepest domain thread. The systems below show the controls I bring into new environments.',
+  lead: 'Three examples from ten years of implementation work. Finance and assurance are the deepest record; healthcare shows the pattern beyond them.',
   stories: [
     {
       id: 'insurance-certification',
-      label: 'Statutory certification handoff',
+      label: 'Healthcare certification',
       context: 'Manager of Digital Services · Citrin Cooperman',
-      title: 'Bidirectional API workflow carried through sign-off',
-      summary:
-        'Statutory certification needed a controlled handoff between a reporting platform and an internal system of record. I owned diagnosis through go-live, designed bidirectional integration with audit trail, and aligned finance, IT, and executives on sign-off.',
-      result: 'Bidirectional reporting ↔ system-of-record handoff with audit trail and finance, IT, and executive sign-off at go-live.',
+      title: 'Designed a controlled system-of-record handoff',
+      result: 'Owned diagnosis through go-live; delivered a bidirectional API workflow with an audit trail and stakeholder sign-off.',
     },
     {
       id: 'gov-reporting',
-      label: 'GRC reporting with human review',
+      label: 'Enterprise GRC and reporting',
       context: 'Solutions Architect · Workiva',
-      title: 'Controlled reporting with human review and native readback',
-      summary:
-        'Concurrent GRC and financial-reporting programs with no room for silent errors. I led solution design, scoped integration architecture, and built controlled-write workflows with human sign-off on customer-impacting changes.',
-      result: 'SSO, API, and ERP-scoped GRC and reporting implementations with controlled writes, human sign-off, and native readback.',
+      title: 'Scoped integrations and controlled customer-impacting writes',
+      result: 'Led concurrent implementations through adoption across SSO, API, and ERP boundaries, with human review and native readback.',
     },
     {
       id: 'clinical-imaging',
-      label: 'HIPAA imaging integration',
+      label: 'Clinical imaging',
       context: 'Solutions Consultant · Ambra Health',
-      title: 'HIPAA imaging, EHR, and portal integrations through acquisition',
-      summary:
-        'Imaging orders and results had to move across practice and health-system boundaries under HIPAA, with billing and access controls intact through an acquisition transition.',
-      result: 'HIPAA imaging, EHR, portal, and billing workflows through acquisition; integrations cleared review before go-live.',
+      title: 'Connected imaging workflows across health-system boundaries',
+      result: 'Carried EHR, portal, billing, and access-control integrations through review, go-live, and an acquisition transition.',
     },
   ],
 } as const;
 
-export const aboutSection = {
+export const homeSynthesis = {
   title: 'How I work',
+  body:
+    'I start with the customer workflow, make one useful technical path work, and stay with it through failure, acceptance, and handoff.',
+} as const;
+
+export const aboutSection = {
+  title: 'A customer-facing builder in Des Moines',
   body: [
-    'I am strongest in the messy middle: the workflow is real, the constraints are incomplete, and someone still has to make the path work.',
-    'I work between product, engineering, and the customer. I learn the workflow, connect the systems, debug the hard parts, and stay close to adoption.',
-    'The public labs show how I think about permissions, failure, readback, and recovery. They are synthetic, sanitized, and inspectable. They are not customer tenants.',
-    'Finance, audit, and assurance are my deepest domain proof. The work has also taken me through healthcare and other regulated environments.',
+    'I live in Des Moines, Iowa, after working in Chicago and with distributed customer teams. I like work that puts me close to the people using the system and the engineers shaping it.',
+    'My background spans financial reporting, assurance, healthcare imaging, and enterprise integrations. Outside the résumé, I keep building public tools and labs because working code is the clearest way to sharpen technical judgment.',
   ],
 } as const;
 
 export const closingCta = {
-  title: 'Make the product work where the work happens.',
+  title: 'Let’s talk about the customer environment.',
   body:
-    'I am looking for forward-deployed work at the seam between product, engineering, and the customer. I want to learn the environment, make a useful path work, stay through debugging and adoption, and bring the field lessons back to the team.',
+    'I am pursuing forward-deployed engineering and technical deployment roles. Consulting is available selectively for a well-scoped implementation problem.',
 } as const;

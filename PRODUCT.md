@@ -27,7 +27,7 @@ The profile is evaluated during recruiting, role-fit review, professional networ
 ## Capabilities and Constraints
 
 - The homepage leads with Dave’s identity, enterprise-agent deployment lane, concise claim, real portrait, and direct actions.
-- Existing routes and working actions remain available: Work, Experience, Fit, résumé download, email, GitHub, and LinkedIn.
+- Existing routes and working actions remain available: Work, Experience, First 90 Days (`/fit/`), About, résumé download, email, GitHub, and LinkedIn.
 - Public proof includes the Hermes Deployment Lab, Hermes Agent Desktop PR #84621, and Regulated Reporting MCP, with provenance and claim limits intact.
 - Customer-delivery evidence spans statutory reporting, GRC/reporting implementations, and HIPAA imaging integrations.
 - The portrait must use Dave’s supplied source pixels. Do not regenerate, composite, reshape, or replace his face, head, neck, body, suit, pose, or crop with synthetic content.
@@ -37,10 +37,10 @@ The profile is evaluated during recruiting, role-fit review, professional networ
 ## Brand Commitments
 
 - Name: Dave Bettner.
-- Identity: profile-first Editorial Operator; employer-independent and human-centered.
+- Identity: profile-first forward-deployed technical leader; employer-independent and human-centered.
 - Voice: direct, credible, technically specific, concise, and honest about evidence boundaries.
 - Positioning priority: enterprise-agent deployment first; finance and assurance as proof.
-- Use the supplied portrait at `public/images/dave-bettner-headshot-portrait.webp` without regenerating the person.
+- The homepage uses the approved source cutout at `public/images/dave-bettner-headshot-20260816-cutout.png`; portrait assets and source pixels must not be altered.
 - Location and employment history preserve Chicago followed by current Des Moines; current title is Senior Manager; omit “Remote” from job locations.
 
 ## Evidence on Hand
@@ -58,7 +58,11 @@ The profile is evaluated during recruiting, role-fit review, professional networ
 2. Deployment before domain: enterprise-agent implementation leads; finance and assurance substantiate it.
 3. Proof with boundaries: every technical or customer-delivery claim remains inspectable and honestly scoped.
 4. Judgment stays visible: the site demonstrates how Dave works without turning a process diagram into the identity.
-5. Short path to action: résumé, work, experience, fit evaluation, and contact remain easy to find.
+5. Short path to action: résumé, work, experience, the First 90 Days field plan, and contact remain easy to find.
+
+## Public Route System
+
+Interstellar is the only public theme. Home keeps its monumental identity/portrait composition. Work, Work detail, Experience, First 90 Days, About, and 404 use one shared secondary masthead and compact route-introduction grammar. Preview and mockup routes remain separate experimental surfaces.
 
 ## Accessibility & Inclusion
 

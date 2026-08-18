@@ -2,7 +2,7 @@
 import '@fontsource-variable/newsreader/wght.css';
 import '@fontsource-variable/plus-jakarta-sans/wght.css';
 import '@fontsource/dm-mono/400.css';
-import { buildingNow, thesis, whereHeading } from '../../data/homepage-framing';
+import { buildingNow, homeSynthesis, thesis } from '../../data/homepage-framing';
 import { identity } from '../../data/portfolio-entries';
 
 const title = 'Rig-inspired mockups — Dave Bettner';
@@ -73,7 +73,7 @@ const ticker = [
             <div class="wrap dark-band-inner">
               <p class="mono eyebrow eyebrow--light">The thesis</p>
               <h3 class="dark-band-title">{thesis.title}</h3>
-              <p class="dark-band-lede">{thesis.body[0]}</p>
+              <p class="dark-band-lede">{homeSynthesis.body}</p>
             </div>
           </section>
           <section class="numbered-grid wrap">
@@ -114,10 +114,10 @@ const ticker = [
             </div>
           </div>
           <section class="steps-band wrap">
-            <p class="mono eyebrow">{whereHeading.title}</p>
-            <p class="steps-lede">{whereHeading.lead}</p>
+            <p class="mono eyebrow">{homeSynthesis.title}</p>
+            <p class="steps-lede">{homeSynthesis.body}</p>
             <ol class="steps">
-              {whereHeading.items.slice(0, 4).map((item, i) => (
+              {['Learn the workflow', 'Build a bounded path', 'Test failure modes', 'Return field feedback'].map((item, i) => (
                 <li>
                   <span class="step-num mono">Step {String(i + 1).padStart(2, '0')}</span>
                   <span class="step-text">{item}</span>

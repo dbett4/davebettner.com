@@ -15,6 +15,7 @@ export function getStaticPaths() {
 
 const { item } = Astro.props as { item: CaseStudy };
 const projectNames = {
+  'agent-operating-system': 'Agent Operating System',
   'regulated-reporting-mcp': 'Regulated Reporting MCP',
   'hermes-deployment-lab': 'Hermes Deployment Lab',
   'hermes-field-kit': 'Hermes Enterprise Evaluation Kit',
@@ -52,12 +53,14 @@ const title = `${projectName} | Dave Bettner`;
       <section class={`case-cover visual-${item.visual}`}>
         <div class="wrap case-cover-grid route-intro">
           <div class="case-intro">
+            {item.id === 'agent-operating-system' ? <p class="author-line mono">Designed and operated by Dave Bettner · Forward-deployed technical leader</p> : null}
             <p class="eyebrow mono">{item.eyebrow}</p>
             <h1>{projectName}</h1>
             <p class="case-headline">{item.title}</p>
             <p class="summary">{item.summary}</p>
             <p class="repo-links">
               <a class="round blue" href={item.repoUrl} rel="noopener noreferrer" data-shader-host><span data-shader-label>View repository <span aria-hidden="true">↗</span></span></a>
+              {item.id === 'agent-operating-system' ? <a class="round" href="/dave-bettner-resume.pdf" download>Résumé <span aria-hidden="true">↓</span></a> : null}
               {item.proofUrl ? (
                 <a class="round" href={item.proofUrl} rel="noopener noreferrer">Technical notes <span aria-hidden="true">↗</span></a>
               ) : null}
@@ -65,7 +68,7 @@ const title = `${projectName} | Dave Bettner`;
           </div>
           <div class="case-plate" aria-hidden="true">
             <EvidenceMotif motif={item.motif} />
-            <span class="plate-chrome mono">PLATE · {plateNumber}</span>
+            <span class="plate-chrome mono">WORKFLOW · {plateNumber}</span>
             <span class="plate-mark"></span>
             <span class="plate-proof mono">{item.plateProof}</span>
           </div>
@@ -80,6 +83,7 @@ const title = `${projectName} | Dave Bettner`;
           </div>
           <h2 class="evidence-signal">{item.evidenceMap.signal}</h2>
           <p class="evidence-method">{item.evidenceMap.method}</p>
+          {item.id === 'agent-operating-system' ? <p class="workflow-caption">A bounded change is confirmed, written, then read back before it counts as applied.</p> : null}
           <ol class="evidence-steps">
             {item.evidenceMap.steps.map((step) => <li>{step}</li>)}
           </ol>
@@ -89,10 +93,41 @@ const title = `${projectName} | Dave Bettner`;
           </div>
         </section>
 
+        {item.id === 'agent-operating-system' ? (
+          <section class="stack-explainer" aria-labelledby="stack-explainer-heading">
+            <div class="detail-head">
+              <p class="eyebrow mono">The Stack · plain-language view</p>
+              <h2 id="stack-explainer-heading">The whole system, from request to proof.</h2>
+              <p class="stack-lede">The animation is an explanation, not a live feed. The linked repositories and upstream contributions are the places to inspect the underlying work.</p>
+            </div>
+            <div class="stack-layers">
+              {[
+                ['01', 'You', 'Ask in plain language, watch the work, and approve at the decision gates.'],
+                ['02', 'Coordinator', 'Routes the request, breaks it into bounded pieces, and tracks the job to a receipt.'],
+                ['03', 'Team', 'Role-based agents handle product, authority, backend, UX, and independent verification; runtimes are chosen by fit.'],
+                ['04', 'Guardrails', 'Changes are bounded, read back, independently checked, and recoverable when the hard path fails.'],
+                ['05', 'Tools', 'APIs, reporting platforms, browsers, Git, memory, and other action surfaces carry the real work.'],
+                ['06', 'Machines', 'A local-first execution plane, control terminal, model providers, and public repositories support the operation.'],
+              ].map(([index, label, text]) => (
+                <article class="stack-layer">
+                  <span class="mono">{index}</span>
+                  <h3>{label}</h3>
+                  <p>{text}</p>
+                </article>
+              ))}
+            </div>
+            <div class="stack-proof">
+              <p class="mono">Where to check</p>
+              <p>The public deployment lab, reporting MCP, evaluation kit, and Wingman repository show bounded tools, recovery, readback, and human gates. Upstream contributions show work on real agent infrastructure: coordinated rate-limit retries and desktop session recovery.</p>
+              <p class="stack-links"><a href="https://github.com/block/buzz/pull/5620" rel="noopener noreferrer">Buzz PR #5620 ↗</a><a href="https://github.com/NousResearch/hermes-agent/pull/84621" rel="noopener noreferrer">Hermes Agent PR #84621 ↗</a></p>
+            </div>
+          </section>
+        ) : null}
+
         <section class="case-detail" aria-labelledby="case-detail-heading">
           <div class="detail-head">
             <p class="eyebrow mono">Build record</p>
-            <h2 id="case-detail-heading">What the plate records.</h2>
+            <h2 id="case-detail-heading">What the workflow records.</h2>
           </div>
           <dl class="case-list">
             <dt>Constraint</dt><dd>{item.constraint}</dd>
@@ -133,7 +168,7 @@ const title = `${projectName} | Dave Bettner`;
   .case-page{padding:clamp(48px,6vw,88px) 0 100px;max-width:900px}
   .back-link{display:inline-flex;align-items:center;min-height:44px;color:var(--muted)}
   .back-link:hover{color:var(--ink)}
-  .eyebrow{color:var(--orange-ink);margin-bottom:18px}
+  .eyebrow{color:var(--orange-ink);margin-bottom:18px}.author-line{color:var(--muted);font-size:.62rem;margin-bottom:18px}
   h1{font-family:"Archivo Variable",system-ui,sans-serif;font-size:clamp(2.8rem,6vw,4.8rem);font-weight:700;line-height:1.02;letter-spacing:-.04em;margin-bottom:20px}
   .case-headline{font-family:"Archivo Variable",system-ui,sans-serif;font-size:clamp(1.25rem,2.4vw,1.8rem);font-weight:600;line-height:1.16;max-width:760px;margin:-4px 0 14px;color:var(--ink)}
   .summary{color:var(--muted);font-size:1.05rem;max-width:620px;margin-bottom:20px}
@@ -146,7 +181,7 @@ const title = `${projectName} | Dave Bettner`;
   .evidence-heading{display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-bottom:14px}.evidence-state{color:var(--muted);font-size:.6rem}
   .evidence-map-label{color:var(--orange-ink)}
   .evidence-signal{font-family:"Archivo Variable",system-ui,sans-serif;font-size:clamp(1.45rem,3vw,2rem);font-weight:650;line-height:1.08;letter-spacing:-.03em;margin-bottom:12px;text-wrap:balance}
-  .evidence-method{color:var(--muted);font-size:.92rem;max-width:560px;margin-bottom:20px}
+  .evidence-method{color:var(--muted);font-size:.92rem;max-width:560px;margin-bottom:20px}.workflow-caption{border-left:2px solid var(--blue);padding:8px 0 8px 12px;color:var(--ink);font-size:.84rem;font-weight:650;margin:-4px 0 20px;max-width:620px}
   .evidence-steps{display:flex;flex-wrap:wrap;gap:10px 8px;list-style:none;counter-reset:step;margin-bottom:22px;padding:0}
   .evidence-steps li{flex:1 1 140px;min-width:0;border:1px solid var(--ink);padding:10px 12px 10px 36px;font-size:.78rem;font-weight:650;line-height:1.25;position:relative;counter-increment:step}
   .evidence-steps li::before{content:counter(step,decimal-leading-zero);position:absolute;left:10px;top:10px;font-family:"DM Mono",monospace;font-size:.62rem;color:var(--blue)}
@@ -159,6 +194,7 @@ const title = `${projectName} | Dave Bettner`;
   .case-list dt{color:var(--muted);padding-right:22px}
   .case-list dd{font-weight:500;line-height:1.52}.case-list dt{font-family:"DM Mono",monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.08em}
   .contact-block{border:1px solid var(--ink);padding:clamp(24px,4vw,40px);display:grid;gap:16px;background:var(--ink);color:var(--paper)}.contact-block>p{color:#c9c3b5}.contact-block .round{justify-self:start}
+  .stack-explainer{border-top:2px solid var(--orange);padding-top:20px;margin-bottom:64px}.stack-lede{max-width:650px;color:var(--muted);font-size:.9rem}.stack-layers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:24px}.stack-layer{border:1px solid var(--ink);padding:16px;background:var(--card)}.stack-layer>span{color:var(--blue)}.stack-layer h3{font-size:1rem;margin:10px 0 6px}.stack-layer p{color:var(--muted);font-size:.82rem;line-height:1.45}.stack-proof{border:1px solid var(--ink);padding:18px;margin-top:12px;background:var(--ink);color:var(--paper)}.stack-proof>.mono{color:var(--orange);margin-bottom:8px}.stack-proof p:not(.mono){color:#c9c3b5;font-size:.84rem;line-height:1.5}.stack-links{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}.stack-links a{color:var(--tide);text-decoration:underline;text-underline-offset:3px}
   .round{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--ink);min-height:44px;padding:10px 16px;font-size:.8rem;font-weight:650;transition:background .2s,color .2s,border-color .2s}
   .round.blue{background:var(--blue);color:white;border-color:var(--blue)}
   /* Hover states after every variant; each sets background and color together. */
@@ -170,7 +206,7 @@ const title = `${projectName} | Dave Bettner`;
     .case-list{grid-template-columns:1fr}
     .case-list dt{padding:14px 0 3px}
     .case-list dd{border-top:0;padding:0 0 14px}
-    .evidence-heading{display:block}.evidence-state{margin-top:6px}.evidence-steps{flex-direction:column}
+    .evidence-heading{display:block}.evidence-state{margin-top:6px}.evidence-steps{flex-direction:column}.stack-layers{grid-template-columns:1fr}
     .evidence-steps li{flex-basis:auto}
   }
 </style>

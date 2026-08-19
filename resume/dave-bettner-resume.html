@@ -6,14 +6,14 @@
 <meta name="author" content="Dave Bettner">
 <meta name="description" content="Dave Bettner — forward-deployed delivery, AI-agent workflows, and solutions engineering for complex customer environments.">
 <style>
-  @page { size: Letter; margin: 0.34in 0.46in 0.32in; }
+  @page { size: Letter; margin: 0.42in 0.55in 0.42in; }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     color: #151515;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 8.6pt;
-    line-height: 1.22;
+    font-family: Lato, "Helvetica Neue", sans-serif;
+    font-size: 10pt;
+    line-height: 1.25;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -23,28 +23,28 @@
     margin-bottom: 7px;
   }
   h1 {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 21pt;
-    font-weight: 400;
+    font-family: Lato, "Helvetica Neue", sans-serif;
+    font-size: 24pt;
+    font-weight: 800;
     line-height: 1;
     letter-spacing: -0.5px;
     margin: 0 0 3px;
   }
   .headline {
-    font-size: 9.5pt;
+    font-size: 10pt;
     font-weight: 700;
     color: #214fe5;
     margin: 0 0 4px;
   }
   .contact {
-    font-size: 7.8pt;
+    font-size: 8.6pt;
     line-height: 1.25;
     margin: 0;
   }
   .contact a { color: #151515; text-decoration: none; }
   section { margin-bottom: 7px; break-inside: avoid; }
   h2 {
-    font-size: 7.2pt;
+    font-size: 7.8pt;
     text-transform: uppercase;
     letter-spacing: 0;
     margin: 0 0 3px;
@@ -54,9 +54,9 @@
   }
   section:first-of-type h2 { border-top: 0; padding-top: 0; }
   .summary {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 9.2pt;
-    line-height: 1.24;
+    font-family: Lato, "Helvetica Neue", sans-serif;
+    font-size: 10pt;
+    line-height: 1.28;
     margin: 0;
   }
   .job { margin-bottom: 4px; break-inside: avoid; }
@@ -66,26 +66,35 @@
     gap: 12px;
     align-items: baseline;
   }
-  .job h3 { font-size: 8.8pt; margin: 0; }
-  .job time { font-size: 7.2pt; color: #62615d; white-space: nowrap; }
-  .job .subtitle { font-style: italic; color: #3d3c39; margin: 0 0 1px; font-size: 7.7pt; }
+  .job h3 { font-size: 10pt; margin: 0; }
+  .job time { font-size: 8pt; color: #62615d; white-space: nowrap; }
+  .job .subtitle { font-style: italic; color: #3d3c39; margin: 0 0 1px; font-size: 8.5pt; }
   ul { margin: 1px 0 0 14px; padding: 0; }
   li { margin: 0 0 1px; }
   .project { margin-bottom: 3px; break-inside: avoid; }
+  .job-page-two { break-before: page; }
+  .agent-section .project { margin-bottom: 8px; }
+  .agent-section .project h3 { font-size: 10.5pt; margin-bottom: 4px; }
+  .agent-section .project p { font-size: 9.5pt; line-height: 1.27; }
+  .agent-section .proof { font-size: 8.5pt; margin-top: 3px; }
+  .agent-section + section { margin-top: 12px; }
+  .agent-section + section .skills { gap: 5px; }
+  .agent-section + section .skills span { padding: 3px 7px; }
+  .education-section { margin-top: 18px; padding-bottom: 12px; }
   .project h3 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Lato, "Helvetica Neue", sans-serif;
     font-size: 8.8pt;
     margin: 0 0 1px;
   }
   .project .repo {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Lato, "Helvetica Neue", sans-serif;
     font-size: 7pt;
     margin: 0 0 1px;
   }
   .project .repo a { color: #214fe5; text-decoration: none; }
-  .project p { margin: 0; font-size: 7.9pt; }
+  .project p { margin: 0; font-size: 9pt; }
   .proof {
-    font-size: 7pt;
+    font-size: 8pt;
     color: #214fe5;
     margin-top: 1px;
     font-weight: 700;
@@ -97,41 +106,44 @@
     padding: 1px 4px;
     font-size: 7pt;
   }
-  .edu { margin: 0; font-size: 8pt; }
+  .edu { margin: 0; font-size: 9pt; }
   .edu strong { display: block; }
   footer {
     border-top: 1px solid #151515;
     margin-top: 5px;
     padding-top: 3px;
-    font-size: 6.5pt;
+    font-size: 7.5pt;
     color: #62615d;
     display: flex;
     justify-content: space-between;
     gap: 12px;
   }
+  .page-two-header { display:flex; justify-content:space-between; gap:12px; align-items:baseline; margin-bottom:10px; color:#62615d; font-size:8.5pt; }
+  .page-two-header strong { color:#151515; font-size:9.5pt; }
+  .technical-skills { margin:8px 0 10px; font-size:8.8pt; line-height:1.35; }
+  .technical-skills strong { color:#214fe5; }
 </style>
 </head>
 <body>
 <header>
   <h1>Dave Bettner</h1>
-  <p class="headline">Forward-Deployed Delivery · AI-Agent Workflows · Solutions Engineering</p>
+  <p class="headline">Forward-Deployed Technical Leadership · Enterprise AI-Agent Systems · Solutions Engineering</p>
   <p class="contact">
     Des Moines, Iowa ·
     <a href="mailto:dbett4@gmail.com">dbett4@gmail.com</a> ·
     <a href="https://davebettner.com">davebettner.com</a> ·
-    <a href="https://github.com/dbett4">github.com/dbett4</a> ·
-    <a href="https://www.linkedin.com/in/dave-bettner/">linkedin.com/in/dave-bettner</a>
+    <a href="https://github.com/dbett4">github.com/dbett4</a>
   </p>
 </header>
 
 <section>
   <h2>Summary</h2>
   <p class="summary">
-    Customer-facing solutions and implementation leader with 10+ years turning unfamiliar enterprise
-    workflows and technical constraints into signed-off deployments. Owns discovery, scoping, demos,
-    integration design, debugging, validation, and adoption across regulated environments. Hands-on Python
-    and TypeScript work includes MCP integrations, guarded agent tools, failure injection, idempotent recovery,
-    Docker Compose labs, and a policy-bounded Hermes evaluation kit.
+    Customer-facing technical leader with 10+ years turning complex enterprise workflows into signed-off
+    implementations across finance, assurance, healthcare, and regulated reporting. Works between customer
+    workflow, product, and engineering to shape bounded integrations, AI-assisted workflows, and verifiable
+    delivery paths. Public engineering includes MCP integrations, guarded tools, failure recovery, evaluation,
+    and human-review gates.
   </p>
 </section>
 
@@ -142,8 +154,8 @@
     <div class="job-head"><h3>LSL, LLP · Senior Manager</h3><time>Nov 2025 – Present</time></div>
     <p class="subtitle">Chicago, then Des Moines</p>
     <ul>
-      <li>Support proposals, SOW scoping and negotiation, estimates, quotes, and RFP responses for municipal finance and ERP-connected reporting.</li>
-      <li>Run on-site demos and pitch presentations against decision criteria; carry delivery handoffs through adoption.</li>
+      <li>Player-coach for a five-person implementation team; personally build Workiva solutions and lead UAT, acceptance tracking, and go-live adoption.</li>
+      <li>Shape bids, SOWs, estimates, RFP responses, demos, and delivery handoffs for municipal finance and ERP-connected reporting.</li>
       <li>Build controlled review workflows with human sign-off on customer-impacting changes.</li>
     </ul>
   </article>
@@ -152,16 +164,17 @@
     <div class="job-head"><h3>Citrin Cooperman · Manager of Digital Services</h3><time>Dec 2024 – Oct 2025</time></div>
     <p class="subtitle">Workiva-platform finance and regulatory reporting rollouts</p>
     <ul>
-      <li>Directed reporting rollouts across a five-person team.</li>
-      <li>Owned national healthcare enterprise certification: bidirectional API integration and executive sign-off through go-live.</li>
+      <li>Player-coach for a five-person Workiva team; built spreadsheets, documents, links, formulas, tables, queries, workflows, and UAT through go-live.</li>
+      <li>Built a bidirectional data-collection and reporting workflow with audit trail and executive sign-off.</li>
     </ul>
   </article>
 
   <article class="job">
     <div class="job-head"><h3>Workiva · Solutions Architect</h3><time>Oct 2022 – Oct 2024</time></div>
     <ul>
-      <li>Led concurrent GRC and financial-reporting implementations from discovery through go-live.</li>
-      <li>Scoped SSO, API, and ERP integration architecture with finance, audit, IT, and executive sponsors.</li>
+      <li>Led concurrent GRC and financial-reporting implementations from discovery through acceptance and adoption.</li>
+      <li>Led requirements, data mapping, UAT, identity/access testing, and SSO, API, and ERP integration design.</li>
+      <li>Partnered with Product and Engineering on customer feedback, escalations, and rollout risks.</li>
     </ul>
   </article>
 
@@ -175,33 +188,48 @@
   <article class="job">
     <div class="job-head"><h3>Workiva · SEC Reporting Consultant</h3><time>Sept 2015 – Sept 2021</time></div>
     <ul>
-      <li>SEC reporting and XBRL across GAAP, IFRS, and ESEF under quarterly filing deadline pressure.</li>
+      <li>Delivered recurring SEC reporting and XBRL services across GAAP, IFRS, and ESEF for 20+ public-company customers each quarter under filing deadlines.</li>
     </ul>
   </article>
 </section>
 
-<section>
-  <h2>Public Engineering (by function)</h2>
+<section class="job-page-two agent-section">
+  <div class="page-two-header"><strong>Dave Bettner</strong><span>Enterprise AI-Agent Systems · davebettner.com · Page 2 of 2</span></div>
+  <h2>Selected Engineering Projects — AI Agents &amp; Enterprise Systems</h2>
+  <p class="technical-skills"><strong>Technical skills:</strong> Python, TypeScript, Docker Compose, MCP/FastMCP, OAuth/API integration, agent evaluation, capability routing, idempotency, failure recovery, human-in-the-loop controls.</p>
+
+  <article class="project">
+    <h3>Personal Agent Operating System</h3>
+    <p>Local-first, multi-runtime system for coordinating AI work across enterprise tools and repositories. Designed around capability routing, bounded tools, role-based orchestration, readback, rollback, independent verification, privilege brokerage, and durable receipts.</p>
+    <p class="proof">Role: Architected and operated independently · Evidence: independent verification and durable receipts</p>
+  </article>
 
   <article class="project">
     <h3>Hermes Deployment Lab</h3>
     <p class="repo"><a href="https://github.com/dbett4/hermes-enterprise-deployment-lab">github.com/dbett4/hermes-enterprise-deployment-lab</a></p>
-    <p>Compose-configured lab with FastMCP, mock enterprise API, and workflow runner. Exercises remote-write/local-failure mismatch, separated operator approval, and idempotent retry so side effects happen once. Public Actions run 31892965924 at release commit 1e68676 attests container startup and restart/replay, native Prometheus, causally linked OpenTelemetry, fresh-clone reproduction, and no-apply cloud IaC. Synthetic lab, not a customer deployment.</p>
-    <p class="proof">241 public credential-free tests · v1.0.0 · four-job CI · synthetic failure/replay</p>
+    <p>FastMCP lab with a mock enterprise API and workflow runner. Exercises separate approval, post-commit failure, idempotent retry, restart/replay, telemetry, and no-apply cloud validation. Synthetic lab, not a customer deployment.</p>
+    <p class="proof">Role: Designed and implemented · Scope: Synthetic reference implementation · Evidence: credential-free failure/replay proof</p>
   </article>
 
   <article class="project">
     <h3>Hermes Enterprise Evaluation Kit</h3>
     <p class="repo"><a href="https://github.com/dbett4/hermes-enterprise-evaluation-kit">github.com/dbett4/hermes-enterprise-evaluation-kit</a></p>
     <p>Policy-bounded evaluation layer for Hermes: approved configs, independent checks, human review gates, and receipts that keep weak evidence labeled weak.</p>
-    <p class="proof">Offline proof · 8 negative tests · synthetic live run remains needs_review</p>
+    <p class="proof">Role: Designed evaluation layer · Scope: Synthetic cases · Evidence: offline proof; live run remains needs_review</p>
   </article>
 
   <article class="project">
     <h3>Regulated Reporting MCP</h3>
     <p class="repo"><a href="https://github.com/dbett4/regulated-reporting-mcp">github.com/dbett4/regulated-reporting-mcp</a></p>
-    <p>OAuth-backed MCP integration for a Workiva-shaped reporting API: pagination, async jobs, controlled mutations, and a three-tool guarded default over a 117-tool catalog.</p>
-    <p class="proof">126 credential-free tests · 117 contracts · offline demo</p>
+    <p>OAuth-backed MCP integration for a Workiva-shaped reporting API: pagination, async jobs, controlled mutations, and a guarded default tool surface.</p>
+    <p class="proof">Role: Designed integration and guarded surface · Scope: Sanitized API model · Evidence: contract coverage and offline demo</p>
+  </article>
+
+  <article class="project">
+    <h3>Upstream Agent-Systems Contributions</h3>
+    <p class="repo"><a href="https://github.com/block/buzz/pull/5620">github.com/block/buzz/pull/5620</a> · <a href="https://github.com/NousResearch/hermes-agent/pull/84621">github.com/NousResearch/hermes-agent/pull/84621</a></p>
+    <p>Open-source contributions covering coordinated HTTP rate-limit retries across RestClient clones and desktop session recovery across profile boundaries.</p>
+    <p class="proof">Role: Upstream contributor · Scope: Open-source agent infrastructure · Evidence: public pull requests</p>
   </article>
 </section>
 
@@ -214,21 +242,22 @@
     <span>MCP/FastMCP</span>
     <span>OAuth/API integration</span>
     <span>idempotency/failure recovery</span>
-    <span>GitHub Actions</span>
     <span>forward-deployed delivery</span>
-    <span>policy packs/human review gates</span>
+    <span>human review gates</span>
     <span>failure injection/debugging</span>
+    <span>capability routing</span>
+    <span>fail-closed privilege brokerage</span>
   </div>
 </section>
 
-<section>
+<section class="education-section">
   <h2>Education</h2>
   <p class="edu"><strong>Iowa State University</strong>M.Acc. 2017 · B.S. Accounting 2016</p>
 </section>
 
 <footer>
   <span>davebettner.com</span>
-  <span>Public résumé source · August 2026 · sanitized public engineering extracts</span>
+  <span>Selected public engineering projects · Updated August 2026</span>
 </footer>
 </body>
 </html>

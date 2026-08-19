@@ -32,12 +32,6 @@ const roleByProjectId: Record<string, string> = {
   wingman: 'Readback + restore',
 };
 
-const motifByProjectId: Record<string, 'failure-retry' | 'guarded-readback' | 'code-fix'> = {
-  'hermes-deployment-lab': 'failure-retry',
-  'regulated-reporting-mcp': 'guarded-readback',
-  'hermes-field-kit': 'code-fix',
-  wingman: 'guarded-readback',
-};
 
 const outcomeMarks = ['outcome-mark--square', 'outcome-mark--circle', 'outcome-mark--diamond'] as const;
 

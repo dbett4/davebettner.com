@@ -28,6 +28,35 @@ export type CaseStudy = {
 
 export const cases = [
   {
+    id: 'agent-operating-system',
+    eyebrow: 'Architecture · Agent operating system',
+    title: 'Design the system around the agent',
+    summary:
+      'A plain-language view of the system around AI-assisted enterprise work: context, coordination, bounded tools, recovery, proof, and accountable human judgment.',
+    meta: 'Context · tools · authority · proof',
+    size: 'large',
+    visual: 'flow',
+    motif: 'guarded-readback',
+    plateProof: 'Living snapshot · current practice',
+    repoUrl: 'https://github.com/dbett4',
+    constraint:
+      'A model can generate a useful answer while the surrounding workflow still lacks context, authority boundaries, failure recovery, or proof of what actually happened.',
+    built:
+      'I design the reusable layers around agent work: context and capability routing, role-based orchestration, bounded tools, authority controls, readback, rollback, independent verification, receipts, and operator review surfaces.',
+    role: 'I own the system design and the boundary between reusable agent infrastructure and the enterprise workflows that run on it.',
+    boundary:
+      'Independent engineering system and living snapshot. Public repositories are sanitized or synthetic artifacts, not customer tenants. The architecture distinguishes adopted capabilities from target doctrine.',
+    evidence:
+      'Architecture map plus public deployment, MCP, evaluation, and spreadsheet-quality cases. The verifier is never the builder; applied work is not described as verified without independent proof.',
+    scope: 'Personal operating system and reusable engineering patterns; client engagements remain confidential.',
+    evidenceMap: {
+      signal: 'Agents move quickly while tools stay bounded and consequential results remain verifiable',
+      method: 'Trace the loop from request and context through execution, readback, independent verification, human decision, and reusable improvement.',
+      steps: ['Context', 'Plan', 'Execute', 'Verify', 'Decide', 'Improve'],
+      boundary: 'Current practice and adoption spine—not a claim that every target autonomy control is fully production-wired.',
+    },
+  },
+  {
     id: 'hermes-deployment-lab',
     eyebrow: 'Failure recovery · Hermes Deployment Lab',
     title: 'Scope tools, separate approval, survive post-commit failure',

@@ -113,10 +113,12 @@ async function main() {
     'Workiva · Solutions Architect',
     'Ambra Health · Solutions Consultant',
     'Workiva · SEC Reporting Consultant',
-    'PUBLIC ENGINEERING (BY FUNCTION)',
+    'SELECTED ENGINEERING PROJECTS — AI AGENTS & ENTERPRISE SYSTEMS',
+    'Personal Agent Operating System',
     'Hermes Deployment Lab',
     'Hermes Enterprise Evaluation Kit',
     'Regulated Reporting MCP',
+    'Upstream Agent-Systems Contributions',
     'SKILLS',
     'EDUCATION',
   ];
@@ -136,11 +138,11 @@ async function main() {
   }
   for (const marker of [
     'Python',
-    'policy packs/human review gates',
     'Docker Compose',
     'Hermes Agent',
-    'GitHub Actions',
     'failure injection/debugging',
+    'capability routing',
+    'fail-closed privilege brokerage',
   ]) {
     if (!text.includes(marker)) {
       throw new Error(`public résumé missing application-surface marker: ${marker}`);
@@ -152,19 +154,15 @@ async function main() {
   if (/parses Compose|container startup is not attested/i.test(text)) {
     throw new Error('résumé must not use obsolete parse-only container language');
   }
-  if (!normalizedText.includes('container startup and restart/replay')) {
-    if (!normalizedText.includes('container startup/restart/replay')) {
-      throw new Error('résumé must attest Deployment Lab container startup and restart/replay');
-    }
+  if (!normalizedText.includes('restart/replay')) {
+    throw new Error('résumé must attest Deployment Lab restart/replay behavior');
   }
-  for (const marker of ['241 public credential-free tests', 'Public Actions run 31892965924', 'native Prometheus', 'causally linked OpenTelemetry', 'needs_review']) {
+  for (const marker of ['credential-free failure/replay', 'synthetic reference implementation', 'needs_review']) {
     if (!text.toLowerCase().includes(marker.toLowerCase())) {
       throw new Error(`public résumé missing evidence marker: ${marker}`);
     }
   }
-  if (!/no-apply/i.test(text)) {
-    throw new Error('résumé must keep Deployment Lab no-apply cloud boundary');
-  }
+
   for (const repo of [
     'github.com/dbett4/hermes-enterprise-deployment-lab',
     'github.com/dbett4/hermes-enterprise-evaluation-kit',
@@ -178,11 +176,11 @@ async function main() {
   if (/not career software engineering or ML research/i.test(html)) {
     throw new Error('résumé HTML must not include self-rejecting career framing');
   }
-  if (!/\.project\s+h3\s*\{[^}]*font-family:\s*Arial/i.test(html)) {
-    throw new Error('project headings must use a robust sans-serif (Arial) for parser-safe extraction');
+  if (!/\.project\s+h3\s*\{[^}]*font-family:\s*Lato/i.test(html)) {
+    throw new Error('project headings must use the selected Lato sans-serif system');
   }
-  if (/\.project\s+h3\s*\{[^}]*Georgia/i.test(html)) {
-    throw new Error('project headings must not use Georgia/serif (emits stray A separators in parsers)');
+  if (/\.project\s+h3\s*\{[^}]*font-family:\s*(?:Georgia|Arial)/i.test(html)) {
+    throw new Error('project headings must not use the retired serif/Arial font system');
   }
   for (const href of [
     'https://github.com/dbett4/hermes-enterprise-deployment-lab',
@@ -201,10 +199,11 @@ async function main() {
     'MCP/FastMCP',
     'OAuth/API integration',
     'idempotency/failure recovery',
-    'GitHub Actions',
     'forward-deployed delivery',
-    'policy packs/human review gates',
+    'human review gates',
     'failure injection/debugging',
+    'capability routing',
+    'fail-closed privilege brokerage',
   ];
   let skillPrevious = -1;
   for (const skill of skillOrder) {
@@ -216,8 +215,8 @@ async function main() {
   }
   const pagesMatch = pdfinfo.match(/^Pages:\s+(\d+)/m);
   const pages = Number(pagesMatch?.[1] || 0);
-  if (pages !== 1) {
-    throw new Error(`public résumé must be one page; generated ${pages}`);
+  if (pages < 1 || pages > 2) {
+    throw new Error(`public résumé must be one or two balanced pages; generated ${pages}`);
   }
 
   console.log('RESUME_PDF_PASS');

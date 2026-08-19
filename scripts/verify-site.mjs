@@ -79,6 +79,7 @@ const browser = await chromium.launch({
 });
 
 const buildingRoles = [
+  'System architecture',
   'Failure recovery',
   'Evaluation',
   'Guarded integration',
@@ -120,6 +121,12 @@ const outcomeStories = [
 ];
 
 const projects = [
+  {
+    slug: 'agent-operating-system',
+    title: 'Agent Operating System',
+    repo: 'https://github.com/dbett4',
+    proof: 'Architecture map and public engineering cases',
+  },
   {
     slug: 'regulated-reporting-mcp',
     title: 'Regulated Reporting MCP',

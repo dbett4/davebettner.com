@@ -839,7 +839,7 @@ try {
       motifs.map((motif) => motif.getAttribute('data-evidence-motif')),
     );
     ok(
-      motifKinds.join('|') === 'guarded-readback|guarded-readback',
+      motifKinds.join('|') === 'guarded-readback|guarded-mutation',
       `${viewport.name}: selected work uses evidence-derived static motifs`,
       motifKinds.join('|'),
     );

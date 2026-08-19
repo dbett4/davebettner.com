@@ -1,10 +1,11 @@
 ---
-type Motif = 'failure-retry' | 'guarded-readback' | 'code-fix';
+type Motif = 'failure-retry' | 'guarded-readback' | 'guarded-mutation' | 'code-fix';
 type Props = { motif: Motif; compact?: boolean };
 const { motif, compact = false } = Astro.props;
 const labels = {
   'failure-retry': ['Write', 'Fault', 'Resume', '1 receipt'],
   'guarded-readback': ['Confirm', 'Write', 'Readback'],
+  'guarded-mutation': ['Auth', 'Backoff', 'Mutation gate'],
   'code-fix': ['Legacy check', 'Narrow guard', 'Tests'],
 }[motif];
 ---

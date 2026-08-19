@@ -10,7 +10,7 @@
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    color: #151515;
+    color: #1f2328;
     font-family: Lato, "Helvetica Neue", sans-serif;
     font-size: 10pt;
     line-height: 1.25;
@@ -18,22 +18,23 @@
     print-color-adjust: exact;
   }
   header {
-    border-bottom: 2px solid #151515;
+    border-bottom: 1px solid #1f2328;
     padding-bottom: 6px;
     margin-bottom: 7px;
   }
   h1 {
     font-family: Lato, "Helvetica Neue", sans-serif;
-    font-size: 24pt;
-    font-weight: 800;
+    font-size: 22pt;
+    font-weight: 700;
     line-height: 1;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.2px;
+    color: #1a2540;
     margin: 0 0 3px;
   }
   .headline {
     font-size: 10pt;
     font-weight: 700;
-    color: #214fe5;
+    color: #3d4a63;
     margin: 0 0 4px;
   }
   .contact {
@@ -46,11 +47,11 @@
   h2 {
     font-size: 7.8pt;
     text-transform: uppercase;
-    letter-spacing: 0;
+    letter-spacing: 0.4px;
     margin: 0 0 3px;
     padding-top: 2px;
-    border-top: 1px solid #151515;
-    color: #214fe5;
+    border-top: 1px solid #1f2328;
+    color: #3d4a63;
   }
   section:first-of-type h2 { border-top: 0; padding-top: 0; }
   .summary {
@@ -91,11 +92,11 @@
     font-size: 7pt;
     margin: 0 0 1px;
   }
-  .project .repo a { color: #214fe5; text-decoration: none; }
+  .project .repo a { color: #3d4a63; text-decoration: none; }
   .project p { margin: 0; font-size: 9pt; }
   .proof {
     font-size: 8pt;
-    color: #214fe5;
+    color: #3d4a63;
     margin-top: 1px;
     font-weight: 700;
   }
@@ -109,7 +110,7 @@
   .edu { margin: 0; font-size: 9pt; }
   .edu strong { display: block; }
   footer {
-    border-top: 1px solid #151515;
+    border-top: 1px solid #1f2328;
     margin-top: 5px;
     padding-top: 3px;
     font-size: 7.5pt;
@@ -119,9 +120,9 @@
     gap: 12px;
   }
   .page-two-header { display:flex; justify-content:space-between; gap:12px; align-items:baseline; margin-bottom:10px; color:#62615d; font-size:8.5pt; }
-  .page-two-header strong { color:#151515; font-size:9.5pt; }
+  .page-two-header strong { color:#1f2328; font-size:9.5pt; }
   .technical-skills { margin:8px 0 10px; font-size:8.8pt; line-height:1.35; }
-  .technical-skills strong { color:#214fe5; }
+  .technical-skills strong { color:#3d4a63; }
 </style>
 </head>
 <body>
@@ -140,10 +141,10 @@
   <h2>Summary</h2>
   <p class="summary">
     Customer-facing technical leader with 10+ years turning complex enterprise workflows into signed-off
-    implementations across finance, assurance, healthcare, and regulated reporting. Works between customer
-    workflow, product, and engineering to shape bounded integrations, AI-assisted workflows, and verifiable
-    delivery paths. Public engineering includes MCP integrations, guarded tools, failure recovery, evaluation,
-    and human-review gates.
+    implementations across finance, assurance, healthcare, and regulated reporting. Wrote and operate a
+    multi-agent control plane (Hermes, Codex, Claude, Cursor) that drafts client reporting workbooks under human
+    review before every change reaches a client. Public engineering includes MCP integrations, guarded tools,
+    failure recovery, evaluation, and human-review gates.
   </p>
 </section>
 
@@ -154,9 +155,11 @@
     <div class="job-head"><h3>LSL, LLP · Senior Manager</h3><time>Nov 2025 – Present</time></div>
     <p class="subtitle">Chicago, then Des Moines</p>
     <ul>
-      <li>Player-coach for a five-person implementation team; personally build Workiva solutions and lead UAT, acceptance tracking, and go-live adoption.</li>
+      <li>Lead LSL's Workiva services department (8 people), building Workiva reporting solutions for city and county finance teams and running live user sessions and UAT through client sign-off.</li>
+      <li>Wrote and operate a multi-agent control plane (Hermes, Codex, Claude, Cursor) that dispatches coding assistants in parallel to build and QA client reporting workbooks; every generated link and formula is reviewed and accepted by a human before it reaches the client Workspace.</li>
+      <li>Wrote a Python tool (Docker Compose, GitHub Actions CI) that reads client source ledgers and generates Workiva data links, formulas, and QA checks — reused across every city and county ACFR and Budget Book engagement to cut manual link-building and catch defects before UAT.</li>
+      <li>Run multiple municipal ACFR and Budget Book implementations concurrently, from source-data reconciliation through statement tie-out and client acceptance.</li>
       <li>Shape bids, SOWs, estimates, RFP responses, demos, and delivery handoffs for municipal finance and ERP-connected reporting.</li>
-      <li>Build controlled review workflows with human sign-off on customer-impacting changes.</li>
     </ul>
   </article>
 
@@ -164,8 +167,8 @@
     <div class="job-head"><h3>Citrin Cooperman · Manager of Digital Services</h3><time>Dec 2024 – Oct 2025</time></div>
     <p class="subtitle">Workiva-platform finance and regulatory reporting rollouts</p>
     <ul>
-      <li>Player-coach for a five-person Workiva team; built spreadsheets, documents, links, formulas, tables, queries, workflows, and UAT through go-live.</li>
-      <li>Built a bidirectional data-collection and reporting workflow with audit trail and executive sign-off.</li>
+      <li>Led a 5-person delivery team building a custom data-collection and reporting automation in Workiva with bidirectional integration to the customer's system of record (API/SSO), including audit trail and executive sign-off.</li>
+      <li>Personally configured spreadsheets, documents, links, formulas, tables, queries, and workflows, and ran UAT through go-live.</li>
     </ul>
   </article>
 

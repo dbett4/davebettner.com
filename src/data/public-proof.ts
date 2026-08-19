@@ -27,6 +27,18 @@ export const publicEngineeringCases = [
   },
 
   {
+    id: 'dedup-readback-bridge',
+    name: 'Dedup Read-Back Bridge',
+    repoUrl: 'https://github.com/dbett4/dedup-readback-bridge',
+    title: 'Keep recurring agent work from running twice',
+    summary:
+      'A small Python bridge for recurring LLM and agent pipelines. It remembers what has already been sent, skips runs with no new items, handles concurrent submissions, and records each run for later review.',
+    evidence: '19 tests, including a two-thread race and a crash-safety check, plus ruff, mypy, and a runnable CLI demo.',
+    limit:
+      'A reusable local library, not a hosted queue or claim of production-scale throughput. The caller still owns processor behavior and operational deployment.',
+    href: '/work/dedup-readback-bridge/',
+  },
+  {
     id: 'regulated-reporting-mcp',
     name: 'Regulated Reporting MCP',
     repoUrl: 'https://github.com/dbett4/regulated-reporting-mcp',

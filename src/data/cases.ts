@@ -88,6 +88,35 @@ export const cases = [
     },
   },
   {
+    id: 'dedup-readback-bridge',
+    eyebrow: 'Pipeline economics · Dedup Read-Back Bridge',
+    title: 'Keep recurring agent work from running twice',
+    summary:
+      'A small Python bridge for recurring LLM and agent pipelines. It remembers what has already been sent, skips runs with no new items, handles concurrent submissions, and records each run for later review.',
+    meta: 'Deduplication · atomic reservation · readback',
+    size: 'large',
+    visual: 'difference',
+    motif: 'guarded-readback',
+    plateProof: '19 tests · stdlib only',
+    repoUrl: 'https://github.com/dbett4/dedup-readback-bridge',
+    constraint:
+      'Recurring agent pipelines waste money when they send the same items again, and they become hard to debug when nobody can tell what a run actually processed.',
+    built:
+      'I pulled the useful mechanics into a small library: stable item identity, a durable ledger, an atomic reservation step, an empty-run check, processor handoff, and a JSON/Markdown record of the result.',
+    role: 'I designed the library around a practical question: which items did this run send, and can another run safely try again?',
+    boundary:
+      'A reusable local library, not a hosted queue or production-scale throughput claim. The caller owns processor behavior and operational deployment.',
+    evidence:
+      '19 tests, including a two-thread race and a crash-safety check, plus ruff, mypy, and a runnable CLI demo.',
+    scope: 'General-purpose agent/LLM pipeline pattern; the original personal research workflow and private integrations are excluded.',
+    evidenceMap: {
+      signal: 'A run skips items it has already sent and leaves a record of what it did',
+      method: 'Stable keys, a durable ledger, atomic reservation, an empty-run short circuit, and a structured read-back.',
+      steps: ['Parse', 'Dedup', 'Reserve', 'Process', 'Record', 'Read back'],
+      boundary: 'Local library proof; no claim of hosted queue durability or service-level guarantees.',
+    },
+  },
+  {
     id: 'regulated-reporting-mcp',
     eyebrow: 'Guarded integration · Regulated Reporting MCP',
     title: 'Accepted is not applied; applied is not verified',

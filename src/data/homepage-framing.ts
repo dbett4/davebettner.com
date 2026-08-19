@@ -6,7 +6,7 @@ export const thesis = {
 
 export const featuredPublicProjectIds = [
   'agent-orchestration',
-  'regulated-reporting-mcp',
+  'dedup-readback-bridge',
 ] as const;
 
 const mappedProjects = publicEngineeringCases.map((item) => ({

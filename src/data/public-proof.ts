@@ -12,16 +12,17 @@ export type PublicEngineeringCase = {
 
 export const publicEngineeringCases = [
   {
-    id: 'hermes-deployment-lab',
-    name: 'Hermes Deployment Lab',
+    id: 'agent-orchestration',
+    name: 'Agent orchestration — scope, gate, and review',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
-    title: 'Scope tools, separate approval, survive post-commit failure',
+    title: 'Scope tools, separate approval, and keep weak evidence labeled weak',
     summary:
-      'Synthetic lab for agent-touching-internal-system failure modes: scoped MCP tools, separate operator approval, forced post-commit error, and resume without double-writing.',
+      'Two operating-pattern labs for the hard case: an agent can touch an internal system. The Hermes Deployment Lab scopes tools, keeps operator approval separate, and resumes after a post-commit fault without double-writing. The Hermes Enterprise Evaluation Kit turns a plain-language job into a policy-bounded Hermes run with independent checks and a human review gate — without letting a green script invent approval.',
     evidence:
-      'Public Actions attests container restart/replay, native telemetry/trace, fresh-clone, and a large credential-free suite; cloud IaC remains validate-only.',
-    limit: 'Synthetic lab, not a customer tenant. Cloud apply is not attested. Not a model-driven production run claim.',
+      'Deployment Lab: Public Actions attests container restart/replay, native telemetry/trace, fresh-clone, and a large credential-free suite; cloud IaC remains validate-only. Evaluation Kit: offline proof with no keys or network, capability map + explicit gaps, 8 negative tests, pinned preflight, and one live receipt still ending in needs_review.',
+    limit:
+      'Synthetic labs, not a customer tenant. Cloud apply is not attested. Not a model-driven production run claim. The live one-shot remains needs_review: no external action or human disposition, estimated rather than billed cost, and two recorded execution-time exceptions.',
     href: '/work/hermes-deployment-lab/',
   },
 

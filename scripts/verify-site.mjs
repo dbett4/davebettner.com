@@ -79,23 +79,21 @@ const browser = await chromium.launch({
 });
 
 const buildingRoles = [
-  'System architecture',
-  'Failure recovery',
-  'Evaluation',
+  'Scope · gate · review',
   'Guarded integration',
 ];
 
 const caseEyebrows = {
+  'agent-operating-system': 'Architecture · Agent operating system',
   'regulated-reporting-mcp': 'Guarded integration · Regulated Reporting MCP',
   'hermes-deployment-lab': 'Failure recovery · Hermes Deployment Lab',
-  'hermes-field-kit': 'Evaluation · Hermes Enterprise Evaluation Kit',
   wingman: 'Readback + restore · Confirm-before-write quality',
 };
 
 const caseStepCounts = {
+  'agent-operating-system': 6,
   'regulated-reporting-mcp': 5,
   'hermes-deployment-lab': 5,
-  'hermes-field-kit': 5,
   wingman: 6,
 };
 
@@ -135,17 +133,10 @@ const projects = [
   },
   {
     slug: 'hermes-deployment-lab',
-    title: 'Hermes Deployment Lab',
+    title: 'Agent orchestration',
     repo: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proof: 'Public Actions run 31892965924 at release commit 1e68676 attests container restart/replay',
     boundaries: ['Synthetic lab', 'Cloud apply is not attested', 'not a model-driven production run claim', 'no-apply'],
-  },
-  {
-    slug: 'hermes-field-kit',
-    title: 'Hermes Enterprise Evaluation Kit',
-    repo: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit',
-    proof: 'Offline FIELD_KIT_PROOF_PASS',
-    boundaries: ['needs_review', 'estimated rather than billed cost', 'two recorded execution-time exceptions'],
   },
   {
     slug: 'wingman',
@@ -246,7 +237,7 @@ async function assertCausalDeliveryLoopContracts(page, name) {
     ok(!body.includes(token), `${name}: decorative serial token absent (${token})`);
   }
   for (const marker of [
-    'Synthetic lab for agent-touching-internal-system failure modes',
+    'The Hermes Deployment Lab scopes tools',
     'MCP server for a Workiva-shaped reporting API',
   ]) {
     ok(body.includes(marker), `${name}: public proof problem statement retained (${marker})`);
@@ -505,9 +496,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const pr = portrait.getBoundingClientRect();
       const cardRects = cards.map((card) => card.getBoundingClientRect());
       const leftColumn = cardRects.filter((rect) => Math.abs(rect.left - cardRects[0].left) <= 2);
-      const proofTwoColumns = cards.length === 3 && leftColumn.length === 2 &&
-        Math.abs(cardRects[0].left - cardRects[1].left) > 80 &&
-        Math.abs(cardRects[0].left - cardRects[2].left) <= 2;
+      const proofTwoColumns = cards.length === 2;
       return {
         ok: true,
         specimenFollowsCopy: sr.top >= cr.bottom - 1,
@@ -712,8 +701,8 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       })),
     );
     ok(
-      allCardText.length === 3 && allCardText.every((card) => card.evidence.length > 0 && card.limit.length === 0),
-      `${name}: all three featured proof cards keep evidence and omit Limit`,
+      allCardText.length === 2 && allCardText.every((card) => card.evidence.length > 0 && card.limit.length === 0),
+      `${name}: both featured proof cards keep evidence and omit Limit`,
       JSON.stringify(allCardText.map((card) => ({ evidence: card.evidence.length, limit: card.limit.length }))),
     );
   }
@@ -845,12 +834,12 @@ try {
     const page = await context.newPage();
     await auditPage(page, '/', viewport.name);
     ok(await page.locator('#work').count() === 1, `${viewport.name}: work section exists`);
-    ok(await page.locator('#work .building-card').count() === 3, `${viewport.name}: three featured public engineering cards`);
+    ok(await page.locator('#work .building-card').count() === 2, `${viewport.name}: two featured public engineering cards`);
     const motifKinds = await page.locator('#work [data-evidence-motif]').evaluateAll((motifs) =>
       motifs.map((motif) => motif.getAttribute('data-evidence-motif')),
     );
     ok(
-      motifKinds.join('|') === 'failure-retry|code-fix|guarded-readback',
+      motifKinds.join('|') === 'guarded-readback|guarded-readback',
       `${viewport.name}: selected work uses evidence-derived static motifs`,
       motifKinds.join('|'),
     );
@@ -952,8 +941,8 @@ try {
     );
     ok(
       buildingCardOrder.join(',') ===
-        'hermes-deployment-lab,hermes-field-kit,regulated-reporting-mcp',
-      `${viewport.name}: building-card order is deployment lab → evaluation kit → MCP`,
+        'agent-orchestration,regulated-reporting-mcp',
+      `${viewport.name}: building-card order is agent orchestration → MCP`,
       buildingCardOrder.join(','),
     );
     await assertCausalDeliveryLoopContracts(page, viewport.name);

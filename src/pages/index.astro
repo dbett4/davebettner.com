@@ -25,11 +25,8 @@ import { emailHref } from '../data/site-links';
 import ContactLinks from '../components/ContactLinks.astro';
 
 const roleByProjectId: Record<string, string> = {
-  'hermes-deployment-lab': 'Failure recovery',
-
+  'agent-orchestration': 'Scope · gate · review',
   'regulated-reporting-mcp': 'Guarded integration',
-  'hermes-field-kit': 'Evaluation',
-  wingman: 'Readback + restore',
 };
 
 
@@ -168,7 +165,7 @@ const featuredProjects = buildingNow.featuredProjects;
               <article class="building-card" id={project.id}>
                 <div class="building-visual">
                   <span class="building-role mono">{roleByProjectId[project.id]}</span>
-                  <EvidenceMotif motif={project.id === 'hermes-deployment-lab' ? 'failure-retry' : 'guarded-readback'} compact />
+                  <EvidenceMotif motif={project.id === 'agent-orchestration' ? 'guarded-readback' : 'guarded-readback'} compact />
                 </div>
                 <div class="building-copy">
                   <h3>

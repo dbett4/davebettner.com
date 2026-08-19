@@ -5,8 +5,7 @@ export const thesis = {
 } as const;
 
 export const featuredPublicProjectIds = [
-  'hermes-deployment-lab',
-  'hermes-field-kit',
+  'agent-orchestration',
   'regulated-reporting-mcp',
 ] as const;
 

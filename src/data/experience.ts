@@ -24,7 +24,7 @@ export const experienceEntries: readonly ExperienceEntry[] = [
     title: 'Manager of Digital Services · Citrin Cooperman',
     line: 'Directed finance and regulatory reporting rollouts on the Workiva platform.',
     bullets: [
-      'Owned a national healthcare enterprise certification special project: bidirectional API integration and executive stakeholder sign-off through go-live.',
+      'Built a custom data-collection and reporting workflow in Workiva with bidirectional integration between the reporting platform and the system of record, with finance, IT, and executive sign-off.',
       'Directed reporting rollouts across a five-person team.',
     ],
   },

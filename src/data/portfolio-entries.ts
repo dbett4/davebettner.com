@@ -49,7 +49,7 @@ export const portfolioEntries = [
     meta: 'Statutory certification · controls · executive sign-off',
     situation:
       'Statutory reporting certification required a controlled handoff between the reporting platform and an internal system of record, with audit trail and executive sign-off — not email attachments.',
-    role: 'Owned the special project from diagnosis through go-live; coordinated finance, IT, and executive stakeholders.',
+    role: 'Built a custom data-collection and reporting workflow in Workiva with bidirectional integration between the reporting platform and the system of record; coordinated finance, IT, and executive stakeholders.',
     work:
       'Designed bidirectional integration between reporting technology and an in-house archival system with full audit trail; aligned finance, IT, and executive sponsors on ownership, controls, and sign-off sequence.',
     result:

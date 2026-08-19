@@ -3,7 +3,8 @@ import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/dm-mono/400.css';
 import SecondaryMasthead from '../../components/SecondaryMasthead.astro';
 import { identity } from '../../data/portfolio-entries';
-import { emailHref, githubUrl, linkedinUrl } from '../../data/site-links';
+import { emailHref } from '../../data/site-links';
+import ContactLinks from '../../components/ContactLinks.astro';
 
 const siteUrl = 'https://davebettner.com';
 const title = 'How I would lead my first 90 days as an FDE | Dave Bettner';
@@ -105,9 +106,7 @@ const description =
       <span>{identity.location}</span>
       <div class="footer-links">
         <a href="/about/">About</a>
-        <a href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
-        <a href={linkedinUrl} rel="me">LinkedIn <span aria-hidden="true">↗</span></a>
-        <a href={emailHref}>Email <span aria-hidden="true">↗</span></a>
+        <ContactLinks />
       </div>
     </footer>
     <script is:inline type="module" src="/interstellar.js"></script>

@@ -6,7 +6,7 @@ import SecondaryMasthead from '../../components/SecondaryMasthead.astro';
 import { cases } from '../../data/cases';
 import { provenanceNote } from '../../data/public-proof';
 import { siteUrl } from '../../data/seo';
-import { githubUrl } from '../../data/site-links';
+import ContactLinks from '../../components/ContactLinks.astro';
 
 const canonical = `${siteUrl}/work/`;
 const title = 'Work | Dave Bettner — Public Agent Engineering';
@@ -88,7 +88,7 @@ const description =
             <a href="/">Home</a>
             <a href="/about/">About Dave Bettner</a>
             <a href="/experience/">Experience</a>
-            <a href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
+            <ContactLinks />
           </nav>
         </div>
       </section>
@@ -109,10 +109,8 @@ const description =
   .mono { font-family:"DM Mono",ui-monospace,monospace; font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; }
   .page-mast { position:sticky; top:0; z-index:10; background:var(--paper); border-bottom:1px solid var(--ink); }
   .mast-row { min-height:64px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-  .back-link, .mast-github { min-height:44px; display:inline-flex; align-items:center; }
+  .back-link { min-height:44px; display:inline-flex; align-items:center; }
   .back-link { color:var(--muted); }
-  .mast-github { border:1px solid var(--ink); padding:0 14px; font-size:.78rem; font-weight:650; }
-  .mast-github:hover { background:var(--ink); color:var(--paper); }
   .work-cover { border-bottom:1px solid var(--ink); background:linear-gradient(90deg, transparent 79px, rgba(201,195,181,.32) 79px 80px, transparent 80px), var(--paper); }
   .work-cover .content-page { max-width:900px; margin-left:max(0px, calc((100% - 1280px) / 2)); }
   .eyebrow { color:var(--orange-ink); margin-bottom:12px; }

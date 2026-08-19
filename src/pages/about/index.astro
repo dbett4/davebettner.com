@@ -4,7 +4,8 @@ import '@fontsource/dm-mono/400.css';
 import SecondaryMasthead from '../../components/SecondaryMasthead.astro';
 import { aboutSection } from '../../data/homepage-framing';
 import { personSchema, siteUrl } from '../../data/seo';
-import { emailHref, githubUrl, linkedinUrl } from '../../data/site-links';
+import { emailHref } from '../../data/site-links';
+import ContactLinks from '../../components/ContactLinks.astro';
 
 const canonical = `${siteUrl}/about/`;
 const title = 'About Dave Bettner | Customer-Facing Technical Delivery';
@@ -78,9 +79,7 @@ const description =
           <nav class="page-links" aria-label="Related pages">
             <a href="/work/">Selected work <span aria-hidden="true">→</span></a>
             <a href="/experience/">Career timeline <span aria-hidden="true">→</span></a>
-            <a href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
-            <a href={linkedinUrl} rel="me">LinkedIn <span aria-hidden="true">↗</span></a>
-            <a href={emailHref}>Email <span aria-hidden="true">↗</span></a>
+            <ContactLinks />
           </nav>
         </div>
       </section>

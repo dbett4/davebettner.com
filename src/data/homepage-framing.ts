@@ -37,10 +37,10 @@ export const selectedProof = {
   stories: [
     {
       id: 'insurance-certification',
-      label: 'Healthcare certification',
+      label: 'Custom solutioning',
       context: 'Manager of Digital Services · Citrin Cooperman',
-      title: 'Designed a controlled system-of-record handoff',
-      result: 'Owned diagnosis through go-live; delivered a bidirectional API workflow with an audit trail and stakeholder sign-off.',
+      title: 'A controlled system-of-record handoff',
+      result: 'Built a custom data-collection and reporting workflow in Workiva with bidirectional integration between the reporting platform and the system of record, delivered with audit trail and finance, IT, and executive sign-off.',
     },
     {
       id: 'gov-reporting',

@@ -99,10 +99,10 @@ const caseStepCounts = {
 
 const outcomeStories = [
   {
-    label: 'Healthcare certification',
+    label: 'Custom solutioning',
     context: 'Manager of Digital Services · Citrin Cooperman',
-    title: 'Designed a controlled system-of-record handoff',
-    result: 'Owned diagnosis through go-live; delivered a bidirectional API workflow with an audit trail and stakeholder sign-off.',
+    title: 'A controlled system-of-record handoff',
+    result: 'Built a custom data-collection and reporting workflow in Workiva with bidirectional integration between the reporting platform and the system of record, delivered with audit trail and finance, IT, and executive sign-off.',
   },
   {
     label: 'Enterprise GRC and reporting',
@@ -123,7 +123,7 @@ const projects = [
     slug: 'agent-operating-system',
     title: 'Agent Operating System',
     repo: 'https://github.com/dbett4',
-    proof: 'Architecture map and public engineering cases',
+    proof: 'Architecture map',
   },
   {
     slug: 'regulated-reporting-mcp',
@@ -133,7 +133,7 @@ const projects = [
   },
   {
     slug: 'hermes-deployment-lab',
-    title: 'Agent orchestration',
+    title: 'Hermes Deployment Lab',
     repo: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proof: 'Public Actions run 31892965924 at release commit 1e68676 attests container restart/replay',
     boundaries: ['Synthetic lab', 'Cloud apply is not attested', 'not a model-driven production run claim', 'no-apply'],

@@ -129,7 +129,7 @@ const projects = [
   },
   {
     slug: 'dedup-readback-bridge',
-    title: 'Keep recurring agent work from running twice',
+    title: 'Dedup Read-Back Bridge',
     repo: 'https://github.com/dbett4/dedup-readback-bridge',
     proof: '19 tests, including a two-thread race and a crash-safety check',
   },

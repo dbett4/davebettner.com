@@ -80,11 +80,12 @@ const browser = await chromium.launch({
 
 const buildingRoles = [
   'Scope · gate · review',
-  'Guarded integration',
+  'Dedup · spend · proof',
 ];
 
 const caseEyebrows = {
   'agent-operating-system': 'Architecture · Agent operating system',
+  'dedup-readback-bridge': 'Pipeline economics · Dedup Read-Back Bridge',
   'regulated-reporting-mcp': 'Guarded integration · Regulated Reporting MCP',
   'hermes-deployment-lab': 'Failure recovery · Hermes Deployment Lab',
   wingman: 'Readback + restore · Confirm-before-write quality',
@@ -92,6 +93,7 @@ const caseEyebrows = {
 
 const caseStepCounts = {
   'agent-operating-system': 6,
+  'dedup-readback-bridge': 6,
   'regulated-reporting-mcp': 5,
   'hermes-deployment-lab': 5,
   wingman: 6,
@@ -124,6 +126,12 @@ const projects = [
     title: 'Agent Operating System',
     repo: 'https://github.com/dbett4',
     proof: 'Architecture map',
+  },
+  {
+    slug: 'dedup-readback-bridge',
+    title: 'Keep recurring agent work from running twice',
+    repo: 'https://github.com/dbett4/dedup-readback-bridge',
+    proof: '19 tests, including a two-thread race and a crash-safety check',
   },
   {
     slug: 'regulated-reporting-mcp',
@@ -238,7 +246,7 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   }
   for (const marker of [
     'The Hermes Deployment Lab scopes tools',
-    'MCP server for a Workiva-shaped reporting API',
+    'A small Python bridge for recurring LLM and agent pipelines',
   ]) {
     ok(body.includes(marker), `${name}: public proof problem statement retained (${marker})`);
   }
@@ -839,7 +847,7 @@ try {
       motifs.map((motif) => motif.getAttribute('data-evidence-motif')),
     );
     ok(
-      motifKinds.join('|') === 'guarded-readback|guarded-mutation',
+      motifKinds.join('|') === 'guarded-readback|guarded-readback',
       `${viewport.name}: selected work uses evidence-derived static motifs`,
       motifKinds.join('|'),
     );
@@ -883,7 +891,7 @@ try {
       closingTitle,
     );
     ok(body.includes('Hermes Deployment Lab'), `${viewport.name}: features Hermes Deployment Lab`);
-    ok(body.includes('Regulated Reporting MCP'), `${viewport.name}: features Regulated Reporting MCP`);
+    ok(body.includes('Dedup Read-Back Bridge'), `${viewport.name}: features Dedup Read-Back Bridge`);
     ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
     ok(body.includes('Hermes Enterprise Evaluation Kit'), `${viewport.name}: features Hermes Enterprise Evaluation Kit`);
     ok(!body.includes('Financial reporting QA with readback'), `${viewport.name}: Wingman is not featured on homepage`);
@@ -941,8 +949,8 @@ try {
     );
     ok(
       buildingCardOrder.join(',') ===
-        'agent-orchestration,regulated-reporting-mcp',
-      `${viewport.name}: building-card order is agent orchestration → MCP`,
+        'agent-orchestration,dedup-readback-bridge',
+      `${viewport.name}: building-card order is agent orchestration → Dedup Read-Back Bridge`,
       buildingCardOrder.join(','),
     );
     await assertCausalDeliveryLoopContracts(page, viewport.name);

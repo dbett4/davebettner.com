@@ -23,7 +23,7 @@ const mappedProjects = publicEngineeringCases.map((item) => ({
 
 export const buildingNow = {
   title: 'Selected engineering work',
-  lead: 'Deployment recovery, policy-bounded evaluation, and a guarded API integration. Each item links to inspectable code and its limits.',
+  lead: 'Deployment recovery, deduplication, and policy-bounded evaluation. Each item links to inspectable code and its limits.',
   projects: mappedProjects,
   featuredProjects: featuredPublicProjectIds
     .map((projectId) => mappedProjects.find((project) => project.id === projectId))

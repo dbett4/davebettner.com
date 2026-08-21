@@ -1,0 +1,254 @@
+---
+const stages = [
+  {
+    label: 'Limit access',
+    state: 'The agent gets only the access it needs',
+    detail: 'Before anything happens, the agent can review the current state and ask for one change. It cannot approve its own work.',
+    event: 'Access limited to review and one change request',
+    sideEffects: '0',
+    receipt: 'Nothing changed yet',
+  },
+  {
+    label: 'Review the change',
+    state: 'A person reviews the exact change',
+    detail: 'The system pauses until an operator sees what will change and approves this request.',
+    event: 'Operator approved this request',
+    sideEffects: '0',
+    receipt: 'Approval recorded',
+  },
+  {
+    label: 'Lose the reply',
+    state: 'The change went through, but the confirmation was lost',
+    detail: 'The system saved the change, then the connection dropped before it could reply. Trying again right away could create a duplicate.',
+    event: 'Change saved · confirmation lost',
+    sideEffects: '1',
+    receipt: 'Result still needs to be checked',
+  },
+  {
+    label: 'Find the first result',
+    state: 'The original change is already there',
+    detail: 'The workflow uses the same tracking number to look for the original result. It finds the saved change, so it does not run it a second time.',
+    event: 'Original result found · no second change',
+    sideEffects: '1',
+    receipt: 'Duplicate avoided',
+  },
+  {
+    label: 'Verify one result',
+    state: 'The final count is still one',
+    detail: 'The system checks the saved result against the original request. One approved request produced one saved change.',
+    event: 'Saved result checked against the request',
+    sideEffects: '1',
+    receipt: 'Verified',
+  },
+] as const;
+---
+
+<section class="recovery-proof" data-recovery-proof data-stage="0" aria-labelledby="recovery-proof-heading">
+  <header class="recovery-proof__head">
+    <div>
+      <p class="recovery-proof__kicker mono">Why this is valuable</p>
+      <h2 id="recovery-proof-heading">One lost confirmation can create two business actions.</h2>
+      <p>When an agent sends a payment, purchase order, access grant, or customer update, the business system may save it just before the connection drops. The agent sees an error even though the work is already done.</p>
+      <p class="recovery-proof__payoff">Without recovery, the team must risk a duplicate or investigate the run by hand. I built a safer path: find the first result, continue without repeating it, and show the operator exactly what happened.</p>
+      <p class="recovery-proof__business-value">Most agents save time by drafting. The larger return comes when they can safely complete work inside business systems. This recovery design removes one blocker to that: an uncertain result after a change.</p>
+    </div>
+    <p class="recovery-proof__mode mono">Public proof · forced failure and restart</p>
+  </header>
+
+  <section class="recovery-proof__value" aria-labelledby="recovery-value-heading">
+    <p class="mono">Engineering work → business outcome</p>
+    <h3 id="recovery-value-heading">The control lowers the cost of a completed, verified action.</h3>
+    <dl class="recovery-value-ledger">
+      <div>
+        <dt>Separate approval</dt>
+        <dd>People keep decision authority while the agent handles execution. A team can automate the work without giving the agent permission to approve its own high-impact actions.</dd>
+      </div>
+      <div>
+        <dt>Restart-safe recovery</dt>
+        <dd>Routine timeouts do not become duplicate transactions or manual investigations. That reduces exception-handling effort and the cost of each completed business action.</dd>
+      </div>
+      <div>
+        <dt>Final readback</dt>
+        <dd>Operators get a clear record of what happened. Support and engineering teams spend less time comparing logs and systems after an uncertain run.</dd>
+      </div>
+      <div>
+        <dt>Forced-failure proof</dt>
+        <dd>Engineering and risk teams can inspect the dangerous path before production. They are not being asked to trust a happy-path demo or a promise that recovery should work.</dd>
+      </div>
+    </dl>
+    <p class="recovery-proof__economics"><span class="mono">The business outcome</span> Applied to a real workflow, this should let each operator oversee more completed work because routine retries no longer demand manual attention. The savings come from duplicate actions avoided, investigation time removed, and less correction work. Subtract the operating cost of the lookup and final check. This lab proves the control, not a measured customer savings figure.</p>
+  </section>
+
+  <div class="recovery-proof__body">
+    <ol class="recovery-proof__stages" aria-label="Failure and recovery sequence">
+      {stages.map((stage, index) => (
+        <li>
+          <button
+            type="button"
+            class="recovery-stage"
+            aria-pressed={index === 0 ? 'true' : 'false'}
+            data-recovery-stage={index}
+            data-state={stage.state}
+            data-detail={stage.detail}
+            data-event={stage.event}
+            data-effects={stage.sideEffects}
+            data-receipt={stage.receipt}
+          >
+            <span class="recovery-stage__index mono">{String(index + 1).padStart(2, '0')}</span>
+            <span class="recovery-stage__label">{stage.label}</span>
+          </button>
+        </li>
+      ))}
+    </ol>
+
+    <div class="recovery-proof__trace">
+      <div class="trace-status">
+        <p class="mono">What happened</p>
+        <p class="trace-status__value" data-stage-state>{stages[0].state}</p>
+        <p class="trace-status__detail" data-stage-detail>{stages[0].detail}</p>
+      </div>
+
+      <div class="trace-line" aria-hidden="true">
+        <span class="trace-line__base"></span>
+        <span class="trace-line__signal"></span>
+        <span class="trace-node trace-node--request">Ask</span>
+        <span class="trace-node trace-node--gate">Approve</span>
+        <span class="trace-node trace-node--write">Save</span>
+        <span class="trace-node trace-node--proof">Check</span>
+      </div>
+
+      <dl class="trace-readout" aria-live="polite" aria-atomic="true">
+        <div>
+          <dt>System record</dt>
+          <dd data-stage-event>{stages[0].event}</dd>
+        </div>
+        <div>
+          <dt>Changes made</dt>
+          <dd class="trace-readout__count" data-stage-effects>{stages[0].sideEffects}</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd data-stage-receipt>{stages[0].receipt}</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <p class="recovery-proof__boundary">
+    <span class="mono">About this example</span>
+    This public example uses synthetic data. It shows the failure and recovery behavior in the lab, not activity in a client environment or a cloud deployment.
+  </p>
+</section>
+
+<script>
+  const roots = document.querySelectorAll<HTMLElement>('[data-recovery-proof]');
+
+  for (const root of roots) {
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-recovery-stage]')];
+    const state = root.querySelector('[data-stage-state]');
+    const detail = root.querySelector('[data-stage-detail]');
+    const event = root.querySelector('[data-stage-event]');
+    const effects = root.querySelector('[data-stage-effects]');
+    const receipt = root.querySelector('[data-stage-receipt]');
+
+    const selectStage = (index: number) => {
+      const button = buttons[index] as HTMLButtonElement | undefined;
+      if (!button) return;
+
+      root.dataset.stage = String(index);
+      buttons.forEach((button, buttonIndex) => {
+        button.setAttribute('aria-pressed', String(buttonIndex === index));
+      });
+      if (state) state.textContent = button.dataset.state ?? '';
+      if (detail) detail.textContent = button.dataset.detail ?? '';
+      if (event) event.textContent = button.dataset.event ?? '';
+      if (effects) effects.textContent = button.dataset.effects ?? '';
+      if (receipt) receipt.textContent = button.dataset.receipt ?? '';
+    };
+
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => selectStage(index));
+      button.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const direction = event.key === 'ArrowRight' || event.key === 'ArrowDown' ? 1 : -1;
+        const next = event.key === 'Home'
+          ? 0
+          : event.key === 'End'
+            ? buttons.length - 1
+            : (index + direction + buttons.length) % buttons.length;
+        (buttons[next] as HTMLButtonElement).focus();
+        selectStage(next);
+      });
+    });
+  }
+</script>
+
+<style>
+  .recovery-proof{margin:0 0 72px;border-block:1px solid var(--graphite);background:#0d0e11;overflow:hidden}
+  .recovery-proof__head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end;padding:clamp(24px,4vw,42px);border-bottom:1px solid var(--graphite)}
+  .recovery-proof__kicker{color:var(--ember)!important;margin:0 0 14px!important}
+  .recovery-proof__head h2{font-size:clamp(2rem,4.4vw,3.8rem);max-width:13ch;text-wrap:balance;margin:0 0 16px}
+  .recovery-proof__head>div>p{max-width:66ch;color:var(--muted);font-size:.95rem}
+  .recovery-proof__payoff{margin-top:14px;color:var(--warm)!important;font-size:1rem!important;line-height:1.55}
+  .recovery-proof__business-value{margin-top:18px;padding:16px 18px;border-left:3px solid var(--ember);background:rgba(255,80,5,.07);color:var(--warm)!important;font-size:1rem!important;line-height:1.55}
+  .recovery-proof__mode{max-width:24ch;color:var(--rose);text-align:right}
+  .recovery-proof__value{padding:clamp(24px,4vw,42px);border-bottom:1px solid var(--graphite);background:#101114}
+  .recovery-proof__value>.mono{color:var(--ember);margin-bottom:12px}
+  .recovery-proof__value h3{max-width:24ch;font-size:clamp(1.45rem,3vw,2.35rem);line-height:1.05;margin:0 0 24px}
+  .recovery-value-ledger{margin:0;border-top:1px solid var(--graphite)}
+  .recovery-value-ledger>div{display:grid;grid-template-columns:minmax(130px,.55fr) minmax(0,2fr);gap:24px;padding:16px 0;border-bottom:1px solid var(--graphite)}
+  .recovery-value-ledger dt{font:500 max(.72rem,11px)/1.4 "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--rose)}
+  .recovery-value-ledger dd{margin:0;max-width:68ch;color:var(--warm);font-size:.92rem;line-height:1.55}
+  .recovery-proof__economics{max-width:78ch;margin:24px 0 0;color:var(--muted);font-size:.86rem;line-height:1.6}
+  .recovery-proof__economics .mono{display:block;color:#73bfc4;margin-bottom:6px}
+  .recovery-proof__body{display:grid;grid-template-columns:minmax(190px,.72fr) minmax(0,2fr)}
+  .recovery-proof__stages{list-style:none;margin:0;padding:0;border-right:1px solid var(--graphite)}
+  .recovery-proof__stages li+li{border-top:1px solid var(--graphite)}
+  .recovery-stage{appearance:none;width:100%;min-height:68px;padding:12px 16px;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;border:0;background:transparent;color:var(--muted);font:inherit;text-align:left;cursor:pointer;transition:background .18s ease,color .18s ease}
+  .recovery-stage:hover{background:#15161a;color:var(--warm)}
+  .recovery-stage[aria-pressed="true"]{background:var(--warm);color:var(--space)}
+  .recovery-stage__index{color:var(--ember)}
+  .recovery-stage[aria-pressed="true"] .recovery-stage__index{color:#a42f00}
+  .recovery-stage__label{font-size:.82rem;font-weight:650;line-height:1.25}
+  .recovery-proof__trace{min-width:0;padding:clamp(24px,5vw,52px);display:grid;align-content:space-between;gap:42px;background:linear-gradient(135deg,rgba(208,188,225,.05),transparent 48%),#090a0c}
+  .trace-status{max-width:640px}
+  .trace-status>.mono{color:var(--ember);margin-bottom:10px}
+  .trace-status__value{font-size:clamp(1.35rem,3vw,2.25rem);font-weight:650;line-height:1.08;letter-spacing:-.035em;color:var(--warm);text-wrap:balance}
+  .trace-status__detail{max-width:62ch;margin-top:12px;color:var(--muted);font-size:.9rem;line-height:1.55}
+  .trace-line{position:relative;height:76px;margin-inline:8px}
+  .trace-line__base,.trace-line__signal{position:absolute;left:0;right:0;top:50%;height:1px;transform-origin:left center}
+  .trace-line__base{background:var(--graphite)}
+  .trace-line__signal{background:linear-gradient(90deg,var(--ember),var(--lavender),#73bfc4);transform:scaleX(.08);transition:transform .42s cubic-bezier(.16,1,.3,1);box-shadow:0 0 16px rgba(255,80,5,.28)}
+  [data-stage="1"] .trace-line__signal{transform:scaleX(.32)}
+  [data-stage="2"] .trace-line__signal{transform:scaleX(.62)}
+  [data-stage="3"] .trace-line__signal{transform:scaleX(.82)}
+  [data-stage="4"] .trace-line__signal{transform:scaleX(1)}
+  .trace-node{position:absolute;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:54px;height:54px;border:1px solid var(--graphite);background:#101114;color:var(--muted);font:500 9px/1.1 "DM Mono",monospace;text-transform:uppercase;letter-spacing:.04em;transition:border-color .18s,color .18s,background .18s}
+  .trace-node--request{left:0;transform:translate(0,-50%)}
+  .trace-node--gate{left:33%}.trace-node--write{left:66%}.trace-node--proof{left:100%;transform:translate(-100%,-50%)}
+  [data-stage="0"] .trace-node--request,[data-stage="1"] .trace-node--gate,[data-stage="2"] .trace-node--write,[data-stage="3"] .trace-node--write,[data-stage="4"] .trace-node--proof{border-color:var(--ember);background:var(--warm);color:var(--space)}
+  [data-stage="2"] .trace-node--write{border-color:var(--ember);background:var(--ember);color:var(--space)}
+  [data-stage="3"] .trace-node--write{border-color:var(--lavender)}
+  [data-stage="4"] .trace-node--proof{border-color:#73bfc4}
+  .trace-readout{display:grid;grid-template-columns:1.3fr .55fr 1fr;border-top:1px solid var(--graphite);border-bottom:1px solid var(--graphite)}
+  .trace-readout>div{padding:14px 16px;min-width:0}.trace-readout>div+div{border-left:1px solid var(--graphite)}
+  .trace-readout dt{font:500 max(.68rem,11px)/1.3 "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--rose);margin-bottom:8px}
+  .trace-readout dd{margin:0;color:var(--warm);font-size:.8rem;line-height:1.35;overflow-wrap:anywhere}
+  .trace-readout__count{font-size:1.65rem!important;font-variant-numeric:tabular-nums;color:#73bfc4!important}
+  .recovery-proof__boundary{margin:0;padding:18px clamp(24px,4vw,42px);border-top:1px solid var(--graphite);color:var(--muted);font-size:.82rem;line-height:1.5}
+  .recovery-proof__boundary .mono{display:inline-block;margin-right:12px;color:var(--ember)}
+  @media(max-width:720px){
+    .recovery-proof{margin-inline:-14px}
+    .recovery-proof__head{grid-template-columns:1fr;gap:18px}.recovery-proof__mode{text-align:left}
+    .recovery-value-ledger>div{grid-template-columns:1fr;gap:7px}
+    .recovery-proof__body{grid-template-columns:1fr}
+    .recovery-proof__stages{display:grid;grid-template-columns:repeat(5,minmax(118px,1fr));overflow-x:auto;border-right:0;border-bottom:1px solid var(--graphite);scroll-snap-type:x proximity}
+    .recovery-proof__stages li+li{border-top:0;border-left:1px solid var(--graphite)}
+    .recovery-stage{min-height:74px;grid-template-columns:1fr;gap:4px;scroll-snap-align:start}
+    .recovery-proof__trace{padding:28px 20px;gap:34px}
+    .trace-line{height:64px}.trace-node{width:46px;height:46px;font-size:8px}
+    .trace-readout{grid-template-columns:1fr 84px}.trace-readout>div:nth-child(3){grid-column:1/-1;border-left:0;border-top:1px solid var(--graphite)}
+  }
+  @media(prefers-reduced-motion:reduce){.trace-line__signal,.trace-node,.recovery-stage{transition-duration:.01ms}}
+</style>

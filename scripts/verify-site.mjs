@@ -87,7 +87,7 @@ const caseEyebrows = {
   'agent-operating-system': 'Architecture · Agent operating system',
   'dedup-readback-bridge': 'Pipeline economics · Dedup Read-Back Bridge',
   'regulated-reporting-mcp': 'Guarded integration · Regulated Reporting MCP',
-  'hermes-deployment-lab': 'Failure recovery · Hermes Deployment Lab',
+  'hermes-deployment-lab': 'Duplicate-action prevention · Hermes Deployment Lab',
   wingman: 'Readback + restore · Confirm-before-write quality',
 };
 
@@ -143,8 +143,8 @@ const projects = [
     slug: 'hermes-deployment-lab',
     title: 'Hermes Deployment Lab',
     repo: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
-    proof: 'Public Actions run 31892965924 at release commit 1e68676 attests container restart/replay',
-    boundaries: ['Synthetic lab', 'Cloud apply is not attested', 'not a model-driven production run claim', 'no-apply'],
+    proof: 'Public GitHub Actions run 31892965924 forces the failure',
+    boundaries: ['synthetic lab', 'cloud configuration is checked but not deployed', 'a model is not running the workflow in production'],
   },
   {
     slug: 'wingman',
@@ -1171,7 +1171,7 @@ try {
     String(metadata.ogDescription),
   );
   ok(
-    metadata.ogImage === 'https://davebettner.com/images/dave-bettner-og.jpg',
+    metadata.ogImage === 'https://davebettner.com/images/dave-bettner-og-interstellar.jpg',
     'Homepage Open Graph image uses the production social card',
     String(metadata.ogImage),
   );
@@ -1191,7 +1191,7 @@ try {
         const image = new Image();
         image.onload = () => resolve({ loaded: true, width: image.naturalWidth, height: image.naturalHeight });
         image.onerror = () => resolve({ loaded: false, width: 0, height: 0 });
-        image.src = '/images/dave-bettner-og.jpg';
+        image.src = '/images/dave-bettner-og-interstellar.jpg';
       }),
   );
   ok(
@@ -1258,6 +1258,36 @@ try {
     );
     for (const boundary of project.boundaries ?? []) {
       ok(projectText.includes(boundary), `${route}: proof boundary ${boundary}`);
+    }
+    if (project.slug === 'hermes-deployment-lab') {
+      const explorer = page.locator('[data-recovery-proof]');
+      const stages = explorer.locator('[data-recovery-stage]');
+      ok((await explorer.count()) === 1, `${route}: one interactive recovery proof`);
+      ok((await stages.count()) === 5, `${route}: recovery proof has five meaningful states`);
+      ok((await stages.first().getAttribute('aria-pressed')) === 'true', `${route}: recovery proof exposes its initial state`);
+
+      await stages.nth(2).click();
+      ok((await explorer.getAttribute('data-stage')) === '2', `${route}: post-commit fault can be selected`);
+      ok(
+        (await explorer.locator('[data-stage-state]').innerText()) === 'The change went through, but the confirmation was lost',
+        `${route}: fault state explains the missing confirmation`,
+      );
+      ok((await explorer.locator('[data-stage-effects]').innerText()) === '1', `${route}: fault state records one side effect`);
+      ok(
+        (await explorer.locator('[data-stage-receipt]').innerText()) === 'Result still needs to be checked',
+        `${route}: fault state does not overclaim proof`,
+      );
+
+      await stages.nth(2).press('End');
+      ok((await explorer.getAttribute('data-stage')) === '4', `${route}: keyboard navigation reaches final readback`);
+      ok((await stages.nth(4).getAttribute('aria-pressed')) === 'true', `${route}: final state is announced as selected`);
+      ok((await explorer.locator('[data-stage-effects]').innerText()) === '1', `${route}: recovery preserves exactly one side effect`);
+      ok(
+        (await explorer.locator('[data-stage-receipt]').innerText()) === 'Verified',
+        `${route}: readback completes the synthetic receipt`,
+      );
+    } else {
+      ok((await page.locator('[data-recovery-proof]').count()) === 0, `${route}: recovery proof stays scoped to Deployment Lab`);
     }
   }
 

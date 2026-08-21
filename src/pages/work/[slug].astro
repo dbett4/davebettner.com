@@ -3,6 +3,7 @@ import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/dm-mono/400.css';
 import '@fontsource/dm-mono/500.css';
 import EvidenceMotif from '../../components/EvidenceMotif.astro';
+import RecoveryProofExplorer from '../../components/RecoveryProofExplorer.astro';
 import SecondaryMasthead from '../../components/SecondaryMasthead.astro';
 import { cases, type CaseStudy } from '../../data/cases';
 import { provenanceNote } from '../../data/public-proof';
@@ -93,6 +94,8 @@ const title = `${projectName} | Dave Bettner`;
             <p>{item.evidenceMap.boundary}</p>
           </div>
         </section>
+
+        {item.id === 'hermes-deployment-lab' ? <RecoveryProofExplorer /> : null}
 
         {item.id === 'agent-operating-system' ? (
           <section class="stack-explainer" aria-labelledby="stack-explainer-heading">

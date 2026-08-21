@@ -58,11 +58,11 @@ export const cases = [
   },
   {
     id: 'hermes-deployment-lab',
-    eyebrow: 'Failure recovery · Hermes Deployment Lab',
-    title: 'Scope tools, separate approval, survive post-commit failure',
+    eyebrow: 'Duplicate-action prevention · Hermes Deployment Lab',
+    title: 'I built a failure test that proves an agent will not repeat a high-impact action',
     summary:
-      'Synthetic lab for the hard case: an agent can touch an internal system. Scope the tools, keep operator approval separate, force the ugly post-commit error, and resume without double-writing.',
-    meta: 'Scoped tools · operator gate · idempotent resume',
+      'Most demos stop after a successful action. This lab tests the failure that can create direct costs and manual reconciliation: the system saves a payment, order, access grant, or customer update, but the agent never receives confirmation. The recovery finds the first result instead of creating a second.',
+    meta: 'Forced failure · restart recovery · one final result',
     size: 'small',
     visual: 'rings',
     motif: 'failure-retry',
@@ -70,21 +70,21 @@ export const cases = [
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md',
     constraint:
-      'A demo that answers once is not evidence that a second operator can deploy, observe failures, and recover without duplicating side effects.',
+      'The dangerous failure is a change that succeeds while the agent thinks it failed. The team must either retry and risk a duplicate or stop the workflow and investigate by hand. Both choices consume money or staff time.',
     built:
-      'I built a FastMCP server, mock enterprise API, workflow runner, and Compose stack. The lab stops the first write for a separate operator grant, then injects failure after commit and resumes with the same idempotency key so exactly one side effect remains.',
-    role: 'I owned the deployment shape, failure taxonomy, test harness, and operating runbooks.',
+      'I built the approval and recovery path around that failure. The lab keeps one tracking number through the restart, finds the first result instead of repeating the action, and checks the final count. The public test forces the failure rather than assuming recovery would work.',
+    role: 'I designed the controls, failure test, recovery behavior, and proof needed before an agent can safely make changes in an enterprise system.',
     boundary:
-      'Synthetic lab with credential-free tests, not a live client tenant. Cloud IaC is no-apply only. Scripts and tests call tools; this is not a model-driven production run claim.',
+      'This is a synthetic lab, not a live client environment. The cloud configuration is checked but not deployed. Scripts and tests drive the run; a model is not running the workflow in production.',
     evidence:
-      'Public Actions run 31892965924 at release commit 1e68676 attests container restart/replay, native telemetry/trace, fresh-clone, and 241 credential-free tests; cloud IaC remains validate-only.',
-    scope: 'Lab architecture and recovery discipline are public; client data and credentials are not.',
+      'Public GitHub Actions run 31892965924 forces the failure, restarts the containers, replays the original request, and verifies the final count is one. The suite includes 241 credential-free tests.',
+    scope: 'The lab design and recovery process are public. Client data and credentials are not part of it.',
     evidenceMap: {
-      signal: 'Scoped tools + separate operator approval + one side effect after failure/resume',
+      signal: 'The workflow fails at the worst moment and still leaves one approved result',
       method:
-        'Public GitHub Actions run 31892965924 for v1.0.0: container-proof, native telemetry and trace, fresh-clone, 241 tests, and no-apply cloud-IaC validation.',
-      steps: ['Scope tools', 'Operator grant', 'Post-commit fault', 'Idempotent resume', 'Receipt'],
-      boundary: 'Synthetic lab evidence. Cloud apply is not attested.',
+        'A public GitHub Actions run starts from a fresh copy, saves one change, drops the confirmation, restarts the workflow, and verifies that the result was not duplicated.',
+      steps: ['Limit access', 'Approve the change', 'Lose the reply', 'Find the first result', 'Verify one result'],
+      boundary: 'Synthetic data only. The cloud configuration is checked, not deployed.',
     },
   },
   {

@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 
-const output = new URL('../public/images/dave-bettner-og.jpg', import.meta.url);
+const output = new URL('../public/images/dave-bettner-og-interstellar.jpg', import.meta.url);
 const generator = new URL('./generate-og-image.mjs', import.meta.url);
 
 async function sha256() {

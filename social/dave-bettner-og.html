@@ -3,22 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1200, initial-scale=1" />
-    <title>Dave Bettner — Enterprise Agent Deployment and Solutions Engineering</title>
+    <title>Dave Bettner | Forward-Deployed Engineering · Agent Systems</title>
     <style>
       @font-face {
-        font-family: 'Newsreader';
-        src: url('../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2') format('woff2');
+        font-family: 'Archivo Variable';
+        src: url('../node_modules/@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2') format('woff2');
         font-display: block;
         font-style: normal;
-        font-weight: 200 800;
-      }
-
-      @font-face {
-        font-family: 'Plus Jakarta Sans';
-        src: url('../node_modules/@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2');
-        font-display: block;
-        font-style: normal;
-        font-weight: 200 800;
+        font-weight: 100 900;
       }
 
       @font-face {
@@ -30,20 +22,20 @@
       }
 
       :root {
-        --paper: #f3efe5;
-        --ink: #151515;
-        --muted: #62615d;
-        --rule: #bdb7aa;
-        --blue: #214fe5;
-        --orange: #cf4120;
+        --space: #08090b;
+        --space-2: #101114;
+        --warm: #f2eadf;
+        --ember: #ff5005;
+        --rose: #dbba95;
+        --lavender: #d0bce1;
+        --teal: #73bfc4;
+        --graphite: #34353a;
+        --muted: #b9b2aa;
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
-      html,
-      body {
+      html, body {
         width: 1200px;
         height: 630px;
         margin: 0;
@@ -51,250 +43,196 @@
       }
 
       body {
-        background: var(--paper);
-        color: var(--ink);
-        font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+        background: var(--space);
+        color: var(--warm);
+        font-family: 'Archivo Variable', Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
+      }
+
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.045;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
       }
 
       .social-card {
         position: relative;
         width: 1200px;
         height: 630px;
-        padding: 42px 54px 32px;
+        padding: 38px 54px 30px;
         overflow: hidden;
         background:
-          linear-gradient(90deg, transparent 79px, rgba(189, 183, 170, 0.2) 79px 80px, transparent 80px),
-          var(--paper);
+          linear-gradient(90deg, var(--space) 0 63%, var(--space-2) 63% 100%),
+          var(--space);
       }
 
       .social-card::before {
         content: '';
         position: absolute;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.16;
-        background-image:
-          radial-gradient(circle at 1px 1px, rgba(21, 21, 21, 0.46) 0 0.6px, transparent 0.8px);
-        background-size: 6px 6px;
-        mask-image: linear-gradient(90deg, transparent 0 61%, #000 70% 100%);
+        top: 0;
+        right: 0;
+        width: 420px;
+        height: 10px;
+        background: linear-gradient(90deg, var(--ember) 0 42%, var(--teal) 42% 71%, var(--lavender) 71% 100%);
       }
 
-      .masthead,
-      .content,
-      .footer {
-        position: relative;
-        z-index: 1;
-      }
+      .masthead, .content, .footer { position: relative; z-index: 1; }
 
       .masthead {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        min-height: 46px;
-        padding-bottom: 16px;
-        border-bottom: 2px solid var(--ink);
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 16px;
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        text-transform: uppercase;
+        min-height: 34px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--graphite);
       }
 
       .brand-mark {
-        width: 8px;
-        height: 8px;
-        background: var(--orange);
-        box-shadow: 3px -1px 0 var(--blue);
+        display: block;
+        width: 12px;
+        height: 12px;
+        background: var(--ember);
+        box-shadow: 5px -3px 0 var(--teal);
       }
 
-      .role,
-      .kicker,
-      .sequence,
-      .spec-label,
-      .footer {
+      .role, .kicker, .detail-label, .footer {
         font-family: 'DM Mono', monospace;
         text-transform: uppercase;
         letter-spacing: 0.09em;
       }
 
-      .role {
-        color: var(--muted);
-        font-size: 12px;
-      }
+      .role { color: var(--teal); font-size: 13px; }
 
       .content {
         display: grid;
-        grid-template-columns: minmax(0, 1.34fr) minmax(300px, 0.66fr);
-        gap: 62px;
+        grid-template-columns: minmax(0, 1.08fr) minmax(390px, 0.92fr);
+        gap: 64px;
         align-items: center;
-        height: 438px;
+        height: 468px;
       }
 
-      .copy {
-        align-self: center;
-        min-width: 0;
-      }
-
-      .kicker {
-        margin: 0 0 20px;
-        color: var(--orange);
-        font-size: 12px;
-      }
+      .copy { min-width: 0; }
+      .kicker { margin: 0 0 18px; color: var(--teal); font-size: 15px; }
 
       h1 {
-        max-width: 700px;
+        max-width: 680px;
         margin: 0;
-        font-family: 'Newsreader', Georgia, serif;
-        font-size: 48px;
-        font-weight: 480;
-        line-height: 1.02;
-        letter-spacing: -0.04em;
-        text-wrap: balance;
+        color: var(--warm);
+        font-family: 'Archivo Variable', Arial, sans-serif;
+        font-size: 126px;
+        font-variation-settings: 'wdth' 75, 'wght' 700;
+        line-height: 0.73;
+        letter-spacing: -0.065em;
+        text-transform: uppercase;
       }
+
+      h1 span { display: block; }
+      h1 span:last-child { color: var(--ember); }
 
       .support {
-        max-width: 650px;
-        margin: 24px 0 0;
-        color: var(--muted);
-        font-size: 20px;
-        font-weight: 470;
-        line-height: 1.4;
+        max-width: 520px;
+        margin: 28px 0 0;
+        color: var(--warm);
+        font-size: 27px;
+        font-weight: 560;
+        line-height: 1.08;
       }
 
-      .sequence {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        margin-top: 26px;
-        color: var(--ink);
-        font-size: 11px;
-        white-space: nowrap;
-      }
-
-      .sequence i {
-        width: 14px;
-        height: 1px;
-        background: var(--rule);
-      }
-
-      .portrait-wrap {
+      .detail-panel {
         position: relative;
-        width: 318px;
-        justify-self: end;
+        padding: 24px 26px 8px;
+        border: 1px solid var(--graphite);
+        border-top: 3px solid var(--teal);
+        background: var(--space-2);
+        transform: translateY(12px);
       }
 
-      .portrait-wrap::before {
+      .detail-panel::before {
         content: '';
         position: absolute;
-        inset: 16px -14px -14px 16px;
-        border: 1px solid var(--blue);
-        background:
-          repeating-linear-gradient(0deg, rgba(33, 79, 229, 0.18) 0 1px, transparent 1px 5px),
-          var(--paper);
+        top: -3px;
+        left: 24px;
+        width: 88px;
+        height: 5px;
+        background: var(--ember);
       }
 
-      .portrait {
-        position: relative;
-        width: 318px;
-        height: 318px;
-        border: 2px solid var(--ink);
-        background: #d7d4cd;
-        object-fit: contain;
-        object-position: center;
+      .detail-eyebrow {
+        margin: 0 0 18px;
+        color: var(--ember);
+        font: 14px/1.2 'DM Mono', monospace;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .detail-row {
+        padding: 14px 20px 15px 0;
+        border-top: 1px solid var(--graphite);
+      }
+
+      .detail-label {
         display: block;
+        margin-bottom: 7px;
+        color: var(--teal);
+        font-size: 11px;
       }
 
-      .spec-label {
-        position: absolute;
-        z-index: 2;
-        padding: 6px 8px;
-        border: 1px solid var(--ink);
-        background: var(--paper);
-        font-size: 10px;
-      }
-
-      .spec-label.top {
-        top: -14px;
-        left: -14px;
-      }
-
-      .spec-label.bottom {
-        right: -14px;
-        bottom: -14px;
-        color: var(--blue);
+      .detail-value {
+        display: block;
+        color: var(--warm);
+        font-size: 23px;
+        font-weight: 560;
+        line-height: 1.08;
       }
 
       .footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 72px;
-        border-top: 1px solid var(--ink);
+        height: 58px;
+        border-top: 1px solid var(--graphite);
         color: var(--muted);
         font-size: 11px;
       }
 
-      .footer strong {
-        color: var(--ink);
-        font-weight: 400;
-      }
-
-      .footer-accent {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .footer-accent::before {
-        content: '';
-        width: 28px;
-        height: 3px;
-        background: linear-gradient(90deg, var(--orange) 0 50%, var(--blue) 50% 100%);
-      }
+      .footer strong { color: var(--warm); font-weight: 400; }
+      .footer-accent { display: inline-flex; align-items: center; gap: 8px; }
+      .footer-accent::before { content: ''; width: 32px; height: 4px; background: linear-gradient(90deg, var(--ember) 0 50%, var(--teal) 50% 100%); }
     </style>
   </head>
   <body>
-    <main class="social-card" aria-label="Dave Bettner forward-deployed delivery and AI-agent systems social card">
+    <main class="social-card" aria-label="Dave Bettner forward-deployed engineering and agent systems social card">
       <header class="masthead">
-        <div class="brand"><span>Dave Bettner</span><span class="brand-mark" aria-hidden="true"></span></div>
-        <div class="role">Forward-deployed delivery · AI-agent systems</div>
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div class="role">Agent systems</div>
       </header>
 
       <section class="content">
         <div class="copy">
-          <p class="kicker">Customer environments · working systems</p>
-          <h1>Messy customer workflows → deployed systems that hold up.</h1>
-          <p class="support">Discovery, integration, debugging, proof, and adoption. Backed by 10+ years of delivery and inspectable agent engineering.</p>
-          <div class="sequence" aria-label="Delivery sequence">
-            <span>Discover</span><i aria-hidden="true"></i>
-            <span>Shape</span><i aria-hidden="true"></i>
-            <span>Deliver</span><i aria-hidden="true"></i>
-            <span>Adopt</span>
-          </div>
+          <p class="kicker">Forward-deployed engineering</p>
+          <h1><span>Dave</span><span>Bettner</span></h1>
+          <p class="support">Customer-facing engineering</p>
         </div>
 
-        <div class="portrait-wrap">
-          <span class="spec-label top">SIG · 01</span>
-          <img
-            class="portrait"
-            src="../public/images/dave-bettner-headshot-20260808-square.webp"
-            width="1200"
-            height="1200"
-            alt="Dave Bettner smiling in a gray suit"
-          />
-          <span class="spec-label bottom">Deployment proof</span>
-        </div>
+        <aside class="detail-panel" aria-label="Profile details">
+          <p class="detail-eyebrow">At a glance</p>
+          <div class="detail-row">
+            <span class="detail-label">Enterprise experience</span>
+            <strong class="detail-value">10+ years implementation</strong>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Public work</span>
+            <strong class="detail-value">Agent systems + MCP</strong>
+          </div>
+        </aside>
       </section>
 
       <footer class="footer">
         <span>Des Moines, Iowa</span>
-        <strong class="footer-accent">davebettner.com</strong>
+        <strong class="footer-accent">Engineering · Delivery · Proof</strong>
       </footer>
     </main>
   </body>

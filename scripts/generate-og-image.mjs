@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Deterministic Open Graph image generation from social/dave-bettner-og.html.
- * Uses Playwright + system Chrome and preserves the supplied headshot asset unchanged.
+ * Uses Playwright + system Chrome to render the text-led social card.
  */
 import { chromium } from 'playwright-core';
 import { createHash } from 'node:crypto';
@@ -12,7 +12,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sourceHtml = path.join(root, 'social', 'dave-bettner-og.html');
-const outputImage = path.join(root, 'public', 'images', 'dave-bettner-og.jpg');
+const outputImage = path.join(root, 'public', 'images', 'dave-bettner-og-interstellar.jpg');
 const width = 1200;
 const height = 630;
 
@@ -40,14 +40,14 @@ async function main() {
   const chrome = resolveChrome();
   const source = await readFile(sourceHtml, 'utf8');
   for (const marker of [
-    'Forward-deployed delivery · AI-agent systems',
-    'Messy customer workflows → deployed systems that hold up.',
-    'Discovery, integration, debugging, proof, and adoption',
-    'Discover',
-    'Shape',
-    'Deliver',
-    'Adopt',
-    'davebettner.com',
+    'Forward-deployed engineering',
+    'Agent systems',
+    'Customer-facing engineering',
+    '10+ years implementation',
+    'Agent systems + MCP',
+    'Des Moines, Iowa',
+    '<span>Dave</span>',
+    '<span>Bettner</span>',
   ]) {
     if (!source.includes(marker)) {
       throw new Error(`Open Graph source is missing launch-positioning marker: ${marker}`);
@@ -55,6 +55,9 @@ async function main() {
   }
   if (/Fieldguide|Nous Research/i.test(source)) {
     throw new Error('Open Graph source must remain employer-independent');
+  }
+  if (/Newsreader|Plus Jakarta|--paper:|#f3efe5|#214fe5/i.test(source)) {
+    throw new Error('Open Graph source still contains the retired editorial theme');
   }
 
   await mkdir(path.dirname(outputImage), { recursive: true });
@@ -87,16 +90,13 @@ async function main() {
 
     const state = await page.evaluate(() => {
       const card = document.querySelector('.social-card');
-      const image = document.querySelector('.portrait');
-      if (!(card instanceof HTMLElement) || !(image instanceof HTMLImageElement)) return null;
+      if (!(card instanceof HTMLElement)) return null;
       const rect = card.getBoundingClientRect();
       return {
         width: rect.width,
         height: rect.height,
         scrollWidth: document.documentElement.scrollWidth,
         scrollHeight: document.documentElement.scrollHeight,
-        imageWidth: image.naturalWidth,
-        imageHeight: image.naturalHeight,
         text: card.innerText,
       };
     });
@@ -106,9 +106,6 @@ async function main() {
     }
     if (state.scrollWidth !== width || state.scrollHeight !== height) {
       throw new Error(`Open Graph card overflowed its viewport: ${JSON.stringify(state)}`);
-    }
-    if (state.imageWidth !== 1200 || state.imageHeight !== 1200) {
-      throw new Error(`Open Graph card did not load the approved 1200×1200 headshot: ${JSON.stringify(state)}`);
     }
 
     await page.screenshot({

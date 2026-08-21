@@ -59,7 +59,7 @@ export const cases = [
   {
     id: 'hermes-deployment-lab',
     eyebrow: 'Duplicate-action prevention · Hermes Deployment Lab',
-    title: 'I built a failure test that proves an agent will not repeat a high-impact action',
+    title: 'Prevent a second business action after a failed retry',
     summary:
       'Most demos stop after a successful action. This lab tests the failure that can create direct costs and manual reconciliation: the system saves a payment, order, access grant, or customer update, but the agent never receives confirmation. The recovery finds the first result instead of creating a second.',
     meta: 'Forced failure · restart recovery · one final result',
@@ -90,7 +90,7 @@ export const cases = [
   {
     id: 'dedup-readback-bridge',
     eyebrow: 'Pipeline economics · Dedup Read-Back Bridge',
-    title: 'Keep recurring agent work from running twice',
+    title: 'Stop recurring agent pipelines from repeating work',
     summary:
       'A small Python bridge for recurring LLM and agent pipelines. It remembers what has already been sent, skips runs with no new items, handles concurrent submissions, and records each run for later review.',
     meta: 'Deduplication · atomic reservation · readback',
@@ -119,7 +119,7 @@ export const cases = [
   {
     id: 'regulated-reporting-mcp',
     eyebrow: 'Guarded integration · Regulated Reporting MCP',
-    title: 'Accepted is not applied; applied is not verified',
+    title: 'Let agents work with business systems without an open write path',
     summary:
       'Guarded reporting MCP where writes need confirmation, results are read back, and receipts stay redacted. Default surface is three safe tools; the full catalog stays behind an explicit unsafe opt-in.',
     meta: 'Confirm-before-write · readback · offline demo',
@@ -149,7 +149,7 @@ export const cases = [
   {
     id: 'hermes-field-kit',
     eyebrow: 'Evaluation · Hermes Enterprise Evaluation Kit',
-    title: 'Govern Hermes with policy, checks, and human review gates',
+    title: 'Find out whether an agent is ready for business use',
     summary:
       'Version-pinned kit that turns a plain-language job into a policy-bounded Hermes run, independent checks, and a receipt — without letting a green script invent human approval.',
     meta: 'Policy packs · human gates · offline proof',
@@ -179,7 +179,7 @@ export const cases = [
   {
     id: 'wingman',
     eyebrow: 'Readback + restore · Confirm-before-write quality',
-    title: 'Chrome extension + local service with readback and restore on mismatch',
+    title: 'Find and fix spreadsheet defects without hiding judgment',
     summary:
       'Wingman finds spreadsheet defects that survive export, explains each issue, and applies only changes it can check, reverse, and read back.',
     meta: 'Chrome extension · local service · confirm-before-write · restore',

@@ -8,10 +8,12 @@ import EvidenceMotif from '../components/EvidenceMotif.astro';
 
 import {
   buildingNow,
+  businessTranslations,
   closingCta,
   homeSynthesis,
   selectedProof,
   thesis,
+  workingToward,
 } from '../data/homepage-framing';
 import { identity } from '../data/portfolio-entries';
 import { homepageProvenanceNote } from '../data/public-proof';
@@ -158,7 +160,7 @@ const featuredProjects = buildingNow.featuredProjects;
             <p class="mono section-index">Evidence plates</p>
             <h2 id="work-heading">{buildingNow.title}</h2>
             <p class="section-lead">{buildingNow.lead}</p>
-            <p class="proof-index-cue mono" id="proof-index-cue">Three selected cases</p>
+            <p class="proof-index-cue mono" id="proof-index-cue">Two starting points · five inspectable cases</p>
           </div>
           <div class="building-list" role="region" aria-label="Selected engineering work" aria-describedby="proof-index-cue">
             {featuredProjects.map((project) => (
@@ -197,12 +199,34 @@ const featuredProjects = buildingNow.featuredProjects;
         </div>
       </section>
 
+      <section class="translation-section" aria-labelledby="translation-heading">
+        <div class="wrap section-pad">
+          <div class="proof-head">
+            <p class="mono section-index">Business outcomes</p>
+            <h2 id="translation-heading">{businessTranslations.title}</h2>
+            <p class="section-lead">{businessTranslations.lead}</p>
+          </div>
+          <dl class="translation-list">
+            {businessTranslations.rows.map(([capability, outcome]) => (
+              <div class="translation-row">
+                <dt>{capability}</dt>
+                <dd>{outcome}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
       <section id="about" class="about-section" aria-labelledby="about-heading">
         <div class="wrap section-pad about-grid">
           <div class="about-copy">
             <p class="mono section-index">Working approach</p>
             <h2 id="about-heading">{homeSynthesis.title}</h2>
             <p class="about-lead">{homeSynthesis.body}</p>
+            <div class="working-toward">
+              <p class="mono">{workingToward.title}</p>
+              <p>{workingToward.body}</p>
+            </div>
             <p class="resume-link-line">
               <a class="text-link" href="/experience/">Experience</a>
               <span aria-hidden="true"> · </span>
@@ -1695,6 +1719,53 @@ const featuredProjects = buildingNow.featuredProjects;
       overflow-x: clip;
     }
   }
+  }
+
+  .translation-section {
+    border-top: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .translation-list {
+    margin: 40px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .translation-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.7fr) 1.3fr;
+    gap: 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .translation-row dt {
+    color: var(--warm-white);
+    font-weight: 600;
+  }
+
+  .translation-row dd {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .working-toward {
+    max-width: 720px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .working-toward p:last-child {
+    margin: 12px 0 0;
+    color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    .translation-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
   }
 </style>
 

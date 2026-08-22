@@ -13,12 +13,22 @@ export const identitySeoLead =
 export const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': `${siteUrl}/#dave-bettner`,
   name: 'Dave Bettner',
   url: `${siteUrl}/`,
+  mainEntityOfPage: `${siteUrl}/`,
   image: `${siteUrl}/images/dave-bettner-headshot-20260808-square.jpg`,
   description:
     'Forward-deployed delivery and solutions engineering leader focused on complex workflows and inspectable AI-agent engineering work.',
   jobTitle: 'Senior Manager',
+  knowsAbout: [
+    'Forward-deployed engineering',
+    'Enterprise agent systems',
+    'Solutions engineering',
+    'Customer implementation',
+    'Model Context Protocol',
+    'Financial reporting and assurance workflows',
+  ],
   homeLocation: {
     '@type': 'Place',
     name: 'Des Moines, Iowa',

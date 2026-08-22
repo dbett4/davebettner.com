@@ -4,11 +4,6 @@ export const thesis = {
   title: 'I lead enterprise implementations and build agent systems for work where mistakes are expensive and people still need to stay in control.',
 } as const;
 
-export const featuredPublicProjectIds = [
-  'agent-orchestration',
-  'dedup-readback-bridge',
-] as const;
-
 const mappedProjects = publicEngineeringCases.map((item) => ({
   id: item.id,
   title: item.title,
@@ -21,13 +16,27 @@ const mappedProjects = publicEngineeringCases.map((item) => ({
   repoUrl: item.repoUrl,
 }));
 
+const featuredProjects = [
+  mappedProjects.find((project) => project.id === 'regulated-reporting-mcp'),
+  mappedProjects.find((project) => project.id === 'hermes-field-kit'),
+  {
+    id: 'agent-operating-system',
+    title: 'Make agent work explainable after the fact',
+    problem: 'A useful answer does not prove that a business workflow had context, authority boundaries, recovery, or a record of what changed.',
+    built: 'A public architecture case that traces routing, bounded tools, readback, independent checks, and the human decision point.',
+    tools: 'Living system snapshot and public evidence index; not a customer-tenant or universal-autonomy claim.',
+    learned: 'Living system snapshot and public evidence index; not a customer-tenant or universal-autonomy claim.',
+    next: 'Inspect the public evidence index.',
+    href: '/work/agent-operating-system/',
+    repoUrl: null,
+  },
+].filter((project): project is NonNullable<typeof project> => Boolean(project));
+
 export const buildingNow = {
   title: 'What I build',
   lead: 'I build the parts that make agent work usable in a real business: safer retries, controlled system access, and checks that show when a result is ready for review.',
   projects: mappedProjects,
-  featuredProjects: featuredPublicProjectIds
-    .map((projectId) => mappedProjects.find((project) => project.id === projectId))
-    .filter((project): project is (typeof mappedProjects)[number] => Boolean(project)),
+  featuredProjects,
 } as const;
 
 export const selectedProof = {

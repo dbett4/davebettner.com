@@ -26,8 +26,9 @@ import { emailHref } from '../data/site-links';
 import ContactLinks from '../components/ContactLinks.astro';
 
 const roleByProjectId: Record<string, string> = {
-  'agent-orchestration': 'Scope · gate · review',
-  'dedup-readback-bridge': 'Dedup · spend · proof',
+  'regulated-reporting-mcp': 'Guarded access · readback · receipts',
+  'hermes-field-kit': 'Policy · independent checks · human review',
+  'agent-operating-system': 'Context · authority · recovery',
 };
 
 
@@ -160,7 +161,7 @@ const featuredProjects = buildingNow.featuredProjects;
             <p class="mono section-index">Evidence plates</p>
             <h2 id="work-heading">{buildingNow.title}</h2>
             <p class="section-lead">{buildingNow.lead}</p>
-            <p class="proof-index-cue mono" id="proof-index-cue">Three selected cases</p>
+            <p class="proof-index-cue mono" id="proof-index-cue">Three current case studies</p>
           </div>
           <div class="building-list" role="region" aria-label="Selected engineering work" aria-describedby="proof-index-cue">
             {featuredProjects.map((project) => (
@@ -177,16 +178,20 @@ const featuredProjects = buildingNow.featuredProjects;
                   <p class="building-links">
                     <a class="text-link" href={project.href}>Detail</a>
                     <span aria-hidden="true"> · </span>
-                    <a
-                      class="text-link external-repo"
-                      href={project.repoUrl}
-                      rel="noopener noreferrer"
-                      aria-label={`GitHub ${project.repoUrl.replace('https://github.com/', '')}`}
-                    >
-                      <span class="repo-slug">github.com/{project.repoUrl.replace('https://github.com/', '')}</span>
-                      <span class="repo-short">GitHub</span>
-                      <span aria-hidden="true"> ↗</span>
-                    </a>
+                    {project.repoUrl ? (
+                      <a
+                        class="text-link external-repo"
+                        href={project.repoUrl}
+                        rel="noopener noreferrer"
+                        aria-label={`GitHub ${project.repoUrl.replace('https://github.com/', '')}`}
+                      >
+                        <span class="repo-slug">github.com/{project.repoUrl.replace('https://github.com/', '')}</span>
+                        <span class="repo-short">GitHub</span>
+                        <span aria-hidden="true"> ↗</span>
+                      </a>
+                    ) : (
+                      <a class="text-link" href="/work/">Evidence index <span aria-hidden="true">→</span></a>
+                    )}
                   </p>
                 </div>
               </article>

@@ -11,7 +11,7 @@ import ContactLinks from '../../components/ContactLinks.astro';
 const canonical = `${siteUrl}/work/`;
 const title = 'Work | Dave Bettner — Public Agent Engineering';
 const description =
-  'Inspect Dave Bettner’s public agent engineering: implementation details, tests, repositories, and explicit claim limits.';
+  'See how Dave Bettner approaches failure, control, recovery, and proof across customer delivery and public agent engineering.';
 ---
 
 <!doctype html>
@@ -42,11 +42,10 @@ const description =
     <main id="main">
       <section class="work-cover">
         <div class="wrap content-page route-intro">
-          <p class="eyebrow mono">Selected work</p>
-          <h1>Public engineering work you can inspect.</h1>
+          <p class="eyebrow mono">Work · from failure to proof</p>
+          <h1>What broke, what changed, and how I checked it.</h1>
           <p class="lead">
-            These cases cover recovery, guarded API tools, evaluation, and confirm-before-write quality.
-            Each one names what I built, the supporting tests or artifacts, and what remains unproven.
+            A project makes more sense when you can see the problem, the consequence, the change, and the evidence behind it.
           </p>
         </div>
       </section>
@@ -54,8 +53,8 @@ const description =
       <section class="work-section" aria-labelledby="plates-heading">
         <div class="wrap content-page">
           <div class="section-head">
-            <p class="eyebrow mono">Evidence plates · {String(cases.length).padStart(2, '0')}</p>
-            <h2 id="plates-heading" class="route-section-heading">Cases, repositories, and limits.</h2>
+            <p class="eyebrow mono">Case index · {String(cases.length).padStart(2, '0')}</p>
+            <h2 id="plates-heading" class="route-section-heading">Follow the behavior, then inspect the proof.</h2>
           </div>
           <ul class="work-list">
             {cases.map((item, index) => (
@@ -69,9 +68,9 @@ const description =
                   <span class="work-copy">
                     <span class="work-eyebrow mono">{item.eyebrow}</span>
                     <span class="work-title">{item.title}</span>
-                    <span class="work-summary">{item.summary}</span>
-                    <span class="work-evidence"><strong>Evidence:</strong> {item.evidence}</span>
-                    <span class="work-boundary"><strong>Boundary:</strong> {item.boundary}</span>
+                    <span class="work-summary"><strong>What happened</strong>{item.summary}</span>
+                    <span class="work-evidence"><strong>What changed</strong>{item.evidence}</span>
+                    <span class="work-boundary"><strong>What remains open</strong>{item.boundary}</span>
                     <span class="work-footer">
                       <span class="work-repo mono">{item.repoUrl.replace('https://github.com/', '')}</span>
                       <span class="work-open mono">Open case →</span>
@@ -122,18 +121,21 @@ const description =
   .work-section { background:var(--card); border-bottom:1px solid var(--ink); }
   .section-head { display:grid; gap:10px; margin-bottom:32px; }
   .work-list { list-style:none; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
-  .work-card { display:grid; grid-template-columns:minmax(126px,.42fr) minmax(0,1fr); height:100%; min-height:340px; border:1px solid var(--ink); background:var(--paper); transition:transform .2s ease, box-shadow .2s ease; }
+  .work-card { display:grid; grid-template-columns:minmax(126px,.42fr) minmax(0,1fr); min-height:340px; border:1px solid var(--ink); background:var(--paper); transition:transform .2s ease, box-shadow .2s ease; }
   .work-card:hover, .work-card:focus-visible { transform:translate(-3px,-3px); box-shadow:3px 3px 0 var(--ink); }
   .work-visual { position:relative; min-height:100%; overflow:hidden; border-right:1px solid var(--ink); background:var(--ink); }
-  .work-visual-index { position:absolute; z-index:4; color:var(--paper); background:var(--ink); padding:5px 6px; }
+  .work-visual-index { position:absolute; z-index:2; color:var(--paper); background:var(--ink); padding:5px 6px; }
   .work-visual-index { top:10px; left:10px; }
-  .work-visual-mark { position:absolute; z-index:4; width:9px; height:9px; right:10px; top:10px; background:var(--orange); box-shadow:-3px 3px 0 var(--blue); }
+  .work-visual-mark { position:absolute; z-index:2; width:9px; height:9px; right:10px; top:10px; background:var(--orange); box-shadow:-3px 3px 0 var(--blue); }
   .work-copy { min-width:0; padding:20px; display:flex; flex-direction:column; align-items:flex-start; }
   .work-eyebrow { color:var(--orange-ink); line-height:1.35; }
   .work-title { display:block; margin:12px 0 10px; font-size:clamp(1.16rem,2vw,1.46rem); font-weight:650; letter-spacing:-.025em; line-height:1.15; }
   .work-summary { color:var(--muted); font-size:.88rem; line-height:1.48; }
   .work-evidence { margin-top:14px; padding-top:12px; border-top:1px solid var(--rule); color:var(--ink); font-size:.76rem; line-height:1.42; }
   .work-boundary { margin-top:8px; color:var(--muted); font-size:.72rem; line-height:1.42; }
+  .work-summary strong, .work-evidence strong, .work-boundary strong { display:block; margin-bottom:5px; color:var(--orange-ink); font-family:"DM Mono",ui-monospace,monospace; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; }
+  .work-evidence strong { color:var(--blue); }
+  .work-boundary strong { color:var(--muted); }
   .work-footer { width:100%; display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 12px; align-items:flex-end; margin-top:auto; padding-top:18px; }
   .work-repo { color:var(--muted); font-size:.7rem; overflow-wrap:anywhere; }
   .work-open { color:var(--blue); font-size:.72rem; white-space:nowrap; }

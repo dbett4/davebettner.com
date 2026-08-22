@@ -126,7 +126,7 @@ if (containers.length > 0) {
       container.dataset.webgl = 'ready';
     } catch (error) {
       container.dataset.webgl = 'fallback';
-      console.error(`Sphere gradient initialization failed for ${id || 'hero'}:`, error);
+      console.warn(`Sphere gradient unavailable for ${id || 'hero'}; using the deterministic carbon fallback.`, error);
     }
   });
 

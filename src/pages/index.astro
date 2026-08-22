@@ -1657,10 +1657,15 @@ const featuredProjects = buildingNow.featuredProjects;
     .cover-actions-primary {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     .cover-actions-primary .round {
       width: 100%;
+      min-width: 0;
+      padding-inline: 10px;
+      font-size: 0.78rem;
+      white-space: nowrap;
     }
 
     body .cover-meta {

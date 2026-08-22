@@ -28,6 +28,10 @@ jobs:
         timeout-minutes: 5
         run: npm ci
 
+      - name: Install Playwright browser
+        timeout-minutes: 5
+        run: npx playwright install --with-deps chromium
+
       - name: Generate resume PDF
         timeout-minutes: 5
         run: npm run generate-resume

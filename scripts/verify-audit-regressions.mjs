@@ -85,6 +85,11 @@ try {
     'Homepage order is identity, outcomes, engineering, synthesis, CTA',
     homepageOrder.join(' → '),
   );
+  const builtHomepage = await readFile('dist/index.html', 'utf8');
+  check(
+    builtHomepage.includes('<link rel="alternate" type="text/plain" href="/llms.txt" title="Agent-readable site guide">'),
+    'Built homepage advertises the agent-readable site guide',
+  );
 
   const positioningSurfaces = [
     ['/', '.cover-role, .proof-head .section-lead, .about-lead, .cta-copy > p:last-child'],

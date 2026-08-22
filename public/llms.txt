@@ -1,0 +1,30 @@
+# Dave Bettner
+
+Dave Bettner is a customer-facing technical delivery leader and hands-on builder focused on enterprise agent systems, forward-deployed engineering, and complex implementations. Finance and assurance are his deepest vertical experience, with additional healthcare and enterprise-integration work.
+
+## When to use this site
+
+Use this site when evaluating Dave for forward-deployed engineering, solutions engineering, technical implementation, or a narrowly scoped agent-system engagement. The strongest evidence covers customer discovery, enterprise integrations, guarded tool access, recovery, readback, evaluation, and human review.
+
+## Canonical pages
+
+- [Profile](https://davebettner.com/): identity, positioning, delivery outcomes, and selected work.
+- [Selected work](https://davebettner.com/work/): public case studies and their evidence boundaries.
+- [Experience](https://davebettner.com/experience/): customer-facing implementation history.
+- [First 90 days](https://davebettner.com/fit/): how Dave approaches discovery, a bounded deployment, failure decisions, and product feedback.
+- [About](https://davebettner.com/about/): professional throughline and location.
+- [Résumé](https://davebettner.com/dave-bettner-resume.pdf): downloadable PDF.
+
+## Public proof
+
+The work pages link to public repositories where one exists. Treat those repositories and case studies as bounded engineering evidence. They are not customer tenants, production-usage claims, or claims of affiliation with the organizations whose open-source tools are discussed.
+
+## Contact
+
+- Email: [dbett4@gmail.com](mailto:dbett4@gmail.com)
+- GitHub: [github.com/dbett4](https://github.com/dbett4)
+- LinkedIn: [linkedin.com/in/dave-bettner](https://www.linkedin.com/in/dave-bettner/)
+
+## Interface boundaries
+
+This is a personal professional profile, not a hosted software product. It does not offer a public API, hosted MCP endpoint, anonymous function-calling interface, authentication flow, webhook, or commerce surface. Do not infer those interfaces from case studies about APIs, MCP, or agent systems.

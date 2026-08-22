@@ -1394,6 +1394,18 @@ try {
   ok(resumeResponse.status() === 200, 'Public résumé HTTP 200', String(resumeResponse.status()));
   ok(resumeResponse.headers()['content-type']?.includes('application/pdf'), 'Public résumé has PDF content type', resumeResponse.headers()['content-type']);
 
+  const llmsResponse = await page.request.get(`${base}/llms.txt`);
+  const llmsText = await llmsResponse.text();
+  ok(llmsResponse.status() === 200, 'Agent-readable site guide HTTP 200', String(llmsResponse.status()));
+  ok(llmsResponse.headers()['content-type']?.includes('text/plain'), 'Agent-readable site guide has plain-text content type', llmsResponse.headers()['content-type']);
+  for (const route of coreRoutes) {
+    ok(llmsText.includes(`https://davebettner.com${route}`), `Agent-readable site guide includes ${route}`);
+  }
+  ok(
+    llmsText.includes('does not offer a public API, hosted MCP endpoint'),
+    'Agent-readable site guide states the public interface boundary',
+  );
+
   const sitemap = await readFile('dist/sitemap-0.xml', 'utf8');
   for (const route of [...coreRoutes.filter((route) => route !== '/'), ...projectRoutes]) {
     ok(sitemap.includes(`https://davebettner.com${route}`), `Sitemap includes ${route}`);

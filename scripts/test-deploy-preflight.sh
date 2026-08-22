@@ -49,12 +49,15 @@ expect_failure \
   "non-hermes user cannot deploy" \
   "deploys must run as the hermes user" \
   env PATH="$fake_identity_bin:$PATH" ACP_SESSION_ID="deploy-gate-test" bash "$GATE"
-rm -rf "$fake_identity_bin"
-trap - EXIT
+cat > "$fake_identity_bin/id" <<'EOF'
+#!/usr/bin/env bash
+printf 'hermes\n'
+EOF
+chmod 755 "$fake_identity_bin/id"
 
 fake_root="$(mktemp -d)"
 fake_runner_marker="$fake_root/wrangler-invoked"
-trap 'rm -rf "$fake_root"' EXIT
+trap 'rm -rf "$fake_root" "$fake_identity_bin"' EXIT
 mkdir -p "$fake_root/scripts" "$fake_root/node_modules/.bin"
 cp "$DEPLOY_WRAPPER" "$fake_root/scripts/deploy.sh"
 cp "$GATE" "$fake_root/scripts/deploy-preflight.sh"
@@ -67,20 +70,26 @@ chmod 755 "$fake_root/scripts/deploy.sh" "$fake_root/scripts/deploy-preflight.sh
 expect_failure \
   "deploy wrapper checks preflight before Wrangler" \
   "ACP_SESSION_ID is required" \
-  env -u ACP_SESSION_ID DEPLOY_RUNNER_MARKER="$fake_runner_marker" bash "$fake_root/scripts/deploy.sh"
+  env -u ACP_SESSION_ID PATH="$fake_identity_bin:$PATH" DEPLOY_RUNNER_MARKER="$fake_runner_marker" bash "$fake_root/scripts/deploy.sh"
 [[ ! -e "$fake_runner_marker" ]] || fail "deploy wrapper invoked Wrangler before preflight"
 rm -rf "$fake_root"
-trap - EXIT
 
 expect_failure \
   "missing session identity" \
   "ACP_SESSION_ID is required" \
-  env -u ACP_SESSION_ID bash "$GATE"
+  env -u ACP_SESSION_ID PATH="$fake_identity_bin:$PATH" bash "$GATE"
 
-expect_failure \
-  "primary checkout is not an isolated worktree" \
-  "isolated linked worktree" \
-  env ACP_SESSION_ID="${CURRENT_SESSION:-deploy-gate-test}" bash -c "cd '$CANONICAL_ROOT' && '$GATE'"
+rm -rf "$fake_identity_bin"
+trap - EXIT
+
+if [[ -d "$CANONICAL_ROOT" ]]; then
+  expect_failure \
+    "primary checkout is not an isolated worktree" \
+    "isolated linked worktree" \
+    env ACP_SESSION_ID="${CURRENT_SESSION:-deploy-gate-test}" bash -c "cd '$CANONICAL_ROOT' && '$GATE'"
+else
+  printf 'SKIP primary checkout probe (canonical VPS path unavailable)\n'
+fi
 
 GIT_DIR="$(realpath "$(git rev-parse --absolute-git-dir)")"
 COMMON_DIR="$(realpath "$(git rev-parse --path-format=absolute --git-common-dir)")"

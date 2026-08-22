@@ -23,7 +23,7 @@ const featuredProjects = [
     id: 'agent-operating-system',
     title: 'Make agent work explainable after the fact',
     problem: 'A useful answer does not prove that a business workflow had context, authority boundaries, recovery, or a record of what changed.',
-    built: 'A public architecture case that traces routing, bounded tools, readback, independent checks, and the human decision point.',
+    built: 'A public architecture case that shows routing, bounded tools, readback, independent checks, and the human decision point.',
     tools: 'Living system snapshot and public evidence index; not a customer-tenant or universal-autonomy claim.',
     learned: 'Living system snapshot and public evidence index; not a customer-tenant or universal-autonomy claim.',
     next: 'Inspect the public evidence index.',

@@ -39,20 +39,20 @@ const incidentNarrative = {
     steps: [['01', 'Detect', 'Find a suspicious formula or link.'], ['02', 'Classify', 'Separate a defect from an accounting judgment.'], ['03', 'Confirm', 'Show the user the narrow change.'], ['04', 'Restore', 'Read it back and reverse a mismatch.']],
   },
   'regulated-reporting-mcp': {
-    heading: 'A reporting integration hands an agent every write in the catalog.',
-    copy: 'Connect an agent to a reporting platform the ordinary way and it inherits the whole tool surface, including writes nobody reviewed. In a regulated reporting cycle a single unreviewed write lands in a filing package, and the cost is a restatement, a broken audit trail, and a manual re-tie of the affected statements.',
-    consequence: 'The safe default has to be a small surface: a few reviewed tools, a write that needs confirmation, a result read back from the platform rather than trusted from the response, and a receipt that carries no client values.',
+    heading: 'An agent can inherit every write in a reporting catalog.',
+    copy: 'Connect an agent to a reporting platform the usual way and it can see the whole tool surface, including writes no one approved for the job. In a regulated reporting cycle, an unreviewed write can enter a filing package. That leaves a broken audit trail and a manual re-tie of the affected statements.',
+    consequence: 'The safe default is a smaller surface: a few reviewed tools, a write that needs confirmation, a result read back from the platform, and a receipt with no client values.',
     steps: [['01', 'Narrow', 'Only three guarded tools are served by default.'], ['02', 'Confirm', 'A write is refused until it is explicitly confirmed.'], ['03', 'Read back', 'The result is fetched from the platform, not assumed.'], ['04', 'Redact', 'The receipt records the action without client values.']],
   },
   'hermes-field-kit': {
     heading: 'A green script is not a human decision.',
-    copy: 'Evaluation harnesses tend to report a pass and stop. The dangerous version of that is an automated run that quietly signs off on itself, because the organization then believes an agent was cleared for business use when nobody accountable ever looked at it.',
-    consequence: 'Buying that answer costs real money and real exposure: a config gets approved, a workflow is turned on, and the first genuine failure is discovered in production rather than in evaluation.',
+    copy: 'Many evaluation harnesses report a pass and stop. That becomes a problem when a run effectively signs itself off. The organization may think an agent is cleared for business use even though no accountable person reviewed it.',
+    consequence: 'That can move a configuration toward approval or turn on a workflow before the first real failure has been found in evaluation.',
     steps: [['01', 'Qualify', 'The job is checked against a policy pack first.'], ['02', 'Bound', 'The run uses a pinned, approved configuration.'], ['03', 'Check', 'Independent and negative tests inspect the result.'], ['04', 'Withhold', 'Weak evidence stays labeled weak and unaccepted.']],
   },
   'agent-operating-system': {
     heading: 'A good answer is not the same as a safe workflow.',
-    copy: 'A model can produce something useful while the workflow around it has no context routing, no authority boundary, no recovery for the hard path, and no record of what actually changed. The failure never looks like a bad answer; it looks like work that cannot be explained afterward.',
+    copy: 'A model can produce useful work while the workflow around it lacks context routing, an authority boundary, a recovery path, and a record of what changed. The answer may look fine, but no one can explain the work afterward.',
     consequence: 'When that happens on business work, the cost is rework and lost trust: nobody can say which change was applied, who allowed it, or whether it was ever checked, so the whole run has to be redone by hand.',
     steps: [['01', 'Route', 'Context and capability are resolved before work starts.'], ['02', 'Bound', 'Tools and authority are scoped to the job.'], ['03', 'Recover', 'The hard path has a defined recovery, not a retry.'], ['04', 'Record', 'A receipt and an independent check close the loop.']],
   },
@@ -82,7 +82,7 @@ const acceptanceChains: Partial<Record<string, { lede: string; steps: readonly A
     ],
   },
   'agent-operating-system': {
-    lede: 'This is the spine the other cases run on, so it is described by what is adopted today rather than by what it is designed to become.',
+    lede: 'The other cases use this operating approach. This page describes what is adopted today, not everything the system may do later.',
     steps: [
       ['01', 'Allowed', 'A request is routed to context, capability, and an authority boundary before any tool is used.', '/work/', 'Open the public evidence index ↗'],
       ['02', 'Applied', 'Work runs as bounded pieces through scoped tools rather than as one open-ended action.', '/work/hermes-deployment-lab/', 'Inspect the bounded-action lab ↗'],

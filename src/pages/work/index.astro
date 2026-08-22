@@ -122,12 +122,12 @@ const description =
   .work-section { background:var(--card); border-bottom:1px solid var(--ink); }
   .section-head { display:grid; gap:10px; margin-bottom:32px; }
   .work-list { list-style:none; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
-  .work-card { display:grid; grid-template-columns:minmax(126px,.42fr) minmax(0,1fr); min-height:340px; border:1px solid var(--ink); background:var(--paper); transition:transform .2s ease, box-shadow .2s ease; }
+  .work-card { display:grid; grid-template-columns:minmax(126px,.42fr) minmax(0,1fr); height:100%; min-height:340px; border:1px solid var(--ink); background:var(--paper); transition:transform .2s ease, box-shadow .2s ease; }
   .work-card:hover, .work-card:focus-visible { transform:translate(-3px,-3px); box-shadow:3px 3px 0 var(--ink); }
   .work-visual { position:relative; min-height:100%; overflow:hidden; border-right:1px solid var(--ink); background:var(--ink); }
-  .work-visual-index { position:absolute; z-index:2; color:var(--paper); background:var(--ink); padding:5px 6px; }
+  .work-visual-index { position:absolute; z-index:4; color:var(--paper); background:var(--ink); padding:5px 6px; }
   .work-visual-index { top:10px; left:10px; }
-  .work-visual-mark { position:absolute; z-index:2; width:9px; height:9px; right:10px; top:10px; background:var(--orange); box-shadow:-3px 3px 0 var(--blue); }
+  .work-visual-mark { position:absolute; z-index:4; width:9px; height:9px; right:10px; top:10px; background:var(--orange); box-shadow:-3px 3px 0 var(--blue); }
   .work-copy { min-width:0; padding:20px; display:flex; flex-direction:column; align-items:flex-start; }
   .work-eyebrow { color:var(--orange-ink); line-height:1.35; }
   .work-title { display:block; margin:12px 0 10px; font-size:clamp(1.16rem,2vw,1.46rem); font-weight:650; letter-spacing:-.025em; line-height:1.15; }

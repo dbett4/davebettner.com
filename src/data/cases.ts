@@ -121,7 +121,7 @@ export const cases = [
     eyebrow: 'Guarded integration · Regulated Reporting MCP',
     title: 'Let agents work with business systems without an open write path',
     summary:
-      'Guarded reporting MCP where writes need confirmation, results are read back, and receipts stay redacted. Default surface is three safe tools; the full catalog stays behind an explicit unsafe opt-in.',
+      'Guarded reporting MCP where writes need confirmation, results are read back, and receipts stay redacted. Default surface is three guarded tools; the full catalog stays behind an explicit unsafe opt-in.',
     meta: 'Confirm-before-write · readback · offline demo',
     size: 'large',
     visual: 'flow',
@@ -149,7 +149,7 @@ export const cases = [
   {
     id: 'hermes-field-kit',
     eyebrow: 'Evaluation · Hermes Enterprise Evaluation Kit',
-    title: 'Find out whether an agent is ready for business use',
+    title: 'Test an agent workflow against explicit business-use checks',
     summary:
       'Version-pinned kit that turns a plain-language job into a policy-bounded Hermes run, independent checks, and a receipt — without letting a green script invent human approval.',
     meta: 'Policy packs · human gates · offline proof',
@@ -172,7 +172,7 @@ export const cases = [
     evidenceMap: {
       signal: 'Policy-bounded mission flow with offline proof and one attested needs_review receipt',
       method: 'Demo mission, mapping verification, negative tests, pinned-suite replay, receipt hash checks, and deterministic-oracle recomputation.',
-      steps: ['Policy pack', 'Approved config', 'Independent checks', 'Human gate', 'Receipt'],
+      steps: ['Policy pack', 'Pinned config', 'Independent checks', 'Human gate', 'Receipt'],
       boundary: 'Live one-shot remains needs_review with two recorded execution-time exceptions.',
     },
   },

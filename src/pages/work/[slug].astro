@@ -74,8 +74,8 @@ const acceptanceChains: Partial<Record<string, { lede: string; steps: readonly A
   'hermes-field-kit': {
     lede: 'The kit is designed so it cannot mark its own homework. The last state is allowed to stay unresolved.',
     steps: [
-      ['01', 'Allowed', 'A plain-language job is qualified against a policy pack and a pinned, approved configuration before it runs.', item.repoUrl, 'Inspect repository ↗'],
-      ['02', 'Applied', 'The run executes inside those bounds, with no external action taken on anyone else’s system.', item.repoUrl, 'Inspect the policy packs ↗'],
+      ['01', 'Allowed', 'A plain-language job is qualified against a policy pack and a pinned configuration before it runs.', item.repoUrl, 'Inspect repository ↗'],
+      ['02', 'Applied', 'The run executes inside those declared bounds, with no external action taken on anyone else’s system.', item.repoUrl, 'Inspect the policy packs ↗'],
       ['03', 'Read back', 'Receipts are hash-checked and a deterministic oracle recomputes the result instead of reading the run’s own summary.', item.proofUrl ?? null, 'Open the receipt checks ↗'],
       ['04', 'Independently checked', 'Eight negative tests, a capability map with an explicit gap list, and a pinned v2026.8.3 suite replay check the same evidence.', item.proofUrl ?? null, 'Open proof ↗'],
       ['05', 'Accepted / needs_review', 'Offline proof passes. The one live one-shot has native CLI attestation and an oracle pass but remains needs_review: no human disposition, an estimated rather than billed cost, and two recorded execution-time exceptions.', null, null],
@@ -121,7 +121,7 @@ const acceptanceChain = acceptanceChains[item.id];
       <section class={`case-cover visual-${item.visual}`}>
         <div class="wrap case-cover-grid route-intro">
           <div class="case-intro">
-            {item.id === 'agent-operating-system' ? <p class="author-line mono">Designed and operated by Dave Bettner · Forward-deployed technical leader</p> : null}
+            {item.id === 'agent-operating-system' ? <p class="author-line mono">Designed and maintained by Dave Bettner · Forward-deployed technical leader</p> : null}
             <p class="eyebrow mono">{item.eyebrow}</p>
             <h1>{projectName}</h1>
             <p class="case-headline">{item.title}</p>

@@ -56,7 +56,7 @@ export const publicEngineeringCases = [
     name: 'Hermes Enterprise Evaluation Kit',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit/blob/main/PROOF.md',
-    title: 'Test whether an agent is ready for business use',
+    title: 'Test an agent workflow against explicit business-use checks',
     summary:
       'Version-pinned kit that turns a plain-language job into a policy-bounded Hermes run, independent checks, and a receipt — without letting a green script invent human approval.',
     evidence:

@@ -892,7 +892,7 @@ try {
       closingTitle,
     );
     ok(body.includes('Give agents controlled access to business systems'), `${viewport.name}: features the regulated reporting case`);
-    ok(body.includes('Test whether an agent is ready for business use'), `${viewport.name}: features the evaluation case`);
+    ok(body.includes('Test an agent workflow against explicit business-use checks'), `${viewport.name}: features the evaluation case`);
     ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
     ok(body.includes('Make agent work explainable after the fact'), `${viewport.name}: selected work includes the agent operating system case`);
     ok(!body.includes('Financial reporting QA with readback'), `${viewport.name}: Wingman is not featured on homepage`);

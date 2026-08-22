@@ -139,10 +139,8 @@ async function main() {
   for (const marker of [
     'Python',
     'Docker Compose',
-    'Hermes Agent',
-    'failure injection/debugging',
+    'MCP/FastMCP',
     'capability routing',
-    'fail-closed privilege brokerage',
   ]) {
     if (!text.includes(marker)) {
       throw new Error(`public résumé missing application-surface marker: ${marker}`);
@@ -195,15 +193,12 @@ async function main() {
   const skillOrder = [
     'Python',
     'Docker Compose',
-    'Hermes Agent',
+    'GitHub Actions CI',
     'MCP/FastMCP',
     'OAuth/API integration',
-    'idempotency/failure recovery',
-    'forward-deployed delivery',
-    'human review gates',
-    'failure injection/debugging',
-    'capability routing',
-    'fail-closed privilege brokerage',
+    'SSO integration',
+    'ERP connectors',
+    'Hermes/Codex/Claude/Cursor agent orchestration',
   ];
   let skillPrevious = -1;
   for (const skill of skillOrder) {

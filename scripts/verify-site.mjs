@@ -941,8 +941,8 @@ try {
       JSON.stringify(coverActions),
     );
     ok(
-      !coverActions.some((link) => link.href === '#work'),
-      `${viewport.name}: cover CTA leaves proof discovery to the page flow`,
+      coverActions.some((link) => link.href === '#work' && link.text.includes('See the work and proof')),
+      `${viewport.name}: cover CTA points directly to proof`,
       JSON.stringify(coverActions),
     );
     ok(

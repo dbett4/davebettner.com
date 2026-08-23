@@ -24,6 +24,11 @@ await new Promise((r) => server.listen(0, '127.0.0.1', r));
 const base = `http://127.0.0.1:${server.address().port}`;
 
 const routes = ['/work/regulated-reporting-mcp/', '/work/hermes-field-kit/', '/work/agent-operating-system/'];
+const expectedStates = {
+  '/work/regulated-reporting-mcp/': ['Scoped', 'Changed', 'Checked in the system', 'Checked separately', 'Decision'],
+  '/work/hermes-field-kit/': ['Scoped', 'Run', 'Recomputed', 'Challenged', 'Decision'],
+  '/work/agent-operating-system/': ['Scoped', 'Run', 'Checked in the system', 'Checked separately', 'Decision'],
+};
 const widths = [320, 390, 768, 1440];
 const failures = [];
 const pass = (cond, label) => {
@@ -48,8 +53,8 @@ for (const width of widths) {
     pass(m.scrollW <= m.clientW + 1, `${route} @${width}: no horizontal overflow (${m.scrollW}/${m.clientW}) ${m.wide.join(',')}`);
     const states = await page.locator('.acceptance-list li h3').allInnerTexts();
     pass(
-      JSON.stringify(states) === JSON.stringify(['Allowed', 'Applied', 'Read back', 'Independently checked', 'Accepted / needs_review']),
-      `${route} @${width}: acceptance chain states in order (${states.join(' → ')})`,
+      JSON.stringify(states) === JSON.stringify(expectedStates[route]),
+      `${route} @${width}: completion checks stay in reader-first order (${states.join(' → ')})`,
     );
     pass((await page.locator('.incident-story').count()) === 1, `${route} @${width}: one failure-mode section`);
     for (const link of await page.locator('.acceptance-link').all()) {

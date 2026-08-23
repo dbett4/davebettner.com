@@ -10,6 +10,7 @@ export type CaseStudy = {
   eyebrow: string;
   title: string;
   summary: string;
+  value: string;
   meta: string;
   size: 'large' | 'small';
   visual: 'flow' | 'rings' | 'difference';
@@ -29,10 +30,12 @@ export type CaseStudy = {
 export const cases = [
   {
     id: 'agent-operating-system',
-    eyebrow: 'Architecture · Agent operating system',
-    title: 'Design the system around the agent',
+    eyebrow: 'How the pieces fit · Agent Operating System',
+    title: 'Make agent work explainable after the fact',
     summary:
-      'A plain-language view of the system around AI-assisted enterprise work: context, coordination, bounded tools, recovery, proof, and accountable human judgment.',
+      'A plain-language map of everything around the model: the request, the tools it may use, the recovery path, the checks, and the final human decision.',
+    value:
+      'Teams can tell what the agent was allowed to do, what changed, how the result was checked, and what still needs a person.',
     meta: 'Context · tools · authority · proof',
     size: 'large',
     visual: 'flow',
@@ -58,10 +61,12 @@ export const cases = [
   },
   {
     id: 'hermes-deployment-lab',
-    eyebrow: 'Duplicate-action prevention · Hermes Deployment Lab',
-    title: 'Prevent a second business action after a failed retry',
+    eyebrow: 'Failed-write recovery · Hermes Deployment Lab',
+    title: 'Recover a failed write without creating a duplicate',
     summary:
-      'Most demos stop after a successful action. This lab tests the failure that can create direct costs and manual reconciliation: the system saves a payment, order, access grant, or customer update, but the agent never receives confirmation. The recovery finds the first result instead of creating a second.',
+      'The system may save a payment, order, access change, or customer update just before the connection fails. This lab finds the first result before it tries the action again.',
+    value:
+      'A team can recover from an uncertain result without choosing between a duplicate and a manual investigation.',
     meta: 'Forced failure · restart recovery · one final result',
     size: 'small',
     visual: 'rings',
@@ -89,10 +94,12 @@ export const cases = [
   },
   {
     id: 'dedup-readback-bridge',
-    eyebrow: 'Pipeline economics · Dedup Read-Back Bridge',
-    title: 'Stop recurring agent pipelines from repeating work',
+    eyebrow: 'Repeat-work prevention · Dedup Read-Back Bridge',
+    title: 'Stop recurring agent jobs from repeating work',
     summary:
-      'A small Python bridge for recurring LLM and agent pipelines. It remembers what has already been sent, skips runs with no new items, handles concurrent submissions, and records each run for later review.',
+      'A small Python bridge that remembers what a recurring job already processed, skips empty runs, handles two submissions at once, and records the result.',
+    value:
+      'Recurring pipelines spend less time and money on duplicate work, while operators get a clear record of every run.',
     meta: 'Deduplication · atomic reservation · readback',
     size: 'large',
     visual: 'difference',
@@ -118,10 +125,12 @@ export const cases = [
   },
   {
     id: 'regulated-reporting-mcp',
-    eyebrow: 'Guarded integration · Regulated Reporting MCP',
-    title: 'Let agents work with business systems without an open write path',
+    eyebrow: 'Limited system access · Regulated Reporting MCP',
+    title: 'Give an agent only the write access its job requires',
     summary:
-      'Guarded reporting MCP where writes need confirmation, results are read back, and receipts stay redacted. Default surface is three guarded tools; the full catalog stays behind an explicit unsafe opt-in.',
+      'A reporting-system connector that exposes three guarded tools by default, refuses unconfirmed writes, reads results back, and keeps client values out of its receipts.',
+    value:
+      'Teams can test useful automation without opening every write path or trusting the model’s own success message.',
     meta: 'Confirm-before-write · readback · offline demo',
     size: 'large',
     visual: 'flow',
@@ -148,10 +157,12 @@ export const cases = [
   },
   {
     id: 'hermes-field-kit',
-    eyebrow: 'Evaluation · Hermes Enterprise Evaluation Kit',
-    title: 'Test an agent workflow against explicit business-use checks',
+    eyebrow: 'Independent evaluation · Hermes Enterprise Evaluation Kit',
+    title: 'Keep an evaluation from approving itself',
     summary:
-      'Version-pinned kit that turns a plain-language job into a policy-bounded Hermes run, independent checks, and a receipt — without letting a green script invent human approval.',
+      'A version-pinned kit that checks a proposed agent job against policy, tests the result, and leaves the final decision with a person.',
+    value:
+      'Teams get an honest decision record that shows what passed, what failed, and what still needs review.',
     meta: 'Policy packs · human gates · offline proof',
     size: 'small',
     visual: 'rings',
@@ -178,10 +189,12 @@ export const cases = [
   },
   {
     id: 'wingman',
-    eyebrow: 'Readback + restore · Confirm-before-write quality',
-    title: 'Find and fix spreadsheet defects without hiding judgment',
+    eyebrow: 'Review and restore · Spreadsheet quality',
+    title: 'Find spreadsheet defects—and reverse a bad fix',
     summary:
-      'Wingman finds spreadsheet defects that survive export, explains each issue, and applies only changes it can check, reverse, and read back.',
+      'A browser extension and local service that find suspicious formulas and links, explain the issue, ask before changing it, and restore the prior value when a check fails.',
+    value:
+      'Reviewers can automate narrow corrections while keeping accounting judgment with a person.',
     meta: 'Chrome extension · local service · confirm-before-write · restore',
     size: 'small',
     visual: 'difference',

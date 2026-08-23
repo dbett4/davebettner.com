@@ -64,31 +64,31 @@ const acceptanceChains: Partial<Record<string, { lede: string; steps: readonly A
   'regulated-reporting-mcp': {
     lede: 'Nothing in this integration counts as done because the model said so. Each state has to be inspectable.',
     steps: [
-      ['01', 'Allowed', 'Only three guarded tools are exposed by default; the full registry requires an explicit unsafe opt-in.', item.repoUrl, 'Inspect repository ↗'],
-      ['02', 'Applied', 'A write is gated in code and refused until it is confirmed, so no action happens as a side effect of a read.', item.repoUrl, 'Inspect the write gate ↗'],
-      ['03', 'Read back', 'The result is fetched from the platform after the write; an uncertain formula result is reported as indeterminate rather than guessed.', item.proofUrl ?? null, 'Open technical notes ↗'],
-      ['04', 'Independently checked', 'Lint, a tool-contract manifest check, the credential-free pytest suite, and an offline end-to-end demo run without any credentials.', item.proofUrl ?? null, 'Open proof ↗'],
-      ['05', 'Accepted / needs_review', 'The offline proof is accepted for what it covers. A local write receipt is not treated as remote verification, so live regulated writes stay needs_review.', null, null],
+      ['01', 'Scoped', 'Only three guarded tools are exposed by default; the larger registry has to be turned on deliberately.', item.repoUrl, 'Inspect repository ↗'],
+      ['02', 'Changed', 'A write is refused until it is confirmed, so reading information cannot quietly trigger a change.', item.repoUrl, 'Inspect the write gate ↗'],
+      ['03', 'Checked in the system', 'The result is fetched from the platform after the write. An uncertain formula result is reported as uncertain rather than guessed.', item.proofUrl ?? null, 'Open technical notes ↗'],
+      ['04', 'Checked separately', 'Lint, a tool-contract check, the credential-free test suite, and an offline end-to-end demo inspect the same behavior.', item.proofUrl ?? null, 'Open proof ↗'],
+      ['05', 'Decision', 'The offline proof passes for what it covers. A local action record does not prove a remote change, so live regulated writes still need review.', null, null],
     ],
   },
   'hermes-field-kit': {
     lede: 'The kit is designed so it cannot mark its own homework. The last state is allowed to stay unresolved.',
     steps: [
-      ['01', 'Allowed', 'A plain-language job is qualified against a policy pack and a pinned configuration before it runs.', item.repoUrl, 'Inspect repository ↗'],
-      ['02', 'Applied', 'The run executes inside those declared bounds, with no external action taken on anyone else’s system.', item.repoUrl, 'Inspect the policy packs ↗'],
-      ['03', 'Read back', 'Receipts are hash-checked and a deterministic oracle recomputes the result instead of reading the run’s own summary.', item.proofUrl ?? null, 'Open the receipt checks ↗'],
-      ['04', 'Independently checked', 'Eight negative tests, a capability map with an explicit gap list, and a pinned v2026.8.3 suite replay check the same evidence.', item.proofUrl ?? null, 'Open proof ↗'],
-      ['05', 'Accepted / needs_review', 'Offline proof passes. The one live one-shot has native CLI attestation and an oracle pass but remains needs_review: no human disposition, an estimated rather than billed cost, and two recorded execution-time exceptions.', null, null],
+      ['01', 'Scoped', 'A plain-language job is checked against a policy pack and a fixed configuration before it runs.', item.repoUrl, 'Inspect repository ↗'],
+      ['02', 'Run', 'The job stays inside those declared limits and takes no external action on anyone else’s system.', item.repoUrl, 'Inspect the policy packs ↗'],
+      ['03', 'Recomputed', 'The action records are hash-checked and a separate calculation recomputes the result instead of trusting the run’s own summary.', item.proofUrl ?? null, 'Open the receipt checks ↗'],
+      ['04', 'Challenged', 'Eight negative tests, a capability map with an explicit gap list, and a pinned suite replay inspect the same evidence.', item.proofUrl ?? null, 'Open proof ↗'],
+      ['05', 'Decision', 'Offline proof passes. The live example remains in review because no person accepted it and two execution exceptions remain.', null, null],
     ],
   },
   'agent-operating-system': {
     lede: 'The other cases use this operating approach. This page describes what is adopted today, not everything the system may do later.',
     steps: [
-      ['01', 'Allowed', 'A request is routed to context, capability, and an authority boundary before any tool is used.', '/work/', 'Open the public evidence index ↗'],
-      ['02', 'Applied', 'Work runs as bounded pieces through scoped tools rather than as one open-ended action.', '/work/hermes-deployment-lab/', 'Inspect the bounded-action lab ↗'],
-      ['03', 'Read back', 'A consequential change is read back from the system that holds it, and recovery is defined for the hard path.', 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md', 'Open the recovery proof ↗'],
-      ['04', 'Independently checked', 'The verifier is never the builder. The public deployment, MCP, evaluation, and spreadsheet-quality cases each carry their own external proof.', 'https://github.com/dbett4/hermes-enterprise-evaluation-kit/blob/main/PROOF.md', 'Open independent-check proof ↗'],
-      ['05', 'Accepted / needs_review', 'Adopted capabilities are separated from target doctrine. Controls that are not fully wired are held as needs_review, not described as production behavior.', null, null],
+      ['01', 'Scoped', 'A request is matched to the right context, tools, and authority before any action begins.', '/work/', 'Open the public work index ↗'],
+      ['02', 'Run', 'The work is split into limited actions instead of one open-ended instruction.', '/work/hermes-deployment-lab/', 'Inspect the recovery lab ↗'],
+      ['03', 'Checked in the system', 'A consequential change is checked where it actually lives, and the failure path has a recovery plan.', 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md', 'Open the recovery proof ↗'],
+      ['04', 'Checked separately', 'Public tests and separate checks inspect the deployment, integration, evaluation, and spreadsheet-quality examples.', 'https://github.com/dbett4/hermes-enterprise-evaluation-kit/blob/main/PROOF.md', 'Open the evaluation proof ↗'],
+      ['05', 'Decision', 'Working controls are separated from ideas that are not wired yet. Unfinished controls stay labeled unfinished.', null, null],
     ],
   },
 };
@@ -116,22 +116,23 @@ const acceptanceChain = acceptanceChains[item.id];
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <SecondaryMasthead backHref="/work/" backLabel="Evidence index" context="Case study · public proof" />
+    <SecondaryMasthead backHref="/work/" backLabel="Selected work" context="Case study · problem, build, proof" />
     <main id="main">
       <section class={`case-cover visual-${item.visual}`}>
         <div class="wrap case-cover-grid route-intro">
           <div class="case-intro">
             {item.id === 'agent-operating-system' ? <p class="author-line mono">Designed and maintained by Dave Bettner · Forward-deployed technical leader</p> : null}
             <p class="eyebrow mono">{item.eyebrow}</p>
-            <h1>{projectName}</h1>
-            <p class="case-headline">{item.title}</p>
+            <h1>{item.title}</h1>
+            <p class="case-headline">{projectName}</p>
             <p class="summary">{item.summary}</p>
+            <p class="case-value-line"><strong>Why it matters</strong>{item.value}</p>
             <p class="repo-links">
               <a class="round blue" href={item.id === 'agent-operating-system' ? '/work/' : item.repoUrl} rel={item.id === 'agent-operating-system' ? undefined : 'noopener noreferrer'} data-shader-host><span data-shader-label>{item.id === 'agent-operating-system' ? 'Explore public evidence' : 'View repository'} <span aria-hidden="true">↗</span></span></a>
               {item.id === 'agent-operating-system' ? <a class="round" href={item.repoUrl} rel="noopener noreferrer">GitHub profile <span aria-hidden="true">↗</span></a> : null}
               {item.id === 'agent-operating-system' ? <a class="round" href="/dave-bettner-resume.pdf" download>Résumé <span aria-hidden="true">↓</span></a> : null}
               {item.proofUrl ? (
-                <a class="round" href={item.proofUrl} rel="noopener noreferrer">Technical notes <span aria-hidden="true">↗</span></a>
+                <a class="round" href={item.proofUrl} rel="noopener noreferrer">View proof <span aria-hidden="true">↗</span></a>
               ) : null}
             </p>
           </div>
@@ -195,8 +196,8 @@ const acceptanceChain = acceptanceChains[item.id];
         {acceptanceChain ? (
           <section class="acceptance-chain" aria-labelledby="acceptance-heading">
             <div class="detail-head">
-              <p class="eyebrow mono">Acceptance chain</p>
-              <h2 id="acceptance-heading">What counts as accepted.</h2>
+              <p class="eyebrow mono">How I know it worked</p>
+              <h2 id="acceptance-heading">The result has to be inspectable.</h2>
               <p class="acceptance-lede">{acceptanceChain.lede}</p>
             </div>
             <ol class="acceptance-list">
@@ -219,21 +220,21 @@ const acceptanceChain = acceptanceChains[item.id];
         {item.id === 'hermes-deployment-lab' ? (
           <section class="acceptance-chain" aria-labelledby="acceptance-heading">
             <div class="detail-head">
-              <p class="eyebrow mono">Acceptance path</p>
-              <h2 id="acceptance-heading">What counts as accepted.</h2>
+              <p class="eyebrow mono">How I know it worked</p>
+              <h2 id="acceptance-heading">The result has to survive the failure.</h2>
               <p class="acceptance-lede">The model can propose the next move. The run only advances when each control has evidence.</p>
             </div>
             <ol class="acceptance-list">
               {[
-                ['01', 'Allowed', 'The run has a bounded action and a named approval boundary.', item.repoUrl],
-                ['02', 'Applied', 'The tool call has a distinct effect, not an open-ended retry.', null],
-                ['03', 'Read back', 'The system checks the external result instead of trusting the response.', '#recovery-proof-heading'],
-                ['04', 'Checked', 'Independent tests and verification inspect the same evidence.', item.proofUrl],
-                ['05', 'Disposition', 'The result is accepted, blocked, or left needs_review.', null],
+                ['01', 'Scoped', 'The job has one limited action and a named approval point.', item.repoUrl],
+                ['02', 'Run', 'The tool makes one distinct attempt, not an open-ended retry.', null],
+                ['03', 'Checked in the system', 'The workflow looks for the actual result instead of trusting a missing reply.', '#recovery-proof-heading'],
+                ['04', 'Checked separately', 'Public tests force the same failure and inspect the result.', item.proofUrl],
+                ['05', 'Decision', 'The result is accepted, blocked, or clearly left for review.', null],
               ].map(([number, title, text, link]) => (
                 <li>
                   <span class="mono">{number}</span>
-                  <div><h3>{title}</h3><p>{text}</p>{link ? <a href={link} class="acceptance-link" rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}>{title === 'Checked' ? 'Open proof ↗' : title === 'Read back' ? 'See the recovery trace ↓' : 'Inspect repository ↗'}</a> : null}</div>
+                  <div><h3>{title}</h3><p>{text}</p>{link ? <a href={link} class="acceptance-link" rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}>{title === 'Checked separately' ? 'Open proof ↗' : title === 'Checked in the system' ? 'See the recovery trace ↓' : 'Inspect repository ↗'}</a> : null}</div>
                 </li>
               ))}
             </ol>
@@ -242,8 +243,8 @@ const acceptanceChain = acceptanceChains[item.id];
 
         <section class="evidence-map" aria-labelledby="evidence-map-heading">
           <div class="evidence-heading">
-            <p class="mono evidence-map-label" id="evidence-map-heading">Evidence map</p>
-            <p class="mono evidence-state">Method → proof → boundary</p>
+            <p class="mono evidence-map-label" id="evidence-map-heading">Result and evidence</p>
+            <p class="mono evidence-state">What worked · how checked · honest limit</p>
           </div>
           <h2 class="evidence-signal">{item.evidenceMap.signal}</h2>
           <p class="evidence-method">{item.evidenceMap.method}</p>
@@ -252,7 +253,7 @@ const acceptanceChain = acceptanceChains[item.id];
             {item.evidenceMap.steps.map((step) => <li>{step}</li>)}
           </ol>
           <div class="evidence-boundary">
-            <span class="mono">Boundary</span>
+            <span class="mono">Honest limit</span>
             <p>{item.evidenceMap.boundary}</p>
           </div>
         </section>
@@ -262,7 +263,7 @@ const acceptanceChain = acceptanceChains[item.id];
         {item.id === 'agent-operating-system' ? (
           <section class="stack-explainer" aria-labelledby="stack-explainer-heading">
             <div class="detail-head">
-              <p class="eyebrow mono">The Stack · plain-language view</p>
+              <p class="eyebrow mono">The whole workflow</p>
               <h2 id="stack-explainer-heading">The whole system, from request to proof.</h2>
               <p class="stack-lede">The animation is an explanation, not a live feed. The linked repositories and upstream contributions are the places to inspect the underlying work.</p>
             </div>
@@ -292,24 +293,27 @@ const acceptanceChain = acceptanceChains[item.id];
 
         <section class="case-detail" aria-labelledby="case-detail-heading">
           <div class="detail-head">
-            <p class="eyebrow mono">Build record</p>
-            <h2 id="case-detail-heading">What the workflow records.</h2>
+            <p class="eyebrow mono">What I owned</p>
+            <h2 id="case-detail-heading">The problem, the build, and the limits.</h2>
           </div>
           <dl class="case-list">
-            <dt>Constraint</dt><dd>{item.constraint}</dd>
-            <dt>Built</dt><dd>{item.built}</dd>
-            <dt>Role</dt><dd>{item.role}</dd>
-            <dt>Human boundary</dt><dd>{item.boundary}</dd>
-            <dt>Evidence</dt><dd>{item.evidence}</dd>
+            <dt>Problem</dt><dd>{item.constraint}</dd>
+            <dt>What I built</dt><dd>{item.built}</dd>
+            <dt>My role</dt><dd>{item.role}</dd>
+            <dt>What stays human</dt><dd>{item.boundary}</dd>
+            <dt>Public proof</dt><dd>{item.evidence}</dd>
             <dt>Scope</dt><dd>{item.scope}</dd>
           </dl>
         </section>
         <section class="contact-block" aria-labelledby="contact-heading">
           <p class="mono">Next</p>
-          <h2 id="contact-heading">Need this kind of deployment rigor?</h2>
+          <h2 id="contact-heading">Working on a workflow with the same failure mode?</h2>
           <a class="round blue contact-link" href={emailHref} data-shader-host><span data-shader-label>Get in touch <span aria-hidden="true">↗</span></span></a>
         </section>
-        <p class="provenance-note">{provenanceNote}</p>
+        <details class="provenance-note">
+          <summary>How to read the public proof and its limits</summary>
+          <p>{provenanceNote}</p>
+        </details>
       </div>
     </main>
     <script is:inline type="module" src="/interstellar.js"></script>
@@ -338,8 +342,12 @@ const acceptanceChain = acceptanceChains[item.id];
   h1{font-family:"Archivo Variable",system-ui,sans-serif;font-size:clamp(2.8rem,6vw,4.8rem);font-weight:700;line-height:1.02;letter-spacing:-.04em;margin-bottom:20px}
   .case-headline{font-family:"Archivo Variable",system-ui,sans-serif;font-size:clamp(1.25rem,2.4vw,1.8rem);font-weight:600;line-height:1.16;max-width:760px;margin:-4px 0 14px;color:var(--ink)}
   .summary{color:var(--muted);font-size:1.05rem;max-width:620px;margin-bottom:20px}
+  .case-value-line{max-width:620px;border-left:2px solid var(--orange);padding:10px 0 10px 14px;font-size:.94rem;font-weight:600;line-height:1.5}
+  .case-value-line strong{display:block;margin-bottom:5px;color:var(--orange-ink);font-family:"DM Mono",monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
   .repo-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
-  .provenance-note{margin-top:32px;max-width:620px;font-size:.82rem;line-height:1.5;color:var(--muted)}
+  .provenance-note{margin-top:32px;max-width:720px;font-size:.82rem;line-height:1.5;color:var(--muted)}
+  .provenance-note summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--blue);font-family:"DM Mono",monospace;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase}
+  .provenance-note p{padding-top:8px}
   .case-plate{position:relative;min-height:360px;border:1px solid var(--ink);overflow:hidden;background:var(--ink);isolation:isolate}
   .plate-chrome,.plate-proof{position:absolute;background:var(--ink);color:var(--paper);padding:6px 7px;font-size:.62rem}
   .plate-chrome{top:12px;left:12px}.plate-proof{right:12px;bottom:12px}.plate-mark{position:absolute;top:12px;right:12px;width:10px;height:10px;background:var(--orange);box-shadow:-3px 3px 0 var(--blue)}

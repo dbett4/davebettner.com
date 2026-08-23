@@ -43,9 +43,9 @@ export const publicEngineeringCases = [
     name: 'Regulated Reporting MCP',
     repoUrl: 'https://github.com/dbett4/regulated-reporting-mcp',
     proofUrl: 'https://github.com/dbett4/regulated-reporting-mcp/blob/main/docs/PROOF.md',
-    title: 'Give agents controlled access to business systems',
+    title: 'Give an agent only the access its job requires',
     summary:
-      'MCP server for a Workiva-shaped reporting API: OAuth client credentials, token refresh, rate-limit backoff, pagination, async jobs, and controlled mutations behind a three-tool guarded default.',
+      'A reporting-system connector that exposes three guarded tools by default, refuses unconfirmed writes, checks the result in the source system, and keeps client values out of its audit record.',
     evidence: '126 credential-free tests; 117 registered tool contracts; offline end-to-end demo with no credentials required.',
     limit:
       'The full 117-tool registry requires an explicit unsafe opt-in. A local write receipt is not treated as remote verification.',
@@ -56,9 +56,9 @@ export const publicEngineeringCases = [
     name: 'Hermes Enterprise Evaluation Kit',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit',
     proofUrl: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit/blob/main/PROOF.md',
-    title: 'Test an agent workflow against explicit business-use checks',
+    title: 'Keep an evaluation from approving itself',
     summary:
-      'Version-pinned kit that turns a plain-language job into a policy-bounded Hermes run, independent checks, and a receipt — without letting a green script invent human approval.',
+      'A version-pinned kit that checks a proposed agent job against policy, tests the result, and leaves the final decision with a person.',
     evidence:
       'Offline proof with no keys or network; capability map + explicit gaps; 8 negative tests; pinned v2026.8.3 preflight; one native-runtime S1 receipt still ending in needs_review.',
     limit:

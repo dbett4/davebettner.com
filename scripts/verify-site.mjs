@@ -85,11 +85,11 @@ const buildingRoles = [
 ];
 
 const caseEyebrows = {
-  'agent-operating-system': 'Architecture · Agent operating system',
-  'dedup-readback-bridge': 'Pipeline economics · Dedup Read-Back Bridge',
-  'regulated-reporting-mcp': 'Guarded integration · Regulated Reporting MCP',
-  'hermes-deployment-lab': 'Duplicate-action prevention · Hermes Deployment Lab',
-  wingman: 'Readback + restore · Confirm-before-write quality',
+  'agent-operating-system': 'How the pieces fit · Agent Operating System',
+  'dedup-readback-bridge': 'Repeat-work prevention · Dedup Read-Back Bridge',
+  'regulated-reporting-mcp': 'Limited system access · Regulated Reporting MCP',
+  'hermes-deployment-lab': 'Failed-write recovery · Hermes Deployment Lab',
+  wingman: 'Review and restore · Spreadsheet quality',
 };
 
 const caseStepCounts = {
@@ -125,24 +125,28 @@ const projects = [
   {
     slug: 'agent-operating-system',
     title: 'Agent Operating System',
+    headline: 'Make agent work explainable after the fact',
     repo: 'https://github.com/dbett4',
     proof: 'Architecture map',
   },
   {
     slug: 'dedup-readback-bridge',
     title: 'Dedup Read-Back Bridge',
+    headline: 'Stop recurring agent jobs from repeating work',
     repo: 'https://github.com/dbett4/dedup-readback-bridge',
     proof: '19 tests, including a two-thread race and a crash-safety check',
   },
   {
     slug: 'regulated-reporting-mcp',
     title: 'Regulated Reporting MCP',
+    headline: 'Give an agent only the write access its job requires',
     repo: 'https://github.com/dbett4/regulated-reporting-mcp',
     proof: 'Credential-free test suite',
   },
   {
     slug: 'hermes-deployment-lab',
     title: 'Hermes Deployment Lab',
+    headline: 'Recover a failed write without creating a duplicate',
     repo: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proof: 'Public GitHub Actions run 31892965924 forces the failure',
     boundaries: ['synthetic lab', 'cloud configuration is checked but not deployed', 'a model is not running the workflow in production'],
@@ -150,6 +154,7 @@ const projects = [
   {
     slug: 'wingman',
     title: 'Confirm-before-write spreadsheet quality',
+    headline: 'Find spreadsheet defects—and reverse a bad fix',
     repo: 'https://github.com/dbett4/wingman',
     proof: '462 Python tests pass',
   },
@@ -326,9 +331,9 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       JSON.stringify(mobileNavTargets) === JSON.stringify([
         { text: 'Work', href: '/work/' },
         { text: 'Experience', href: '/experience/' },
-        { text: 'First 90 days', href: '/fit/' },
+        { text: 'Deployment approach', href: '/fit/' },
       ]),
-      `${name}: primary nav contains Work, Experience, and First 90 days`,
+      `${name}: primary nav contains Work, Experience, and Deployment approach`,
       JSON.stringify(mobileNavTargets),
     );
     ok(
@@ -891,8 +896,8 @@ try {
       `${viewport.name}: closing CTA stays specific and keeps consulting secondary`,
       closingTitle,
     );
-    ok(body.includes('Give agents controlled access to business systems'), `${viewport.name}: features the regulated reporting case`);
-    ok(body.includes('Test an agent workflow against explicit business-use checks'), `${viewport.name}: features the evaluation case`);
+    ok(body.includes('Give an agent only the access its job requires'), `${viewport.name}: features the regulated reporting case`);
+    ok(body.includes('Keep an evaluation from approving itself'), `${viewport.name}: features the evaluation case`);
     ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
     ok(body.includes('Make agent work explainable after the fact'), `${viewport.name}: selected work includes the agent operating system case`);
     ok(!body.includes('Financial reporting QA with readback'), `${viewport.name}: Wingman is not featured on homepage`);
@@ -1220,7 +1225,8 @@ try {
   for (const project of projects) {
     const route = `/work/${project.slug}/`;
     await auditPage(page, route, route);
-    ok((await page.locator('h1').innerText()).includes(project.title), `${route}: project title`);
+    ok((await page.locator('h1').innerText()).trim() === project.headline, `${route}: value-first case-study heading`);
+    ok((await page.locator('.case-headline').innerText()).includes(project.title), `${route}: project name remains visible`);
     ok(await page.locator(`a[href="${project.repo}"]`).count() >= 1, `${route}: direct repository link`);
     const eyebrow = (await page.locator('.eyebrow').first().innerText()).trim();
     ok(

@@ -3,15 +3,41 @@ import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/dm-mono/400.css';
 import EvidenceMotif from '../../components/EvidenceMotif.astro';
 import SecondaryMasthead from '../../components/SecondaryMasthead.astro';
+import ContactLinks from '../../components/ContactLinks.astro';
 import { cases } from '../../data/cases';
+import { selectedProof } from '../../data/homepage-framing';
 import { provenanceNote } from '../../data/public-proof';
 import { siteUrl } from '../../data/seo';
-import ContactLinks from '../../components/ContactLinks.astro';
+import { emailHref, githubUrl } from '../../data/site-links';
 
 const canonical = `${siteUrl}/work/`;
-const title = 'Work | Dave Bettner — Public Agent Engineering';
+const title = 'Selected Work | Dave Bettner — Enterprise AI Implementation';
 const description =
-  'See how Dave Bettner approaches failure, control, recovery, and proof across customer delivery and public agent engineering.';
+  'Case studies showing how Dave Bettner limits AI system access, recovers failed writes, keeps people in control, and proves what changed.';
+
+const featuredIds = ['hermes-deployment-lab', 'regulated-reporting-mcp', 'wingman'];
+const supportingIds = ['dedup-readback-bridge', 'hermes-field-kit'];
+const featuredCases = featuredIds.map((id) => cases.find((item) => item.id === id)).filter(Boolean);
+const supportingCases = supportingIds.map((id) => cases.find((item) => item.id === id)).filter(Boolean);
+const operatingSystem = cases.find((item) => item.id === 'agent-operating-system');
+
+const valuePoints = [
+  {
+    number: '01',
+    title: 'Prevent expensive repeats',
+    copy: 'When a system loses confirmation, find the first result before trying the same business action again.',
+  },
+  {
+    number: '02',
+    title: 'Keep people in control',
+    copy: 'Give software only the access it needs, require confirmation for consequential changes, and stop for judgment.',
+  },
+  {
+    number: '03',
+    title: 'Make the result inspectable',
+    copy: 'Check the outcome in the source system and leave a useful record of what changed, what passed, and what remains open.',
+  },
+] as const;
 ---
 
 <!doctype html>
@@ -38,111 +64,343 @@ const description =
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <SecondaryMasthead context="Work · public proof" />
+    <SecondaryMasthead context="Work · customer value and public proof" />
     <main id="main">
       <section class="work-cover">
-        <div class="wrap content-page route-intro">
-          <p class="eyebrow mono">Work · from failure to proof</p>
-          <h1>What broke, what changed, and how I checked it.</h1>
-          <p class="lead">
-            A project makes more sense when you can see the problem, the consequence, the change, and the evidence behind it.
-          </p>
+        <div class="wrap hero-grid route-intro">
+          <div class="hero-copy">
+            <p class="eyebrow mono">Selected work</p>
+            <h1>I design the controls AI workflows need before they act inside business systems.</h1>
+            <p class="lead">
+              I bring more than ten years of enterprise implementation work to agent systems. These projects focus on the hard parts after a demo: limited access, human approval, failed-write recovery, and a clear record of what actually happened.
+            </p>
+            <p class="hero-proof mono">Enterprise implementation since 2015 · Public code and automated tests · No client data</p>
+            <p class="hero-actions">
+              <a class="action action-primary" href="#featured-work">Start with a case study <span aria-hidden="true">↓</span></a>
+              <a class="action" href="/experience/">See my experience <span aria-hidden="true">→</span></a>
+              <a class="text-action" href={githubUrl} rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+          <aside class="hero-note" aria-label="How to read this work">
+            <span class="hero-note-index mono">The purpose</span>
+            <p>Useful automation should reduce risk and effort without hiding authority, failure, or judgment.</p>
+            <small>Public labs and sanitized tools show the method. Customer work stays confidential and is labeled separately as experience.</small>
+          </aside>
         </div>
       </section>
 
-      <section class="work-section" aria-labelledby="plates-heading">
+      <section class="value-section" aria-labelledby="value-heading">
         <div class="wrap content-page">
-          <div class="section-head">
-            <p class="eyebrow mono">Case index · {String(cases.length).padStart(2, '0')}</p>
-            <h2 id="plates-heading" class="route-section-heading">Follow the behavior, then inspect the proof.</h2>
+          <div class="section-intro compact-intro">
+            <p class="eyebrow mono">What this work is for</p>
+            <h2 id="value-heading">Make AI-assisted work safer to use, easier to recover, and easier to trust.</h2>
           </div>
-          <ul class="work-list">
-            {cases.map((item, index) => (
+          <ol class="value-grid">
+            {valuePoints.map((point) => (
               <li>
-                <a class={`work-card visual-${item.visual}`} href={`/work/${item.id}/`}>
-                  <span class="work-visual" aria-hidden="true">
-                    <span class="work-visual-index mono">PLATE · {String(index + 1).padStart(2, '0')}</span>
-                    <span class="work-visual-mark"></span>
-                    <EvidenceMotif motif={item.motif} compact />
-                  </span>
-                  <span class="work-copy">
-                    <span class="work-eyebrow mono">{item.eyebrow}</span>
-                    <span class="work-title">{item.title}</span>
-                    <span class="work-summary"><strong>What happened</strong>{item.summary}</span>
-                    <span class="work-evidence"><strong>What changed</strong>{item.evidence}</span>
-                    <span class="work-boundary"><strong>What remains open</strong>{item.boundary}</span>
-                    <span class="work-footer">
-                      <span class="work-repo mono">{item.repoUrl.replace('https://github.com/', '')}</span>
-                      <span class="work-open mono">Open case →</span>
-                    </span>
-                  </span>
-                </a>
+                <span class="value-index mono">{point.number}</span>
+                <h3>{point.title}</h3>
+                <p>{point.copy}</p>
               </li>
             ))}
-          </ul>
+          </ol>
+        </div>
+      </section>
 
-          <p class="provenance-note">{provenanceNote}</p>
+      <section class="featured-section" id="featured-work" aria-labelledby="featured-heading">
+        <div class="wrap content-page">
+          <div class="section-intro">
+            <p class="eyebrow mono">Public engineering case studies · 03</p>
+            <h2 id="featured-heading">Three problems I know how to solve.</h2>
+            <p>Each case starts with a business failure, shows what I built, and links to public code or tests. The limit is part of the story, not fine print.</p>
+          </div>
 
-          <nav class="page-links" aria-label="Related pages">
-            <a href="/">Home</a>
-            <a href="/about/">About Dave Bettner</a>
-            <a href="/experience/">Experience</a>
-            <ContactLinks />
-          </nav>
+          <ol class="featured-list">
+            {featuredCases.map((item, index) => item && (
+              <li class="featured-case">
+                <div class={`case-visual visual-${item.visual}`} aria-hidden="true">
+                  <span class="case-number mono">{String(index + 1).padStart(2, '0')}</span>
+                  <span class="case-mark"></span>
+                  <EvidenceMotif motif={item.motif} compact />
+                </div>
+                <article class="case-copy">
+                  <p class="case-eyebrow mono">{item.eyebrow}</p>
+                  <h3>{item.title}</h3>
+                  <span class="case-label case-problem-label mono">The problem</span>
+                  <p class="case-summary">{item.summary}</p>
+                  <div class="case-story">
+                    <div>
+                      <span class="case-label mono">What I built</span>
+                      <p>{item.built}</p>
+                    </div>
+                    <div class="case-value">
+                      <span class="case-label mono">Why it matters</span>
+                      <p>{item.value}</p>
+                    </div>
+                  </div>
+                  <details class="case-proof">
+                    <summary>Proof and honest limit</summary>
+                    <div class="proof-grid">
+                      <p><strong>Proof</strong>{item.evidence}</p>
+                      <p><strong>Limit</strong>{item.boundary}</p>
+                    </div>
+                  </details>
+                  <p class="case-actions">
+                    <a class="case-link" href={`/work/${item.id}/`}>Read the case study <span aria-hidden="true">→</span></a>
+                    <a class="repo-link" href={item.repoUrl} rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
+                  </p>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section class="supporting-section" aria-labelledby="supporting-heading">
+        <div class="wrap content-page supporting-grid">
+          <div class="section-intro supporting-intro">
+            <p class="eyebrow mono">More public builds</p>
+            <h2 id="supporting-heading">Small systems for repeatable work.</h2>
+            <p>Focused tools for two common problems: paying for the same work twice and letting an evaluation mark its own homework.</p>
+          </div>
+          <div class="supporting-list">
+            {supportingCases.map((item) => item && (
+              <article>
+                <p class="case-eyebrow mono">{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <p>{item.summary}</p>
+                <p class="support-value">{item.value}</p>
+                <p class="support-actions">
+                  <a href={`/work/${item.id}/`}>Read case study <span aria-hidden="true">→</span></a>
+                  <a href={item.repoUrl} rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {operatingSystem ? (
+        <section class="system-section" aria-labelledby="system-heading">
+          <div class="wrap system-grid">
+            <div>
+              <p class="eyebrow mono">How the pieces fit together</p>
+              <h2 id="system-heading">The model is one part of the workflow.</h2>
+            </div>
+            <div class="system-copy">
+              <p>{operatingSystem.summary}</p>
+              <p>{operatingSystem.value}</p>
+              <a href={`/work/${operatingSystem.id}/`}>See the whole operating approach <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      <section class="experience-section" aria-labelledby="experience-heading">
+        <div class="wrap content-page">
+          <div class="section-intro experience-intro">
+            <p class="eyebrow mono">Customer implementation record · since 2015</p>
+            <h2 id="experience-heading">The experience behind the code.</h2>
+            <p>My public engineering is recent. The customer-delivery pattern behind it is not: understand the workflow, connect the systems, survive the hard failure, and leave the team with something it can run.</p>
+          </div>
+          <ol class="experience-grid">
+            {selectedProof.stories.map((story, index) => (
+              <li>
+                <span class="experience-index mono">{String(index + 1).padStart(2, '0')} · Experience</span>
+                <p class="experience-context">{story.context}</p>
+                <h3>{story.title}</h3>
+                <p>{story.result}</p>
+              </li>
+            ))}
+          </ol>
+          <p class="experience-link"><a href="/experience/">See the dated career record <span aria-hidden="true">→</span></a></p>
+        </div>
+      </section>
+
+      <section class="disclosure-section">
+        <div class="wrap disclosure-wrap">
+          <details>
+            <summary>How to read the public proof and its limits</summary>
+            <p>{provenanceNote}</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="contact-section" aria-labelledby="contact-heading">
+        <div class="wrap contact-grid">
+          <div>
+            <p class="eyebrow mono">Working on a difficult deployment?</p>
+            <h2 id="contact-heading">Let’s talk about the customer environment, not just the demo.</h2>
+          </div>
+          <div class="contact-copy">
+            <p>I’m pursuing forward-deployed engineering and technical deployment roles. I’m also open to a tightly scoped implementation problem.</p>
+            <p class="contact-actions">
+              <a class="action action-primary" href={emailHref}>Email Dave <span aria-hidden="true">↗</span></a>
+              <a class="action action-dark" href="/dave-bettner-resume.pdf" download>View résumé <span aria-hidden="true">↓</span></a>
+            </p>
+          </div>
         </div>
       </section>
     </main>
+
+    <footer>
+      <div class="wrap footer-row">
+        <a href="/">Home</a>
+        <a href="/about/">About Dave</a>
+        <a href="/experience/">Experience</a>
+        <ContactLinks />
+      </div>
+    </footer>
     <script is:inline type="module" src="/interstellar.js"></script>
   </body>
 </html>
 
 <style is:global>
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:"Archivo Variable",system-ui,sans-serif; background:var(--paper); color:var(--ink); line-height:1.5; }
+  html { scroll-behavior:smooth; scroll-padding-top:84px; }
+  body { font-family:"Archivo Variable",system-ui,sans-serif; background:var(--paper); color:var(--ink); line-height:1.52; overflow-x:hidden; }
   a { color:inherit; text-decoration:none; }
-  a:focus-visible { outline:3px solid var(--orange); outline-offset:4px; }
+  a:focus-visible, summary:focus-visible { outline:3px solid var(--orange); outline-offset:4px; }
   .skip-link { position:fixed; left:16px; top:16px; z-index:1000; background:var(--ink); color:var(--paper); padding:12px 16px; transform:translateY(-200%); }
   .skip-link:focus { transform:none; }
-  .wrap { width:min(100% - 48px, 1280px); margin-inline:auto; }
-  .content-page { padding:clamp(40px, 6vw, 88px) 0; }
+  .wrap { width:min(100% - 48px,1280px); margin-inline:auto; }
+  .content-page { padding:clamp(64px,8vw,112px) 0; }
   .mono { font-family:"DM Mono",ui-monospace,monospace; font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; }
   .page-mast { position:sticky; top:0; z-index:10; background:var(--paper); border-bottom:1px solid var(--ink); }
   .mast-row { min-height:64px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-  .back-link { min-height:44px; display:inline-flex; align-items:center; }
-  .back-link { color:var(--muted); }
-  .work-cover { border-bottom:1px solid var(--ink); background:linear-gradient(90deg, transparent 79px, rgba(201,195,181,.32) 79px 80px, transparent 80px), var(--paper); }
-  .work-cover .content-page { max-width:900px; margin-left:max(0px, calc((100% - 1280px) / 2)); }
-  .eyebrow { color:var(--orange-ink); margin-bottom:12px; }
-  h1, h2 { font-family:"Archivo Variable",system-ui,sans-serif; font-weight:650; letter-spacing:-.04em; line-height:1.04; }
-  h1 { max-width:18ch; font-size:clamp(2.35rem,5vw,4.5rem); }
-  h2 { font-size:clamp(1.8rem,3.4vw,2.8rem); }
-  .lead { max-width:60ch; margin-top:20px; color:var(--muted); font-size:clamp(.96rem,1.5vw,1.08rem); }
+  .back-link { min-height:44px; display:inline-flex; align-items:center; color:var(--muted); }
+  .eyebrow { color:var(--orange-ink); margin-bottom:14px; }
+  h1, h2, h3 { font-family:"Archivo Variable",system-ui,sans-serif; }
+  h1, h2 { font-weight:650; letter-spacing:-.045em; line-height:1.01; text-wrap:balance; }
+  h1 { max-width:18ch; font-size:clamp(2.8rem,6vw,5.7rem); }
+  h2 { font-size:clamp(2.05rem,4vw,3.7rem); }
+  h3 { font-weight:640; letter-spacing:-.028em; line-height:1.08; text-wrap:balance; }
 
-  .work-section { background:var(--card); border-bottom:1px solid var(--ink); }
-  .section-head { display:grid; gap:10px; margin-bottom:32px; }
-  .work-list { list-style:none; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
-  .work-card { display:grid; grid-template-columns:minmax(126px,.42fr) minmax(0,1fr); min-height:340px; border:1px solid var(--ink); background:var(--paper); transition:transform .2s ease, box-shadow .2s ease; }
-  .work-card:hover, .work-card:focus-visible { transform:translate(-3px,-3px); box-shadow:3px 3px 0 var(--ink); }
-  .work-visual { position:relative; min-height:100%; overflow:hidden; border-right:1px solid var(--ink); background:var(--ink); }
-  .work-visual-index { position:absolute; z-index:2; color:var(--paper); background:var(--ink); padding:5px 6px; }
-  .work-visual-index { top:10px; left:10px; }
-  .work-visual-mark { position:absolute; z-index:2; width:9px; height:9px; right:10px; top:10px; background:var(--orange); box-shadow:-3px 3px 0 var(--blue); }
-  .work-copy { min-width:0; padding:20px; display:flex; flex-direction:column; align-items:flex-start; }
-  .work-eyebrow { color:var(--orange-ink); line-height:1.35; }
-  .work-title { display:block; margin:12px 0 10px; font-size:clamp(1.16rem,2vw,1.46rem); font-weight:650; letter-spacing:-.025em; line-height:1.15; }
-  .work-summary { color:var(--muted); font-size:.88rem; line-height:1.48; }
-  .work-evidence { margin-top:14px; padding-top:12px; border-top:1px solid var(--rule); color:var(--ink); font-size:.76rem; line-height:1.42; }
-  .work-boundary { margin-top:8px; color:var(--muted); font-size:.72rem; line-height:1.42; }
-  .work-summary strong, .work-evidence strong, .work-boundary strong { display:block; margin-bottom:5px; color:var(--orange-ink); font-family:"DM Mono",ui-monospace,monospace; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; }
-  .work-evidence strong { color:var(--blue); }
-  .work-boundary strong { color:var(--muted); }
-  .work-footer { width:100%; display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 12px; align-items:flex-end; margin-top:auto; padding-top:18px; }
-  .work-repo { color:var(--muted); font-size:.7rem; overflow-wrap:anywhere; }
-  .work-open { color:var(--blue); font-size:.72rem; white-space:nowrap; }
-  .provenance-note { max-width:75ch; margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); color:var(--muted); font-size:.8rem; line-height:1.5; }
-  .page-links { display:flex; flex-wrap:wrap; gap:12px 22px; margin-top:32px; }
-  .page-links a { min-height:44px; display:inline-flex; align-items:center; text-decoration:underline; text-underline-offset:4px; }
-  @media (max-width:760px) { .wrap{width:min(100% - 28px,1280px)} .work-cover .content-page{margin-left:0} .work-list{grid-template-columns:1fr} .work-card{grid-template-columns:100px minmax(0,1fr); min-height:300px} .work-copy{padding:16px} .work-evidence{font-size:.74rem} }
-  @media (max-width:420px) { .mast-row{min-height:56px} .work-card{grid-template-columns:1fr; min-height:0} .work-visual{min-height:82px; border-right:0; border-bottom:1px solid var(--ink)} }
-  @media (prefers-reduced-motion:reduce) { .work-card{transition:none} .work-card:hover,.work-card:focus-visible{transform:none;box-shadow:none} }
+  .work-cover { border-bottom:1px solid var(--rule); background:linear-gradient(90deg,transparent 79px,rgba(115,191,196,.12) 79px 80px,transparent 80px),var(--paper); }
+  .hero-grid { min-height:min(780px,calc(100vh - 64px)); padding:clamp(72px,9vw,128px) 0; display:grid; grid-template-columns:minmax(0,1.55fr) minmax(280px,.55fr); gap:clamp(40px,8vw,120px); align-items:end; }
+  .lead { max-width:63ch; margin-top:28px; color:var(--muted); font-size:clamp(1rem,1.6vw,1.22rem); }
+  .hero-proof { margin-top:28px; color:var(--tide); line-height:1.6; }
+  .hero-actions { display:flex; align-items:center; flex-wrap:wrap; gap:10px 18px; margin-top:30px; }
+  .action { min-height:46px; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 16px; border:1px solid var(--ink); font-size:.82rem; font-weight:650; transition:background .2s,color .2s,border-color .2s; }
+  .action-primary { background:var(--blue); border-color:var(--blue); color:#fff; }
+  .action-dark { background:transparent; border-color:#c9c3b5; color:var(--warm); }
+  .action:hover, .action:focus-visible { background:var(--orange); border-color:var(--orange); color:#fff; }
+  .text-action { min-height:44px; display:inline-flex; align-items:center; color:var(--muted); text-decoration:underline; text-underline-offset:4px; }
+  .hero-note { align-self:end; border-top:2px solid var(--orange); padding-top:18px; }
+  .hero-note-index { color:var(--orange-ink); }
+  .hero-note p { margin-top:18px; font-size:clamp(1.15rem,2vw,1.5rem); font-weight:620; line-height:1.18; }
+  .hero-note small { display:block; margin-top:18px; color:var(--muted); font-size:.78rem; line-height:1.55; }
+
+  .section-intro { max-width:860px; margin-bottom:44px; }
+  .section-intro > p:last-child { max-width:64ch; margin-top:18px; color:var(--muted); font-size:1rem; }
+  .compact-intro { max-width:980px; }
+  .value-section { border-bottom:1px solid var(--rule); background:var(--card); }
+  .value-grid { list-style:none; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border:1px solid var(--rule); }
+  .value-grid li { min-width:0; min-height:220px; padding:26px; border-right:1px solid var(--rule); }
+  .value-grid li:last-child { border-right:0; }
+  .value-index { color:var(--tide); }
+  .value-grid h3 { margin:46px 0 10px; font-size:clamp(1.2rem,2vw,1.55rem); }
+  .value-grid p { color:var(--muted); font-size:.9rem; max-width:34ch; }
+
+  .featured-section { border-bottom:1px solid var(--rule); }
+  .featured-list { list-style:none; display:grid; gap:26px; }
+  .featured-case { display:grid; grid-template-columns:minmax(170px,.35fr) minmax(0,1fr); border:1px solid var(--rule); background:var(--card); }
+  .case-visual { position:relative; min-height:100%; overflow:hidden; border-right:1px solid var(--rule); background:var(--ink); }
+  .case-number { position:absolute; z-index:2; left:14px; top:14px; color:var(--warm); }
+  .case-mark { position:absolute; z-index:2; right:14px; top:14px; width:10px; height:10px; background:var(--orange); box-shadow:-3px 3px 0 var(--tide); }
+  .case-copy { padding:clamp(24px,4vw,44px); }
+  .case-eyebrow { color:var(--orange-ink); }
+  .case-copy > h3 { max-width:22ch; margin:12px 0 14px; font-size:clamp(1.75rem,3.5vw,3rem); }
+  .case-problem-label { display:block; margin-top:24px; }
+  .case-summary { max-width:68ch; margin-top:8px; color:var(--muted); font-size:1rem; }
+  .case-story { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0; margin-top:24px; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
+  .case-story > div { padding:20px 20px 20px 0; }
+  .case-story > div + div { padding-left:20px; border-left:1px solid var(--rule); }
+  .case-label { display:block; margin-bottom:9px; color:var(--orange-ink); }
+  .case-story p { color:var(--muted); font-size:.84rem; line-height:1.5; }
+  .case-story .case-value p { color:var(--ink); font-weight:620; }
+  .case-proof { margin-top:18px; }
+  .case-proof summary, .disclosure-section summary { min-height:44px; display:flex; align-items:center; cursor:pointer; color:var(--tide); font-family:"DM Mono",ui-monospace,monospace; font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; }
+  .proof-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:14px 0 4px; }
+  .proof-grid p { color:var(--muted); font-size:.8rem; line-height:1.5; }
+  .proof-grid strong { display:block; margin-bottom:5px; color:var(--ink); }
+  .case-actions { display:flex; flex-wrap:wrap; gap:12px 24px; margin-top:22px; }
+  .case-actions a, .support-actions a, .system-copy a, .experience-link a { min-height:44px; display:inline-flex; align-items:center; font-weight:650; text-decoration:underline; text-underline-offset:5px; }
+  .case-link { color:var(--blue); }
+  .repo-link { color:var(--muted); }
+
+  .supporting-section { border-bottom:1px solid var(--rule); background:var(--card); }
+  .supporting-grid { display:grid; grid-template-columns:minmax(260px,.62fr) minmax(0,1.38fr); gap:clamp(40px,7vw,100px); }
+  .supporting-intro { margin-bottom:0; }
+  .supporting-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); border-top:1px solid var(--rule); }
+  .supporting-list article { padding:24px 24px 24px 0; border-bottom:1px solid var(--rule); }
+  .supporting-list article:nth-child(even) { padding-left:24px; border-left:1px solid var(--rule); }
+  .supporting-list h3 { margin:12px 0; font-size:clamp(1.35rem,2.4vw,1.8rem); }
+  .supporting-list article > p:not(.case-eyebrow,.support-value,.support-actions) { color:var(--muted); font-size:.88rem; }
+  .support-value { margin-top:18px; font-weight:620; font-size:.88rem; }
+  .support-actions { display:flex; flex-wrap:wrap; gap:12px 20px; margin-top:18px; color:var(--blue); font-size:.78rem; }
+
+  .system-section { border-bottom:1px solid #34353a; background:#101114; color:var(--warm); }
+  .system-grid { padding:clamp(64px,8vw,110px) 0; display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(36px,8vw,120px); align-items:start; }
+  .system-section .eyebrow { color:var(--orange); }
+  .system-copy { border-left:1px solid #45464b; padding-left:clamp(24px,4vw,54px); }
+  .system-copy p { max-width:56ch; color:#c9c3b5; font-size:1rem; }
+  .system-copy p + p { margin-top:18px; color:var(--warm); font-weight:620; }
+  .system-copy a { margin-top:24px; color:var(--tide); }
+
+  .experience-section { border-bottom:1px solid var(--rule); }
+  .experience-intro { max-width:930px; }
+  .experience-grid { list-style:none; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid var(--rule); }
+  .experience-grid li { min-width:0; padding:24px 24px 30px 0; border-bottom:1px solid var(--rule); }
+  .experience-grid li + li { padding-left:24px; border-left:1px solid var(--rule); }
+  .experience-index { color:var(--orange-ink); }
+  .experience-context { margin-top:32px; color:var(--muted); font-size:.76rem; }
+  .experience-grid h3 { margin:8px 0 12px; font-size:clamp(1.2rem,2vw,1.55rem); }
+  .experience-grid li > p:last-child { color:var(--muted); font-size:.86rem; }
+  .experience-link { margin-top:26px; color:var(--blue); }
+
+  .disclosure-section { background:var(--card); border-bottom:1px solid var(--rule); }
+  .disclosure-wrap { padding:24px 0; }
+  .disclosure-section details > p { max-width:92ch; padding:8px 0 12px; color:var(--muted); font-size:.78rem; line-height:1.55; }
+
+  .contact-section { background:var(--orange); color:#08090b; }
+  .contact-grid { padding:clamp(64px,8vw,110px) 0; display:grid; grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr); gap:clamp(40px,8vw,120px); align-items:end; }
+  .contact-section .eyebrow { color:#08090b; }
+  .contact-copy > p:first-child { max-width:50ch; font-weight:560; }
+  .contact-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+  .contact-section .action-primary { background:#08090b; border-color:#08090b; }
+  .contact-section .action-dark { border-color:#08090b; color:#08090b; }
+  .contact-section .action:hover, .contact-section .action:focus-visible { background:var(--warm); border-color:var(--warm); color:#08090b; }
+  footer { border-top:1px solid var(--rule); }
+  .footer-row { min-height:94px; display:flex; align-items:center; flex-wrap:wrap; gap:12px 24px; font-size:.8rem; }
+  .footer-row a { min-height:44px; display:inline-flex; align-items:center; text-decoration:underline; text-underline-offset:4px; }
+
+  @media (max-width:900px) {
+    .hero-grid, .supporting-grid, .system-grid, .contact-grid { grid-template-columns:1fr; }
+    .hero-grid { min-height:0; }
+    .hero-note { max-width:520px; }
+    .case-story { grid-template-columns:1fr; }
+    .case-story > div { padding:18px 0; }
+    .case-story > div + div { padding-left:0; border-left:0; border-top:1px solid var(--rule); }
+    .value-grid, .experience-grid { grid-template-columns:1fr; }
+    .value-grid li { min-height:0; border-right:0; border-bottom:1px solid var(--rule); }
+    .value-grid li:last-child { border-bottom:0; }
+    .value-grid h3 { margin-top:24px; }
+    .experience-grid li, .experience-grid li + li { padding:24px 0; border-left:0; }
+    .system-copy { border-left:0; border-top:1px solid #45464b; padding:24px 0 0; }
+  }
+  @media (max-width:680px) {
+    .wrap { width:min(100% - 28px,1280px); }
+    .content-page { padding:56px 0; }
+    .featured-case { grid-template-columns:1fr; }
+    .case-visual { min-height:112px; border-right:0; border-bottom:1px solid var(--rule); }
+    .supporting-list { grid-template-columns:1fr; }
+    .supporting-list article, .supporting-list article:nth-child(even) { padding:24px 0; border-left:0; }
+    .proof-grid { grid-template-columns:1fr; }
+    .contact-actions .action { width:100%; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    html { scroll-behavior:auto; }
+    .action { transition:none; }
+  }
 </style>

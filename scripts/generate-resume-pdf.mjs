@@ -137,6 +137,7 @@ async function main() {
     throw new Error('public résumé must not include self-rejecting career framing');
   }
   for (const marker of [
+    '0-to-1 enterprise deployments',
     'Python',
     'Docker Compose',
     'MCP/FastMCP',

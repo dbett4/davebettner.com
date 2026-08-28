@@ -1,7 +1,7 @@
 import { publicEngineeringCases } from './public-proof';
 
 export const thesis = {
-  title: 'I lead enterprise implementations and build agent systems for work where mistakes are expensive and people still need to stay in control.',
+  title: 'I lead 0-to-1 enterprise deployments from discovery through go-live and adoption. I also build agent systems for work where mistakes are expensive.',
 } as const;
 
 const mappedProjects = publicEngineeringCases.map((item) => ({
@@ -50,8 +50,8 @@ export const selectedProof = {
 } as const;
 
 export const homeSynthesis = {
-  title: 'From customer problem to working system',
-  body: 'I start with the customer workflow, make one useful path work, and stay with it through failure, acceptance, and adoption. I care less about making an agent look autonomous than making the workflow safe enough to use and clear enough for the next team to improve.',
+  title: 'From first deployment to adoption',
+  body: 'I start with the customer workflow, turn the first useful path into a working deployment, and stay through go-live, acceptance, and adoption. Then I turn what I learned into a clearer path for the next deployment.',
 } as const;
 
 export const businessTranslations = {

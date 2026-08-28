@@ -874,9 +874,9 @@ try {
     const coverRole = ((await page.locator('.cover-role').textContent()) ?? '').trim();
     const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
     ok(
-      coverRole === 'I lead enterprise implementations and build agent systems for work where mistakes are expensive and people still need to stay in control.' &&
+      coverRole === 'I lead 0-to-1 enterprise deployments from discovery through go-live and adoption. I also build agent systems for work where mistakes are expensive.' &&
         (await page.locator('.cover-support').count()) === 0,
-      `${viewport.name}: hero separates ten years of implementation from newer public agent engineering`,
+      `${viewport.name}: hero states 0-to-1 ownership without blurring the public agent-engineering evidence boundary`,
       coverRole,
     );
     ok(
@@ -1166,8 +1166,8 @@ try {
   ok(metadata.canonical === 'https://davebettner.com/', 'Homepage canonical URL', String(metadata.canonical));
   ok(
     metadata.description ===
-      'Dave Bettner brings ten years of customer implementation experience and newer, public hands-on agent engineering to forward-deployed technical work.',
-    'Homepage meta description matches the approved implementation-to-agent-engineering bridge',
+      'Dave Bettner leads 0-to-1 enterprise deployments from discovery through go-live and adoption, backed by ten years of customer implementation and public agent engineering.',
+    'Homepage meta description matches the approved 0-to-1 deployment and public agent-engineering bridge',
     String(metadata.description),
   );
   ok(

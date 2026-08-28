@@ -5,10 +5,10 @@ export const siteUrl = 'https://davebettner.com';
 export const siteTitle = 'Dave Bettner | Forward-Deployed Engineering · Agent Systems';
 
 export const siteDescription =
-  'Dave Bettner brings ten years of customer implementation experience and newer, public hands-on agent engineering to forward-deployed technical work.';
+  'Dave Bettner leads 0-to-1 enterprise deployments from discovery through go-live and adoption, backed by ten years of customer implementation and public agent engineering.';
 
 export const identitySeoLead =
-  'Customer-facing technical delivery since 2015, with newer public agent and MCP engineering work.';
+  'Customer-facing technical delivery since 2015, including 0-to-1 enterprise deployments and newer public agent and MCP engineering work.';
 
 export const personSchema = {
   '@context': 'https://schema.org',
@@ -19,10 +19,11 @@ export const personSchema = {
   mainEntityOfPage: `${siteUrl}/`,
   image: `${siteUrl}/images/dave-bettner-headshot-20260808-square.jpg`,
   description:
-    'Forward-deployed delivery and solutions engineering leader focused on complex workflows and inspectable AI-agent engineering work.',
+    'Forward-deployed delivery and solutions engineering leader who owns enterprise deployments from discovery through go-live and adoption and builds inspectable AI-agent systems.',
   jobTitle: 'Senior Manager',
   knowsAbout: [
     'Forward-deployed engineering',
+    '0-to-1 enterprise deployments',
     'Enterprise agent systems',
     'Solutions engineering',
     'Customer implementation',

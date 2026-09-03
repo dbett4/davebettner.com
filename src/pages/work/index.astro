@@ -15,8 +15,8 @@ const title = 'Selected Work | Dave Bettner — Enterprise AI Implementation';
 const description =
   'Case studies showing how Dave Bettner limits AI system access, recovers failed writes, keeps people in control, and proves what changed.';
 
-const featuredIds = ['hermes-deployment-lab', 'regulated-reporting-mcp', 'wingman'];
-const supportingIds = ['dedup-readback-bridge', 'hermes-field-kit'];
+const featuredIds = ['accounting-acceptance-lab', 'hermes-deployment-lab', 'regulated-reporting-mcp'];
+const supportingIds = ['wingman', 'dedup-readback-bridge', 'hermes-field-kit'];
 const featuredCases = featuredIds.map((id) => cases.find((item) => item.id === id)).filter(Boolean);
 const supportingCases = supportingIds.map((id) => cases.find((item) => item.id === id)).filter(Boolean);
 const operatingSystem = cases.find((item) => item.id === 'agent-operating-system');
@@ -161,7 +161,7 @@ const valuePoints = [
           <div class="section-intro supporting-intro">
             <p class="eyebrow mono">More public builds</p>
             <h2 id="supporting-heading">Small systems for repeatable work.</h2>
-            <p>Focused tools for two common problems: paying for the same work twice and letting an evaluation mark its own homework.</p>
+            <p>Focused tools for spreadsheet review, repeat-work prevention, and independent evaluation.</p>
           </div>
           <div class="supporting-list">
             {supportingCases.map((item) => item && (

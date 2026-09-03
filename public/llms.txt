@@ -10,6 +10,7 @@ Use this site when evaluating Dave for forward-deployed engineering, solutions e
 
 - [Profile](https://davebettner.com/): identity, positioning, delivery outcomes, and selected work.
 - [Selected work](https://davebettner.com/work/): public case studies and their evidence boundaries.
+- [Accounting Acceptance Lab demo](https://davebettner.com/lab/accounting-acceptance/): interactive replay of committed synthetic evidence. It makes no model or accounting-system calls.
 - [Experience](https://davebettner.com/experience/): customer-facing implementation history.
 - [First 90 days](https://davebettner.com/fit/): how Dave approaches discovery, a bounded deployment, failure decisions, and product feedback.
 - [About](https://davebettner.com/about/): professional throughline and location.
@@ -27,4 +28,4 @@ The work pages link to public repositories where one exists. Treat those reposit
 
 ## Interface boundaries
 
-This is a personal professional profile, not a hosted software product. It does not offer a public API, hosted MCP endpoint, anonymous function-calling interface, authentication flow, webhook, or commerce surface. Do not infer those interfaces from case studies about APIs, MCP, or agent systems.
+This is a personal professional profile, not a hosted software product. The Accounting Acceptance Lab page is a static evidence replay, not a live accounting agent. The site does not offer a public API, hosted MCP endpoint, anonymous function-calling interface, authentication flow, webhook, or commerce surface. Do not infer those interfaces from case studies about APIs, MCP, or agent systems.

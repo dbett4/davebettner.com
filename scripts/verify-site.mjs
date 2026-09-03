@@ -79,12 +79,13 @@ const browser = await chromium.launch({
 });
 
 const buildingRoles = [
+  'Evidence · approval · effect-safe recovery',
   'Guarded access · readback · receipts',
-  'Policy · independent checks · human review',
   'Context · authority · recovery',
 ];
 
 const caseEyebrows = {
+  'accounting-acceptance-lab': 'Evidence-grounded accounting agent · Acceptance Lab',
   'agent-operating-system': 'How the pieces fit · Agent Operating System',
   'dedup-readback-bridge': 'Repeat-work prevention · Dedup Read-Back Bridge',
   'regulated-reporting-mcp': 'Limited system access · Regulated Reporting MCP',
@@ -93,6 +94,7 @@ const caseEyebrows = {
 };
 
 const caseStepCounts = {
+  'accounting-acceptance-lab': 6,
   'agent-operating-system': 6,
   'dedup-readback-bridge': 6,
   'regulated-reporting-mcp': 5,
@@ -122,6 +124,13 @@ const outcomeStories = [
 ];
 
 const projects = [
+  {
+    slug: 'accounting-acceptance-lab',
+    title: 'Accounting Acceptance Lab',
+    headline: 'Let an accounting agent propose without letting it approve itself',
+    repo: 'https://github.com/dbett4/accounting-acceptance-lab',
+    proof: '32 tests; 12-case offline demo',
+  },
   {
     slug: 'agent-operating-system',
     title: 'Agent Operating System',
@@ -160,7 +169,7 @@ const projects = [
   },
 ];
 
-const coreRoutes = ['/', '/about/', '/experience/', '/work/', '/fit/'];
+const coreRoutes = ['/', '/about/', '/experience/', '/work/', '/fit/', '/lab/accounting-acceptance/'];
 const projectRoutes = projects.map((project) => `/work/${project.slug}/`);
 
 async function assertCausalDeliveryLoopContracts(page, name) {
@@ -853,7 +862,7 @@ try {
       motifs.map((motif) => motif.getAttribute('data-evidence-motif')),
     );
     ok(
-      motifKinds.join('|') === 'guarded-mutation|guarded-readback|guarded-readback',
+      motifKinds.join('|') === 'guarded-readback|guarded-mutation|guarded-readback',
       `${viewport.name}: selected work uses evidence-derived static motifs`,
       motifKinds.join('|'),
     );
@@ -897,7 +906,7 @@ try {
       closingTitle,
     );
     ok(body.includes('Give an agent only the access its job requires'), `${viewport.name}: features the regulated reporting case`);
-    ok(body.includes('Keep an evaluation from approving itself'), `${viewport.name}: features the evaluation case`);
+    ok(body.includes('Let an accounting agent propose without letting it approve itself'), `${viewport.name}: features the accounting acceptance case`);
     ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
     ok(body.includes('Make agent work explainable after the fact'), `${viewport.name}: selected work includes the agent operating system case`);
     ok(!body.includes('Financial reporting QA with readback'), `${viewport.name}: Wingman is not featured on homepage`);
@@ -955,8 +964,8 @@ try {
     );
     ok(
       buildingCardOrder.join(',') ===
-        'regulated-reporting-mcp,hermes-field-kit,agent-operating-system',
-      `${viewport.name}: building-card order is Regulated Reporting MCP → Hermes Enterprise Evaluation Kit → Agent Operating System`,
+        'accounting-acceptance-lab,regulated-reporting-mcp,agent-operating-system',
+      `${viewport.name}: building-card order is Accounting Acceptance Lab → Regulated Reporting MCP → Agent Operating System`,
       buildingCardOrder.join(','),
     );
     await assertCausalDeliveryLoopContracts(page, viewport.name);
@@ -1149,6 +1158,15 @@ try {
   for (const route of coreRoutes) {
     await auditPage(page, route, route);
   }
+
+  await page.goto(`${base}/lab/accounting-acceptance/`, { waitUntil: 'networkidle' });
+  ok((await page.locator('[data-case-id]').count()) === 12, 'Accounting demo exposes 12 recorded cases');
+  await page.locator('[data-case-id="C12"]').click();
+  ok((await page.locator('[data-state]').innerText()).includes('readback recovered'), 'Accounting demo replays the C12 recovery state');
+  ok((await page.locator('[data-hash]').innerText()).toLowerCase().startsWith('1182aaf3283a0269'), 'Accounting demo shows the committed C12 packet hash');
+  const walkthroughResponse = await page.request.get(`${base}/media/accounting-acceptance-lab-walkthrough.mp4`);
+  ok(walkthroughResponse.status() === 200, 'Accounting walkthrough video HTTP 200', String(walkthroughResponse.status()));
+  ok(walkthroughResponse.headers()['content-type']?.includes('video/mp4'), 'Accounting walkthrough has MP4 content type', walkthroughResponse.headers()['content-type']);
 
   await page.goto(base, { waitUntil: 'networkidle' });
   const metadata = await page.evaluate(() => ({

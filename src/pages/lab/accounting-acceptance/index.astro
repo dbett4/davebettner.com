@@ -1,0 +1,215 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/dm-mono/400.css';
+import SecondaryMasthead from '../../../components/SecondaryMasthead.astro';
+import { siteUrl } from '../../../data/seo';
+
+const cases = [
+  { id: 'C01', verdict: 'accepted_deterministic_match', label: 'Exact match', note: 'Typed reconciliation resolves the case without a model proposal.', hash: '6d29ebb7a9bc87135' },
+  { id: 'C02', verdict: 'blocked_pending_human_approval', label: 'Approval required', note: 'The proposal is supported, but the exact accounting action still needs a human decision.', hash: 'f622c20882782161' },
+  { id: 'C03', verdict: 'blocked_pending_human_approval', label: 'Approval required', note: 'The workflow preserves the proposal and waits. It does not treat model confidence as authority.', hash: '1f3940a4703031af' },
+  { id: 'C04', verdict: 'abstained_or_routed', label: 'Routed to review', note: 'The evidence gate stops the workflow and records a reviewable packet.', hash: '5969263327f8e518' },
+  { id: 'C05', verdict: 'abstained_or_routed', label: 'Routed to review', note: 'The evidence gate stops the workflow and records a reviewable packet.', hash: '597956e0f4031bd6' },
+  { id: 'C06', verdict: 'abstained_or_routed', label: 'Routed to review', note: 'The evidence gate stops the workflow and records a reviewable packet.', hash: 'bd215e859ec44d4c' },
+  { id: 'C07', verdict: 'abstained_or_routed', label: 'Routed to review', note: 'The evidence gate stops the workflow and records a reviewable packet.', hash: '2a85501769eccc13' },
+  { id: 'C08', verdict: 'abstained_or_routed', label: 'Routed to review', note: 'The evidence gate stops the workflow and records a reviewable packet.', hash: '555f4c24bc5e69e' },
+  { id: 'C09', verdict: 'abstained_or_routed', label: 'Routed to review', note: 'The evidence gate stops the workflow and records a reviewable packet.', hash: '426fb9da1906166c' },
+  { id: 'C10', verdict: 'abstained_or_routed', label: 'Routed to review', note: 'The evidence gate stops the workflow and records a reviewable packet.', hash: 'f195885b5417c1c2' },
+  { id: 'C11', verdict: 'abstained_or_routed', label: 'Routed to review', note: 'The evidence gate stops the workflow and records a reviewable packet.', hash: 'e120b2b43d0211b0' },
+  { id: 'C12', verdict: 'accepted_after_read_before_retry', label: 'Recovered safely', note: 'The first response is unknown. Readback finds the ledger effect, so the workflow does not post again.', hash: '1182aaf3283a0269' },
+];
+const canonical = `${siteUrl}/lab/accounting-acceptance/`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Replay the recorded Accounting Acceptance Lab evidence: reconciliation, policy retrieval, approval gates, and effect-safe recovery." />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#08090b" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles/interstellar-system.css" />
+    <title>Accounting Acceptance Lab demo | Dave Bettner</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to demo</a>
+    <SecondaryMasthead backHref="/work/accounting-acceptance-lab/" backLabel="Case study" context="Recorded evidence explorer" />
+    <main id="main" class="lab-shell" data-cases={JSON.stringify(cases)}>
+      <header class="lab-intro">
+        <p class="eyebrow mono">Interactive evidence replay</p>
+        <h1>What does the agent do when the answer is not enough?</h1>
+        <p class="lede">Choose a recorded case and inspect its terminal state. This page replays committed synthetic evidence. It does not call a model or touch an accounting system.</p>
+        <div class="links">
+          <a class="round blue" href="https://github.com/dbett4/accounting-acceptance-lab" rel="noopener noreferrer">View source <span aria-hidden="true">↗</span></a>
+          <a class="round" href="https://github.com/dbett4/accounting-acceptance-lab/actions" rel="noopener noreferrer">View CI proof <span aria-hidden="true">↗</span></a>
+        </div>
+      </header>
+
+      <section class="metric-strip" aria-label="Held-out benchmark results">
+        <article><strong>10/16</strong><span>lexical retrieval</span></article>
+        <article><strong>16/16</strong><span>hybrid + reranked</span></article>
+        <article><strong>0</strong><span>false accepts</span></article>
+        <article><strong>1 effect</strong><span>after safe recovery</span></article>
+      </section>
+
+      <section class="walkthrough" aria-labelledby="walkthrough-heading">
+        <div>
+          <p class="eyebrow mono">58-second walkthrough</p>
+          <h2 id="walkthrough-heading">See the stop, approval, and recovery paths.</h2>
+          <p>The recording uses the same committed evidence shown below. Captions are burned into the video, and the narration transcript is available on this page.</p>
+        </div>
+        <video controls preload="metadata" poster="/images/accounting-acceptance-lab-demo.png">
+          <source src="/media/accounting-acceptance-lab-walkthrough.mp4" type="video/mp4" />
+          Your browser does not support embedded video.
+        </video>
+        <details>
+          <summary>Read transcript</summary>
+          <p>An accounting agent can produce a plausible answer and still be unsafe to use. This lab starts with typed reconciliation. Exact matches resolve deterministically. Exceptions retrieve policy and require citation-backed structured proposals. The gate checks evidence and keeps approval separate from generation. Here, ten self-attested decisions include six false accepts. The independent rule gate accepts four, with zero false or unsupported accepts in this synthetic benchmark. The hardest case simulates a lost response after a ledger write. Instead of retrying, the workflow reads the ledger, finds the first effect, and stops the duplicate. Every result is stored in a deterministic packet. This is a recorded-model, synthetic lab, not a production accounting system. The code, tests, and evidence are public.</p>
+        </details>
+      </section>
+
+      <section class="replay" aria-labelledby="replay-heading">
+        <div class="case-picker">
+          <p class="mono" id="replay-heading">Recorded cases</p>
+          <div class="case-grid" role="list" aria-label="Select a case">
+            {cases.map((item, index) => (
+              <button type="button" data-case-id={item.id} class:list={['case-chip', { active: index === 0 }]} aria-pressed={index === 0 ? 'true' : 'false'}>{item.id}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="case-output" aria-live="polite">
+          <div class="output-head">
+            <span class="mono" data-case-number>C01</span>
+            <span class="state state--accepted" data-state>Accepted: deterministic match</span>
+          </div>
+          <h2 data-label>Exact match</h2>
+          <p data-note>Typed reconciliation resolves the case without a model proposal.</p>
+          <ol class="pipeline" data-pipeline>
+            <li class="done"><span>01</span><strong>Normalize</strong><small>Typed records</small></li>
+            <li class="done"><span>02</span><strong>Reconcile</strong><small>Exact match</small></li>
+            <li class="skipped"><span>03</span><strong>Retrieve</strong><small>Not needed</small></li>
+            <li class="skipped"><span>04</span><strong>Propose</strong><small>Not needed</small></li>
+            <li class="done"><span>05</span><strong>Verdict</strong><small>Accepted</small></li>
+          </ol>
+          <p class="packet mono">packet sha256 <code data-hash>6d29ebb7a9bc87135…</code></p>
+        </div>
+      </section>
+
+      <section class="comparison" aria-labelledby="comparison-heading">
+        <div>
+          <p class="eyebrow mono">Why the controls matter</p>
+          <h2 id="comparison-heading">The unsafe baseline accepts six bad cases.</h2>
+          <p>The recorded-model baseline accepts 10 cases and gets 6 wrong. The independent rule gate accepts 4 and records zero false or unsupported accepts in the held-out fixture.</p>
+        </div>
+        <div class="bars" aria-label="False accept comparison">
+          <div><span>Self-attested</span><i style="--value: 60%"></i><strong>6/10 false</strong></div>
+          <div><span>Independent gate</span><i style="--value: 0%"></i><strong>0/4 false</strong></div>
+        </div>
+      </section>
+
+      <footer class="lab-limit">
+        <strong>Evidence boundary</strong>
+        <p>The 16-case benchmark is synthetic. Responses are recorded, provider cost is not applicable, and the verifier is deterministic local code. The repository includes the fixtures, packet hashes, benchmark definitions, and runnable proof.</p>
+      </footer>
+    </main>
+
+    <script is:inline>
+      const root = document.querySelector('[data-cases]');
+      const caseData = JSON.parse(root?.getAttribute('data-cases') ?? '[]');
+      const states = {
+        accepted_deterministic_match: ['Accepted: deterministic match', 'state--accepted'],
+        blocked_pending_human_approval: ['Blocked: human approval required', 'state--pending'],
+        abstained_or_routed: ['Stopped: routed to review', 'state--stopped'],
+        accepted_after_read_before_retry: ['Accepted: readback recovered the effect', 'state--accepted'],
+      };
+      const pipelines = {
+        accepted_deterministic_match: [['Normalize','Typed records','done'],['Reconcile','Exact match','done'],['Retrieve','Not needed','skipped'],['Propose','Not needed','skipped'],['Verdict','Accepted','done']],
+        blocked_pending_human_approval: [['Normalize','Typed records','done'],['Reconcile','Exception','done'],['Retrieve','Policy cited','done'],['Propose','Validated','done'],['Authorize','Waiting for human','pending']],
+        abstained_or_routed: [['Normalize','Typed records','done'],['Reconcile','Exception','done'],['Retrieve','Evidence checked','done'],['Validate','Gate stopped','stopped'],['Review','Human queue','pending']],
+        accepted_after_read_before_retry: [['Normalize','Typed records','done'],['Act','Response unknown','stopped'],['Read back','Effect found','done'],['Retry','Suppressed','skipped'],['Verdict','One effect','done']],
+      };
+      const render = (id) => {
+        const item = caseData.find((entry) => entry.id === id);
+        if (!item || !root) return;
+        root.querySelectorAll('[data-case-id]').forEach((button) => {
+          const active = button.getAttribute('data-case-id') === id;
+          button.classList.toggle('active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
+        root.querySelector('[data-case-number]').textContent = item.id;
+        root.querySelector('[data-label]').textContent = item.label;
+        root.querySelector('[data-note]').textContent = item.note;
+        root.querySelector('[data-hash]').textContent = `${item.hash}…`;
+        const state = root.querySelector('[data-state]');
+        state.textContent = states[item.verdict][0];
+        state.className = `state ${states[item.verdict][1]}`;
+        root.querySelector('[data-pipeline]').innerHTML = pipelines[item.verdict].map((step, index) => `<li class="${step[2]}"><span>${String(index + 1).padStart(2, '0')}</span><strong>${step[0]}</strong><small>${step[1]}</small></li>`).join('');
+      };
+      root?.querySelectorAll('[data-case-id]').forEach((button) => button.addEventListener('click', () => render(button.getAttribute('data-case-id'))));
+    </script>
+  </body>
+</html>
+
+<style>
+  :global(body) { background: #08090b; color: #f2eadf; }
+  .lab-shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: clamp(3rem, 8vw, 7rem) 0 5rem; }
+  .lab-intro { max-width: 850px; }
+  .eyebrow, .case-picker > p { color: #73bfc4; letter-spacing: .12em; text-transform: uppercase; }
+  h1 { max-width: 15ch; margin: .55rem 0 1rem; font-size: clamp(3rem, 7vw, 6.8rem); line-height: .86; letter-spacing: -.055em; }
+  .lede { max-width: 65ch; color: #c9c1b7; font-size: clamp(1.05rem, 2vw, 1.3rem); line-height: 1.55; }
+  .links { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.7rem; }
+  .metric-strip { display: grid; grid-template-columns: repeat(4, 1fr); margin: 4rem 0 1.25rem; border: 1px solid #333238; }
+  .metric-strip article { min-height: 135px; padding: 1.35rem; border-right: 1px solid #333238; display: flex; flex-direction: column; justify-content: space-between; }
+  .metric-strip article:last-child { border-right: 0; }
+  .metric-strip strong { color: #ff810a; font-size: clamp(1.8rem, 4vw, 3.2rem); }
+  .metric-strip span { color: #a9a2a0; font-family: 'DM Mono', monospace; font-size: .78rem; text-transform: uppercase; }
+  .walkthrough { display: grid; grid-template-columns: .55fr 1fr; gap: 2rem; margin-bottom: 1.25rem; padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid #333238; }
+  .walkthrough h2 { max-width: 14ch; margin: .5rem 0 1rem; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1; }
+  .walkthrough p { color: #c9c1b7; line-height: 1.55; }
+  .walkthrough video { width: 100%; border: 1px solid #424047; }
+  .walkthrough details { grid-column: 1 / -1; border-top: 1px solid #333238; padding-top: 1rem; }
+  .walkthrough summary { min-height: 44px; cursor: pointer; font-family: 'DM Mono', monospace; }
+  .replay { display: grid; grid-template-columns: minmax(210px, .35fr) 1fr; border: 1px solid #333238; }
+  .case-picker { padding: 1.4rem; border-right: 1px solid #333238; }
+  .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin-top: 1rem; }
+  .case-chip { min-height: 46px; border: 1px solid #424047; background: transparent; color: #f2eadf; font: 500 .82rem 'DM Mono', monospace; cursor: pointer; }
+  .case-chip:hover, .case-chip:focus-visible { border-color: #73bfc4; }
+  .case-chip.active { background: #73bfc4; border-color: #73bfc4; color: #08090b; }
+  .case-output { min-height: 440px; padding: clamp(1.5rem, 4vw, 3rem); }
+  .output-head { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+  .state { padding: .55rem .75rem; border: 1px solid currentColor; font: .75rem 'DM Mono', monospace; }
+  .state--accepted { color: #73bfc4; } .state--pending { color: #dbba95; } .state--stopped { color: #ff810a; }
+  .case-output h2 { margin: 2.2rem 0 .5rem; font-size: clamp(2rem, 4vw, 3.7rem); }
+  .case-output > p:not(.packet) { max-width: 62ch; color: #c9c1b7; }
+  .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); list-style: none; padding: 0; margin: 2.5rem 0; }
+  .pipeline li { min-height: 120px; padding: .85rem; border-top: 2px solid #424047; }
+  .pipeline li.done { border-color: #73bfc4; } .pipeline li.pending { border-color: #dbba95; } .pipeline li.stopped { border-color: #ff810a; } .pipeline li.skipped { opacity: .45; }
+  .pipeline span, .pipeline strong, .pipeline small { display: block; }
+  .pipeline span, .pipeline small { color: #8f8a88; font: .7rem 'DM Mono', monospace; }
+  .pipeline strong { margin: .9rem 0 .3rem; font-size: .85rem; }
+  .packet { padding-top: 1rem; border-top: 1px solid #333238; color: #8f8a88; font-size: .75rem; }
+  .comparison { display: grid; grid-template-columns: .75fr 1fr; gap: 4rem; margin-top: 1.25rem; padding: clamp(2rem, 5vw, 4rem); border: 1px solid #333238; }
+  .comparison h2 { max-width: 16ch; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1; }
+  .comparison p { color: #c9c1b7; line-height: 1.55; }
+  .bars > div { display: grid; grid-template-columns: 130px 1fr 90px; gap: 1rem; align-items: center; margin: 1.4rem 0; font: .78rem 'DM Mono', monospace; }
+  .bars i { display: block; height: 12px; background: linear-gradient(90deg, #ff810a var(--value), #28272c var(--value)); }
+  .bars strong { text-align: right; }
+  .lab-limit { margin-top: 1.25rem; padding: 1.5rem; border: 1px solid #333238; color: #a9a2a0; }
+  .lab-limit strong { color: #f2eadf; }
+  @media (max-width: 760px) {
+    .metric-strip { grid-template-columns: repeat(2, 1fr); }
+    .metric-strip article:nth-child(2) { border-right: 0; }
+    .metric-strip article:nth-child(-n+2) { border-bottom: 1px solid #333238; }
+    .walkthrough, .replay, .comparison { grid-template-columns: 1fr; }
+    .walkthrough details { grid-column: auto; }
+    .case-picker { border-right: 0; border-bottom: 1px solid #333238; }
+    .pipeline { grid-template-columns: 1fr; }
+    .pipeline li { min-height: 76px; }
+    .bars > div { grid-template-columns: 1fr; gap: .5rem; }
+    .bars strong { text-align: left; }
+  }
+</style>

@@ -60,6 +60,41 @@ export const cases = [
     },
   },
   {
+    id: 'accounting-acceptance-lab',
+    eyebrow: 'Evidence-grounded accounting agent · Acceptance Lab',
+    title: 'Let an accounting agent propose without letting it approve itself',
+    summary:
+      'A synthetic reconciliation workflow that normalizes records, retrieves policy, validates model proposals, stops unsafe cases, and recovers an uncertain write without duplicating the ledger effect.',
+    value:
+      'Finance teams can see which evidence the agent used, why it stopped, and whether an authorized action happened exactly once.',
+    meta: 'Hybrid retrieval · scoped approval · effect-safe recovery',
+    size: 'large',
+    visual: 'flow',
+    motif: 'guarded-readback',
+    plateProof: '32 tests · CI and container proof',
+    repoUrl: 'https://github.com/dbett4/accounting-acceptance-lab',
+    proofUrl: 'https://github.com/dbett4/accounting-acceptance-lab/blob/main/PROOF.md',
+    constraint:
+      'A plausible accounting proposal can cite the wrong policy, outlive its approval, or duplicate a ledger effect after a lost response.',
+    built:
+      'I built one offline workflow that parses synthetic records, handles exact matches deterministically, retrieves policy for exceptions, validates recorded model proposals, binds approval to the exact action, and reads the synthetic ledger before retrying an uncertain effect.',
+    role:
+      'I defined the accounting workflow, authority model, failure cases, benchmark, and proof gates, then used a separate verifier to attack the controls before release.',
+    boundary:
+      'Synthetic data and recorded model responses. The 16-case benchmark is a regression fixture, the verifier is local deterministic code, and no live accounting system or provider is involved.',
+    evidence:
+      '32 tests; 12-case offline demo; lexical retrieval 10/16 versus hybrid and reranked retrieval 16/16; zero false or unsupported accepts in the held-out fixture; public CI and container restart proof.',
+    scope:
+      'Credential-free accounting-agent lab. It demonstrates control behavior, not production accounting correctness or autonomous posting.',
+    evidenceMap: {
+      signal: 'One workflow connects accounting inputs, retrieved policy, model proposals, approval, action, and readback',
+      method:
+        'The lab derives case state from normalized inputs, validates every citation and proposal, blocks unsafe cases, and proves that recovery leaves one ledger effect.',
+      steps: ['Normalize', 'Reconcile', 'Retrieve', 'Propose', 'Authorize', 'Read back'],
+      boundary: 'Recorded-model and synthetic-ledger proof; live inference and production accounting remain unexercised.',
+    },
+  },
+  {
     id: 'hermes-deployment-lab',
     eyebrow: 'Failed-write recovery · Hermes Deployment Lab',
     title: 'Recover a failed write without creating a duplicate',

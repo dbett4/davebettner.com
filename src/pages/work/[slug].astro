@@ -17,6 +17,7 @@ export function getStaticPaths() {
 const { item } = Astro.props as { item: CaseStudy };
 const projectNames = {
   'agent-operating-system': 'Agent Operating System',
+  'accounting-acceptance-lab': 'Accounting Acceptance Lab',
   'dedup-readback-bridge': 'Dedup Read-Back Bridge',
   'regulated-reporting-mcp': 'Regulated Reporting MCP',
   'hermes-deployment-lab': 'Hermes Deployment Lab',
@@ -28,6 +29,12 @@ const plateNumber = String(cases.findIndex((candidate) => candidate.id === item.
 const canonical = `${siteUrl}/work/${item.id}/`;
 const title = `${projectName} | Dave Bettner`;
 const incidentNarrative = {
+  'accounting-acceptance-lab': {
+    heading: 'A supported proposal can still be unsafe to apply.',
+    copy: 'An accounting agent may find a relevant policy and produce a plausible entry. That does not prove the source is complete, the approval still matches, or a retry will avoid a second ledger effect.',
+    consequence: 'The workflow has to separate proposal quality from authority and effect. It must stop when evidence is weak and inspect the ledger before retrying an uncertain write.',
+    steps: [['01', 'Normalize', 'Parse the accounting inputs into typed records.'], ['02', 'Retrieve', 'Find the current policy and cite it.'], ['03', 'Authorize', 'Bind approval to one exact action.'], ['04', 'Read back', 'Confirm the ledger effect before retrying.']],
+  },
   'dedup-readback-bridge': {
     heading: 'The second run should have nothing new to send.',
     copy: 'Recurring agent jobs often see the same items again. Without a durable record and an atomic reservation, the next run can spend money twice or leave the operator guessing what happened.',
@@ -61,6 +68,16 @@ const narrative = incidentNarrative[item.id as keyof typeof incidentNarrative];
 
 type AcceptanceStep = readonly [string, string, string, string | null, string | null];
 const acceptanceChains: Partial<Record<string, { lede: string; steps: readonly AcceptanceStep[] }>> = {
+  'accounting-acceptance-lab': {
+    lede: 'The benchmark scores what the workflow actually produced. Labels are used only afterward to measure the result.',
+    steps: [
+      ['01', 'Normalized', 'Synthetic GL and bank inputs pass through typed parsing and deterministic reconciliation.', item.repoUrl, 'Inspect repository ↗'],
+      ['02', 'Grounded', 'Exception proposals must cite retrieved, version-matched policy evidence.', item.proofUrl ?? null, 'Open proof ↗'],
+      ['03', 'Bound', 'Human approval is tied to the exact proposal, action, amount, currency, and generation.', item.repoUrl, 'Inspect control code ↗'],
+      ['04', 'Recovered', 'An unknown response triggers read-before-retry and leaves one ledger effect.', item.proofUrl ?? null, 'Inspect recovery proof ↗'],
+      ['05', 'Measured', 'Public CI runs 32 tests, the offline benchmark, restart proof, and a container build.', 'https://github.com/dbett4/accounting-acceptance-lab/actions', 'View CI ↗'],
+    ],
+  },
   'regulated-reporting-mcp': {
     lede: 'Nothing in this integration counts as done because the model said so. Each state has to be inspectable.',
     steps: [
@@ -134,6 +151,7 @@ const acceptanceChain = acceptanceChains[item.id];
               {item.proofUrl ? (
                 <a class="round" href={item.proofUrl} rel="noopener noreferrer">View proof <span aria-hidden="true">↗</span></a>
               ) : null}
+              {item.id === 'accounting-acceptance-lab' ? <a class="round" href="/lab/accounting-acceptance/">Open interactive demo <span aria-hidden="true">→</span></a> : null}
             </p>
           </div>
           <div class="case-plate" aria-hidden="true">

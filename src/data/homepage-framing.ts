@@ -17,8 +17,8 @@ const mappedProjects = publicEngineeringCases.map((item) => ({
 }));
 
 const featuredProjects = [
+  mappedProjects.find((project) => project.id === 'accounting-acceptance-lab'),
   mappedProjects.find((project) => project.id === 'regulated-reporting-mcp'),
-  mappedProjects.find((project) => project.id === 'hermes-field-kit'),
   {
     id: 'agent-operating-system',
     title: 'Make agent work explainable after the fact',

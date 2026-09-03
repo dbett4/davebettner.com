@@ -12,6 +12,20 @@ export type PublicEngineeringCase = {
 
 export const publicEngineeringCases = [
   {
+    id: 'accounting-acceptance-lab',
+    name: 'Accounting Acceptance Lab',
+    repoUrl: 'https://github.com/dbett4/accounting-acceptance-lab',
+    proofUrl: 'https://github.com/dbett4/accounting-acceptance-lab/blob/main/PROOF.md',
+    title: 'Let an accounting agent propose without letting it approve itself',
+    summary:
+      'A synthetic reconciliation workflow that normalizes records, retrieves policy, validates model proposals, stops unsafe cases, and recovers an uncertain write without duplicating the ledger effect.',
+    evidence:
+      '32 tests; a 12-case offline demo; a 16-case held-out benchmark; container health and restart proof; public CI with no credentials.',
+    limit:
+      'Synthetic data and recorded model responses. The benchmark is small, the verifier is deterministic local code, and no live accounting system or model provider is involved.',
+    href: '/work/accounting-acceptance-lab/',
+  },
+  {
     id: 'agent-orchestration',
     name: 'Agent orchestration — scope, gate, and review',
     repoUrl: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
@@ -81,7 +95,7 @@ export const publicEngineeringCases = [
 ] as const satisfies readonly PublicEngineeringCase[];
 
 export const provenanceNote =
-  'Public repositories are sanitized extracts published August 2026. They show methods and tests, not client tenants. Dates on GitHub are publication dates, not original delivery dates. These labs are independent engineering work, not customer-production agent deployments or a claim of production software-engineering tenure. Independent work is not a customer Hermes Enterprise deployment or Nous affiliation. Delivery outcomes describe scoped customer work under engagement; they are not claims of quota ownership, revenue credit, or final contract-signature authority. No client data or credentials appear in these repos; private client history remains confidential and public claims are limited to inspectable artifacts.';
+  'Public repositories are sanitized or synthetic artifacts published in 2026. They show methods and tests, not client tenants. Dates on GitHub are publication dates, not original delivery dates. These labs are independent engineering work, not customer-production agent deployments or a claim of production software-engineering tenure. Independent work is not a customer Hermes Enterprise deployment or Nous affiliation. Delivery outcomes describe scoped customer work under engagement; they are not claims of quota ownership, revenue credit, or final contract-signature authority. No client data or credentials appear in these repos; private client history remains confidential and public claims are limited to inspectable artifacts.';
 
 export const homepageProvenanceNote =
-  'Public GitHub dates are publication dates (August 2026). These labs and sanitized extracts are independent engineering work — not client tenants, production-engineering tenure, or Nous/Hermes Enterprise affiliation.';
+  'Public GitHub dates are publication dates. These labs and sanitized extracts are independent engineering work, not client tenants, production-engineering tenure, or Nous/Hermes Enterprise affiliation.';

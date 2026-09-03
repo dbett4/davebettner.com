@@ -18,6 +18,7 @@ const localPort = configuredBase
       });
     });
 const base = configuredBase ?? `http://127.0.0.1:${localPort}`;
+const publicSiteUrl = 'https://davebettner.com';
 const out = 'research/production-qa';
 const distDir = resolve('dist');
 await mkdir(out, { recursive: true });
@@ -90,6 +91,7 @@ const caseEyebrows = {
   'dedup-readback-bridge': 'Repeat-work prevention · Dedup Read-Back Bridge',
   'regulated-reporting-mcp': 'Limited system access · Regulated Reporting MCP',
   'hermes-deployment-lab': 'Failed-write recovery · Hermes Deployment Lab',
+  'hermes-field-kit': 'Independent evaluation · Hermes Enterprise Evaluation Kit',
   wingman: 'Review and restore · Spreadsheet quality',
 };
 
@@ -99,6 +101,7 @@ const caseStepCounts = {
   'dedup-readback-bridge': 6,
   'regulated-reporting-mcp': 5,
   'hermes-deployment-lab': 5,
+  'hermes-field-kit': 5,
   wingman: 6,
 };
 
@@ -159,6 +162,13 @@ const projects = [
     repo: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
     proof: 'Public GitHub Actions run 31892965924 forces the failure',
     boundaries: ['synthetic lab', 'cloud configuration is checked but not deployed', 'a model is not running the workflow in production'],
+  },
+  {
+    slug: 'hermes-field-kit',
+    title: 'Hermes Enterprise Evaluation Kit',
+    headline: 'Keep an evaluation from approving itself',
+    repo: 'https://github.com/dbett4/hermes-enterprise-evaluation-kit',
+    proof: 'Offline FIELD_KIT_PROOF_PASS',
   },
   {
     slug: 'wingman',
@@ -1160,6 +1170,15 @@ try {
   }
 
   await page.goto(`${base}/lab/accounting-acceptance/`, { waitUntil: 'networkidle' });
+  ok((await page.locator('meta[property="og:image"]').getAttribute('content')) === `${publicSiteUrl}/images/accounting-acceptance-lab-demo.png`, 'Accounting demo publishes its social preview image');
+  ok((await page.locator('meta[property="og:image:alt"]').getAttribute('content')) === 'Accounting Acceptance Lab recorded evidence replay', 'Accounting demo social preview alt text matches the recorded-evidence image');
+  ok((await page.locator('meta[name="twitter:card"]').getAttribute('content')) === 'summary_large_image', 'Accounting demo publishes a large Twitter card');
+  ok((await page.locator('meta[name="twitter:image"]').getAttribute('content')) === `${publicSiteUrl}/images/accounting-acceptance-lab-demo.png`, 'Accounting demo Twitter card uses its recorded-evidence image');
+  ok((await page.locator('script[type="application/ld+json"]').count()) === 1, 'Accounting demo publishes one JSON-LD record');
+  const demoSchema = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent());
+  ok(demoSchema['@type'] === 'WebPage', 'Accounting demo JSON-LD identifies the page as a WebPage');
+  ok(demoSchema.about?.['@type'] === 'SoftwareSourceCode', 'Accounting demo JSON-LD types the repository subject as SoftwareSourceCode');
+  ok(demoSchema.about?.codeRepository === 'https://github.com/dbett4/accounting-acceptance-lab', 'Accounting demo JSON-LD binds codeRepository to SoftwareSourceCode');
   ok((await page.locator('[data-case-id]').count()) === 12, 'Accounting demo exposes 12 recorded cases');
   await page.locator('[data-case-id="C12"]').click();
   ok((await page.locator('[data-state]').innerText()).includes('readback recovered'), 'Accounting demo replays the C12 recovery state');
@@ -1167,6 +1186,15 @@ try {
   const walkthroughResponse = await page.request.get(`${base}/media/accounting-acceptance-lab-walkthrough.mp4`);
   ok(walkthroughResponse.status() === 200, 'Accounting walkthrough video HTTP 200', String(walkthroughResponse.status()));
   ok(walkthroughResponse.headers()['content-type']?.includes('video/mp4'), 'Accounting walkthrough has MP4 content type', walkthroughResponse.headers()['content-type']);
+
+  await page.goto(`${base}/work/accounting-acceptance-lab/`, { waitUntil: 'networkidle' });
+  ok((await page.locator('meta[property="og:image"]').getAttribute('content')) === `${publicSiteUrl}/images/accounting-acceptance-lab-demo.png`, 'Accounting case study publishes its social preview image');
+  ok((await page.locator('meta[name="twitter:card"]').getAttribute('content')) === 'summary_large_image', 'Accounting case study publishes a large Twitter card');
+  ok((await page.locator('script[type="application/ld+json"]').count()) === 1, 'Accounting case study publishes one JSON-LD record');
+  const caseSchema = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent());
+  ok(caseSchema['@type'] === 'WebPage', 'Accounting case-study JSON-LD identifies the page as a WebPage');
+  ok(caseSchema.mainEntity?.['@type'] === 'SoftwareSourceCode', 'Accounting case-study JSON-LD types its main entity as SoftwareSourceCode');
+  ok(caseSchema.mainEntity?.codeRepository === 'https://github.com/dbett4/accounting-acceptance-lab', 'Accounting case-study JSON-LD binds codeRepository to SoftwareSourceCode');
 
   await page.goto(base, { waitUntil: 'networkidle' });
   const metadata = await page.evaluate(() => ({
@@ -1246,6 +1274,26 @@ try {
     ok((await page.locator('h1').innerText()).trim() === project.headline, `${route}: value-first case-study heading`);
     ok((await page.locator('.case-headline').innerText()).includes(project.title), `${route}: project name remains visible`);
     ok(await page.locator(`a[href="${project.repo}"]`).count() >= 1, `${route}: direct repository link`);
+    const expectedSocialImage = project.slug === 'accounting-acceptance-lab'
+      ? `${publicSiteUrl}/images/accounting-acceptance-lab-demo.png`
+      : `${publicSiteUrl}/images/dave-bettner-og-interstellar.jpg`;
+    ok((await page.locator('meta[property="og:image"]').getAttribute('content')) === expectedSocialImage, `${route}: Open Graph preview uses the expected image`);
+    const expectedSocialAlt = project.slug === 'accounting-acceptance-lab'
+      ? 'Accounting Acceptance Lab recorded evidence preview'
+      : 'Dave Bettner — forward-deployed delivery and AI-agent systems';
+    ok((await page.locator('meta[property="og:image:alt"]').getAttribute('content')) === expectedSocialAlt, `${route}: social preview alt text matches the actual image`);
+    ok((await page.locator('meta[name="twitter:card"]').getAttribute('content')) === 'summary_large_image', `${route}: large Twitter card`);
+    ok((await page.locator('meta[name="twitter:image"]').getAttribute('content')) === expectedSocialImage, `${route}: Twitter card uses the expected image`);
+    ok((await page.locator('script[type="application/ld+json"]').count()) === 1, `${route}: one JSON-LD record`);
+    const projectSchema = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent());
+    ok(projectSchema['@type'] === 'WebPage', `${route}: JSON-LD identifies the page as a WebPage`);
+    if (project.slug === 'agent-operating-system') {
+      ok(projectSchema.mainEntity?.['@type'] === 'Thing', `${route}: architecture subject uses a neutral Thing type`);
+      ok(!('codeRepository' in projectSchema.mainEntity), `${route}: GitHub profile is not labeled as a code repository`);
+    } else {
+      ok(projectSchema.mainEntity?.['@type'] === 'SoftwareSourceCode', `${route}: repository subject uses SoftwareSourceCode`);
+      ok(projectSchema.mainEntity?.codeRepository === project.repo, `${route}: codeRepository matches the project repository`);
+    }
     const eyebrow = (await page.locator('.eyebrow').first().innerText()).trim();
     ok(
       eyebrow.localeCompare(caseEyebrows[project.slug], undefined, { sensitivity: 'accent' }) === 0,

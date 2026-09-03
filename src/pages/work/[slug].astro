@@ -28,6 +28,35 @@ const projectName = projectNames[item.id as keyof typeof projectNames];
 const plateNumber = String(cases.findIndex((candidate) => candidate.id === item.id) + 1).padStart(2, '0');
 const canonical = `${siteUrl}/work/${item.id}/`;
 const title = `${projectName} | Dave Bettner`;
+const socialImage = item.id === 'accounting-acceptance-lab'
+  ? `${siteUrl}/images/accounting-acceptance-lab-demo.png`
+  : `${siteUrl}/images/dave-bettner-og-interstellar.jpg`;
+const socialImageAlt = item.id === 'accounting-acceptance-lab'
+  ? 'Accounting Acceptance Lab recorded evidence preview'
+  : 'Dave Bettner — forward-deployed delivery and AI-agent systems';
+const mainEntity = item.id === 'agent-operating-system'
+  ? {
+      '@type': 'Thing',
+      name: projectName,
+      description: item.summary,
+    }
+  : {
+      '@type': 'SoftwareSourceCode',
+      name: projectName,
+      description: item.summary,
+      codeRepository: item.repoUrl,
+    };
+const caseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: projectName,
+  headline: item.title,
+  description: item.summary,
+  url: canonical,
+  image: socialImage,
+  author: { '@type': 'Person', name: 'Dave Bettner', url: siteUrl },
+  mainEntity,
+};
 const incidentNarrative = {
   'accounting-acceptance-lab': {
     heading: 'A supported proposal can still be unsafe to apply.',
@@ -129,6 +158,13 @@ const acceptanceChain = acceptanceChains[item.id];
     <meta property="og:title" content={title} />
     <meta property="og:description" content={item.summary} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={item.summary} />
+    <meta name="twitter:image" content={socialImage} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(caseSchema)}></script>
     <title>{title}</title>
   </head>
   <body>

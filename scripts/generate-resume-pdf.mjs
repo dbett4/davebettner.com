@@ -114,9 +114,9 @@ async function main() {
     'Ambra Health · Solutions Consultant',
     'Workiva · SEC Reporting Consultant',
     'SELECTED ENGINEERING PROJECTS — AI AGENTS & ENTERPRISE SYSTEMS',
+    'Accounting Acceptance Lab',
     'Personal Agent Operating System',
     'Hermes Deployment Lab',
-    'Hermes Enterprise Evaluation Kit',
     'Regulated Reporting MCP',
     'Upstream Agent-Systems Contributions',
     'SKILLS',
@@ -156,15 +156,15 @@ async function main() {
   if (!normalizedText.includes('restart/replay')) {
     throw new Error('résumé must attest Deployment Lab restart/replay behavior');
   }
-  for (const marker of ['credential-free failure/replay', 'synthetic reference implementation', 'needs_review']) {
-    if (!text.toLowerCase().includes(marker.toLowerCase())) {
+  for (const marker of ['credential-free failure/replay', 'synthetic reference implementation', 'zero false or unsupported accepts']) {
+    if (!normalizedText.toLowerCase().includes(marker.toLowerCase())) {
       throw new Error(`public résumé missing evidence marker: ${marker}`);
     }
   }
 
   for (const repo of [
+    'github.com/dbett4/accounting-acceptance-lab',
     'github.com/dbett4/hermes-enterprise-deployment-lab',
-    'github.com/dbett4/hermes-enterprise-evaluation-kit',
     'github.com/dbett4/regulated-reporting-mcp',
   ]) {
     if (!text.includes(repo)) {
@@ -182,8 +182,8 @@ async function main() {
     throw new Error('project headings must not use the retired serif/Arial font system');
   }
   for (const href of [
+    'https://github.com/dbett4/accounting-acceptance-lab',
     'https://github.com/dbett4/hermes-enterprise-deployment-lab',
-    'https://github.com/dbett4/hermes-enterprise-evaluation-kit',
     'https://github.com/dbett4/regulated-reporting-mcp',
   ]) {
     if (!html.includes(`href="${href}"`)) {

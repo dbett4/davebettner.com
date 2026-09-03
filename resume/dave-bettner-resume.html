@@ -197,7 +197,14 @@
 <section class="job-page-two agent-section">
   <div class="page-two-header"><strong>Dave Bettner</strong><span>Enterprise AI-Agent Systems · davebettner.com · Page 2 of 2</span></div>
   <h2>Selected Engineering Projects — AI Agents &amp; Enterprise Systems</h2>
-  <p class="technical-skills"><strong>Technical skills:</strong> Python, TypeScript, Docker Compose, MCP/FastMCP, OAuth/API integration, agent evaluation, capability routing, idempotency, failure recovery, human-in-the-loop controls.</p>
+  <p class="technical-skills"><strong>Technical skills:</strong> Python, TypeScript, SQLite, Docker Compose, MCP/FastMCP, OAuth/API integration, hybrid retrieval and reranking, agent evaluation, capability routing, idempotency, failure recovery, human review.</p>
+
+  <article class="project">
+    <h3>Accounting Acceptance Lab</h3>
+    <p class="repo"><a href="https://github.com/dbett4/accounting-acceptance-lab">github.com/dbett4/accounting-acceptance-lab</a></p>
+    <p>Credential-free Python and SQLite lab for synthetic accounting reconciliation: hybrid retrieval and reranking, citation-backed proposals, exact-action approval, atomic effects, readback, and uncertain-write recovery.</p>
+    <p class="proof">Evidence: 32 tests and public CI · Held-out fixture: retrieval 10/16 → 16/16; deterministic gate recorded zero false or unsupported accepts</p>
+  </article>
 
   <article class="project">
     <h3>Personal Agent Operating System</h3>
@@ -210,13 +217,6 @@
     <p class="repo"><a href="https://github.com/dbett4/hermes-enterprise-deployment-lab">github.com/dbett4/hermes-enterprise-deployment-lab</a></p>
     <p>FastMCP lab with a mock enterprise API and workflow runner. Exercises separate approval, post-commit failure, idempotent retry, restart/replay, telemetry, and no-apply cloud validation. Synthetic lab, not a customer deployment.</p>
     <p class="proof">Role: Designed and implemented · Scope: Synthetic reference implementation · Evidence: credential-free failure/replay proof</p>
-  </article>
-
-  <article class="project">
-    <h3>Hermes Enterprise Evaluation Kit</h3>
-    <p class="repo"><a href="https://github.com/dbett4/hermes-enterprise-evaluation-kit">github.com/dbett4/hermes-enterprise-evaluation-kit</a></p>
-    <p>Policy-bounded evaluation layer for Hermes: approved configs, independent checks, human review gates, and receipts that keep weak evidence labeled weak.</p>
-    <p class="proof">Role: Designed evaluation layer · Scope: Synthetic cases · Evidence: offline proof; live run remains needs_review</p>
   </article>
 
   <article class="project">

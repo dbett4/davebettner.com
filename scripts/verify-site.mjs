@@ -762,6 +762,17 @@ async function auditPage(page, route, label) {
     });
     ok(skipLinkInViewport, `${label}: skip link enters viewport on focus`);
   }
+  const diagonalDecorations = await page.evaluate(() => {
+    const diagonal = /[\u2196-\u2199]/;
+    return {
+      text: diagonal.test(document.body.textContent ?? ''),
+      generated: [...document.querySelectorAll('*')].some((element) =>
+        ['::before', '::after'].some((pseudo) => diagonal.test(getComputedStyle(element, pseudo).content)),
+      ),
+    };
+  });
+  ok(!diagonalDecorations.text && !diagonalDecorations.generated,
+    `${label}: no diagonal arrow text or generated decorations`, JSON.stringify(diagonalDecorations));
   const dimensions = await page.evaluate(() => ({
     scrollWidth: document.documentElement.scrollWidth,
     clientWidth: document.documentElement.clientWidth,

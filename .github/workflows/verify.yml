@@ -30,7 +30,7 @@ jobs:
 
       - name: Install Playwright browser
         timeout-minutes: 5
-        run: npx playwright install --with-deps chromium
+        run: npx --no-install playwright-core install --with-deps chromium
 
       - name: Generate resume PDF
         timeout-minutes: 5

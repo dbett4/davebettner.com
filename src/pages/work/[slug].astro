@@ -100,40 +100,40 @@ const acceptanceChains: Partial<Record<string, { lede: string; steps: readonly A
   'accounting-acceptance-lab': {
     lede: 'The benchmark scores what the workflow actually produced. Labels are used only afterward to measure the result.',
     steps: [
-      ['01', 'Normalized', 'Synthetic GL and bank inputs pass through typed parsing and deterministic reconciliation.', item.repoUrl, 'Inspect repository ↗'],
-      ['02', 'Grounded', 'Exception proposals must cite retrieved, version-matched policy evidence.', item.proofUrl ?? null, 'Open proof ↗'],
-      ['03', 'Bound', 'Human approval is tied to the exact proposal, action, amount, currency, and generation.', item.repoUrl, 'Inspect control code ↗'],
-      ['04', 'Recovered', 'An unknown response triggers read-before-retry and leaves one ledger effect.', item.proofUrl ?? null, 'Inspect recovery proof ↗'],
-      ['05', 'Measured', 'Public CI runs 32 tests, the offline benchmark, restart proof, and a container build.', 'https://github.com/dbett4/accounting-acceptance-lab/actions', 'View CI ↗'],
+      ['01', 'Normalized', 'Synthetic GL and bank inputs pass through typed parsing and deterministic reconciliation.', item.repoUrl, 'Inspect repository'],
+      ['02', 'Grounded', 'Exception proposals must cite retrieved, version-matched policy evidence.', item.proofUrl ?? null, 'Open proof'],
+      ['03', 'Bound', 'Human approval is tied to the exact proposal, action, amount, currency, and generation.', item.repoUrl, 'Inspect control code'],
+      ['04', 'Recovered', 'An unknown response triggers read-before-retry and leaves one ledger effect.', item.proofUrl ?? null, 'Inspect recovery proof'],
+      ['05', 'Measured', 'Public CI runs 32 tests, the offline benchmark, restart proof, and a container build.', 'https://github.com/dbett4/accounting-acceptance-lab/actions', 'View CI'],
     ],
   },
   'regulated-reporting-mcp': {
     lede: 'Nothing in this integration counts as done because the model said so. Each state has to be inspectable.',
     steps: [
-      ['01', 'Scoped', 'Only three guarded tools are exposed by default; the larger registry has to be turned on deliberately.', item.repoUrl, 'Inspect repository ↗'],
-      ['02', 'Changed', 'A write is refused until it is confirmed, so reading information cannot quietly trigger a change.', item.repoUrl, 'Inspect the write gate ↗'],
-      ['03', 'Checked in the system', 'The result is fetched from the platform after the write. An uncertain formula result is reported as uncertain rather than guessed.', item.proofUrl ?? null, 'Open technical notes ↗'],
-      ['04', 'Checked separately', 'Lint, a tool-contract check, the credential-free test suite, and an offline end-to-end demo inspect the same behavior.', item.proofUrl ?? null, 'Open proof ↗'],
+      ['01', 'Scoped', 'Only three guarded tools are exposed by default; the larger registry has to be turned on deliberately.', item.repoUrl, 'Inspect repository'],
+      ['02', 'Changed', 'A write is refused until it is confirmed, so reading information cannot quietly trigger a change.', item.repoUrl, 'Inspect the write gate'],
+      ['03', 'Checked in the system', 'The result is fetched from the platform after the write. An uncertain formula result is reported as uncertain rather than guessed.', item.proofUrl ?? null, 'Open technical notes'],
+      ['04', 'Checked separately', 'Lint, a tool-contract check, the credential-free test suite, and an offline end-to-end demo inspect the same behavior.', item.proofUrl ?? null, 'Open proof'],
       ['05', 'Decision', 'The offline proof passes for what it covers. A local action record does not prove a remote change, so live regulated writes still need review.', null, null],
     ],
   },
   'hermes-field-kit': {
     lede: 'The kit is designed so it cannot mark its own homework. The last state is allowed to stay unresolved.',
     steps: [
-      ['01', 'Scoped', 'A plain-language job is checked against a policy pack and a fixed configuration before it runs.', item.repoUrl, 'Inspect repository ↗'],
-      ['02', 'Run', 'The job stays inside those declared limits and takes no external action on anyone else’s system.', item.repoUrl, 'Inspect the policy packs ↗'],
-      ['03', 'Recomputed', 'The action records are hash-checked and a separate calculation recomputes the result instead of trusting the run’s own summary.', item.proofUrl ?? null, 'Open the receipt checks ↗'],
-      ['04', 'Challenged', 'Eight negative tests, a capability map with an explicit gap list, and a pinned suite replay inspect the same evidence.', item.proofUrl ?? null, 'Open proof ↗'],
+      ['01', 'Scoped', 'A plain-language job is checked against a policy pack and a fixed configuration before it runs.', item.repoUrl, 'Inspect repository'],
+      ['02', 'Run', 'The job stays inside those declared limits and takes no external action on anyone else’s system.', item.repoUrl, 'Inspect the policy packs'],
+      ['03', 'Recomputed', 'The action records are hash-checked and a separate calculation recomputes the result instead of trusting the run’s own summary.', item.proofUrl ?? null, 'Open the receipt checks'],
+      ['04', 'Challenged', 'Eight negative tests, a capability map with an explicit gap list, and a pinned suite replay inspect the same evidence.', item.proofUrl ?? null, 'Open proof'],
       ['05', 'Decision', 'Offline proof passes. The live example remains in review because no person accepted it and two execution exceptions remain.', null, null],
     ],
   },
   'agent-operating-system': {
     lede: 'The other cases use this operating approach. This page describes what is adopted today, not everything the system may do later.',
     steps: [
-      ['01', 'Scoped', 'A request is matched to the right context, tools, and authority before any action begins.', '/work/', 'Open the public work index ↗'],
-      ['02', 'Run', 'The work is split into limited actions instead of one open-ended instruction.', '/work/hermes-deployment-lab/', 'Inspect the recovery lab ↗'],
-      ['03', 'Checked in the system', 'A consequential change is checked where it actually lives, and the failure path has a recovery plan.', 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md', 'Open the recovery proof ↗'],
-      ['04', 'Checked separately', 'Public tests and separate checks inspect the deployment, integration, evaluation, and spreadsheet-quality examples.', 'https://github.com/dbett4/hermes-enterprise-evaluation-kit/blob/main/PROOF.md', 'Open the evaluation proof ↗'],
+      ['01', 'Scoped', 'A request is matched to the right context, tools, and authority before any action begins.', '/work/', 'Open the public work index'],
+      ['02', 'Run', 'The work is split into limited actions instead of one open-ended instruction.', '/work/hermes-deployment-lab/', 'Inspect the recovery lab'],
+      ['03', 'Checked in the system', 'A consequential change is checked where it actually lives, and the failure path has a recovery plan.', 'https://github.com/dbett4/hermes-enterprise-deployment-lab/blob/main/PROOF.md', 'Open the recovery proof'],
+      ['04', 'Checked separately', 'Public tests and separate checks inspect the deployment, integration, evaluation, and spreadsheet-quality examples.', 'https://github.com/dbett4/hermes-enterprise-evaluation-kit/blob/main/PROOF.md', 'Open the evaluation proof'],
       ['05', 'Decision', 'Working controls are separated from ideas that are not wired yet. Unfinished controls stay labeled unfinished.', null, null],
     ],
   },
@@ -181,11 +181,11 @@ const acceptanceChain = acceptanceChains[item.id];
             <p class="summary">{item.summary}</p>
             <p class="case-value-line"><strong>Why it matters</strong>{item.value}</p>
             <p class="repo-links">
-              <a class="round blue" href={item.id === 'agent-operating-system' ? '/work/' : item.repoUrl} rel={item.id === 'agent-operating-system' ? undefined : 'noopener noreferrer'} data-shader-host><span data-shader-label>{item.id === 'agent-operating-system' ? 'Explore public evidence' : 'View repository'} <span aria-hidden="true">↗</span></span></a>
-              {item.id === 'agent-operating-system' ? <a class="round" href={item.repoUrl} rel="noopener noreferrer">GitHub profile <span aria-hidden="true">↗</span></a> : null}
+              <a class="round blue" href={item.id === 'agent-operating-system' ? '/work/' : item.repoUrl} rel={item.id === 'agent-operating-system' ? undefined : 'noopener noreferrer'} data-shader-host><span data-shader-label>{item.id === 'agent-operating-system' ? 'Explore public evidence' : 'View repository'}</span></a>
+              {item.id === 'agent-operating-system' ? <a class="round" href={item.repoUrl} rel="noopener noreferrer">GitHub profile</a> : null}
               {item.id === 'agent-operating-system' ? <a class="round" href="/dave-bettner-resume.pdf" download>Résumé <span aria-hidden="true">↓</span></a> : null}
               {item.proofUrl ? (
-                <a class="round" href={item.proofUrl} rel="noopener noreferrer">View proof <span aria-hidden="true">↗</span></a>
+                <a class="round" href={item.proofUrl} rel="noopener noreferrer">View proof</a>
               ) : null}
               {item.id === 'accounting-acceptance-lab' ? <a class="round" href="/lab/accounting-acceptance/">Open interactive demo <span aria-hidden="true">→</span></a> : null}
             </p>
@@ -288,7 +288,7 @@ const acceptanceChain = acceptanceChains[item.id];
               ].map(([number, title, text, link]) => (
                 <li>
                   <span class="mono">{number}</span>
-                  <div><h3>{title}</h3><p>{text}</p>{link ? <a href={link} class="acceptance-link" rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}>{title === 'Checked separately' ? 'Open proof ↗' : title === 'Checked in the system' ? 'See the recovery trace ↓' : 'Inspect repository ↗'}</a> : null}</div>
+                  <div><h3>{title}</h3><p>{text}</p>{link ? <a href={link} class="acceptance-link" rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}>{title === 'Checked separately' ? 'Open proof' : title === 'Checked in the system' ? 'See the recovery trace ↓' : 'Inspect repository'}</a> : null}</div>
                 </li>
               ))}
             </ol>
@@ -340,7 +340,7 @@ const acceptanceChain = acceptanceChains[item.id];
             <div class="stack-proof">
               <p class="mono">Where to check</p>
               <p>The public deployment lab, reporting MCP, evaluation kit, and Wingman repository show bounded tools, recovery, readback, and human gates. Upstream contributions show work on real agent infrastructure: coordinated rate-limit retries and desktop session recovery.</p>
-              <p class="stack-links"><a href="https://github.com/block/buzz/pull/5620" rel="noopener noreferrer">Buzz PR #5620 ↗</a><a href="https://github.com/NousResearch/hermes-agent/pull/84621" rel="noopener noreferrer">Hermes Agent PR #84621 ↗</a></p>
+              <p class="stack-links"><a href="https://github.com/block/buzz/pull/5620" rel="noopener noreferrer">Buzz PR #5620</a><a href="https://github.com/NousResearch/hermes-agent/pull/84621" rel="noopener noreferrer">Hermes Agent PR #84621</a></p>
             </div>
           </section>
         ) : null}
@@ -362,7 +362,7 @@ const acceptanceChain = acceptanceChains[item.id];
         <section class="contact-block" aria-labelledby="contact-heading">
           <p class="mono">Next</p>
           <h2 id="contact-heading">Working on a workflow with the same failure mode?</h2>
-          <a class="round blue contact-link" href={emailHref} data-shader-host><span data-shader-label>Get in touch <span aria-hidden="true">↗</span></span></a>
+          <a class="round blue contact-link" href={emailHref} data-shader-host><span data-shader-label>Get in touch</span></a>
         </section>
         <details class="provenance-note">
           <summary>How to read the public proof and its limits</summary>

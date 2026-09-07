@@ -52,7 +52,7 @@ body {
   overflow-wrap: break-word;
 }
 
-:where(.section-lead, .cover-role, .cover-support, .about-lead, .loop-lead, .provenance-note) {
+:where(.section-lead, .cover-role, .about-lead, .loop-lead, .provenance-note) {
   text-wrap: pretty;
 }
 

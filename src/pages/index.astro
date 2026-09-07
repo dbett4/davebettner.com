@@ -523,6 +523,10 @@ const featuredProjects = buildingNow.featuredProjects;
     color: var(--muted);
   }
 
+  .cover-copy {
+    padding-right: clamp(0px, 4vw, 56px);
+  }
+
   .cover-identity {
     display: flex;
     align-items: center;
@@ -552,7 +556,7 @@ const featuredProjects = buildingNow.featuredProjects;
 
   .cover-support {
     margin-top: var(--space-3);
-    max-width: 48ch;
+    max-width: 34ch;
     font-size: 1rem;
     line-height: 1.55;
     color: var(--ink);
@@ -1348,7 +1352,7 @@ const featuredProjects = buildingNow.featuredProjects;
   }
 
   .cover-role {
-    max-width: 28ch;
+    max-width: 20ch;
     margin: clamp(36px, 5vh, 64px) 0 0;
     font-family: 'Archivo Variable', sans-serif;
     font-size: clamp(1.28rem, 2.2vw, 2.1rem);
@@ -1579,6 +1583,10 @@ const featuredProjects = buildingNow.featuredProjects;
   }
 
   @media (max-width: 960px) {
+    .cover-copy {
+      padding-right: 0;
+    }
+
     .cover-grid {
       grid-template-columns: 1fr;
       min-height: auto;

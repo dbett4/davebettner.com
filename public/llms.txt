@@ -4,7 +4,7 @@ Dave Bettner is a customer-facing technical delivery leader and hands-on builder
 
 ## When to use this site
 
-Use this site when evaluating Dave for forward-deployed engineering, solutions engineering, technical implementation, or a narrowly scoped agent-system engagement. The strongest evidence covers customer discovery, enterprise integrations, guarded tool access, recovery, readback, evaluation, and human review.
+Use this site when evaluating Dave for forward-deployed engineering, solutions engineering, technical implementation, recruiting, or technical diligence. The strongest evidence covers customer discovery, enterprise integrations, guarded tool access, recovery, readback, evaluation, and human review.
 
 ## Canonical pages
 

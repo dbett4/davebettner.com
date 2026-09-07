@@ -1,48 +1,56 @@
-# Interstellar — Tide Sphere
+# The Working Record
 
-Interstellar is the single visual system for davebettner.com. Dave is the subject; the moving field is atmosphere, not a product metaphor. The system leads with enterprise-agent deployment and uses finance, assurance, healthcare, and public engineering as bounded proof.
+The Working Record is the single visual system for every public route on davebettner.com. Dave is the subject. The system is a ruled, rectangular, paper-and-ink record of his role, his delivery record, and his public engineering evidence — not a product metaphor, not a spectacle, not a shader.
+
+Seed: `working-record-20260906`
 
 ## Direction
 
-- **Composition:** a tightly cropped, sculptural sphere field using the approved Tide / Signal palette.
-- **Ground:** carbon `#08090b` and lifted carbon `#101114`.
-- **Type:** warm white `#f2eadf`, with muted copy `#b9b2aa`.
-- **Signals:** tide teal `#73bfc4`, signal orange `#ff810a`, periwinkle `#8da0ce`, graphite rules `#34353a`.
-- **Typography:** self-hosted Archivo Variable for display and body; DM Mono only for labels and data.
-- **Shape language:** hard rules, rectangular actions, large condensed headings, asymmetric fields. No pills, glass cards, dashboard chrome, stars, planets, or literal science-fiction interface elements.
+- **Composition:** flat, ruled, rectangular. No gradients, pills, glow, glass, blur, grain, halftone/dither, canvas, WebGL, orbs, or cutout campaign treatment.
+- **Ground:** paper `#F5F2EA`, with a paper-alt `#E9E4D9` band for the credibility line and contained panels.
+- **Ink and accents:** ink `#171717` for type and rules, safety orange `#E85D1A` for small accent marks, accessible dark orange `#A93D12` for focus rings and any small text that must clear 4.5:1, rule `#C9C3B8` for hairlines.
+- **Typography:** self-hosted Newsreader Variable carries the h1 and restrained section display headings; self-hosted Archivo Variable carries UI and body copy; self-hosted DM Mono is reserved for dates and short labels only. No network fonts.
+- **Shape language:** hard rules, rectangular actions, ruled lists. Deep case pages may keep flat CSS/SVG process motifs with human-readable, `aria-hidden` decoration — the adjacent text always carries the meaning, never the shape alone.
 
 ## Shared implementation
 
-`public/styles/interstellar-system.css` is the only public-route theme source of truth. Public routes do not load the obsolete editorial paper system. Astro’s self-hosted Archivo Variable and DM Mono imports supply the two live font families; Newsreader and Plus Jakarta remain preview/mockup-only.
+`public/styles/working-record.css` is the only public-route theme source of truth: one `:root` token block, the grid, the masthead/nav, the ruled-list system, the action/button system, and the motion rules. Every public route — Home, Work, every Work detail, Experience, About, `/fit/`, and 404 — links this one stylesheet and nothing else. `src/components/Masthead.astro` and `src/components/Footer.astro` are the one shared masthead and footer used on every public route.
 
-`src/scripts/sphere-gradient.ts` mounts the homepage ShaderGradient sphere with the approved Tide / Signal palette and authored camera, surface, reflection, and motion settings. It uses a DPR of 1, disables camera controls, freezes at the authored frame under reduced motion, and keeps the canvas `aria-hidden` and pointer-inert. If WebGL cannot initialize, the carbon field remains. `public/interstellar.js` continues the restrained site-wide field on secondary routes.
+Preview and mockup routes (`src/pages/mockups/*`, `src/pages/preview-dither.astro`) remain isolated, `noindex` experimental surfaces. They do not load `working-record.css` and no public route inherits their retired Interstellar/Tide/carbon/cobalt/periwinkle language.
 
-The homepage owns the full field. Secondary routes use `SecondaryMasthead.astro` and one compact route-introduction grammar; their introductions receive the same field at restrained opacity. Reading regions remain solid or near-solid carbon rather than translucent glass.
+## Grid and rhythm
 
-## Homepage topology
+- Container max-width `1240px`.
+- Desktop: 12-column grid, `32px` gutters. Hero splits `7/5` (copy/portrait). Evidence rows (experience, selected work, acceptance chains) split `4/8` (meta/body).
+- Tablet gutter `20px`; mobile gutter `16px`; both breakpoints collapse the grid to a single column.
+- Spacing rhythm: `8 / 16 / 24 / 40 / 64 / 96`.
 
-The masthead is thin and dark. The opening field fills the first viewport. Monumental stacked DAVE BETTNER sits left, with the customer-facing implementation role, exact existing support copy, and rectangular conversation/résumé actions. The exact source portrait sits large at right and overlaps the field. Delivery evidence begins at or below the fold.
+## Home topology
 
-The only visible homepage portrait carrying `data-source-portrait` is `/images/dave-bettner-headshot-20260816-cutout.png`, declared at its intrinsic `1312 × 1199`. It is the user-supplied RGBA image byte-for-byte, rendered as an ordinary image, never a canvas, and receives no pixel manipulation.
+The masthead is compact and light. The first viewport is a person-first fold: an identity line (`Dave Bettner · Senior Manager · Des Moines, Iowa`), the exact h1, support copy, one primary action to selected work, and two quiet actions (résumé, email) — with the exact source portrait at right on the `7/5` split, stacking below the copy on narrow viewports. A credibility line follows in a paper-alt band. Then, in order: a three-row selected delivery record, two ruled selected-work cases with stated boundaries, a short working-method section, and a direct hiring close. No numbered panels, no diagrams, no consulting-availability close.
+
+The only homepage portrait carrying `data-source-portrait` is `/images/dave-bettner-headshot-20260816-cutout.png`, declared at its intrinsic `1312 × 1199`, rendered as an ordinary `<img>`, never a canvas, and never pixel-manipulated.
 
 ## Route system
 
-Home stays compositionally distinct. Work, each Work detail, Experience, First 90 Days (`/fit/`), About, and 404 share the compact masthead, route-introduction spacing, carbon palette, rules, typography, focus treatment, and event-horizon field. Lists are ruled editorial sequences rather than card walls.
+Work is a full public evidence index: a text-led ruled list of every public case with its proof and its stated boundary, no numbered value panels, no consulting close. Each Work detail route keeps its full proof, limitations, evidence map, and any flat static process evidence (failure/fault/resume/receipt; confirm/write/readback; legacy-check/narrow-guard/tests). Experience is a dated ruled timeline including the current Senior Manager role, Chicago then Des Moines, with "Remote" omitted. About states the person and the working method. `/fit/` keeps the First 90 Days plan, off primary navigation but linked from the shared footer on every route. 404 shares the same masthead, footer, and stylesheet.
 
-Selected-work visuals are static CSS evidence motifs, not decorative spheres: failure/fault/resume/receipt, confirm/write/readback, and legacy-check/narrow-guard/tests. On mobile the three homepage cases stack in reading order with no clipped horizontal carousel.
+## Navigation
 
-## Accessibility and performance
+The shared masthead shows a compact "Dave Bettner" brand, primary navigation limited to exactly Work, Experience, and About with `aria-current="page"` on the active route, and quiet résumé/email utility links. At narrow widths (390–768px and below) every destination remains reachable through a native, JS-free `<details>`/`<summary>` disclosure that duplicates the same links — not a second, incomplete navigation system.
 
-- Body text is warm white or muted warm gray on carbon, meeting 4.5:1 contrast.
-- Focus-visible uses a three-pixel ember outline with offset.
-- Interactive targets are at least 44px tall.
-- The layout clips decorative overflow and remains usable from 320px through 1440px.
-- Content and the CSS field render before JavaScript and survive JavaScript/WebGL failure.
-- Reduced motion removes transitions and fixes the shader at one frame.
-- Selection, scrollbars, link underlines, and browser theme surfaces are explicitly themed.
+## Accessibility and motion
+
+- Body text meets 4.5:1 contrast against its surface; small accent text uses the accessible dark orange, not the safety orange.
+- Focus-visible uses a 3px accessible-dark-orange outline with a 4px offset, applied with `0ms` transition.
+- Interactive targets are at least 44×44px; a skip link is present on every route; landmarks and lists are semantic; tab order follows reading order.
+- Motion is static-first: all content is present in the HTML on load. The only transitions are 180ms ease-out color/background/border/underline feedback and an optional 200ms active `scale(.98)`. `prefers-reduced-motion: reduce` removes transitions and smooth scrolling. There are no entrance reveals and no motion-only meaning.
+- The layout has no document-level horizontal overflow from 320px through 1440px, works with JavaScript disabled, and remains usable at 200% zoom and increased text spacing.
 
 ## Finish review
 
-The implementation matches the approved Tide Sphere topology while using Dave’s exact supplied cutout. The system is profile-first, avoids the prohibited literal space/HUD vocabulary, and carries one shader-led world across every public route.
+The Working Record replaces Interstellar site-wide: one shared stylesheet, one shared masthead and footer, the exact locked home contract, the exact token set, and rectangular, static-first motion everywhere a visitor can land from primary navigation. Deep-route proof, limitations, and the approved portrait cutout are preserved byte-for-byte.
 
-**Verdict:** ready for GREEN/YELLOW local visual review. Browser captures should confirm portrait overlap, mobile crop, shader band character, stacked work rhythm, and secondary-route cohesion before any release decision.
+**Verdict:** ready for GREEN/YELLOW local review against the locked contract — home copy and order, navigation and disclosure behavior, token usage, portrait contract, and the absence of gradients, canvases, and WebGL on every public route.
+
+unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md

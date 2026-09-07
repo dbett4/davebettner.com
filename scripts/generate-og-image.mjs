@@ -12,7 +12,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sourceHtml = path.join(root, 'social', 'dave-bettner-og.html');
-const outputImage = path.join(root, 'public', 'images', 'dave-bettner-og-interstellar.jpg');
+const outputImage = path.join(root, 'public', 'images', 'dave-bettner-og.jpg');
 const width = 1200;
 const height = 630;
 
@@ -40,12 +40,12 @@ async function main() {
   const chrome = resolveChrome();
   const source = await readFile(sourceHtml, 'utf8');
   for (const marker of [
-    'Forward-deployed engineering',
-    'Agent systems',
+    'Senior Manager',
+    'Agent systems + MCP',
     'Customer-facing engineering',
     '10+ years implementation',
-    'Agent systems + MCP',
     'Des Moines, Iowa',
+    'The Working Record',
     '<span>Dave</span>',
     '<span>Bettner</span>',
   ]) {
@@ -56,8 +56,13 @@ async function main() {
   if (/Fieldguide|Nous Research/i.test(source)) {
     throw new Error('Open Graph source must remain employer-independent');
   }
-  if (/Newsreader|Plus Jakarta|--paper:|#f3efe5|#214fe5/i.test(source)) {
-    throw new Error('Open Graph source still contains the retired editorial theme');
+  if (/--space:|#08090b|ShaderGradient|shader-gradient|interstellar/i.test(source)) {
+    throw new Error('Open Graph source still contains the retired Interstellar theme');
+  }
+  for (const requiredToken of ['#F5F2EA', '#171717', '#E85D1A']) {
+    if (!source.includes(requiredToken)) {
+      throw new Error(`Open Graph source is missing The Working Record token: ${requiredToken}`);
+    }
   }
 
   await mkdir(path.dirname(outputImage), { recursive: true });

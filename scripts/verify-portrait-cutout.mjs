@@ -39,7 +39,9 @@ check(
 // The markup declares intrinsic size to reserve layout space; a swapped asset that leaves
 // those attributes behind shifts the hero on load.
 const homepage = await readFile('src/pages/index.astro', 'utf8');
-const portraitTag = homepage.slice(homepage.indexOf('class="cover-portrait"'));
+const portraitMarker = homepage.indexOf('data-source-portrait');
+const portraitTagStart = homepage.lastIndexOf('<img', portraitMarker);
+const portraitTag = homepage.slice(portraitTagStart, portraitMarker + 'data-source-portrait'.length);
 const declaredWidth = portraitTag.match(/width="(\d+)"/)?.[1];
 const declaredHeight = portraitTag.match(/height="(\d+)"/)?.[1];
 check(

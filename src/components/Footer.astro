@@ -1,0 +1,16 @@
+---
+import ContactLinks from './ContactLinks.astro';
+import { identity } from '../data/portfolio-entries';
+---
+
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <span>{identity.location}</span>
+    <nav class="footer-nav" aria-label="Supporting navigation">
+      <a href="/about/">About</a>
+      <a href="/fit/">First 90 days</a>
+      <a href="/dave-bettner-resume.pdf" download>Résumé</a>
+    </nav>
+    <ContactLinks />
+  </div>
+</footer>

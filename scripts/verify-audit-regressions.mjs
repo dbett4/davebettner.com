@@ -53,7 +53,7 @@ try {
     phases: document.querySelectorAll('.ninety-plan > li').length,
     oldToolControls: document.querySelectorAll('#job-description, .fit-ai-btn, #fit-copy-prompt').length,
     horizontalOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-    relatedTargets: [...document.querySelectorAll('.page-links a')].map((link) => link.getAttribute('href') ?? ''),
+    relatedTargets: [...document.querySelectorAll('.related-nav a')].map((link) => link.getAttribute('href') ?? ''),
   }));
   check(fitRegression.phases === 4, 'First 90 days plan keeps four phases', String(fitRegression.phases));
   check(fitRegression.oldToolControls === 0, 'Removed fit-prompt controls do not regress into the static page', String(fitRegression.oldToolControls));
@@ -71,18 +71,21 @@ try {
   );
   check(
     (await sourcePortrait.getAttribute('src')) === '/images/dave-bettner-headshot-20260816-cutout.png' &&
-      (await page.locator('.cover-specimen canvas').count()) === 0,
-    'Hero preserves the approved navy-tie cutout without a processing canvas',
+      (await page.locator('.hero-portrait canvas, .hero-portrait svg').count()) === 0,
+    'Hero preserves the approved navy-tie cutout without a processing canvas or SVG effect',
   );
-  const heroResume = page.locator('.cover-actions-primary a[download]');
+  const heroResume = page.locator('.hero-actions-quiet a[download]');
   check((await heroResume.count()) === 1, 'Hero contains one résumé download');
-  check((await page.locator('#direction, .loop-section, .loop-stage').count()) === 0, 'Home leaves the deployment method to First 90 days');
+  check(
+    (await page.locator('#direction, .loop-section, .loop-stage, canvas, [data-orb], .gradient, .glow, .glass').count()) === 0,
+    'Home has no decorative loop/canvas/gradient/glow/glass surfaces',
+  );
   const homepageOrder = await page.locator('main > section').evaluateAll((sections) =>
     sections.map((section) => section.id).filter(Boolean),
   );
   check(
-    ['top', 'proof', 'work', 'about', 'contact'].every((id, index) => homepageOrder[index] === id),
-    'Homepage order is identity, outcomes, engineering, synthesis, CTA',
+    ['experience', 'work', 'how-i-work', 'contact'].every((id, index) => homepageOrder[index] === id),
+    'Homepage order is experience, work, how I work, hiring close',
     homepageOrder.join(' → '),
   );
   const builtHomepage = await readFile('dist/index.html', 'utf8');
@@ -92,11 +95,11 @@ try {
   );
 
   const positioningSurfaces = [
-    ['/', '.cover-role, .proof-head .section-lead, .about-lead, .cta-copy > p:last-child'],
-    ['/work/', '.work-cover .lead'],
-    ['/experience/', '.lead'],
+    ['/', '.hero-support, .credibility-line, #how-i-work .lead'],
+    ['/work/', '.section-head .lead'],
+    ['/experience/', '.section-head .lead'],
     ['/fit/', '.fit-lead'],
-    ['/about/', '.cover-lead, .prose p'],
+    ['/about/', '.section-head .lead, .about-prose p'],
   ];
   const sentenceRoutes = new Map();
   for (const [route, selector] of positioningSurfaces) {

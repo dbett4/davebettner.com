@@ -1,14 +1,15 @@
 ---
 import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/newsreader/wght.css';
 import '@fontsource/dm-mono/400.css';
 import '@fontsource/dm-mono/500.css';
 import EvidenceMotif from '../../components/EvidenceMotif.astro';
 import RecoveryProofExplorer from '../../components/RecoveryProofExplorer.astro';
-import SecondaryMasthead from '../../components/SecondaryMasthead.astro';
+import Masthead from '../../components/Masthead.astro';
+import Footer from '../../components/Footer.astro';
 import { cases, type CaseStudy } from '../../data/cases';
 import { provenanceNote } from '../../data/public-proof';
-import { siteUrl } from '../../data/seo';
-import { emailHref } from '../../data/site-links';
+import { ogImagePath, siteUrl } from '../../data/seo';
 
 export function getStaticPaths() {
   return cases.map((item) => ({ params: { slug: item.id }, props: { item } }));
@@ -24,9 +25,12 @@ const projectNames = {
   wingman: 'Confirm-before-write spreadsheet quality',
 } as const;
 const projectName = projectNames[item.id as keyof typeof projectNames];
-const plateNumber = String(cases.findIndex((candidate) => candidate.id === item.id) + 1).padStart(2, '0');
 const canonical = `${siteUrl}/work/${item.id}/`;
 const title = `${projectName} | Dave Bettner`;
+const independentEvidenceNote =
+  item.id === 'hermes-deployment-lab' || item.id === 'hermes-field-kit' || item.id === 'agent-operating-system'
+    ? 'The "Hermes" name in this project is Dave\u2019s own naming choice for independent, synthetic public engineering work. It is not a Nous Research product and implies no Nous/Hermes Enterprise affiliation.'
+    : null;
 const incidentNarrative = {
   'dedup-readback-bridge': {
     heading: 'The second run should have nothing new to send.',
@@ -102,58 +106,52 @@ const acceptanceChain = acceptanceChains[item.id];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={item.summary} />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#08090b" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#F5F2EA" />
+    <meta name="color-scheme" content="light" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/styles/interstellar-system.css" />
+    <link rel="stylesheet" href="/styles/working-record.css" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={item.summary} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${siteUrl}${ogImagePath}`} />
     <title>{title}</title>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <SecondaryMasthead backHref="/work/" backLabel="Selected work" context="Case study · problem, build, proof" />
+    <Masthead />
     <main id="main">
-      <section class={`case-cover visual-${item.visual}`}>
-        <div class="wrap case-cover-grid route-intro">
+      <section class="section case-cover" aria-labelledby="case-heading">
+        <div class="wrap case-cover-grid">
           <div class="case-intro">
-            {item.id === 'agent-operating-system' ? <p class="author-line mono">Designed and maintained by Dave Bettner · Forward-deployed technical leader</p> : null}
             <p class="eyebrow mono">{item.eyebrow}</p>
-            <h1>{item.title}</h1>
+            <h1 id="case-heading">{item.title}</h1>
             <p class="case-headline">{projectName}</p>
-            <p class="summary">{item.summary}</p>
-            <p class="case-value-line"><strong>Why it matters</strong>{item.value}</p>
-            <p class="repo-links">
-              <a class="round blue" href={item.id === 'agent-operating-system' ? '/work/' : item.repoUrl} rel={item.id === 'agent-operating-system' ? undefined : 'noopener noreferrer'} data-shader-host><span data-shader-label>{item.id === 'agent-operating-system' ? 'Explore public evidence' : 'View repository'} <span aria-hidden="true">↗</span></span></a>
-              {item.id === 'agent-operating-system' ? <a class="round" href={item.repoUrl} rel="noopener noreferrer">GitHub profile <span aria-hidden="true">↗</span></a> : null}
-              {item.id === 'agent-operating-system' ? <a class="round" href="/dave-bettner-resume.pdf" download>Résumé <span aria-hidden="true">↓</span></a> : null}
+            <p class="lead">{item.summary}</p>
+            <p class="case-value-line"><strong class="mono">Why it matters</strong>{item.value}</p>
+            <p class="case-actions">
+              <a class="action action-primary" href={item.id === 'agent-operating-system' ? '/work/' : item.repoUrl} rel={item.id === 'agent-operating-system' ? undefined : 'noopener noreferrer'}>
+                {item.id === 'agent-operating-system' ? 'Explore public evidence' : 'View repository'} <span aria-hidden="true">↗</span>
+              </a>
+              {item.id === 'agent-operating-system' ? <a class="action action-quiet" href={item.repoUrl} rel="noopener noreferrer">GitHub profile <span aria-hidden="true">↗</span></a> : null}
               {item.proofUrl ? (
-                <a class="round" href={item.proofUrl} rel="noopener noreferrer">View proof <span aria-hidden="true">↗</span></a>
+                <a class="action action-quiet" href={item.proofUrl} rel="noopener noreferrer">View proof <span aria-hidden="true">↗</span></a>
               ) : null}
             </p>
           </div>
-          <div class="case-plate" aria-hidden="true">
-            <EvidenceMotif motif={item.motif} />
-            <span class="plate-chrome mono">WORKFLOW · {plateNumber}</span>
-            <span class="plate-mark"></span>
-            <span class="plate-proof mono">{item.plateProof}</span>
-          </div>
+          <EvidenceMotif motif={item.motif} />
         </div>
       </section>
 
       <div class="wrap case-page">
         {item.id === 'hermes-deployment-lab' ? (
           <section class="incident-story" aria-labelledby="incident-heading">
-            <div class="incident-heading">
-              <p class="mono">The incident</p>
-              <h2 id="incident-heading">The difficult part is recovering a write you cannot confirm.</h2>
-              <p>The tool may have finished the write. The coordinator failed before it got the confirmation. A blind retry could write the same change twice.</p>
-            </div>
-            <ol class="incident-path" aria-label="Recovery path">
+            <p class="eyebrow mono">The incident</p>
+            <h2 id="incident-heading">The difficult part is recovering a write you cannot confirm.</h2>
+            <p class="lead">The tool may have finished the write. The coordinator failed before it got the confirmation. A blind retry could write the same change twice.</p>
+            <ol class="incident-path evidence-motif" aria-label="Recovery path">
               {[
                 ['01', 'Request', 'A bounded job starts.'],
                 ['02', 'Action', 'The tool may finish the write.'],
@@ -165,50 +163,42 @@ const acceptanceChain = acceptanceChains[item.id];
                 </li>
               ))}
             </ol>
-            <div class="incident-consequence">
-              <span class="mono">Why it matters</span>
-              <p>If the system treats unknown as failed, it can make the original problem worse. It needs to find the first result or stop for review.</p>
-            </div>
+            <p class="incident-consequence"><strong class="mono">Why it matters</strong> If the system treats unknown as failed, it can make the original problem worse. It needs to find the first result or stop for review.</p>
           </section>
         ) : null}
 
         {narrative ? (
           <section class="incident-story" aria-labelledby="incident-heading">
-            <div class="incident-heading">
-              <p class="mono">The failure mode</p>
-              <h2 id="incident-heading">{narrative.heading}</h2>
-              <p>{narrative.copy}</p>
-            </div>
-            <ol class="incident-path" aria-label="Control path">
+            <p class="eyebrow mono">The failure mode</p>
+            <h2 id="incident-heading">{narrative.heading}</h2>
+            <p class="lead">{narrative.copy}</p>
+            <ol class="incident-path evidence-motif" aria-label="Control path">
               {narrative.steps.map(([number, label, text]) => (
                 <li class="incident-step"><span class="mono">{number}</span><strong>{label}</strong><small>{text}</small></li>
               ))}
             </ol>
             {'consequence' in narrative && narrative.consequence ? (
-              <div class="incident-consequence">
-                <span class="mono">Why it matters</span>
-                <p>{narrative.consequence}</p>
-              </div>
+              <p class="incident-consequence"><strong class="mono">Why it matters</strong> {narrative.consequence}</p>
             ) : null}
           </section>
         ) : null}
 
         {acceptanceChain ? (
           <section class="acceptance-chain" aria-labelledby="acceptance-heading">
-            <div class="detail-head">
-              <p class="eyebrow mono">How I know it worked</p>
-              <h2 id="acceptance-heading">The result has to be inspectable.</h2>
-              <p class="acceptance-lede">{acceptanceChain.lede}</p>
-            </div>
-            <ol class="acceptance-list">
+            <p class="eyebrow mono">How I know it worked</p>
+            <h2 id="acceptance-heading">The result has to be inspectable.</h2>
+            <p class="lead">{acceptanceChain.lede}</p>
+            <ol class="ruled-list acceptance-list">
               {acceptanceChain.steps.map(([number, state, text, link, linkLabel]) => (
-                <li>
-                  <span class="mono">{number}</span>
-                  <div>
+                <li class="ruled-row evidence-row-grid">
+                  <div class="evidence-row-meta">
+                    <span class="mono">{number}</span>
                     <h3>{state}</h3>
+                  </div>
+                  <div class="evidence-row-body">
                     <p>{text}</p>
                     {link && linkLabel ? (
-                      <a href={link} class="acceptance-link" rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}>{linkLabel}</a>
+                      <a href={link} class="text-link" rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}>{linkLabel}</a>
                     ) : null}
                   </div>
                 </li>
@@ -218,23 +208,27 @@ const acceptanceChain = acceptanceChains[item.id];
         ) : null}
 
         {item.id === 'hermes-deployment-lab' ? (
-          <section class="acceptance-chain" aria-labelledby="acceptance-heading">
-            <div class="detail-head">
-              <p class="eyebrow mono">How I know it worked</p>
-              <h2 id="acceptance-heading">The result has to survive the failure.</h2>
-              <p class="acceptance-lede">The model can propose the next move. The run only advances when each control has evidence.</p>
-            </div>
-            <ol class="acceptance-list">
+          <section class="acceptance-chain" aria-labelledby="acceptance-heading-recovery">
+            <p class="eyebrow mono">How I know it worked</p>
+            <h2 id="acceptance-heading-recovery">The result has to survive the failure.</h2>
+            <p class="lead">The model can propose the next move. The run only advances when each control has evidence.</p>
+            <ol class="ruled-list acceptance-list">
               {[
                 ['01', 'Scoped', 'The job has one limited action and a named approval point.', item.repoUrl],
                 ['02', 'Run', 'The tool makes one distinct attempt, not an open-ended retry.', null],
                 ['03', 'Checked in the system', 'The workflow looks for the actual result instead of trusting a missing reply.', '#recovery-proof-heading'],
                 ['04', 'Checked separately', 'Public tests force the same failure and inspect the result.', item.proofUrl],
                 ['05', 'Decision', 'The result is accepted, blocked, or clearly left for review.', null],
-              ].map(([number, title, text, link]) => (
-                <li>
-                  <span class="mono">{number}</span>
-                  <div><h3>{title}</h3><p>{text}</p>{link ? <a href={link} class="acceptance-link" rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}>{title === 'Checked separately' ? 'Open proof ↗' : title === 'Checked in the system' ? 'See the recovery trace ↓' : 'Inspect repository ↗'}</a> : null}</div>
+              ].map(([number, heading, text, link]) => (
+                <li class="ruled-row evidence-row-grid">
+                  <div class="evidence-row-meta">
+                    <span class="mono">{number}</span>
+                    <h3>{heading}</h3>
+                  </div>
+                  <div class="evidence-row-body">
+                    <p>{text}</p>
+                    {link ? <a href={link} class="text-link" rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}>{heading === 'Checked separately' ? 'Open proof ↗' : heading === 'Checked in the system' ? 'See the recovery trace ↓' : 'Inspect repository ↗'}</a> : null}
+                  </div>
                 </li>
               ))}
             </ol>
@@ -243,31 +237,26 @@ const acceptanceChain = acceptanceChains[item.id];
 
         <section class="evidence-map" aria-labelledby="evidence-map-heading">
           <div class="evidence-heading">
-            <p class="mono evidence-map-label" id="evidence-map-heading">Result and evidence</p>
+            <p class="eyebrow mono" id="evidence-map-heading">Result and evidence</p>
             <p class="mono evidence-state">What worked · how checked · honest limit</p>
           </div>
           <h2 class="evidence-signal">{item.evidenceMap.signal}</h2>
-          <p class="evidence-method">{item.evidenceMap.method}</p>
+          <p class="lead evidence-method">{item.evidenceMap.method}</p>
           {item.id === 'agent-operating-system' ? <p class="workflow-caption">A bounded change is confirmed, written, then read back before it counts as applied.</p> : null}
           <ol class="evidence-steps">
-            {item.evidenceMap.steps.map((step) => <li>{step}</li>)}
+            {item.evidenceMap.steps.map((step, index) => <li><span class="mono" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{step}</li>)}
           </ol>
-          <div class="evidence-boundary">
-            <span class="mono">Honest limit</span>
-            <p>{item.evidenceMap.boundary}</p>
-          </div>
+          <p class="evidence-boundary"><strong class="mono">Honest limit</strong>{item.evidenceMap.boundary}</p>
         </section>
 
         {item.id === 'hermes-deployment-lab' ? <RecoveryProofExplorer /> : null}
 
         {item.id === 'agent-operating-system' ? (
           <section class="stack-explainer" aria-labelledby="stack-explainer-heading">
-            <div class="detail-head">
-              <p class="eyebrow mono">The whole workflow</p>
-              <h2 id="stack-explainer-heading">The whole system, from request to proof.</h2>
-              <p class="stack-lede">The animation is an explanation, not a live feed. The linked repositories and upstream contributions are the places to inspect the underlying work.</p>
-            </div>
-            <div class="stack-layers">
+            <p class="eyebrow mono">The whole workflow</p>
+            <h2 id="stack-explainer-heading">The whole system, from request to proof.</h2>
+            <p class="lead">The list below is an explanation, not a live feed. The linked repositories and upstream contributions are the places to inspect the underlying work.</p>
+            <ol class="ruled-list stack-layers">
               {[
                 ['01', 'You', 'Ask in plain language, watch the work, and approve at the decision gates.'],
                 ['02', 'Coordinator', 'Routes the request, breaks it into bounded pieces, and tracks the job to a receipt.'],
@@ -276,26 +265,26 @@ const acceptanceChain = acceptanceChains[item.id];
                 ['05', 'Tools', 'APIs, reporting platforms, browsers, Git, memory, and other action surfaces carry the real work.'],
                 ['06', 'Machines', 'A local-first execution plane, control terminal, model providers, and public repositories support the operation.'],
               ].map(([index, label, text]) => (
-                <article class="stack-layer">
-                  <span class="mono">{index}</span>
-                  <h3>{label}</h3>
-                  <p>{text}</p>
-                </article>
+                <li class="ruled-row evidence-row-grid">
+                  <div class="evidence-row-meta"><span class="mono">{index}</span><h3>{label}</h3></div>
+                  <div class="evidence-row-body"><p>{text}</p></div>
+                </li>
               ))}
-            </div>
-            <div class="stack-proof">
-              <p class="mono">Where to check</p>
-              <p>The public deployment lab, reporting MCP, evaluation kit, and Wingman repository show bounded tools, recovery, readback, and human gates. Upstream contributions show work on real agent infrastructure: coordinated rate-limit retries and desktop session recovery.</p>
-              <p class="stack-links"><a href="https://github.com/block/buzz/pull/5620" rel="noopener noreferrer">Buzz PR #5620 ↗</a><a href="https://github.com/NousResearch/hermes-agent/pull/84621" rel="noopener noreferrer">Hermes Agent PR #84621 ↗</a></p>
-            </div>
+            </ol>
+            <p class="stack-proof">
+              <strong class="mono">Where to check</strong>
+              The public deployment lab, reporting MCP, evaluation kit, and Wingman repository show bounded tools, recovery, readback, and human gates. Upstream contributions show work on real agent infrastructure: coordinated rate-limit retries and desktop session recovery.
+            </p>
+            <p class="stack-links">
+              <a class="text-link" href="https://github.com/block/buzz/pull/5620" rel="noopener noreferrer">Buzz PR #5620 ↗</a>
+              <a class="text-link" href="https://github.com/NousResearch/hermes-agent/pull/84621" rel="noopener noreferrer">Hermes Agent PR #84621 ↗</a>
+            </p>
           </section>
         ) : null}
 
         <section class="case-detail" aria-labelledby="case-detail-heading">
-          <div class="detail-head">
-            <p class="eyebrow mono">What I owned</p>
-            <h2 id="case-detail-heading">The problem, the build, and the limits.</h2>
-          </div>
+          <p class="eyebrow mono">What I owned</p>
+          <h2 id="case-detail-heading">The problem, the build, and the limits.</h2>
           <dl class="case-list">
             <dt>Problem</dt><dd>{item.constraint}</dd>
             <dt>What I built</dt><dd>{item.built}</dd>
@@ -305,88 +294,312 @@ const acceptanceChain = acceptanceChains[item.id];
             <dt>Scope</dt><dd>{item.scope}</dd>
           </dl>
         </section>
-        <section class="contact-block" aria-labelledby="contact-heading">
-          <p class="mono">Next</p>
-          <h2 id="contact-heading">Working on a workflow with the same failure mode?</h2>
-          <a class="round blue contact-link" href={emailHref} data-shader-host><span data-shader-label>Get in touch <span aria-hidden="true">↗</span></span></a>
-        </section>
+
+        {independentEvidenceNote ? <p class="independent-note muted">{independentEvidenceNote}</p> : null}
+
         <details class="provenance-note">
           <summary>How to read the public proof and its limits</summary>
-          <p>{provenanceNote}</p>
+          <p class="muted">{provenanceNote}</p>
         </details>
       </div>
     </main>
-    <script is:inline type="module" src="/interstellar.js"></script>
+    <Footer />
   </body>
 </html>
 
-<style is:global>
-  :root{--max:1280px}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Archivo Variable",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  a{color:inherit;text-decoration:none}
-  a:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
-  .skip-link{position:fixed;left:16px;top:16px;z-index:1000;background:var(--ink);color:var(--paper);padding:12px 16px;transform:translateY(-200%)}
-  .skip-link:focus{transform:none}
-  .mono{font-family:"DM Mono",monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em}
-  .wrap{width:min(var(--max),calc(100% - 52px));margin-inline:auto}
-  .page-mast{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:1px solid var(--ink)}
-  .mast-row{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .mast-status{color:var(--muted)}
-  .case-cover{border-bottom:1px solid var(--ink);background:linear-gradient(90deg,transparent 79px,rgba(201,195,181,.32) 79px 80px,transparent 80px),var(--paper)}
-  .case-cover-grid{padding:clamp(40px,6vw,88px) 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.78fr);gap:40px;align-items:center}
-  .case-page{padding:clamp(48px,6vw,88px) 0 100px;max-width:900px}
-  .back-link{display:inline-flex;align-items:center;min-height:44px;color:var(--muted)}
-  .back-link:hover{color:var(--ink)}
-  .eyebrow{color:var(--orange-ink);margin-bottom:18px}.author-line{color:var(--muted);font-size:.62rem;margin-bottom:18px}
-  h1{font-family:"Archivo Variable",system-ui,sans-serif;font-size:clamp(2.8rem,6vw,4.8rem);font-weight:700;line-height:1.02;letter-spacing:-.04em;margin-bottom:20px}
-  .case-headline{font-family:"Archivo Variable",system-ui,sans-serif;font-size:clamp(1.25rem,2.4vw,1.8rem);font-weight:600;line-height:1.16;max-width:760px;margin:-4px 0 14px;color:var(--ink)}
-  .summary{color:var(--muted);font-size:1.05rem;max-width:620px;margin-bottom:20px}
-  .case-value-line{max-width:620px;border-left:2px solid var(--orange);padding:10px 0 10px 14px;font-size:.94rem;font-weight:600;line-height:1.5}
-  .case-value-line strong{display:block;margin-bottom:5px;color:var(--orange-ink);font-family:"DM Mono",monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
-  .repo-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
-  .provenance-note{margin-top:32px;max-width:720px;font-size:.82rem;line-height:1.5;color:var(--muted)}
-  .provenance-note summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--blue);font-family:"DM Mono",monospace;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase}
-  .provenance-note p{padding-top:8px}
-  .case-plate{position:relative;min-height:360px;border:1px solid var(--ink);overflow:hidden;background:var(--ink);isolation:isolate}
-  .plate-chrome,.plate-proof{position:absolute;background:var(--ink);color:var(--paper);padding:6px 7px;font-size:.62rem}
-  .plate-chrome{top:12px;left:12px}.plate-proof{right:12px;bottom:12px}.plate-mark{position:absolute;top:12px;right:12px;width:10px;height:10px;background:var(--orange);box-shadow:-3px 3px 0 var(--blue)}
-  .evidence-map{border:1px solid var(--ink);padding:24px 22px 20px;margin-bottom:64px;background:radial-gradient(circle,rgba(33,79,229,.16) 0 1px,transparent 1.4px),var(--paper);background-size:8px 8px}
-  .incident-story{border:1px solid #34353a;padding:clamp(22px,4vw,40px);margin-bottom:64px;background:#101114;color:#f2eadf}
-  .incident-heading{max-width:670px}.incident-heading>.mono{color:var(--orange);margin-bottom:12px}.incident-heading h2{font-family:"Archivo Variable",system-ui,sans-serif;font-size:clamp(1.8rem,4vw,3rem);line-height:1.02;letter-spacing:-.04em;margin-bottom:14px}.incident-heading p{color:#c9c3b5;max-width:58ch;line-height:1.5}
-  .incident-path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none;margin:32px 0 0;padding:0;border-top:1px solid #45464b;border-bottom:1px solid #45464b}.incident-step{position:relative;min-height:148px;padding:16px 14px 18px 0;border-right:1px solid #45464b}.incident-step:not(:first-child){padding-left:14px}.incident-step:last-child{border-right:0}.incident-step>.mono{display:block;color:var(--tide);font-size:.62rem;margin-bottom:28px}.incident-step strong{display:block;font-size:1rem;margin-bottom:7px}.incident-step small{display:block;color:#c9c3b5;font-size:.76rem;line-height:1.4}.incident-step--risk>.mono,.incident-step--risk strong{color:var(--orange)}
-  .incident-consequence{border-left:2px solid var(--orange);padding:10px 0 10px 14px;margin-top:24px;max-width:640px}.incident-consequence .mono{display:block;color:var(--orange);font-size:.62rem;margin-bottom:6px}.incident-consequence p{font-size:.88rem;font-weight:600;line-height:1.45}
-  .acceptance-chain{border-top:2px solid var(--blue);padding-top:20px;margin-bottom:64px}.acceptance-lede{max-width:620px;color:var(--muted);font-size:.9rem}.acceptance-list{list-style:none;border-top:1px solid var(--rule);margin-top:24px}.acceptance-list li{display:grid;grid-template-columns:42px minmax(0,1fr);gap:18px;padding:16px 0;border-bottom:1px solid var(--rule)}.acceptance-list li>.mono{color:var(--blue);padding-top:3px}.acceptance-list h3{font-size:1rem;margin-bottom:4px}.acceptance-list p{color:var(--muted);font-size:.82rem;line-height:1.45}
-  .acceptance-link{display:inline-flex;margin-top:8px;color:var(--blue);font-family:"DM Mono",monospace;font-size:.62rem;text-decoration:underline;text-underline-offset:4px}
-  .evidence-heading{display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-bottom:14px}.evidence-state{color:var(--muted);font-size:.6rem}
-  .evidence-map-label{color:var(--orange-ink)}
-  .evidence-signal{font-family:"Archivo Variable",system-ui,sans-serif;font-size:clamp(1.45rem,3vw,2rem);font-weight:650;line-height:1.08;letter-spacing:-.03em;margin-bottom:12px;text-wrap:balance}
-  .evidence-method{color:var(--muted);font-size:.92rem;max-width:560px;margin-bottom:20px}.workflow-caption{border-left:2px solid var(--blue);padding:8px 0 8px 12px;color:var(--ink);font-size:.84rem;font-weight:650;margin:-4px 0 20px;max-width:620px}
-  .evidence-steps{display:flex;flex-wrap:wrap;gap:10px 8px;list-style:none;counter-reset:step;margin-bottom:22px;padding:0}
-  .evidence-steps li{flex:1 1 140px;min-width:0;border:1px solid var(--ink);padding:10px 12px 10px 36px;font-size:.78rem;font-weight:650;line-height:1.25;position:relative;counter-increment:step}
-  .evidence-steps li::before{content:counter(step,decimal-leading-zero);position:absolute;left:10px;top:10px;font-family:"DM Mono",monospace;font-size:.62rem;color:var(--blue)}
-  .evidence-boundary{border-top:2px solid var(--orange);padding-top:14px}
-  .evidence-boundary .mono{display:block;color:var(--orange-ink);margin-bottom:6px}
-  .evidence-boundary p{font-size:.84rem;font-weight:600;max-width:620px}
-  .detail-head{display:grid;gap:10px;margin-bottom:24px}.detail-head h2,.contact-block h2{font-family:"Archivo Variable",system-ui,sans-serif;font-size:clamp(1.65rem,2.7vw,2.35rem);font-weight:650;letter-spacing:-.035em;line-height:1.05}
-  .case-list{display:grid;grid-template-columns:145px 1fr;font-size:.9rem;margin-bottom:64px}
-  .case-list dt,.case-list dd{border-top:1px solid var(--rule);padding:16px 0}
-  .case-list dt{color:var(--muted);padding-right:22px}
-  .case-list dd{font-weight:500;line-height:1.52}.case-list dt{font-family:"DM Mono",monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.08em}
-  .contact-block{border:1px solid var(--ink);padding:clamp(24px,4vw,40px);display:grid;gap:16px;background:var(--card);color:var(--warm)}.contact-block>p{color:#c9c3b5}.contact-block h2{color:var(--warm)}.contact-block .round{justify-self:start}.contact-block .round.blue{background:var(--orange);border-color:var(--orange);color:#fff}
-  .stack-explainer{border-top:2px solid var(--orange);padding-top:20px;margin-bottom:64px}.stack-lede{max-width:650px;color:var(--muted);font-size:.9rem}.stack-layers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:24px}.stack-layer{border:1px solid var(--ink);padding:16px;background:var(--card)}.stack-layer>span{color:var(--blue)}.stack-layer h3{font-size:1rem;margin:10px 0 6px}.stack-layer p{color:var(--muted);font-size:.82rem;line-height:1.45}.stack-proof{border:1px solid var(--ink);padding:18px;margin-top:12px;background:var(--ink);color:var(--paper)}.stack-proof>.mono{color:var(--orange);margin-bottom:8px}.stack-proof p:not(.mono){color:var(--graphite);font-size:.84rem;line-height:1.5}.stack-links{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}.stack-links a{color:var(--orange-ink);text-decoration:underline;text-underline-offset:3px}
-  .round{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--ink);min-height:44px;padding:10px 16px;font-size:.8rem;font-weight:650;transition:background .2s,color .2s,border-color .2s}
-  .round.blue{background:var(--blue);color:white;border-color:var(--blue)}
-  /* Hover states after every variant; each sets background and color together. */
-  .round:hover,.round:focus-visible{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .round.blue:hover,.round.blue:focus-visible{background:var(--orange);color:#fff;border-color:var(--orange)}
-  @media(max-width:560px){
-    .wrap{width:min(100% - 28px,var(--max))}
-    .mast-status{display:none}.case-cover-grid{grid-template-columns:1fr;padding:40px 0}.case-plate{min-height:200px}.case-page{padding-top:50px}
-    .case-list{grid-template-columns:1fr}
-    .case-list dt{padding:14px 0 3px}
-    .case-list dd{border-top:0;padding:0 0 14px}
-    .evidence-heading{display:block}.evidence-state{margin-top:6px}.evidence-steps{flex-direction:column}.stack-layers{grid-template-columns:1fr}.incident-path{grid-template-columns:1fr}.incident-step,.incident-step:not(:first-child){min-height:0;padding:14px 0;border-right:0;border-bottom:1px solid #45464b}.incident-step:last-child{border-bottom:0}.incident-step>.mono{margin-bottom:8px}
-    .evidence-steps li{flex-basis:auto}
+<style>
+  .case-cover-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--space-4) var(--gutter);
+    align-items: start;
+  }
+
+  .case-intro {
+    grid-column: 1 / 8;
+    min-width: 0;
+  }
+
+  .case-cover-grid > .evidence-motif {
+    grid-column: 8 / 13;
+  }
+
+  .case-headline {
+    font-weight: 650;
+    margin: 4px 0 var(--space-2);
+  }
+
+  .case-value-line {
+    border-top: 1px solid var(--orange);
+    padding-top: var(--space-2);
+    margin-top: var(--space-2);
+    max-width: 60ch;
+  }
+
+  .case-value-line strong {
+    display: block;
+    color: var(--orange-dark);
+    margin-bottom: 4px;
+  }
+
+  .case-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .case-page {
+    padding-block: var(--space-5);
+    max-width: 900px;
+  }
+
+  .case-page > * + * {
+    margin-top: var(--space-5);
+  }
+
+  .incident-story,
+  .acceptance-chain,
+  .evidence-map,
+  .stack-explainer,
+  .case-detail {
+    border-top: 2px solid var(--ink);
+    padding-top: var(--space-3);
+  }
+
+  .incident-path {
+    margin-top: var(--space-3);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .incident-path li {
+    border: 0;
+    border-right: 1px solid var(--rule);
+    padding: var(--space-2);
+  }
+
+  .incident-path li:last-child {
+    border-right: 0;
+  }
+
+  .incident-path .mono {
+    display: block;
+    color: var(--orange-dark);
+    margin-bottom: var(--space-2);
+  }
+
+  .incident-path strong {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .incident-path small {
+    display: block;
+    color: #4b4b46;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .incident-step--risk .mono,
+  .incident-step--risk strong {
+    color: var(--orange-dark);
+  }
+
+  .incident-consequence {
+    margin-top: var(--space-3);
+    border-top: 1px solid var(--orange);
+    padding-top: var(--space-2);
+    max-width: 64ch;
+  }
+
+  .incident-consequence strong {
+    display: block;
+    color: var(--orange-dark);
+    margin-bottom: 4px;
+  }
+
+  .acceptance-list h3 {
+    margin-bottom: 4px;
+  }
+
+  .evidence-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    align-items: baseline;
+  }
+
+  .evidence-state {
+    color: #4b4b46;
+  }
+
+  .evidence-signal {
+    margin-top: var(--space-2);
+  }
+
+  .evidence-method {
+    margin-top: var(--space-2);
+  }
+
+  .workflow-caption {
+    border-top: 1px solid var(--orange);
+    padding-top: var(--space-2);
+    margin-top: var(--space-2);
+    font-weight: 650;
+  }
+
+  .evidence-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-3);
+  }
+
+  .evidence-steps li {
+    flex: 1 1 140px;
+    border: 1px solid var(--ink);
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    font-weight: 650;
+  }
+
+  .evidence-steps li .mono {
+    display: block;
+    color: var(--orange-dark);
+    margin-bottom: 6px;
+  }
+
+  .evidence-boundary {
+    border-top: 2px solid var(--orange);
+    padding-top: var(--space-2);
+    margin-top: var(--space-3);
+    max-width: 64ch;
+  }
+
+  .evidence-boundary strong {
+    display: block;
+    color: var(--orange-dark);
+    margin-bottom: 4px;
+  }
+
+  .stack-layers .mono {
+    color: var(--orange-dark);
+  }
+
+  .stack-proof {
+    margin-top: var(--space-3);
+    border: 1px solid var(--ink);
+    background: var(--paper-alt);
+    padding: var(--space-3);
+    max-width: 78ch;
+  }
+
+  .stack-proof strong {
+    display: block;
+    color: var(--orange-dark);
+    margin-bottom: 6px;
+  }
+
+  .stack-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .case-list {
+    margin-top: var(--space-3);
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    font-size: 0.92rem;
+  }
+
+  .case-list dt,
+  .case-list dd {
+    border-top: 1px solid var(--rule);
+    padding: var(--space-2) 0;
+  }
+
+  .case-list dt {
+    color: #4b4b46;
+    padding-right: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .independent-note {
+    max-width: 72ch;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-2);
+  }
+
+  .contact-block {
+    border: 1px solid var(--ink);
+    background: var(--paper-alt);
+    padding: var(--space-4);
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .contact-block .action {
+    justify-self: start;
+  }
+
+  .provenance-note {
+    max-width: 82ch;
+  }
+
+  .provenance-note summary {
+    cursor: pointer;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--orange-dark);
+  }
+
+  .provenance-note p {
+    margin-top: var(--space-2);
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 900px) {
+    .case-intro,
+    .case-cover-grid > .evidence-motif {
+      grid-column: 1 / -1;
+    }
+
+    .incident-path {
+      grid-template-columns: 1fr;
+    }
+
+    .incident-path li {
+      border-right: 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .incident-path li:last-child {
+      border-bottom: 0;
+    }
+
+    .case-list {
+      grid-template-columns: 1fr;
+    }
+
+    .case-list dd {
+      border-top: 0;
+      padding-top: 0;
+      padding-bottom: var(--space-2);
+    }
   }
 </style>

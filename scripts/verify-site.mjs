@@ -78,10 +78,25 @@ const browser = await chromium.launch({
   args: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--disable-webgl', '--disable-3d-apis'],
 });
 
-const buildingRoles = [
-  'Guarded access · readback · receipts',
-  'Policy · independent checks · human review',
-  'Context · authority · recovery',
+/* ---------------------------------------------------------------------------
+ * The Working Record — locked contract fixtures.
+ * ------------------------------------------------------------------------- */
+
+const TOKENS = {
+  paper: 'rgb(245, 242, 234)',
+  ink: 'rgb(23, 23, 23)',
+  orangeDark: 'rgb(169, 61, 18)',
+};
+
+const experienceRows = [
+  { dates: 'Dec 2024–Oct 2025', role: 'Manager of Digital Services · Citrin Cooperman' },
+  { dates: 'Oct 2022–Oct 2024', role: 'Solutions Architect · Workiva' },
+  { dates: 'Sept 2021–Oct 2022', role: 'Solutions Consultant · Ambra Health' },
+];
+
+const workCases = [
+  { id: 'hermes-deployment-lab', display: 'Failed-write recovery lab', title: 'Recover an uncertain write without creating a duplicate', href: '/work/hermes-deployment-lab/' },
+  { id: 'regulated-reporting-mcp', display: 'Regulated Reporting MCP', title: 'Limit an agent to the write access its job needs', href: '/work/regulated-reporting-mcp/' },
 ];
 
 const caseEyebrows = {
@@ -89,6 +104,7 @@ const caseEyebrows = {
   'dedup-readback-bridge': 'Repeat-work prevention · Dedup Read-Back Bridge',
   'regulated-reporting-mcp': 'Limited system access · Regulated Reporting MCP',
   'hermes-deployment-lab': 'Failed-write recovery · Hermes Deployment Lab',
+  'hermes-field-kit': 'Independent evaluation · Hermes Enterprise Evaluation Kit',
   wingman: 'Review and restore · Spreadsheet quality',
 };
 
@@ -97,641 +113,115 @@ const caseStepCounts = {
   'dedup-readback-bridge': 6,
   'regulated-reporting-mcp': 5,
   'hermes-deployment-lab': 5,
+  'hermes-field-kit': 5,
   wingman: 6,
 };
 
-const outcomeStories = [
-  {
-    label: 'Custom solutioning',
-    context: 'Manager of Digital Services · Citrin Cooperman',
-    title: 'A controlled system-of-record handoff',
-    result: 'Built a custom data-collection and reporting workflow in Workiva with bidirectional integration between the reporting platform and the system of record, delivered with audit trail and finance, IT, and executive sign-off.',
-  },
-  {
-    label: 'Enterprise GRC and reporting',
-    context: 'Solutions Architect · Workiva',
-    title: 'Scoped integrations and controlled customer-impacting writes',
-    result: 'Led concurrent implementations through adoption across SSO, API, and ERP boundaries, with human review and native readback.',
-  },
-  {
-    label: 'Clinical imaging',
-    context: 'Solutions Consultant · Ambra Health',
-    title: 'Connected imaging workflows across health-system boundaries',
-    result: 'Carried EHR, portal, billing, and access-control integrations through review, go-live, and an acquisition transition.',
-  },
-];
+const caseTitles = {
+  'agent-operating-system': 'Make agent work explainable after the fact',
+  'dedup-readback-bridge': 'Stop recurring agent jobs from repeating work',
+  'regulated-reporting-mcp': 'Give an agent only the write access its job requires',
+  'hermes-deployment-lab': 'Recover a failed write without creating a duplicate',
+  'hermes-field-kit': 'Keep an evaluation from approving itself',
+  wingman: 'Find spreadsheet defects—and reverse a bad fix',
+};
 
-const projects = [
-  {
-    slug: 'agent-operating-system',
-    title: 'Agent Operating System',
-    headline: 'Make agent work explainable after the fact',
-    repo: 'https://github.com/dbett4',
-    proof: 'Architecture map',
-  },
-  {
-    slug: 'dedup-readback-bridge',
-    title: 'Dedup Read-Back Bridge',
-    headline: 'Stop recurring agent jobs from repeating work',
-    repo: 'https://github.com/dbett4/dedup-readback-bridge',
-    proof: '19 tests, including a two-thread race and a crash-safety check',
-  },
-  {
-    slug: 'regulated-reporting-mcp',
-    title: 'Regulated Reporting MCP',
-    headline: 'Give an agent only the write access its job requires',
-    repo: 'https://github.com/dbett4/regulated-reporting-mcp',
-    proof: 'Credential-free test suite',
-  },
-  {
-    slug: 'hermes-deployment-lab',
-    title: 'Hermes Deployment Lab',
-    headline: 'Recover a failed write without creating a duplicate',
-    repo: 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
-    proof: 'Public GitHub Actions run 31892965924 forces the failure',
-    boundaries: ['synthetic lab', 'cloud configuration is checked but not deployed', 'a model is not running the workflow in production'],
-  },
-  {
-    slug: 'wingman',
-    title: 'Confirm-before-write spreadsheet quality',
-    headline: 'Find spreadsheet defects—and reverse a bad fix',
-    repo: 'https://github.com/dbett4/wingman',
-    proof: '462 Python tests pass',
-  },
-];
+const caseProofMarkers = {
+  'agent-operating-system': 'Architecture map',
+  'dedup-readback-bridge': '19 tests, including a two-thread race and a crash-safety check',
+  'regulated-reporting-mcp': 'Credential-free test suite',
+  'hermes-deployment-lab': 'Public GitHub Actions run 31892965924 forces the failure',
+  'hermes-field-kit': 'Offline FIELD_KIT_PROOF_PASS',
+  wingman: '462 Python tests pass',
+};
 
+const caseRepos = {
+  'agent-operating-system': 'https://github.com/dbett4',
+  'dedup-readback-bridge': 'https://github.com/dbett4/dedup-readback-bridge',
+  'regulated-reporting-mcp': 'https://github.com/dbett4/regulated-reporting-mcp',
+  'hermes-deployment-lab': 'https://github.com/dbett4/hermes-enterprise-deployment-lab',
+  'hermes-field-kit': 'https://github.com/dbett4/hermes-enterprise-evaluation-kit',
+  wingman: 'https://github.com/dbett4/wingman',
+};
+
+const caseIds = Object.keys(caseEyebrows);
 const coreRoutes = ['/', '/about/', '/experience/', '/work/', '/fit/'];
-const projectRoutes = projects.map((project) => `/work/${project.slug}/`);
+const projectRoutes = caseIds.map((id) => `/work/${id}/`);
+const primaryNavTargets = [
+  { text: 'Work', href: '/work/' },
+  { text: 'Experience', href: '/experience/' },
+  { text: 'About', href: '/about/' },
+];
 
-async function assertCausalDeliveryLoopContracts(page, name) {
-  ok(
-    (await page.locator('#direction, .loop-section, .loop-stage, .loop-field').count()) === 0,
-    `${name}: homepage omits the deployment-method loop owned by First 90 days`,
-  );
+const forbiddenSurfaceTerms = [
+  'gradient-orb',
+  'glow',
+  'glass',
+  'blur',
+  'grain',
+  'halftone',
+  'dither',
+  'pill-',
+  'orb-',
+  'cutout-campaign',
+];
 
-  ok((await page.locator('.loop-n').count()) === 0, `${name}: loop ordinals removed`);
-  ok((await page.locator('.building-index').count()) === 0, `${name}: building indices removed`);
-  ok((await page.locator('.proof-n').count()) === 0, `${name}: proof ordinals removed`);
+/* ---------------------------------------------------------------------------
+ * Shared per-page audits.
+ * ------------------------------------------------------------------------- */
 
-  const roleLabels = await page.locator('.building-role').evaluateAll((labels) =>
-    labels.map((label) => ({
-      text: (label.textContent ?? '').trim(),
-      hiddenAncestor: Boolean(label.closest('[aria-hidden="true"]')),
-    })),
-  );
-  ok(
-    roleLabels.map((label) => label.text).join('|') === buildingRoles.join('|'),
-    `${name}: building roles match project order`,
-    roleLabels.map((label) => label.text).join('|'),
-  );
-  ok(
-    roleLabels.every((label) => !label.hiddenAncestor),
-    `${name}: building roles remain exposed to assistive technology`,
-    JSON.stringify(roleLabels),
-  );
-
-  const outcomeRows = await page.locator('.proof-row').evaluateAll((rows) =>
-    rows.map((row) => ({
-      label: (row.querySelector('.proof-label')?.textContent ?? '').trim(),
-      context: (row.querySelector('.proof-context')?.textContent ?? '').trim(),
-      title: (row.querySelector('.proof-main h3')?.textContent ?? '').trim(),
-      result: (row.querySelector('.proof-result')?.textContent ?? '').trim(),
-      markClasses: [...row.querySelectorAll('.outcome-mark')].flatMap((mark) => [...mark.classList]),
-    })),
-  );
-  ok(outcomeRows.length === 3, `${name}: three delivery outcome rows`, String(outcomeRows.length));
-  ok(
-    outcomeRows.every((row, index) =>
-      row.label === outcomeStories[index].label &&
-      row.context === outcomeStories[index].context &&
-      row.title === outcomeStories[index].title &&
-      row.result === outcomeStories[index].result,
-    ),
-    `${name}: delivery outcome copy leads with domain/result labels and keeps role context`,
-    JSON.stringify(outcomeRows),
-  );
-  const markClassSets = outcomeRows.map((row) =>
-    row.markClasses.filter((className) => className.startsWith('outcome-mark--')).sort().join(','),
-  );
-  ok(
-    new Set(markClassSets).size === 3,
-    `${name}: delivery outcome marks are geometrically distinct`,
-    markClassSets.join('|'),
-  );
-
-  if ((page.viewportSize()?.width ?? Number.POSITIVE_INFINITY) <= 960) {
-    const outcomeTextGeometry = await page.locator('.proof-row').evaluateAll((rows) =>
-      rows.map((row) => {
-        const main = row.querySelector('.proof-main')?.getBoundingClientRect();
-        const result = row.querySelector('.proof-result')?.getBoundingClientRect();
-        return main && result
-          ? {
-              aligned: Math.abs(main.left - result.left) < 1,
-              readableWidth: result.width >= 180,
-              stacked: result.top >= main.bottom,
-            }
-          : null;
-      }),
-    );
-    ok(
-      outcomeTextGeometry.every((row) => row?.aligned && row.readableWidth && row.stacked),
-      `${name}: mobile delivery outcome copy stacks at a readable width without overlap`,
-      JSON.stringify(outcomeTextGeometry),
-    );
-  }
-  ok((await page.locator('ol.proof-ledger').count()) === 0, `${name}: delivery outcomes are not an ordered list`);
-
-  const body = await page.locator('body').innerText();
-  ok(!body.includes('SIG/01'), `${name}: decorative SIG/01 removed`);
-  ok(
-    (await page.locator(`img[data-source-portrait][src="/images/dave-bettner-headshot-20260816-cutout.png"][width="${CUTOUT_SIZE.width}"][height="${CUTOUT_SIZE.height}"]`).count()) === 1,
-    `${name}: approved source-preserving navy-tie cutout is present`,
-  );
-  for (const token of ['01 ·', '02 ·', '03 ·', '04 ·']) {
-    ok(!body.includes(token), `${name}: decorative serial token absent (${token})`);
-  }
-  for (const marker of [
-    'I build the parts that make agent work usable in a real business',
-    'A useful answer does not prove that a business workflow had context',
-  ]) {
-    ok(body.includes(marker), `${name}: public proof problem statement retained (${marker})`);
-  }
-  for (const trivia of [
-    'needs_review',
-    '$0.406986',
-    'v2026.8.3',
-    'Chief of Staff',
-    'Remote-friendly',
-    'container startup is not attested',
-    'parses Compose',
-  ]) {
-    ok(!body.includes(trivia), `${name}: homepage omits forbidden positioning trivia (${trivia})`);
-  }
-  ok((await page.locator('.building-limit, .limit-label').count()) === 0, `${name}: homepage has no per-card Limit blocks`);
-  ok(
-    /labs and sanitized extracts/i.test(body) && body.includes('Nous/Hermes Enterprise affiliation'),
-    `${name}: homepage evidence-boundary note present`,
-  );
-  ok(
-    body.includes('Nous/Hermes Enterprise affiliation'),
-    `${name}: evidence boundary denies Hermes Enterprise affiliation claim`,
-  );
-  ok(
-    body.includes('production-engineering tenure'),
-    `${name}: provenance keeps production-tenure claim boundary`,
-  );
-}
-
-async function assertHomepageResponsiveContracts(page, viewport) {
-  const { name, width, height } = viewport;
-
-  if (width <= 390) {
-    const navGeometry = await page.evaluate(() => {
-      const nav = document.querySelector('.primary-nav');
-      if (!(nav instanceof HTMLElement)) return null;
-      const navRect = nav.getBoundingClientRect();
-      const links = [...nav.querySelectorAll('a')].map((link) => {
-        const rect = link.getBoundingClientRect();
-        return {
-          href: link.getAttribute('href'),
-          text: (link.textContent ?? '').trim(),
-          clientWidth: link.clientWidth,
-          scrollWidth: link.scrollWidth,
-          textClipped: link.scrollWidth > link.clientWidth + 1,
-          width: rect.width,
-          height: rect.height,
-          left: rect.left,
-          right: rect.right,
-          top: rect.top,
-          bottom: rect.bottom,
-          insideNav:
-            rect.left >= navRect.left - 0.5 &&
-            rect.right <= navRect.right + 0.5 &&
-            rect.top >= navRect.top - 0.5 &&
-            rect.bottom <= navRect.bottom + 0.5,
-          insideViewport:
-            rect.left >= -0.5 &&
-            rect.right <= innerWidth + 0.5 &&
-            rect.width > 0 &&
-            rect.height > 0,
-        };
-      });
-      return {
-        linkCount: links.length,
-        navScrollWidth: nav.scrollWidth,
-        navClientWidth: nav.clientWidth,
-        navOverflows: nav.scrollWidth > nav.clientWidth + 1,
-        links,
-      };
-    });
-    ok(Boolean(navGeometry), `${name}: primary nav present`);
-    ok(navGeometry?.linkCount === 3, `${name}: primary nav has three links`, String(navGeometry?.linkCount));
-    const mobileNavTargets = navGeometry?.links.map(({ text, href }) => ({ text, href }));
-    ok(
-      JSON.stringify(mobileNavTargets) === JSON.stringify([
-        { text: 'Work', href: '/work/' },
-        { text: 'Experience', href: '/experience/' },
-        { text: 'Deployment approach', href: '/fit/' },
-      ]),
-      `${name}: primary nav contains Work, Experience, and Deployment approach`,
-      JSON.stringify(mobileNavTargets),
-    );
-    ok(
-      Boolean(navGeometry?.links.every((target) => target.width >= 44 && target.height >= 44)),
-      `${name}: primary nav targets are at least 44×44`,
-      JSON.stringify(navGeometry?.links),
-    );
-    ok(
-      Boolean(navGeometry?.links.every((target) => !target.textClipped)),
-      `${name}: primary nav labels remain fully visible`,
-      JSON.stringify(navGeometry?.links),
-    );
-    ok(
-      Boolean(navGeometry && !navGeometry.navOverflows),
-      `${name}: primary nav does not overflow horizontally`,
-      JSON.stringify({
-        scrollWidth: navGeometry?.navScrollWidth,
-        clientWidth: navGeometry?.navClientWidth,
-      }),
-    );
-    ok(
-      Boolean(navGeometry?.links.every((target) => target.insideNav && target.insideViewport)),
-      `${name}: primary nav link rectangles stay inside nav/viewport`,
-      JSON.stringify(navGeometry?.links),
-    );
-
-    const orangeContrast = await page.evaluate(() => {
-      const sample = document.querySelector('.section-index, .proof-label, .loop-cue');
-      if (!(sample instanceof HTMLElement)) return null;
-      const color = getComputedStyle(sample).color;
-      let surface = sample.parentElement;
-      let bg = 'transparent';
-      while (surface) {
-        const candidate = getComputedStyle(surface).backgroundColor;
-        if (candidate !== 'transparent' && candidate !== 'rgba(0, 0, 0, 0)') {
-          bg = candidate;
-          break;
-        }
-        surface = surface.parentElement;
+async function assertNoSpectacleSurfaces(page, label) {
+  const offenders = await page.evaluate(() => {
+    const bad = [];
+    document.querySelectorAll('body *').forEach((el) => {
+      const style = getComputedStyle(el);
+      const tag = el.tagName.toLowerCase();
+      if (tag === 'canvas') bad.push(`canvas:${el.className}`);
+      if (style.boxShadow !== 'none') bad.push(`box-shadow:${tag}.${el.className}`);
+      if (style.backdropFilter && style.backdropFilter !== 'none') bad.push(`backdrop-filter:${tag}.${el.className}`);
+      if (style.filter && style.filter !== 'none') bad.push(`filter:${tag}.${el.className}`);
+      const radius = style.borderRadius;
+      if (radius && radius !== '0px' && !radius.split(' ').every((part) => part === '0px')) {
+        bad.push(`border-radius:${tag}.${el.className}=${radius}`);
       }
-      const parse = (value) => {
-        const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-        if (!match) return null;
-        return [Number(match[1]), Number(match[2]), Number(match[3])].map((channel) => {
-          const srgb = channel / 255;
-          return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
-        });
-      };
-      const fg = parse(color);
-      const paper = parse(bg);
-      if (!fg || !paper) return { color, bg, ratio: 0 };
-      const lum = (rgb) => 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
-      const l1 = lum(fg);
-      const l2 = lum(paper);
-      const lighter = Math.max(l1, l2);
-      const darker = Math.min(l1, l2);
-      return { color, bg, ratio: (lighter + 0.05) / (darker + 0.05) };
-    });
-    ok(
-      Boolean(orangeContrast && orangeContrast.ratio >= 4.5),
-      `${name}: terracotta small-text contrast is at least 4.5:1`,
-      JSON.stringify(orangeContrast),
-    );
-
-    const proofContextContrast = await page.evaluate(() => {
-      const sample = document.querySelector('.proof-context');
-      if (!(sample instanceof HTMLElement)) return null;
-      const style = getComputedStyle(sample);
-      const section = sample.closest('.proof-section');
-      const background = section instanceof HTMLElement
-        ? getComputedStyle(section).backgroundColor
-        : getComputedStyle(document.body).backgroundColor;
-      const parse = (value) => {
-        const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-        return match ? [Number(match[1]), Number(match[2]), Number(match[3])] : null;
-      };
-      const foregroundRgb = parse(style.color);
-      const backgroundRgb = parse(background);
-      const opacity = Number(style.opacity);
-      if (!foregroundRgb || !backgroundRgb || !Number.isFinite(opacity)) {
-        return { color: style.color, background, opacity, ratio: 0 };
+      const bgImage = style.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        // Allow the monochrome linear-gradient(currentColor, currentColor) trick used to
+        // draw an animated underline; flag any gradient that mixes distinct colors.
+        const colorStops = bgImage.match(/rgba?\([^)]*\)/g) ?? [];
+        const isMonochromeUnderline = /^linear-gradient\(/.test(bgImage) && colorStops.length > 0 && new Set(colorStops).size === 1;
+        if (!isMonochromeUnderline) bad.push(`background-image:${tag}.${el.className}=${bgImage}`);
       }
-      const composited = foregroundRgb.map((channel, index) =>
-        channel * opacity + backgroundRgb[index] * (1 - opacity),
-      );
-      const linearize = (channel) => {
-        const srgb = channel / 255;
-        return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
-      };
-      const luminance = (rgb) =>
-        0.2126 * linearize(rgb[0]) + 0.7152 * linearize(rgb[1]) + 0.0722 * linearize(rgb[2]);
-      const foregroundLuminance = luminance(composited);
-      const backgroundLuminance = luminance(backgroundRgb);
-      const lighter = Math.max(foregroundLuminance, backgroundLuminance);
-      const darker = Math.min(foregroundLuminance, backgroundLuminance);
-      return {
-        color: style.color,
-        background,
-        opacity,
-        composited,
-        ratio: (lighter + 0.05) / (darker + 0.05),
-      };
     });
-    ok(
-      Boolean(proofContextContrast && proofContextContrast.ratio >= 4.5),
-      `${name}: proof context text effective contrast is at least 4.5:1`,
-      JSON.stringify(proofContextContrast),
-    );
+    return bad;
+  });
+  ok(offenders.length === 0, `${label}: no shadows/blur/backdrop-filter/radius/decorative-gradient/canvas`, offenders.slice(0, 10).join(', '));
 
-    const smallTextContrast = await page.evaluate(() => {
-      const parse = (value) => {
-        const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/i);
-        return match
-          ? [Number(match[1]), Number(match[2]), Number(match[3]), match[4] === undefined ? 1 : Number(match[4])]
-          : null;
-      };
-      const linearize = (channel) => {
-        const srgb = channel / 255;
-        return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
-      };
-      const luminance = (rgb) =>
-        0.2126 * linearize(rgb[0]) + 0.7152 * linearize(rgb[1]) + 0.0722 * linearize(rgb[2]);
-      const measure = (foregroundSelector, backgroundSelector) => {
-        const foreground = document.querySelector(foregroundSelector);
-        const background = document.querySelector(backgroundSelector);
-        if (!(foreground instanceof HTMLElement) || !(background instanceof HTMLElement)) return null;
-        const color = getComputedStyle(foreground).color;
-        const backgroundColor = getComputedStyle(background).backgroundColor;
-        const foregroundRgb = parse(color);
-        const backgroundRgb = parse(backgroundColor);
-        const opacity = Number(getComputedStyle(foreground).opacity);
-        if (!foregroundRgb || !backgroundRgb || !Number.isFinite(opacity) || backgroundRgb[3] < 0.999) {
-          return { color, backgroundColor, opacity, ratio: 0 };
-        }
-        const foregroundAlpha = foregroundRgb[3] * opacity;
-        const composited = foregroundRgb.slice(0, 3).map((channel, index) =>
-          channel * foregroundAlpha + backgroundRgb[index] * (1 - foregroundAlpha),
-        );
-        const foregroundLuminance = luminance(composited);
-        const backgroundLuminance = luminance(backgroundRgb);
-        const lighter = Math.max(foregroundLuminance, backgroundLuminance);
-        const darker = Math.min(foregroundLuminance, backgroundLuminance);
-        return { color, backgroundColor, opacity, composited, ratio: (lighter + 0.05) / (darker + 0.05) };
-      };
-      return {
-        ctaKicker: measure('.cta-kicker', '.cta-block'),
-        profileAccent: measure('.cover-kicker', '.cover'),
-      };
+  const bodyClassAudit = await page.evaluate((terms) => {
+    const tokens = new Set();
+    document.querySelectorAll('body [class], body [id]').forEach((el) => {
+      el.classList.forEach((cls) => tokens.add(cls.toLowerCase()));
+      if (el.id) tokens.add(el.id.toLowerCase());
     });
-    ok(
-      Boolean(smallTextContrast.ctaKicker && smallTextContrast.ctaKicker.ratio >= 4.5),
-      `${name}: CTA kicker small-text contrast is at least 4.5:1`,
-      JSON.stringify(smallTextContrast.ctaKicker),
-    );
-    ok(
-      Boolean(smallTextContrast.profileAccent && smallTextContrast.profileAccent.ratio >= 4.5),
-      `${name}: profile accent small-text contrast is at least 4.5:1`,
-      JSON.stringify(smallTextContrast.profileAccent),
-    );
-  }
+    const joined = [...tokens].join(' ');
+    return terms.filter((term) => joined.includes(term));
+  }, forbiddenSurfaceTerms);
+  ok(bodyClassAudit.length === 0, `${label}: no forbidden decorative class/id markers`, bodyClassAudit.join(', '));
 
-  if (width === 768) {
-    const tabletGeometry = await page.evaluate(() => {
-      const copy = document.querySelector('.cover-copy');
-      const specimen = document.querySelector('.cover-specimen');
-      const cards = [...document.querySelectorAll('.building-card')];
-      const portrait = document.querySelector('[data-portrait-source]');
-      const aboutCopy = document.querySelector('.about-copy');
-      if (!copy || !specimen || !portrait || !aboutCopy) {
-        return { ok: false, reason: 'missing cover/about nodes' };
-      }
-      const cr = copy.getBoundingClientRect();
-      const sr = specimen.getBoundingClientRect();
-      const pr = portrait.getBoundingClientRect();
-      const cardRects = cards.map((card) => card.getBoundingClientRect());
-      const leftColumn = cardRects.filter((rect) => Math.abs(rect.left - cardRects[0].left) <= 2);
-      const proofTwoColumns = cards.length === 3 && leftColumn.length === 2;
-      return {
-        ok: true,
-        specimenFollowsCopy: sr.top >= cr.bottom - 1,
-        proofTwoColumns,
-        leftColumnCount: leftColumn.length,
-        portraitInsideSpecimen: pr.top >= sr.top - 3 && pr.bottom <= sr.bottom + 3,
-      };
-    });
-    ok(tabletGeometry.ok, `${name}: tablet geometry nodes present`, tabletGeometry.reason ?? '');
-    ok(tabletGeometry.specimenFollowsCopy, `${name}: tablet profile copy leads the portrait`, JSON.stringify(tabletGeometry));
-    ok(tabletGeometry.proofTwoColumns, `${name}: tablet proof index keeps a two-column first row`, String(tabletGeometry.leftColumnCount));
-    ok(tabletGeometry.portraitInsideSpecimen, `${name}: tablet source portrait stays inside its specimen`, JSON.stringify(tabletGeometry));
-  }
-
-  if (width === 1280 && height === 720) {
-    const identityHero = await page.evaluate(() => {
-      const grid = document.querySelector('.cover-grid');
-      const copy = document.querySelector('.cover-copy');
-      const specimen = document.querySelector('.cover-specimen');
-      const heading = document.querySelector('#thesis-heading');
-      if (!(grid instanceof HTMLElement) || !(copy instanceof HTMLElement) ||
-          !(specimen instanceof HTMLElement) || !(heading instanceof HTMLElement)) return null;
-      const gridStyle = getComputedStyle(grid);
-      const copyRect = copy.getBoundingClientRect();
-      const specimenRect = specimen.getBoundingClientRect();
-      const headingRect = heading.getBoundingClientRect();
-      return {
-        columnCount: gridStyle.gridTemplateColumns.split(' ').filter(Boolean).length,
-        copyLeadsPortrait: copyRect.left < specimenRect.left,
-        balancedSplit: copyRect.width >= innerWidth * 0.4 && specimenRect.width >= innerWidth * 0.3,
-        monumentalName: Number.parseFloat(getComputedStyle(heading).fontSize) >= 120,
-        headingWidth: headingRect.width,
-      };
-    });
-    ok(Boolean(identityHero), `${name}: identity hero nodes present`);
-    ok(
-      Boolean(identityHero?.columnCount === 2 && identityHero.copyLeadsPortrait && identityHero.balancedSplit),
-      `${name}: homepage hero is a balanced two-column identity and portrait split`,
-      JSON.stringify(identityHero),
-    );
-    ok(
-      Boolean(identityHero?.monumentalName),
-      `${name}: Dave Bettner is monumental in the first viewport`,
-      JSON.stringify(identityHero),
-    );
-
-    const hireCtaVisible = await page.evaluate(() => {
-      const cta = document.querySelector('.cover-actions-primary a.round.blue');
-      if (!(cta instanceof HTMLElement)) return null;
-      const rect = cta.getBoundingClientRect();
-      return {
-        top: rect.top,
-        bottom: rect.bottom,
-        inViewport: rect.top >= 0 && rect.bottom <= innerHeight && rect.height > 0,
-      };
-    });
-    ok(Boolean(hireCtaVisible?.inViewport), `${name}: primary hiring CTA visible in first viewport`, JSON.stringify(hireCtaVisible));
-  }
-
-  if (width <= 390) {
-    const phoneOrder = await page.evaluate(() => {
-      const heading = document.querySelector('#thesis-heading');
-      const portrait = document.querySelector('[data-portrait-source]');
-      const specimen = document.querySelector('.cover-specimen');
-      const role = document.querySelector('.cover-role');
-      const actions = document.querySelector('.cover-actions');
-      if (!heading || !portrait || !specimen || !role || !actions) return null;
-      const pt = portrait.getBoundingClientRect().top;
-      const ht = heading.getBoundingClientRect().top;
-      const rt = role.getBoundingClientRect().top;
-      const at = actions.getBoundingClientRect().top;
-      const st = specimen.getBoundingClientRect().top;
-      return {
-        pt,
-        ht,
-        rt,
-        at,
-        st,
-        roleBeforeHeading: rt < ht,
-        roleBeforeActions: rt < at,
-        actionsBeforeSpecimen: at < st,
-        specimenContainsPortrait: pt >= st,
-      };
-    });
-    ok(Boolean(phoneOrder), `${name}: phone cover order nodes present`);
-    ok(
-      phoneOrder?.roleBeforeHeading &&
-        phoneOrder?.roleBeforeActions &&
-        phoneOrder?.actionsBeforeSpecimen &&
-        phoneOrder?.specimenContainsPortrait,
-      `${name}: phone visual order keeps role and identity before actions and source portrait`,
-      JSON.stringify(phoneOrder),
-    );
-
-    const phonePortraitBox = await page.evaluate(() => {
-      const portrait = document.querySelector('[data-source-portrait]');
-      const doc = document.documentElement;
-      if (!(portrait instanceof HTMLElement)) return null;
-      const rect = portrait.getBoundingClientRect();
-      return {
-        width: rect.width,
-        height: rect.height,
-        left: rect.left,
-        right: rect.right,
-        top: rect.top,
-        docScrollWidth: doc.scrollWidth,
-        docClientWidth: doc.clientWidth,
-        insideViewport: rect.width > 80 && rect.height > 80 && rect.left >= -1 && rect.right <= innerWidth + 1,
-        noDocumentOverflow: doc.scrollWidth <= doc.clientWidth,
-      };
-    });
-    ok(Boolean(phonePortraitBox), `${name}: phone source portrait node present`);
-    ok(
-      Boolean(phonePortraitBox?.insideViewport),
-      `${name}: phone source portrait geometry stays inside the viewport with a useful box`,
-      JSON.stringify(phonePortraitBox),
-    );
-    ok(
-      Boolean(phonePortraitBox?.noDocumentOverflow),
-      `${name}: phone document does not overflow horizontally around the portrait`,
-      JSON.stringify(phonePortraitBox),
-    );
-
-    const hireCtaVisible = await page.evaluate(() => {
-      const cta = document.querySelector('.cover-actions-primary a.round.blue');
-      if (!(cta instanceof HTMLElement)) return null;
-      const rect = cta.getBoundingClientRect();
-      return {
-        top: rect.top,
-        bottom: rect.bottom,
-        inViewport: rect.top >= 0 && rect.bottom <= innerHeight && rect.height > 0,
-      };
-    });
-    ok(Boolean(hireCtaVisible?.inViewport), `${name}: primary hiring CTA visible in first viewport`, JSON.stringify(hireCtaVisible));
-
-    if (width === 320) {
-      const primaryActionFit = await page.locator('.cover-actions-primary a.round.blue').evaluate((action) => {
-        const style = getComputedStyle(action);
-        return {
-          whiteSpace: style.whiteSpace,
-          clientWidth: action.clientWidth,
-          scrollWidth: action.scrollWidth,
-          fits: style.whiteSpace === 'nowrap' && action.scrollWidth <= action.clientWidth,
-        };
-      });
-      ok(primaryActionFit.fits, `${name}: primary CTA stays on one line`, JSON.stringify(primaryActionFit));
-    }
-
-    const proofScroll = await page.evaluate(() => {
-      const list = document.querySelector('.building-list');
-      if (!(list instanceof HTMLElement)) return null;
-      const doc = document.documentElement;
-      return {
-        listScrollWidth: list.scrollWidth,
-        listClientWidth: list.clientWidth,
-        docScrollWidth: doc.scrollWidth,
-        docClientWidth: doc.clientWidth,
-      };
-    });
-    ok(Boolean(proofScroll), `${name}: phone proof list present`);
-    ok(
-      Boolean(proofScroll && proofScroll.listScrollWidth <= proofScroll.listClientWidth + 1),
-      `${name}: phone proof index is a readable stacked layout`,
-      JSON.stringify(proofScroll),
-    );
-    ok(
-      Boolean(proofScroll && proofScroll.docScrollWidth <= proofScroll.docClientWidth),
-      `${name}: phone document does not overflow horizontally with proof index`,
-      JSON.stringify(proofScroll),
-    );
-
-    const lastReachable = await page.evaluate(() => {
-      const list = document.querySelector('.building-list');
-      const cards = [...document.querySelectorAll('.building-card')];
-      const last = cards.at(-1);
-      if (!(list instanceof HTMLElement) || !last) return { ok: false, reason: 'missing list/card' };
-      const link = last.querySelector('a');
-      if (!(link instanceof HTMLElement)) return { ok: false, reason: 'missing link' };
-      link.focus({ preventScroll: false });
-      link.scrollIntoView({ block: 'nearest' });
-      const rect = link.getBoundingClientRect();
-      const style = getComputedStyle(last);
-      const evidence = last.querySelector('.building-evidence')?.textContent?.trim() ?? '';
-      const limit = last.querySelector('.building-limit');
-      return {
-        ok: true,
-        focused: document.activeElement === link,
-        inView: rect.width > 0 && rect.height > 0 && rect.right > 0 && rect.left < innerWidth,
-        evidenceVisible: evidence.length > 0 && style.visibility !== 'hidden',
-        limitAbsent: !limit,
-        evidence,
-      };
-    });
-    ok(lastReachable.ok, `${name}: final proof card present`, lastReachable.reason ?? '');
-    ok(lastReachable.focused && lastReachable.inView, `${name}: final stacked proof card link is keyboard reachable`, JSON.stringify(lastReachable));
-    ok(lastReachable.evidenceVisible && lastReachable.limitAbsent, `${name}: final proof card keeps evidence and omits Limit`, JSON.stringify(lastReachable));
-
-    const allCardText = await page.locator('.building-card').evaluateAll((cards) =>
-      cards.map((card) => ({
-        evidence: card.querySelector('.building-evidence')?.textContent?.trim() ?? '',
-        limit: card.querySelector('.building-limit')?.textContent?.trim() ?? '',
-      })),
-    );
-    ok(
-      allCardText.length === 3 && allCardText.every((card) => card.evidence.length > 0 && card.limit.length === 0),
-      `${name}: all three featured proof cards keep evidence and omit Limit`,
-      JSON.stringify(allCardText.map((card) => ({ evidence: card.evidence.length, limit: card.limit.length }))),
-    );
-  }
+  ok((await page.locator('canvas').count()) === 0, `${label}: zero canvas elements (no WebGL)`);
 }
 
 async function auditPage(page, route, label) {
   const consoleErrors = [];
   page.on('console', (message) => {
-    if (message.type() === 'error' && !/WebGLRenderer|WebGL context/i.test(message.text())) consoleErrors.push(message.text());
+    if (message.type() === 'error') consoleErrors.push(message.text());
   });
   page.on('pageerror', (error) => consoleErrors.push(error.message));
 
   const response = await page.goto(`${base}${route === '/' ? '' : route}`, { waitUntil: 'networkidle' });
   ok(response?.status() === 200, `${label}: HTTP 200`, String(response?.status()));
-  ok(await page.locator('h1').count() === 1, `${label}: exactly one h1`);
+  ok((await page.locator('h1').count()) === 1, `${label}: exactly one h1`);
+
   const skipLink = page.locator('.skip-link');
   const skipLinkCount = await skipLink.count();
   ok(skipLinkCount === 1, `${label}: exactly one skip link`, String(skipLinkCount));
@@ -743,76 +233,60 @@ async function auditPage(page, route, label) {
     });
     ok(skipLinkInViewport, `${label}: skip link enters viewport on focus`);
   }
+
   const dimensions = await page.evaluate(() => ({
     scrollWidth: document.documentElement.scrollWidth,
     clientWidth: document.documentElement.clientWidth,
   }));
   ok(dimensions.scrollWidth <= dimensions.clientWidth, `${label}: no horizontal overflow`, JSON.stringify(dimensions));
+
   const brokenImages = await page.locator('img').evaluateAll((images) =>
-    images
-      .filter((image) => !image.complete || image.naturalWidth === 0)
-      .map((image) => image.getAttribute('src')),
+    images.filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.getAttribute('src')),
   );
   ok(brokenImages.length === 0, `${label}: images load`, brokenImages.join(', '));
-  if (coreRoutes.includes(route) || projectRoutes.includes(route)) {
-    const themeLinks = await page.locator('link[rel="stylesheet"]').evaluateAll((links) =>
-      links.map((link) => link.getAttribute('href')).filter(Boolean),
-    );
-    ok(
-      themeLinks.filter((href) => href === '/styles/interstellar-system.css').length === 1 &&
-        !themeLinks.includes('/styles/editorial-paper-system.css'),
-      `${label}: Interstellar is the only public theme stylesheet`,
-      themeLinks.join(', '),
-    );
-    const interstellarPalette = await page.evaluate(() => {
-      const root = getComputedStyle(document.documentElement);
-      const body = getComputedStyle(document.body);
-      return {
-        theme: document.querySelector('meta[name="theme-color"]')?.getAttribute('content'),
-        scheme: document.querySelector('meta[name="color-scheme"]')?.getAttribute('content'),
-        carbon: root.getPropertyValue('--space').trim(),
-        warm: root.getPropertyValue('--warm').trim(),
-        ember: root.getPropertyValue('--ember').trim(),
-        rose: root.getPropertyValue('--rose').trim(),
-        lavender: root.getPropertyValue('--lavender').trim(),
-        bodyBackground: body.backgroundColor,
-        bodyColor: body.color,
-      };
-    });
-    ok(
-      interstellarPalette.theme === '#08090b' &&
-        interstellarPalette.scheme === 'dark' &&
-        interstellarPalette.carbon === '#08090b' &&
-        interstellarPalette.warm === '#f2eadf' &&
-        interstellarPalette.ember === '#ff5005' &&
-        interstellarPalette.rose === '#dbba95' &&
-        interstellarPalette.lavender === '#d0bce1' &&
-        interstellarPalette.bodyBackground === 'rgb(8, 9, 11)' &&
-        interstellarPalette.bodyColor === 'rgb(242, 234, 223)',
-      `${label}: shared Interstellar palette is active`,
-      JSON.stringify(interstellarPalette),
-    );
-  }
-  if (route !== '/') {
-    ok(
-      (await page.locator('[data-secondary-masthead] .mast-row').count()) === 1,
-      `${label}: secondary route uses the shared masthead grammar`,
-    );
-  }
-  const actionTargets = await page.locator('.round, .back-link, .mast-cta, .page-links a, .pdf-note a').evaluateAll((nodes) =>
-    nodes.filter((node) => {
-      const style = getComputedStyle(node);
-      return style.display !== 'none' && style.visibility !== 'hidden';
-    }).map((node) => {
-      const rect = node.getBoundingClientRect();
-      return { text: node.textContent?.trim(), width: rect.width, height: rect.height };
-    }),
+
+  const themeLinks = await page.locator('link[rel="stylesheet"]').evaluateAll((links) =>
+    links.map((link) => link.getAttribute('href')).filter(Boolean),
   );
   ok(
-    actionTargets.every((target) => target.width >= 44 && target.height >= 44),
-    `${label}: action targets are at least 44×44`,
-    JSON.stringify(actionTargets.filter((target) => target.width < 44 || target.height < 44)),
+    themeLinks.filter((href) => href === '/styles/working-record.css').length === 1,
+    `${label}: The Working Record is the only public theme stylesheet`,
+    themeLinks.join(', '),
   );
+
+  const metaTokens = await page.evaluate(() => ({
+    theme: document.querySelector('meta[name="theme-color"]')?.getAttribute('content'),
+    scheme: document.querySelector('meta[name="color-scheme"]')?.getAttribute('content'),
+    bodyBackground: getComputedStyle(document.body).backgroundColor,
+    bodyColor: getComputedStyle(document.body).color,
+  }));
+  ok(
+    metaTokens.theme === '#F5F2EA' &&
+      metaTokens.scheme === 'light' &&
+      metaTokens.bodyBackground === TOKENS.paper &&
+      metaTokens.bodyColor === TOKENS.ink,
+    `${label}: paper/ink tokens and light color-scheme are active`,
+    JSON.stringify(metaTokens),
+  );
+
+  ok((await page.locator('header.masthead').count()) === 1, `${label}: shared masthead present`);
+  ok((await page.locator('footer.site-footer').count()) === 1, `${label}: shared footer present`);
+
+  const actionTargets = await page.locator('a, button, summary').evaluateAll((nodes) =>
+    nodes
+      .filter((node) => {
+        const style = getComputedStyle(node);
+        return style.display !== 'none' && style.visibility !== 'hidden' && node.getClientRects().length > 0;
+      })
+      .map((node) => {
+        const rect = node.getBoundingClientRect();
+        return { text: node.textContent?.trim().slice(0, 40), width: rect.width, height: rect.height };
+      })
+      .filter((node) => node.width > 0 && node.height > 0),
+  );
+  const undersized = actionTargets.filter((target) => target.width < 44 || target.height < 44);
+  ok(undersized.length === 0, `${label}: interactive targets are at least 44×44`, JSON.stringify(undersized.slice(0, 8)));
+
   const missingFragmentTargets = await page.locator('a[href^="#"]').evaluateAll((links) =>
     links
       .map((link) => link.getAttribute('href'))
@@ -825,605 +299,676 @@ async function auditPage(page, route, label) {
         }
       }),
   );
-  ok(
-    missingFragmentTargets.length === 0,
-    `${label}: same-page links target existing IDs`,
-    missingFragmentTargets.join(', '),
-  );
+  ok(missingFragmentTargets.length === 0, `${label}: same-page links target existing IDs`, missingFragmentTargets.join(', '));
+
+  await assertNoSpectacleSurfaces(page, label);
+
   ok(consoleErrors.length === 0, `${label}: no console/page errors`, consoleErrors.join(' | '));
 }
 
+async function assertPrimaryNavContract(page, label) {
+  const navLinks = await page.locator('.primary-nav a').evaluateAll((links) =>
+    links.map((link) => ({ text: link.textContent?.trim(), href: link.getAttribute('href'), current: link.getAttribute('aria-current') })),
+  );
+  ok(
+    JSON.stringify(navLinks.map(({ text, href }) => ({ text, href }))) === JSON.stringify(primaryNavTargets),
+    `${label}: primary nav is exactly Work, Experience, About`,
+    JSON.stringify(navLinks),
+  );
+  ok(!navLinks.some((link) => link.href === '/fit/'), `${label}: /fit/ is not in primary navigation`);
+  const navLabel = await page.locator('.primary-nav').getAttribute('aria-label');
+  ok(navLabel === 'Primary navigation', `${label}: primary nav has an accessible label`, String(navLabel));
+
+  const utilityLinks = await page.locator('.masthead-utility a').evaluateAll((links) =>
+    links.map((link) => ({ text: link.textContent?.trim(), href: link.getAttribute('href'), download: link.hasAttribute('download') })),
+  );
+  ok(
+    utilityLinks.some((link) => link.text === 'Résumé' && link.href === '/dave-bettner-resume.pdf' && link.download) &&
+      utilityLinks.some((link) => link.text === 'Email' && link.href === 'mailto:dbett4@gmail.com'),
+    `${label}: quiet Résumé and Email utilities are present`,
+    JSON.stringify(utilityLinks),
+  );
+}
+
+async function assertMobileDisclosureContract(page, label) {
+  const disclosure = page.locator('.nav-disclosure');
+  ok((await disclosure.count()) === 1, `${label}: mobile navigation disclosure present`);
+  const summary = disclosure.locator('summary');
+  const summaryBox = await summary.evaluate((node) => {
+    const rect = node.getBoundingClientRect();
+    return { width: rect.width, height: rect.height };
+  });
+  ok(summaryBox.width >= 44 && summaryBox.height >= 44, `${label}: disclosure summary is at least 44×44`, JSON.stringify(summaryBox));
+
+  await summary.click();
+  const panelLinks = await disclosure.locator('.nav-disclosure-panel a').evaluateAll((links) =>
+    links.map((link) => ({ text: link.textContent?.trim(), href: link.getAttribute('href') })),
+  );
+  const expected = [...primaryNavTargets, { text: 'Résumé', href: '/dave-bettner-resume.pdf' }, { text: 'Email', href: 'mailto:dbett4@gmail.com' }];
+  ok(
+    JSON.stringify(panelLinks) === JSON.stringify(expected),
+    `${label}: disclosure panel exposes every primary destination and both utilities`,
+    JSON.stringify(panelLinks),
+  );
+  const panelTargetBoxes = await disclosure.locator('.nav-disclosure-panel a').evaluateAll((links) =>
+    links.map((link) => {
+      const rect = link.getBoundingClientRect();
+      return { width: rect.width, height: rect.height };
+    }),
+  );
+  ok(
+    panelTargetBoxes.every((box) => box.width >= 44 && box.height >= 44),
+    `${label}: disclosure panel targets are at least 44×44`,
+    JSON.stringify(panelTargetBoxes),
+  );
+  await summary.click();
+}
+
+async function assertFooterContract(page, label) {
+  const footerNav = await page.locator('footer.site-footer .footer-nav a').evaluateAll((links) =>
+    links.map((link) => ({ text: link.textContent?.trim(), href: link.getAttribute('href') })),
+  );
+  ok(
+    footerNav.some((link) => link.href === '/fit/'),
+    `${label}: /fit/ is discoverable from the shared footer`,
+    JSON.stringify(footerNav),
+  );
+  ok(
+    footerNav.some((link) => link.href === '/about/') && footerNav.some((link) => link.href === '/dave-bettner-resume.pdf'),
+    `${label}: footer keeps About and résumé links`,
+    JSON.stringify(footerNav),
+  );
+}
+
+async function assertFocusRing(page, label) {
+  const focusStyle = await page.locator('.skip-link').evaluate((link) => {
+    link.focus();
+    const style = getComputedStyle(link);
+    return {
+      outlineColor: style.outlineColor,
+      outlineWidth: style.outlineWidth,
+      outlineOffset: style.outlineOffset,
+      outlineStyle: style.outlineStyle,
+    };
+  });
+  ok(
+    focusStyle.outlineWidth === '3px' && focusStyle.outlineOffset === '4px' && focusStyle.outlineStyle === 'solid',
+    `${label}: focus ring is a 3px solid outline with a 4px offset`,
+    JSON.stringify(focusStyle),
+  );
+}
+
+/* ---------------------------------------------------------------------------
+ * Run.
+ * ------------------------------------------------------------------------- */
+
 try {
-  for (const viewport of [
-    { name: 'desktop-1440', width: 1440, height: 1000 },
-    { name: 'laptop-1280x720', width: 1280, height: 720 },
-    { name: 'horizontal-min-961', width: 961, height: 1024 },
-    { name: 'vertical-max-960', width: 960, height: 1024 },
-    { name: 'tablet-768', width: 768, height: 1024 },
-    { name: 'vertical-min-721', width: 721, height: 1024 },
-    { name: 'mobile-390', width: 390, height: 844 },
-    { name: 'mobile-320', width: 320, height: 720 },
-  ]) {
-    const context = await browser.newContext({ viewport });
+  /* ---- Homepage content contract (desktop) --------------------------------- */
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const page = await context.newPage();
-    await auditPage(page, '/', viewport.name);
-    ok(await page.locator('#work').count() === 1, `${viewport.name}: work section exists`);
-    ok(await page.locator('#work .building-card').count() === 3, `${viewport.name}: three featured public engineering cards`);
-    const motifKinds = await page.locator('#work [data-evidence-motif]').evaluateAll((motifs) =>
-      motifs.map((motif) => motif.getAttribute('data-evidence-motif')),
+    await auditPage(page, '/', 'Homepage');
+    await assertPrimaryNavContract(page, 'Homepage');
+    await assertFooterContract(page, 'Homepage');
+    await assertFocusRing(page, 'Homepage');
+
+    const identity = (await page.locator('.identity-line').textContent())?.trim();
+    ok(identity === 'Dave Bettner · Senior Manager · Des Moines, Iowa', 'Homepage: exact identity line', identity ?? '');
+
+    const heroHeading = (await page.locator('#hero-heading').textContent())?.trim();
+    ok(
+      heroHeading === 'I lead enterprise deployments from discovery through adoption.',
+      'Homepage: exact h1',
+      heroHeading ?? '',
+    );
+
+    const heroSupport = (await page.locator('.hero-support').textContent())?.trim();
+    ok(
+      heroSupport ===
+        'I work between customers, product, and engineering. I also build public agent and MCP projects that test bounded access, failure recovery, readback, and human review.',
+      'Homepage: exact support copy',
+      heroSupport ?? '',
+    );
+
+    const heroActions = await page.locator('.hero-actions a').evaluateAll((links) =>
+      links.map((link) => ({ text: link.textContent?.trim(), href: link.getAttribute('href'), download: link.hasAttribute('download') })),
     );
     ok(
-      motifKinds.join('|') === 'guarded-mutation|guarded-readback|guarded-readback',
-      `${viewport.name}: selected work uses evidence-derived static motifs`,
-      motifKinds.join('|'),
-    );
-    ok(await page.locator('a[href="https://github.com/dbett4"]').count() >= 1, `${viewport.name}: GitHub profile is linked`);
-    const body = await page.locator('body').innerText();
-    ok(body.includes('publication dates'), `${viewport.name}: publication provenance visible`);
-    ok(!body.includes('459 Python'), `${viewport.name}: stale Wingman count absent`);
-    const coverKicker = await page.locator('.cover-kicker').textContent();
-    ok(
-      coverKicker?.trim() === 'Forward-deployed engineering · Agent systems',
-      `${viewport.name}: homepage kicker identifies the forward-deployed engineering lane`,
-      String(coverKicker),
+      heroActions.length === 3 &&
+        heroActions[0].text === 'View selected work' &&
+        heroActions[0].href === '/work/' &&
+        heroActions.some((link) => link.text === 'Résumé' && link.href === '/dave-bettner-resume.pdf' && link.download) &&
+        heroActions.some((link) => link.text === 'Email' && link.href === 'mailto:dbett4@gmail.com'),
+      'Homepage: sole primary action to selected work plus quiet résumé/email actions',
+      JSON.stringify(heroActions),
     );
     ok(
-      ((await page.locator('#thesis-heading').textContent()) ?? '').replace(/\s+/g, '') === 'DaveBettner',
-      `${viewport.name}: H1 is Dave Bettner's identity`,
+      (await page.locator('.hero-actions .action-primary').count()) === 1,
+      'Homepage: exactly one primary hero action',
     );
-    const coverRole = ((await page.locator('.cover-role').textContent()) ?? '').trim();
-    const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
+
+    const credibility = (await page.locator('.credibility-line').textContent())?.trim();
     ok(
-      coverRole === 'I lead 0-to-1 enterprise deployments from discovery through go-live and adoption. I also build agent systems for work where mistakes are expensive.' &&
-        (await page.locator('.cover-support').count()) === 0,
-      `${viewport.name}: hero states 0-to-1 ownership without blurring the public agent-engineering evidence boundary`,
-      coverRole,
+      credibility ===
+        'Customer-facing delivery since 2015 across financial reporting, GRC, and healthcare imaging. The public engineering work is independent evidence, not a client production deployment.',
+      'Homepage: exact credibility line',
+      credibility ?? '',
     );
+
+    const portrait = await page.locator('img[data-source-portrait]').evaluate((img) => ({
+      count: 1,
+      src: img.getAttribute('src'),
+      alt: img.getAttribute('alt'),
+      width: img.getAttribute('width'),
+      height: img.getAttribute('height'),
+      naturalWidth: img instanceof HTMLImageElement ? img.naturalWidth : 0,
+      naturalHeight: img instanceof HTMLImageElement ? img.naturalHeight : 0,
+    }));
+    ok((await page.locator('img[data-source-portrait]').count()) === 1, 'Homepage: exactly one source portrait');
     ok(
-      /labs and sanitized extracts/i.test(provenance) &&
-        /production-engineering tenure/.test(provenance) &&
-        /Nous\/Hermes Enterprise affiliation/.test(provenance),
-      `${viewport.name}: homepage provenance keeps lab and affiliation boundaries`,
-      provenance,
+      portrait.src === '/images/dave-bettner-headshot-20260816-cutout.png' &&
+        portrait.width === String(CUTOUT_SIZE.width) &&
+        portrait.height === String(CUTOUT_SIZE.height) &&
+        portrait.naturalWidth === CUTOUT_SIZE.width &&
+        portrait.naturalHeight === CUTOUT_SIZE.height &&
+        Boolean(portrait.alt) &&
+        !/filter|mask|halftone|dither|shader/i.test(portrait.alt ?? ''),
+      'Homepage: portrait is the approved byte-for-byte cutout, declared and rendered at 1312×1199',
+      JSON.stringify(portrait),
     );
-    ok(
-      body.toLowerCase().includes('finance and assurance'),
-      `${viewport.name}: domain depth names finance and assurance without making it the whole identity`,
-    );
-    const closingTitle = ((await page.locator('#contact-heading').textContent()) ?? '').trim();
-    ok(
-      closingTitle === 'Let’s talk about the customer environment.',
-      `${viewport.name}: closing CTA stays specific and keeps consulting secondary`,
-      closingTitle,
-    );
-    ok(body.includes('Give an agent only the access its job requires'), `${viewport.name}: features the regulated reporting case`);
-    ok(body.includes('Keep an evaluation from approving itself'), `${viewport.name}: features the evaluation case`);
-    ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
-    ok(body.includes('Make agent work explainable after the fact'), `${viewport.name}: selected work includes the agent operating system case`);
-    ok(!body.includes('Financial reporting QA with readback'), `${viewport.name}: Wingman is not featured on homepage`);
-    ok(!body.includes('Fieldguide'), `${viewport.name}: Fieldguide string absent`);
-    ok(!body.includes('Nous Research'), `${viewport.name}: Nous Research string absent`);
-    ok(!body.includes('I am an auditor'), `${viewport.name}: auditor identity claim absent`);
-    ok(!body.includes('Chief of Staff'), `${viewport.name}: Chief of Staff targeting absent`);
-    ok(!body.includes('strategic operations'), `${viewport.name}: strategic operations targeting absent`);
-    ok(!body.includes('Remote-friendly'), `${viewport.name}: Remote-friendly targeting absent`);
-    const sectionOrder = await page.evaluate(() => {
-      const ids = ['proof', 'work', 'about', 'contact'];
-      return ids.map((id) => {
-        const el = document.getElementById(id);
-        return { id, top: el ? el.getBoundingClientRect().top + window.scrollY : Number.POSITIVE_INFINITY };
-      });
-    });
-    ok(
-      sectionOrder.every((section, index) => index === 0 || sectionOrder[index - 1].top < section.top),
-      `${viewport.name}: homepage order is outcomes → engineering → synthesis → CTA`,
-      JSON.stringify(sectionOrder),
-    );
-    const coverActions = await page.locator('.cover-actions a').evaluateAll((links) =>
-      links.map((link) => ({
-        text: (link.textContent ?? '').replace(/\s+/g, ' ').trim(),
-        href: link.getAttribute('href'),
+
+    // Experience section.
+    const experienceRowsFound = await page.locator('#experience .ruled-row').evaluateAll((rows) =>
+      rows.map((row) => ({
+        dates: row.querySelector('.mono')?.textContent?.trim(),
+        role: row.querySelector('.role-line')?.textContent?.trim(),
       })),
     );
     ok(
-      coverActions.some((link) => link.href?.startsWith('mailto:') && link.text.includes('Start a conversation')),
-      `${viewport.name}: primary CTA includes Start a conversation`,
-      JSON.stringify(coverActions),
+      JSON.stringify(experienceRowsFound) === JSON.stringify(experienceRows),
+      'Homepage: exactly three ruled chronological experience rows in order',
+      JSON.stringify(experienceRowsFound),
+    );
+    const experienceOrdinals = await page.locator('#experience .ruled-row .mono').evaluateAll((nodes) =>
+      nodes.map((node) => node.textContent?.trim() ?? '').filter((text) => /^0\d\s*[·.]/.test(text)),
+    );
+    ok(experienceOrdinals.length === 0, 'Homepage: experience rows carry no numbering marks', JSON.stringify(experienceOrdinals));
+    const experienceLink = await page.locator('#experience .section-link a').evaluate((a) => ({ text: a.textContent?.replace(/\s+/g, ' ').trim(), href: a.getAttribute('href') }));
+    ok(
+      experienceLink.href === '/experience/' && experienceLink.text?.startsWith('View full experience'),
+      'Homepage: View full experience links to /experience/',
+      JSON.stringify(experienceLink),
+    );
+
+    // Selected work section.
+    const workRows = await page.locator('#work .ruled-row').evaluateAll((rows) =>
+      rows.map((row) => ({
+        id: row.getAttribute('id'),
+        display: row.querySelector('.case-display')?.textContent?.trim(),
+        title: row.querySelector('h3')?.textContent?.trim(),
+        href: row.querySelector('a.text-link')?.getAttribute('href'),
+      })),
     );
     ok(
-      coverActions.some((link) => link.href === '/dave-bettner-resume.pdf' && link.text.includes('Résumé')),
-      `${viewport.name}: primary CTA includes Résumé`,
-      JSON.stringify(coverActions),
+      JSON.stringify(workRows) === JSON.stringify(workCases.map((c) => ({ id: c.id, display: c.display, title: c.title, href: c.href }))),
+      'Homepage: exactly two ruled, text-led selected-work cases in order',
+      JSON.stringify(workRows),
+    );
+    ok((await page.locator('#work svg, #work canvas, #work [data-diagram]').count()) === 0, 'Homepage: selected work has no diagrams');
+    const workLink = await page.locator('#work > .wrap > .section-link a').evaluate((a) => ({ text: a.textContent?.replace(/\s+/g, ' ').trim(), href: a.getAttribute('href') }));
+    ok(workLink.href === '/work/' && workLink.text?.startsWith('View all work'), 'Homepage: View all work links to /work/', JSON.stringify(workLink));
+
+    // How I work section.
+    const howIWorkTitle = (await page.locator('#how-i-work h2').textContent())?.trim();
+    ok(howIWorkTitle === 'Stay close to the workflow', 'Homepage: exact how-I-work title', howIWorkTitle ?? '');
+    const howIWorkLink = await page.locator('#how-i-work a').evaluate((a) => ({ text: a.textContent?.replace(/\s+/g, ' ').trim(), href: a.getAttribute('href') }));
+    ok(howIWorkLink.href === '/about/' && howIWorkLink.text?.startsWith('About my approach'), 'Homepage: About my approach links to /about/', JSON.stringify(howIWorkLink));
+
+    // Hiring close.
+    const hiringTitle = (await page.locator('#contact h2').textContent())?.trim();
+    ok(hiringTitle === 'Hiring for customer-facing technical work?', 'Homepage: exact hiring-close title', hiringTitle ?? '');
+    const hiringActions = await page.locator('#contact .hiring-close-actions a').evaluateAll((links) =>
+      links.map((link) => ({ text: link.textContent?.trim(), href: link.getAttribute('href') })),
     );
     ok(
-      !coverActions.some((link) => link.href === '/experience/'),
-      `${viewport.name}: cover CTA avoids duplicating Experience navigation`,
-      JSON.stringify(coverActions),
+      hiringActions.length === 2 &&
+        hiringActions[0].text === 'Email Dave' &&
+        hiringActions[0].href === 'mailto:dbett4@gmail.com' &&
+        hiringActions[1].text === 'Download résumé' &&
+        hiringActions[1].href === '/dave-bettner-resume.pdf',
+      'Homepage: hiring close has Email Dave primary and Download résumé quiet',
+      JSON.stringify(hiringActions),
     );
+    const bodyText = await page.locator('body').innerText();
+    ok(!/consulting availability|book a call|available for consulting/i.test(bodyText), 'Homepage: no consulting-availability close');
+
+    // Section order.
+    const sectionOrder = await page.locator('main > section').evaluateAll((sections) => sections.map((section) => section.id || section.className));
     ok(
-      coverActions.some((link) => link.href === '#work' && link.text.includes('See the work and proof')),
-      `${viewport.name}: cover CTA points directly to proof`,
-      JSON.stringify(coverActions),
+      sectionOrder[0].includes('hero') &&
+        sectionOrder[1].includes('credibility') &&
+        sectionOrder[2] === 'experience' &&
+        sectionOrder[3] === 'work' &&
+        sectionOrder[4] === 'how-i-work' &&
+        sectionOrder[5] === 'contact',
+      'Homepage: sections are in the exact locked order',
+      sectionOrder.join(' → '),
     );
+
+    ok((await page.locator('.building-index, .loop-n, .proof-n, [data-panel-number]').count()) === 0, 'Homepage: no numbered panels');
+    ok((await page.locator('[data-diagram], .taxonomy, .diagram').count()) === 0, 'Homepage: no diagrams or taxonomies');
+
+    // Body opening comment contract.
+    const html = await page.content();
+    ok(html.includes('SEED: working-record-20260906'), 'Homepage: body comment carries the locked seed');
     ok(
-      !coverActions.some((link) => link.href === '/fit/'),
-      `${viewport.name}: cover actions do not duplicate the adjacent first-90-days page`,
-      JSON.stringify(coverActions),
+      html.replace(/\s+/g, ' ').includes('unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md'),
+      'Homepage: body comment carries the exact FINISH line',
     );
-    const buildingCardOrder = await page.locator('.building-card').evaluateAll((cards) =>
-      cards.map((card) => card.id),
-    );
-    ok(
-      buildingCardOrder.join(',') ===
-        'regulated-reporting-mcp,hermes-field-kit,agent-operating-system',
-      `${viewport.name}: building-card order is Regulated Reporting MCP → Hermes Enterprise Evaluation Kit → Agent Operating System`,
-      buildingCardOrder.join(','),
-    );
-    await assertCausalDeliveryLoopContracts(page, viewport.name);
-    await assertHomepageResponsiveContracts(page, viewport);
-    await page.evaluate(async () => {
-      if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
-      await Promise.all(
-        Array.from(document.images, (image) =>
-          typeof image.decode === 'function' ? image.decode().catch(() => undefined) : Promise.resolve(),
-        ),
-      );
-      const list = document.querySelector('.building-list');
-      if (list instanceof HTMLElement) list.scrollLeft = 0;
-      window.scrollTo(0, 0);
-      for (let i = 0; i < 4; i += 1) {
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-      }
+
+    // Grid 7/5 split at desktop.
+    const heroSplit = await page.evaluate(() => {
+      const copy = document.querySelector('.hero-copy');
+      const portrait = document.querySelector('.hero-portrait');
+      if (!(copy instanceof HTMLElement) || !(portrait instanceof HTMLElement)) return null;
+      const cr = copy.getBoundingClientRect();
+      const pr = portrait.getBoundingClientRect();
+      return { copyLeft: cr.left, portraitLeft: pr.left, copyWidth: cr.width, portraitWidth: pr.width };
     });
-    await page.screenshot({ path: `${out}/${viewport.name}.png`, fullPage: true });
+    ok(
+      Boolean(heroSplit) &&
+        heroSplit.copyLeft < heroSplit.portraitLeft &&
+        heroSplit.copyWidth > heroSplit.portraitWidth,
+      'Homepage desktop: hero splits copy (7) ahead of portrait (5)',
+      JSON.stringify(heroSplit),
+    );
+    const evidenceSplit = await page.evaluate(() => {
+      const meta = document.querySelector('#experience .evidence-row-meta');
+      const body = document.querySelector('#experience .evidence-row-body');
+      if (!(meta instanceof HTMLElement) || !(body instanceof HTMLElement)) return null;
+      const mr = meta.getBoundingClientRect();
+      const br = body.getBoundingClientRect();
+      return { metaWidth: mr.width, bodyWidth: br.width };
+    });
+    ok(
+      Boolean(evidenceSplit) && evidenceSplit.bodyWidth > evidenceSplit.metaWidth,
+      'Homepage desktop: evidence rows split meta (4) ahead of body (8)',
+      JSON.stringify(evidenceSplit),
+    );
+
+    await page.screenshot({ path: `${out}/desktop-1440.png`, fullPage: true });
     await context.close();
   }
 
-  const profileContext = await browser.newContext({ viewport: { width: 960, height: 720 } });
-  const profilePage = await profileContext.newPage();
-  await profilePage.goto(base, { waitUntil: 'networkidle' });
-  ok(
-    (await profilePage.locator('[data-source-portrait]').count()) === 1 &&
-      (await profilePage.locator('[data-kinetic-portrait]').count()) === 0,
-    'Homepage has exactly one unprocessed source portrait',
-  );
-  ok(
-    (await profilePage.locator('.mast-name').allTextContents()).join('|') === 'Dave Bettner' &&
-      (await profilePage.locator('.cover-identity-name').count()) === 0,
-    'Homepage top area shows Dave Bettner once',
-  );
-  const primaryNavLabel = await profilePage.locator('.primary-nav').getAttribute('aria-label');
-  ok(
-    primaryNavLabel === 'Primary navigation',
-    'Homepage primary navigation has an accurate accessible label',
-    String(primaryNavLabel),
-  );
-  ok(
-    (await profilePage.locator('.cover-actions-primary a[href^="mailto:"]').count()) === 1 &&
-      (await profilePage.locator('.cover-actions-primary a[download]').count()) === 1,
-    'Homepage profile has one conversation action and one résumé action',
-  );
-
-  await profilePage.waitForFunction((expectedWidth) => {
-    const source = document.querySelector('[data-source-portrait]');
-    return source instanceof HTMLImageElement &&
-      source.complete &&
-      source.naturalWidth === expectedWidth &&
-      document.documentElement.dataset.interstellarReady === 'true';
-  }, CUTOUT_SIZE.width, { timeout: 15_000 });
-
-  const portraitContract = await profilePage.locator('[data-source-portrait]').evaluate((source) => {
-    if (!(source instanceof HTMLImageElement)) return null;
-    const box = source.getBoundingClientRect();
-    return {
-      src: source.getAttribute('src'),
-      alt: source.getAttribute('alt'),
-      declaredWidth: source.getAttribute('width'),
-      declaredHeight: source.getAttribute('height'),
-      naturalWidth: source.naturalWidth,
-      naturalHeight: source.naturalHeight,
-      renderedWidth: box.width,
-      renderedHeight: box.height,
-      portraitCanvasCount: source.closest('.cover-specimen')?.querySelectorAll('canvas').length,
-      backdrop: (() => {
-        const node = source.closest('.cover-specimen')?.querySelector('[data-portrait-backdrop]');
-        if (!(node instanceof HTMLElement)) return null;
-        const style = getComputedStyle(node);
-        return {
-          count: source.closest('.cover-specimen')?.querySelectorAll('[data-portrait-backdrop]').length,
-          backgroundImage: style.backgroundImage,
-          display: style.display,
-          opacity: Number(style.opacity),
-          zIndex: Number(style.zIndex),
-        };
-      })(),
-      legacyPlate: (() => {
-        const specimen = source.closest('.cover-specimen');
-        if (!(specimen instanceof HTMLElement)) return null;
-        return {
-          before: getComputedStyle(specimen, '::before').display,
-          after: getComputedStyle(specimen, '::after').display,
-        };
-      })(),
-      portraitZIndex: Number(getComputedStyle(source).zIndex),
-      primaryCanvasCount: document.querySelector('[data-primary-action]')?.querySelectorAll('canvas').length,
-      effectsReady: document.documentElement.dataset.interstellarReady,
-    };
-  });
-  ok(
-    Boolean(
-      portraitContract?.src === '/images/dave-bettner-headshot-20260816-cutout.png' &&
-        portraitContract.alt === 'Dave Bettner in a gray suit and navy tie' &&
-        portraitContract.declaredWidth === String(CUTOUT_SIZE.width) &&
-        portraitContract.declaredHeight === String(CUTOUT_SIZE.height) &&
-        portraitContract.naturalWidth === CUTOUT_SIZE.width &&
-        portraitContract.naturalHeight === CUTOUT_SIZE.height &&
-        portraitContract.renderedWidth > 80 &&
-        portraitContract.renderedHeight > 80 &&
-        portraitContract.portraitCanvasCount === 0 &&
-        portraitContract.backdrop?.count === 1 &&
-        portraitContract.backdrop.display === 'none' &&
-        portraitContract.legacyPlate?.before === 'none' &&
-        portraitContract.legacyPlate?.after === 'none' &&
-        portraitContract.primaryCanvasCount <= 1 &&
-        portraitContract.effectsReady === 'true'
-    ),
-    'Homepage renders the approved source-preserving navy-tie cutout directly over the event horizon without legacy plate effects or a processing canvas',
-    JSON.stringify(portraitContract),
-  );
-
-  const eventHorizon = await profilePage.evaluate(() => ({
-    canvas: document.querySelector('[data-interstellar-field] canvas'),
-    fieldCount: document.querySelectorAll('[data-interstellar-field]').length,
-    canvasCount: document.querySelectorAll('[data-interstellar-field] canvas[aria-hidden="true"]').length,
-    pointerEvents: (() => {
-      const canvas = document.querySelector('[data-interstellar-field] canvas');
-      return canvas instanceof Element ? getComputedStyle(canvas).pointerEvents : 'none';
-    })(),
-    state: document.querySelector('[data-interstellar-field]')?.dataset.webgl,
-    ready: document.documentElement.dataset.interstellarReady,
-  }));
-  ok(
-    eventHorizon.fieldCount === 1 && eventHorizon.canvasCount <= 1 &&
-      eventHorizon.pointerEvents === 'none' && ['ready', 'fallback'].includes(eventHorizon.state) && eventHorizon.ready === 'true',
-    'Homepage owns one pointer-inert event-horizon field (WebGL or deterministic fallback)',
-    JSON.stringify(eventHorizon),
-  );
-  // The continuously-rendering decorative canvas can keep Playwright's element-
-  // stability heuristic unsettled even though the portrait itself is static.
-  // Its contract is asserted above; remove it only for this artifact capture.
-  await profilePage.locator('[data-interstellar-field] canvas').evaluateAll((canvases) => canvases.forEach((canvas) => canvas.remove()));
-  await profilePage.locator('[data-source-portrait]').screenshot({ path: `${out}/source-portrait.png` });
-  await profileContext.close();
-
-  const profileReducedContext = await browser.newContext({
-    viewport: { width: 960, height: 720 },
-    reducedMotion: 'reduce',
-  });
-  const profileReducedPage = await profileReducedContext.newPage();
-  await profileReducedPage.goto(base, { waitUntil: 'networkidle' });
-  const reducedPortrait = await profileReducedPage.evaluate((expectedWidth) => {
-    const source = document.querySelector('[data-source-portrait]');
-    return {
-      sourceVisible: source instanceof HTMLImageElement &&
-        source.naturalWidth === expectedWidth &&
-        getComputedStyle(source).opacity !== '0',
-      canvas: document.querySelectorAll('[data-interstellar-field] canvas[aria-hidden="true"]').length,
-      reduced: matchMedia('(prefers-reduced-motion: reduce)').matches,
-    };
-  }, CUTOUT_SIZE.width);
-  ok(
-    Boolean(
-      reducedPortrait?.sourceVisible && reducedPortrait.reduced === true && reducedPortrait.canvas <= 1
-    ),
-    'Homepage reduced-motion mode keeps the source portrait visible and shader stationary',
-    JSON.stringify(reducedPortrait),
-  );
-  await profileReducedContext.close();
-
-  const shaderRolloutContext = await browser.newContext({ viewport: { width: 1100, height: 800 } });
-  const shaderRolloutPage = await shaderRolloutContext.newPage();
-  for (const route of ['/about/', '/experience/', projectRoutes[0]]) {
-    await shaderRolloutPage.goto(new URL(route, base).href, { waitUntil: 'networkidle' });
-    await shaderRolloutPage.waitForFunction(
-      () => document.documentElement.dataset.interstellarReady === 'true',
-      null,
-      { timeout: 15_000 },
-    );
-    const rollout = await shaderRolloutPage.evaluate(() => ({
-      fields: document.querySelectorAll('[data-interstellar-field].interstellar-field--accent').length,
-      canvases: document.querySelectorAll('[data-interstellar-field] canvas[aria-hidden="true"]').length,
-      sharedStylesheet: Boolean(document.querySelector('link[href="/styles/interstellar-system.css"]')),
-    }));
-    ok(
-      rollout.fields === 1 && rollout.canvases === 1 && rollout.sharedStylesheet,
-      `${route}: shared Interstellar system supplies one restrained route-header field`,
-      JSON.stringify(rollout),
-    );
-  }
-  await shaderRolloutContext.close();
-
-  const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
-  const page = await context.newPage();
-
-  for (const route of coreRoutes) {
-    await auditPage(page, route, route);
-  }
-
-  await page.goto(base, { waitUntil: 'networkidle' });
-  const metadata = await page.evaluate(() => ({
-    canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href'),
-    description: document.querySelector('meta[name="description"]')?.getAttribute('content'),
-    ogTitle: document.querySelector('meta[property="og:title"]')?.getAttribute('content'),
-    ogDescription: document.querySelector('meta[property="og:description"]')?.getAttribute('content'),
-    ogImage: document.querySelector('meta[property="og:image"]')?.getAttribute('content'),
-    ogImageWidth: document.querySelector('meta[property="og:image:width"]')?.getAttribute('content'),
-    ogImageHeight: document.querySelector('meta[property="og:image:height"]')?.getAttribute('content'),
-    twitterTitle: document.querySelector('meta[name="twitter:title"]')?.getAttribute('content'),
-    twitterImage: document.querySelector('meta[name="twitter:image"]')?.getAttribute('content'),
-    jsonLd: document.querySelector('script[type="application/ld+json"]')?.textContent,
-  }));
-  ok(metadata.canonical === 'https://davebettner.com/', 'Homepage canonical URL', String(metadata.canonical));
-  ok(
-    metadata.description ===
-      'Dave Bettner leads 0-to-1 enterprise deployments from discovery through go-live and adoption, backed by ten years of customer implementation and public agent engineering.',
-    'Homepage meta description matches the approved 0-to-1 deployment and public agent-engineering bridge',
-    String(metadata.description),
-  );
-  ok(
-    metadata.ogTitle === 'Dave Bettner | Forward-Deployed Engineering · Agent Systems',
-    'Homepage Open Graph title matches the approved FDE positioning',
-    String(metadata.ogTitle),
-  );
-  ok(
-    metadata.ogDescription === metadata.description,
-    'Homepage Open Graph description matches canonical description',
-    String(metadata.ogDescription),
-  );
-  ok(
-    metadata.ogImage === 'https://davebettner.com/images/dave-bettner-og-interstellar.jpg',
-    'Homepage Open Graph image uses the production social card',
-    String(metadata.ogImage),
-  );
-  ok(
-    metadata.ogImageWidth === '1200' && metadata.ogImageHeight === '630',
-    'Homepage Open Graph dimensions are 1200×630',
-    `${metadata.ogImageWidth}×${metadata.ogImageHeight}`,
-  );
-  ok(
-    metadata.twitterTitle === metadata.ogTitle && metadata.twitterImage === metadata.ogImage,
-    'Twitter card metadata matches Open Graph metadata',
-    JSON.stringify({ title: metadata.twitterTitle, image: metadata.twitterImage }),
-  );
-  const socialImage = await page.evaluate(
-    () =>
-      new Promise((resolve) => {
-        const image = new Image();
-        image.onload = () => resolve({ loaded: true, width: image.naturalWidth, height: image.naturalHeight });
-        image.onerror = () => resolve({ loaded: false, width: 0, height: 0 });
-        image.src = '/images/dave-bettner-og-interstellar.jpg';
-      }),
-  );
-  ok(
-    socialImage.loaded && socialImage.width === 1200 && socialImage.height === 630,
-    'Production social card loads at 1200×630',
-    JSON.stringify(socialImage),
-  );
-  try {
-    const jsonLd = JSON.parse(metadata.jsonLd ?? '');
-    ok(jsonLd.sameAs?.includes('https://github.com/dbett4'), 'JSON-LD includes GitHub identity');
-    ok(jsonLd.jobTitle === 'Senior Manager', 'JSON-LD keeps the current job title', String(jsonLd.jobTitle));
-    ok(
-      jsonLd.homeLocation?.name === 'Des Moines, Iowa',
-      'JSON-LD keeps the current Des Moines location',
-      String(jsonLd.homeLocation?.name),
-    );
-  } catch (error) {
-    ok(false, 'JSON-LD parses', error.message);
-  }
-
-  for (const project of projects) {
-    const route = `/work/${project.slug}/`;
-    await auditPage(page, route, route);
-    ok((await page.locator('h1').innerText()).trim() === project.headline, `${route}: value-first case-study heading`);
-    ok((await page.locator('.case-headline').innerText()).includes(project.title), `${route}: project name remains visible`);
-    ok(await page.locator(`a[href="${project.repo}"]`).count() >= 1, `${route}: direct repository link`);
-    const eyebrow = (await page.locator('.eyebrow').first().innerText()).trim();
-    ok(
-      eyebrow.localeCompare(caseEyebrows[project.slug], undefined, { sensitivity: 'accent' }) === 0,
-      `${route}: case-study eyebrow role label`,
-      eyebrow,
-    );
-    const evidenceSteps = page.locator('.evidence-steps');
-    ok((await evidenceSteps.evaluate((list) => list?.tagName ?? '')) === 'OL', `${route}: evidence map remains ordered list`);
-    const stepCount = await evidenceSteps.locator('li').count();
-    ok(stepCount === caseStepCounts[project.slug], `${route}: evidence step count`, String(stepCount));
-    const counterContract = await evidenceSteps.evaluate((list) => {
-      const listStyle = getComputedStyle(list);
-      const items = [...list.querySelectorAll('li')];
+  /* ---- Reduced motion --------------------------------------------------- */
+  {
+    const context = await browser.newContext({ viewport: { width: 1024, height: 900 }, reducedMotion: 'reduce' });
+    const page = await context.newPage();
+    await page.goto(base, { waitUntil: 'networkidle' });
+    const reduced = await page.evaluate(() => {
+      const action = document.querySelector('.action-primary');
+      const style = action ? getComputedStyle(action) : null;
       return {
-        counterReset: listStyle.counterReset,
-        items: items.map((item) => {
-          const before = getComputedStyle(item, '::before');
-          return {
-            absolute: before.position === 'absolute',
-            hasGeneratedContent: before.content !== 'none' && before.content !== 'normal' && before.content !== '""',
-          };
-        }),
+        reducedMotionMatches: matchMedia('(prefers-reduced-motion: reduce)').matches,
+        transitionDuration: style ? style.transitionDuration : null,
+        scrollBehavior: getComputedStyle(document.documentElement).scrollBehavior,
       };
     });
     ok(
-      counterContract.counterReset.includes('step') &&
-        counterContract.items.length === caseStepCounts[project.slug] &&
-        counterContract.items.every((item) => item.absolute && item.hasGeneratedContent),
-      `${route}: evidence steps keep generated leading-zero counters`,
-      JSON.stringify(counterContract),
+      reduced.reducedMotionMatches &&
+        (reduced.transitionDuration === '0s' || parseFloat(reduced.transitionDuration ?? '1') < 0.01) &&
+        reduced.scrollBehavior === 'auto',
+      'Reduced motion: transitions and smooth scrolling are removed',
+      JSON.stringify(reduced),
     );
-    const projectText = await page.locator('body').innerText();
-    ok(projectText.includes(project.proof), `${route}: exact proof marker`, project.proof);
-    ok(
-      !/parses Compose|does not attest container|container startup is not attested|runtime-unverified/i.test(
-        projectText,
-      ),
-      `${route}: obsolete parse-only / unattested-container language absent`,
-    );
-    for (const boundary of project.boundaries ?? []) {
-      ok(projectText.includes(boundary), `${route}: proof boundary ${boundary}`);
+    await context.close();
+  }
+
+  /* ---- Breakpoint sweep (no overflow + nav mode) ------------------------- */
+  const breakpoints = [
+    { name: 'mobile-320', width: 320, height: 720 },
+    { name: 'mobile-360', width: 360, height: 740 },
+    { name: 'mobile-390', width: 390, height: 844 },
+    { name: 'mobile-414', width: 414, height: 896 },
+    { name: 'tablet-768', width: 768, height: 1024 },
+    { name: 'desktop-1024', width: 1024, height: 900 },
+    { name: 'desktop-1440', width: 1440, height: 1000 },
+  ];
+  for (const viewport of breakpoints) {
+    const context = await browser.newContext({ viewport });
+    const page = await context.newPage();
+    for (const route of coreRoutes) {
+      await auditPage(page, route, `${viewport.name} ${route}`);
     }
-    if (project.slug === 'hermes-deployment-lab') {
-      const explorer = page.locator('[data-recovery-proof]');
-      const stages = explorer.locator('[data-recovery-stage]');
-      ok((await explorer.count()) === 1, `${route}: one interactive recovery proof`);
-      ok((await stages.count()) === 5, `${route}: recovery proof has five meaningful states`);
-      ok((await stages.first().getAttribute('aria-pressed')) === 'true', `${route}: recovery proof exposes its initial state`);
-
-      await stages.nth(2).click();
-      ok((await explorer.getAttribute('data-stage')) === '2', `${route}: post-commit fault can be selected`);
-      ok(
-        (await explorer.locator('[data-stage-state]').innerText()) === 'The change went through, but the confirmation was lost',
-        `${route}: fault state explains the missing confirmation`,
-      );
-      ok((await explorer.locator('[data-stage-effects]').innerText()) === '1', `${route}: fault state records one side effect`);
-      ok(
-        (await explorer.locator('[data-stage-receipt]').innerText()) === 'Result still needs to be checked',
-        `${route}: fault state does not overclaim proof`,
-      );
-
-      await stages.nth(2).press('End');
-      ok((await explorer.getAttribute('data-stage')) === '4', `${route}: keyboard navigation reaches final readback`);
-      ok((await stages.nth(4).getAttribute('aria-pressed')) === 'true', `${route}: final state is announced as selected`);
-      ok((await explorer.locator('[data-stage-effects]').innerText()) === '1', `${route}: recovery preserves exactly one side effect`);
-      ok(
-        (await explorer.locator('[data-stage-receipt]').innerText()) === 'Verified',
-        `${route}: readback completes the synthetic receipt`,
-      );
+    if (viewport.width < 900) {
+      await assertMobileDisclosureContract(page, viewport.name);
+      ok((await page.locator('.primary-nav').evaluate((nav) => getComputedStyle(nav).display)) === 'none', `${viewport.name}: primary nav is hidden below 900px`);
     } else {
-      ok((await page.locator('[data-recovery-proof]').count()) === 0, `${route}: recovery proof stays scoped to Deployment Lab`);
+      await assertPrimaryNavContract(page, viewport.name);
+      ok((await page.locator('.nav-disclosure').evaluate((nav) => getComputedStyle(nav).display)) === 'none', `${viewport.name}: mobile disclosure is hidden at 900px+`);
     }
+    await context.close();
   }
 
-  await page.goto(`${base}/experience/`, { waitUntil: 'networkidle' });
-  ok((await page.locator('ol.timeline').count()) === 1, 'Experience keeps dated timeline ordered list');
-  ok((await page.locator('ol.timeline li').count()) >= 1, 'Experience timeline has dated entries');
-  const experienceText = await page.locator('main').innerText();
-  for (const marker of [
-    'since 2015',
-    'Senior Manager · LSL, LLP',
-    'Manager of Digital Services · Citrin Cooperman',
-    'Solutions Architect · Workiva',
-    'Solutions Consultant · Ambra Health',
-    'SEC Reporting Consultant · Workiva',
-    'Chicago, then Des Moines',
-    'proposals',
-    'SOW',
-    'RFP',
-    'on-site demos',
-    'pitch presentations',
-    'HIPAA',
-    'EHR',
-  ]) {
-    ok(experienceText.includes(marker), `Experience contains ${marker}`);
-  }
-  ok(!experienceText.includes('Remote'), 'Experience omits Remote labels');
-  ok(!experienceText.includes('Technical accounting judgment'), 'Experience omits accountant-screen framing');
-  ok(!experienceText.includes('Kaiser Permanente'), 'Experience anonymizes private client name');
-  ok(!experienceText.includes('quota'), 'Experience omits quota ownership claims');
-  ok(!experienceText.includes('signature authority'), 'Experience omits signature-authority claims');
-
-  await page.goto(`${base}/about/`, { waitUntil: 'networkidle' });
-  const aboutText = await page.locator('main').innerText();
-  ok(!aboutText.includes('My career has moved from accounting'), 'About omits accountant-first career framing');
-  const aboutLower = aboutText.toLowerCase();
-  ok(
-    aboutLower.includes('des moines') &&
-      aboutLower.includes('customer teams') &&
-      aboutLower.includes('outside the résumé'),
-    'About adds location, personal working context, and a public-building throughline',
-  );
-  ok((await page.locator('.principles-section').count()) === 0, 'About does not duplicate the deployment method');
-  const aboutParagraphs = aboutText.split(/\n+/).map((line) => line.trim()).filter(Boolean);
-  const openingDupes = aboutParagraphs.filter((line) =>
-    line.startsWith('My background is in enterprise solution delivery'),
-  );
-  ok(openingDupes.length <= 1, 'About does not duplicate opening background paragraph', String(openingDupes.length));
-
-  await page.goto(`${base}/fit/`, { waitUntil: 'networkidle' });
-  const fitSurface = await page.evaluate(() => ({
-    heading: document.querySelector('h1')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
-    lead: document.querySelector('.fit-lead')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
-    phases: [...document.querySelectorAll('.ninety-plan > li')].map((item) => ({
-      range: item.querySelector('.ninety-plan-mark')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
-      title: item.querySelector('strong')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
-      detail: item.querySelector('p')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
-    })),
-    related: [...document.querySelectorAll('.page-links a')].map((link) => ({
-      text: link.textContent?.replace(/\s+/g, ' ').trim() ?? '',
-      href: link.getAttribute('href') ?? '',
-    })),
-    description: document.querySelector('meta[name="description"]')?.getAttribute('content') ?? '',
-    robots: document.querySelector('meta[name="robots"]')?.getAttribute('content') ?? '',
-  }));
-  ok(fitSurface.heading === 'How I would lead my first 90 days as an FDE.', 'First 90 days page has the approved heading', fitSurface.heading);
-  ok(fitSurface.phases.length === 4, 'First 90 days page has four dated phases', String(fitSurface.phases.length));
-  ok(
-    fitSurface.phases.map((phase) => phase.range).join('|') === 'Weeks 1–2|Weeks 3–6|Weeks 6–10|Weeks 10–13',
-    'First 90 days phases retain their chronological ranges',
-    fitSurface.phases.map((phase) => phase.range).join('|'),
-  );
-  ok(
-    fitSurface.lead.includes('customer environment') &&
-      fitSurface.lead.includes('one measurable workflow') &&
-      fitSurface.lead.includes('first deployment') &&
-      fitSurface.lead.includes('product feedback'),
-    'First 90 days lead states the deployment method owned by this route',
-    fitSurface.lead,
-  );
-  const phaseText = fitSurface.phases.map((phase) => `${phase.title} ${phase.detail}`).join(' ');
-  for (const marker of ['Choose the first problem', 'Own the first deployment', 'Lead through failure', 'Make the next deployment easier']) {
-    ok(phaseText.includes(marker), `First 90 days plan includes ${marker}`);
-  }
-  for (const route of ['/about/', '/experience/', '/work/']) {
-    ok(fitSurface.related.some((link) => link.href === route), `First 90 days page links to ${route}`);
-  }
-  ok(fitSurface.related.some((link) => link.href.startsWith('mailto:')), 'First 90 days page includes a conversation action');
-  ok(fitSurface.robots.includes('index'), 'First 90 days page is indexable', fitSurface.robots);
-  ok(!fitSurface.description.includes('Chief of Staff'), 'First 90 days meta omits Chief of Staff');
-  ok(!fitSurface.description.includes('strategic operations'), 'First 90 days meta omits strategic operations');
-  ok(
-    fitSurface.description ===
-      'Dave Bettner’s first-90-days approach to discovery, a bounded deployment, failure decisions, and reusable product feedback.',
-    'First 90 days meta describes the current static page',
-    fitSurface.description,
-  );
-
-  const resumeResponse = await page.request.get(`${base}/dave-bettner-resume.pdf`);
-  ok(resumeResponse.status() === 200, 'Public résumé HTTP 200', String(resumeResponse.status()));
-  ok(resumeResponse.headers()['content-type']?.includes('application/pdf'), 'Public résumé has PDF content type', resumeResponse.headers()['content-type']);
-
-  const llmsResponse = await page.request.get(`${base}/llms.txt`);
-  const llmsText = await llmsResponse.text();
-  ok(llmsResponse.status() === 200, 'Agent-readable site guide HTTP 200', String(llmsResponse.status()));
-  ok(llmsResponse.headers()['content-type']?.includes('text/plain'), 'Agent-readable site guide has plain-text content type', llmsResponse.headers()['content-type']);
-  for (const route of coreRoutes) {
-    ok(llmsText.includes(`https://davebettner.com${route}`), `Agent-readable site guide includes ${route}`);
-  }
-  ok(
-    llmsText.includes('does not offer a public API, hosted MCP endpoint'),
-    'Agent-readable site guide states the public interface boundary',
-  );
-
-  const sitemap = await readFile('dist/sitemap-0.xml', 'utf8');
-  for (const route of [...coreRoutes.filter((route) => route !== '/'), ...projectRoutes]) {
-    ok(sitemap.includes(`https://davebettner.com${route}`), `Sitemap includes ${route}`);
+  /* ---- 200% zoom / text spacing usability -------------------------------- */
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+    await page.goto(base, { waitUntil: 'networkidle' });
+    await page.addStyleTag({ content: 'html { font-size: 200% !important; } * { letter-spacing: 0.12em !important; word-spacing: 0.16em !important; line-height: 1.5 !important; }' });
+    await page.waitForTimeout(50);
+    const zoomOverflow = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    ok(zoomOverflow.scrollWidth <= zoomOverflow.clientWidth + 1, 'Homepage: usable at 200% zoom and increased text spacing without horizontal overflow', JSON.stringify(zoomOverflow));
+    ok((await page.locator('h1').count()) === 1, 'Homepage: still exactly one h1 at 200% zoom');
+    await context.close();
   }
 
-  const notFoundResponse = await page.goto(`${base}/definitely-missing`, { waitUntil: 'load' });
-  ok(notFoundResponse?.status() === 404, 'Custom 404 returns HTTP 404', String(notFoundResponse?.status()));
-  await page.goto(`${base}/404.html`, { waitUntil: 'load' });
-  ok(await page.locator('h1').count() === 1, 'Custom 404 has one h1');
-  ok((await page.locator('[data-secondary-masthead]').count()) === 1, 'Custom 404 uses the shared masthead grammar');
+  /* ---- JavaScript disabled ------------------------------------------------ */
+  {
+    const context = await browser.newContext({ viewport: { width: 1024, height: 900 }, javaScriptEnabled: false });
+    const page = await context.newPage();
+    for (const route of coreRoutes) {
+      const response = await page.goto(`${base}${route === '/' ? '' : route}`, { waitUntil: 'load' });
+      ok(response?.status() === 200, `No-JS ${route}: HTTP 200`);
+      ok((await page.locator('h1').count()) === 1, `No-JS ${route}: exactly one h1`);
+      ok((await page.locator('header.masthead').count()) === 1, `No-JS ${route}: masthead renders without JS`);
+    }
+    // Native disclosure works without JS at a narrow width.
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(base, { waitUntil: 'load' });
+    await page.locator('.nav-disclosure summary').click();
+    const noJsPanelVisible = await page.locator('.nav-disclosure[open] .nav-disclosure-panel').isVisible();
+    ok(noJsPanelVisible, 'No-JS: native disclosure opens the full navigation panel without JavaScript');
+    await context.close();
+  }
 
-  await context.close();
+  /* ---- Metadata ------------------------------------------------------------ */
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+    await page.goto(base, { waitUntil: 'networkidle' });
+    const metadata = await page.evaluate(() => ({
+      canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href'),
+      description: document.querySelector('meta[name="description"]')?.getAttribute('content'),
+      ogTitle: document.querySelector('meta[property="og:title"]')?.getAttribute('content'),
+      ogDescription: document.querySelector('meta[property="og:description"]')?.getAttribute('content'),
+      ogImage: document.querySelector('meta[property="og:image"]')?.getAttribute('content'),
+      ogImageWidth: document.querySelector('meta[property="og:image:width"]')?.getAttribute('content'),
+      ogImageHeight: document.querySelector('meta[property="og:image:height"]')?.getAttribute('content'),
+      twitterTitle: document.querySelector('meta[name="twitter:title"]')?.getAttribute('content'),
+      twitterImage: document.querySelector('meta[name="twitter:image"]')?.getAttribute('content'),
+      title: document.title,
+      jsonLd: document.querySelector('script[type="application/ld+json"]')?.textContent,
+    }));
+    ok(metadata.canonical === 'https://davebettner.com/', 'Homepage canonical URL', String(metadata.canonical));
+    ok(
+      metadata.title === 'Dave Bettner | Senior Manager, Enterprise Deployments',
+      'Homepage title is person-first',
+      String(metadata.title),
+    );
+    ok(
+      /^Dave Bettner is a Senior Manager in Des Moines, Iowa/.test(metadata.description ?? ''),
+      'Homepage meta description is person-first',
+      String(metadata.description),
+    );
+    ok(metadata.ogTitle === metadata.title, 'Homepage Open Graph title matches page title', String(metadata.ogTitle));
+    ok(metadata.ogDescription === metadata.description, 'Homepage Open Graph description matches canonical description', String(metadata.ogDescription));
+    ok(
+      metadata.ogImage === 'https://davebettner.com/images/dave-bettner-og.jpg',
+      'Homepage Open Graph image uses The Working Record social card',
+      String(metadata.ogImage),
+    );
+    ok(metadata.ogImageWidth === '1200' && metadata.ogImageHeight === '630', 'Homepage Open Graph dimensions are 1200×630', `${metadata.ogImageWidth}×${metadata.ogImageHeight}`);
+    ok(metadata.twitterTitle === metadata.ogTitle && metadata.twitterImage === metadata.ogImage, 'Twitter card metadata matches Open Graph metadata');
+
+    const socialImage = await page.evaluate(
+      () =>
+        new Promise((resolve) => {
+          const image = new Image();
+          image.onload = () => resolve({ loaded: true, width: image.naturalWidth, height: image.naturalHeight });
+          image.onerror = () => resolve({ loaded: false, width: 0, height: 0 });
+          image.src = '/images/dave-bettner-og.jpg';
+        }),
+    );
+    ok(socialImage.loaded && socialImage.width === 1200 && socialImage.height === 630, 'Production social card loads at 1200×630', JSON.stringify(socialImage));
+
+    try {
+      const jsonLd = JSON.parse(metadata.jsonLd ?? '');
+      ok(jsonLd.sameAs?.includes('https://github.com/dbett4'), 'JSON-LD includes GitHub identity');
+      ok(jsonLd.jobTitle === 'Senior Manager', 'JSON-LD keeps the current job title', String(jsonLd.jobTitle));
+      ok(jsonLd.homeLocation?.name === 'Des Moines, Iowa', 'JSON-LD keeps the current Des Moines location', String(jsonLd.homeLocation?.name));
+      ok(jsonLd.name === 'Dave Bettner', 'JSON-LD identifies Dave Bettner by name');
+    } catch (error) {
+      ok(false, 'JSON-LD parses', error.message);
+    }
+    await context.close();
+  }
+
+  /* ---- Work index ----------------------------------------------------------- */
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+    await auditPage(page, '/work/', '/work/');
+    await assertPrimaryNavContract(page, '/work/');
+
+    const workRows = await page.locator('.ruled-list .ruled-row').evaluateAll((rows) =>
+      rows.map((row) => ({
+        id: row.getAttribute('id'),
+        eyebrow: row.querySelector('.case-display')?.textContent?.trim(),
+        title: row.querySelector('h2')?.textContent?.trim(),
+      })),
+    );
+    ok(workRows.length === caseIds.length, '/work/: indexes every public case', String(workRows.length));
+    ok(
+      workRows.every((row) => row.id && caseEyebrows[row.id] === row.eyebrow),
+      '/work/: every row states its own eyebrow and case identity',
+      JSON.stringify(workRows),
+    );
+    ok((await page.locator('.numbered-value, [data-value-panel]').count()) === 0, '/work/: no numbered value panels');
+    const workBody = await page.locator('body').innerText();
+    ok(!/consulting availability|book a call/i.test(workBody), '/work/: no consulting close');
+    ok((await page.locator('details.provenance-disclosure').count()) === 1, '/work/: provenance disclosure present');
+    await context.close();
+  }
+
+  /* ---- Work detail pages ----------------------------------------------------- */
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+    for (const id of caseIds) {
+      const route = `/work/${id}/`;
+      await auditPage(page, route, route);
+
+      const h1 = (await page.locator('h1').innerText()).trim();
+      ok(h1 === caseTitles[id], `${route}: h1 matches the locked case title`, h1);
+
+      const eyebrow = (await page.locator('.eyebrow').first().textContent() ?? '').trim();
+      ok(eyebrow === caseEyebrows[id], `${route}: eyebrow matches case identity`, eyebrow);
+
+      ok((await page.locator(`a[href="${caseRepos[id]}"]`).count()) >= 1, `${route}: direct repository link present`);
+
+      const evidenceSteps = page.locator('.evidence-steps');
+      ok((await evidenceSteps.evaluate((list) => list?.tagName ?? '')) === 'OL', `${route}: evidence map is an ordered list`);
+      const stepCount = await evidenceSteps.locator('li').count();
+      ok(stepCount === caseStepCounts[id], `${route}: evidence step count`, String(stepCount));
+
+      const bodyText = await page.locator('body').innerText();
+      ok(bodyText.includes(caseProofMarkers[id]), `${route}: exact proof marker present`, caseProofMarkers[id]);
+
+      const dtLabels = await page.locator('.case-list dt').evaluateAll((items) =>
+        items.map((item) => item.textContent?.trim() ?? ''),
+      );
+      ok(
+        JSON.stringify(dtLabels) === JSON.stringify(['Problem', 'What I built', 'My role', 'What stays human', 'Public proof', 'Scope']),
+        `${route}: case detail keeps the full problem/build/role/limit/proof/scope record`,
+        JSON.stringify(dtLabels),
+      );
+
+      if (id === 'hermes-deployment-lab' || id === 'hermes-field-kit' || id === 'agent-operating-system') {
+        ok(
+          bodyText.includes('Nous Research product') && bodyText.includes('Nous/Hermes Enterprise affiliation'),
+          `${route}: independent-evidence note disclaims Nous/Hermes affiliation`,
+        );
+      }
+
+      if (id === 'hermes-deployment-lab') {
+        const explorer = page.locator('[data-recovery-proof]');
+        const stages = explorer.locator('[data-recovery-stage]');
+        ok((await explorer.count()) === 1, `${route}: one interactive recovery proof`);
+        ok((await stages.count()) === 5, `${route}: recovery proof has five meaningful states`);
+        ok((await stages.first().getAttribute('aria-pressed')) === 'true', `${route}: recovery proof exposes its initial state`);
+
+        await stages.nth(2).click();
+        ok(
+          (await explorer.locator('[data-stage-state]').innerText()) === 'The change went through, but the confirmation was lost',
+          `${route}: fault state explains the missing confirmation`,
+        );
+        ok((await explorer.locator('[data-stage-effects]').innerText()) === '1', `${route}: fault state records one side effect`);
+        ok(
+          (await explorer.locator('[data-stage-receipt]').innerText()) === 'Result still needs to be checked',
+          `${route}: fault state does not overclaim proof`,
+        );
+
+        await stages.nth(2).press('End');
+        ok((await explorer.getAttribute('data-stage')) === '4', `${route}: keyboard navigation reaches final readback`);
+        ok((await stages.nth(4).getAttribute('aria-pressed')) === 'true', `${route}: final state is announced as selected`);
+        ok((await explorer.locator('[data-stage-effects]').innerText()) === '1', `${route}: recovery preserves exactly one side effect`);
+        ok((await explorer.locator('[data-stage-receipt]').innerText()) === 'Verified', `${route}: readback completes the synthetic receipt`);
+      } else {
+        ok((await page.locator('[data-recovery-proof]').count()) === 0, `${route}: recovery proof stays scoped to the deployment lab`);
+      }
+
+      ok((await page.locator('[data-evidence-motif][aria-hidden="true"]').count()) === 1, `${route}: process motif is flat and aria-hidden`);
+    }
+    await context.close();
+  }
+
+  /* ---- Experience ------------------------------------------------------------ */
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+    await auditPage(page, '/experience/', '/experience/');
+    await assertPrimaryNavContract(page, '/experience/');
+    const rows = await page.locator('.ruled-list .ruled-row').evaluateAll((rows) =>
+      rows.map((row) => ({
+        dates: row.querySelector('.mono')?.textContent?.trim(),
+        title: row.querySelector('h2')?.textContent?.trim(),
+        location: row.querySelector('.location-line')?.textContent?.trim() ?? null,
+      })),
+    );
+    ok(rows.length === 5, '/experience/: five dated entries', String(rows.length));
+    ok(rows[0].title === 'Senior Manager · LSL, LLP', '/experience/: current role is Senior Manager · LSL, LLP first', JSON.stringify(rows[0]));
+    ok(rows[0].location === 'Chicago, then Des Moines', '/experience/: current role states Chicago then Des Moines', String(rows[0].location));
+    const experienceText = await page.locator('main').innerText();
+    ok(!experienceText.includes('Remote'), '/experience/: omits Remote labels');
+    for (const marker of [
+      'Manager of Digital Services · Citrin Cooperman',
+      'Solutions Architect · Workiva',
+      'Solutions Consultant · Ambra Health',
+      'SEC Reporting Consultant · Workiva',
+    ]) {
+      ok(experienceText.includes(marker), `/experience/: contains ${marker}`);
+    }
+    await context.close();
+  }
+
+  /* ---- About ------------------------------------------------------------------ */
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+    await auditPage(page, '/about/', '/about/');
+    await assertPrimaryNavContract(page, '/about/');
+    const aboutPortrait = await page.locator('.hero-portrait img').evaluate((img) => ({
+      src: img.getAttribute('src'),
+      alt: img.getAttribute('alt'),
+      filter: getComputedStyle(img).filter,
+      clipPath: getComputedStyle(img).clipPath,
+    }));
+    ok(
+      aboutPortrait.filter === 'none' && (aboutPortrait.clipPath === 'none' || !aboutPortrait.clipPath),
+      '/about/: portrait is a plain, unprocessed image',
+      JSON.stringify(aboutPortrait),
+    );
+    ok((await page.locator('h2').filter({ hasText: 'How I work' }).count()) === 1, '/about/: keeps a working-method section');
+    await context.close();
+  }
+
+  /* ---- Fit ------------------------------------------------------------------- */
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+    await auditPage(page, '/fit/', '/fit/');
+    const fitHeading = (await page.locator('h1').innerText()).trim();
+    ok(fitHeading === 'How I would lead my first 90 days as an FDE.', '/fit/: exact heading', fitHeading);
+    const phases = await page.locator('.ninety-plan > li').evaluateAll((items) =>
+      items.map((item) => ({
+        range: item.querySelector('.mono')?.textContent?.trim(),
+        title: item.querySelector('h2')?.textContent?.trim(),
+      })),
+    );
+    ok(phases.length === 4, '/fit/: four dated phases', String(phases.length));
+    ok(
+      phases.map((phase) => phase.range).join('|') === 'Weeks 1–2|Weeks 3–6|Weeks 6–10|Weeks 10–13',
+      '/fit/: phases retain chronological ranges',
+      phases.map((phase) => phase.range).join('|'),
+    );
+    for (const title of ['Choose the first problem.', 'Own the first deployment.', 'Lead through failure.', 'Make the next deployment easier.']) {
+      ok(
+        phases.some((phase) => phase.title === title),
+        `/fit/: includes phase titled "${title}"`,
+      );
+    }
+    const relatedLinks = await page.locator('.related-nav a').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+    for (const route of ['/about/', '/experience/', '/work/']) {
+      ok(relatedLinks.includes(route), `/fit/: links to ${route}`);
+    }
+    ok(relatedLinks.some((href) => href?.startsWith('mailto:')), '/fit/: includes a conversation action');
+    ok((await page.locator('.primary-nav a[href="/fit/"]').count()) === 0, '/fit/: stays off primary navigation even on its own page');
+    ok((await page.locator('footer.site-footer a[href="/fit/"]').count()) === 1, '/fit/: remains reachable from the shared footer');
+    await context.close();
+  }
+
+  /* ---- 404 --------------------------------------------------------------------- */
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+    const notFoundResponse = await page.goto(`${base}/definitely-missing`, { waitUntil: 'load' });
+    ok(notFoundResponse?.status() === 404, 'Custom 404 returns HTTP 404', String(notFoundResponse?.status()));
+    await page.goto(`${base}/404.html`, { waitUntil: 'load' });
+    ok((await page.locator('h1').count()) === 1, 'Custom 404 has one h1');
+    ok((await page.locator('header.masthead').count()) === 1, 'Custom 404 uses the shared masthead');
+    ok((await page.locator('footer.site-footer').count()) === 1, 'Custom 404 uses the shared footer');
+    ok((await page.locator('link[href="/styles/working-record.css"]').count()) === 1, 'Custom 404 loads The Working Record stylesheet');
+    await context.close();
+  }
+
+  /* ---- Résumé / llms.txt / sitemap ---------------------------------------------- */
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+
+    const resumeResponse = await page.request.get(`${base}/dave-bettner-resume.pdf`);
+    ok(resumeResponse.status() === 200, 'Public résumé HTTP 200', String(resumeResponse.status()));
+    ok(resumeResponse.headers()['content-type']?.includes('application/pdf'), 'Public résumé has PDF content type', resumeResponse.headers()['content-type']);
+
+    const llmsResponse = await page.request.get(`${base}/llms.txt`);
+    const llmsText = await llmsResponse.text();
+    ok(llmsResponse.status() === 200, 'Agent-readable site guide HTTP 200', String(llmsResponse.status()));
+    ok(llmsResponse.headers()['content-type']?.includes('text/plain'), 'Agent-readable site guide has plain-text content type', llmsResponse.headers()['content-type']);
+    for (const route of coreRoutes) {
+      ok(llmsText.includes(`https://davebettner.com${route}`), `Agent-readable site guide includes ${route}`);
+    }
+    ok(llmsText.includes('does not offer a public API, hosted MCP endpoint'), 'Agent-readable site guide states the public interface boundary');
+
+    const sitemap = await readFile('dist/sitemap-0.xml', 'utf8');
+    for (const route of [...coreRoutes.filter((route) => route !== '/'), ...projectRoutes]) {
+      ok(sitemap.includes(`https://davebettner.com${route}`), `Sitemap includes ${route}`);
+    }
+    await context.close();
+  }
 } finally {
   await browser.close();
   await stopPreview(preview);

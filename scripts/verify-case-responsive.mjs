@@ -57,7 +57,7 @@ for (const width of widths) {
       `${route} @${width}: completion checks stay in reader-first order (${states.join(' → ')})`,
     );
     pass((await page.locator('.incident-story').count()) === 1, `${route} @${width}: one failure-mode section`);
-    for (const link of await page.locator('.acceptance-link').all()) {
+    for (const link of await page.locator('.acceptance-list .text-link').all()) {
       const href = await link.getAttribute('href');
       pass(Boolean(href) && href !== '#', `${route} @${width}: acceptance link resolves (${href})`);
     }

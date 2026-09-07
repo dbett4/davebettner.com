@@ -130,11 +130,32 @@ async function main() {
     }
     previous = current;
   }
-  if (/815[.\s-]*440[.\s-]*1756/.test(text)) {
-    throw new Error('public résumé must not expose the phone number');
+  if (/815[.\s-]*440[.\s-]*1756/.test(text) || /\(\d{3}\)\s*\d{3}[-.\s]?\d{4}/.test(text)) {
+    throw new Error('public résumé must not expose a phone number');
+  }
+  if (/linkedin/i.test(text)) {
+    throw new Error('public résumé must not link to LinkedIn');
+  }
+  if (!text.includes('dbett4@gmail.com')) {
+    throw new Error('public résumé must include dbett4@gmail.com');
+  }
+  if (!text.includes('davebettner.com')) {
+    throw new Error('public résumé must include davebettner.com');
   }
   if (/not career software engineering or ML research/i.test(text)) {
     throw new Error('public résumé must not include self-rejecting career framing');
+  }
+  for (const unsupportedClaim of [
+    '8 people',
+    '20+ public-company',
+    'reused across every city and county',
+  ]) {
+    if (text.includes(unsupportedClaim)) {
+      throw new Error(`public résumé must not include unsupported claim: ${unsupportedClaim}`);
+    }
+  }
+  if (!/Nous Research product/i.test(text) || !/Nous\/Hermes Enterprise affiliation/i.test(text)) {
+    throw new Error('public résumé must disclaim the independent Hermes naming choice');
   }
   for (const marker of [
     '0-to-1 enterprise deployments',

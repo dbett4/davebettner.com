@@ -62,7 +62,7 @@ The profile is evaluated during recruiting, role-fit review, professional networ
 
 ## Public Route System
 
-Interstellar is the only public theme. Home keeps its monumental identity/portrait composition. Work, Work detail, Experience, First 90 Days, About, and 404 use one shared secondary masthead and compact route-introduction grammar. Preview and mockup routes remain separate experimental surfaces.
+The Working Record is the sole public theme, defined in one shared stylesheet (`public/styles/working-record.css`) and one shared masthead component (`src/components/Masthead.astro`). Home, Work, every Work detail, Experience, About, `/fit/`, and 404 all load that stylesheet and that masthead: a compact "Dave Bettner" brand, primary navigation limited to Work, Experience, and About with `aria-current`, and quiet résumé/email utilities. Narrow viewports reach every destination through a native, JS-free `<details>` disclosure rather than a second navigation system. `/fit/` stays off primary navigation but remains reachable from the shared footer on every route. Preview and mockup routes remain separate, non-indexed, isolated surfaces and do not load the public stylesheet.
 
 ## Accessibility & Inclusion
 

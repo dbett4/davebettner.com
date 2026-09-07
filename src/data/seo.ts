@@ -2,13 +2,15 @@ import { githubUrl, linkedinUrl } from './site-links';
 
 export const siteUrl = 'https://davebettner.com';
 
-export const siteTitle = 'Dave Bettner | Forward-Deployed Engineering · Agent Systems';
+export const siteTitle = 'Dave Bettner | Senior Manager, Enterprise Deployments';
 
 export const siteDescription =
-  'Dave Bettner leads 0-to-1 enterprise deployments from discovery through go-live and adoption, backed by ten years of customer implementation and public agent engineering.';
+  'Dave Bettner is a Senior Manager in Des Moines, Iowa who leads enterprise deployments from discovery through adoption, backed by customer-facing delivery since 2015 and independent public agent-engineering evidence.';
 
 export const identitySeoLead =
-  'Customer-facing technical delivery since 2015, including 0-to-1 enterprise deployments and newer public agent and MCP engineering work.';
+  'Customer-facing technical delivery since 2015, including enterprise deployments and independent public agent and MCP engineering work.';
+
+export const ogImagePath = '/images/dave-bettner-og.jpg';
 
 export const personSchema = {
   '@context': 'https://schema.org',
@@ -19,14 +21,14 @@ export const personSchema = {
   mainEntityOfPage: `${siteUrl}/`,
   image: `${siteUrl}/images/dave-bettner-headshot-20260808-square.jpg`,
   description:
-    'Forward-deployed delivery and solutions engineering leader who owns enterprise deployments from discovery through go-live and adoption and builds inspectable AI-agent systems.',
+    'Senior Manager who leads enterprise deployments from discovery through adoption and builds inspectable AI-agent systems as independent public evidence.',
   jobTitle: 'Senior Manager',
   knowsAbout: [
+    'Enterprise deployments',
     'Forward-deployed engineering',
-    '0-to-1 enterprise deployments',
-    'Enterprise agent systems',
     'Solutions engineering',
     'Customer implementation',
+    'Enterprise agent systems',
     'Model Context Protocol',
     'Financial reporting and assurance workflows',
   ],

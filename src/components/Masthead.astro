@@ -1,0 +1,41 @@
+---
+import { emailHref } from '../data/site-links';
+
+const currentPath = Astro.url.pathname;
+const navItems = [
+  ['/work/', 'Work'],
+  ['/experience/', 'Experience'],
+  ['/about/', 'About'],
+] as const;
+const isCurrent = (href: string) => (currentPath === href || (href !== '/' && currentPath.startsWith(href)));
+---
+
+<header class="masthead">
+  <div class="wrap masthead-row">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Dave Bettner
+    </a>
+    <nav class="primary-nav" aria-label="Primary navigation">
+      <ul>
+        {navItems.map(([href, label]) => (
+          <li><a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="masthead-utility">
+      <a href="/dave-bettner-resume.pdf" download>Résumé</a>
+      <a href={emailHref}>Email</a>
+    </div>
+    <details class="nav-disclosure">
+      <summary aria-label="Open site navigation">Menu</summary>
+      <nav class="nav-disclosure-panel" aria-label="Site navigation">
+        {navItems.map(([href, label]) => (
+          <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>
+        ))}
+        <a class="utility-link" href="/dave-bettner-resume.pdf" download>Résumé</a>
+        <a class="utility-link" href={emailHref}>Email</a>
+      </nav>
+    </details>
+  </div>
+</header>

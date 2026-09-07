@@ -1,22 +1,50 @@
 ---
 import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/newsreader/wght.css';
 import '@fontsource/dm-mono/400.css';
-import SecondaryMasthead from '../components/SecondaryMasthead.astro';
+import Masthead from '../components/Masthead.astro';
+import Footer from '../components/Footer.astro';
+
 const title = 'Page not found | Dave Bettner';
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
-    <meta name="theme-color" content="#08090b" />
-    <meta name="color-scheme" content="dark" />
-    <link rel="stylesheet" href="/styles/interstellar-system.css" />
+    <meta name="theme-color" content="#F5F2EA" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles/working-record.css" />
     <title>{title}</title>
-    <style>
-      *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Archivo Variable",system-ui,sans-serif;background:var(--paper);color:var(--ink)}main{min-height:calc(100vh - 65px);display:grid;place-items:center}.not-found-cover{width:100%;min-height:calc(100vh - 65px);display:grid;align-items:center}.not-found-inner{width:min(calc(100% - 48px),1280px);margin:auto;padding-block:clamp(48px,10vw,120px)}.eyebrow{margin:0 0 12px}h1{font-size:clamp(3.4rem,10vw,7rem)!important;max-width:12ch;margin:.15em 0 .25em}p{max-width:48ch;line-height:1.6}.round{display:inline-flex;align-items:center;margin-top:18px;text-decoration:none;font-weight:700}
-    </style>
   </head>
-  <body><a class="skip-link" href="#main">Skip to content</a><SecondaryMasthead context="404 · off the map" /><main id="main"><section class="not-found-cover route-intro"><div class="not-found-inner"><p class="eyebrow mono">404 / Off the map</p><h1>Nothing lives here.</h1><p>The work is real. This address is not.</p><a class="round" href="/">Return home →</a></div></section></main><script is:inline type="module" src="/interstellar.js"></script></body>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Masthead />
+    <main id="main">
+      <section class="section not-found" aria-labelledby="not-found-heading">
+        <div class="wrap">
+          <p class="eyebrow mono">404 / Page not found</p>
+          <h1 id="not-found-heading">This address does not match a page.</h1>
+          <p class="lead">Return home to browse Dave’s work and experience.</p>
+          <a class="action action-primary" href="/">Return home <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
 </html>
+
+<style>
+  .not-found {
+    min-height: calc(100vh - 65px);
+    display: flex;
+    align-items: center;
+  }
+
+  .not-found .action {
+    margin-top: var(--space-3);
+  }
+</style>

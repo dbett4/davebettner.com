@@ -1,0 +1,48 @@
+{
+  "type": "vision_review_packet",
+  "state": "verified",
+  "scope": "davebettner.com homepage UI Rules-inspired hierarchy, operating-rules ledger, delivery-proof bridge, and footer contact spacing",
+  "base_revision": "db7057ac310ff5fd48ff06a262655f2937671671",
+  "candidate_revision": "dc3a68e1f8ad2d729ca911d02de0205bac262c0f",
+  "capture_route": "isolated Astro candidate worktree with Playwright and system Chrome; candidate worktree removed after capture",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 5033,
+      "capture": "handoff/hermes/ui-rules-review/desktop-1440.png",
+      "sha256": "6038453327f8a9f51e88d9e6999aff3bb0eda71e097b20949094ba8cbb370414"
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 5240,
+      "capture": "handoff/hermes/ui-rules-review/mobile-390.png",
+      "sha256": "a5af71605b81117330309f2bf0c60589d308c5988a4eba0fe5311c686b07c7b2"
+    }
+  ],
+  "deterministic_evidence": {
+    "test_command": "npm test",
+    "test_result": "NPM_TEST_RC=0",
+    "verified_assertions": [
+      "footer contact links render as a three-link flex group with a positive gap",
+      "customer delivery outcomes disclose engagement-summary status and link to independent public proof",
+      "hero role/support hierarchy and operating-rules ledger remain present at all tested viewports",
+      "deploy preflight regression battery passes"
+    ]
+  },
+  "independent_reviewer": {
+    "route": "independent Hermes leaf agent per Dave's instruction; Claude not used",
+    "agent_id": "sa-0-60de39d2",
+    "verdict": "PASS",
+    "material_defect": "None observed in either final screenshot.",
+    "findings": [
+      "Footer About, GitHub, LinkedIn, and Email are distinct and legible at both viewports.",
+      "The outcomes-to-public-proof bridge is readable, spacious, and clearly separated from the outcome rows.",
+      "Hero role/support hierarchy and quiet résumé utility remain intact.",
+      "The Operating rules ledger remains coherent and scannable on desktop and mobile.",
+      "No visible clipping or horizontal overflow appears in the final captures."
+    ]
+  },
+  "deploy_state": "not_deployed"
+}

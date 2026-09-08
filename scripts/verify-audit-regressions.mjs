@@ -81,8 +81,8 @@ try {
     sections.map((section) => section.id).filter(Boolean),
   );
   check(
-    ['top', 'proof', 'work', 'about', 'contact'].every((id, index) => homepageOrder[index] === id),
-    'Homepage order is identity, outcomes, engineering, synthesis, CTA',
+    ['top', 'rules', 'proof', 'work', 'about', 'contact'].every((id, index) => homepageOrder[index] === id),
+    'Homepage order is identity, operating rules, outcomes, engineering, synthesis, CTA',
     homepageOrder.join(' → '),
   );
   const builtHomepage = await readFile('dist/index.html', 'utf8');

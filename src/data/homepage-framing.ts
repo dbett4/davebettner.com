@@ -1,7 +1,30 @@
 import { publicEngineeringCases } from './public-proof';
 
 export const thesis = {
-  title: 'I lead 0-to-1 enterprise deployments from discovery through go-live and adoption. I also build agent systems for work where mistakes are expensive.',
+  title: 'I lead 0-to-1 enterprise deployments from discovery through go-live and adoption.',
+  support: 'I also build agent systems for work where mistakes are expensive.',
+} as const;
+
+export const workingRules = {
+  title: 'Proof travels with the work.',
+  lead: 'The controls I bring into a customer environment are simple to state and hard to fake.',
+  items: [
+    {
+      title: 'Confirm',
+      body: 'Map the workflow, stakeholders, constraints, and decision criteria before the write.',
+      note: 'Before the action',
+    },
+    {
+      title: 'Write within scope',
+      body: 'Give the system only the access its job requires, with approval kept separate.',
+      note: 'Guarded access',
+    },
+    {
+      title: 'Read back',
+      body: 'Check the native source and leave the failure, evidence, and next decision visible.',
+      note: 'After the change',
+    },
+  ],
 } as const;
 
 const mappedProjects = publicEngineeringCases.map((item) => ({

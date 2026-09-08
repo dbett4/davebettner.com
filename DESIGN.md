@@ -21,7 +21,10 @@ The homepage owns the full field. Secondary routes use `SecondaryMasthead.astro`
 
 ## Homepage topology
 
-The masthead is thin and dark. The opening field fills the first viewport. Monumental stacked DAVE BETTNER sits left, with the customer-facing implementation role, exact existing support copy, and rectangular conversation/résumé actions. The exact source portrait sits large at right and overlaps the field. Delivery evidence begins at or below the fold.
+The masthead is thin and dark. The opening field fills the first viewport. Monumental stacked DAVE BETTNER sits left, with the customer-facing implementation role, a short supporting proof line, and two rectangular actions; the résumé remains a plain text utility rather than a third competing button. The exact source portrait sits large at right and overlaps the field. A short ruled operating-rules ledger bridges the opening and delivery outcomes, making confirm → scoped write → native readback explicit before the longer proof sections. The delivery ledger labels customer outcomes as engagement summaries, then points directly to independent public case studies rather than implying that client artifacts are public.
+
+## Rules ledger
+The homepage places three operating rules between the opening field and delivery outcomes. Each row has one claim, one supporting sentence, and one contextual note. It uses the same hard rules, mono labels, ember signal, and carbon surfaces as the rest of the system. The ledger is intentionally not a card grid or product dashboard: it is a fast scan of the judgment Dave brings into a customer environment.
 
 The only visible homepage portrait carrying `data-source-portrait` is `/images/dave-bettner-headshot-20260816-cutout.png`, declared at its intrinsic `1312 × 1199`. It is the user-supplied RGBA image byte-for-byte, rendered as an ordinary image, never a canvas, and receives no pixel manipulation.
 

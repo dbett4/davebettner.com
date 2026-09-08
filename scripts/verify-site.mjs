@@ -888,7 +888,25 @@ try {
       motifKinds.join('|'),
     );
     ok(await page.locator('a[href="https://github.com/dbett4"]').count() >= 1, `${viewport.name}: GitHub profile is linked`);
+    const contactLayout = await page.locator('.contact-links').evaluate((element) => ({
+      display: getComputedStyle(element).display,
+      columnGap: getComputedStyle(element).columnGap,
+      links: element.querySelectorAll('a').length,
+    }));
+    ok(
+      contactLayout.display === 'flex' && Number.parseFloat(contactLayout.columnGap) > 0 && contactLayout.links === 3,
+      `${viewport.name}: footer contact links have explicit separation`,
+      JSON.stringify(contactLayout),
+    );
     const body = await page.locator('body').innerText();
+    const proofBridge = ((await page.locator('.proof-bridge').textContent()) ?? '').replace(/\s+/g, ' ').trim();
+    ok(
+      /not public client artifacts/i.test(proofBridge) &&
+        /independent, inspectable examples/i.test(proofBridge) &&
+        (await page.locator('.proof-bridge a[href="#work"]').count()) === 1,
+      `${viewport.name}: delivery outcomes bridge honestly to independent public proof`,
+      proofBridge,
+    );
     ok(body.includes('publication dates'), `${viewport.name}: publication provenance visible`);
     ok(!body.includes('459 Python'), `${viewport.name}: stale Wingman count absent`);
     const coverKicker = await page.locator('.cover-kicker').textContent();
@@ -903,11 +921,12 @@ try {
     );
     const coverRole = ((await page.locator('.cover-role').textContent()) ?? '').trim();
     const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
+    const coverSupport = ((await page.locator('.cover-support').textContent()) ?? '').trim();
     ok(
-      coverRole === 'I lead 0-to-1 enterprise deployments from discovery through go-live and adoption. I also build agent systems for work where mistakes are expensive.' &&
-        (await page.locator('.cover-support').count()) === 0,
-      `${viewport.name}: hero states 0-to-1 ownership without blurring the public agent-engineering evidence boundary`,
-      coverRole,
+      coverRole === 'I lead 0-to-1 enterprise deployments from discovery through go-live and adoption.' &&
+        coverSupport === 'I also build agent systems for work where mistakes are expensive.',
+      `${viewport.name}: hero separates the primary deployment role from the supporting agent-engineering proof line`,
+      JSON.stringify({ coverRole, coverSupport }),
     );
     ok(
       /labs and sanitized extracts/i.test(provenance) &&
@@ -927,6 +946,24 @@ try {
       closingTitle,
     );
     ok(body.includes('Give an agent only the access its job requires'), `${viewport.name}: features the regulated reporting case`);
+    const rules = await page.locator('#rules .rule-row').evaluateAll((rows) =>
+      rows.map((row) => ({
+        number: (row.querySelector('.rule-number')?.textContent ?? '').trim(),
+        title: (row.querySelector('.rule-copy h3')?.textContent ?? '').trim(),
+        body: (row.querySelector('.rule-copy p')?.textContent ?? '').trim(),
+        note: (row.querySelector('.rule-note')?.textContent ?? '').trim(),
+      })),
+    );
+    ok(
+      rules.length === 3 &&
+        rules.map((rule) => `${rule.number} ${rule.title}`).join('|') === '01 Confirm|02 Write within scope|03 Read back' &&
+        rules.every((rule) => rule.body.length > 20 && rule.note.length > 0),
+      `${viewport.name}: operating rules ledger exposes three concrete, bounded rules`,
+      JSON.stringify(rules),
+    );
+    const rulesTop = await page.locator('#rules').evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+    const proofTop = await page.locator('#proof').evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+    ok(rulesTop < proofTop, `${viewport.name}: operating rules bridge the hero and delivery outcomes`, JSON.stringify({ rulesTop, proofTop }));
     ok(body.includes('Let an accounting agent propose without letting it approve itself'), `${viewport.name}: features the accounting acceptance case`);
     ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
     ok(body.includes('Make agent work explainable after the fact'), `${viewport.name}: selected work includes the agent operating system case`);

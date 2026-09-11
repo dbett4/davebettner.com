@@ -55,9 +55,11 @@ try:
   nojs=browser.new_context(java_script_enabled=False,reduced_motion='reduce',viewport={'width':390,'height':844});np=nojs.new_page();np.goto(base+'/')
   scene=np.locator('img.scene-render')
   assert scene.count()==1 and scene.is_visible()
-  assert scene.get_attribute('src')=='/images/dave-workstation.webp'
+  assert scene.get_attribute('src')=='/images/dave-workstation-transparent.webp'
   assert scene.evaluate('(e)=>e.complete&&e.naturalWidth===1000&&e.naturalHeight===1000')
-  assert scene.evaluate('(e)=>e.getBoundingClientRect().width<=340')
+  assert scene.evaluate('(e)=>e.getBoundingClientRect().width>=innerWidth*1.05&&e.getBoundingClientRect().width<=innerWidth*1.2'), 'Intentional larger mobile illustration'
+  assert np.evaluate('document.documentElement.scrollWidth<=innerWidth'), 'Large illustration must not create page overflow'
+  assert scene.locator('..').evaluate('(e)=>getComputedStyle(e).maskImage!=="none"'), 'Soft scene vignette is required'
   assert np.locator('video,canvas').count()==0
   assert np.evaluate('document.getAnimations().every(a=>a.playState!=="running")')
   assert 'Financial systems consulting' in np.locator('body').inner_text();nojs.close()

@@ -1,0 +1,61 @@
+---
+// Preserve the approved illustration. This animates the screen only, not Dave's hands.
+const lines = ['agent> review changes', 'reading project files', 'inspecting the diff', 'checking interfaces', 'tracing dependencies', 'reviewing edge cases', 'preparing a small change', 'checking the implementation', 'summarizing the change', 'agent> continue'];
+const screenTransform = 'matrix3d(0.362030731629,0.0524547859947,0,-0.0000980932977655,-0.428881044838,0.256001764099,0,-0.000599129778219,0,0,1,0,577.520019531,239.160003662,0,1)';
+---
+<div class="workstation-unit" data-workstation>
+  <div class="workstation-media">
+    <img class="scene-render" src="/images/dave-workstation-transparent.webp" alt="Rear three-quarter workstation illustration of Dave at his black dual-monitor desk, with his dog on a geometric rug. The right screen has illustrative scrolling terminal activity when motion is enabled." width="1000" height="1000" fetchpriority="high" decoding="async" />
+    <svg class="terminal-layer" viewBox="0 0 1000 1000" aria-hidden="true" focusable="false">
+      <foreignObject x="0" y="0" width="1000" height="1000">
+        <div class="terminal-plane" style={`transform:${screenTransform}`}>
+          <div class="terminal-content">
+            {[0,1].map(() => <div class="terminal-block">{lines.map((line,index) => <span class:list={{'terminal-command':index===0||index===9}}>{line}</span>)}</div>)}
+          </div>
+        </div>
+      </foreignObject>
+    </svg>
+  </div>
+  <button class="scene-motion-toggle" data-workstation-motion-button type="button" hidden aria-pressed="false">Pause screen motion</button>
+</div>
+<style>
+  .workstation-unit { position: relative; width: 100%; }
+  .workstation-media { position: relative; width: 100%; aspect-ratio: 1; }
+  .scene-render { display: block; width: 100%; height: auto; }
+  .terminal-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; visibility: hidden; }
+  [data-motion-ready='true'] .terminal-layer { visibility: visible; }
+  .terminal-plane { width: 320px; height: 180px; overflow: hidden; transform-origin: 0 0; background: #15212a; color: #aabcc8; opacity: .94; border-radius: 2px; font: 14px/24px ui-monospace, SFMono-Regular, Consolas, monospace; }
+  .terminal-content { padding-inline: 12px; animation: workstation-terminal-scroll 20s linear infinite; animation-play-state: paused; }
+  .terminal-block { height: 240px; }
+  .terminal-block span { display: block; height: 24px; white-space: nowrap; }
+  .terminal-command { color: #87c9b1; }
+  [data-motion-active='true'] .terminal-content { animation-play-state: running; }
+  @keyframes workstation-terminal-scroll { from { transform: translateY(0); } to { transform: translateY(-240px); } }
+  .scene-motion-toggle { position: absolute; bottom: 4%; right: 12%; z-index: 3; padding: 8px 12px; min-height: 36px; border: 1px solid var(--border); border-radius: 4px; color: var(--secondary); background: var(--page); font: inherit; font-size: 11px; cursor: pointer; }
+  .scene-motion-toggle[hidden] { display: none; }
+  @media (prefers-reduced-motion: reduce) { .terminal-layer, .scene-motion-toggle { display: none !important; } .terminal-content { animation: none; } }
+</style>
+<script is:inline>
+  (() => {
+    const root = document.querySelector('[data-workstation]');
+    if (!root || root.dataset.motionInitialized) return;
+    root.dataset.motionInitialized = 'true';
+    const button = root.querySelector('[data-workstation-motion-button]');
+    const preference = matchMedia('(prefers-reduced-motion: reduce)');
+    let paused = false;
+    let visible = false;
+    const sync = () => {
+      root.dataset.motionReady = String(!preference.matches);
+      root.dataset.motionActive = String(!preference.matches && !paused && visible && !document.hidden);
+      button.hidden = preference.matches;
+      button.setAttribute('aria-pressed', String(paused));
+      button.textContent = paused ? 'Resume screen motion' : 'Pause screen motion';
+    };
+    button.addEventListener('click', () => { paused = !paused; sync(); });
+    const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, {threshold: .05});
+    observer.observe(root);
+    preference.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+    sync();
+  })();
+</script>

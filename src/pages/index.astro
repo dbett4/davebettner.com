@@ -1,38 +1,12 @@
 ---
+import Profile from '../layouts/Profile.astro';
+import WorkstationMedia from '../components/WorkstationMedia.astro';
 import '../styles/workstation.css';
-import { siteDescription, siteTitle, personSchema } from '../data/seo';
-const canonical = 'https://davebettner.com/';
 ---
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{siteTitle}</title>
-  <meta name="description" content={siteDescription} />
-  <meta name="robots" content="noindex, nofollow" />
-  <meta name="theme-color" content="#f7f7f3" />
-  <link rel="canonical" href={canonical} />
-  <link rel="icon" href="/favicon.svg" />
-  <meta property="og:type" content="profile" />
-  <meta property="og:title" content={siteTitle} />
-  <meta property="og:description" content={siteDescription} />
-  <meta property="og:url" content={canonical} />
-  <meta property="og:image" content="https://davebettner.com/images/dave-bettner-profile-social.jpg" />
-  <meta property="og:image:alt" content="Dave Bettner — Financial systems consulting" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://davebettner.com/images/dave-bettner-profile-social.jpg" />
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
-</head>
-<body>
-<a href="#main" class="skip skip-link">Skip to content</a>
-<header class="site-header wrap"><a class="brand" href="/">Dave Bettner</a><nav class="nav" aria-label="Primary"><a href="/experience/">Experience</a><a href="/work/">Projects</a><a href="/fit/">Approach</a><a class="contact" href="mailto:dbett4@gmail.com">Email Dave</a></nav></header>
-<main id="main">
-<section class="hero wrap"><div><h1>Dave Bettner</h1><h2>Financial systems consulting.</h2><p class="lede">I help finance teams implement software, connect their reporting systems, and learn how to use them.</p><div class="actions"><a class="button" href="/dave-bettner-resume.pdf" download>Download résumé</a><a href="mailto:dbett4@gmail.com">Get in touch</a></div></div><div class="scene-wrap"><img class="scene-render" src="/images/dave-workstation.webp" alt="Rear three-quarter view of Dave in khaki pants and white shoes, reaching to the right-side height control of his black dual-monitor desk, with his dog resting on a larger geometric rug" width="1000" height="1000" fetchpriority="high" decoding="async"></div></section>
+<Profile title="Dave Bettner — Financial systems consulting" page="home" footerMessage={{title: 'Let’s talk about the work.', body: 'I’m interested in roles that bring accounting knowledge, technical consulting, and customer or partner enablement together.'}}>
+<section class="hero wrap"><div><h1>Dave Bettner</h1><h2>Financial systems consulting.</h2><p class="lede">I help finance teams implement software, connect their reporting systems, and learn how to use them.</p><div class="actions"><a class="button" href="/dave-bettner-resume.pdf" download>Download résumé</a><a href="mailto:dbett4@gmail.com">Get in touch</a></div></div><div class="scene-wrap"><WorkstationMedia /></div></section>
 <div class="proof wrap"><span>Workiva · Citrin Cooperman · LSL</span><span>Accounting, technology, and customer delivery since 2015.</span><span>Des Moines, Iowa</span></div>
 <section class="section experience wrap"><div class="section-grid"><h2>I’ve worked on both sides of an implementation.</h2><div><p>At Workiva, I helped customers put the platform into use. At accounting firms, I’ve led the teams delivering it.</p><p>That means working through the requirements with finance and IT, explaining the solution, training the people who will use it, and staying through testing and go-live.</p><a class="section-link" href="/experience/">Explore my experience</a></div></div></section>
 <section class="section wrap"><div class="section-grid"><h2>Connecting data collection and reporting.</h2><div><p>At Citrin Cooperman, I led a Workiva implementation connecting a customer’s system of record with its data-collection and reporting workflow.</p><a class="section-link" href="/experience/connected-reporting/">Read the engagement summary</a></div></div><div class="case"><div><h3>Two systems, one workflow</h3><p>Bidirectional API integration between Workiva and the customer’s system of record.</p></div><div class="facts"><div class="fact"><strong>Access and traceability</strong>Single sign-on and an audit trail within the implementation.</div><div class="fact"><strong>Acceptance through launch</strong>Delivery leadership spanning user acceptance testing, go-live, and executive sign-off.</div></div></div></section>
 <section class="section wrap"><h2>What I’m building.</h2><p class="project-intro">Alongside consulting, I build tools to explore where AI can help with accounting—and where it needs checks.</p><div class="projects"><article class="project"><div><h3>Accounting Acceptance Lab</h3><p>A Python and SQLite lab for testing accounting agents on reconciliation cases. It checks supporting evidence, approval requirements, and recovery from failed writes.</p><p>Personal project. Synthetic cases, not client records.</p></div><div><a href="/work/accounting-acceptance-lab/">About the project</a> · <a href="https://github.com/dbett4/accounting-acceptance-lab">View repository</a></div></article><article class="project"><div><h3>Regulated Reporting MCP</h3><p>An MCP server that connects AI agents to reporting APIs through OAuth. It checks approval before writes and reads the result back to verify the change.</p><p>Personal project. The public demo uses mock data.</p></div><div><a href="/work/regulated-reporting-mcp/">About the project</a> · <a href="https://github.com/dbett4/regulated-reporting-mcp">View repository</a></div></article></div><a class="section-link" href="/work/">More technical work</a></section>
-</main><footer class="footer wrap"><div><h2>Let’s talk about the work.</h2><p class="closing-note">I’m interested in roles that bring accounting knowledge, technical consulting, and customer or partner enablement together.</p></div><div class="footer-side"><a href="mailto:dbett4@gmail.com">dbett4@gmail.com</a><a href="https://www.linkedin.com/in/dave-bettner/">LinkedIn</a><a href="https://github.com/dbett4">GitHub</a><a href="/about/">About</a><a href="/dave-bettner-resume.pdf">Résumé</a></div></footer>
-</body>
-</html>
+</Profile>

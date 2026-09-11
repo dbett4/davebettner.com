@@ -1,0 +1,49 @@
+<div class="theme-control" role="group" aria-label="Color theme">
+  <span class="theme-control-label">Theme</span>
+  <button type="button" class="theme-choice" data-theme-choice="light" aria-label="Use light theme" aria-pressed="false">Light</button>
+  <button type="button" class="theme-choice" data-theme-choice="dark" aria-label="Use dark theme" aria-pressed="false">Dark</button>
+</div>
+
+<script is:inline>
+  (() => {
+    const key = 'db-theme';
+    const root = document.documentElement;
+    const media = window.matchMedia?.('(prefers-color-scheme: dark)');
+    const controls = [...document.querySelectorAll('button[data-theme-choice]')];
+    if (!controls.length) return;
+
+    const sync = () => {
+      const theme = root.dataset.theme || (media?.matches ? 'dark' : 'light');
+      controls.forEach((control) => {
+        const selected = control.dataset.themeChoice === theme;
+        control.setAttribute('aria-pressed', String(selected));
+      });
+    };
+
+    const choose = (theme) => {
+      root.dataset.theme = theme;
+      root.dataset.themePreference = theme;
+      root.style.colorScheme = theme;
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+      if (themeColor) themeColor.setAttribute('content', theme === 'dark' ? '#11161d' : '#e6ebf0');
+      try {
+        window.localStorage.setItem(key, theme);
+      } catch {
+        // An explicit choice still applies for this page when storage is blocked.
+      }
+      sync();
+    };
+
+    controls.forEach((control) => control.addEventListener('click', () => choose(control.dataset.themeChoice)));
+    if (media?.addEventListener) media.addEventListener('change', (event) => {
+      if (!root.dataset.themePreference) {
+        root.dataset.theme = event.matches ? 'dark' : 'light';
+        root.style.colorScheme = root.dataset.theme;
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        if (themeColor) themeColor.setAttribute('content', event.matches ? '#11161d' : '#e6ebf0');
+        sync();
+      }
+    });
+    sync();
+  })();
+</script>

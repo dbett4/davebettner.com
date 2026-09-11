@@ -53,7 +53,7 @@ const port = await new Promise((resolvePort, reject) => {
     probe.close((error) => (error ? reject(error) : resolvePort(selected)));
   });
 });
-const server = spawn('python3', ['-m', 'http.server', String(port), '--bind', '127.0.0.1', '--directory', dist], { stdio: 'ignore' });
+const server = spawn('/usr/bin/python3', ['-m', 'http.server', String(port), '--bind', '127.0.0.1', '--directory', dist], { stdio: 'ignore' });
 const base = `http://127.0.0.1:${port}`;
 const pageErrors = [];
 const captures = [];

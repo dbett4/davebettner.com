@@ -8,7 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "npm run generate-resume && npm run build && node --test scripts/ramp-profile.test.mjs && /usr/bin/python3 scripts/verify-ramp-profile.py",
+    "test": "npm run generate-resume && npm run build && node --test scripts/ramp-profile.test.mjs && node scripts/run-browser-checks.mjs",
     "generate-resume": "node scripts/generate-resume-pdf.mjs",
     "generate-og": "node scripts/generate-og-image.mjs",
     "verify:portrait": "node scripts/verify-portrait-cutout.mjs",

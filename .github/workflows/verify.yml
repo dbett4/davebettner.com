@@ -44,6 +44,12 @@ jobs:
         timeout-minutes: 5
         run: npm run build
 
+      - name: Install Python browser test dependency
+        timeout-minutes: 5
+        run: |
+          python3 -m venv "$RUNNER_TEMP/site-test-venv"
+          "$RUNNER_TEMP/site-test-venv/bin/python" -m pip install playwright==1.62.0
+
       - name: Test
         timeout-minutes: 10
-        run: npm test
+        run: SITE_TEST_PYTHON="$RUNNER_TEMP/site-test-venv/bin/python" npm test

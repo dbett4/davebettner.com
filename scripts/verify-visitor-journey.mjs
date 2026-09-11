@@ -5,7 +5,7 @@ import { chromium } from 'playwright-core';
 
 const base = process.env.SITE_URL;
 assert.ok(/^https?:\/\//.test(base || ''), 'Set SITE_URL to an HTTP server serving dist.');
-const out = resolve(process.env.VISITOR_JOURNEY_OUT || 'review/visitor-journey');
+const out = resolve(process.env.VISITOR_JOURNEY_OUT || 'node_modules/.cache/visitor-journey');
 await mkdir(out, { recursive: true });
 const axeSource = await readFile(resolve('node_modules/axe-core/axe.min.js'), 'utf8');
 const checks = [];
@@ -24,14 +24,18 @@ const browser = await chromium.launch({
 const pageErrors = [];
 const consoleErrors = [];
 const fixtureUrl = (route) => new URL(route, base).href;
+const observedPage = async (context) => {
+  const page = await context.newPage();
+  page.on('pageerror', (error) => pageErrors.push(`${page.url()}: ${error}`));
+  page.on('console', (message) => {
+    if (message.type() === 'error') consoleErrors.push(`${page.url()}: ${message.text()}`);
+  });
+  return page;
+};
 
 try {
   const context = await browser.newContext({ colorScheme: 'light', viewport: { width: 1440, height: 900 } });
-  const page = await context.newPage();
-  page.on('pageerror', (error) => pageErrors.push(String(error)));
-  page.on('console', (message) => {
-    if (message.type() === 'error') consoleErrors.push(message.text());
-  });
+  const page = await observedPage(context);
 
   await page.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
@@ -88,7 +92,7 @@ try {
   check(workStructure.links.every((project) => project.aboutLabel?.startsWith('About the project: ') && project.repositoryLabel?.startsWith('View repository: ')), 'work project links have contextual names', JSON.stringify(workStructure.links));
 
   const mobileContext = await browser.newContext({ colorScheme: 'light', viewport: { width: 320, height: 844 } });
-  const mobilePage = await mobileContext.newPage();
+  const mobilePage = await observedPage(mobileContext);
   await mobilePage.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   const mobileHeader = await mobilePage.evaluate(() => {
     const header = document.querySelector('.masthead');
@@ -116,7 +120,7 @@ try {
   await mobileContext.close();
 
   const reducedContext = await browser.newContext({ reducedMotion: 'reduce', colorScheme: 'dark', viewport: { width: 390, height: 844 } });
-  const reducedPage = await reducedContext.newPage();
+  const reducedPage = await observedPage(reducedContext);
   await reducedPage.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   const reduced = await reducedPage.evaluate(() => ({
     media: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -134,7 +138,7 @@ try {
     { mode: 'dark', width: 320, height: 844, file: 'home-dark-mobile.png' },
   ]) {
     const shotContext = await browser.newContext({ colorScheme: shot.mode, viewport: { width: shot.width, height: shot.height } });
-    const shotPage = await shotContext.newPage();
+    const shotPage = await observedPage(shotContext);
     await shotPage.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
     await shotPage.evaluate(() => document.fonts.ready);
     await shotPage.screenshot({ path: resolve(out, shot.file), fullPage: true });

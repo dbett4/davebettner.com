@@ -7,48 +7,75 @@ const rect=(x,y,w,h,fill,extra='')=>`<rect x="${x}" y="${y}" width="${w}" height
 const svg=body=>`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><g font-family="DejaVu Sans, sans-serif">${body}</g></svg>`;
 
 function spreadsheet(t){
-  const scroll=28*smooth((t-.75)/.7);
-  let out=rect(0,0,W,H,'#f9fcfb')+rect(0,0,W,36,'#207353')+text(22,25,'Workbook','#fff',18,600)+text(533,24,'Saved · 100%','#d8eee3',14);
-  out+=rect(0,36,W,39,'#eef4f0')+text(18,62,'File     Home     Insert     Data     Review','#43584e',16)+rect(18,82,61,24,'#fff','stroke="#cad8d0"')+text(28,100,'D12','#4f625a',14)+rect(88,82,614,24,'#fff','stroke="#cad8d0"')+text(99,100,'fx   =SUM(D5:D11)','#43564d',14);
-  out+='<defs><clipPath id="grid"><rect x="0" y="139" width="720" height="250"/></clipPath></defs>';
-  out+=rect(0,114,W,25,'#e9f0ec');
-  const columns=[0,38,278,397,515,618,720];
-  ['','A','B','C','D','E'].forEach((s,i)=>out+=text(columns[i]+(columns[i+1]-columns[i])/2-5,132,s,'#62756b',13));
-  out+='<g clip-path="url(#grid)">';
-  const labels=['OPERATING SUMMARY','Revenue','Direct costs','Gross margin','People','Infrastructure','Software','Operations','Total expenses','Operating result','Cash reserve','Forecast'];
-  const amounts=[['Actual','Budget','Variance',''],['248,000','240,000','8,000',''],['62,400','64,000','1,600',''],['185,600','176,000','9,600',''],['94,200','96,000','1,800',''],['12,800','14,000','1,200',''],['8,400','8,000','(400)',''],['15,700','16,000','300',''],['131,100','134,000','2,900',''],['54,500','42,000','12,500',''],['286,000','270,000','16,000',''],['Stable','Stable','—','']];
-  for(let i=0;i<labels.length;i++){
-    const y=139+i*28-scroll;
-    out+=rect(0,y,38,28,'#eef3f0')+rect(38,y,682,28,i===0?'#dbeae2':i%2?'#fff':'#f7faf8');
-    if(i===9)out+=rect(38,y,682,28,'#e6f1ea');
-    out+=text(10,y+19,String(i+1),'#789084',13)+text(49,y+19,labels[i],i===0?'#28533f':'#354f43',i===0?15:16,i===0||i===9?600:400);
-    amounts[i].forEach((v,j)=>out+=text(columns[j+2]+10,y+19,v,i===0?'#466151':j===2?'#247c58':'#354f43',15,i===0?600:400));
-    out+=`<path d="M0 ${y+28}H720" stroke="#dce5df" stroke-width="1"/>`;
-  }
-  for(const x of columns)out+=`<path d="M${x} 139V510" stroke="#dae4de" stroke-width="1"/>`;
-  out+=rect(515,139+5*28-scroll,103,28,'none','stroke="#2e8b62" stroke-width="2"');
-  out+='</g>'+rect(0,390,W,40,'#edf3ef')+rect(41,390,143,35,'#fff')+text(57,414,'Summary','#21734f',16,600)+text(206,414,'Monthly','#75877c',15)+text(324,414,'Forecast','#75877c',15)+rect(42,424,142,3,'#2f855d');
-  return svg(out);
+  const scroll=32*smooth((t-.65)/.95);
+  let out=rect(0,0,W,H,'#eef0ed')+rect(0,0,W,34,'#376a53')+text(18,24,'Budget · Saved','#f1f4ef',18,600);
+  out+=rect(0,34,W,37,'#e9ece7')+text(18,60,'File    Home    Insert    Formulas    Data','#4d5650',17);
+  out+=rect(0,71,W,42,'#f0f2ee')+rect(12,79,73,27,'#fafbf8','stroke="#bfc7bf"')+text(23,99,'D8','#445149',18);
+  out+=rect(96,79,610,27,'#fafbf8','stroke="#bfc7bf"')+text(108,99,'fx   =B8-C8','#59655d',18);
+  const cols=[0,38,323,460,589,720];
+  out+=rect(0,113,W,26,'#dfe5df');
+  ['','A','B','C','D'].forEach((s,i)=>out+=text((cols[i]+cols[i+1])/2-5,132,s,'#56625a',15));
+  out+='<defs><clipPath id="grid"><rect x="0" y="139" width="720" height="253"/></clipPath></defs><g clip-path="url(#grid)">';
+  const rows=[
+    ['Monthly forecast','Actual','Budget','Change'],
+    ['Revenue','248,000','240,000','8,000'],
+    ['Direct costs','62,400','64,000','1,600'],
+    ['Gross profit','185,600','176,000','9,600'],
+    ['People','94,200','96,000','1,800'],
+    ['Infrastructure','12,800','14,000','1,200'],
+    ['Software','8,400','8,000','(400)'],
+    ['Operations','15,700','16,000','300'],
+    ['Net income','54,500','42,000','12,500'],
+    ['Cash reserve','286,000','270,000','16,000']
+  ];
+  rows.forEach((row,i)=>{
+    const y=139+i*32-scroll, heading=i===0;
+    out+=rect(0,y,38,32,'#e7ebe5')+rect(38,y,682,32,heading?'#d7e2d6':i===8?'#e2e8dd':'#f7f8f3');
+    out+=text(10,y+22,String(i+1),'#869084',15);
+    out+=text(49,y+22,row[0],heading?'#3c5442':'#475247',20,heading||i===8?600:400);
+    row.slice(1).forEach((v,j)=>out+=`<text x="${cols[j+3]-12}" y="${y+22}" text-anchor="end" fill="#4b574b" font-size="19" font-weight="${heading||i===8?600:400}">${v}</text>`);
+    out+=`<path d="M0 ${y+32}H720" stroke="#ced6cc" stroke-width="1"/>`;
+  });
+  for(const x of cols)out+=`<path d="M${x} 139V490" stroke="#ccd4c9" stroke-width="1"/>`;
+  out+=rect(589,139+7*32-scroll,131,32,'none','stroke="#3d7d50" stroke-width="2"');
+  out+=rect(716,139+8*32-scroll-4,4,4,'#3d7d50');
+  out+='</g>'+rect(0,392,W,38,'#e1e6de')+rect(32,392,148,34,'#f8f9f4')+text(49,416,'Forecast','#346746',19,600)+rect(32,426,148,3,'#487452')+text(203,416,'Actuals','#778171',18)+text(326,416,'Inputs','#778171',18);
+  return glass(out,'light');
 }
 
 function coding(t){
-  let out=rect(0,0,W,H,'#142028')+rect(0,0,W,33,'#1c2b35')+text(17,23,'WORKSPACE','#879ba8',13,600)+text(258,23,'WorkstationMedia.astro','#e0e9ee',14)+text(638,23,'main','#8db7a6',13);
-  out+=rect(0,33,152,370,'#17252e')+text(14,65,'EXPLORER','#79919e',12,600);
-  ['src','  components','    Profile.astro','    Workstation…','  styles','    theme.css','public','  images','  video'].forEach((s,i)=>out+=text(14,93+i*25,s,i===3?'#b7e1d0':'#8ca3af',13,i===3?600:400));
-  out+=rect(155,33,565,30,'#17252f')+text(173,54,'WorkstationMedia.astro','#becfd8',13);
-  out+='<defs><clipPath id="code"><rect x="157" y="67" width="563" height="182"/></clipPath></defs><g clip-path="url(#code)" font-family="DejaVu Sans Mono, monospace">';
-  const lines=[['const',' video = root.querySelector(\'video\');'],['const',' motion = matchMedia('],['','  \'(prefers-reduced-motion: reduce)\''],['',');'],['function',' syncPlayback() {'],['  if',' (motion.matches || document.hidden) {'],['','    video.pause();'],['  } else',' {'],['','    video.play();'],['','  }'],['','}']];
-  const scroll=22*smooth((t-1.1)/.65);
-  lines.forEach(([a,b],i)=>{const y=87+i*22-scroll;out+=text(168,y,String(i+12),'#4e6877',12)+text(204,y,a,'#a4baf3',13)+text(204+a.length*7.85,y,b,a===''?'#a6c9bb':'#c2d1d9',13);});
-  out+='</g>'+rect(157,250,563,1,'#31434e')+text(175,275,'AGENT','#a5cbbf',13,600)+text(605,275,'Local','#6f8d9d',12);
-  const prompt='Refine the seated animation timing.';
-  const chars=t<2?0:Math.min(prompt.length,Math.floor((t-2)*26));
-  out+=rect(172,287,529,40,'#1d303b','rx="5" stroke="#3b5663"')+text(184,313,'› '+prompt.slice(0,chars),'#d5e2e8',15);
-  if(t>=2&&t<3.35&&Math.floor(t*3)%2===0)out+=rect(201+chars*7.8,299,2,16,'#a1d7c3');
-  out+=text(180,351,t<3.4?'Ready for your next change':'Reading WorkstationMedia.astro','#8da4b2',13);
-  if(t>=3.9)out+=text(180,376,'✓ Motion preferences respected','#97c6ae',13);
-  out+=rect(0,403,W,27,'#213c47')+text(14,421,'main   ✓ 0 issues','#b8d4d9',12)+text(552,421,'Astro   UTF-8','#a4c2cb',12);
-  return svg(out);
+  let out=rect(0,0,W,H,'#252a30')+rect(0,0,W,35,'#30353b');
+  out+=text(18,24,'project / website','#a5afb8',18)+text(574,24,'main','#a4b7ae',17);
+  out+=rect(0,35,41,362,'#282d33')+rect(12,53,17,21,'none','rx="2" stroke="#a4adb5" stroke-width="2"')+rect(13,96,16,16,'none','stroke="#76828d" stroke-width="2"')+rect(13,137,16,16,'none','rx="8" stroke="#76828d" stroke-width="2"');
+  out+=rect(41,35,679,33,'#22272d')+rect(41,35,232,33,'#2b3036')+text(58,58,'workstation.astro','#c3ccd0',18);
+  out+='<defs><clipPath id="code"><rect x="42" y="70" width="678" height="146"/></clipPath></defs><g clip-path="url(#code)" font-family="DejaVu Sans Mono, monospace">';
+  const lines=[
+    [['const ','#bd9ece'],['scene','#ced4db'],[' = createScene({','#ced4db']],
+    [['  motion: ','#c1cad2'],['"subtle"','#b3c5a1'],[',','#c1cad2']],
+    [['  duration: ','#c1cad2'],['4.8','#c5b794'],[',','#c1cad2']],
+    [['  reduceMotion: ','#c1cad2'],['true','#c5b794']],
+    [['});','#ced4db']],
+    [['await ','#bd9ece'],['scene.render();','#b9cbdc']]
+  ];
+  const scroll=25*smooth((t-.8)/.85);
+  lines.forEach((parts,i)=>{
+    const y=94+i*25-scroll;out+=text(56,y,String(i+18),'#707d88',17);
+    let x=95;for(const [s,color]of parts){out+=text(x,y,s,color,21);x+=s.length*12.65;}
+  });
+  out+='</g>'+rect(41,217,679,1,'#4b535b')+rect(41,218,679,35,'#292e34')+text(58,242,'Agent','#d8dcd9',21,600)+text(505,242,'Local workspace','#8f9b9f',16);
+  out+=text(60,279,'✓ Read workstation.astro','#a8b8a4',18);
+  out+=text(60,309,t<3.5?'Ready to edit the animation.':'Updating the animation timing…','#bfc8cc',20);
+  const prompt='Keep the movement subtle.';
+  const chars=t<2?0:Math.min(prompt.length,Math.floor((t-2)*21));
+  out+=rect(57,330,644,49,'#30363d','rx="6" stroke="#66737b" stroke-width="1.5"')+text(72,361,'› '+prompt.slice(0,chars),'#dee2df',21);
+  if(t>=2&&t<3.35&&Math.floor(t*4)%2===0)out+=rect(91+chars*11.4,341,2,22,'#b9cabe');
+  out+=rect(0,397,W,33,'#34464e')+text(15,420,'main    ✓ 0 problems','#b6c8cb',16)+text(576,420,'Astro','#aabec4',16);
+  return glass(out,'dark');
+}
+
+function glass(body,tone){
+  const strength=tone==='light'?.035:.065;
+  return svg('<defs><linearGradient id="reflection" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7f5eb" stop-opacity="'+strength+'"/><stop offset=".55" stop-color="#d4dde3" stop-opacity="0"/><stop offset="1" stop-color="#0e1824" stop-opacity=".07"/></linearGradient></defs>'+body+rect(0,0,W,H,'url(#reflection)'));
 }
 
 function solve(A,b){

@@ -25,6 +25,9 @@ try{
   check(await page.locator('video').evaluate(v=>v.paused),'Off-screen video pauses');
   await page.evaluate(()=>scrollTo(0,0));await page.waitForFunction(()=>!document.querySelector('video').paused);
   await page.emulateMedia({reducedMotion:'reduce'});
+  // CDP changes the CSS media query before dispatching its JS change event.
+  // Wait for that event's observable effect rather than racing one round trip.
+  await page.waitForFunction(()=>{const v=document.querySelector('video');return v.paused&&getComputedStyle(v).display==='none';},null,{timeout:1000});
   check(await page.locator('video').evaluate(v=>v.paused&&getComputedStyle(v).display==='none'),'Live reduced-motion change immediately restores the poster');
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.waitForFunction(()=>!document.querySelector('video').paused);

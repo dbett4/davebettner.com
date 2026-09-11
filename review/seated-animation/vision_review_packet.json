@@ -1,0 +1,53 @@
+{
+  "reviewer": "independent Codex design reviewer /root/design_partner_review",
+  "builder": false,
+  "date": "2026-09-11",
+  "verdict": "PASS",
+  "scope": "Latest seated-only candidate: natural neutral skin, muted rug, improved spreadsheet and coding-agent monitor graphics, light scrolling and typing, preserved accepted dog, sensible rug fade, and no playback controls. Desktop/mobile visual review only; parent owns tests and authorized deployment.",
+  "candidate": "/home/dave/work/davebettner-seated-animation-20260911",
+  "preview_url": "http://127.0.0.1:48261/",
+  "video": "public/video/workstation-seated.mp4",
+  "video_sha256": "41aa7b7923b5b698d0223dc09b3c475d176741ce93ad820098b76255ca2604b8",
+  "identity_verification": "Reviewer independently hashed the VPS MP4 and bytes fetched through the actual HTTP preview; both matched the exact hash above.",
+  "supersedes": "Prior visual verdicts bind older video hashes and do not support this revised color/monitor candidate.",
+  "blocking_defects": [],
+  "findings": [
+    "Skin is neutral and plausibly lit rather than strongly red-orange. The rug reads as a muted woven terracotta/taupe textile. Both remain consistent across the poster and actual video playback.",
+    "The spreadsheet has a larger, consistent grid with aligned columns and recognizable headings. The coding-agent screen has larger code, agent status and prompt areas. Both remain inside their monitor bezels and follow the monitor perspective.",
+    "Actual desktop playback observations around 0.5, 1.9 and 3.3 seconds show restrained row movement and progressive coding-agent content without conspicuous text flicker, warping or frame displacement.",
+    "The accepted dog likeness, opacity and grounded pose are preserved. Hands retain keyboard/mouse contact; no conspicuous tearing or ghosting was found in the sampled movement.",
+    "The desk and rug remain visually fixed. Complete dog/rug framing and sensible diagonal/front-tip fade are retained, with no hard cutoff through the rug and no visible rectangular video tile.",
+    "Actual refreshed Chrome desktop at 1487x810 and mobile at 390x844 show a clean integrated scene and no playback controls. At phone size, monitor contents remain recognizable workspace graphics rather than literal readable text."
+  ],
+  "evidence": [
+    {
+      "path": "/Users/davebettner/Documents/Codex/2026-09-11/wor/work/reviewer/color-review/poster.webp",
+      "source": "/home/dave/work/davebettner-seated-animation-20260911/public/images/workstation-seated-poster.webp",
+      "sha256": "35b0718c2407453c3a52734f2309b7476bd1feba59b2f3de3e55fadac41ad196",
+      "inspection": "Full-resolution poster independently inspected for colors, monitor geometry, dog likeness and rug fade."
+    },
+    {
+      "path": "/Users/davebettner/Documents/Codex/2026-09-11/wor/work/reviewer/color-review/desktop.png",
+      "source": "/home/dave/work/davebettner-seated-animation-20260911/review/seated-animation/browser/desktop.png",
+      "sha256": "646ab65a6faa637371b4b518b374f8f2df910ff146dfa2390bece36d82988325",
+      "inspection": "Refreshed native desktop capture independently inspected; consistent with separate actual Chrome observation."
+    },
+    {
+      "path": "/Users/davebettner/Documents/Codex/2026-09-11/wor/work/reviewer/color-review/playback-contact-sheet.png",
+      "source": "/home/dave/work/davebettner-seated-animation-20260911/review/seated-animation/browser/playback-contact-sheet.png",
+      "sha256": "e86676a2672678465d2d51a6663b84623db3c0871916ca89d7688b7130b1a999",
+      "inspection": "Refreshed decoded playback contact sheet independently inspected in addition to three temporal captures of actual browser playback."
+    },
+    {
+      "path": "/Users/davebettner/Documents/Codex/2026-09-11/wor/work/reviewer/color-review/scene-390.png",
+      "source": "/home/dave/work/davebettner-seated-animation-20260911/review/seated-animation/browser/scene-390.png",
+      "sha256": "e8b501969981c69bafe4b7d27d5c96c30e71eb875cd90b1ee081e8a14d46b8d4",
+      "inspection": "Refreshed native mobile scene capture independently inspected; consistent with separate actual Chrome mobile observation."
+    }
+  ],
+  "limits": [
+    "PASS binds only the exact video hash and current visual scope stated above.",
+    "Native test results and deployment verification belong to the parent and are not claimed by this visual verdict.",
+    "This is approval of a stylized seated website animation, not a claim of exact photographic reproduction or full bodily articulation."
+  ]
+}

@@ -1,8 +1,10 @@
 # Seated workstation animation
 
-An 4.8-second, 1000 × 1000 H.264 clip at 24 fps for davebettner.com. The user's current scope is seated only, with a light spreadsheet and a dark coding-agent workspace, subtle scrolling, and short typing.
+A 4.8-second, 1000 × 1000 H.264 clip at 24 fps for davebettner.com. The user's current scope is seated only, with a light spreadsheet and a dark coding-agent workspace, subtle scrolling, and short typing.
 
 The source artwork was revised to put the right hand on the mouse. Small continuous deformation fields animate mouse contact, left-hand key presses, breathing, and the dog's head/chest. Desk feet, chair, rug and paws remain fixed. This is a restrained seated animation, not a full articulated walking or standing rig.
+
+Skin tones use neutral daylight color and the patterned rug uses muted clay, brown and oatmeal textile colors. The photo-referenced dog retains its accepted face, ears, proportions and pose.
 
 The screen graphics are authored SVGs projected into the monitor glass. The spreadsheet scrolls by one row; the coding workspace makes a short scroll, types a brief prompt, and displays a response. All content is illustrative. It is not a live agent session or a client workbook.
 
@@ -26,4 +28,4 @@ The component requests video only when motion is allowed and the scene enters vi
 
 ## Review boundary
 
-This candidate is private. It has not been deployed. The original handoff's claims of earlier deployment authorization are not treated as a new publication instruction. The full website content, navigation and supplied résumé remain in place.
+The user explicitly authorized website deployment on September 11 after requesting more realistic colors and updated monitors. Deployment uses the repository's guarded release workflow after native tests and a fresh independent visual review of the exact video. A source file alone is not evidence of a completed deployment; the release receipt records the live version and asset hash.

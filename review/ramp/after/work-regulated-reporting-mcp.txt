@@ -1,0 +1,38 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+Regulated Reporting MCP
+
+Controlled access to reporting APIs for AI agents, with OAuth, approval checks, and result verification.
+
+View repository
+All projects
+
+Personal integration project. The public demo uses mock data and runs without credentials.
+
+The problem
+
+Connecting an agent to a reporting API should not give it unrestricted permission to change reports.
+
+What I built
+
+I built an MCP server with OAuth, pagination, retries, and asynchronous polling. The default tools check approval before writes and read the result back. If a formula result cannot be verified, the server reports the uncertainty instead of guessing.
+
+What you can inspect
+
+The repository includes the server, tool contracts, tests, and an offline demonstration. The full tool registry is not the restricted default configuration.
+
+Read the verification notes
+Source code and documentation
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

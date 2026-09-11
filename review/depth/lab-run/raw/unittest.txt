@@ -1,0 +1,28 @@
+test_acceptance_outputs_do_not_change_when_scoring_labels_change (test_benchmark.BenchmarkTest.test_acceptance_outputs_do_not_change_when_scoring_labels_change) ... ok
+test_planted_unsafe_outputs_are_rejected_even_when_backend_recommends_action (test_benchmark.BenchmarkTest.test_planted_unsafe_outputs_are_rejected_even_when_backend_recommends_action) ... ok
+test_required_comparisons_and_metrics_are_executable (test_benchmark.BenchmarkTest.test_required_comparisons_and_metrics_are_executable) ... ok
+test_wrong_action_for_observed_case_is_rejected (test_benchmark.BenchmarkTest.test_wrong_action_for_observed_case_is_rejected) ... ok
+test_amount_change_invalidates_approval (test_control.ControlPlaneTest.test_amount_change_invalidates_approval) ... ok
+test_approval_rejects_scope_that_does_not_match_proposal_recommendation (test_control.ControlPlaneTest.test_approval_rejects_scope_that_does_not_match_proposal_recommendation) ... ok
+test_changed_proposal_invalidates_old_approval_and_rejection_is_terminal (test_control.ControlPlaneTest.test_changed_proposal_invalidates_old_approval_and_rejection_is_terminal) ... ok
+test_deterministic_authority_cannot_use_wrong_action_for_case_type (test_control.ControlPlaneTest.test_deterministic_authority_cannot_use_wrong_action_for_case_type) ... ok
+test_effect_consumes_generation_but_exact_retry_can_read_existing_effect (test_control.ControlPlaneTest.test_effect_consumes_generation_but_exact_retry_can_read_existing_effect) ... ok
+test_generation_and_overlap_guards (test_control.ControlPlaneTest.test_generation_and_overlap_guards) ... ok
+test_generation_lease_and_effect_insert_are_atomic_under_concurrency (test_control.ControlPlaneTest.test_generation_lease_and_effect_insert_are_atomic_under_concurrency) ... ok
+test_human_approval_is_bound_to_proposal_action_amount_and_generation (test_control.ControlPlaneTest.test_human_approval_is_bound_to_proposal_action_amount_and_generation) ... ok
+test_idempotency_readback_requires_authority_and_identical_request (test_control.ControlPlaneTest.test_idempotency_readback_requires_authority_and_identical_request) ... ok
+test_packet_is_byte_identical_for_identical_evidence (test_control.ControlPlaneTest.test_packet_is_byte_identical_for_identical_evidence) ... ok
+test_proposal_action_is_blocked_without_real_human_approval (test_control.ControlPlaneTest.test_proposal_action_is_blocked_without_real_human_approval) ... ok
+test_rejected_case_cannot_be_reopened_by_upsert (test_control.ControlPlaneTest.test_rejected_case_cannot_be_reopened_by_upsert) ... ok
+test_unknown_effect_is_read_before_retry_and_not_duplicated (test_control.ControlPlaneTest.test_unknown_effect_is_read_before_retry_and_not_duplicated) ... ok
+test_hybrid_retrieval_filters_expands_and_cites (test_core.CoreTest.test_hybrid_retrieval_filters_expands_and_cites) ... ok
+test_openai_compatible_backend_rejects_malformed_structured_output (test_core.CoreTest.test_openai_compatible_backend_rejects_malformed_structured_output) ... ok
+test_openai_compatible_backend_rejects_unretrieved_citation (test_core.CoreTest.test_openai_compatible_backend_rejects_unretrieved_citation) ... ok
+test_openai_compatible_backend_uses_local_protocol_and_validates_output (test_core.CoreTest.test_openai_compatible_backend_uses_local_protocol_and_validates_output) ... ok
+test_recorded_backend_is_structured_and_provenanced (test_core.CoreTest.test_recorded_backend_is_structured_and_provenanced) ... ok
+test_typed_records_and_deterministic_matching (test_core.CoreTest.test_typed_records_and_deterministic_matching) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 1.831s
+
+OK

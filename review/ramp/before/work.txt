@@ -1,0 +1,235 @@
+Skip to content
+← HOME
+Work
+Experience
+About
+Deployment approach
+WORK · CUSTOMER VALUE AND PUBLIC PROOF
+
+SELECTED WORK
+
+I design the controls AI workflows need before they act inside business systems.
+
+I bring more than ten years of enterprise implementation work to agent systems. These projects focus on the hard parts after a demo: limited access, human approval, failed-write recovery, and a clear record of what actually happened.
+
+ENTERPRISE IMPLEMENTATION SINCE 2015 · PUBLIC CODE AND AUTOMATED TESTS · NO CLIENT DATA
+
+Start with a case study
+↓
+See my experience
+→
+GitHub
+
+THE PURPOSE
+
+Useful automation should reduce risk and effort without hiding authority, failure, or judgment.
+
+Public labs and sanitized tools show the method. Customer work stays confidential and is labeled separately as experience.
+
+WHAT THIS WORK IS FOR
+
+Make AI-assisted work safer to use, easier to recover, and easier to trust.
+01
+Prevent expensive repeats
+
+When a system loses confirmation, find the first result before trying the same business action again.
+
+02
+Keep people in control
+
+Give software only the access it needs, require confirmation for consequential changes, and stop for judgment.
+
+03
+Make the result inspectable
+
+Check the outcome in the source system and leave a useful record of what changed, what passed, and what remains open.
+
+PUBLIC ENGINEERING CASE STUDIES · 03
+
+Three problems I know how to solve.
+
+Each case starts with a business failure, shows what I built, and links to public code or tests. The limit is part of the story, not fine print.
+
+01
+CONFIRM
+WRITE
+READBACK
+
+EVIDENCE-GROUNDED ACCOUNTING AGENT · ACCEPTANCE LAB
+
+Let an accounting agent propose without letting it approve itself
+THE PROBLEM
+
+A synthetic reconciliation workflow that normalizes records, retrieves policy, validates model proposals, stops unsafe cases, and recovers an uncertain write without duplicating the ledger effect.
+
+WHAT I BUILT
+
+I built one offline workflow that parses synthetic records, handles exact matches deterministically, retrieves policy for exceptions, validates recorded model proposals, binds approval to the exact action, and reads the synthetic ledger before retrying an uncertain effect.
+
+WHY IT MATTERS
+
+Finance teams can see which evidence the agent used, why it stopped, and whether an authorized action happened exactly once.
+
+PROOF AND HONEST LIMIT
+
+Read the case study
+→
+View repository
+
+02
+WRITE
+FAULT
+RESUME
+1 RECEIPT
+
+FAILED-WRITE RECOVERY · HERMES DEPLOYMENT LAB
+
+Recover a failed write without creating a duplicate
+THE PROBLEM
+
+The system may save a payment, order, access change, or customer update just before the connection fails. This lab finds the first result before it tries the action again.
+
+WHAT I BUILT
+
+I built the approval and recovery path around that failure. The lab keeps one tracking number through the restart, finds the first result instead of repeating the action, and checks the final count. The public test forces the failure rather than assuming recovery would work.
+
+WHY IT MATTERS
+
+A team can recover from an uncertain result without choosing between a duplicate and a manual investigation.
+
+PROOF AND HONEST LIMIT
+
+Read the case study
+→
+View repository
+
+03
+CONFIRM
+WRITE
+READBACK
+
+LIMITED SYSTEM ACCESS · REGULATED REPORTING MCP
+
+Give an agent only the write access its job requires
+THE PROBLEM
+
+A reporting-system connector that exposes three guarded tools by default, refuses unconfirmed writes, reads results back, and keeps client values out of its receipts.
+
+WHAT I BUILT
+
+I built an MCP server with OAuth, retries, pagination, async polling, and a write gate enforced in code. The default server exposes three guarded tools; the full registry requires an explicit unsafe opt-in.
+
+WHY IT MATTERS
+
+Teams can test useful automation without opening every write path or trusting the model’s own success message.
+
+PROOF AND HONEST LIMIT
+
+Read the case study
+→
+View repository
+
+MORE PUBLIC BUILDS
+
+Small systems for repeatable work.
+
+Focused tools for spreadsheet review, repeat-work prevention, and independent evaluation.
+
+REVIEW AND RESTORE · SPREADSHEET QUALITY
+
+Find spreadsheet defects—and reverse a bad fix
+
+A browser extension and local service that find suspicious formulas and links, explain the issue, ask before changing it, and restore the prior value when a check fails.
+
+Reviewers can automate narrow corrections while keeping accounting judgment with a person.
+
+Read case study
+→
+GitHub
+
+REPEAT-WORK PREVENTION · DEDUP READ-BACK BRIDGE
+
+Stop recurring agent jobs from repeating work
+
+A small Python bridge that remembers what a recurring job already processed, skips empty runs, handles two submissions at once, and records the result.
+
+Recurring pipelines spend less time and money on duplicate work, while operators get a clear record of every run.
+
+Read case study
+→
+GitHub
+
+INDEPENDENT EVALUATION · HERMES ENTERPRISE EVALUATION KIT
+
+Keep an evaluation from approving itself
+
+A version-pinned kit that checks a proposed agent job against policy, tests the result, and leaves the final decision with a person.
+
+Teams get an honest decision record that shows what passed, what failed, and what still needs review.
+
+Read case study
+→
+GitHub
+
+HOW THE PIECES FIT TOGETHER
+
+The model is one part of the workflow.
+
+A plain-language map of everything around the model: the request, the tools it may use, the recovery path, the checks, and the final human decision.
+
+Teams can tell what the agent was allowed to do, what changed, how the result was checked, and what still needs a person.
+
+See the whole operating approach
+→
+
+CUSTOMER IMPLEMENTATION RECORD · SINCE 2015
+
+The experience behind the code.
+
+My public engineering is recent. The customer-delivery pattern behind it is not: understand the workflow, connect the systems, survive the hard failure, and leave the team with something it can run.
+
+01 · EXPERIENCE
+
+Manager of Digital Services · Citrin Cooperman
+
+A controlled system-of-record handoff
+
+Built a custom data-collection and reporting workflow in Workiva with bidirectional integration between the reporting platform and the system of record, delivered with audit trail and finance, IT, and executive sign-off.
+
+02 · EXPERIENCE
+
+Solutions Architect · Workiva
+
+Scoped integrations and controlled customer-impacting writes
+
+Led concurrent implementations through adoption across SSO, API, and ERP boundaries, with human review and native readback.
+
+03 · EXPERIENCE
+
+Solutions Consultant · Ambra Health
+
+Connected imaging workflows across health-system boundaries
+
+Carried EHR, portal, billing, and access-control integrations through review, go-live, and an acquisition transition.
+
+See the dated career record
+→
+
+HOW TO READ THE PUBLIC PROOF AND ITS LIMITS
+
+WORKING ON A DIFFICULT DEPLOYMENT?
+
+Let’s talk about the customer environment, not just the demo.
+
+I’m pursuing forward-deployed engineering and technical deployment roles. I’m also open to a tightly scoped implementation problem.
+
+Email Dave
+View résumé
+↓
+
+Home
+About Dave
+Experience
+GitHub
+LinkedIn
+Email

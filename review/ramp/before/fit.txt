@@ -1,0 +1,44 @@
+Skip to content
+← HOME
+Work
+Experience
+About
+Deployment approach
+FIRST 90 DAYS · FIELD PLAN
+
+FIRST 90 DAYS AS AN FDE
+
+How I would lead my first 90 days as an FDE.
+
+I would learn the product and customer environment, choose one measurable workflow, lead its first deployment, and turn the failures and decisions into useful product feedback.
+
+WEEKS 1–2
+Choose the first problem.
+
+Learn the product, deployment model, customer workflow, and current constraints. Pair with product, engineering, and customer-facing teammates. Leave the first two weeks with a named owner, a success measure, launch criteria, and the tradeoffs we will accept. See my experience.
+
+WEEKS 3–6
+Own the first deployment.
+
+Lead one bounded workflow from technical approach through working integration. Coordinate the customer, product, and engineering sides. Instrument the path, test its failure modes, and decide what must be fixed before launch. See the public engineering work.
+
+WEEKS 6–10
+Lead through failure.
+
+When an integration or agent run breaks, separate configuration issues, product gaps, and infrastructure problems. State the customer impact and decide whether to fix, narrow scope, work around, or stop the launch.
+
+WEEKS 10–13
+Make the next deployment easier.
+
+Convert what the deployment teaches into tests, telemetry, integration guidance, tooling, or runbooks. Give product and engineering a prioritized record of recurring gaps and the customer context behind them.
+
+MORE
+About Dave Bettner
+Career timeline
+Public engineering proof
+Start a conversation
+Des Moines, Iowa
+About
+GitHub
+LinkedIn
+Email

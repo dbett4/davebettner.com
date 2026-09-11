@@ -1,0 +1,43 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+Start with the people
+doing the work.
+
+The useful questions are usually specific: where does this number come from, who needs to approve it, and what happens when something doesn’t match?
+
+An implementation has to work for finance, IT, and the people maintaining it after launch.
+
+Understand the workflow.
+
+I run requirements sessions with the people using the system. We work through reporting needs, data sources, access, and the decisions the software needs to support. That gives the demonstration and implementation a concrete starting point.
+
+Make the scope understandable.
+
+I translate the requirements into a proposed solution, estimates, and a statement of work. A useful demo shows how the team would handle its own work—not just a tour of features.
+
+Work through the integration.
+
+With finance and IT, I define the reporting, API, authentication, and source-system requirements. I stay involved through user acceptance testing and go-live, with clear responsibilities for the work each team owns.
+
+Teach the people who will use it.
+
+Training, consultant coaching, and repeatable delivery guidance are part of my work. Recurring customer questions also give Product and Engineering something more useful than an isolated feature request.
+
+Use AI where it helps.
+
+I build AI-assisted workflows to check reports against source records and flag discrepancies. Human review comes before client changes. My public projects explore those controls using synthetic or mock data.
+
+See the technical projects
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

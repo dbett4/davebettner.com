@@ -1,0 +1,34 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+An accountant who
+works with technology.
+
+I’m Dave Bettner, based in Des Moines, Iowa. I work with finance teams, consultants, and technical teams to make reporting systems usable.
+
+From reporting to implementation.
+
+I started at Workiva in 2015, supporting public-company SEC reporting and XBRL. That work meant managing review cycles and helping customers meet filing deadlines.
+
+Later roles took me into healthcare integrations, Workiva solution architecture, and accounting-firm delivery leadership. Today, I’m a Senior Manager at LSL, leading Workiva delivery for city and county finance teams.
+
+Building as part of the job.
+
+I develop Python tools for reporting links, formulas, and validation checks. I’m also exploring AI-assisted accounting workflows through personal projects that make their inputs, approval requirements, and failure cases inspectable.
+
+The part I keep coming back to is helping people understand a system well enough to use it—and finding what needs to change when they can’t.
+
+Career history
+Email me
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

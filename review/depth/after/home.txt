@@ -1,0 +1,76 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+DAVE
+BETTNER
+
+Financial systems consulting.
+
+I help finance teams implement software, connect their reporting systems, and learn how to use them.
+
+Download résumé
+Get in touch
+
+Workiva · Citrin Cooperman · LSL
+
+Accounting, technology, and customer delivery since 2015.
+
+I’ve worked on both sides of an implementation.
+
+At Workiva, I helped customers put the platform into use. At accounting firms, I’ve led the teams delivering it.
+
+That means working through the requirements with finance and IT, explaining the solution, training the people who will use it, and staying through testing and go-live.
+
+Explore my experience
+Connecting data collection and reporting.
+
+At Citrin Cooperman, I led a Workiva implementation connecting a customer’s system of record with its data-collection and reporting workflow.
+
+Read the engagement summary
+Two systems, one workflow
+Bidirectional API integration between Workiva and the customer’s system of record.
+Access and traceability
+Single sign-on and an audit trail within the implementation.
+Acceptance through launch
+Delivery leadership spanning user acceptance testing, go-live, and executive sign-off.
+What I’m building.
+
+Alongside consulting, I build tools to explore where AI can help with accounting—and where it needs checks.
+
+Accounting
+Acceptance Lab
+
+A Python and SQLite lab for testing accounting agents on reconciliation cases. It checks supporting evidence, approval requirements, and recovery from failed writes.
+
+Personal project. Synthetic cases, not client records.
+
+About the project
+View repository
+Regulated
+Reporting MCP
+
+An MCP server that connects AI agents to reporting APIs through OAuth. It checks approval before writes and reads the result back to verify the change.
+
+Personal project. The public demo uses mock data.
+
+About the project
+View repository
+More technical work
+Let’s talk about
+the work.
+
+I’m interested in roles that bring accounting knowledge, technical consulting, and customer or partner enablement together.
+
+dbett4@gmail.com
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

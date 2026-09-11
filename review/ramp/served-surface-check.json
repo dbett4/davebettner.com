@@ -1,0 +1,20 @@
+{
+  "surface": "file:///home/dave/work/davebettner-ramp-profile/review/ramp/Dave-Bettner-private-preview.html",
+  "checks": [
+    {
+      "width": 1440,
+      "navigation": "pass",
+      "resume_bytes": "pass",
+      "overflow": false,
+      "email_link": "pass (not sent)"
+    },
+    {
+      "width": 390,
+      "navigation": "pass",
+      "resume_bytes": "pass",
+      "overflow": false,
+      "email_link": "pass (not sent)"
+    }
+  ],
+  "browser_errors": []
+}

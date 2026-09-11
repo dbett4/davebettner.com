@@ -1,0 +1,67 @@
+{
+  "amount": 25.0,
+  "approval": null,
+  "case_id": "C12",
+  "case_type": "retry_after_unknown_external_effect",
+  "effects": [
+    {
+      "action": "record_timing_adjustment",
+      "amount": "25.00",
+      "authority": "deterministic_policy",
+      "case_id": "C12",
+      "created_at": "2026-09-11 00:23:34",
+      "currency": "USD",
+      "effect_id": "eff-58a0a12b0147ed2f",
+      "expected_generation": 1,
+      "idempotency_key": "C12:timing:v1",
+      "proposal_digest": null,
+      "request_digest": "e3856659fb7f158cae766544c79c16d5733106ad7669a49e155daf787d3081a2",
+      "request_json": "{\"action\": \"record_timing_adjustment\", \"amount\": \"25.00\", \"authority\": \"deterministic_policy\", \"case_id\": \"C12\", \"currency\": \"USD\", \"expected_generation\": 1, \"proposal_digest\": null}"
+    }
+  ],
+  "generation": 2,
+  "payload": {
+    "citations": [],
+    "proposal": null,
+    "proposed_action": null,
+    "readback": {
+      "action": "record_timing_adjustment",
+      "amount": "25.00",
+      "authority": "deterministic_policy",
+      "case_id": "C12",
+      "currency": "USD",
+      "effect_id": "eff-58a0a12b0147ed2f",
+      "expected_generation": 1,
+      "idempotency_key": "C12:timing:v1",
+      "proposal_digest": null,
+      "request_digest": "e3856659fb7f158cae766544c79c16d5733106ad7669a49e155daf787d3081a2",
+      "request_json": "{\"action\": \"record_timing_adjustment\", \"amount\": \"25.00\", \"authority\": \"deterministic_policy\", \"case_id\": \"C12\", \"currency\": \"USD\", \"expected_generation\": 1, \"proposal_digest\": null}"
+    },
+    "reconciliation": [
+      {
+        "case_id": "case-g12",
+        "matched_ids": [
+          "g12"
+        ],
+        "reason": "no exact deterministic match",
+        "status": "unresolved"
+      }
+    ],
+    "source_records": [
+      {
+        "amount": "25.00",
+        "date": "2026-01-12",
+        "metadata": {
+          "effect_recovery_test": true,
+          "policy_version": "v2",
+          "query": "timing adjustment retry effect"
+        },
+        "record_id": "g12",
+        "reference": "TIM-012",
+        "source": "gl"
+      }
+    ],
+    "verdict": "accepted_after_read_before_retry"
+  },
+  "state": "accepted_recovered"
+}

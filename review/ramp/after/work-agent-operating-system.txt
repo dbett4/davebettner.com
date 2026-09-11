@@ -1,0 +1,37 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+How the technical projects fit together
+
+Notes on connecting tool access, testing, recovery, and human review.
+
+View repository
+All projects
+
+A description of my personal engineering approach, not a separate commercial product.
+
+The problem
+
+Useful AI output still needs a process for deciding what the system can change and checking whether the change worked.
+
+What I built
+
+The linked projects explore different parts of that problem: reporting API access, accounting checks, failed-write recovery, and spreadsheet review.
+
+What you can inspect
+
+Each project has its own source and limitations. Read those separately rather than treating this overview as evidence of a single deployed system.
+
+Source code and documentation
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

@@ -1,22 +1,4 @@
 ---
-import '@fontsource-variable/archivo/wdth.css';
-import '@fontsource/dm-mono/400.css';
-import SecondaryMasthead from '../components/SecondaryMasthead.astro';
-const title = 'Page not found | Dave Bettner';
+import Profile from '../layouts/Profile.astro';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex" />
-    <meta name="theme-color" content="#08090b" />
-    <meta name="color-scheme" content="dark" />
-    <link rel="stylesheet" href="/styles/interstellar-system.css" />
-    <title>{title}</title>
-    <style>
-      *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Archivo Variable",system-ui,sans-serif;background:var(--paper);color:var(--ink)}main{min-height:calc(100vh - 65px);display:grid;place-items:center}.not-found-cover{width:100%;min-height:calc(100vh - 65px);display:grid;align-items:center}.not-found-inner{width:min(calc(100% - 48px),1280px);margin:auto;padding-block:clamp(48px,10vw,120px)}.eyebrow{margin:0 0 12px}h1{font-size:clamp(3.4rem,10vw,7rem)!important;max-width:12ch;margin:.15em 0 .25em}p{max-width:48ch;line-height:1.6}.round{display:inline-flex;align-items:center;margin-top:18px;text-decoration:none;font-weight:700}
-    </style>
-  </head>
-  <body><a class="skip-link" href="#main">Skip to content</a><SecondaryMasthead context="404 · off the map" /><main id="main"><section class="not-found-cover route-intro"><div class="not-found-inner"><p class="eyebrow mono">404 / Off the map</p><h1>Nothing lives here.</h1><p>The work is real. This address is not.</p><a class="round" href="/">Return home →</a></div></section></main><script is:inline type="module" src="/interstellar.js"></script></body>
-</html>
+<Profile title="Page not found — Dave Bettner"><section class="page-intro wrap"><h1>Page not found.</h1><p class="lead">That address doesn’t lead to a page here.</p><div class="actions"><a class="button" href="/">Back to the homepage</a></div></section></Profile>

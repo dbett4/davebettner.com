@@ -1,0 +1,92 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+DAVE
+BETTNER
+
+Financial systems consulting.
+
+I help finance teams implement software, connect their reporting systems, and learn how to use them.
+
+Download résumé
+Get in touch
+
+Workiva · Citrin Cooperman · LSL
+
+Accounting, technology, and customer delivery since 2015.
+
+I’ve worked on both sides of an implementation.
+
+At Workiva, I helped customers put the platform into use. At accounting firms, I’ve led the teams delivering it.
+
+That means working through the requirements with finance and IT, explaining the solution, training the people who will use it, and staying through testing and go-live.
+
+Explore my experience
+The work behind
+the résumé.
+
+Implementation is more than configuration. It takes technical decisions, a team that understands the job, and a customer who can use the result.
+
+Citrin Cooperman
+Manager of Digital Services
+
+Leading a five-person consulting team.
+
+I coached consultants, handled customer escalations, and led testing and training through go-live. One reporting implementation connected Workiva to a system of record through a bidirectional API, with SSO and an audit trail.
+
+Workiva
+Solutions Architect
+
+Turning requirements into implementations.
+
+I led 6–12 concurrent financial-reporting and GRC implementations. I ran requirements workshops, worked through API, SSO, and ERP integration needs, and brought recurring customer issues to Product and Engineering.
+
+LSL
+Senior Manager
+
+Connecting the ledger to the report.
+
+I lead Workiva delivery for city and county finance teams, build reusable Python reporting tools, and run user sessions and testing. I also scope engagements, prepare estimates and statements of work, and demonstrate proposed solutions.
+
+How I approach an engagement
+What I’m building.
+
+Alongside consulting, I build tools to explore where AI can help with accounting—and where it needs checks.
+
+Accounting
+Acceptance Lab
+
+A Python and SQLite lab for testing accounting agents on reconciliation cases. It checks supporting evidence, approval requirements, and recovery from failed writes.
+
+Personal project. Synthetic cases, not client records.
+
+About the project
+View repository
+Regulated
+Reporting MCP
+
+An MCP server that connects AI agents to reporting APIs through OAuth. It checks approval before writes and reads the result back to verify the change.
+
+Personal project. The public demo uses mock data.
+
+About the project
+View repository
+More technical work
+Let’s talk about
+the work.
+
+I’m interested in roles that bring accounting knowledge, technical consulting, and customer or partner enablement together.
+
+dbett4@gmail.com
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

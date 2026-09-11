@@ -1,0 +1,37 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+Repeat-work prevention
+
+A small Python library that tracks which items a recurring job has already processed.
+
+View repository
+All projects
+
+Local library. The caller remains responsible for the processor and its deployment.
+
+The problem
+
+Recurring jobs can send the same items again or compete to process them at the same time.
+
+What I built
+
+I extracted stable item identifiers, a persistent record, atomic reservation, and empty-run checks into a small library. Each run records what it processed.
+
+What you can inspect
+
+The repository includes a CLI demo and tests for concurrent submissions and crash recovery.
+
+Source code and documentation
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

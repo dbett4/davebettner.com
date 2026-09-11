@@ -1,0 +1,94 @@
+{
+  "amount": 100.0,
+  "approval": {
+    "action": "reverse_duplicate",
+    "actor": "offline-reviewer",
+    "amount": "-100.00",
+    "at": "2026-09-11T00:24:01.110352+00:00",
+    "case_id": "C03",
+    "currency": "USD",
+    "decision": "approved",
+    "generation": 2,
+    "proposal_digest": "cc64058e054b7e4a915cc482d7117906a19947752110df8a592502e83bf320c3",
+    "reason": "reviewed synthetic evidence and policy"
+  },
+  "approval_lifecycle": {
+    "decision_recorded": "approved",
+    "effect_applied": false,
+    "next_step": "submit a separately constructed bounded action with the new generation"
+  },
+  "case_id": "C03",
+  "case_type": "duplicate",
+  "effects": [],
+  "generation": 2,
+  "payload": {
+    "citations": [
+      {
+        "hybrid_score": 4.161263,
+        "id": "policy:p-duplicate@v2",
+        "lexical_score": 8.105853,
+        "rerank_score": 1.0,
+        "vector_score": 0.896083
+      },
+      {
+        "hybrid_score": 0.010701,
+        "id": "policy:p-support@v2",
+        "lexical_score": 0.0,
+        "rerank_score": 0.0,
+        "vector_score": 0.030574
+      },
+      {
+        "hybrid_score": 0.003673,
+        "id": "policy:p-prior@v2",
+        "lexical_score": 0.0,
+        "rerank_score": 0.0,
+        "vector_score": 0.010495
+      }
+    ],
+    "proposal": {
+      "abstain_reason": null,
+      "case_type": "duplicate",
+      "citations": [
+        "policy:p-duplicate@v2"
+      ],
+      "confidence": 0.98,
+      "material": false,
+      "provenance": "recorded_model",
+      "rationale": "Invoice and amount duplication meet the reversal policy.",
+      "recommendation": "reverse_duplicate",
+      "risk": "low"
+    },
+    "proposed_action": {
+      "action": "reverse_duplicate",
+      "amount": "-100.00",
+      "currency": "USD"
+    },
+    "readback": null,
+    "reconciliation": [
+      {
+        "case_id": "case-g3",
+        "matched_ids": [
+          "g3"
+        ],
+        "reason": "no exact deterministic match",
+        "status": "unresolved"
+      }
+    ],
+    "source_records": [
+      {
+        "amount": "100.00",
+        "date": "2026-01-04",
+        "metadata": {
+          "duplicate_count": 2,
+          "policy_version": "v2",
+          "query": "duplicate invoice paid twice reversal"
+        },
+        "record_id": "g3",
+        "reference": "INV-003",
+        "source": "gl"
+      }
+    ],
+    "verdict": "blocked_pending_human_approval"
+  },
+  "state": "approved"
+}

@@ -1,0 +1,50 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+Connecting data collection and reporting.
+
+A Workiva implementation I led at Citrin Cooperman, from integration through user acceptance testing, go-live, and executive sign-off.
+
+Manager of Digital Services, Workiva · December 2024–October 2025
+
+The scope
+
+Connect the customer’s system of record with a data-collection and reporting workflow in Workiva.
+
+The implementation included a bidirectional API integration, single sign-on, and an audit trail.
+
+Client identity and implementation materials are not public. This is an engagement summary, not a live client demonstration.
+
+My responsibility
+
+I led the implementation and user acceptance testing through go-live and executive sign-off. In my role at Citrin Cooperman, I also managed a five-person Workiva implementation team, coached consultants, resolved customer escalations, and led testing and training.
+
+This was delivery leadership across the technical work and the people using it—not simply configuration of a reporting tool.
+
+What had to come together
+Bidirectional integration
+Connecting Workiva and the customer’s system of record through an API.
+Access and traceability
+Single sign-on and an audit trail within the implementation scope.
+Acceptance and launch
+User acceptance testing, go-live, and executive sign-off.
+The delivery lesson
+
+For me, an integration is not the whole implementation. It also needs a customer who understands the workflow, a team prepared to support it, and a clear acceptance process.
+
+That is the connection between my technical and consulting work: making the system usable, explaining it to the people responsible for it, and carrying the engagement through launch.
+
+Full experience
+Explore a public accounting project
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

@@ -1,0 +1,141 @@
+Skip to content
+Dave Bettner
+Work
+Experience
+Deployment approach
+Email
+
+FORWARD-DEPLOYED ENGINEERING · AGENT SYSTEMS
+
+DAVE
+BETTNER
+
+I lead 0-to-1 enterprise deployments from discovery through go-live and adoption.
+
+I also build agent systems for work where mistakes are expensive.
+
+Start a conversation
+See the work and proof
+RÉSUMÉ
+
+OPERATING RULES
+
+PROOF TRAVELS WITH THE WORK.
+
+The controls I bring into a customer environment are simple to state and hard to fake.
+
+01
+Confirm
+
+Map the workflow, stakeholders, constraints, and decision criteria before the write.
+
+BEFORE THE ACTION
+02
+Write within scope
+
+Give the system only the access its job requires, with approval kept separate.
+
+GUARDED ACCESS
+03
+Read back
+
+Check the native source and leave the failure, evidence, and next decision visible.
+
+AFTER THE CHANGE
+
+DELIVERY OUTCOMES
+
+Customer delivery outcomes
+
+Three examples from ten years of implementation work. Finance and assurance are the deepest record; healthcare shows the pattern beyond them.
+
+CUSTOM SOLUTIONING
+
+Manager of Digital Services · Citrin Cooperman
+
+A controlled system-of-record handoff
+
+Built a custom data-collection and reporting workflow in Workiva with bidirectional integration between the reporting platform and the system of record, delivered with audit trail and finance, IT, and executive sign-off.
+
+ENTERPRISE GRC AND REPORTING
+
+Solutions Architect · Workiva
+
+Scoped integrations and controlled customer-impacting writes
+
+Led concurrent implementations through adoption across SSO, API, and ERP boundaries, with human review and native readback.
+
+CLINICAL IMAGING
+
+Solutions Consultant · Ambra Health
+
+Connected imaging workflows across health-system boundaries
+
+Carried EHR, portal, billing, and access-control integrations through review, go-live, and an acquisition transition.
+
+These are engagement summaries, not public client artifacts. The engineering cases below are independent, inspectable examples of the controls and methods I bring to that work.See the public engineering cases
+
+SELECTED ENGINEERING WORK
+
+What I build
+
+I build the parts that make agent work usable in a real business: safer retries, controlled system access, and checks that show when a result is ready for review.
+
+EVIDENCE · APPROVAL · EFFECT-SAFE RECOVERY
+CONFIRM
+WRITE
+READBACK
+Let an accounting agent propose without letting it approve itself
+
+A synthetic reconciliation workflow that normalizes records, retrieves policy, validates model proposals, stops unsafe cases, and recovers an uncertain write without duplicating the ledger effect.
+
+Read case study · 
+github.com/dbett4/accounting-acceptance-lab
+
+GUARDED ACCESS · READBACK · RECEIPTS
+AUTH
+BACKOFF
+MUTATION GATE
+Give an agent only the access its job requires
+
+A reporting-system connector that exposes three guarded tools by default, refuses unconfirmed writes, checks the result in the source system, and keeps client values out of its audit record.
+
+Read case study · 
+github.com/dbett4/regulated-reporting-mcp
+
+CONTEXT · AUTHORITY · RECOVERY
+CONFIRM
+WRITE
+READBACK
+Make agent work explainable after the fact
+
+A useful answer does not prove that a business workflow had context, authority boundaries, recovery, or a record of what changed.
+
+Read case study · Evidence index
+→
+
+See all work and proof
+
+Public GitHub dates are publication dates. These labs and sanitized extracts are independent engineering work, not client tenants, production-engineering tenure, or Nous/Hermes Enterprise affiliation.
+
+WORKING APPROACH
+
+From first deployment to adoption
+
+I start with the customer workflow, turn the first useful path into a working deployment, and stay through go-live, acceptance, and adoption. Then I turn what I learned into a clearer path for the next deployment.
+
+Experience · Deployment approach · Full résumé (PDF)
+
+NEXT
+
+Let’s talk about the customer environment.
+
+I am pursuing forward-deployed engineering and technical deployment roles. Consulting is available selectively for a well-scoped implementation problem.
+
+Start a conversation
+Résumé
+Des Moines, Iowa
+About
+GitHub
+LinkedIn
+Email

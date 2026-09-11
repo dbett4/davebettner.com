@@ -1,0 +1,38 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+Accounting Acceptance Lab
+
+Testing accounting agents on reconciliation cases, with evidence checks, approvals, and failed-write recovery.
+
+View repository
+All projects
+
+Personal project using synthetic accounting records and recorded model responses. No live accounting system is connected.
+
+The problem
+
+An accounting proposal can look plausible while citing the wrong evidence. A retry after a lost response can also create the same ledger entry twice.
+
+What I built
+
+I built a Python and SQLite workflow that handles exact matches, retrieves policy for exceptions, validates proposals, and requires approval before changing its synthetic ledger. When a response is lost, it checks the ledger before retrying.
+
+What you can inspect
+
+The repository contains the reconciliation cases, offline demo, tests, and a record of the checks performed. These demonstrate behavior on defined examples, not autonomous accounting correctness.
+
+Read the verification notes
+Source code and documentation
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

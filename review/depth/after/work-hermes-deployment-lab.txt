@@ -1,0 +1,38 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+Failed-write recovery lab
+
+A test of what happens when a write succeeds but its response is lost.
+
+View repository
+All projects
+
+Synthetic local lab, not a client deployment or a production model run.
+
+The problem
+
+Repeating a request after a connection failure can duplicate a change that already succeeded.
+
+What I built
+
+I built an approval and recovery path that keeps the same request identity after a restart. The test forces a lost response, then checks for the original result before repeating the write.
+
+What you can inspect
+
+The repository includes a container-based demo, failure tests, and verification notes.
+
+Read the verification notes
+Source code and documentation
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

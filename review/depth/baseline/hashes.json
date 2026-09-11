@@ -1,0 +1,8 @@
+{
+  "src/pages/index.astro": "456d1a832880d7979776c481bc44f0c10210bb1c370e3d5c9b8079f3c2614b1b",
+  "src/pages/work/[slug].astro": "1f1deab2234efc8e53bf9624d159572b572ad8c57d94e8d3768280de9ae27e4e",
+  "src/styles/profile.css": "d3d52a8422487e74ff7bafe699b61c51e1dc193f1a60b7da1f74279797161987",
+  "scripts/export-private-preview.py": "4aa2456b3620e018dd68fc46c2998eae2ba7f5575707fcc55882e48b909ca3cf",
+  "review/ramp/Dave-Bettner-private-preview.html": "1d5dd76a60c605044df16f0c1323931d3ad716bcc3a9d5858770670275722ed5",
+  "review/ramp/vision_review_packet.json": "d79cb11a2c674af470654ea9ea7fd8d8180aa1ffe46c894b72820769e5837ea2"
+}

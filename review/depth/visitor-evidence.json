@@ -1,0 +1,521 @@
+{
+  "artifact": "accounting-acceptance-lab visitor evidence",
+  "benchmark_snapshot": {
+    "dataset": {
+      "cases": 16,
+      "evaluator_overlap": "fixtures are separate from demo cases; policies are shared intentionally",
+      "name": "synthetic-heldout-v1",
+      "sha256": "613bbe116fa7811550b7869442a28a148004ae12914553b97ca43e9e710b6acb"
+    },
+    "metrics": {
+      "accepted_output_rate": 0.25,
+      "citation_accuracy": 1.0,
+      "duplicate_effect_rate": 0.0,
+      "estimated_cost_per_accepted_item_usd": 0.0,
+      "false_accept_rate": 0.0,
+      "first_pass_acceptance": 0.25,
+      "human_review_count": 12,
+      "human_review_minutes_estimate": 36,
+      "p50_latency_ms": 0.383655,
+      "p95_latency_ms": 0.671988,
+      "recovery_success": 1.0,
+      "unsupported_conclusion_rate": 0.0
+    },
+    "raw_output": "lab-run/raw/benchmark.json",
+    "retry_comparison": {
+      "effect_safe": {
+        "duplicate_effect_rate": 0.0,
+        "effect_count": 1,
+        "result": "accepted_existing_effect",
+        "strategy": "semantic key plus native read-before-retry"
+      },
+      "naive_retry": {
+        "duplicate_effect_rate": 1.0,
+        "effect_count": 2,
+        "strategy": "new transport key and blind retry"
+      }
+    },
+    "run_id": "613bbe116fa78115",
+    "verification": {
+      "independent_gate": {
+        "accepted": 4,
+        "false_accept_rate": 0.0,
+        "false_accepts": 0,
+        "unsupported_accepts": 0,
+        "verifier_status": "executable rule-based surrogate; external verifier not run"
+      },
+      "self_attested": {
+        "accepted": 10,
+        "false_accept_rate": 0.6,
+        "false_accepts": 6
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "C03",
+      "case_type": "duplicate",
+      "discrepancy": "Synthetic duplicate flag: duplicate_count=2 on GL record g3; deterministic reconciliation remains unresolved because no exact bank match is present.",
+      "evidence": {
+        "policy_refs": [
+          {
+            "doc_id": "p-duplicate",
+            "effective_date": "2026-01-01",
+            "excerpt": "A duplicate invoice paid twice may be reversed only after invoice and amount confirmation.",
+            "id": "policy:p-duplicate@v2",
+            "retrieved_in_case": true,
+            "source": "policy",
+            "title": "Duplicate payments",
+            "version": "v2"
+          }
+        ],
+        "reconciliation": [
+          {
+            "case_id": "case-g3",
+            "matched_ids": [
+              "g3"
+            ],
+            "reason": "no exact deterministic match",
+            "status": "unresolved"
+          }
+        ],
+        "retrieved_citations": [
+          {
+            "hybrid_score": 4.161263,
+            "id": "policy:p-duplicate@v2",
+            "lexical_score": 8.105853,
+            "rerank_score": 1.0,
+            "retrieved": true,
+            "vector_score": 0.896083
+          },
+          {
+            "hybrid_score": 0.010701,
+            "id": "policy:p-support@v2",
+            "lexical_score": 0.0,
+            "rerank_score": 0.0,
+            "retrieved": true,
+            "vector_score": 0.030574
+          },
+          {
+            "hybrid_score": 0.003673,
+            "id": "policy:p-prior@v2",
+            "lexical_score": 0.0,
+            "rerank_score": 0.0,
+            "retrieved": true,
+            "vector_score": 0.010495
+          }
+        ]
+      },
+      "fixture_status": "fresh",
+      "proposal": {
+        "abstain_reason": null,
+        "case_type": "duplicate",
+        "citations": [
+          "policy:p-duplicate@v2"
+        ],
+        "confidence": 0.98,
+        "material": false,
+        "provenance": "recorded_model",
+        "rationale": "Invoice and amount duplication meet the reversal policy.",
+        "recommendation": "reverse_duplicate",
+        "risk": "low"
+      },
+      "proposed_action": {
+        "action": "reverse_duplicate",
+        "amount": "-100.00",
+        "currency": "USD"
+      },
+      "raw_outputs": [
+        "lab-run/raw/C03.before.json",
+        "lab-run/raw/C03.approve.json",
+        "lab-run/raw/C03.after.json"
+      ],
+      "results": {
+        "after_approval": {
+          "approval_status": "approved",
+          "effect_count": 0,
+          "generation": 2,
+          "state": "approved",
+          "stored_verdict": "blocked_pending_human_approval"
+        },
+        "approval_command_result": {
+          "approval": {
+            "action": "reverse_duplicate",
+            "actor": "offline-reviewer",
+            "amount": "-100.00",
+            "at": "2026-09-11T00:24:01.110352+00:00",
+            "case_id": "C03",
+            "currency": "USD",
+            "decision": "approved",
+            "generation": 2,
+            "proposal_digest": "cc64058e054b7e4a915cc482d7117906a19947752110df8a592502e83bf320c3",
+            "reason": "reviewed synthetic evidence and policy"
+          },
+          "decision_recorded": "approved",
+          "effect_applied": false,
+          "next_step": "submit a separately constructed bounded action with the new generation"
+        },
+        "before_approval": {
+          "approval_status": "none",
+          "effect_count": 0,
+          "generation": 1,
+          "state": "pending_approval"
+        },
+        "demo_verdict": "blocked_pending_human_approval"
+      },
+      "role": "primary_discrepancy_and_approval_lifecycle",
+      "source_records": [
+        {
+          "amount": "100.00",
+          "canonicalized_fixture_excerpt": "{\"amount\":\"100.00\",\"date\":\"2026-01-04\",\"metadata\":{\"duplicate_count\":2,\"policy_version\":\"v2\",\"query\":\"duplicate invoice paid twice reversal\"},\"record_id\":\"g3\",\"reference\":\"INV-003\",\"source\":\"gl\"}",
+          "date": "2026-01-04",
+          "metadata": {
+            "duplicate_count": 2,
+            "policy_version": "v2",
+            "query": "duplicate invoice paid twice reversal"
+          },
+          "record_id": "g3",
+          "reference": "INV-003",
+          "source": "gl"
+        }
+      ]
+    },
+    {
+      "action": {
+        "action": "record_timing_adjustment",
+        "amount": "25.00",
+        "authority": "deterministic_policy",
+        "currency": "USD",
+        "effect_id": "eff-58a0a12b0147ed2f",
+        "idempotency_key": "C12:timing:v1"
+      },
+      "approval_status": "not_required",
+      "case_id": "C12",
+      "case_type": "retry_after_unknown_external_effect",
+      "discrepancy": "Separate synthetic recovery case: the first write is committed, but its response is classified effect_unknown; replay reads by semantic idempotency key before retrying.",
+      "evidence": {
+        "attempts_after_demo_and_replay": [
+          {
+            "created_at": "2026-09-11T00:23:34.282634+00:00",
+            "effect_id": null,
+            "id": 1,
+            "idempotency_key": "C12:timing:v1",
+            "request": "{\"action\": \"record_timing_adjustment\", \"amount\": \"25.00\", \"authority\": \"deterministic_policy\", \"case_id\": \"C12\", \"currency\": \"USD\", \"expected_generation\": 1, \"idempotency_key\": \"C12:timing:v1\", \"proposal_digest\": null}",
+            "status": "effect_unknown"
+          }
+        ],
+        "policy_note": "The recovery path is deterministic_policy and carries no proposal citations; policy:p-timing@v2 is the relevant fixture reference, not a retrieved citation in the C12 packet.",
+        "policy_refs": [
+          {
+            "doc_id": "p-timing",
+            "effective_date": "2026-01-01",
+            "excerpt": "Outstanding bank timing differences may be recorded below 1000 USD after source confirmation.",
+            "id": "policy:p-timing@v2",
+            "retrieved_in_case": false,
+            "source": "policy",
+            "title": "Timing differences",
+            "version": "v2"
+          }
+        ]
+      },
+      "fixture_status": "fresh",
+      "proposal": null,
+      "raw_outputs": [
+        "lab-run/raw/C12.before-replay.json",
+        "lab-run/raw/C12.attempts.json",
+        "lab-run/raw/C12.replay.json",
+        "lab-run/raw/C12.after-replay.json"
+      ],
+      "results": {
+        "after_replay_inspection": {
+          "effect_count": 1,
+          "effect_id": "eff-58a0a12b0147ed2f",
+          "generation": 2,
+          "idempotency_key": "C12:timing:v1",
+          "state": "accepted_recovered",
+          "verdict": "accepted_after_read_before_retry"
+        },
+        "before_replay_inspection": {
+          "effect_count": 1,
+          "generation": 2,
+          "state": "accepted_recovered",
+          "verdict": "accepted_after_read_before_retry"
+        },
+        "effect_count_assertion": {
+          "expected_for_safe_recovery": 1,
+          "observed": 1
+        },
+        "initial_attempt_observed_in_store": {
+          "effect_id": null,
+          "idempotency_key": "C12:timing:v1",
+          "status": "effect_unknown"
+        },
+        "replay_command_result": {
+          "effect_id": "eff-58a0a12b0147ed2f",
+          "readback": {
+            "action": "record_timing_adjustment",
+            "amount": "25.00",
+            "authority": "deterministic_policy",
+            "case_id": "C12",
+            "created_at": "2026-09-11 00:23:34",
+            "currency": "USD",
+            "effect_id": "eff-58a0a12b0147ed2f",
+            "expected_generation": 1,
+            "idempotency_key": "C12:timing:v1",
+            "proposal_digest": null,
+            "request_digest": "e3856659fb7f158cae766544c79c16d5733106ad7669a49e155daf787d3081a2",
+            "request_json": "{\"action\": \"record_timing_adjustment\", \"amount\": \"25.00\", \"authority\": \"deterministic_policy\", \"case_id\": \"C12\", \"currency\": \"USD\", \"expected_generation\": 1, \"proposal_digest\": null}"
+          },
+          "status": "accepted_existing_effect"
+        }
+      },
+      "role": "separate_lost_write_response_recovery",
+      "source_records": [
+        {
+          "amount": "25.00",
+          "canonicalized_fixture_excerpt": "{\"amount\":\"25.00\",\"date\":\"2026-01-12\",\"metadata\":{\"effect_recovery_test\":true,\"policy_version\":\"v2\",\"query\":\"timing adjustment retry effect\"},\"record_id\":\"g12\",\"reference\":\"TIM-012\",\"source\":\"gl\"}",
+          "date": "2026-01-12",
+          "metadata": {
+            "effect_recovery_test": true,
+            "policy_version": "v2",
+            "query": "timing adjustment retry effect"
+          },
+          "record_id": "g12",
+          "reference": "TIM-012",
+          "source": "gl"
+        }
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "command": "env PYTHONPATH=src AAL_STATE_DIR=.state /usr/bin/python3 -m aal.cli demo",
+      "raw_output": "lab-run/raw/demo.json"
+    },
+    {
+      "command": "env PYTHONPATH=src AAL_STATE_DIR=.state /usr/bin/python3 -m unittest discover -s tests -v",
+      "raw_output": "lab-run/raw/unittest.txt"
+    },
+    {
+      "command": "env PYTHONPATH=src AAL_STATE_DIR=.state /usr/bin/python3 -m aal.cli inspect C03",
+      "raw_output": "lab-run/raw/C03.before.json"
+    },
+    {
+      "command": "env PYTHONPATH=src AAL_STATE_DIR=.state /usr/bin/python3 -m aal.cli approve C03 --actor offline-reviewer --reason \"reviewed synthetic evidence and policy\"",
+      "raw_output": "lab-run/raw/C03.approve.json"
+    },
+    {
+      "command": "env PYTHONPATH=src AAL_STATE_DIR=.state /usr/bin/python3 -m aal.cli inspect C03",
+      "raw_output": "lab-run/raw/C03.after.json"
+    },
+    {
+      "command": "env PYTHONPATH=src AAL_STATE_DIR=.state /usr/bin/python3 -m aal.cli inspect C12",
+      "raw_output": "lab-run/raw/C12.before-replay.json"
+    },
+    {
+      "command": "/usr/bin/python3 - <<PY ... sqlite3 read of .state/lab.db attempts/effects for C12 ... PY",
+      "raw_output": "lab-run/raw/C12.attempts.json"
+    },
+    {
+      "command": "env PYTHONPATH=src AAL_STATE_DIR=.state /usr/bin/python3 -m aal.cli replay C12:timing:v1",
+      "raw_output": "lab-run/raw/C12.replay.json"
+    },
+    {
+      "command": "env PYTHONPATH=src AAL_STATE_DIR=.state /usr/bin/python3 -m aal.cli inspect C12",
+      "raw_output": "lab-run/raw/C12.after-replay.json"
+    },
+    {
+      "command": "env PYTHONPATH=src AAL_STATE_DIR=.state /usr/bin/python3 -m aal.cli benchmark",
+      "raw_output": "lab-run/raw/benchmark.json"
+    }
+  ],
+  "lab_run_summary": {
+    "backend": "recorded_model",
+    "case_count": 12,
+    "counts": {
+      "abstained_or_routed": 8,
+      "accepted_after_read_before_retry": 1,
+      "accepted_deterministic_match": 1,
+      "blocked_pending_human_approval": 2
+    },
+    "estimated_provider_cost_usd": 0.0,
+    "false_accepts": 0,
+    "live_backend": "unexercised",
+    "raw_output": "lab-run/raw/demo.json",
+    "recovery_success": 1,
+    "unsupported_accepts": 0
+  },
+  "limitations": [
+    "All GL, policy, proposal, approval, and effect values are synthetic fixtures from the copied lab source.",
+    "recorded_model is immutable fixture provenance, not live AI inference; live_backend is unexercised.",
+    "C12 simulates an unknown response after a local SQLite commit; it is not a real external ledger timeout or network failure.",
+    "The C03 actor value offline-reviewer is a local CLI actor string used to exercise the approval lifecycle, not evidence of a real human approval or production authorization.",
+    "The benchmark is a small synthetic held-out fixture; its independent verifier is executable rule-based logic, not third-party verification.",
+    "No production system, external service, credential, deployment, or source-repository state was used by the run."
+  ],
+  "safe_claims": [
+    "C03 is a synthetic duplicate scenario flagged by its fixture; it is not a client-specific or production-confirmed duplicate.",
+    "The recorded proposal cites policy:p-duplicate@v2 and recommends reverse_duplicate for -100.00 USD, but the demo initially blocks it pending approval.",
+    "The isolated approval command advanced C03 to generation 2 and recorded approved, while effect_count remained 0; approval is separate from effect application.",
+    "C12 is a distinct recovery case. The recorded attempt is effect_unknown, replay returned accepted_existing_effect, and the observed effect count is 1.",
+    "The run used recorded_model fixtures and local SQLite only; live inference and production ledger effects were not exercised."
+  ],
+  "schema_version": 1,
+  "scope": {
+    "external_calls": false,
+    "fixtures": "synthetic",
+    "isolated_run_root": "/home/dave/work/davebettner-ramp-profile/review/depth/lab-run",
+    "mode": "offline isolated copy",
+    "purpose": "truthful website walkthrough evidence",
+    "source_repository": "/srv/agentops/repos/accounting-acceptance-lab",
+    "state_directory_used": "/home/dave/work/davebettner-ramp-profile/review/depth/lab-run/.state"
+  },
+  "source_provenance": {
+    "all_selected_files_identical": true,
+    "note": "The offline run was executed from the isolated copy; the source repository state directory was not the run state directory.",
+    "python_executable": "/usr/bin/python3",
+    "python_version": "3.12.3",
+    "selected_file_count": 20,
+    "selected_files": [
+      {
+        "copied_sha256": "4cd81d0ade903bd183ddc11892e8b0e654c629ed232f3feef22c6757195ff8c6",
+        "identical": true,
+        "path": "src/aal/__init__.py",
+        "source_sha256": "4cd81d0ade903bd183ddc11892e8b0e654c629ed232f3feef22c6757195ff8c6"
+      },
+      {
+        "copied_sha256": "af84fe70e60fd49ca48e4ce8ed005417be968ee5545b6c6bf1a36c8d48ae2827",
+        "identical": true,
+        "path": "src/aal/app.py",
+        "source_sha256": "af84fe70e60fd49ca48e4ce8ed005417be968ee5545b6c6bf1a36c8d48ae2827"
+      },
+      {
+        "copied_sha256": "8faa6d0bd2880b912df20734397edd6a6849f7d5c44e91e1f13dbfcebbfb0581",
+        "identical": true,
+        "path": "src/aal/benchmark.py",
+        "source_sha256": "8faa6d0bd2880b912df20734397edd6a6849f7d5c44e91e1f13dbfcebbfb0581"
+      },
+      {
+        "copied_sha256": "832d66ae4f8f32c12f9bfc923f47ae17302fdf86c4005d28b0625245e9de1bfd",
+        "identical": true,
+        "path": "src/aal/cli.py",
+        "source_sha256": "832d66ae4f8f32c12f9bfc923f47ae17302fdf86c4005d28b0625245e9de1bfd"
+      },
+      {
+        "copied_sha256": "cb9cdd69c90919ef9f1008fc727e65bd8113aca9063f445697ba9d064219b101",
+        "identical": true,
+        "path": "src/aal/control.py",
+        "source_sha256": "cb9cdd69c90919ef9f1008fc727e65bd8113aca9063f445697ba9d064219b101"
+      },
+      {
+        "copied_sha256": "94e84f2fc92e1e7d7e81786fc10b0f3d156d4d58d0a9535f528d35dd9a416a1d",
+        "identical": true,
+        "path": "src/aal/models.py",
+        "source_sha256": "94e84f2fc92e1e7d7e81786fc10b0f3d156d4d58d0a9535f528d35dd9a416a1d"
+      },
+      {
+        "copied_sha256": "c0402a05c70c125816119754357668419b029a517ee70db0ae1fea30bc464a69",
+        "identical": true,
+        "path": "src/aal/packet.py",
+        "source_sha256": "c0402a05c70c125816119754357668419b029a517ee70db0ae1fea30bc464a69"
+      },
+      {
+        "copied_sha256": "6f65e3f0ffcb8792080317f03212cdffc9f52c0bf7e4dcc149528b25d28f5050",
+        "identical": true,
+        "path": "src/aal/proposals.py",
+        "source_sha256": "6f65e3f0ffcb8792080317f03212cdffc9f52c0bf7e4dcc149528b25d28f5050"
+      },
+      {
+        "copied_sha256": "8fb2a969349625b604a8a0b53f90eb817f7a86ca1086396592a1ef7feaba107c",
+        "identical": true,
+        "path": "src/aal/reconcile.py",
+        "source_sha256": "8fb2a969349625b604a8a0b53f90eb817f7a86ca1086396592a1ef7feaba107c"
+      },
+      {
+        "copied_sha256": "ea45aee3bde48ed72713b621606858f4cbe7f39a5b6db3b19ab7ecdb56fac31f",
+        "identical": true,
+        "path": "src/aal/retrieval.py",
+        "source_sha256": "ea45aee3bde48ed72713b621606858f4cbe7f39a5b6db3b19ab7ecdb56fac31f"
+      },
+      {
+        "copied_sha256": "f37dd19ade506bd5779a7bddff22fcabc6b7da7ce7875013af19902ea88b54b3",
+        "identical": true,
+        "path": "src/aal/service.py",
+        "source_sha256": "f37dd19ade506bd5779a7bddff22fcabc6b7da7ce7875013af19902ea88b54b3"
+      },
+      {
+        "copied_sha256": "bc7311a62f52d29f32f95a20bdd9168191afe9bafd2db851ea8f82bfd6d66b10",
+        "identical": true,
+        "path": "src/aal/store.py",
+        "source_sha256": "bc7311a62f52d29f32f95a20bdd9168191afe9bafd2db851ea8f82bfd6d66b10"
+      },
+      {
+        "copied_sha256": "53b3b87fae14990ceaf21831888ec43dbe4e3df5ed8e717953931e832a92e439",
+        "identical": true,
+        "path": "src/aal/data/cases.json",
+        "source_sha256": "53b3b87fae14990ceaf21831888ec43dbe4e3df5ed8e717953931e832a92e439"
+      },
+      {
+        "copied_sha256": "32da615d39fa21ee822af7b53894ce2896ebf945da4c934f45f77ffb7f404775",
+        "identical": true,
+        "path": "src/aal/data/documents.json",
+        "source_sha256": "32da615d39fa21ee822af7b53894ce2896ebf945da4c934f45f77ffb7f404775"
+      },
+      {
+        "copied_sha256": "613bbe116fa7811550b7869442a28a148004ae12914553b97ca43e9e710b6acb",
+        "identical": true,
+        "path": "src/aal/data/heldout.json",
+        "source_sha256": "613bbe116fa7811550b7869442a28a148004ae12914553b97ca43e9e710b6acb"
+      },
+      {
+        "copied_sha256": "93d3e2a5b5a4cd3e819a0eb2fb646f4ed1d56def1809c16f119d8dbc378235b9",
+        "identical": true,
+        "path": "src/aal/data/recorded_responses.json",
+        "source_sha256": "93d3e2a5b5a4cd3e819a0eb2fb646f4ed1d56def1809c16f119d8dbc378235b9"
+      },
+      {
+        "copied_sha256": "94737a1e4a23780156a9f8c00e425e12e9d4053787cf1f6bb144d1313d98c4d3",
+        "identical": true,
+        "path": "scripts/offline_demo.sh",
+        "source_sha256": "94737a1e4a23780156a9f8c00e425e12e9d4053787cf1f6bb144d1313d98c4d3"
+      },
+      {
+        "copied_sha256": "b2f391f68faee706525cac1085800722371a55ba0dffd3ca33c71026ef0e217c",
+        "identical": true,
+        "path": "tests/test_core.py",
+        "source_sha256": "b2f391f68faee706525cac1085800722371a55ba0dffd3ca33c71026ef0e217c"
+      },
+      {
+        "copied_sha256": "544c66b859733cbf471257cded4f6ff9ac4735588697ed01cf18894222ca65d9",
+        "identical": true,
+        "path": "tests/test_control.py",
+        "source_sha256": "544c66b859733cbf471257cded4f6ff9ac4735588697ed01cf18894222ca65d9"
+      },
+      {
+        "copied_sha256": "111a26d7b46357ec006c65cca670003836d332b9e749fb738b5f30554765beca",
+        "identical": true,
+        "path": "tests/test_benchmark.py",
+        "source_sha256": "111a26d7b46357ec006c65cca670003836d332b9e749fb738b5f30554765beca"
+      }
+    ],
+    "source_git_archive_sha256": "2a7b5a37bacd77ab9810795772b293f2f478acde21a71e796e724a60d8144ff2",
+    "source_revision": "1fccee73cb37b8bf132aef8707cd44130be07653",
+    "source_root": "/srv/agentops/repos/accounting-acceptance-lab",
+    "source_state_dir": "/srv/agentops/repos/accounting-acceptance-lab/.state",
+    "source_worktree_diff_clean": true,
+    "source_worktree_status": "",
+    "state_dir_used": "/home/dave/work/davebettner-ramp-profile/review/depth/lab-run/.state"
+  },
+  "verification": {
+    "source_copy": {
+      "all_selected_files_identical": true,
+      "source_worktree_diff_clean": true,
+      "state_dir_used": "/home/dave/work/davebettner-ramp-profile/review/depth/lab-run/.state"
+    },
+    "unit_tests": {
+      "raw_output": "lab-run/raw/unittest.txt",
+      "status": "passed",
+      "test_count": 23
+    }
+  }
+}

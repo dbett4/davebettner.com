@@ -1,0 +1,37 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+Spreadsheet review tools
+
+A browser extension and local service for finding suspicious formulas and reviewing corrections.
+
+View repository
+All projects
+
+Fictional demonstration workbook. The public project is not a client reporting environment.
+
+The problem
+
+A report can balance while its formulas, source links, or mappings are still wrong.
+
+What I built
+
+I built a Chrome extension and Python service to flag formula and link issues, explain findings, and ask before changing a cell. The service preserves the prior value and restores it if verification fails.
+
+What you can inspect
+
+The repository contains the detector and extension tests. Findings that require accounting judgment remain with the reviewer.
+
+Source code and documentation
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

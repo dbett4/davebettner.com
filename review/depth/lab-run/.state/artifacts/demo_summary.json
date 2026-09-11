@@ -1,0 +1,89 @@
+{
+  "backend": "recorded_model",
+  "case_count": 12,
+  "counts": {
+    "abstained_or_routed": 8,
+    "accepted_after_read_before_retry": 1,
+    "accepted_deterministic_match": 1,
+    "blocked_pending_human_approval": 2
+  },
+  "estimated_provider_cost_usd": 0.0,
+  "false_accepts": 0,
+  "live_backend": "unexercised",
+  "packets": [
+    {
+      "case_id": "C01",
+      "latency_ms": 1.604,
+      "sha256": "6d29ebb7a9bc871356295453e402232edf2a9dd38601da0705cde6cf95d24209",
+      "verdict": "accepted_deterministic_match"
+    },
+    {
+      "case_id": "C02",
+      "latency_ms": 2.0,
+      "sha256": "f622c20882782161cfe0aa2cc84165386094a6607fb011e85fd8971ddbd340ad",
+      "verdict": "blocked_pending_human_approval"
+    },
+    {
+      "case_id": "C03",
+      "latency_ms": 1.978,
+      "sha256": "1f3940a4703031afe9b14a8e5a2b7ace82fc4ef699d01be567ebe904ffa02806",
+      "verdict": "blocked_pending_human_approval"
+    },
+    {
+      "case_id": "C04",
+      "latency_ms": 3.624,
+      "sha256": "5969263327f8e5181e23d18b1cb01bf6d3a12911c0a81622664e5d392912b3c9",
+      "verdict": "abstained_or_routed"
+    },
+    {
+      "case_id": "C05",
+      "latency_ms": 2.423,
+      "sha256": "597956e0f4031bd61c5860b3c6bedd7bffba4a56950340012997913836c35c05",
+      "verdict": "abstained_or_routed"
+    },
+    {
+      "case_id": "C06",
+      "latency_ms": 2.196,
+      "sha256": "bd215e859ec44d4cb546e8203b52b9f32e7c196adf4341165988313de123a0b4",
+      "verdict": "abstained_or_routed"
+    },
+    {
+      "case_id": "C07",
+      "latency_ms": 1.659,
+      "sha256": "2a85501769eccc13dc85fc0046e9b237457b7d256682cd9868cc10dce82dd33b",
+      "verdict": "abstained_or_routed"
+    },
+    {
+      "case_id": "C08",
+      "latency_ms": 1.814,
+      "sha256": "555f4c24bc5e69e99c99c3d40277b601f6821f93ce0685876ee64e0d3a446363",
+      "verdict": "abstained_or_routed"
+    },
+    {
+      "case_id": "C09",
+      "latency_ms": 1.242,
+      "sha256": "426fb9da1906166cc2bfbf001eb10929563f2693f66094db27d45edd0b1e4aac",
+      "verdict": "abstained_or_routed"
+    },
+    {
+      "case_id": "C10",
+      "latency_ms": 1.6,
+      "sha256": "f195885b5417c1c281ec708adb2bfb6a18b9ffc84dabc20c8fedf5ea552d7b45",
+      "verdict": "abstained_or_routed"
+    },
+    {
+      "case_id": "C11",
+      "latency_ms": 1.707,
+      "sha256": "e120b2b43d0211b08159dfe6bb2ba9ddb6a8cdb4282946ae755f38647766793d",
+      "verdict": "abstained_or_routed"
+    },
+    {
+      "case_id": "C12",
+      "latency_ms": 5.342,
+      "sha256": "1182aaf3283a026920a026b76eb3362a71848abe1fe08a86e3fce6bd40c33ae4",
+      "verdict": "accepted_after_read_before_retry"
+    }
+  ],
+  "recovery_success": 1,
+  "unsupported_accepts": 0
+}

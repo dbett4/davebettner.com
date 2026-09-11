@@ -1,0 +1,27 @@
+[
+  {
+    "url": "https://davebettner.com/",
+    "status": 200,
+    "sha256": "5b403eb431b4639ca47926dfd73855a2ecc5c08d8329573a5ee028b324ba6a4b"
+  },
+  {
+    "url": "https://davebettner.com/work/",
+    "status": 200,
+    "sha256": "40b00f48381cfce2758ad06965eb00a672fd0048282522b4d521a89434cbcc84"
+  },
+  {
+    "url": "https://davebettner.com/experience/",
+    "status": 200,
+    "sha256": "d2edaad287fd462c37f8099d75d9a657137aae33c71c05734f6c1b6292442127"
+  },
+  {
+    "url": "https://davebettner.com/fit/",
+    "status": 200,
+    "sha256": "4f15733eb8154a1b243aa68b2723666a02aabd87ee034c58bd644395b6a51076"
+  },
+  {
+    "url": "https://davebettner.com/about/",
+    "status": 200,
+    "sha256": "b45599eb4e22c7d4337fd176598e897d3dd46517dd6dc79f4e7c30c4ddb0b0e6"
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "attempt_count": 1,
+  "attempts": [
+    {
+      "created_at": "2026-09-11T00:23:34.282634+00:00",
+      "effect_id": null,
+      "id": 1,
+      "idempotency_key": "C12:timing:v1",
+      "request": "{\"action\": \"record_timing_adjustment\", \"amount\": \"25.00\", \"authority\": \"deterministic_policy\", \"case_id\": \"C12\", \"currency\": \"USD\", \"expected_generation\": 1, \"idempotency_key\": \"C12:timing:v1\", \"proposal_digest\": null}",
+      "status": "effect_unknown"
+    }
+  ],
+  "case_id": "C12",
+  "effect_count": 1,
+  "effects": [
+    {
+      "action": "record_timing_adjustment",
+      "amount": "25.00",
+      "authority": "deterministic_policy",
+      "case_id": "C12",
+      "currency": "USD",
+      "effect_id": "eff-58a0a12b0147ed2f",
+      "expected_generation": 1,
+      "idempotency_key": "C12:timing:v1",
+      "proposal_digest": null
+    }
+  ]
+}

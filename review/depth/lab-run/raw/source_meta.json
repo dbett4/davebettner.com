@@ -1,0 +1,136 @@
+{
+  "all_selected_files_identical": true,
+  "note": "The offline run was executed from the isolated copy; the source repository state directory was not the run state directory.",
+  "python_executable": "/usr/bin/python3",
+  "python_version": "3.12.3",
+  "selected_file_count": 20,
+  "selected_files": [
+    {
+      "copied_sha256": "4cd81d0ade903bd183ddc11892e8b0e654c629ed232f3feef22c6757195ff8c6",
+      "identical": true,
+      "path": "src/aal/__init__.py",
+      "source_sha256": "4cd81d0ade903bd183ddc11892e8b0e654c629ed232f3feef22c6757195ff8c6"
+    },
+    {
+      "copied_sha256": "af84fe70e60fd49ca48e4ce8ed005417be968ee5545b6c6bf1a36c8d48ae2827",
+      "identical": true,
+      "path": "src/aal/app.py",
+      "source_sha256": "af84fe70e60fd49ca48e4ce8ed005417be968ee5545b6c6bf1a36c8d48ae2827"
+    },
+    {
+      "copied_sha256": "8faa6d0bd2880b912df20734397edd6a6849f7d5c44e91e1f13dbfcebbfb0581",
+      "identical": true,
+      "path": "src/aal/benchmark.py",
+      "source_sha256": "8faa6d0bd2880b912df20734397edd6a6849f7d5c44e91e1f13dbfcebbfb0581"
+    },
+    {
+      "copied_sha256": "832d66ae4f8f32c12f9bfc923f47ae17302fdf86c4005d28b0625245e9de1bfd",
+      "identical": true,
+      "path": "src/aal/cli.py",
+      "source_sha256": "832d66ae4f8f32c12f9bfc923f47ae17302fdf86c4005d28b0625245e9de1bfd"
+    },
+    {
+      "copied_sha256": "cb9cdd69c90919ef9f1008fc727e65bd8113aca9063f445697ba9d064219b101",
+      "identical": true,
+      "path": "src/aal/control.py",
+      "source_sha256": "cb9cdd69c90919ef9f1008fc727e65bd8113aca9063f445697ba9d064219b101"
+    },
+    {
+      "copied_sha256": "94e84f2fc92e1e7d7e81786fc10b0f3d156d4d58d0a9535f528d35dd9a416a1d",
+      "identical": true,
+      "path": "src/aal/models.py",
+      "source_sha256": "94e84f2fc92e1e7d7e81786fc10b0f3d156d4d58d0a9535f528d35dd9a416a1d"
+    },
+    {
+      "copied_sha256": "c0402a05c70c125816119754357668419b029a517ee70db0ae1fea30bc464a69",
+      "identical": true,
+      "path": "src/aal/packet.py",
+      "source_sha256": "c0402a05c70c125816119754357668419b029a517ee70db0ae1fea30bc464a69"
+    },
+    {
+      "copied_sha256": "6f65e3f0ffcb8792080317f03212cdffc9f52c0bf7e4dcc149528b25d28f5050",
+      "identical": true,
+      "path": "src/aal/proposals.py",
+      "source_sha256": "6f65e3f0ffcb8792080317f03212cdffc9f52c0bf7e4dcc149528b25d28f5050"
+    },
+    {
+      "copied_sha256": "8fb2a969349625b604a8a0b53f90eb817f7a86ca1086396592a1ef7feaba107c",
+      "identical": true,
+      "path": "src/aal/reconcile.py",
+      "source_sha256": "8fb2a969349625b604a8a0b53f90eb817f7a86ca1086396592a1ef7feaba107c"
+    },
+    {
+      "copied_sha256": "ea45aee3bde48ed72713b621606858f4cbe7f39a5b6db3b19ab7ecdb56fac31f",
+      "identical": true,
+      "path": "src/aal/retrieval.py",
+      "source_sha256": "ea45aee3bde48ed72713b621606858f4cbe7f39a5b6db3b19ab7ecdb56fac31f"
+    },
+    {
+      "copied_sha256": "f37dd19ade506bd5779a7bddff22fcabc6b7da7ce7875013af19902ea88b54b3",
+      "identical": true,
+      "path": "src/aal/service.py",
+      "source_sha256": "f37dd19ade506bd5779a7bddff22fcabc6b7da7ce7875013af19902ea88b54b3"
+    },
+    {
+      "copied_sha256": "bc7311a62f52d29f32f95a20bdd9168191afe9bafd2db851ea8f82bfd6d66b10",
+      "identical": true,
+      "path": "src/aal/store.py",
+      "source_sha256": "bc7311a62f52d29f32f95a20bdd9168191afe9bafd2db851ea8f82bfd6d66b10"
+    },
+    {
+      "copied_sha256": "53b3b87fae14990ceaf21831888ec43dbe4e3df5ed8e717953931e832a92e439",
+      "identical": true,
+      "path": "src/aal/data/cases.json",
+      "source_sha256": "53b3b87fae14990ceaf21831888ec43dbe4e3df5ed8e717953931e832a92e439"
+    },
+    {
+      "copied_sha256": "32da615d39fa21ee822af7b53894ce2896ebf945da4c934f45f77ffb7f404775",
+      "identical": true,
+      "path": "src/aal/data/documents.json",
+      "source_sha256": "32da615d39fa21ee822af7b53894ce2896ebf945da4c934f45f77ffb7f404775"
+    },
+    {
+      "copied_sha256": "613bbe116fa7811550b7869442a28a148004ae12914553b97ca43e9e710b6acb",
+      "identical": true,
+      "path": "src/aal/data/heldout.json",
+      "source_sha256": "613bbe116fa7811550b7869442a28a148004ae12914553b97ca43e9e710b6acb"
+    },
+    {
+      "copied_sha256": "93d3e2a5b5a4cd3e819a0eb2fb646f4ed1d56def1809c16f119d8dbc378235b9",
+      "identical": true,
+      "path": "src/aal/data/recorded_responses.json",
+      "source_sha256": "93d3e2a5b5a4cd3e819a0eb2fb646f4ed1d56def1809c16f119d8dbc378235b9"
+    },
+    {
+      "copied_sha256": "94737a1e4a23780156a9f8c00e425e12e9d4053787cf1f6bb144d1313d98c4d3",
+      "identical": true,
+      "path": "scripts/offline_demo.sh",
+      "source_sha256": "94737a1e4a23780156a9f8c00e425e12e9d4053787cf1f6bb144d1313d98c4d3"
+    },
+    {
+      "copied_sha256": "b2f391f68faee706525cac1085800722371a55ba0dffd3ca33c71026ef0e217c",
+      "identical": true,
+      "path": "tests/test_core.py",
+      "source_sha256": "b2f391f68faee706525cac1085800722371a55ba0dffd3ca33c71026ef0e217c"
+    },
+    {
+      "copied_sha256": "544c66b859733cbf471257cded4f6ff9ac4735588697ed01cf18894222ca65d9",
+      "identical": true,
+      "path": "tests/test_control.py",
+      "source_sha256": "544c66b859733cbf471257cded4f6ff9ac4735588697ed01cf18894222ca65d9"
+    },
+    {
+      "copied_sha256": "111a26d7b46357ec006c65cca670003836d332b9e749fb738b5f30554765beca",
+      "identical": true,
+      "path": "tests/test_benchmark.py",
+      "source_sha256": "111a26d7b46357ec006c65cca670003836d332b9e749fb738b5f30554765beca"
+    }
+  ],
+  "source_git_archive_sha256": "2a7b5a37bacd77ab9810795772b293f2f478acde21a71e796e724a60d8144ff2",
+  "source_revision": "1fccee73cb37b8bf132aef8707cd44130be07653",
+  "source_root": "/srv/agentops/repos/accounting-acceptance-lab",
+  "source_state_dir": "/srv/agentops/repos/accounting-acceptance-lab/.state",
+  "source_worktree_diff_clean": true,
+  "source_worktree_status": "",
+  "state_dir_used": "/home/dave/work/davebettner-ramp-profile/review/depth/lab-run/.state"
+}

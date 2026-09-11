@@ -1,0 +1,271 @@
+{
+  "route_width_checks": 52,
+  "routes": 13,
+  "local_destinations": 14,
+  "checks": [
+    {
+      "route": "/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/about/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/experience/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/experience/connected-reporting/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/fit/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/work/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/work/accounting-acceptance-lab/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/work/agent-operating-system/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/work/dedup-readback-bridge/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/work/hermes-deployment-lab/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/work/hermes-field-kit/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/work/regulated-reporting-mcp/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/work/wingman/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/about/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/experience/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/experience/connected-reporting/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/fit/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/work/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/work/accounting-acceptance-lab/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/work/agent-operating-system/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/work/dedup-readback-bridge/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/work/hermes-deployment-lab/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/work/hermes-field-kit/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/work/regulated-reporting-mcp/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/work/wingman/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/about/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/experience/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/experience/connected-reporting/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/fit/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/work/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/work/accounting-acceptance-lab/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/work/agent-operating-system/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/work/dedup-readback-bridge/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/work/hermes-deployment-lab/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/work/hermes-field-kit/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/work/regulated-reporting-mcp/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/work/wingman/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/about/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/experience/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/experience/connected-reporting/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/fit/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/work/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/work/accounting-acceptance-lab/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/work/agent-operating-system/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/work/dedup-readback-bridge/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/work/hermes-deployment-lab/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/work/hermes-field-kit/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/work/regulated-reporting-mcp/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/work/wingman/",
+      "width": 320,
+      "status": 200
+    }
+  ],
+  "keyboard_skip": "pass",
+  "resume_download_sha256": "e23cee694991e19d6a3bbc18f4bc18744e5c41a84b6dd4982e46bc06c0a7ec4c",
+  "nojs_reduced_motion": "pass",
+  "errors": []
+}

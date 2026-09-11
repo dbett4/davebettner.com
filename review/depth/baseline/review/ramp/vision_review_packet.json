@@ -1,0 +1,169 @@
+{
+  "schema": "independent-vision-review/v1",
+  "artifact": "Dave Bettner Ramp-targeted private profile revision",
+  "reviewed_at": "2026-09-10T19:07:07-05:00",
+  "target_repo": "/home/dave/work/davebettner-ramp-profile",
+  "base_git_revision": "cabfb3ce590d8c118e0cf2cd4b18784ec6af10b5",
+  "working_tree_head": "cabfb3ce590d8c118e0cf2cd4b18784ec6af10b5",
+  "deterministic_evidence_root": "/home/dave/work/davebettner-ramp-profile/review/ramp/after",
+  "checks_evidence": {
+    "path": "/home/dave/work/davebettner-ramp-profile/review/ramp/after/checks.json",
+    "sha256": "1e354b681a21bdb902b94ae4b6ffde0ae9613625705538a93b69b72d7838a43e",
+    "observed_result": "npm test: build/check 0 errors, 0 warnings, 0 hints; 2 passing Node tests; 48 route-width checks; no reported errors",
+    "not_substituted_for_aesthetic_judgment": true
+  },
+  "reviewer_independence": {
+    "independent_reviewer": true,
+    "role": "separate Hermes subagent reviewing the parent builder's private artifact",
+    "builder_rationale_used": false,
+    "brief_and_supplied_constraints_read": true,
+    "prior_builder_verdict_used": false,
+    "source_edits_by_reviewer": false,
+    "publication_or_external_mutation": false,
+    "same_model_or_user_study_note": "This is independent review within the task, not a user study or diverse-model validation."
+  },
+  "vision_method": {
+    "actual_image_vision_required": true,
+    "tool": "functions.vision_analyze",
+    "full_page_captures_inspected": 8,
+    "native_width_readability_crops_inspected": true,
+    "automated_checks_do_not_substitute": true
+  },
+  "captures": [
+    {
+      "id": "home-desktop",
+      "route": "/",
+      "viewport_width_css_px": 1440,
+      "capture_dimensions_px": [1440, 3368],
+      "path": "/home/dave/work/davebettner-ramp-profile/review/ramp/after/home-1440.png",
+      "sha256": "22e4e33bcabaae180c9b001d35ea40f6cb79dd16aaf69e3f33c2dde6a63d0977",
+      "vision_crops": [[0, 0, 1440, 1050], [0, 1040, 1440, 2360], [0, 0, 1440, 2100]]
+    },
+    {
+      "id": "home-mobile",
+      "route": "/",
+      "viewport_width_css_px": 390,
+      "capture_dimensions_px": [390, 4405],
+      "path": "/home/dave/work/davebettner-ramp-profile/review/ramp/after/home-390.png",
+      "sha256": "804dd9d2835252c487f476628934af9029c8a07c8cedcc298d9f8e4b059823f4",
+      "vision_crops": [[0, 0, 390, 1500], [0, 1480, 390, 3300], [0, 0, 390, 2600], [0, 2450, 390, 4405]]
+    },
+    {
+      "id": "experience-desktop",
+      "route": "/experience/",
+      "viewport_width_css_px": 1440,
+      "capture_dimensions_px": [1440, 2716],
+      "path": "/home/dave/work/davebettner-ramp-profile/review/ramp/after/experience-1440.png",
+      "sha256": "54efb966ad8f87002f31785d332042398ffb101b76f69d9409056d26cafc0be3",
+      "vision_crops": [[0, 0, 1440, 1800]]
+    },
+    {
+      "id": "experience-mobile",
+      "route": "/experience/",
+      "viewport_width_css_px": 390,
+      "capture_dimensions_px": [390, 3485],
+      "path": "/home/dave/work/davebettner-ramp-profile/review/ramp/after/experience-390.png",
+      "sha256": "eb42fdf961cdccd22faba5dde4b928f422b4d3f8e9639ebfa503687cdccd8a0a",
+      "vision_crops": [[0, 0, 390, 2300], [0, 0, 390, 1800]]
+    },
+    {
+      "id": "approach-mobile",
+      "route": "/fit/",
+      "viewport_width_css_px": 390,
+      "capture_dimensions_px": [390, 2242],
+      "path": "/home/dave/work/davebettner-ramp-profile/review/ramp/after/fit-390.png",
+      "sha256": "002211c38073c7878c55a6b7a03adad2f2e248da083bfce5d4f22d9178950551",
+      "vision_crops": [[0, 0, 390, 2242]]
+    },
+    {
+      "id": "projects-desktop",
+      "route": "/work/",
+      "viewport_width_css_px": 1440,
+      "capture_dimensions_px": [1440, 1414],
+      "path": "/home/dave/work/davebettner-ramp-profile/review/ramp/after/work-1440.png",
+      "sha256": "bfad2d5d120a0ed3bfb7db04f6a98f77cfd9c39cc91a5647c6262870a0fcdf9a",
+      "vision_crops": [[0, 0, 1440, 1414]]
+    },
+    {
+      "id": "about-mobile",
+      "route": "/about/",
+      "viewport_width_css_px": 390,
+      "capture_dimensions_px": [390, 1966],
+      "path": "/home/dave/work/davebettner-ramp-profile/review/ramp/after/about-390.png",
+      "sha256": "727e0d3afe846f909527731d0152a40008e9dc07ffc076093852ea419bac46a0",
+      "vision_crops": [[0, 250, 390, 1750]]
+    },
+    {
+      "id": "accounting-acceptance-lab-mobile",
+      "route": "/work/accounting-acceptance-lab/",
+      "viewport_width_css_px": 390,
+      "capture_dimensions_px": [390, 1678],
+      "path": "/home/dave/work/davebettner-ramp-profile/review/ramp/after/work-accounting-acceptance-lab-390.png",
+      "sha256": "aed208be4c81af1ae4c8013ec8cbb7538dae8964e87faaa1060648d721f4ec8a",
+      "vision_crops": [[0, 250, 390, 1550]]
+    }
+  ],
+  "content_evidence": {
+    "brief": {
+      "path": "/home/dave/work/davebettner-ramp-profile/review/ramp/BRIEF.md",
+      "sha256": "7ce06220e928bbff3c8ca727f6eb411b09dfcc6ac725082f348e6975c0464ad8"
+    },
+    "rendered_text_root": "/home/dave/work/davebettner-ramp-profile/review/ramp/after",
+    "rendered_text_files_read": [
+      "home.txt",
+      "about.txt",
+      "experience.txt",
+      "fit.txt",
+      "work.txt",
+      "work-accounting-acceptance-lab.txt",
+      "work-agent-operating-system.txt",
+      "work-dedup-readback-bridge.txt",
+      "work-hermes-deployment-lab.txt",
+      "work-hermes-field-kit.txt",
+      "work-regulated-reporting-mcp.txt",
+      "work-wingman.txt"
+    ],
+    "supplied_role_docx": {
+      "path": "/home/dave/.hermes/profiles/design-partner/attachments/Dave_Bettner_Ramp_Partner_Consultant_Accounting.docx",
+      "sha256": "39c57f0f2c877dfe74b8c136f0ca30df540c926aeed05213a67ee87290a35ebb"
+    },
+    "supplied_fit_review": {
+      "path": "/home/dave/.hermes/profiles/design-partner/attachments/Ramp_Resume_Fit_Review.md",
+      "sha256": "acfdd17dc1b655c87061a4257296457427fe18817307c2e2380abcca39359925"
+    },
+    "supplied_resume_pdf": {
+      "path": "/home/dave/.hermes/profiles/design-partner/attachments/Dave Bettner Resume.pdf",
+      "sha256": "e23cee694991e19d6a3bbc18f4bc18744e5c41a84b6dd4982e46bc06c0a7ec4c"
+    },
+    "official_role_source": "https://jobs.ashbyhq.com/ramp/c63ba7d7-5290-4d9b-b002-40b2873b66f6"
+  },
+  "source_scope": {
+    "hash_algorithm": "sha256",
+    "files": {
+      "src/layouts/Profile.astro": "b24ffeebf228b869b49b9fc834a90990766cf485dce317883115698390dfa4bc",
+      "src/styles/profile.css": "d3d52a8422487e74ff7bafe699b61c51e1dc193f1a60b7da1f74279797161987",
+      "src/pages/index.astro": "456d1a832880d7979776c481bc44f0c10210bb1c370e3d5c9b8079f3c2614b1b",
+      "src/pages/about/index.astro": "072bf76b0b0ef73ec0b5ed73466bea1b09c00739456629805f83904a54fbcc57",
+      "src/pages/experience/index.astro": "db24882cbd8a08f129f474909580631917780851d5d07c05e56fb9dabbbc3ff6",
+      "src/pages/fit/index.astro": "f1f0768461ef3cda47ccb1ed2307affaf1639296b22540defd6cc12bcdf2e981",
+      "src/pages/work/index.astro": "28fd5c238bf5fada22b14e43bcdba1913a6302974fb1c8a33fe5cc7d24b278ba",
+      "src/pages/work/[slug].astro": "1f1deab2234efc8e53bf9624d159572b572ad8c57d94e8d3768280de9ae27e4e",
+      "src/data/experience.ts": "f0c6e420b130e32614215525f605fc11962698e26ccc18e2887c861c4ef6b3c5",
+      "src/data/profile-projects.ts": "ffd8d7e9801909b8c17099254112d21b48b29c7385b5489310f53aa4f106d913",
+      "src/data/seo.ts": "9078122b2afef7f384937318820233a8c842690f9b83cf89d0883f309a7e7282"
+    }
+  },
+  "verdict": {
+    "score": 92,
+    "status": "PASS",
+    "mandatory_findings": [],
+    "non_blocking_notes": [
+      "Depth is concentrated in the portrait-led hero; deeper routes share a restrained ruled prose grammar.",
+      "Mobile metadata and scope text should not be reduced further.",
+      "Repeated case labels are acceptable only while each page retains differentiated, honest content."
+    ],
+    "grounding": "PASS: claims match the supplied résumé/fit materials; no Ramp experience or product proficiency is claimed.",
+    "ai_slop": "PASS: rendered visitor tree contains no decorative eyebrows, numbered series, arrows, fake proof widgets, or unsupported outcome language.",
+    "aesthetic_judgment_is_independent_of_checks": true
+  }
+}

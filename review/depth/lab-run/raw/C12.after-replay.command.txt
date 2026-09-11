@@ -1,0 +1,1 @@
+env PYTHONPATH=src AAL_STATE_DIR=.state /usr/bin/python3 -m aal.cli inspect C12

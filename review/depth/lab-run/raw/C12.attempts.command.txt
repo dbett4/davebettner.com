@@ -1,0 +1,1 @@
+/usr/bin/python3 - <<PY ... sqlite3 read of .state/lab.db attempts/effects for C12 ... PY

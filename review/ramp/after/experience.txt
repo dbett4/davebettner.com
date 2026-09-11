@@ -1,0 +1,74 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+Accounting background.
+Implementation experience.
+
+My career started in SEC reporting at Workiva. Since then, I’ve delivered software in finance and healthcare, and led implementation teams inside accounting firms.
+
+Download résumé
+
+Nov 2025 - Present
+
+LSL, LLP
+
+Senior Manager
+
+Lead Workiva delivery for city and county finance teams. Map source-ledger data into financial reports and budget books, and run user sessions and testing through client sign-off.
+Develop Python tools that generate Workiva data links, formulas, and validation checks from client ledgers, reused across financial-reporting and budgeting engagements.
+Build AI-assisted workflows to check reports against source records and flag accounting discrepancies for review. Use Claude, Codex, and Cursor for build and review tasks, with human review before client changes.
+Scope consulting engagements, prepare estimates and statements of work, respond to RFPs, and demonstrate proposed solutions to customers.
+
+Dec 2024 - Oct 2025
+
+Citrin Cooperman
+
+Manager of Digital Services, Workiva
+
+Managed a five-person Workiva implementation team. Coached consultants, resolved customer escalations, and led testing and training through go-live.
+Led a data-collection and reporting implementation with bidirectional API integration to the customer's system of record, SSO, and an audit trail. Led user acceptance testing through go-live and executive sign-off.
+
+Oct 2022 - Oct 2024
+
+Workiva
+
+Solutions Architect
+
+Led 6-12 concurrent financial-reporting and governance, risk, and compliance implementations from customer onboarding through production use.
+Ran requirements workshops and translated reporting, data, and access needs into implementation designs and test plans, including API, SSO, and ERP integration requirements.
+Worked with Sales and Customer Success on technical evaluations and delivery handoffs. Brought recurring customer issues to Product and Engineering and developed repeatable delivery guidance.
+
+Sep 2021 - Oct 2022
+
+Ambra Health
+
+Solutions Consultant
+
+Implemented medical-imaging and EHR workflows in HIPAA-controlled environments. Worked with customer IT teams to resolve API, SFTP, webhook, and access issues through go-live.
+
+Sep 2015 - Sep 2021
+
+Workiva
+
+SEC Reporting Consultant
+
+Delivered SEC reporting and XBRL services for 20+ public-company customers each quarter. Managed review cycles, resolved reporting issues, and helped customers meet filing deadlines.
+Education
+
+Iowa State University
+
+Master of Accounting, 2017
+B.S. Accounting, 2016
+
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

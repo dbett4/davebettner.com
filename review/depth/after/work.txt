@@ -1,0 +1,57 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+Accounting questions.
+Working code.
+
+These personal projects explore reporting APIs, accounting checks, and what to do when an automated action fails. They’re separate from my client delivery work.
+
+Accounting Acceptance Lab
+
+Testing accounting agents on reconciliation cases, with evidence checks, approvals, and failed-write recovery.
+
+Personal project using synthetic accounting records and recorded model responses. No live accounting system is connected.
+
+About the project
+View repository
+Regulated Reporting MCP
+
+Controlled access to reporting APIs for AI agents, with OAuth, approval checks, and result verification.
+
+Personal integration project. The public demo uses mock data and runs without credentials.
+
+About the project
+View repository
+Further technical work
+Failed-write recovery lab
+
+A test of what happens when a write succeeds but its response is lost.
+
+Repeat-work prevention
+
+A small Python library that tracks which items a recurring job has already processed.
+
+Agent evaluation kit
+
+Policy checks and test cases for evaluating proposed agent work.
+
+Spreadsheet review tools
+
+A browser extension and local service for finding suspicious formulas and reviewing corrections.
+
+How the technical projects fit together
+
+Notes on connecting tool access, testing, recovery, and human review.
+
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

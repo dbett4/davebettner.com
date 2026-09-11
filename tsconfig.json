@@ -1,5 +1,16 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist", "tmp", "research", "planning", "docs/reviews", "node_modules"]
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ],
+  "exclude": [
+    "dist",
+    "tmp",
+    "research",
+    "planning",
+    "docs/reviews",
+    "node_modules",
+    "review"
+  ]
 }

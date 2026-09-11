@@ -1,0 +1,38 @@
+Skip to content
+Dave Bettner
+Experience
+Projects
+Approach
+Email Dave
+Agent evaluation kit
+
+Policy checks and test cases for evaluating proposed agent work.
+
+View repository
+All projects
+
+Independent project using synthetic cases. Not an official Nous or Hermes product, customer deployment, or accepted policy decision.
+
+The problem
+
+An agent completing a task is not enough to establish that the task met the organization’s requirements.
+
+What I built
+
+I built policy configurations, a version-specific capability map, negative tests, and an offline evaluation workflow. The final decision remains with a person.
+
+What you can inspect
+
+The public repository documents the offline checks and known gaps. A recorded live trial remains unaccepted; it is not presented as a completed customer result.
+
+Read the verification notes
+Source code and documentation
+Dave Bettner
+
+Des Moines, Iowa
+
+About
+Résumé
+GitHub
+LinkedIn
+Email

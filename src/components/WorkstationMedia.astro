@@ -10,20 +10,21 @@
   .scene-render { display: block; width: 100%; height: auto; }
   .workstation-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; visibility: hidden; pointer-events: none; }
   [data-video-visible='true'] .workstation-video { visibility: visible; }
-  @media (prefers-reduced-motion: reduce) { .workstation-video { display: none !important; } }
+
 </style>
 <script>
   // One quiet sequence under five seconds; no controls or looping.
-  // No video is requested until motion is allowed and the scene is visible.
+  // Play this finite sequence regardless of the OS motion preference.
+  // No video is requested until the scene is visible.
   // The matching poster remains underneath during loading, errors and JS failure.
   document.querySelectorAll<HTMLElement>('[data-workstation]').forEach(root => {
     if (root.dataset.motionInitialized) return;
     root.dataset.motionInitialized = 'true';
     const video = root.querySelector<HTMLVideoElement>('video')!;
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
     let visible = false, complete = false, failed = false, attempting = false;
     video.muted = true;
-    const allowed = () => visible && !document.hidden && !reduced.matches && !failed;
+    const allowed = () => visible && !document.hidden && !failed;
     const ui = () => {
       const active = !video.paused && allowed() && !complete;
       root.dataset.motionActive = String(active);
@@ -31,13 +32,13 @@
 
     };
     const sync = () => {
-      if (reduced.matches) root.dataset.videoVisible = 'false';
+
       if (!allowed() || complete) { video.pause(); ui(); return; }
       if (!video.src) video.src = video.dataset.src!;
       if (attempting || !video.paused) { ui(); return; }
       attempting = true;
       video.play().then(() => {
-        // A preference, viewport or page-visibility change may race play().
+        // A viewport or page-visibility change may race play().
         if (!allowed() || complete) video.pause();
       }).catch(error => {
         if (error.name !== 'AbortError') { failed = true; root.dataset.videoVisible = 'false'; }
@@ -52,7 +53,7 @@
     video.addEventListener('error', () => { failed = true; root.dataset.videoVisible = 'false'; video.pause(); ui(); });
     const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, {threshold: .05});
     observer.observe(root);
-    reduced.addEventListener('change', sync);
+
     document.addEventListener('visibilitychange', sync);
     root.dataset.motionComplete = 'false';
     sync();

@@ -19,18 +19,21 @@ try{
   check(meta.w===1000&&meta.h===1000&&meta.d>4.5&&meta.d<5,'Browser decodes the complete 1000-square, under-five-second clip');
   check(meta.muted&&meta.inline&&!meta.loop&&meta.opacity==='1','Muted inline finite video remains opaque');
   check(await page.locator('[data-workstation] button').count()===0,'No playback controls are shown');
+  for (const preference of ['reduce', 'no-preference']) {
+    const before = await page.locator('video').evaluate(v=>v.currentTime);
+    await page.emulateMedia({reducedMotion:preference});
+    await page.waitForFunction(before=>{
+      const v=document.querySelector('video'), style=getComputedStyle(v);
+      return !v.paused&&v.currentTime>before+.12&&style.display!=='none'&&style.visibility==='visible';
+    },before,{timeout:3000});
+    check(true,`Live preference change to ${preference} does not suppress playback`);
+  }
   await page.screenshot({path:resolve(out,'desktop.png'),fullPage:true});
   await page.locator('.workstation-media').screenshot({path:resolve(out,'desktop-scene.png')});
   await page.evaluate(()=>scrollTo(0,document.body.scrollHeight));await page.waitForTimeout(300);
   check(await page.locator('video').evaluate(v=>v.paused),'Off-screen video pauses');
   await page.evaluate(()=>scrollTo(0,0));await page.waitForFunction(()=>!document.querySelector('video').paused);
-  await page.emulateMedia({reducedMotion:'reduce'});
-  // CDP changes the CSS media query before dispatching its JS change event.
-  // Wait for that event's observable effect rather than racing one round trip.
-  await page.waitForFunction(()=>{const v=document.querySelector('video');return v.paused&&getComputedStyle(v).display==='none';},null,{timeout:1000});
-  check(await page.locator('video').evaluate(v=>v.paused&&getComputedStyle(v).display==='none'),'Live reduced-motion change immediately restores the poster');
-  await page.emulateMedia({reducedMotion:'no-preference'});
-  await page.waitForFunction(()=>!document.querySelector('video').paused);
+
   await page.waitForFunction(()=>document.querySelector('[data-workstation]').dataset.motionComplete==='true',null,{timeout:14000});
   check(await page.locator('video').evaluate(v=>v.ended&&v.paused),'Playback ends once and holds its final frame');
   await page.evaluate(()=>scrollTo(0,document.body.scrollHeight));await page.waitForTimeout(150);await page.evaluate(()=>scrollTo(0,0));await page.waitForTimeout(200);
@@ -62,14 +65,17 @@ try{
   await sharp({create:{width:1320,height:660,channels:3,background:'#e6ebf0'}}).composite(thumbs.map((input,i)=>({input,left:(i%4)*330,top:Math.floor(i/4)*330}))).png().toFile(resolve(out,'playback-contact-sheet.png'));
   await context.close();
 
-  for(const width of [768,390,320]){
-    const c=await browser.newContext({viewport:{width,height:844},reducedMotion:'reduce',colorScheme:'dark'}),p=await c.newPage();watch(p);
+  for(const width of [1440,768,390,320])for(const preference of ['reduce','no-preference']){
+    const c=await browser.newContext({viewport:{width,height:844},reducedMotion:preference,colorScheme:'dark'}),p=await c.newPage();watch(p);
     const requested=[];p.on('request',r=>{if(r.url().includes('.mp4'))requested.push(r.url());});
     await p.goto(base,{waitUntil:'networkidle'});await p.locator('.scene-wrap').scrollIntoViewIfNeeded();
+    await p.waitForFunction(()=>{const v=document.querySelector('video');return !v.paused&&v.currentTime>.2&&getComputedStyle(v).visibility==='visible'&&getComputedStyle(v).display!=='none';});
+    const before=await p.locator('video').evaluate(v=>v.currentTime);
+    await p.waitForFunction(before=>{const v=document.querySelector('video');return !v.paused&&v.currentTime>before+.12;},before);
     const state=await p.evaluate(()=>{const img=document.querySelector('.scene-render'),video=document.querySelector('video'),r=img.getBoundingClientRect(),s=document.querySelector('.scene-wrap').getBoundingClientRect();return{loaded:img.complete&&img.naturalWidth===1000,paused:video.paused,src:video.currentSrc,overflow:document.documentElement.scrollWidth>innerWidth,dogVisible:r.x+r.width*.605>=s.x&&r.x+r.width*.815<=s.right&&r.y+r.height*.635>=s.y&&r.y+r.height*.815<=s.bottom};});
-    check(state.loaded&&state.paused&&!state.src&&!requested.length,`${width}px reduced motion loads only the matching still`);
-    check(!state.overflow&&state.dogVisible,`${width}px layout preserves the complete dog without horizontal overflow`);
-    await p.screenshot({path:resolve(out,`mobile-${width}.png`),fullPage:true});await p.locator('.scene-wrap').screenshot({path:resolve(out,`scene-${width}.png`)});await c.close();
+    check(state.loaded&&!state.paused&&state.src&&requested.length,`${width}px ${preference}: matching poster loads and video visibly advances`);
+    check(!state.overflow&&state.dogVisible,`${width}px ${preference}: complete dog remains framed without horizontal overflow`);
+    await p.screenshot({path:resolve(out,`page-${width}-${preference}.png`),fullPage:true});await p.locator('.scene-wrap').screenshot({path:resolve(out,`scene-${width}-${preference}.png`)});await c.close();
   }
   const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}}),np=await nojs.newPage();await np.goto(base);
   check(await np.locator('video').evaluate(v=>v.paused&&!v.currentSrc),'JavaScript-disabled page does not request video');

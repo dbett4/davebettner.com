@@ -34,7 +34,9 @@ try {
   browser = await chromium.launch({ executablePath: '/usr/bin/google-chrome', headless: true, args: ['--no-sandbox'] });
   for (const width of [1440, 768, 390, 320]) {
     const height = width >= 768 ? 900 : 844;
-    const context = await browser.newContext({ colorScheme: phase === 'before' ? 'light' : 'dark', reducedMotion: 'reduce', viewport: { width, height } });
+    // Compare the real still fallback deterministically; the OS motion preference
+    // no longer pauses video. Playback is verified separately by the video suite.
+    const context = await browser.newContext({ javaScriptEnabled: false, colorScheme: phase === 'before' ? 'light' : 'dark', reducedMotion: 'reduce', viewport: { width, height } });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(String(error)));
     const response = await page.goto(base, { waitUntil: 'networkidle' });

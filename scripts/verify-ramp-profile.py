@@ -63,7 +63,7 @@ try:
   assert np.locator('.workstation-media').evaluate('(e)=>getComputedStyle(e).maskImage.includes("dave-workstation-soft-fade-mask.png")'), 'Source-coordinate soft fade is required'
   assert np.locator('video,canvas').count()==0
   assert np.evaluate('document.getAnimations().every(a=>a.playState!=="running")')
-  assert np.locator('.hero h2').inner_text()=='I make financial systems work in the real world.';nojs.close()
+  assert np.locator('.hero h2').inner_text()=='I help customers put complex software to work.';nojs.close()
   assert not errors,errors
   browser.close()
  result={'base':base,'route_width_checks':len(checks),'routes':len(routes),'local_destinations':len(links),'checks':checks,'keyboard_skip':'pass','resume_download_sha256':hashlib.sha256(pdf).hexdigest(),'nojs_reduced_motion':'pass','errors':errors}

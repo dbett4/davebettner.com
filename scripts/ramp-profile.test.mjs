@@ -6,10 +6,25 @@ import sharp from 'sharp';
 const read = p => fs.readFileSync(p, 'utf8');
 const hash = p => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 
-test('public identity reflects current accounting consulting resume, not former FDE targeting', () => {
+test('public identity leads with customer-facing technical delivery, not accounting practice', () => {
   const home = read('dist/index.html');
-  assert.match(home, /Financial systems consulting/);
-  assert.match(home, /accounting firms/);
+  assert.match(home, /Technical implementation/);
+  assert.match(home, /forward-deployed/i);
+  assert.match(home, /Python/);
+  const about = read('dist/about/index.html');
+  assert.match(about, /I studied accounting\. My career has been in software implementation and customer delivery\./);
+  assert.match(about, /Master of Accounting/);
+  assert.match(about, /B\.S\. in Accounting/);
+  for (const route of ['', 'experience/', 'work/', 'fit/', 'about/']) {
+    const page = read('dist/' + route + 'index.html');
+    assert.doesNotMatch(page, /\b(?:an|former|practicing|practising) accountant\b|Accounting background\.|Accounting, technology, and customer delivery/i);
+    assert.match(page, /Customer-facing technical implementation/);
+    assert.match(page, /"jobTitle":"Senior Manager"/);
+    assert.doesNotMatch(page, /"jobTitle":"(?:Forward Deployed Engineer|Accountant|CPA)"/i);
+  }
+  const projects = read('dist/work/index.html');
+  assert.match(projects, /personal projects/i);
+  assert.match(projects, /synthetic|mock/i);
   assert.doesNotMatch(home, /0-to-1|PROOF TRAVELS|Operating rules|FIRST 90 DAYS/);
   for (const route of ['', 'experience/', 'work/', 'fit/', 'about/']) {
     const page = read('dist/' + route + 'index.html');

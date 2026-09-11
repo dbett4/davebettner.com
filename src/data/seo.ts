@@ -1,13 +1,13 @@
 import { githubUrl, linkedinUrl } from './site-links';
 export const siteUrl = 'https://davebettner.com';
-export const siteTitle = 'Dave Bettner | Financial Systems Consulting';
-export const siteDescription = 'Accounting technology consultant with experience at Workiva and accounting firms. Implementations, integrations, customer training, and AI-assisted reporting tools.';
+export const siteTitle = 'Dave Bettner | Technical Implementation & AI Workflows';
+export const siteDescription = 'Customer-facing technical implementation and solutions consulting across financial reporting and healthcare. Dave Bettner leads software delivery and builds Python and AI-assisted tools.';
 export const identitySeoLead = siteDescription;
 export const personSchema = {
  '@context':'https://schema.org','@type':'Person',name:'Dave Bettner',url:siteUrl,
  image:siteUrl+'/images/dave-bettner-headshot-20260816-cutout.png',description:siteDescription,
  jobTitle:'Senior Manager',homeLocation:{'@type':'Place',name:'Des Moines, Iowa'},
- knowsAbout:['Financial reporting','Workiva','Systems implementation','Customer training','API integrations','AI-assisted reporting'],
+ knowsAbout:['Technical implementation','Solutions consulting','API integrations','Python','AI workflows','Financial reporting','Customer training'],
  sameAs:[linkedinUrl,githubUrl]
 };
 export const nonIndexPathPrefixes = ['/mockups','/preview-dither','/dither'];

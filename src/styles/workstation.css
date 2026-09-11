@@ -23,15 +23,11 @@
 }
 .hero .workstation-unit { height: 100%; }
 .hero .workstation-unit .workstation-media {
-  position: absolute; width: 800px; margin: 0; left: 50%; top: 50%;
+  position: absolute; width: min(100%, 720px); margin: 0; left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  mask-image: url('/images/dave-workstation-soft-fade-mask.png');
-  mask-mode: alpha;
-  mask-repeat: no-repeat;
-  mask-size: 100% 100%;
-  -webkit-mask-image: url('/images/dave-workstation-soft-fade-mask.png');
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
+  /* The rendered matte follows the rug; do not mask the video rectangle. */
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 .workstation-media .scene-render { width: 100%; max-width: none; height: auto; }
 
@@ -60,8 +56,8 @@
 
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; min-height: 0; gap: 24px; }
-  .scene-wrap { height: 590px; margin-top: -55px; }
-  .hero .workstation-unit .workstation-media { width: min(112vw, 760px); }
+  .scene-wrap { height: 640px; margin-top: -55px; }
+  .hero .workstation-unit .workstation-media { width: min(100%, 660px); }
 }
 
 @media (max-width: 700px) {

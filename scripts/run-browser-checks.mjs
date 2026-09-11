@@ -44,6 +44,7 @@ try {
   assert.ok(ready, 'Native dist preview failed to become ready');
   await run(testPython, ['scripts/verify-ramp-profile.py']);
   await run(process.execPath, ['scripts/verify-avatar-fade.mjs']);
+  await run(process.execPath, ['scripts/verify-workstation-video.mjs']);
   await run(process.execPath, ['scripts/verify-theme.mjs']);
   await run(process.execPath, ['scripts/verify-visitor-journey.mjs']);
   await run(process.execPath, ['scripts/capture-soft-fade.mjs']);

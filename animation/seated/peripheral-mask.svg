@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <defs>
+    <filter id="fringe" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="air" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="1000" height="1000" fill="black"/>
+  <!-- Follow the rug perspective rather than the video rectangle. -->
+  <path d="M0 575 286 390 1000 576 685 962Z" fill="white" filter="url(#fringe)"/>
+  <rect x="215" y="125" width="615" height="535" rx="40" fill="white" filter="url(#air)"/>
+  <path d="M232 145H808V652H225Z" fill="white"/>
+  <!-- Opaque protection across the entire dog, including paws. -->
+  <ellipse cx="711" cy="718" rx="124" ry="103" fill="white"/>
+  <path d="M622 631H783L829 816H686L595 738Z" fill="white"/>
+</svg>

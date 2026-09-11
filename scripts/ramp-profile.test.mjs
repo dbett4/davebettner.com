@@ -27,12 +27,14 @@ test('download is the supplied resume, not silently regenerated old copy', () =>
   assert.equal(hash('dist/dave-bettner-resume.pdf'), suppliedDigest);
 });
 
-test('homepage uses the compact workstation without private-study labels or fake motion', async () => {
+test('homepage serves recorded workstation motion with a matching poster', async () => {
   const home = read('dist/index.html');
-  assert.match(home, /class="scene-render"[^>]+src="\/images\/dave-workstation-transparent\.webp"/);
+  assert.match(home, /class="scene-render"[^>]+src="\/images\/workstation-seated-poster\.webp"/);
   assert.match(home, /class="brand masthead-brand"[^>]+href="\/"[^>]+aria-label="Dave Bettner home"[^>]*><img[^>]+src="\/images\/dave-bettner-headshot-20260808-square\.webp"/);
   assert.match(home, /href="\/dave-bettner-resume\.pdf" download/);
-  assert.doesNotMatch(home, /Private design study|private concept|<video|<canvas/i);
+  assert.doesNotMatch(home, /Private design study|private concept|<canvas/i);
+  assert.match(home, /data-src="\/video\/workstation-seated\.mp4"/);
+  assert.equal(hash('dist/video/workstation-seated.mp4'), hash('public/video/workstation-seated.mp4'));
   assert.equal(hash('dist/images/dave-workstation-transparent.webp'), hash('public/images/dave-workstation-transparent.webp'));
   const image = await sharp('public/images/dave-workstation-transparent.webp').metadata();
   assert.equal(image.format, 'webp');

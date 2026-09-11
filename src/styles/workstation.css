@@ -19,18 +19,19 @@
   z-index: 0;
   min-width: 0;
   height: 660px;
-  overflow: clip;
-  mask-image: radial-gradient(ellipse closest-side at 50% 46%, #000 0 55%, rgba(0,0,0,.96) 67%, rgba(0,0,0,.58) 84%, transparent 98%);
-  mask-repeat: no-repeat;
-  mask-size: 100% 100%;
-  -webkit-mask-image: radial-gradient(ellipse closest-side at 50% 46%, #000 0 55%, rgba(0,0,0,.96) 67%, rgba(0,0,0,.58) 84%, transparent 98%);
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
+  overflow: visible;
 }
 .hero .workstation-unit { height: 100%; }
 .hero .workstation-unit .workstation-media {
   position: absolute; width: 800px; margin: 0; left: 50%; top: 50%;
   transform: translate(-50%, -50%);
+  mask-image: url('/images/dave-workstation-soft-fade-mask.png');
+  mask-mode: alpha;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-image: url('/images/dave-workstation-soft-fade-mask.png');
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
 }
 .workstation-media .scene-render { width: 100%; max-width: none; height: auto; }
 

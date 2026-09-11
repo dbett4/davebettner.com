@@ -110,13 +110,13 @@ try {
       rowOneBottom,
       navCount: navLinks.length,
       navHeights: navLinks.map((link) => link.getBoundingClientRect().height),
-      themeHeight: document.querySelector('[data-theme-toggle]')?.getBoundingClientRect().height,
+      themeControls: document.querySelectorAll('[data-theme-toggle]').length,
       emailHeight: document.querySelector('.header-email')?.getBoundingClientRect().height,
     };
   });
   check(!mobileHeader.overflow && mobileHeader.headerWidth <= 320, '320px masthead has no horizontal overflow', JSON.stringify(mobileHeader));
   check(mobileHeader.navCount === 4 && mobileHeader.navBox.top >= mobileHeader.rowOneBottom - 1, 'mobile masthead uses two rows with full navigation below controls', JSON.stringify(mobileHeader));
-  check(mobileHeader.brandBox.width >= 44 && mobileHeader.brandBox.height >= 44 && mobileHeader.themeHeight >= 44 && mobileHeader.emailHeight >= 44 && mobileHeader.navHeights.every((height) => height >= 44), 'mobile masthead targets remain at least 44px', JSON.stringify(mobileHeader));
+  check(mobileHeader.brandBox.width >= 44 && mobileHeader.brandBox.height >= 44 && mobileHeader.themeControls === 0 && mobileHeader.emailHeight >= 44 && mobileHeader.navHeights.every((height) => height >= 44), 'mobile masthead targets remain at least 44px without a theme control', JSON.stringify(mobileHeader));
   await mobileContext.close();
 
   const reducedContext = await browser.newContext({ reducedMotion: 'reduce', colorScheme: 'dark', viewport: { width: 390, height: 844 } });
@@ -142,7 +142,7 @@ try {
     await shotPage.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
     await shotPage.evaluate(() => document.fonts.ready);
     await shotPage.screenshot({ path: resolve(out, shot.file), fullPage: true });
-    check(await shotPage.locator('html').getAttribute('data-theme') === shot.mode, `${shot.file} captures requested OS theme`);
+    check(await shotPage.evaluate(() => getComputedStyle(document.documentElement).colorScheme === 'light' && getComputedStyle(document.body).backgroundColor === 'rgb(230, 235, 240)' && !document.querySelector('[data-theme-toggle]')), `${shot.file} remains light for OS ${shot.mode}`);
     await shotContext.close();
   }
 

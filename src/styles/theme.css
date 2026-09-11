@@ -1,5 +1,5 @@
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --page: #e6ebf0;
   --surface: #f0f3f6;
   --surface-raised: #f5f7f9;
@@ -8,101 +8,16 @@
   --border: #becbd7;
   --accent: #334f75;
   --accent-contrast: #ffffff;
-  --control-active: #d8e2ed;
-  --control-hover: #e3eaf1;
-}
-
-:root[data-theme='light'] {
-  color-scheme: light;
-}
-
-:root[data-theme='dark'] {
-  color-scheme: dark;
-  --page: #11161d;
-  --surface: #1b222a;
-  --surface-raised: #222c36;
-  --text: #eef2f6;
-  --secondary: #b3c0cf;
-  --border: #354351;
-  --accent: #9ebfe9;
-  --accent-contrast: #11161d;
-  --control-active: #2d3c4c;
-  --control-hover: #253340;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --page: #11161d;
-    --surface: #1b222a;
-    --surface-raised: #222c36;
-    --text: #eef2f6;
-    --secondary: #b3c0cf;
-    --border: #354351;
-    --accent: #9ebfe9;
-    --accent-contrast: #11161d;
-    --control-active: #2d3c4c;
-    --control-hover: #253340;
-  }
 }
 
 html {
   background: var(--page);
 }
 
-.theme-control {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  min-width: 44px;
-  padding: 0;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--secondary);
-  line-height: 1;
-}
-
-.theme-choice {
-  display: inline-flex;
-  width: 44px;
-  min-width: 44px;
-  min-height: 44px;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 0;
-  border-radius: 2px;
-  background: transparent;
-  color: var(--secondary);
-  cursor: pointer;
-  font: inherit;
-}
-
-.theme-icon { width: 20px; height: 20px; }
-.theme-icon-sun { display: none; }
-:root[data-theme='dark'] .theme-icon-moon { display: none; }
-:root[data-theme='dark'] .theme-icon-sun { display: block; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .theme-icon-moon { display: none; }
-  :root:not([data-theme]) .theme-icon-sun { display: block; }
-}
-
-.theme-choice:hover {
-  background: var(--control-hover);
-  color: var(--text);
-}
-
-.theme-choice[aria-pressed='true'] {
-  background: var(--control-active);
-  color: var(--text);
-  font-weight: 650;
-}
-
 :where(a, button, summary, input, select, textarea, [role='button'], [tabindex]):focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
-
-.theme-choice:disabled { cursor: default; opacity: .65; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }

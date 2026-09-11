@@ -2,8 +2,7 @@
 import '@fontsource-variable/archivo/wdth.css';
 import '../styles/theme.css';
 import '../styles/profile.css';
-import ThemeInit from '../components/ThemeInit.astro';
-import ThemeControl from '../components/ThemeControl.astro';
+
 import { siteDescription, siteTitle, personSchema } from '../data/seo';
 const {title=siteTitle, description=siteDescription, page='home', footerMessage}=Astro.props;
 const canonical=`https://davebettner.com${Astro.url.pathname}`;
@@ -28,7 +27,7 @@ const nav=[['experience','Experience','/experience/'],['work','Projects','/work/
     <meta property="og:image:alt" content="Dave Bettner — Financial systems consulting" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://davebettner.com/images/dave-bettner-profile-social.jpg" />
-    <ThemeInit />
+
     <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
   <body>
@@ -39,7 +38,7 @@ const nav=[['experience','Experience','/experience/'],['work','Projects','/work/
         {nav.map(([id, label, url]) => <a href={url} aria-current={page === id ? 'page' : undefined}>{label}</a>)}
       </nav>
       <div class="header-tools">
-        <ThemeControl />
+
         <a class="header-email" href="mailto:dbett4@gmail.com">Email Dave</a>
       </div>
     </header>

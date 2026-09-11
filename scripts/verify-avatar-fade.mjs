@@ -88,19 +88,17 @@ try {
           const root = document.documentElement;
           const brand = document.querySelector('header.masthead > a.masthead-brand');
           const image = brand?.querySelector('img');
-          const button = document.querySelector('[data-theme-toggle]');
+
           const sceneWrap = document.querySelector('.scene-wrap');
           const workstationMedia = document.querySelector('.workstation-media');
           const brandBox = brand?.getBoundingClientRect();
           const imageBox = image?.getBoundingClientRect();
           return {
-            theme: root.dataset.theme,
+            scheme: getComputedStyle(root).colorScheme,
+            background: getComputedStyle(document.body).backgroundColor,
             overflow: root.scrollWidth > innerWidth,
             buttonCount: document.querySelectorAll('[data-theme-toggle]').length,
-            label: button?.getAttribute('aria-label'),
-            pressed: button?.getAttribute('aria-pressed'),
-            moonVisible: image ? getComputedStyle(document.querySelector('.theme-icon-moon')).display !== 'none' : false,
-            sunVisible: image ? getComputedStyle(document.querySelector('.theme-icon-sun')).display !== 'none' : false,
+
             pauseButtons: document.querySelectorAll('[data-workstation-motion-button], .scene-motion-toggle').length,
             pauseCopy: document.body.innerText.includes('Pause screen motion'),
             brandCount: document.querySelectorAll('header.masthead > a.masthead-brand').length,
@@ -117,14 +115,11 @@ try {
             expectedAvatar,
           };
         }, avatarPath);
-        check(state.theme === mode, `${mode}/${width} ${route} honors OS theme`, state.theme);
+        check(state.scheme === 'light' && state.background === 'rgb(230, 235, 240)', `${mode}/${width} ${route} stays light regardless of OS`, state.scheme);
         check(!state.overflow, `${mode}/${width} ${route} has no horizontal overflow`);
-        check(state.buttonCount === 1, `${mode}/${width} ${route} exposes one theme button`, String(state.buttonCount));
-        check(state.label === (mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'), `${mode}/${width} ${route} theme label parity`, state.label);
-        check(state.pressed === String(mode === 'dark'), `${mode}/${width} ${route} theme pressed parity`, state.pressed);
-        check(state.moonVisible === (mode === 'light') && state.sunVisible === (mode === 'dark'), `${mode}/${width} ${route} theme icon parity`);
+        check(state.buttonCount === 0, `${mode}/${width} ${route} exposes no theme button`, String(state.buttonCount));
         check(state.pauseButtons === 0 && !state.pauseCopy, `${mode}/${width} ${route} has no screen-pause control`);
-        if (route === '/') check(state.sceneMask !== 'none' && state.mediaMask === 'none', `${mode}/${width} home applies alpha falloff to scene-wrap only`, JSON.stringify({ sceneMask: state.sceneMask, mediaMask: state.mediaMask }));
+        if (route === '/') check(state.sceneMask === 'none' && state.mediaMask.includes('dave-workstation-soft-fade-mask.png'), `${mode}/${width} home applies source-coordinate alpha falloff without a dog-fading wrapper mask`, JSON.stringify({ sceneMask: state.sceneMask, mediaMask: state.mediaMask }));
         check(state.brandCount === 1 && state.brandHref === '/' && state.brandLabel === 'Dave Bettner home', `${mode}/${width} ${route} has accessible home avatar link`);
         check(state.brandText === '' && state.imageSrc === avatarPath && state.imageAlt === '' && state.imageComplete, `${mode}/${width} ${route} uses current square headshot`);
         check(state.anchorTarget && state.imageSize, `${mode}/${width} ${route} avatar target/image dimensions`, JSON.stringify({ anchorTarget: state.anchorTarget, imageSize: state.imageSize }));
@@ -209,16 +204,15 @@ try {
     animations: document.getAnimations().map((animation) => animation.playState),
     sceneVisible: document.querySelector('.scene-render')?.getBoundingClientRect().width > 0,
     terminalVisible: getComputedStyle(document.querySelector('.terminal-layer')).display !== 'none' && getComputedStyle(document.querySelector('.terminal-layer')).visibility !== 'hidden',
-    mask: getComputedStyle(document.querySelector('.scene-wrap')).maskImage,
-    webkitMask: getComputedStyle(document.querySelector('.scene-wrap')).getPropertyValue('-webkit-mask-image'),
+    mask: getComputedStyle(document.querySelector('.workstation-media')).maskImage,
+    webkitMask: getComputedStyle(document.querySelector('.workstation-media')).getPropertyValue('-webkit-mask-image'),
     buttonCount: document.querySelectorAll('[data-theme-toggle]').length,
-    sunVisible: getComputedStyle(document.querySelector('.theme-icon-sun')).display !== 'none',
+    scheme: getComputedStyle(document.documentElement).colorScheme,
   }));
   check(!noJs.theme && !noJs.overflow && noJs.animations.every((state) => state !== 'running'), 'no-JS remains static and overflow-free', JSON.stringify(noJs));
   check(noJs.sceneVisible && !noJs.terminalVisible, 'no-JS preserves static workstation only');
   check(noJs.mask !== 'none' || noJs.webkitMask !== 'none', 'no-JS keeps scene alpha falloff');
-  check(noJs.buttonCount === 1 && noJs.sunVisible, 'no-JS dark default keeps one sun theme control');
-  check(await noJsPage.locator('[data-theme-toggle]').isDisabled(), 'no-JS disables theme control honestly');
+  check(noJs.buttonCount === 0 && noJs.scheme === 'light', 'no-JS dark OS remains light with no theme control');
   await noJsContext.close();
 
   const reducedContext = await browser.newContext({ reducedMotion: 'reduce', colorScheme: 'dark', viewport: { width: 390, height: 844 } });

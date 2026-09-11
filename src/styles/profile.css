@@ -169,7 +169,7 @@ details p { margin-top: 15px; }
 }
 
 @media print {
-  .masthead, .footer, .actions, .theme-control { display: none; }
+  .masthead, .footer, .actions { display: none; }
   body, .paper { background: #fff; color: #111; }
   .wrap { width: 100%; }
   .section, .page-intro { padding-block: 20px; }

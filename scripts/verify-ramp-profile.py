@@ -59,7 +59,8 @@ try:
   assert scene.evaluate('(e)=>e.complete&&e.naturalWidth===1000&&e.naturalHeight===1000')
   assert scene.evaluate('(e)=>e.getBoundingClientRect().width>=innerWidth*1.05&&e.getBoundingClientRect().width<=innerWidth*1.2'), 'Intentional larger mobile illustration'
   assert np.evaluate('document.documentElement.scrollWidth<=innerWidth'), 'Large illustration must not create page overflow'
-  assert np.locator('.scene-wrap').evaluate('(e)=>getComputedStyle(e).maskImage!=="none"||getComputedStyle(e).getPropertyValue("-webkit-mask-image")!=="none"'), 'Soft scene vignette is required'
+  assert np.locator('.scene-wrap').evaluate('(e)=>getComputedStyle(e).maskImage==="none"'), 'Wrapper must not fade the dog'
+  assert np.locator('.workstation-media').evaluate('(e)=>getComputedStyle(e).maskImage.includes("dave-workstation-soft-fade-mask.png")'), 'Source-coordinate soft fade is required'
   assert np.locator('video,canvas').count()==0
   assert np.evaluate('document.getAnimations().every(a=>a.playState!=="running")')
   assert np.locator('.hero h2').inner_text()=='I make financial systems work in the real world.';nojs.close()

@@ -46,6 +46,8 @@ try {
   await run(process.execPath, ['scripts/verify-avatar-fade.mjs']);
   await run(process.execPath, ['scripts/verify-theme.mjs']);
   await run(process.execPath, ['scripts/verify-visitor-journey.mjs']);
+  await run(process.execPath, ['scripts/capture-soft-fade.mjs']);
+  await run(process.execPath, ['scripts/verify-soft-fade.mjs']);
 } finally {
   server.kill('SIGTERM');
   await serverExit;

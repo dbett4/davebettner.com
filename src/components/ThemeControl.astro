@@ -1,7 +1,8 @@
-<div class="theme-control" role="group" aria-label="Color theme">
-  <span class="theme-control-label">Theme</span>
-  <button type="button" class="theme-choice" data-theme-choice="light" aria-label="Use light theme" aria-pressed="false">Light</button>
-  <button type="button" class="theme-choice" data-theme-choice="dark" aria-label="Use dark theme" aria-pressed="false">Dark</button>
+<div class="theme-control">
+  <button type="button" class="theme-choice" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode" disabled aria-disabled="true">
+    <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 15.7A8.5 8.5 0 0 1 8.3 3.8 8.5 8.5 0 1 0 20.2 15.7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8" /><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+  </button>
 </div>
 
 <script is:inline>
@@ -9,15 +10,17 @@
     const key = 'db-theme';
     const root = document.documentElement;
     const media = window.matchMedia?.('(prefers-color-scheme: dark)');
-    const controls = [...document.querySelectorAll('button[data-theme-choice]')];
-    if (!controls.length) return;
+    const control = document.querySelector('button[data-theme-toggle]');
+    if (!control) return;
+    control.disabled = false;
+    control.removeAttribute('aria-disabled');
 
     const sync = () => {
       const theme = root.dataset.theme || (media?.matches ? 'dark' : 'light');
-      controls.forEach((control) => {
-        const selected = control.dataset.themeChoice === theme;
-        control.setAttribute('aria-pressed', String(selected));
-      });
+      const nextLabel = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+      control.setAttribute('aria-label', nextLabel);
+      control.setAttribute('title', nextLabel);
+      control.setAttribute('aria-pressed', String(theme === 'dark'));
     };
 
     const choose = (theme) => {
@@ -34,7 +37,10 @@
       sync();
     };
 
-    controls.forEach((control) => control.addEventListener('click', () => choose(control.dataset.themeChoice)));
+    control.addEventListener('click', () => {
+      const theme = root.dataset.theme || (media?.matches ? 'dark' : 'light');
+      choose(theme === 'dark' ? 'light' : 'dark');
+    });
     if (media?.addEventListener) media.addEventListener('change', (event) => {
       if (!root.dataset.themePreference) {
         root.dataset.theme = event.matches ? 'dark' : 'light';

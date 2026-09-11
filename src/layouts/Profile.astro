@@ -34,7 +34,7 @@ const nav=[['experience','Experience','/experience/'],['work','Projects','/work/
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <header class="masthead wrap">
-      <a class="brand" href="/" aria-label="Dave Bettner home">Dave Bettner</a>
+      <a class="brand masthead-brand" href="/" aria-label="Dave Bettner home"><img src="/images/dave-bettner-headshot-20260808-square.webp" alt="" width="32" height="32" decoding="async" /></a>
       <nav aria-label="Main navigation">
         {nav.map(([id, label, url]) => <a href={url} aria-current={page === id ? 'page' : undefined}>{label}</a>)}
       </nav>
@@ -43,7 +43,7 @@ const nav=[['experience','Experience','/experience/'],['work','Projects','/work/
         <a class="header-email" href="mailto:dbett4@gmail.com">Email Dave</a>
       </div>
     </header>
-    <main id="main"><slot /></main>
+    <main id="main" tabindex="-1"><slot /></main>
     <footer class="footer wrap">
       <div class="footer-copy">
         {footerMessage && <><h2>{footerMessage.title}</h2><p>{footerMessage.body}</p></>}

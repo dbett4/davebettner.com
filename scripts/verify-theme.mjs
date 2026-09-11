@@ -56,9 +56,10 @@ try {
   await page.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   await page.evaluate(() => localStorage.removeItem('db-theme'));
   await page.reload({ waitUntil: 'networkidle' });
-  await page.getByRole('button', { name: 'Use dark theme' }).click();
+  await page.getByRole('button', { name: 'Switch to dark mode' }).click();
   check(await page.locator('html').getAttribute('data-theme') === 'dark', 'explicit dark selection applies');
-  check(await page.getByRole('button', { name: 'Use dark theme' }).getAttribute('aria-pressed') === 'true', 'dark control exposes pressed state');
+  check(await page.getByRole('button', { name: 'Switch to light mode' }).getAttribute('aria-pressed') === 'true', 'dark control exposes pressed state');
+  check(await page.locator('[data-theme-toggle] .theme-icon-sun').evaluate((icon) => getComputedStyle(icon).display !== 'none'), 'dark control shows sun icon');
   await page.getByRole('link', { name: 'Experience', exact: true }).first().click();
   check(await page.locator('html').getAttribute('data-theme') === 'dark', 'explicit preference persists across navigation');
   await page.reload({ waitUntil: 'networkidle' });
@@ -71,29 +72,36 @@ try {
   const blockedPage = await storageBlocked.newPage();
   await blockedPage.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   check(await blockedPage.locator('html').getAttribute('data-theme') === 'light', 'blocked localStorage does not break first paint');
-  await blockedPage.getByRole('button', { name: 'Use dark theme' }).click();
+  await blockedPage.getByRole('button', { name: 'Switch to dark mode' }).click();
   check(await blockedPage.locator('html').getAttribute('data-theme') === 'dark', 'blocked localStorage still permits in-session toggle');
+  check(await blockedPage.getByRole('button', { name: 'Switch to light mode' }).getAttribute('aria-label') === 'Switch to light mode', 'blocked storage updates accessible label');
   await storageBlocked.close();
 
   await page.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   await page.evaluate(() => localStorage.removeItem('db-theme'));
   await page.reload({ waitUntil: 'networkidle' });
   await page.emulateMedia({ colorScheme: 'dark' });
+  await page.waitForTimeout(50);
   check(await page.locator('html').getAttribute('data-theme') === 'dark', 'system preference changes apply before explicit choice');
-  await page.getByRole('button', { name: 'Use light theme' }).click();
+  await page.getByRole('button', { name: 'Switch to light mode' }).click();
   await page.emulateMedia({ colorScheme: 'light' });
   await page.emulateMedia({ colorScheme: 'dark' });
+  await page.waitForTimeout(50);
   check(await page.locator('html').getAttribute('data-theme') === 'light', 'system preference stops changing after explicit choice');
-  await page.getByRole('button', { name: 'Use dark theme' }).click();
+  check(await page.getByRole('button', { name: 'Switch to dark mode' }).getAttribute('aria-pressed') === 'false', 'light control exposes dark-mode label');
+  check(await page.locator('[data-theme-toggle] .theme-icon-moon').evaluate((icon) => getComputedStyle(icon).display !== 'none'), 'light control shows moon icon');
+  await page.getByRole('button', { name: 'Switch to dark mode' }).click();
 
   await page.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   await page.keyboard.press('Tab');
   check(await page.getByRole('link', { name: 'Skip to content', exact: true }).evaluate((element) => element === document.activeElement), 'skip link receives first keyboard focus');
   await page.keyboard.press('Enter');
   check(await page.evaluate(() => location.hash === '#main'), 'skip link reaches main content');
-  await page.getByRole('button', { name: 'Use dark theme' }).focus();
+  await page.getByRole('button', { name: 'Switch to light mode' }).focus();
   await page.keyboard.press('Enter');
-  check(await page.locator('html').getAttribute('data-theme') === 'dark', 'theme toggle works from keyboard');
+  check(await page.locator('html').getAttribute('data-theme') === 'light', 'theme toggle works from keyboard');
+  await page.getByRole('button', { name: 'Switch to dark mode' }).click();
+  check(await page.locator('html').getAttribute('data-theme') === 'dark', 'theme toggle restores dark state');
 
   for (const route of routes) {
     await page.goto(fixtureUrl(route), { waitUntil: 'networkidle' });
@@ -103,13 +111,18 @@ try {
       h1: document.querySelectorAll('h1').length,
       main: document.querySelectorAll('main').length,
       images: [...document.images].every((image) => image.complete && image.naturalWidth > 0),
-      controls: document.querySelectorAll('[data-theme-choice]').length,
+      controls: document.querySelectorAll('[data-theme-toggle]').length,
+      themeButtonLabel: document.querySelector('[data-theme-toggle]')?.getAttribute('aria-label'),
+      moonVisible: getComputedStyle(document.querySelector('.theme-icon-moon')).display !== 'none',
+      sunVisible: getComputedStyle(document.querySelector('.theme-icon-sun')).display !== 'none',
     }));
     check(routeResult.theme === 'dark', `${route} honors shared explicit theme`);
     check(!routeResult.overflow, `${route} has no horizontal overflow`);
     check(routeResult.h1 === 1 && routeResult.main === 1, `${route} preserves page structure`);
     check(routeResult.images, `${route} loads all images`);
-    check(routeResult.controls === 2, `${route} exposes both theme controls`);
+    check(routeResult.controls === 1, `${route} exposes one theme control`);
+    check(routeResult.themeButtonLabel === (routeResult.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'), `${route} theme label matches mode`);
+    check(routeResult.moonVisible === (routeResult.theme === 'light') && routeResult.sunVisible === (routeResult.theme === 'dark'), `${route} theme icon matches mode`);
     await page.addScriptTag({ content: axeSource });
     const violations = await page.evaluate(async () => (await window.axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] } })).violations);
     check(violations.length === 0, `${route} axe accessibility`, JSON.stringify(violations.map((violation) => violation.id)));
@@ -128,6 +141,9 @@ try {
   check(!(await noJsPage.locator('html').getAttribute('data-theme')), 'no-JS leaves theme attribute unset for CSS fallback');
   check(await noJsPage.evaluate(() => getComputedStyle(document.body).backgroundColor === 'rgb(17, 22, 29)'), 'no-JS honors dark OS CSS mode');
   check(await noJsPage.locator('main').isVisible(), 'no-JS content remains accessible');
+  check(await noJsPage.locator('[data-theme-toggle]').count() === 1, 'no-JS still exposes one theme control');
+  check(await noJsPage.locator('[data-theme-toggle]').isDisabled(), 'no-JS disables theme control honestly');
+  check(await noJsPage.locator('.theme-icon-sun').evaluate((icon) => getComputedStyle(icon).display !== 'none'), 'no-JS dark default shows sun icon');
   await noJs.close();
 
   const reduced = await browser.newContext({ reducedMotion: 'reduce', colorScheme: 'dark', viewport: { width: 390, height: 844 } });

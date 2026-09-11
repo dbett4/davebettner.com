@@ -30,8 +30,9 @@ test('download is the supplied resume, not silently regenerated old copy', () =>
 test('homepage uses the compact workstation without private-study labels or fake motion', async () => {
   const home = read('dist/index.html');
   assert.match(home, /class="scene-render"[^>]+src="\/images\/dave-workstation-transparent\.webp"/);
+  assert.match(home, /class="brand masthead-brand"[^>]+href="\/"[^>]+aria-label="Dave Bettner home"[^>]*><img[^>]+src="\/images\/dave-bettner-headshot-20260808-square\.webp"/);
   assert.match(home, /href="\/dave-bettner-resume\.pdf" download/);
-  assert.doesNotMatch(home, /Private design study|private concept|<video|<canvas|src="[^"]*headshot[^\"]*"/i);
+  assert.doesNotMatch(home, /Private design study|private concept|<video|<canvas/i);
   assert.equal(hash('dist/images/dave-workstation-transparent.webp'), hash('public/images/dave-workstation-transparent.webp'));
   const image = await sharp('public/images/dave-workstation-transparent.webp').metadata();
   assert.equal(image.format, 'webp');

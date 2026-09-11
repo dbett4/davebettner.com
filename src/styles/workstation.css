@@ -14,13 +14,23 @@
 .hero h1 { margin: 0 0 20px; font-size: clamp(42px, 5vw, 66px); font-weight: 700; line-height: 1; letter-spacing: -.065em; }
 .hero h2 { max-width: 450px; margin: 0 0 24px; font-size: clamp(27px, 3vw, 38px); font-weight: 450; line-height: 1.08; letter-spacing: -.045em; }
 .lede { max-width: 500px; margin: 0 0 30px; color: var(--secondary); font-size: 19px; line-height: 1.55; }
-.scene-wrap { position: relative; z-index: 0; min-width: 0; height: 660px; }
+.scene-wrap {
+  position: relative;
+  z-index: 0;
+  min-width: 0;
+  height: 660px;
+  overflow: clip;
+  mask-image: radial-gradient(ellipse closest-side at 50% 46%, #000 0 55%, rgba(0,0,0,.96) 67%, rgba(0,0,0,.58) 84%, transparent 98%);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-image: radial-gradient(ellipse closest-side at 50% 46%, #000 0 55%, rgba(0,0,0,.96) 67%, rgba(0,0,0,.58) 84%, transparent 98%);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+}
 .hero .workstation-unit { height: 100%; }
 .hero .workstation-unit .workstation-media {
   position: absolute; width: 800px; margin: 0; left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  mask-image: radial-gradient(ellipse farthest-corner at 54% 46%, #000 57%, rgba(0,0,0,.96) 69%, rgba(0,0,0,.65) 86%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse farthest-corner at 54% 46%, #000 57%, rgba(0,0,0,.96) 69%, rgba(0,0,0,.65) 86%, transparent 100%);
 }
 .workstation-media .scene-render { width: 100%; max-width: none; height: auto; }
 
@@ -34,7 +44,7 @@
 .case { display: grid; grid-template-columns: 1fr 1.25fr; gap: 36px; margin-top: 52px; padding: 30px; border: 1px solid var(--border); background: var(--surface); }
 .case h3 { margin: 0; font-size: 25px; letter-spacing: -.04em; line-height: 1.1; }
 .case p { margin-top: 12px; font-size: 15px; }
-.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .fact { padding-top: 13px; border-top: 1px solid var(--border); color: var(--secondary); font-size: 14px; }
 .fact strong { display: block; margin-bottom: 4px; color: var(--text); font-size: 15px; }
 .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 46px; }
@@ -42,6 +52,8 @@
 .project h3 { margin: 0 0 10px; font-size: 25px; letter-spacing: -.05em; }
 .project p { color: var(--secondary); font-size: 14px; }
 .project a { font-size: 14px; }
+.project h3 a { font: inherit; text-decoration: none; }
+.project h3 a:hover { text-decoration: underline; }
 .skip-link { position: absolute; top: 8px; left: 16px; z-index: 10; transform: translateY(-200%); padding: 10px; background: var(--accent); color: var(--accent-contrast); }
 .skip-link:focus { transform: none; }
 

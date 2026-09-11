@@ -4,9 +4,80 @@ import WorkstationMedia from '../components/WorkstationMedia.astro';
 import '../styles/workstation.css';
 ---
 <Profile title="Dave Bettner — Financial systems consulting" page="home" footerMessage={{title: 'Let’s talk about the work.', body: 'I’m interested in roles that bring accounting knowledge, technical consulting, and customer or partner enablement together.'}}>
-<section class="hero wrap"><div><h1>Dave Bettner</h1><h2>Financial systems consulting.</h2><p class="lede">I help finance teams implement software, connect their reporting systems, and learn how to use them.</p><div class="actions"><a class="button" href="/dave-bettner-resume.pdf" download>Download résumé</a><a href="mailto:dbett4@gmail.com">Get in touch</a></div></div><div class="scene-wrap"><WorkstationMedia /></div></section>
-<div class="proof wrap"><span>Workiva · Citrin Cooperman · LSL</span><span>Accounting, technology, and customer delivery since 2015.</span><span>Des Moines, Iowa</span></div>
-<section class="section experience wrap"><div class="section-grid"><h2>I’ve worked on both sides of an implementation.</h2><div><p>At Workiva, I helped customers put the platform into use. At accounting firms, I’ve led the teams delivering it.</p><p>That means working through the requirements with finance and IT, explaining the solution, training the people who will use it, and staying through testing and go-live.</p><a class="section-link" href="/experience/">Explore my experience</a></div></div></section>
-<section class="section wrap"><div class="section-grid"><h2>Connecting data collection and reporting.</h2><div><p>At Citrin Cooperman, I led a Workiva implementation connecting a customer’s system of record with its data-collection and reporting workflow.</p><a class="section-link" href="/experience/connected-reporting/">Read the engagement summary</a></div></div><div class="case"><div><h3>Two systems, one workflow</h3><p>Bidirectional API integration between Workiva and the customer’s system of record.</p></div><div class="facts"><div class="fact"><strong>Access and traceability</strong>Single sign-on and an audit trail within the implementation.</div><div class="fact"><strong>Acceptance through launch</strong>Delivery leadership spanning user acceptance testing, go-live, and executive sign-off.</div></div></div></section>
-<section class="section wrap"><h2>What I’m building.</h2><p class="project-intro">Alongside consulting, I build tools to explore where AI can help with accounting—and where it needs checks.</p><div class="projects"><article class="project"><div><h3>Accounting Acceptance Lab</h3><p>A Python and SQLite lab for testing accounting agents on reconciliation cases. It checks supporting evidence, approval requirements, and recovery from failed writes.</p><p>Personal project. Synthetic cases, not client records.</p></div><div><a href="/work/accounting-acceptance-lab/">About the project</a> · <a href="https://github.com/dbett4/accounting-acceptance-lab">View repository</a></div></article><article class="project"><div><h3>Regulated Reporting MCP</h3><p>An MCP server that connects AI agents to reporting APIs through OAuth. It checks approval before writes and reads the result back to verify the change.</p><p>Personal project. The public demo uses mock data.</p></div><div><a href="/work/regulated-reporting-mcp/">About the project</a> · <a href="https://github.com/dbett4/regulated-reporting-mcp">View repository</a></div></article></div><a class="section-link" href="/work/">More technical work</a></section>
+  <section class="hero wrap">
+    <div>
+      <h1>Dave Bettner</h1>
+      <h2>I make financial systems work in the real world.</h2>
+      <p class="lede">I lead customer-facing implementations across reporting, integrations, training, and go-live—bringing accounting context and hands-on technical delivery to the work.</p>
+      <div class="actions">
+        <a class="button" href="#selected-work">Explore my work</a>
+        <a href="/dave-bettner-resume.pdf" download>Download résumé</a>
+        <a href="mailto:dbett4@gmail.com">Get in touch</a>
+      </div>
+    </div>
+    <div class="scene-wrap"><WorkstationMedia /></div>
+  </section>
+  <div class="proof wrap">
+    <span>Workiva · Citrin Cooperman · LSL</span>
+    <span>Accounting, technology, and customer delivery since 2015.</span>
+    <span>Des Moines, Iowa</span>
+  </div>
+  <section class="section experience wrap">
+    <div class="section-grid">
+      <h2>I’ve worked on both sides of an implementation.</h2>
+      <div>
+        <p>At Workiva, I helped customers put the platform into use. At accounting firms, I’ve led the teams delivering it.</p>
+        <p>That means working through the requirements with finance and IT, explaining the solution, training the people who will use it, and staying through testing and go-live.</p>
+        <a class="section-link" href="/experience/">Explore my experience</a>
+      </div>
+    </div>
+  </section>
+  <section id="selected-work" class="section wrap">
+    <div class="section-grid">
+      <h2>Connecting data collection and reporting.</h2>
+      <div>
+        <p>At Citrin Cooperman, I led a Workiva implementation connecting a customer’s system of record with its data-collection and reporting workflow.</p>
+        <a class="section-link" href="/experience/connected-reporting/">Read the engagement summary</a>
+      </div>
+    </div>
+    <div class="case">
+      <div>
+        <h3>Two systems, one workflow</h3>
+        <p>Bidirectional API integration between Workiva and the customer’s system of record.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><strong>Access and traceability</strong>Single sign-on and an audit trail within the implementation.</div>
+        <div class="fact"><strong>Acceptance through launch</strong>Delivery leadership spanning user acceptance testing, go-live, and executive sign-off.</div>
+      </div>
+    </div>
+  </section>
+  <section class="section wrap">
+    <h2>What I’m building.</h2>
+    <p class="project-intro">Alongside consulting, I build tools to explore where AI can help with accounting—and where it needs checks.</p>
+    <div class="projects">
+      <article class="project">
+        <div>
+          <h3><a href="/work/accounting-acceptance-lab/">Accounting Acceptance Lab</a></h3>
+          <p>A Python and SQLite lab for testing accounting agents on reconciliation cases. It checks supporting evidence, approval requirements, and recovery from failed writes.</p>
+          <p>Personal project. Synthetic cases, not client records.</p>
+        </div>
+        <div>
+          <a href="/work/accounting-acceptance-lab/" aria-label="About the project: Accounting Acceptance Lab">About the project</a> ·
+          <a href="https://github.com/dbett4/accounting-acceptance-lab" aria-label="View repository: Accounting Acceptance Lab">View repository</a>
+        </div>
+      </article>
+      <article class="project">
+        <div>
+          <h3><a href="/work/regulated-reporting-mcp/">Regulated Reporting MCP</a></h3>
+          <p>An MCP server that connects AI agents to reporting APIs through OAuth. It checks approval before writes and reads the result back to verify the change.</p>
+          <p>Personal project. The public demo uses mock data.</p>
+        </div>
+        <div>
+          <a href="/work/regulated-reporting-mcp/" aria-label="About the project: Regulated Reporting MCP">About the project</a> ·
+          <a href="https://github.com/dbett4/regulated-reporting-mcp" aria-label="View repository: Regulated Reporting MCP">View repository</a>
+        </div>
+      </article>
+    </div>
+    <a class="section-link" href="/work/">More technical work</a>
+  </section>
 </Profile>

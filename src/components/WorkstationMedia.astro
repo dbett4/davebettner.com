@@ -16,7 +16,6 @@ const screenTransform = 'matrix3d(0.362030731629,0.0524547859947,0,-0.0000980932
       </foreignObject>
     </svg>
   </div>
-  <button class="scene-motion-toggle" data-workstation-motion-button type="button" hidden aria-pressed="false">Pause screen motion</button>
 </div>
 <style>
   .workstation-unit { position: relative; width: 100%; }
@@ -25,37 +24,41 @@ const screenTransform = 'matrix3d(0.362030731629,0.0524547859947,0,-0.0000980932
   .terminal-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; visibility: hidden; }
   [data-motion-ready='true'] .terminal-layer { visibility: visible; }
   .terminal-plane { width: 320px; height: 180px; overflow: hidden; transform-origin: 0 0; background: #15212a; color: #aabcc8; opacity: .94; border-radius: 2px; font: 14px/24px ui-monospace, SFMono-Regular, Consolas, monospace; }
-  .terminal-content { padding-inline: 12px; animation: workstation-terminal-scroll 20s linear infinite; animation-play-state: paused; }
+  .terminal-content { padding-inline: 12px; animation: workstation-terminal-scroll 2s cubic-bezier(.22,.8,.24,1) .8s 1 both; animation-play-state: paused; }
   .terminal-block { height: 240px; }
   .terminal-block span { display: block; height: 24px; white-space: nowrap; }
   .terminal-command { color: #87c9b1; }
   [data-motion-active='true'] .terminal-content { animation-play-state: running; }
-  @keyframes workstation-terminal-scroll { from { transform: translateY(0); } to { transform: translateY(-240px); } }
-  .scene-motion-toggle { position: absolute; bottom: 4%; right: 12%; z-index: 3; padding: 8px 12px; min-height: 36px; border: 1px solid var(--border); border-radius: 4px; color: var(--secondary); background: var(--page); font: inherit; font-size: 11px; cursor: pointer; }
-  .scene-motion-toggle[hidden] { display: none; }
-  @media (prefers-reduced-motion: reduce) { .terminal-layer, .scene-motion-toggle { display: none !important; } .terminal-content { animation: none; } }
+  @keyframes workstation-terminal-scroll { from { transform: translateY(0); } to { transform: translateY(-24px); } }
+  @media (prefers-reduced-motion: reduce) { .terminal-layer { display: none !important; } .terminal-content { animation: none; } }
 </style>
 <script is:inline>
   (() => {
     const root = document.querySelector('[data-workstation]');
     if (!root || root.dataset.motionInitialized) return;
     root.dataset.motionInitialized = 'true';
-    const button = root.querySelector('[data-workstation-motion-button]');
+    const terminal = root.querySelector('.terminal-content');
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
-    let paused = false;
     let visible = false;
+    let started = false;
+    let complete = false;
     const sync = () => {
-      root.dataset.motionReady = String(!preference.matches);
-      root.dataset.motionActive = String(!preference.matches && !paused && visible && !document.hidden);
-      button.hidden = preference.matches;
-      button.setAttribute('aria-pressed', String(paused));
-      button.textContent = paused ? 'Resume screen motion' : 'Pause screen motion';
+      const allowed = !preference.matches;
+      if (allowed && visible && !document.hidden && !started) started = true;
+      root.dataset.motionReady = String(allowed);
+      root.dataset.motionActive = String(allowed && started && visible && !document.hidden && !complete);
     };
-    button.addEventListener('click', () => { paused = !paused; sync(); });
+    terminal.addEventListener('animationend', (event) => {
+      if (event.animationName !== 'workstation-terminal-scroll') return;
+      complete = true;
+      root.dataset.motionComplete = 'true';
+      sync();
+    }, { once: true });
     const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, {threshold: .05});
     observer.observe(root);
     preference.addEventListener('change', sync);
     document.addEventListener('visibilitychange', sync);
+    root.dataset.motionComplete = 'false';
     sync();
   })();
 </script>

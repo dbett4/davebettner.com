@@ -4,16 +4,19 @@ from functools import partial
 from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
 from threading import Thread
 from urllib.parse import urlparse
-import json,hashlib,re
+import json,hashlib,re,os
 from playwright.sync_api import sync_playwright
-root=Path(__file__).resolve().parents[1];dist=root/'dist';out=root/'review/depth/after';out.mkdir(parents=True,exist_ok=True)
+root=Path(__file__).resolve().parents[1];dist=root/'dist';out=root/'node_modules/.cache/site-qa';out.mkdir(parents=True,exist_ok=True)
 class Handler(SimpleHTTPRequestHandler):
  def log_message(self,format,*args):pass
-server=ThreadingHTTPServer(('127.0.0.1',0),partial(Handler,directory=str(dist)));thread=Thread(target=server.serve_forever,daemon=True);thread.start()
-base=f'http://127.0.0.1:{server.server_port}';checks=[];errors=[];links=set()
+base=os.environ.get('SITE_URL','').rstrip('/');server=None
+if not base:
+ server=ThreadingHTTPServer(('127.0.0.1',0),partial(Handler,directory=str(dist)));thread=Thread(target=server.serve_forever,daemon=True);thread.start()
+ base=f'http://127.0.0.1:{server.server_port}'
+checks=[];errors=[];links=set()
 try:
  with sync_playwright() as p:
-  browser=p.chromium.launch();context=browser.new_context();page=context.new_page()
+  browser=p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox']);context=browser.new_context();page=context.new_page()
   page.on('pageerror',lambda e:errors.append(str(e)))
   routes=sorted('/'+str(f.relative_to(dist)).replace('index.html','') for f in dist.rglob('index.html') if '/lab/' not in str(f))
   for width in [1440,768,390,320]:
@@ -49,10 +52,18 @@ try:
   page.goto(base+'/lab/accounting-acceptance/');page.wait_for_url('**/work/accounting-acceptance-lab/')
   assert context.request.get(base+'/not-a-page/').status==404
   assert context.request.get(base+'/mockups/').status==404
-  nojs=browser.new_context(java_script_enabled=False,reduced_motion='reduce',viewport={'width':390,'height':844});np=nojs.new_page();np.goto(base+'/');assert np.locator('.hero-portrait img').is_visible();assert 'Financial systems consulting' in np.locator('body').inner_text();nojs.close()
+  nojs=browser.new_context(java_script_enabled=False,reduced_motion='reduce',viewport={'width':390,'height':844});np=nojs.new_page();np.goto(base+'/')
+  scene=np.locator('img.scene-render')
+  assert scene.count()==1 and scene.is_visible()
+  assert scene.get_attribute('src')=='/images/dave-workstation.webp'
+  assert scene.evaluate('(e)=>e.complete&&e.naturalWidth===1000&&e.naturalHeight===1000')
+  assert scene.evaluate('(e)=>e.getBoundingClientRect().width<=340')
+  assert np.locator('video,canvas').count()==0
+  assert np.evaluate('document.getAnimations().every(a=>a.playState!=="running")')
+  assert 'Financial systems consulting' in np.locator('body').inner_text();nojs.close()
   assert not errors,errors
   browser.close()
- result={'route_width_checks':len(checks),'routes':len(routes),'local_destinations':len(links),'checks':checks,'keyboard_skip':'pass','resume_download_sha256':hashlib.sha256(pdf).hexdigest(),'nojs_reduced_motion':'pass','errors':errors}
+ result={'base':base,'route_width_checks':len(checks),'routes':len(routes),'local_destinations':len(links),'checks':checks,'keyboard_skip':'pass','resume_download_sha256':hashlib.sha256(pdf).hexdigest(),'nojs_reduced_motion':'pass','errors':errors}
  (out/'checks.json').write_text(json.dumps(result,indent=2));print(json.dumps({k:v for k,v in result.items() if k!='checks'},indent=2))
 finally:
- server.shutdown();server.server_close()
+ if server:server.shutdown();server.server_close()

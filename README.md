@@ -42,7 +42,7 @@ npm test
 
 Because `run-browser-checks.mjs` sets `SITE_URL` itself, `npm test` always checks the local build. To check another origin, run a suite that reads `SITE_URL` directly, for example `SITE_URL=https://davebettner.com node scripts/verify-theme.mjs`.
 
-Suites write screenshots and JSON results under `node_modules/.cache/`, `review/workstation-loop/browser/` (gitignored) and `review/light-soft-fade/fade/`. The last is not gitignored, so a run leaves untracked files there.
+Suites write screenshots and JSON results under `node_modules/.cache/`, `review/workstation-loop/browser/` and `review/light-soft-fade/fade/`, all gitignored, so a run leaves `git status` clean.
 
 ### Prerequisites
 

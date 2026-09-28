@@ -43,7 +43,13 @@ Deploy as `hermes`. Wrangler OAuth for that user must already be configured on t
 ssh davgent 'sudo -u hermes bash -lc "cd /srv/hermes/work/davebettner.com && npm test"'
 ```
 
-`npm test` starts and tears down its own local preview server. Set `SITE_URL=https://davebettner.com` to run the same browser assertions against production.
+`npm test` builds the site, serves `dist/` with `/usr/bin/python3 -m http.server` on a free 127.0.0.1 port, and stops that server when the browser suites finish. Because `scripts/run-browser-checks.mjs` sets `SITE_URL` to that server for every suite, `npm test` always checks the local build; a `SITE_URL` you set beforehand has no effect. To check production, run a suite that reads `SITE_URL` directly, for example:
+
+```bash
+SITE_URL=https://davebettner.com node scripts/verify-theme.mjs
+```
+
+`scripts/verify-avatar-fade.mjs` ignores `SITE_URL` and always serves `dist/`, so it cannot check production.
 
 The pre-push harness verifies wrapper ordering and fail-closed rejection for a non-`hermes` user, missing session identity, the primary checkout, and a dirty linked worktree. It does not substitute for release-time authority: the real deploy preflight freshly fetches `origin/main` and verifies the current session's two live ACP leases before Wrangler runs.
 

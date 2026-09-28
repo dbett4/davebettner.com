@@ -16,3 +16,4 @@ cli-override-probe.json
 .cursor-*
 __pycache__/
 review/workstation-loop/browser/
+review/light-soft-fade/fade/

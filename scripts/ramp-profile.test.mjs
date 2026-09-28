@@ -50,7 +50,9 @@ test('homepage serves the recorded workstation loop with a matching poster', asy
   assert.match(home, /href="\/dave-bettner-resume\.pdf" download/);
   assert.doesNotMatch(home, /Private design study|private concept|<canvas/i);
   assert.match(home, /data-src="\/video\/workstation-loop\.mp4"/);
-  assert.match(home, /data-motion-toggle[^>]+aria-label="Pause animation"[^>]+hidden/);
+  assert.match(home, /<video class="workstation-video"[^>]+\bloop\b/);
+  const unit = home.slice(home.indexOf('data-workstation'), home.indexOf('</video>'));
+  assert.doesNotMatch(unit, /<button|\bcontrols\b/, 'The hero loop has no playback controls');
   // The committed media are exactly what the rig's manifest recorded.
   const manifest = JSON.parse(read('animation/workstation-loop/render.json'));
   for (const asset of [manifest.video, ...manifest.posters]) {

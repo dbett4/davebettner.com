@@ -97,7 +97,7 @@
   },
   "limits": [
     "SHIP binds only video_sha256 above.",
-    "Playback smoothness, loop behaviour, the pause control and reduced motion were verified by the browser suite, not by the visual reviewer, who judged decoded stills.",
+    "Playback smoothness and loop behaviour (continuous, no controls, including under reduced motion) were verified by the browser suite, not by the visual reviewer, who judged decoded stills.",
     "Approval of a stylized animation built from the approved still; not a claim of new likeness, full-body articulation or standing motion.",
     "Deployment is a separate decision."
   ]

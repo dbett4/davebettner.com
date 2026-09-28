@@ -15,7 +15,7 @@ The approved artwork (`art/source.png`) is the only source of pixels for Dave, t
 | 7.2–8.35 | Small nod, then turns back | Status cells re-check row by row | Head settles (7.7–8.5) |
 | 8.3–9.0 | Mouse returns with one click | The selection returns | Ear flick at 8.95 |
 
-Breathing, the head sway and the dog's idle drift run throughout. All of them are periodic in 10 seconds, so the last frame flows into the first. Screen content is illustrative, with no client data, product logos or live sessions.
+The loop plays continuously with no controls, including for visitors who have asked their system to reduce motion (Dave's decision). Breathing, the head sway and the dog's idle drift run throughout. All of them are periodic in 10 seconds, so the last frame flows into the first. Screen content is illustrative, with no client data, product logos or live sessions.
 
 ## How it is built
 
@@ -42,8 +42,9 @@ Run these from this directory, with `ffmpeg` on `PATH`. A render takes about a m
 
 - Chrome decodes the served file.
 - The loop wraps without ending.
-- The pause control works by keyboard and pointer, and survives scrolling.
-- With reduced motion, the loop plays one pass, holds, and can be replayed.
+- There are no playback controls, and the loop keeps running when the reduced-motion setting is on.
+- The loop pauses offscreen or in a hidden tab and resumes on return.
+- If autoplay is refused, the poster stays and the visitor's first tap, click or key press starts the loop.
 - Without JavaScript, or when the video fails, the matching poster stays and no control is shown.
 - The layout holds at four widths, the desk feet and rug stay fixed, and the loop seam is no larger than an ordinary frame step.
 

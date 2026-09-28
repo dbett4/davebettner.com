@@ -6,16 +6,18 @@ The approved artwork (`art/source.png`) is the only source of pixels for Dave, t
 
 ## What moves
 
-| Time (s) | Dave | Screens | Dog |
-| --- | --- | --- | --- |
-| 0.4–2.3 | Mouse travel and three clicks | The pointer moves; each click selects a cell | Blinks at 1.75 |
-| 2.35–2.95 | Head turns toward the agent | | |
-| 2.95–4.5 | Types a prompt, moving between keyboard positions word by word | The prompt appears in the agent | Ear flick at 3.55 |
-| 4.5–7.4 | Watches the agent | The agent reads, matches and updates notes; status cells wait | Head lifts toward Dave (4.9–5.6), blinks, tail wag (6.35–7.55) |
-| 7.2–8.35 | Small nod, then turns back | Status cells re-check row by row | Head settles (7.7–8.5) |
-| 8.3–9.0 | Mouse returns with one click | The selection returns | Ear flick at 8.95 |
+| Time (s) | Dave | Screens |
+| --- | --- | --- |
+| 0.4–2.3 | Mouse travel and three clicks | The pointer moves; each click selects a cell |
+| 2.35–2.95 | Head turns toward the agent | |
+| 2.95–4.5 | Types a prompt, moving between keyboard positions word by word | The prompt appears in the agent |
+| 4.5–7.4 | Watches the agent | The agent reads, matches and updates notes; status cells wait |
+| 7.2–8.35 | Small nod, then turns back | Status cells re-check row by row |
+| 8.3–9.0 | Mouse returns with one click | The selection returns |
 
-The loop plays continuously with no controls, including for visitors who have asked their system to reduce motion (Dave's decision). Breathing, the head sway and the dog's idle drift run throughout. All of them are periodic in 10 seconds, so the last frame flows into the first. Screen content is illustrative, with no client data, product logos or live sessions.
+The dog holds perfectly still, exactly as painted (`timeline.DOG_STILL`). Dave judged the rigged ear flick and tail wag unnatural on 2026-09-28, so they stay off until a better method replaces them. The dog's head, ear, tail, ribs and blink channels remain in `timeline.py` and `render.py` for that work.
+
+The loop plays continuously with no controls, including for visitors who have asked their system to reduce motion (Dave's decision). Dave's breathing and head sway run throughout. All of them are periodic in 10 seconds, so the last frame flows into the first. Screen content is illustrative, with no client data, product logos or live sessions.
 
 ## How it is built
 

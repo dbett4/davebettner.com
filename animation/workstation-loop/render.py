@@ -647,6 +647,10 @@ class Rig:
         zx, zy = tl.hand_zone(t)
         b['tap'].set(t=(2.4 * zx + 0.3 * zy + 0.8 * tap, -0.9 * zx + 1.3 * zy + 3.2 * tap))
         # Dog.
+        if tl.DOG_STILL:
+            for name in ('dog_head', 'dog_ear', 'dog_tail', 'dog_ribs'):
+                b[name].set()
+            return dict(breath=breath, blink=0.0)
         g = tl.keyed(tl.DOG_HEAD_KEYS, t)
         idle = 0.35 * math.sin(2 * math.pi * t / 5.0)
         b['dog_head'].set(deg=-7.0 * g + idle, t=(-1.8 * g, -3.0 * g))

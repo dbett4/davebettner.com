@@ -1,8 +1,8 @@
 {
   "video": {
     "path": "public/video/workstation-loop.mp4",
-    "sha256": "6f771bdf31a8cb1df6b92d4ceac3e87cdb53ce916b4cdb46bb259792f3292ba1",
-    "bytes": 440374
+    "sha256": "03c840b4459742f3b9d7b91705fea6c9825c9b6d359a89a526c9faffceecd33b",
+    "bytes": 404350
   },
   "posters": [
     {
@@ -18,7 +18,7 @@
   "fps": 30,
   "period": 10.0,
   "frames": 300,
-  "rawFramesSha256": "bca6fcab3f3cbaef4030324aaf4982ce5cb8caf520c94119a79d72304d86232c",
+  "rawFramesSha256": "fa26c6dd3f659b13b80b991fbaace6d3541ee74235962537c2762903909354dc",
   "inputs": {
     "art/mattes/dog.png": "9b7b2ddaf5f205ec527d7d3aa856cfdc6f61acb4b9c70092abf57c9dcaa30c7b",
     "art/mattes/ear.png": "3d7a8f90f8a614a75498d078f8e5600e123e11beab69411dd26e1b6698e193ca",
@@ -31,9 +31,9 @@
     "fonts/Roboto-Bold.ttf": "36f3709dea3e3ce3c6aedc058079e55980825f898f1e901d091c73c40de8bab1",
     "fonts/Roboto-Medium.ttf": "7984aafeaf437899ce89b251d2875fc5048cb7d290152eac070239cca7ff726c",
     "fonts/Roboto-Regular.ttf": "797e35f7f5d6020a5c6ea13b42ecd668bcfb3bbc4baa0e74773527e5b6cb3174",
-    "render.py": "bf9e4847c232944426a0ed649bea20ed7221a79ee0a302e0eef5a9adad2b14b3",
+    "render.py": "2157360b41e850ba9337dac866bc678273302674cb970afd52f6f0412eb00e48",
     "screens.py": "fdd0ffb7ccca38457a9263a51e013497a5312655e346d87083f9d4945ab2f495",
-    "timeline.py": "36707159f80b8645517a432e6af0023cbf63fbc795a34ebd14b20929cee6800c"
+    "timeline.py": "a774a77dfe214c0a92d26162e56a7500b96eb4970b30f86ee75ca7ff8693a394"
   },
   "tools": {
     "python": "3.12.3",

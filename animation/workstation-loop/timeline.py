@@ -25,7 +25,11 @@ SPINNER = (4.62, 7.25)
 SWEEP = (7.30, 8.10)                        # status cells re-check row by row
 PENDING = (4.62, 7.30)                      # status cells show pending while the agent runs
 
-# The dog: ear flick, a look toward Dave, blinks and a short tail wag.
+# The dog. Dave, 2026-09-28: the rigged ear flick and tail wag looked wrong ("ears
+# don't move like that"), so the dog holds perfectly still, exactly as painted,
+# until a better method replaces this rig. The channels below are kept for that work.
+DOG_STILL = True
+# When animated: ear flick, a look toward Dave, blinks and a short tail wag.
 DOG_HEAD_KEYS = [(0.0, 0.0), (4.90, 0.0), (5.60, 1.0), (7.70, 1.0), (8.50, 0.0), (10.0, 0.0)]
 EAR_FLICKS = [3.55, 8.95]
 BLINKS = [1.75, 6.20, 6.55]

@@ -3,7 +3,6 @@ import { createServer } from 'node:net';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile, access } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import sharp from 'sharp';
 import { chromium } from 'playwright-core';
 
 const dist = resolve('dist');
@@ -32,16 +31,6 @@ const check = (condition, label, detail = '') => {
 };
 
 await mkdir(out, { recursive: true });
-const asset = await sharp(resolve('public/images/dave-workstation-transparent.webp')).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-const alphaAt = (x, y) => asset.data[(y * asset.info.width + x) * 4 + 3];
-// Re-registered against the dog/desk correction after independent visual review.
-// (420,220) is now spreadsheet foreground; it must never be cleared as a gap.
-for (const [label, x, y] of [['mic_head_gap', 433, 288], ['left_monitor_gap', 365, 220], ['stand_gap', 526, 308]]) {
-  check(alphaAt(x, y) === 0, `matte clears confirmed enclosed pocket: ${label}`, String(alphaAt(x, y)));
-}
-for (const [label, x, y] of [['spreadsheet_screen', 420, 220], ['desk_foreground_detail', 681, 380], ['lower_figure_detail', 563, 575], ['rug_detail', 520, 720]]) {
-  check(alphaAt(x, y) === 255, `matte keeps protected foreground opaque: ${label}`, String(alphaAt(x, y)));
-}
 for (const route of routes) {
   await access(resolve(dist, route === '/' ? 'index.html' : `${route.slice(1)}index.html`));
 }

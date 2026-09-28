@@ -51,8 +51,6 @@
 .project a { font-size: 14px; }
 .project h3 a { font: inherit; text-decoration: none; }
 .project h3 a:hover { text-decoration: underline; }
-.skip-link { position: absolute; top: 8px; left: 16px; z-index: 10; transform: translateY(-200%); padding: 10px; background: var(--accent); color: var(--accent-contrast); }
-.skip-link:focus { transform: none; }
 
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; min-height: 0; gap: 24px; }

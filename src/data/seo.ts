@@ -10,7 +10,7 @@ export const personSchema = {
  knowsAbout:['Technical implementation','Solutions consulting','API integrations','Python','AI workflows','Financial reporting','Customer training'],
  sameAs:[linkedinUrl,githubUrl]
 };
-export const nonIndexPathPrefixes = ['/mockups','/preview-dither','/dither'];
+export const nonIndexPathPrefixes = ['/mockups'];
 export function isIndexablePath(pathname: string): boolean {
  return !pathname.startsWith('/404') && !nonIndexPathPrefixes.some(prefix => pathname.startsWith(prefix));
 }

@@ -25,6 +25,5 @@ else
 fi
 restore_resume_pdf
 trap - EXIT
-npm run generate-og
 npm run build
 ./scripts/deploy-preflight.sh

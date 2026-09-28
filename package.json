@@ -10,18 +10,12 @@
     "check": "astro check",
     "test": "npm run generate-resume && npm run build && node --test scripts/ramp-profile.test.mjs && node scripts/run-browser-checks.mjs",
     "generate-resume": "node scripts/generate-resume-pdf.mjs",
-    "generate-og": "node scripts/generate-og-image.mjs",
     "verify:portrait": "node scripts/verify-portrait-cutout.mjs",
-    "deploy": "./scripts/deploy.sh",
-    "test:legacy": "node scripts/verify-site.mjs && node scripts/verify-audit-regressions.mjs"
+    "deploy": "./scripts/deploy.sh"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",
     "@fontsource-variable/archivo": "^5.3.0",
-    "@fontsource-variable/newsreader": "^5.3.0",
-    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
-    "@fontsource/dm-mono": "^5.3.0",
-    "@shader-gradient/core": "^0.3.0",
     "astro": "7.2.0"
   },
   "devDependencies": {

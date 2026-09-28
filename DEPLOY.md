@@ -51,7 +51,7 @@ SITE_URL=https://davebettner.com node scripts/verify-theme.mjs
 
 `scripts/verify-avatar-fade.mjs` ignores `SITE_URL` and always serves `dist/`, so it cannot check production.
 
-The pre-push harness verifies wrapper ordering and fail-closed rejection for a non-`hermes` user, missing session identity, the primary checkout, and a dirty linked worktree. It does not substitute for release-time authority: the real deploy preflight freshly fetches `origin/main` and verifies the current session's two live ACP leases before Wrangler runs.
+`npm test` ends with the deploy-gate test, `bash scripts/test-deploy-preflight.sh prepush`. It verifies wrapper ordering and fail-closed rejection for a non-`hermes` user and missing session identity. Run as `hermes`, like the command above, it also verifies that the gate rejects the primary checkout and, from a linked release worktree, a dirty worktree. Other users and CI skip those two probes. It does not substitute for release-time authority: the real deploy preflight freshly fetches `origin/main` and verifies the current session's two live ACP leases before Wrangler runs.
 
 ## Agent rule
 

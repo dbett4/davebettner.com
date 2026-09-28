@@ -23,12 +23,13 @@ npm test
 
 ## Tests
 
-`npm test` runs four steps in order and stops at the first failure:
+`npm test` runs five steps in order and stops at the first failure:
 
 1. `npm run generate-resume`, the résumé hash check and copy described under Résumé PDF.
 2. `npm run build`, which runs `astro check` and then `astro build` into `dist/`.
 3. `node --test scripts/ramp-profile.test.mjs`, static assertions on the built files: profile copy, the robots tag, the résumé digest, and the workstation-loop media hashes recorded in `animation/workstation-loop/render.json`.
-4. `node scripts/run-browser-checks.mjs`, which serves `dist/` with `/usr/bin/python3 -m http.server` on a free 127.0.0.1 port and runs each suite below, in order, with `SITE_URL` set to that server.
+4. `node scripts/run-browser-checks.mjs`, which serves `dist/` with `/usr/bin/python3 -m http.server` on a free 127.0.0.1 port and runs each suite in the table below, in order, with `SITE_URL` set to that server.
+5. `bash scripts/test-deploy-preflight.sh prepush`, the deploy-gate test. It checks that `npm run deploy` goes through `scripts/deploy.sh`, which pins the project-local Wrangler and runs `scripts/deploy-preflight.sh` first, and that the gate rejects a non-`hermes` user and a missing `ACP_SESSION_ID`. Run as `hermes`, it also checks that the gate rejects the canonical primary checkout and, from a linked release worktree, a dirty worktree. Other users and CI skip those two probes.
 
 | Suite | Checks |
 | --- | --- |

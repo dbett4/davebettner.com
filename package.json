@@ -8,7 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "npm run generate-resume && npm run build && node --test scripts/ramp-profile.test.mjs && node scripts/run-browser-checks.mjs",
+    "test": "npm run generate-resume && npm run build && node --test scripts/ramp-profile.test.mjs && node scripts/run-browser-checks.mjs && bash scripts/test-deploy-preflight.sh prepush",
     "generate-resume": "node scripts/generate-resume-pdf.mjs",
     "deploy": "./scripts/deploy.sh"
   },

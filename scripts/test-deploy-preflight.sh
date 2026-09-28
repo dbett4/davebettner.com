@@ -82,18 +82,25 @@ expect_failure \
 rm -rf "$fake_identity_bin"
 trap - EXIT
 
-if [[ -d "$CANONICAL_ROOT" ]]; then
+RUNNER="$(id -un)"
+CANONICAL_COMMON_DIR="$(realpath -e "$CANONICAL_ROOT/.git" 2>/dev/null || true)"
+
+if [[ "$RUNNER" == "hermes" && -d "$CANONICAL_ROOT" ]]; then
   expect_failure \
     "primary checkout is not an isolated worktree" \
     "isolated linked worktree" \
     env ACP_SESSION_ID="${CURRENT_SESSION:-deploy-gate-test}" bash -c "cd '$CANONICAL_ROOT' && '$GATE'"
 else
-  printf 'SKIP primary checkout probe (canonical VPS path unavailable)\n'
+  printf 'SKIP primary checkout probe (needs the hermes user and the canonical VPS checkout)\n'
 fi
 
 GIT_DIR="$(realpath "$(git rev-parse --absolute-git-dir)")"
 COMMON_DIR="$(realpath "$(git rev-parse --path-format=absolute --git-common-dir)")"
-if [[ "$GIT_DIR" != "$COMMON_DIR" ]]; then
+if [[ "$GIT_DIR" == "$COMMON_DIR" ]]; then
+  printf 'SKIP dirty release worktree (primary checkout)\n'
+elif [[ "$RUNNER" != "hermes" || "$COMMON_DIR" != "$CANONICAL_COMMON_DIR" ]]; then
+  printf 'SKIP dirty release worktree (needs the hermes user in a worktree linked to the canonical repository)\n'
+else
   dirty_probe="$ROOT/.deploy-gate-dirty-probe-$$"
   trap 'rm -f "$dirty_probe"' EXIT
   printf 'dirty\n' > "$dirty_probe"
@@ -103,8 +110,6 @@ if [[ "$GIT_DIR" != "$COMMON_DIR" ]]; then
     env ACP_SESSION_ID="${CURRENT_SESSION:-deploy-gate-test}" bash "$GATE"
   rm -f "$dirty_probe"
   trap - EXIT
-else
-  printf 'SKIP dirty release worktree (primary checkout)\n'
 fi
 
 if [[ "$MODE" == "postpush" ]]; then

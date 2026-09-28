@@ -1,0 +1,44 @@
+{
+  "video": {
+    "path": "public/video/workstation-loop.mp4",
+    "sha256": "6f771bdf31a8cb1df6b92d4ceac3e87cdb53ce916b4cdb46bb259792f3292ba1",
+    "bytes": 440374
+  },
+  "posters": [
+    {
+      "path": "public/images/workstation-loop-poster.webp",
+      "sha256": "ab3b0343589f4e222ba73393a4b0c974047bd3f790278a90f7ea1689e1a77fcb"
+    },
+    {
+      "path": "public/images/workstation-loop-poster-760.webp",
+      "sha256": "cc2422c629da85ec79e356ec3542cf1bef89fd45de43597f1d0899867fb045b6"
+    }
+  ],
+  "size": 1254,
+  "fps": 30,
+  "period": 10.0,
+  "frames": 300,
+  "rawFramesSha256": "bca6fcab3f3cbaef4030324aaf4982ce5cb8caf520c94119a79d72304d86232c",
+  "inputs": {
+    "art/mattes/dog.png": "9b7b2ddaf5f205ec527d7d3aa856cfdc6f61acb4b9c70092abf57c9dcaa30c7b",
+    "art/mattes/ear.png": "3d7a8f90f8a614a75498d078f8e5600e123e11beab69411dd26e1b6698e193ca",
+    "art/mattes/head.png": "63482fcb3d2b91673df615cd09b0036a6695ada8e7db285428d8a4c4af08e261",
+    "art/mattes/lhand.png": "7f8ef0aa0d76181758bc7400a8920c0f87fe48a01aef19f84e3af70267320269",
+    "art/mattes/rarm.png": "d1c051afddea79c028a24cb6bd83bd44b12f4c1c143c80d0698e8b1031f30842",
+    "art/screen-quads.json": "d7374563f455ac722af0aac3ea455a4815f6199de806995c1052858814de3a6b",
+    "art/source.png": "9244249eb87275f2c6343d8f3a753ea7c6492d72879257ae41744d9fd4526d5c",
+    "fonts/NotoSansMono-Regular.ttf": "6b692c4b6d15ccf59f1c1fe8d11cb8a92f51960f3e9f1f523781755a3af7e29f",
+    "fonts/Roboto-Bold.ttf": "36f3709dea3e3ce3c6aedc058079e55980825f898f1e901d091c73c40de8bab1",
+    "fonts/Roboto-Medium.ttf": "7984aafeaf437899ce89b251d2875fc5048cb7d290152eac070239cca7ff726c",
+    "fonts/Roboto-Regular.ttf": "797e35f7f5d6020a5c6ea13b42ecd668bcfb3bbc4baa0e74773527e5b6cb3174",
+    "render.py": "bf9e4847c232944426a0ed649bea20ed7221a79ee0a302e0eef5a9adad2b14b3",
+    "screens.py": "fdd0ffb7ccca38457a9263a51e013497a5312655e346d87083f9d4945ab2f495",
+    "timeline.py": "36707159f80b8645517a432e6af0023cbf63fbc795a34ebd14b20929cee6800c"
+  },
+  "tools": {
+    "python": "3.12.3",
+    "numpy": "2.5.3",
+    "opencv": "5.0.0",
+    "pillow": "12.3.0"
+  }
+}

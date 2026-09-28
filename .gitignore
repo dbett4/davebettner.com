@@ -14,3 +14,5 @@ docs/reviews/
 *.log
 cli-override-probe.json
 .cursor-*
+__pycache__/
+review/workstation-loop/browser/

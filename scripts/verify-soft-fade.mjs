@@ -4,26 +4,31 @@ import { resolve } from 'node:path';
 import sharp from 'sharp';
 import { execFileSync } from 'node:child_process';
 const root=resolve('review/light-soft-fade/fade');
-const mask=await sharp('animation/seated/peripheral-mask.svg').removeAlpha().raw().toBuffer();
-const source=await sharp('animation/seated/source.png').resize(1000,1000).removeAlpha().raw().toBuffer();
-// Verify the committed deliverables, without requiring a prior local render.
-const frame=execFileSync('/usr/bin/ffmpeg',['-v','error','-i','public/video/workstation-seated.mp4','-frames:v','1','-f','rawvideo','-pix_fmt','rgb24','pipe:1'],{maxBuffer:4*1024*1024});
-const poster=await sharp('public/images/workstation-seated-poster.webp').removeAlpha().raw().toBuffer();
-assert.equal(frame.length,1000*1000*3,'Decode a complete first video frame');
-const protectedPoints=[['dog face',741,656],['dog ear',712,666],['dog back',665,699],['dog paws',775,790],['dog tail',625,642],['desk',646,394],['chair',378,478]];
-for(const [label,x,y]of protectedPoints){
- const i=(y*1000+x)*3;assert.equal(mask[i],255,label+' remains fully opaque');
- for(const [kind,pixels]of [['video',frame],['poster',poster]]){
+const size=1254;
+const source=await sharp('animation/workstation-loop/art/source.png').removeAlpha().raw().toBuffer();
+// Verify the committed deliverables, decoded the way browsers do (BT.709, limited range).
+const frame=execFileSync('ffmpeg',['-v','error','-i','public/video/workstation-loop.mp4','-frames:v','1',
+  '-vf','scale=in_color_matrix=bt709:in_range=tv:out_range=full:flags=accurate_rnd+full_chroma_int',
+  '-f','rawvideo','-pix_fmt','rgb24','pipe:1'],{maxBuffer:8*1024*1024});
+const poster=await sharp('public/images/workstation-loop-poster.webp').removeAlpha().raw().toBuffer();
+assert.equal(frame.length,size*size*3,'Decode a complete first video frame');
+assert.equal(poster.length,size*size*3,'Poster matches the video frame size');
+// The loop opens at rest, so the dog and furniture must match the approved art.
+const protectedPoints=[['dog face',929,823],['dog ear',893,835],['dog back',834,877],['dog paws',972,991],['dog tail',784,805],['desk',810,494],['chair',474,599]];
+for(const [label,x,y]of protectedPoints)for(const [kind,pixels]of [['video',frame],['poster',poster]]){
   let error=0;
-  // Small patch averages tolerate normal lossy encoding, but reject fading.
+  // Small patch averages tolerate normal lossy encoding, but reject fading or drift.
   for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++)for(let c=0;c<3;c++){
-   const p=((y+dy)*1000+x+dx)*3+c;error+=Math.abs(pixels[p]-source[p]);
+    const p=((y+dy)*size+x+dx)*3+c;error+=Math.abs(pixels[p]-source[p]);
   }
   assert.ok(error/75<9,label+' is preserved in the '+kind+' (mean RGB error '+(error/75).toFixed(2)+')');
- }
 }
-for(const [x,y]of [[0,0],[999,0],[0,999],[999,999],[500,0],[999,500]]){const i=(y*1000+x)*3;for(const pixels of [frame,poster])for(let c=0;c<3;c++)assert.ok(Math.abs(pixels[i+c]-[230,235,240][c])<=2,'Encoded matte joins the page background');}
-let soft=0;for(let i=0;i<mask.length;i+=3)if(mask[i]>0&&mask[i]<255)soft++;assert.ok(soft>15000,'Peripheral edge is feathered');
+const edges=[[0,0],[size-1,0],[0,size-1],[size-1,size-1],[627,0],[size-1,627],[0,300],[627,size-1]];
+for(const [x,y]of edges){const i=(y*size+x)*3;for(const pixels of [frame,poster])for(let c=0;c<3;c++)assert.ok(Math.abs(pixels[i+c]-[230,235,240][c])<=2,'Encoded periphery joins the page background');}
+// The rug corners fade into the page rather than ending at the frame edge.
+let soft=0;
+for(let y=680;y<760;y++)for(let x=10;x<40;x+=3)for(const xx of [x,size-1-x]){const i=(y*size+xx)*3,d=Math.abs(frame[i]-230)+Math.abs(frame[i+1]-235)+Math.abs(frame[i+2]-240);if(d>6&&d<120)soft++;}
+assert.ok(soft>200,'Rug corners feather into the page ('+soft+' soft samples)');
 const manifest=JSON.parse(await readFile(resolve(root,'after/manifest.json'),'utf8'));
 assert.equal(manifest.errors.length,0);
 const results=[];
@@ -36,5 +41,5 @@ for(const width of [1440,768,390,320]){
  const u=await readFile(resolve(root,`after/scene-unmasked-${width}x${r.height}.png`));
  assert.ok(a.equals(u),'CSS applies no additional fade to the dog or rug');results.push({width,completeRug:true,noRectangularMask:true});
 }
-const result={pass:true,protectedPoints,featheredPixels:soft,rendered:results};
+const result={pass:true,protectedPoints,softCornerSamples:soft,rendered:results};
 await writeFile(resolve(root,'verification.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));

@@ -1,7 +1,13 @@
-<div class="workstation-unit" data-workstation>
+<div class="workstation-unit" data-workstation data-motion-state="idle">
   <div class="workstation-media">
-    <img class="scene-render" src="/images/workstation-seated-poster.webp" alt="Dave seated at his dual-monitor desk, using a mouse beside a light spreadsheet and a dark coding-agent workspace, with his dog resting on the rug." width="1000" height="1000" fetchpriority="high" decoding="async" />
-    <video class="workstation-video" data-src="/video/workstation-seated.mp4" muted playsinline preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
+    <img class="scene-render" src="/images/workstation-loop-poster.webp" srcset="/images/workstation-loop-poster-760.webp 760w, /images/workstation-loop-poster.webp 1254w" sizes="(max-width: 700px) calc(100vw - 32px), 720px" alt="Dave seated at his dual-monitor desk, using a mouse beside a light spreadsheet and a dark coding-agent workspace, with his dog resting on the rug." width="1254" height="1254" fetchpriority="high" decoding="async" />
+    <video class="workstation-video" data-src="/video/workstation-loop.mp4" muted playsinline preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
+    <button class="motion-toggle" type="button" data-motion-toggle aria-label="Pause animation" hidden>
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+        <path class="icon-pause" d="M4 3h3v10H4zM9 3h3v10H9z" />
+        <path class="icon-play" d="M5 2.5v11l9-5.5z" />
+      </svg>
+    </button>
   </div>
 </div>
 <style>
@@ -10,52 +16,83 @@
   .scene-render { display: block; width: 100%; height: auto; }
   .workstation-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; visibility: hidden; pointer-events: none; }
   [data-video-visible='true'] .workstation-video { visibility: visible; }
-
+  .motion-toggle {
+    position: absolute; right: 8px; bottom: 8px; z-index: 1;
+    display: grid; place-items: center; width: 34px; height: 34px; padding: 0;
+    border: 1px solid var(--border); border-radius: 2px;
+    background: var(--surface-raised); color: var(--secondary);
+    cursor: pointer; opacity: 0; transition: opacity .2s ease, color .2s ease;
+  }
+  .motion-toggle[hidden] { display: none; }
+  .motion-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+  .motion-toggle .icon-play, [data-motion-state='paused'] .motion-toggle .icon-pause { display: none; }
+  [data-motion-state='paused'] .motion-toggle .icon-play { display: inline; }
+  .workstation-media:hover .motion-toggle, .motion-toggle:focus-visible, [data-motion-state='paused'] .motion-toggle { opacity: 1; }
+  .motion-toggle:hover { color: var(--text); }
+  @media (hover: none) { .motion-toggle { opacity: .8; } }
 </style>
 <script>
-  // One quiet sequence under five seconds; no controls or looping.
-  // Play this finite sequence regardless of the OS motion preference.
-  // No video is requested until the scene is visible.
-  // The matching poster remains underneath during loading, errors and JS failure.
+  // A seamless 10-second loop (animation/workstation-loop). Video is requested
+  // only once the scene is visible, and pauses offscreen or in a hidden tab.
+  // With reduced motion it plays a single pass and rests on its last frame, which
+  // matches the opening pose.
+  // The toggle is the pause mechanism for motion longer than five seconds.
+  // The matching poster stays underneath during loading, errors and without JS.
   document.querySelectorAll<HTMLElement>('[data-workstation]').forEach(root => {
     if (root.dataset.motionInitialized) return;
     root.dataset.motionInitialized = 'true';
     const video = root.querySelector<HTMLVideoElement>('video')!;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-motion-toggle]')!;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
-    let visible = false, complete = false, failed = false, attempting = false;
+    let visible = false, failed = false, userPaused = false, blocked = false, complete = false, attempting = false;
     video.muted = true;
-    const allowed = () => visible && !document.hidden && !failed;
+    const oncePass = () => reduced.matches;
+    const allowed = () => visible && !document.hidden && !failed && !userPaused && !blocked && !complete;
     const ui = () => {
-      const active = !video.paused && allowed() && !complete;
-      root.dataset.motionActive = String(active);
+      // The control reflects intent, not momentary state: loading, scrolling away
+      // or a hidden tab pause the video without turning the control into Play.
+      const intendsToPlay = !userPaused && !blocked && !complete && !failed;
+      root.dataset.motionActive = String(!video.paused && allowed());
       root.dataset.motionComplete = String(complete);
-
+      root.dataset.motionState = intendsToPlay ? 'playing' : 'paused';
+      toggle.setAttribute('aria-label', intendsToPlay ? 'Pause animation' : 'Play animation');
+      toggle.hidden = failed;
     };
+    const fail = () => { failed = true; root.dataset.videoVisible = 'false'; video.pause(); ui(); };
     const sync = () => {
-
-      if (!allowed() || complete) { video.pause(); ui(); return; }
+      video.loop = !oncePass();
+      if (!allowed()) { video.pause(); ui(); return; }
       if (!video.src) video.src = video.dataset.src!;
       if (attempting || !video.paused) { ui(); return; }
       attempting = true;
+      ui();
       video.play().then(() => {
-        // A viewport or page-visibility change may race play().
-        if (!allowed() || complete) video.pause();
+        // A viewport, preference or visibility change may race play().
+        if (!allowed()) video.pause();
       }).catch(error => {
-        if (error.name !== 'AbortError') { failed = true; root.dataset.videoVisible = 'false'; }
+        // Autoplay refusal (for example a power-saving mode) waits for the toggle.
+        if (error.name === 'NotAllowedError') blocked = true;
+        else if (error.name !== 'AbortError') fail();
       }).finally(() => { attempting = false; ui(); });
     };
     video.addEventListener('playing', () => {
-      if (!allowed() || complete) { video.pause(); return; }
+      if (!allowed()) { video.pause(); return; }
       root.dataset.videoVisible = 'true'; ui();
     });
     video.addEventListener('pause', ui);
     video.addEventListener('ended', () => { complete = true; ui(); });
-    video.addEventListener('error', () => { failed = true; root.dataset.videoVisible = 'false'; video.pause(); ui(); });
-    const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, {threshold: .05});
-    observer.observe(root);
-
+    video.addEventListener('error', fail);
+    toggle.addEventListener('click', () => {
+      if (root.dataset.motionState === 'playing') { userPaused = true; sync(); return; }
+      userPaused = false; blocked = false;
+      if (complete) { complete = false; video.currentTime = 0; }
+      sync();
+    });
+    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, { threshold: .05 }).observe(root);
     document.addEventListener('visibilitychange', sync);
-    root.dataset.motionComplete = 'false';
-    sync();
+    reduced.addEventListener('change', sync);
+    toggle.hidden = false;
+    ui();
   });
 </script>

@@ -50,7 +50,7 @@ try {
       const scene = document.querySelector('.scene-wrap'), image = document.querySelector('.scene-render'), media = document.querySelector('.workstation-media');
       const rect = element => { const {x,y,width,height} = element.getBoundingClientRect(); return {x,y,width,height}; };
       return { scene: rect(scene), image: rect(image), media: rect(media), sceneMask: getComputedStyle(scene).maskImage, mediaMask: getComputedStyle(media).maskImage,
-        imageLoaded: image.complete && image.naturalWidth === 1000, overflow: document.documentElement.scrollWidth > innerWidth,
+        imageLoaded: image.complete && image.naturalWidth > 0 && image.naturalWidth === image.naturalHeight && /\/workstation-loop-poster(-760)?\.webp$/.test(image.currentSrc), overflow: document.documentElement.scrollWidth > innerWidth,
         background: getComputedStyle(document.body).backgroundColor, scheme: getComputedStyle(document.documentElement).colorScheme };
     });
     await page.locator('.scene-wrap').screenshot({ path: `${out}/scene-${suffix}.png` });

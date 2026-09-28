@@ -42,14 +42,23 @@ test('download is the supplied resume, not silently regenerated old copy', () =>
   assert.equal(hash('dist/dave-bettner-resume.pdf'), suppliedDigest);
 });
 
-test('homepage serves recorded workstation motion with a matching poster', async () => {
+test('homepage serves the recorded workstation loop with a matching poster', async () => {
   const home = read('dist/index.html');
-  assert.match(home, /class="scene-render"[^>]+src="\/images\/workstation-seated-poster\.webp"/);
+  assert.match(home, /class="scene-render"[^>]+src="\/images\/workstation-loop-poster\.webp"/);
+  assert.match(home, /srcset="\/images\/workstation-loop-poster-760\.webp 760w, \/images\/workstation-loop-poster\.webp 1254w"/);
   assert.match(home, /class="brand masthead-brand"[^>]+href="\/"[^>]+aria-label="Dave Bettner home"[^>]*><img[^>]+src="\/images\/dave-bettner-headshot-20260808-square\.webp"/);
   assert.match(home, /href="\/dave-bettner-resume\.pdf" download/);
   assert.doesNotMatch(home, /Private design study|private concept|<canvas/i);
-  assert.match(home, /data-src="\/video\/workstation-seated\.mp4"/);
-  assert.equal(hash('dist/video/workstation-seated.mp4'), hash('public/video/workstation-seated.mp4'));
+  assert.match(home, /data-src="\/video\/workstation-loop\.mp4"/);
+  assert.match(home, /data-motion-toggle[^>]+aria-label="Pause animation"[^>]+hidden/);
+  // The committed media are exactly what the rig's manifest recorded.
+  const manifest = JSON.parse(read('animation/workstation-loop/render.json'));
+  for (const asset of [manifest.video, ...manifest.posters]) {
+    assert.equal(hash(asset.path), asset.sha256, asset.path);
+    assert.equal(hash('dist/' + asset.path.replace(/^public\//, '')), asset.sha256, 'dist copy of ' + asset.path);
+  }
+  assert.equal(manifest.frames, 300);
+  assert.equal(manifest.period, 10);
   assert.equal(hash('dist/images/dave-workstation-transparent.webp'), hash('public/images/dave-workstation-transparent.webp'));
   const image = await sharp('public/images/dave-workstation-transparent.webp').metadata();
   assert.equal(image.format, 'webp');

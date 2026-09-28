@@ -55,8 +55,8 @@ try:
   nojs=browser.new_context(java_script_enabled=False,reduced_motion='reduce',viewport={'width':390,'height':844});np=nojs.new_page();np.goto(base+'/')
   scene=np.locator('img.scene-render')
   assert scene.count()==1 and scene.is_visible()
-  assert scene.get_attribute('src')=='/images/workstation-seated-poster.webp'
-  assert scene.evaluate('(e)=>e.complete&&e.naturalWidth===1000&&e.naturalHeight===1000')
+  assert scene.get_attribute('src')=='/images/workstation-loop-poster.webp'
+  assert scene.evaluate(r'(e)=>e.complete&&e.naturalWidth>0&&e.naturalWidth===e.naturalHeight&&/\/workstation-loop-poster(-760)?\.webp$/.test(e.currentSrc)')
   assert scene.evaluate('(e)=>e.getBoundingClientRect().width<=e.closest(".scene-wrap").getBoundingClientRect().width+1'), 'Complete illustration fits the mobile scene'
   assert np.evaluate('document.documentElement.scrollWidth<=innerWidth'), 'Large illustration must not create page overflow'
   assert np.locator('.scene-wrap').evaluate('(e)=>getComputedStyle(e).maskImage==="none"'), 'Wrapper must not fade the dog'

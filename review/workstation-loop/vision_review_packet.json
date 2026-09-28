@@ -1,0 +1,104 @@
+{
+  "reviewer": "independent Codex visual reviewer (codex exec, read-only sandbox, fresh session per round)",
+  "builder": false,
+  "date": "2026-09-28",
+  "verdict": "SHIP",
+  "scope": "Scoped re-review of the 10-second workstation loop after one REVISE round: head yaw, mouse travel and clicks, typing hand positions, dog head lift and ear flick, and any new compositing defect. Desktop and phone browser captures included.",
+  "video": "public/video/workstation-loop.mp4",
+  "video_sha256": "6f771bdf31a8cb1df6b92d4ceac3e87cdb53ce916b4cdb46bb259792f3292ba1",
+  "rounds": [
+    {
+      "round": 1,
+      "verdict": "REVISE",
+      "video_sha256_note": "earlier render, superseded",
+      "summary": "No blocking compositing defects (no ghosting, halos, seams, broken anatomy, identity drift, dog fading, misregistration or video rectangle); clearly better than the live clip. Asked for larger head yaw, clearer mouse travel or click, distinct typing positions, stronger dog head lift and ear flick, and playback verification.",
+      "output": "/home/dave/work/davebettner-illustration-lab-20260928/review-final2/review-output.txt"
+    },
+    {
+      "round": 2,
+      "verdict": "SHIP",
+      "summary": "All four readability fixes RESOLVED with visual evidence; no new blocking defects; desk, keyboard, rug, monitors and character remain registered.",
+      "output": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/review-output.txt"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/contact-sheet.png",
+      "sha256": "50fd7aa7267f21ba37f6a173e5aadc87951ff25b47843f89d1bf45faa2532b02",
+      "source": "decoded from the served MP4 by animation/workstation-loop/review.py",
+      "inspection": "whole frame each second"
+    },
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/strip-head-turn.png",
+      "sha256": "f70eb061d9868fa078d06be16aca4f3055312419001f9fd93610046b1e32201a",
+      "source": "decoded from the served MP4 by animation/workstation-loop/review.py",
+      "inspection": "head yaw and silhouette change"
+    },
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/strip-mouse.png",
+      "sha256": "ad08ee62b767bc183272052404636c273f2ebe3ee21062af48a6d0cbfcacb9b5",
+      "source": "decoded from the served MP4 by animation/workstation-loop/review.py",
+      "inspection": "mouse travel and click dips"
+    },
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/strip-typing.png",
+      "sha256": "4a1c8ab45d08e5a669cb6f1f812fd495b039e89129cb38e4acb2395770346223",
+      "source": "decoded from the served MP4 by animation/workstation-loop/review.py",
+      "inspection": "typing hand positions over a fixed keyboard"
+    },
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/strip-dog-head.png",
+      "sha256": "2ec6f425d834df0064b723c37a6e87b1ac6782b00afe3931b1ccc06bf3412677",
+      "source": "decoded from the served MP4 by animation/workstation-loop/review.py",
+      "inspection": "dog head lift"
+    },
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/strip-ear-flick.png",
+      "sha256": "ef06a79cd1b279fcca7c94b6b183bf4e2a6cb5b8f70fdb627da21ba71783de61",
+      "source": "decoded from the served MP4 by animation/workstation-loop/review.py",
+      "inspection": "ear flick over the cheek"
+    },
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/strip-blink.png",
+      "sha256": "074d9876ba450d8196a82f5ebf6b5e55bc50744e238d7866fafd52039dba8833",
+      "source": "decoded from the served MP4 by animation/workstation-loop/review.py",
+      "inspection": "blink"
+    },
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/strip-tail.png",
+      "sha256": "68332c50ca044fada6930b5cc426b506c32a1043822ba050ab7c1e9b1538582c",
+      "source": "decoded from the served MP4 by animation/workstation-loop/review.py",
+      "inspection": "tail wag"
+    },
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/strip-screens.png",
+      "sha256": "5de48e3b5c011ce04a019b916840587472f8a70137470e6ba8414182e35017e6",
+      "source": "decoded from the served MP4 by animation/workstation-loop/review.py",
+      "inspection": "monitor registration and content"
+    },
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/browser-scene-1440.png",
+      "sha256": "32e2dba64f5c2b2737a24352670dfd240a329b6342047ac750542149e699609e",
+      "source": "real Chrome capture by scripts/verify-workstation-video.mjs",
+      "inspection": "desktop integration"
+    },
+    {
+      "path": "/home/dave/work/davebettner-illustration-lab-20260928/review-r4/browser-scene-390.png",
+      "sha256": "60e1d3eb8c2549085193a7b7fdb856e574017b62533f733f108cc80061a220e5",
+      "source": "real Chrome capture by scripts/verify-workstation-video.mjs",
+      "inspection": "phone integration"
+    }
+  ],
+  "machine_checks": {
+    "npm_test": "exit 0: 3 static tests, verify-ramp-profile.py, verify-avatar-fade 849, verify-workstation-video 56, verify-theme 716, verify-visitor-journey 23, soft-fade capture and verify",
+    "loop_seam": "last-to-first frame changes 447 pixels (>12 levels) against a median frame step of 495",
+    "rest_frame": "outside the monitor glass the opening frame matches the approved artwork within 8 levels, except 9 hair-edge pixels (max 26)",
+    "mattes": "prepare_mattes.py reproduces all five committed mattes byte for byte"
+  },
+  "limits": [
+    "SHIP binds only video_sha256 above.",
+    "Playback smoothness, loop behaviour, the pause control and reduced motion were verified by the browser suite, not by the visual reviewer, who judged decoded stills.",
+    "Approval of a stylized animation built from the approved still; not a claim of new likeness, full-body articulation or standing motion.",
+    "Deployment is a separate decision."
+  ]
+}

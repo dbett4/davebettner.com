@@ -53,7 +53,7 @@ Beyond `npm install`, `npm test` needs:
 - `/usr/bin/python3`, which serves `dist/`.
 - A Python with the `playwright` package, for `verify-ramp-profile.py`. Set `SITE_TEST_PYTHON` to its absolute path; the default is `/usr/bin/python3`.
 
-CI (`.github/workflows/verify.yml`) runs `npm test` on pushes to `main` and on pull requests, using `ubuntu-latest` and Node 22. It installs `ffmpeg` and `poppler-utils` with apt, runs `npx --no-install playwright-core install --with-deps chromium`, and installs `playwright==1.62.0` into a venv that it passes as `SITE_TEST_PYTHON`. Chrome comes from the runner image. `poppler-utils` supplies `pdftotext` and `pdfinfo`, but no current script calls them; only the archived résumé renderer did.
+CI (`.github/workflows/verify.yml`) runs `npm test` on pushes to `main` and on pull requests, using `ubuntu-latest` and Node 22. It installs `ffmpeg` with apt, runs `npx --no-install playwright-core install --with-deps chromium`, and installs `playwright==1.62.0` into a venv that it passes as `SITE_TEST_PYTHON`. Chrome comes from the runner image.
 
 ## Résumé PDF
 

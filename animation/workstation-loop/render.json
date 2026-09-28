@@ -1,25 +1,34 @@
 {
   "video": {
     "path": "public/video/workstation-loop.mp4",
-    "sha256": "03c840b4459742f3b9d7b91705fea6c9825c9b6d359a89a526c9faffceecd33b",
-    "bytes": 404350
+    "sha256": "ae209fa0a2cf9bbfe832e313f3144965c6275eb1b88edd3a45f299bd2f128882",
+    "bytes": 609468
   },
   "posters": [
     {
       "path": "public/images/workstation-loop-poster.webp",
-      "sha256": "ab3b0343589f4e222ba73393a4b0c974047bd3f790278a90f7ea1689e1a77fcb"
+      "sha256": "cb6a2feecd8666f371e712ddee0c4c243ac0d4ceea9df7493e3e04e6cdcef7e2"
     },
     {
       "path": "public/images/workstation-loop-poster-760.webp",
-      "sha256": "cc2422c629da85ec79e356ec3542cf1bef89fd45de43597f1d0899867fb045b6"
+      "sha256": "220eb8c5ef80ad4672f880f756ab2db682af936e67fce7a53388bb066c15a861"
     }
   ],
   "size": 1254,
-  "fps": 30,
+  "fps": 24,
   "period": 10.0,
-  "frames": 300,
-  "rawFramesSha256": "fa26c6dd3f659b13b80b991fbaace6d3541ee74235962537c2762903909354dc",
+  "frames": 240,
+  "rawFramesSha256": "ff506d82548ee2f3cf1e837c9a66d2cc5ccc9717a7ab523cf020d9166ba64558",
+  "dogClip": {
+    "path": "art/dog-ai/clip.mp4",
+    "frames_used": 240,
+    "mask_fraction": 0.335,
+    "pose_error_before_fade_out": 5.05
+  },
   "inputs": {
+    "art/dog-ai/clip.mp4": "3de70d84e98793cabe5536a57c663d0e65e810f4bb370318d0d3db31e38e997c",
+    "art/dog-ai/generation.json": "64bb1ac7f3e1bed59e21fba7185a109714284eb9a48d42502f4248e4576939d4",
+    "art/dog-ai/input.png": "c8b17a74d253939aae758599e090a65e57f19273cff13d2e2e260c319fcb0df8",
     "art/mattes/dog.png": "9b7b2ddaf5f205ec527d7d3aa856cfdc6f61acb4b9c70092abf57c9dcaa30c7b",
     "art/mattes/ear.png": "3d7a8f90f8a614a75498d078f8e5600e123e11beab69411dd26e1b6698e193ca",
     "art/mattes/head.png": "63482fcb3d2b91673df615cd09b0036a6695ada8e7db285428d8a4c4af08e261",
@@ -31,9 +40,9 @@
     "fonts/Roboto-Bold.ttf": "36f3709dea3e3ce3c6aedc058079e55980825f898f1e901d091c73c40de8bab1",
     "fonts/Roboto-Medium.ttf": "7984aafeaf437899ce89b251d2875fc5048cb7d290152eac070239cca7ff726c",
     "fonts/Roboto-Regular.ttf": "797e35f7f5d6020a5c6ea13b42ecd668bcfb3bbc4baa0e74773527e5b6cb3174",
-    "render.py": "2157360b41e850ba9337dac866bc678273302674cb970afd52f6f0412eb00e48",
+    "render.py": "fe302990004c5fcacd3d06bc581e78b5999cb29390f8a6b2a621dec368665e8d",
     "screens.py": "fdd0ffb7ccca38457a9263a51e013497a5312655e346d87083f9d4945ab2f495",
-    "timeline.py": "a774a77dfe214c0a92d26162e56a7500b96eb4970b30f86ee75ca7ff8693a394"
+    "timeline.py": "45af78abbfe5c760a04d6249d6b9c592b3e6fdf77e4cdaed183f3a9320f7ee3b"
   },
   "tools": {
     "python": "3.12.3",

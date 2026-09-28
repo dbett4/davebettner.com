@@ -59,7 +59,8 @@ test('homepage serves the recorded workstation loop with a matching poster', asy
     assert.equal(hash(asset.path), asset.sha256, asset.path);
     assert.equal(hash('dist/' + asset.path.replace(/^public\//, '')), asset.sha256, 'dist copy of ' + asset.path);
   }
-  assert.equal(manifest.frames, 300);
+  assert.equal(manifest.frames, 240);   // 10 s at the generated dog clip's 24 fps
+  assert.ok(manifest.dogClip && manifest.dogClip.frames_used === 240, 'the generated dog clip spans the loop');
   assert.equal(manifest.period, 10);
   assert.equal(hash('dist/images/dave-workstation-transparent.webp'), hash('public/images/dave-workstation-transparent.webp'));
   const image = await sharp('public/images/dave-workstation-transparent.webp').metadata();

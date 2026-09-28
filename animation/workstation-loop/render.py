@@ -200,6 +200,77 @@ class Layer:
         canvas[y0:y1, x0:x1] = rgb + region * (1 - a[..., None])
 
 
+# ------------------------------------------------------------------ generated dog
+class DogClip:
+    """The dog's motion: a generated clip (art/dog-ai/clip.mp4), fitted back onto the painting.
+
+    The clip was generated from a crop of the loop's opening frame (art/dog-ai/generation.json).
+    Each frame is stabilised to the painting with an ECC affine fit on the static rug around
+    the dog, then colour-matched with a per-channel gain/offset on the same area, because
+    generated video drifts and flickers slightly. One fixed mask (the dog's matte plus
+    wherever it actually moves, feathered) limits the clip to the dog; outside it every pixel
+    stays the rig's. The dog area fades in from the painting and back to it at the loop wrap,
+    so frame 0 is the painting exactly and the loop is seamless.
+    """
+
+    def __init__(self, src, dog_alpha, fps, loop_frames):
+        x0, y0, x1, y1 = self.box = geometry.DOG_AI_BOX
+        w, h = x1 - x0, y1 - y0
+        path = ART / 'dog-ai' / 'clip.mp4'
+        probe = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries',
+                                           'stream=width,height,r_frame_rate', '-of', 'json', str(path)],
+                                          capture_output=True, text=True, check=True).stdout)['streams'][0]
+        num, den = map(int, probe['r_frame_rate'].split('/'))
+        assert num / den == fps, f'the loop must run at the clip rate ({num / den} fps)'
+        raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', str(path), '-vf',
+                              'scale=in_color_matrix=bt709:in_range=tv:out_range=full:flags=accurate_rnd+full_chroma_int',
+                              '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], capture_output=True, check=True).stdout
+        clip = np.frombuffer(raw, np.uint8).reshape(-1, probe['height'], probe['width'], 3)[:loop_frames]
+        still = src[y0:y1, x0:x1]
+        dog = dog_alpha[y0:y1, x0:x1]
+        near = cv2.dilate((dog > .05).astype(np.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (41, 41)))
+        static = (near == 0).astype(np.uint8)            # rug, desk foot, shoe: must not move
+        gray_still = cv2.cvtColor(np.clip(still, 0, 255).astype(np.uint8), cv2.COLOR_RGB2GRAY).astype(np.float32)
+        fitted = np.empty((len(clip), h, w, 3), np.float32)
+        for i, f in enumerate(clip):
+            f = cv2.resize(f, (w, h), interpolation=cv2.INTER_AREA).astype(np.float32)
+            g = cv2.cvtColor(f.astype(np.uint8), cv2.COLOR_RGB2GRAY).astype(np.float32)
+            warp = np.eye(2, 3, dtype=np.float32)
+            _, warp = cv2.findTransformECC(gray_still, g, warp, cv2.MOTION_AFFINE,
+                                           (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 60, 1e-5), static, 3)
+            f = cv2.warpAffine(f, warp, (w, h), flags=cv2.INTER_CUBIC + cv2.WARP_INVERSE_MAP, borderMode=cv2.BORDER_REFLECT)
+            sel = static > 0
+            for c in range(3):
+                a, b = np.polyfit(f[..., c][sel], still[..., c][sel], 1)
+                f[..., c] = f[..., c] * a + b
+            fitted[i] = np.clip(f, 0, 255)
+        motion = np.abs(fitted - still).max(3).max(0)
+        moved = cv2.morphologyEx((motion > 22).astype(np.uint8), cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+        moved = cv2.morphologyEx(moved, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15)))
+        moved &= near                                     # rug texture shimmer away from the dog is not motion
+        region = cv2.dilate(((dog > .05) | (moved > 0)).astype(np.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9)))
+        self.mask = cv2.GaussianBlur(region.astype(np.float32), (0, 0), 3.0)[..., None]
+        k_in = max(1, int(round(tl.DOG_CLIP_FADE_IN_S * fps)))
+        for j in range(k_in):                              # frame 0 is the painting exactly
+            u = tl.smooth(j / k_in)
+            fitted[j] = still * (1 - u) + fitted[j] * u
+        k_out = max(1, int(round(tl.DOG_CLIP_FADE_OUT_S * fps)))
+        for j in range(k_out):                             # reaches the painting at the frame after the last
+            u = tl.smooth((j + 1) / (k_out + 1))
+            n = len(fitted) - k_out + j
+            fitted[n] = fitted[n] * (1 - u) + still * u
+        weight = cv2.GaussianBlur(cv2.dilate((dog > .05).astype(np.uint8), np.ones((9, 9), np.uint8)).astype(np.float32), (0, 0), 2)
+        pose = lambda f: float((np.abs(f - still).mean(2) * weight).sum() / weight.sum())
+        self.report = {'path': 'art/dog-ai/clip.mp4', 'frames_used': len(fitted), 'mask_fraction': round(float((self.mask > .5).mean()), 3),
+                       'pose_error_before_fade_out': round(pose(fitted[len(fitted) - k_out - 1]), 2)}
+        self.frames = np.clip(fitted * self.mask + still * (1 - self.mask) + .5, 0, 255).astype(np.uint8)
+
+    def composite(self, canvas, index):
+        if 0 <= index < len(self.frames):
+            x0, y0, x1, y1 = self.box
+            canvas[y0:y1, x0:x1] = self.frames[index] * self.mask + canvas[y0:y1, x0:x1] * (1 - self.mask)
+
+
 # ------------------------------------------------------------------ rig
 class Rig:
     def __init__(self):
@@ -340,6 +411,7 @@ class Rig:
             rest[y0:y1, x0:x1] = layer.premul + (1 - a) * behind
         self.breath_field = self.build_breath()
         self.periphery = self.build_periphery()
+        self.dog_clip = DogClip(src, self.full_alpha(self.dog), tl.FPS, int(round(tl.PERIOD * tl.FPS)))
 
     # --- plate: what the camera would see where a moving part leaves
     def moving_mask(self, layer, bones, dilate=5):
@@ -728,6 +800,7 @@ class Rig:
             gy, gx = np.mgrid[y0:y1, x0:x1].astype(np.float32)
             dy = self.breath_field[y0:y1, x0:x1] * amp
             canvas[y0:y1, x0:x1] = cv2.remap(canvas, gx, gy + dy, cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+        self.dog_clip.composite(canvas, int(round(tl.wrap(t) * tl.FPS)))
         m = self.periphery[..., None]
         canvas = canvas * m + BG * (1 - m)
         return np.clip(canvas + .5, 0, 255).astype(np.uint8)
@@ -744,7 +817,7 @@ def encode(rig, fps=tl.FPS):
            '-s', f'{SIZE}x{SIZE}', '-r', str(fps), '-i', 'pipe:0', '-an',
            # Tagging alone leaves a BT.601 conversion; convert to BT.709 explicitly.
            '-vf', 'scale=in_range=full:out_range=tv:out_color_matrix=bt709:flags=accurate_rnd+full_chroma_int',
-           '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'veryslow', '-crf', '18', '-tune', 'film',
+           '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'veryslow', '-crf', '17', '-tune', 'film',
            # One keyframe per loop and equal I/P/B quantisers: no texture pop at the seam.
            '-x264-params', 'keyint=%d:min-keyint=%d:scenecut=0:ipratio=1.0:pbratio=1.0' % (n, n), '-pix_fmt', 'yuv420p',
            '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-color_range', 'tv',
@@ -784,12 +857,13 @@ def main():
         Image.fromarray(np.clip(rig.plate, 0, 255).astype(np.uint8)).save(od / 'plate.png')
         return
     digest, n = encode(rig)
-    inputs = sorted([*ART.rglob('*.png'), *ART.rglob('*.json'), *(HERE / 'fonts').glob('*.ttf'),
+    inputs = sorted([*ART.rglob('*.png'), *ART.rglob('*.json'), *ART.rglob('*.mp4'), *(HERE / 'fonts').glob('*.ttf'),
                      *(HERE / f for f in ('render.py', 'screens.py', 'timeline.py'))])
     manifest = {
         'video': {'path': str(VIDEO.relative_to(ROOT)), 'sha256': sha256(VIDEO), 'bytes': VIDEO.stat().st_size},
         'posters': [{'path': str(p.relative_to(ROOT)), 'sha256': sha256(p)} for p in (POSTER, POSTER_SMALL)],
         'size': SIZE, 'fps': tl.FPS, 'period': tl.PERIOD, 'frames': n, 'rawFramesSha256': digest,
+        'dogClip': rig.dog_clip.report,
         'inputs': {str(p.relative_to(HERE)): sha256(p) for p in inputs},
         'tools': {'python': sys.version.split()[0], 'numpy': np.__version__, 'opencv': cv2.__version__,
                   'pillow': Image.__version__},

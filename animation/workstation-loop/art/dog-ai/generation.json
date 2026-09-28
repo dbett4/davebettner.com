@@ -1,0 +1,43 @@
+{
+  "what": "The dog's motion: an image-to-video generation from a crop of the loop's opening frame, fitted back onto the painting by render.py",
+  "date": "2026-09-28",
+  "route": "Nous Portal Plus plan via the Hermes managed fal gateway (fal-queue-gateway.nousresearch.com)",
+  "endpoint": "bytedance/seedance-2.0/image-to-video",
+  "model": "ByteDance Seedance 2.0, image-to-video",
+  "arguments": {
+    "image_url": "input.png (data URI)",
+    "duration": "10",
+    "resolution": "480p",
+    "aspect_ratio": "1:1",
+    "generate_audio": false
+  },
+  "prompt": "Stylized 3D illustration. The camera is locked off and never moves. A fawn pug-mix dog with dark floppy ears lies on a patterned rug with its head up, exactly as in the first frame, and keeps lying in that same spot the whole time: it does not lie down flat, does not rest its head on the floor and does not stand up. It breathes slowly and naturally throughout. At the start it rests calmly. Then one floppy ear gives a small natural twitch. A moment later the dog glances up and to the left toward its owner at the desk, holds the look briefly, then turns its head back to look forward exactly as in the first frame. Its curled tail stays curled and gives one small, relaxed wag. For the last two seconds the dog rests calmly in exactly the same pose as the first frame. Everything else stays perfectly still. Same illustration style and lighting throughout.",
+  "seed": 125841808,
+  "cost_usd": 1.4171,
+  "input": {
+    "path": "input.png",
+    "sha256": "c8b17a74d253939aae758599e090a65e57f19273cff13d2e2e260c319fcb0df8",
+    "source": "public/images/workstation-loop-poster.webp crop 698,712-1058,1072, resized to 1024x1024"
+  },
+  "output": {
+    "path": "clip.mp4",
+    "sha256": "3de70d84e98793cabe5536a57c663d0e65e810f4bb370318d0d3db31e38e997c",
+    "size": [
+      640,
+      640
+    ],
+    "fps": 24,
+    "frames": 241,
+    "fal_url": "https://v3b.fal.media/files/b/0aac4021/48jbSFPxeiKyO5_PpWCT-_video.mp4"
+  },
+  "crop_box": [
+    698,
+    712,
+    1058,
+    1072
+  ],
+  "notes": [
+    "The Nous gateway allows no end-frame input, so the loop is closed in render.py: the dog returns to its pose by prompt, and the dog area fades in from and back to the painting.",
+    "Reviewed by Dave in side-by-side and close-up previews before release (2026-09-28)."
+  ]
+}

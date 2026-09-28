@@ -6,7 +6,7 @@ so the encoded clip loops without a cut. Times are seconds.
 import math
 
 PERIOD = 10.0
-FPS = 30
+FPS = 24          # the generated dog clip's rate; every channel here is time-based
 
 # Right hand works the mouse; each click selects the spreadsheet cell under the pointer.
 CLICKS = [1.00, 1.65, 2.25, 9.00]
@@ -25,11 +25,15 @@ SPINNER = (4.62, 7.25)
 SWEEP = (7.30, 8.10)                        # status cells re-check row by row
 PENDING = (4.62, 7.30)                      # status cells show pending while the agent runs
 
-# The dog. Dave, 2026-09-28: the rigged ear flick and tail wag looked wrong ("ears
-# don't move like that"), so the dog holds perfectly still, exactly as painted,
-# until a better method replaces this rig. The channels below are kept for that work.
+# The dog moves through a generated clip, not the rig (art/dog-ai, fitted by
+# render.DogClip): it fades in from the painting, glances up toward Dave with its ears
+# swinging, settles back into its pose, and fades back to the painting at the wrap.
+# Dave, 2026-09-28: the rigged ear flick and tail wag looked wrong ("ears don't move
+# like that"), so the rig's dog holds still. Its channels below are kept but unused.
 DOG_STILL = True
-# When animated: ear flick, a look toward Dave, blinks and a short tail wag.
+DOG_CLIP_FADE_IN_S = 0.3
+DOG_CLIP_FADE_OUT_S = 0.5
+# The rig's dog, if animated: ear flick, a look toward Dave, blinks and a short tail wag.
 DOG_HEAD_KEYS = [(0.0, 0.0), (4.90, 0.0), (5.60, 1.0), (7.70, 1.0), (8.50, 0.0), (10.0, 0.0)]
 EAR_FLICKS = [3.55, 8.95]
 BLINKS = [1.75, 6.20, 6.55]

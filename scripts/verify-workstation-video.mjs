@@ -18,9 +18,10 @@ const advancing=async (page,timeout=4000)=>{
 };
 const state=page=>page.locator('video').evaluate(v=>({paused:v.paused,ended:v.ended,loop:v.loop,time:v.currentTime}));
 // Play through the loop's end quickly rather than seeking: the static preview
-// server has no range support, so a seek would restart the file at 0.
-const wraps=async (page,timeout=9000)=>{
-  await page.locator('video').evaluate(v=>{window.__times=[];v.addEventListener('timeupdate',()=>window.__times.push(v.currentTime));v.playbackRate=5;});
+// server has no range support, so a seek would restart the file at 0. At 4x a busy
+// host's software decoder can fall behind real time, so allow a generous budget.
+const wraps=async (page,timeout=30000)=>{
+  await page.locator('video').evaluate(v=>{window.__times=[];v.addEventListener('timeupdate',()=>window.__times.push(v.currentTime));v.playbackRate=4;});
   await page.waitForFunction(()=>{const t=window.__times,i=t.findIndex(x=>x>9.3);return i>=0&&t.slice(i+1).some(x=>x<2);},null,{timeout});
   const s=await state(page);
   await page.locator('video').evaluate(v=>{v.playbackRate=1;});
@@ -66,10 +67,8 @@ try{
     deltas[name]=maxMean;
   }
   await writeFile(resolve(out,'motion-deltas.json'),JSON.stringify(deltas,null,2));
-  for(const name of ['mouse','typing','head','spreadsheet','agent'])check(deltas[name]>.15,`Decoded ${name} region changes during the loop (${deltas[name].toFixed(2)})`);
+  for(const name of ['mouse','typing','head','dog','spreadsheet','agent'])check(deltas[name]>.15,`Decoded ${name} region changes during the loop (${deltas[name].toFixed(2)})`);
   check(deltas.deskFoot<1.2&&deltas.rug<1.2,'Desk feet and rug remain stationary through the decoded loop');
-  // Dave, 2026-09-28: the dog holds still, exactly as painted, until a better method replaces the rig.
-  check(deltas.dog<1.2,`The dog holds still through the decoded loop (${deltas.dog.toFixed(2)})`);
   // Loop seam: the last frame flows into the first like any other step.
   const tail=execFileSync('ffmpeg',['-v','error','-sseof','-0.05','-i',served,'-frames:v','1','-vf','scale=in_color_matrix=bt709:in_range=tv:out_range=full:flags=accurate_rnd+full_chroma_int','-f','rawvideo','-pix_fmt','rgb24','pipe:1'],{maxBuffer:8*1024*1024});
   let seam=0;for(let i=0;i<tail.length;i+=3)if(Math.max(Math.abs(tail[i]-frames[0].pixels[i]),Math.abs(tail[i+1]-frames[0].pixels[i+1]),Math.abs(tail[i+2]-frames[0].pixels[i+2]))>12)seam++;

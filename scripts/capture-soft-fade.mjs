@@ -49,17 +49,18 @@ try {
     const state = await page.evaluate(() => {
       const scene = document.querySelector('.scene-wrap'), image = document.querySelector('.scene-render'), media = document.querySelector('.workstation-media');
       const rect = element => { const {x,y,width,height} = element.getBoundingClientRect(); return {x,y,width,height}; };
-      return { scene: rect(scene), image: rect(image), media: rect(media), sceneMask: getComputedStyle(scene).maskImage, mediaMask: getComputedStyle(media).maskImage,
+      return { scene: rect(scene), image: rect(image), media: rect(media), sceneMask: getComputedStyle(scene).maskImage, mediaMask: getComputedStyle(media).maskImage, imageFilter: getComputedStyle(image).filter,
         imageLoaded: image.complete && image.naturalWidth > 0 && image.naturalWidth === image.naturalHeight && /\/workstation-loop-poster(-760)?\.webp$/.test(image.currentSrc), overflow: document.documentElement.scrollWidth > innerWidth,
         background: getComputedStyle(document.body).backgroundColor, scheme: getComputedStyle(document.documentElement).colorScheme };
     });
     await page.locator('.scene-wrap').screenshot({ path: `${out}/scene-${suffix}.png` });
-    // Remove BOTH possible masks, otherwise this comparison falsely compares masked to masked.
+    // Capture the unfiltered original as the foreground preservation reference.
     await page.evaluate(() => {
       for (const selector of ['.scene-wrap', '.workstation-media']) {
         const element = document.querySelector(selector);
         element.style.maskImage = 'none'; element.style.webkitMaskImage = 'none';
       }
+      document.querySelector('.scene-render').style.filter = 'none';
     });
     await page.locator('.scene-wrap').screenshot({ path: `${out}/scene-unmasked-${suffix}.png` });
     records.push({ width, height, ...state });

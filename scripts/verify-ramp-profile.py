@@ -40,6 +40,7 @@ try:
     if width==1440:
      (out/((route.strip('/').replace('/','-') or 'home')+'.txt')).write_text(text)
     if width in [1440,390] and route in ['/','/experience/','/experience/connected-reporting/','/fit/','/work/','/about/','/work/accounting-acceptance-lab/']:
+     page.evaluate('async()=>{await Promise.all(Array.from(document.images).map(i=>{i.loading="eager";return i.decode()}));await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))}')
      name=route.strip('/').replace('/','-') or 'home';page.screenshot(path=str(out/f'{name}-{width}.png'),full_page=True)
     checks.append({'route':route,'width':width,'status':res.status})
   for link in sorted(links):
@@ -64,7 +65,7 @@ try:
   assert np.locator('canvas').count()==0
   assert np.locator('video').evaluate('(v)=>!v.currentSrc && v.paused'), 'No-JS must not load or play video'
   assert np.evaluate('document.getAnimations().every(a=>a.playState!=="running")')
-  assert np.locator('.hero h2').inner_text()=='I build products and tools for complex work.';nojs.close()
+  assert np.locator('.hero h1').inner_text()=='I build products and tools for complex work.';nojs.close()
   assert not errors,errors
   browser.close()
  result={'base':base,'route_width_checks':len(checks),'routes':len(routes),'local_destinations':len(links),'checks':checks,'keyboard_skip':'pass','resume_download_sha256':hashlib.sha256(pdf).hexdigest(),'nojs_reduced_motion':'pass','errors':errors}

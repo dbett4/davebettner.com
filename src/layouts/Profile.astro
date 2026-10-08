@@ -16,7 +16,7 @@ const nav=[['experience','Experience','/experience/'],['work','Projects','/work/
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#e6ebf0" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" />
     <meta property="og:type" content="profile" />
@@ -33,7 +33,7 @@ const nav=[['experience','Experience','/experience/'],['work','Projects','/work/
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <header class="masthead wrap">
-      <a class="brand masthead-brand" href="/" aria-label="Dave Bettner home"><img src="/images/dave-bettner-headshot-20260808-square.webp" alt="" width="32" height="32" decoding="async" /></a>
+      <a class="brand masthead-brand" href="/" aria-label="Dave Bettner home"><img src="/images/dave-bettner-headshot-20260808-square.webp" alt="" width="32" height="32" decoding="async" /><span>Dave Bettner</span></a>
       <nav aria-label="Main navigation">
         {nav.map(([id, label, url]) => <a href={url} aria-current={page === id ? 'page' : undefined}>{label}</a>)}
       </nav>
@@ -45,7 +45,7 @@ const nav=[['experience','Experience','/experience/'],['work','Projects','/work/
     <main id="main" tabindex="-1"><slot /></main>
     <footer class="footer wrap">
       <div class="footer-copy">
-        {footerMessage && <><h2>{footerMessage.title}</h2><p>{footerMessage.body}</p></>}
+        {footerMessage && <><h2>{footerMessage.title}</h2><p>{footerMessage.body}</p><a class="contact-email" href="mailto:dbett4@gmail.com" aria-label="Get in touch">dbett4@gmail.com</a></>}
         <a class="brand" href="/">Dave Bettner</a><p>Des Moines, Iowa</p>
       </div>
       <nav aria-label="Further information">
@@ -53,7 +53,7 @@ const nav=[['experience','Experience','/experience/'],['work','Projects','/work/
         <a href="/dave-bettner-resume.pdf">Résumé</a>
         <a href="https://github.com/dbett4">GitHub</a>
         <a href="https://www.linkedin.com/in/dave-bettner/">LinkedIn</a>
-        <a href="mailto:dbett4@gmail.com">Email</a>
+        {!footerMessage && <a href="mailto:dbett4@gmail.com">Email</a>}
       </nav>
     </footer>
   </body>

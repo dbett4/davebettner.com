@@ -37,9 +37,9 @@ const state = page => page.evaluate(() => ({
   images: [...document.images].every(image => image.complete && image.naturalWidth > 0),
 }));
 const lightCheck = (value, label) => {
-  check(value.background === 'rgb(230, 235, 240)' && value.color === 'rgb(24, 33, 43)' && value.scheme === 'light' && !value.darkRoot,
+  check(value.background === 'rgb(255, 255, 255)' && value.color === 'rgb(24, 27, 32)' && value.scheme === 'light' && !value.darkRoot,
     `${label}: light palette and native controls`, JSON.stringify(value));
-  check(value.controls === 0 && value.themeColor === '#e6ebf0', `${label}: no theme switch or dark browser chrome`, JSON.stringify(value));
+  check(value.controls === 0 && value.themeColor === '#ffffff', `${label}: no theme switch or dark browser chrome`, JSON.stringify(value));
 };
 try {
   for (const os of ['light', 'dark']) {

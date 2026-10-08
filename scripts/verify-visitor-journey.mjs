@@ -156,7 +156,7 @@ try {
     await shotPage.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
     await shotPage.evaluate(() => document.fonts.ready);
     await shotPage.screenshot({ path: resolve(out, shot.file), fullPage: true });
-    check(await shotPage.evaluate(() => getComputedStyle(document.documentElement).colorScheme === 'light' && getComputedStyle(document.body).backgroundColor === 'rgb(230, 235, 240)' && !document.querySelector('[data-theme-toggle]')), `${shot.file} remains light for OS ${shot.mode}`);
+    check(await shotPage.evaluate(() => getComputedStyle(document.documentElement).colorScheme === 'light' && getComputedStyle(document.body).backgroundColor === 'rgb(255, 255, 255)' && !document.querySelector('[data-theme-toggle]')), `${shot.file} remains light for OS ${shot.mode}`);
     await shotContext.close();
   }
 

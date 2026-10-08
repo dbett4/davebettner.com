@@ -106,13 +106,13 @@ try {
             expectedAvatar,
           };
         }, avatarPath);
-        check(state.scheme === 'light' && state.background === 'rgb(230, 235, 240)', `${mode}/${width} ${route} stays light regardless of OS`, state.scheme);
+        check(state.scheme === 'light' && state.background === 'rgb(255, 255, 255)', `${mode}/${width} ${route} stays light regardless of OS`, state.scheme);
         check(!state.overflow, `${mode}/${width} ${route} has no horizontal overflow`);
         check(state.buttonCount === 0, `${mode}/${width} ${route} exposes no theme button`, String(state.buttonCount));
         check(state.pauseButtons === 0 && !state.pauseCopy, `${mode}/${width} ${route} has no obsolete screen-only pause control`);
         if (route === '/') check(state.sceneMask === 'none' && state.mediaMask === 'none', `${mode}/${width} home uses the baked rug matte without a rectangular wrapper mask`, JSON.stringify({ sceneMask: state.sceneMask, mediaMask: state.mediaMask }));
         check(state.brandCount === 1 && state.brandHref === '/' && state.brandLabel === 'Dave Bettner home', `${mode}/${width} ${route} has accessible home avatar link`);
-        check(state.brandText === '' && state.imageSrc === avatarPath && state.imageAlt === '' && state.imageComplete, `${mode}/${width} ${route} uses current square headshot`);
+        check(state.brandText === 'Dave Bettner' && state.imageSrc === avatarPath && state.imageAlt === '' && state.imageComplete, `${mode}/${width} ${route} uses current square headshot`);
         check(state.anchorTarget && state.imageSize, `${mode}/${width} ${route} avatar target/image dimensions`, JSON.stringify({ anchorTarget: state.anchorTarget, imageSize: state.imageSize }));
       }
       await context.close();

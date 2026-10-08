@@ -2,48 +2,60 @@
 const { headingLevel = 'h3' } = Astro.props;
 const Heading = headingLevel;
 const products = [
-  { id: 'passal', name: 'Passal', description: 'A study app that turns lecture material into flashcards and practice.', href: 'https://passal.app/', desktop: [1440, 1667], mobile: [780, 5398], alt: 'Passal study dashboard with lecture material and a daily study plan.' },
-  { id: 'lockfield', name: 'Lockfield', description: 'Workiva consulting and automation for reporting teams.', href: 'https://lockfield.co/', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
+  { id: 'passal', name: 'Passal', description: 'A study app that turns lecture material into flashcards and practice.', href: 'https://passal.app/', domain: 'passal.app', desktop: [1440, 1667], mobile: [780, 5398], alt: 'Passal study dashboard with lecture material and a daily study plan.' },
+  { id: 'lockfield', name: 'Lockfield', description: 'Workiva consulting and automation for reporting teams.', href: 'https://lockfield.co/', domain: 'lockfield.co', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
   { id: 'leasekite', name: 'Leasekite', description: 'Vehicle comparison and help finding the right lease.', desktop: [1440, 2076], mobile: [390, 2767], alt: 'Leasekite vehicle comparison interface with lease search options.' },
 ];
 ---
 <div class="selected-products">
-  {products.map(product => <article class="selected-product">
-    <div class="product-screen">
+  {products.map(product => {
+    const Preview = product.href ? 'a' : 'div';
+    return <article class={`selected-product selected-product-${product.id}`}>
+    <Preview class="product-screen" href={product.href} aria-label={product.href ? `Open ${product.name} site` : undefined}>
       <picture>
         <source media="(max-width: 700px)" srcset={`/images/selected-work/${product.id}-mobile.webp`} width={product.mobile[0]} height={product.mobile[1]} />
         <img src={`/images/selected-work/${product.id}-desktop.webp`} alt={product.alt} width={product.desktop[0]} height={product.desktop[1]} loading="lazy" decoding="async" />
       </picture>
-    </div>
+    </Preview>
     <div class="product-copy">
-      <Heading>{product.href ? <a href={product.href}>{product.name}</a> : product.name}</Heading>
+      <div class="product-heading">
+        <Heading>{product.href ? <a href={product.href}>{product.name}</a> : product.name}</Heading>
+        {product.href ? <a class="product-link" href={product.href} aria-label={`Visit ${product.name}`}>{product.domain}</a> : <span class="product-status">Work in progress</span>}
+      </div>
       <p>{product.description}</p>
-      {product.href ? <a class="product-link" href={product.href} aria-label={`Visit ${product.name}`}>Visit site</a> : <span class="product-status">Work in progress</span>}
     </div>
-  </article>)}
+  </article>; })}
 </div>
 <style>
-  .selected-products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; margin-top: 32px; }
+  .selected-products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 26px; }
   .selected-product { min-width: 0; }
-  .product-screen { height: 236px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); }
+  .product-screen { display: block; aspect-ratio: 1.5; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
   picture { display: block; width: 100%; height: 100%; }
-  .product-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-  .product-copy { padding-top: 22px; }
-  .product-copy h2, .product-copy h3 { margin: 0 0 10px; font-size: 25px; line-height: 1.15; letter-spacing: -.04em; }
+  .product-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 220ms cubic-bezier(.16, 1, .3, 1); }
+  @media (hover: hover) and (pointer: fine) {
+    a.product-screen:hover img { transform: scale(1.015); }
+  }
+  a.product-screen:active img { transform: scale(.97); }
+  .product-copy { padding-top: 12px; }
+  .product-heading { display: flex; min-height: 44px; justify-content: space-between; align-items: center; gap: 10px; }
+  .product-copy h2, .product-copy h3 { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -.025em; }
+  .product-copy h2 a, .product-copy h3 a { display: inline-flex; align-items: center; min-height: 44px; }
   .product-copy h2 a, .product-copy h3 a { text-decoration: none; }
   .product-copy h2 a:hover, .product-copy h3 a:hover { text-decoration: underline; }
-  .product-copy p { margin: 0; max-width: 340px; color: var(--secondary); font-size: 16px; line-height: 1.55; }
-  .product-link, .product-status { display: inline-flex; align-items: center; margin-top: 12px; min-height: 44px; font-size: 14px; }
+  .product-copy p { margin: 2px 0 0; max-width: 340px; color: var(--secondary); font-size: 14px; line-height: 1.6; }
+  .product-link, .product-status { display: inline-flex; align-items: center; min-height: 44px; flex-shrink: 0; font-size: 12px; }
   .product-status { color: var(--secondary); }
   @media (min-width: 701px) and (max-width: 900px) {
     .selected-products { gap: 18px; }
-    .product-screen { height: 170px; }
-    .product-copy p { font-size: 15px; }
+    .product-heading { align-items: flex-start; flex-direction: column; gap: 0; }
+    .product-link, .product-status { min-height: 32px; }
+    .product-copy h2 a, .product-copy h3 a { min-height: 32px; }
   }
   @media (max-width: 700px) {
-    .selected-products { grid-template-columns: 1fr; gap: 36px; margin-top: 26px; }
-    .product-screen { height: 290px; }
-    .product-copy { padding-top: 20px; }
+    .selected-products { grid-template-columns: 1fr; gap: 30px; margin-top: 22px; }
+    .product-screen { aspect-ratio: 1.35; }
+    .product-copy { padding-top: 10px; }
     .product-copy p { max-width: none; }
+    .selected-product-passal img { object-position: center 7%; }
   }
 </style>

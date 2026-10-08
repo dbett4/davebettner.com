@@ -4,66 +4,53 @@ import WorkstationMedia from '../components/WorkstationMedia.astro';
 import SelectedProducts from '../components/SelectedProducts.astro';
 import '../styles/workstation.css';
 ---
-<Profile page="home" footerMessage={{title: 'Let’s talk about the work.', body: 'I’m interested in product and technical deployment work with AI teams.'}}>
+<Profile page="home" footerMessage={{title: 'Get in touch', body: 'I’m interested in product and technical deployment work with AI teams.'}}>
   <section class="hero wrap">
     <div>
-      <h1>Dave Bettner</h1>
-      <h2>I build products and tools for complex work.</h2>
+      <h1>I build products and tools for complex work.</h1>
       <p class="lede">I bring enterprise implementation experience to the products I design and build.</p>
       <div class="actions">
         <a class="button" href="#selected-work">Explore my work</a>
         <a href="/dave-bettner-resume.pdf" download>Download résumé</a>
-        <a href="mailto:dbett4@gmail.com">Get in touch</a>
       </div>
     </div>
     <div class="scene-wrap"><WorkstationMedia /></div>
   </section>
-  <div class="proof wrap">
-    <span>Workiva · Citrin Cooperman · LSL</span>
-    <span>Customer-facing software delivery since 2015.</span>
-    <span>Des Moines, Iowa</span>
-  </div>
   <section id="selected-work" class="section selected-work wrap">
     <h2>Selected work</h2>
     <SelectedProducts />
   </section>
-  <section class="section experience wrap">
-    <div class="section-grid">
+  <section class="section background-tools wrap">
+    <div class="experience">
       <h2>Background</h2>
-      <div>
-        <p>At Workiva, I led reporting and GRC implementations as a Solutions Architect. At Ambra Health, I worked with customer IT teams on medical-imaging integrations. At accounting firms, I’ve led software implementations for finance teams.</p>
-        <p>I translate customer requirements into designs and test plans, work through data and access issues, and stay through training and launch. I also bring recurring customer problems back to Product and Engineering.</p>
-        <a class="section-link" href="/experience/">Explore my experience</a>
+      <p>My background is in customer-facing software delivery across financial reporting and healthcare. At Workiva, I led reporting and GRC implementations as a Solutions Architect. At Ambra Health, I worked on medical-imaging integrations.</p>
+      <a class="section-link" href="/experience/">Explore my experience</a>
+    </div>
+    <div class="technical-work">
+      <h2>Technical tools</h2>
+      <div class="projects">
+        <article class="project">
+          <div>
+            <h3><a href="/work/accounting-acceptance-lab/">Accounting Acceptance Lab</a></h3>
+            <p>Testing reconciliation agents against synthetic accounting cases.</p>
+          </div>
+          <div>
+            <a href="/work/accounting-acceptance-lab/" aria-label="About the project: Accounting Acceptance Lab">Details</a>
+            <a href="https://github.com/dbett4/accounting-acceptance-lab" aria-label="View repository: Accounting Acceptance Lab">View repository</a>
+          </div>
+        </article>
+        <article class="project">
+          <div>
+            <h3><a href="/work/regulated-reporting-mcp/">Regulated Reporting MCP</a></h3>
+            <p>Reporting API access with approval checks and result verification. Mock-data demo.</p>
+          </div>
+          <div>
+            <a href="/work/regulated-reporting-mcp/" aria-label="About the project: Regulated Reporting MCP">Details</a>
+            <a href="https://github.com/dbett4/regulated-reporting-mcp" aria-label="View repository: Regulated Reporting MCP">View repository</a>
+          </div>
+        </article>
       </div>
+      <a class="section-link" href="/work/">More technical work</a>
     </div>
-  </section>
-  <section class="section wrap">
-    <h2>Technical tools</h2>
-    <p class="project-intro">Alongside customer delivery, I build tools for AI agents that use APIs and change data. Reporting workflows give me concrete problems to test: checking evidence, requiring approval, and recovering when a write fails.</p>
-    <div class="projects">
-      <article class="project">
-        <div>
-          <h3><a href="/work/accounting-acceptance-lab/">Accounting Acceptance Lab</a></h3>
-          <p>A Python and SQLite lab for testing accounting agents on reconciliation cases. It checks supporting evidence, approval requirements, and recovery from failed writes.</p>
-          <p>Personal project. Synthetic cases, not client records.</p>
-        </div>
-        <div>
-          <a href="/work/accounting-acceptance-lab/" aria-label="About the project: Accounting Acceptance Lab">About the project</a> ·
-          <a href="https://github.com/dbett4/accounting-acceptance-lab" aria-label="View repository: Accounting Acceptance Lab">View repository</a>
-        </div>
-      </article>
-      <article class="project">
-        <div>
-          <h3><a href="/work/regulated-reporting-mcp/">Regulated Reporting MCP</a></h3>
-          <p>An MCP server that connects AI agents to reporting APIs through OAuth. It checks approval before writes and reads the result back to verify the change.</p>
-          <p>Personal project. The public demo uses mock data.</p>
-        </div>
-        <div>
-          <a href="/work/regulated-reporting-mcp/" aria-label="About the project: Regulated Reporting MCP">About the project</a> ·
-          <a href="https://github.com/dbett4/regulated-reporting-mcp" aria-label="View repository: Regulated Reporting MCP">View repository</a>
-        </div>
-      </article>
-    </div>
-    <a class="section-link" href="/work/">More technical work</a>
   </section>
 </Profile>

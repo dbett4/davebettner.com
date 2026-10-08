@@ -1,15 +1,35 @@
+---
+// The light blue-grey backdrop is keyed out on the original media. Protect the
+// monitor glass and rug interior so their bright details remain fully opaque.
+const foregroundProtection = "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221254%22%20height%3D%221254%22%20viewBox%3D%220%200%201254%201254%22%3E%3Cg%20fill%3D%22white%22%3E%3Cpolygon%20points%3D%22479%2C212%20699%2C247%20699%2C379%20479%2C340%22%2F%3E%3Cpolygon%20points%3D%22710%2C247%20957%2C300%20954%2C447%20710%2C383%22%2F%3E%3Cpolygon%20points%3D%2270%2C719%20355%2C540%201194%2C732%20854%2C1142%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E";
+---
+<svg class="workstation-filters" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="workstation-cutout" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -80 0 80 0 -.5" result="blueBackdrop" />
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  40 0 0 0 -28.25" result="lightBackdrop" />
+      <feComposite in="blueBackdrop" in2="lightBackdrop" operator="in" result="backdrop" />
+      <feImage href={foregroundProtection} x="0" y="0" width="100%" height="100%" result="protectedForeground" />
+      <feComposite in="backdrop" in2="protectedForeground" operator="out" result="removableBackdrop" />
+      <feComposite in="SourceGraphic" in2="removableBackdrop" operator="out" />
+    </filter>
+  </defs>
+</svg>
 <div class="workstation-unit" data-workstation>
   <div class="workstation-media">
-    <img class="scene-render" src="/images/workstation-loop-poster.webp" srcset="/images/workstation-loop-poster-760.webp 760w, /images/workstation-loop-poster.webp 1254w" sizes="(max-width: 700px) min(calc(100vw - 32px), 390px), (max-width: 900px) 420px, 480px" alt="Dave seated at his dual-monitor desk, using a mouse beside a light spreadsheet and a dark coding-agent workspace, with his dog resting on the rug." width="1254" height="1254" fetchpriority="high" decoding="async" />
+    <img class="scene-render" src="/images/workstation-loop-poster.webp" srcset="/images/workstation-loop-poster-760.webp 760w, /images/workstation-loop-poster.webp 1254w" sizes="(max-width: 700px) min(calc(100vw - 32px), 260px), 360px" alt="Dave seated at his dual-monitor desk, using a mouse beside a light spreadsheet and a dark coding-agent workspace, with his dog resting on the rug." width="1254" height="1254" fetchpriority="high" decoding="async" />
     <video class="workstation-video" data-src="/video/workstation-loop.mp4" muted loop playsinline preload="none" disablepictureinpicture disableRemotePlayback aria-hidden="true" tabindex="-1"></video>
   </div>
 </div>
 <style>
   .workstation-unit { position: relative; width: 100%; }
+  .workstation-filters { position: absolute; pointer-events: none; }
   .workstation-media { position: relative; width: 100%; aspect-ratio: 1; }
+  .scene-render, .workstation-video { filter: url('#workstation-cutout'); }
   .scene-render { display: block; width: 100%; height: auto; }
   .workstation-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; visibility: hidden; pointer-events: none; }
   [data-video-visible='true'] .workstation-video { visibility: visible; }
+  [data-video-visible='true'] .scene-render { visibility: hidden; }
 </style>
 <script>
   // A seamless 10-second loop (animation/workstation-loop) with no controls. It

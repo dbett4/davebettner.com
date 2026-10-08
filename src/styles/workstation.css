@@ -1,29 +1,28 @@
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
   gap: clamp(32px, 4vw, 72px);
   align-items: center;
   position: relative;
   isolation: isolate;
   overflow: clip;
-  min-height: 650px;
-  padding: 34px 0 42px;
+  padding: 28px 0 34px;
   border-bottom: 1px solid var(--border);
 }
 .hero > div:first-child { position: relative; z-index: 1; max-width: 570px; }
-.hero h1 { margin: 0 0 20px; font-size: clamp(42px, 5vw, 66px); font-weight: 700; line-height: 1; letter-spacing: -.065em; }
-.hero h2 { max-width: 450px; margin: 0 0 24px; font-size: clamp(27px, 3vw, 38px); font-weight: 450; line-height: 1.08; letter-spacing: -.045em; }
+.hero h1 { margin: 0 0 22px; font-size: clamp(40px, 4vw, 50px); font-weight: 700; line-height: 1; letter-spacing: -.055em; }
+.hero h2 { max-width: 540px; margin: 0 0 22px; font-size: clamp(29px, 3vw, 38px); font-weight: 450; line-height: 1.12; letter-spacing: -.04em; }
 .lede { max-width: 500px; margin: 0 0 30px; color: var(--secondary); font-size: 19px; line-height: 1.55; }
 .scene-wrap {
   position: relative;
   z-index: 0;
   min-width: 0;
-  height: 660px;
+  height: 460px;
   overflow: visible;
 }
 .hero .workstation-unit { height: 100%; }
 .hero .workstation-unit .workstation-media {
-  position: absolute; width: min(100%, 720px); margin: 0; left: 50%; top: 50%;
+  position: absolute; width: min(100%, 480px); margin: 0; left: 50%; top: 50%;
   transform: translate(-50%, -50%);
   /* The rendered matte follows the rug; do not mask the video rectangle. */
   mask-image: none;
@@ -35,6 +34,10 @@
 .section { padding-block: clamp(62px, 8vw, 94px); border-bottom: 1px solid var(--border); }
 .section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(45px, 8vw, 100px); }
 .section h2 { margin: 0; font-size: clamp(32px, 4vw, 52px); font-weight: 650; line-height: 1.04; letter-spacing: -.06em; }
+.selected-work { padding-block: 58px 64px; }
+.selected-work > h2, .section > h2 { font-size: 32px; letter-spacing: -.045em; }
+.experience h2 { font-size: clamp(30px, 3vw, 40px); letter-spacing: -.045em; }
+.project-intro { max-width: 760px; margin-top: 24px !important; }
 .section p { margin: 0 0 18px; color: var(--secondary); }
 .section p:last-child { margin-bottom: 0; }
 .section-link { display: inline-block; margin-top: 18px; font-weight: 650; }
@@ -54,8 +57,8 @@
 
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; min-height: 0; gap: 24px; }
-  .scene-wrap { height: 640px; margin-top: -55px; }
-  .hero .workstation-unit .workstation-media { width: min(100%, 660px); }
+  .scene-wrap { height: 390px; margin-top: -20px; }
+  .hero .workstation-unit .workstation-media { width: min(100%, 420px); }
 }
 
 @media (max-width: 700px) {
@@ -64,7 +67,8 @@
   .hero h1 { font-size: 40px; }
   .hero h2 { margin-bottom: 18px; font-size: 29px; }
   .lede { margin-bottom: 22px; font-size: 17px; }
-  .scene-wrap { height: clamp(320px, 100vw, 550px); margin-top: -40px; }
+  .scene-wrap { height: clamp(280px, 84vw, 390px); margin-top: -15px; }
+  .hero .workstation-unit .workstation-media { width: min(100%, 390px); }
   .proof { display: block; font-size: 13px; }
   .proof span { display: block; }
   .proof span + span { margin-top: 5px; }

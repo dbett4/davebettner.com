@@ -65,13 +65,26 @@ try {
   check(await page.evaluate(() => location.hash === '#main'), 'skip link updates the URL hash');
   check(await page.locator('main#main').evaluate((element) => element === document.activeElement), 'skip destination receives programmatic focus');
 
+  const selectedProducts = await page.evaluate(() => [...document.querySelectorAll('#selected-work .selected-product')].map(product => ({
+    name: product.querySelector('h3')?.textContent?.trim(),
+    href: product.querySelector('.product-link')?.getAttribute('href') ?? null,
+    status: product.querySelector('.product-status')?.textContent?.trim() ?? null,
+    image: product.querySelector('img')?.getAttribute('src'),
+  })));
+  check(JSON.stringify(selectedProducts.map(p => [p.name, p.href, p.status])) === JSON.stringify([
+    ['Passal', 'https://passal.app/', null],
+    ['Lockfield', 'https://lockfield.co/', null],
+    ['Leasekite', null, 'Work in progress'],
+  ]), 'selected products have exact site links and honest Leasekite status', JSON.stringify(selectedProducts));
+  check(selectedProducts.every(p => p.image?.startsWith('/images/selected-work/')), 'selected products use their existing screenshots');
+
   const desktopNames = await page.evaluate(() => [...document.querySelectorAll('.projects .project')].map((project) => ({
     name: project.querySelector('h3 a')?.textContent?.trim(),
     nameHref: project.querySelector('h3 a')?.getAttribute('href'),
     aboutLabel: project.querySelector('a[aria-label^="About "]')?.getAttribute('aria-label'),
     repositoryLabel: project.querySelector('a[href^="https://github.com/"]')?.getAttribute('aria-label'),
   })));
-  check(desktopNames.length === 2, 'homepage exposes two selected projects', JSON.stringify(desktopNames));
+  check(desktopNames.length === 2, 'homepage retains two technical tools', JSON.stringify(desktopNames));
   check(desktopNames.every((project) => project.name && project.nameHref?.startsWith('/work/') && project.aboutLabel?.startsWith('About the project: ') && project.repositoryLabel?.startsWith('View repository: ')), 'homepage project links have contextual names', JSON.stringify(desktopNames));
 
   await page.goto(fixtureUrl('/work/'), { waitUntil: 'networkidle' });
@@ -94,6 +107,7 @@ try {
   const mobileContext = await browser.newContext({ colorScheme: 'light', viewport: { width: 320, height: 844 } });
   const mobilePage = await observedPage(mobileContext);
   await mobilePage.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
+  check(await mobilePage.locator('.selected-product img').evaluateAll(images => images.length === 3 && images.every(image => /-mobile\.webp$/.test(image.currentSrc))), 'phone uses the existing mobile product screenshots');
   const mobileHeader = await mobilePage.evaluate(() => {
     const header = document.querySelector('.masthead');
     const brand = document.querySelector('.masthead-brand');

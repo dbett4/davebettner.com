@@ -5,11 +5,11 @@ import crypto from 'node:crypto';
 const read = p => fs.readFileSync(p, 'utf8');
 const hash = p => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 
-test('public identity leads with customer-facing technical delivery, not accounting practice', () => {
+test('public identity leads with product building supported by enterprise delivery', () => {
   const home = read('dist/index.html');
-  assert.match(home, /Technical implementation/);
-  assert.match(home, /forward-deployed/i);
-  assert.match(home, /Python/);
+  assert.match(home, /I build products and tools for complex work\./);
+  assert.match(home, /I bring enterprise implementation experience to the products I design and build\./);
+  assert.match(home, /product and technical deployment work with AI teams/i);
   const about = read('dist/about/index.html');
   assert.match(about, /I studied accounting\. My career has been in software implementation and customer delivery\./);
   assert.match(about, /Master of Accounting/);
@@ -17,7 +17,7 @@ test('public identity leads with customer-facing technical delivery, not account
   for (const route of ['', 'experience/', 'work/', 'fit/', 'about/']) {
     const page = read('dist/' + route + 'index.html');
     assert.doesNotMatch(page, /\b(?:an|former|practicing|practising) accountant\b|Accounting background\.|Accounting, technology, and customer delivery/i);
-    assert.match(page, /Customer-facing technical implementation/);
+    assert.match(page, /Dave Bettner builds products and tools for complex work/);
     assert.match(page, /"jobTitle":"Senior Manager"/);
     assert.doesNotMatch(page, /"jobTitle":"(?:Forward Deployed Engineer|Accountant|CPA)"/i);
   }

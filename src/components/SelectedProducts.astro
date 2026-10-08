@@ -1,0 +1,49 @@
+---
+const { headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
+const products = [
+  { id: 'passal', name: 'Passal', description: 'A study app that turns lecture material into flashcards and practice.', href: 'https://passal.app/', desktop: [1440, 1667], mobile: [780, 5398], alt: 'Passal study dashboard with lecture material and a daily study plan.' },
+  { id: 'lockfield', name: 'Lockfield', description: 'Workiva consulting and automation for reporting teams.', href: 'https://lockfield.co/', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
+  { id: 'leasekite', name: 'Leasekite', description: 'Vehicle comparison and help finding the right lease.', desktop: [1440, 2076], mobile: [390, 2767], alt: 'Leasekite vehicle comparison interface with lease search options.' },
+];
+---
+<div class="selected-products">
+  {products.map(product => <article class="selected-product">
+    <div class="product-screen">
+      <picture>
+        <source media="(max-width: 700px)" srcset={`/images/selected-work/${product.id}-mobile.webp`} width={product.mobile[0]} height={product.mobile[1]} />
+        <img src={`/images/selected-work/${product.id}-desktop.webp`} alt={product.alt} width={product.desktop[0]} height={product.desktop[1]} loading="lazy" decoding="async" />
+      </picture>
+    </div>
+    <div class="product-copy">
+      <Heading>{product.href ? <a href={product.href}>{product.name}</a> : product.name}</Heading>
+      <p>{product.description}</p>
+      {product.href ? <a class="product-link" href={product.href} aria-label={`Visit ${product.name}`}>Visit site</a> : <span class="product-status">Work in progress</span>}
+    </div>
+  </article>)}
+</div>
+<style>
+  .selected-products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; margin-top: 32px; }
+  .selected-product { min-width: 0; }
+  .product-screen { height: 236px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); }
+  picture { display: block; width: 100%; height: 100%; }
+  .product-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .product-copy { padding-top: 22px; }
+  .product-copy h2, .product-copy h3 { margin: 0 0 10px; font-size: 25px; line-height: 1.15; letter-spacing: -.04em; }
+  .product-copy h2 a, .product-copy h3 a { text-decoration: none; }
+  .product-copy h2 a:hover, .product-copy h3 a:hover { text-decoration: underline; }
+  .product-copy p { margin: 0; max-width: 340px; color: var(--secondary); font-size: 16px; line-height: 1.55; }
+  .product-link, .product-status { display: inline-flex; align-items: center; margin-top: 12px; min-height: 44px; font-size: 14px; }
+  .product-status { color: var(--secondary); }
+  @media (min-width: 701px) and (max-width: 900px) {
+    .selected-products { gap: 18px; }
+    .product-screen { height: 170px; }
+    .product-copy p { font-size: 15px; }
+  }
+  @media (max-width: 700px) {
+    .selected-products { grid-template-columns: 1fr; gap: 36px; margin-top: 26px; }
+    .product-screen { height: 290px; }
+    .product-copy { padding-top: 20px; }
+    .product-copy p { max-width: none; }
+  }
+</style>

@@ -1,7 +1,7 @@
 import { githubUrl, linkedinUrl } from './site-links';
 export const siteUrl = 'https://davebettner.com';
-export const siteTitle = 'Dave Bettner | Technical Implementation & AI Workflows';
-export const siteDescription = 'Customer-facing technical implementation and solutions consulting across financial reporting and healthcare. Dave Bettner leads software delivery and builds Python and AI-assisted tools.';
+export const siteTitle = 'Dave Bettner | Product Builder & Enterprise Delivery';
+export const siteDescription = 'Dave Bettner builds products and tools for complex work, bringing enterprise implementation experience to product design and technical delivery. Selected work: Passal, Lockfield, and Leasekite.';
 export const identitySeoLead = siteDescription;
 export const personSchema = {
  '@context':'https://schema.org','@type':'Person',name:'Dave Bettner',url:siteUrl,

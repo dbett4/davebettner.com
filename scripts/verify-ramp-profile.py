@@ -1,4 +1,4 @@
-"""Self-contained native browser checks for the private profile revision."""
+"""Self-contained native browser checks for the public profile revision."""
 from pathlib import Path
 from functools import partial
 from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
@@ -18,6 +18,10 @@ try:
  with sync_playwright() as p:
   browser=p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox']);context=browser.new_context();page=context.new_page()
   page.on('pageerror',lambda e:errors.append(str(e)))
+  robots=context.request.get(base+'/robots.txt');assert robots.status==200
+  assert 'Allow: /' in robots.text() and not re.search(r'^Disallow:\s*/\s*$',robots.text(),re.M)
+  assert 'Sitemap: https://davebettner.com/sitemap-index.xml' in robots.text()
+  assert context.request.get(base+'/sitemap-index.xml').status==200
   routes=sorted('/'+str(f.relative_to(dist)).replace('index.html','') for f in dist.rglob('index.html') if '/lab/' not in str(f))
   for width in [1440,768,390,320]:
    page.set_viewport_size({'width':width,'height':950 if width==1440 else 844})
@@ -26,7 +30,7 @@ try:
     page.evaluate('document.fonts.ready');assert page.evaluate('Array.from(document.images).every(i=>i.complete&&i.naturalWidth>0)'),route
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),(route,width,'overflow')
     assert page.locator('h1').count()==1 and page.locator('main').count()==1,route
-    assert page.locator('meta[name=robots]').get_attribute('content')=='noindex, nofollow',route
+    assert page.locator('meta[name="robots"][content*="noindex" i]').count()==0,route
     assert page.locator('form,input,textarea,canvas').count()==0,route
     text=page.locator('body').inner_text()
     assert not re.search(r'[\u2190-\u21ff]|0-to-1|FIRST 90 DAYS|PROOF TRAVELS|^0[1-9]$',text,re.M),route

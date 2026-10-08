@@ -6,6 +6,10 @@ const read = p => fs.readFileSync(p, 'utf8');
 const hash = p => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 
 test('public identity leads with product building supported by enterprise delivery', () => {
+  const robots = read('dist/robots.txt');
+  assert.match(robots, /^Allow: \/$/m);
+  assert.doesNotMatch(robots, /^Disallow:\s*\/\s*$/m);
+  assert.match(robots, /Sitemap: https:\/\/davebettner\.com\/sitemap-index\.xml/);
   const home = read('dist/index.html');
   assert.match(home, /I build products and tools for complex work\./);
   assert.match(home, /I bring enterprise implementation experience to the products I design and build\./);
@@ -27,7 +31,7 @@ test('public identity leads with product building supported by enterprise delive
   assert.doesNotMatch(home, /0-to-1|PROOF TRAVELS|Operating rules|FIRST 90 DAYS/);
   for (const route of ['', 'experience/', 'work/', 'fit/', 'about/']) {
     const page = read('dist/' + route + 'index.html');
-    assert.match(page, /noindex, nofollow/);
+    assert.doesNotMatch(page, /<meta[^>]+name="robots"[^>]+noindex/);
     assert.doesNotMatch(page, /class="(?:eyebrow|section-index|rule-number)"/);
   }
 });

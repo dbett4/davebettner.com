@@ -5,23 +5,27 @@ import crypto from 'node:crypto';
 const read = p => fs.readFileSync(p, 'utf8');
 const hash = p => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 
-test('public identity leads with product building supported by enterprise delivery', () => {
+test('public identity combines implementation leadership with product building', () => {
   const robots = read('dist/robots.txt');
   assert.match(robots, /^Allow: \/$/m);
   assert.doesNotMatch(robots, /^Disallow:\s*\/\s*$/m);
   assert.match(robots, /Sitemap: https:\/\/davebettner\.com\/sitemap-index\.xml/);
   const home = read('dist/index.html');
-  assert.match(home, /I build products and tools for complex work\./);
-  assert.match(home, /I bring enterprise implementation experience to the products I design and build\./);
-  assert.match(home, /product and technical deployment work with AI teams/i);
+  assert.match(home, /I lead implementations and build products for complex work\./);
+  assert.match(home, /customer engagements from requirements through go-live/i);
+  assert.match(home, /engagement and implementation management roles/i);
+  assert.match(home, /Implementation leadership/);
+  assert.match(home, /managed a five-person implementation team/i);
   const about = read('dist/about/index.html');
   assert.match(about, /I studied accounting\. My career has been in software implementation and customer delivery\./);
   assert.match(about, /Master of Accounting/);
   assert.match(about, /B\.S\. in Accounting/);
+  assert.match(about, /engagement manager and implementation manager roles/i);
+  assert.match(about, /design and build products including Passal, Lockfield, and Leasekite/);
   for (const route of ['', 'experience/', 'work/', 'fit/', 'about/']) {
     const page = read('dist/' + route + 'index.html');
     assert.doesNotMatch(page, /\b(?:an|former|practicing|practising) accountant\b|Accounting background\.|Accounting, technology, and customer delivery/i);
-    assert.match(page, /Dave Bettner builds products and tools for complex work/);
+    assert.match(page, /Dave Bettner leads enterprise implementations and customer engagements/);
     assert.match(page, /"jobTitle":"Senior Manager"/);
     assert.doesNotMatch(page, /"jobTitle":"(?:Forward Deployed Engineer|Accountant|CPA)"/i);
   }

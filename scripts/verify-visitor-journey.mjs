@@ -53,17 +53,12 @@ try {
   check(axeViolations.length === 0, 'homepage has no axe violations', JSON.stringify(axeViolations.map((violation) => violation.id)));
 
   const explore = page.getByRole('link', { name: 'View implementation experience', exact: true });
-  check(await explore.getAttribute('href') === '#implementation', 'primary action targets implementation leadership');
+  check(await explore.getAttribute('href') === '/experience/', 'primary action targets career experience');
   await explore.click();
-  await page.waitForFunction(() => location.hash === '#implementation' && (() => {
-    const rect = document.querySelector('#implementation')?.getBoundingClientRect();
-    return Boolean(rect && rect.top >= -2 && rect.top < window.innerHeight);
-  })());
-  check(await page.locator('#implementation').count() === 1, 'implementation target exists exactly once');
-  check(await page.locator('#implementation').evaluate((target) => {
-    const rect = target.getBoundingClientRect();
-    return rect.top >= -2 && rect.top < window.innerHeight;
-  }), 'primary action lands on implementation leadership');
+  await page.waitForURL(fixtureUrl('/experience/'));
+  const careerTimeline = page.locator('.timeline');
+  await careerTimeline.waitFor({ state: 'visible' });
+  check(await careerTimeline.getByRole('heading', { name: 'LSL, LLP', exact: true }).isVisible(), 'primary action lands on the career timeline and current employer');
 
   await page.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   await page.keyboard.press('Tab');

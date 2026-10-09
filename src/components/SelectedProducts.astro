@@ -2,21 +2,15 @@
 const { headingLevel = 'h3' } = Astro.props;
 const Heading = headingLevel;
 const products = [
-  { id: 'passal', name: 'Passal', description: 'I design and build a study app that turns lectures into flashcards and practice.', href: 'https://passal.app/', domain: 'passal.app', desktop: [1440, 1667], mobile: [780, 5398], alt: 'Passal exam preparation with quiz, course, and review actions.' },
-  { id: 'lockfield', name: 'Lockfield', description: 'I shaped the positioning, website, and reporting resources for this Workiva consulting practice.', href: 'https://lockfield.co/', domain: 'lockfield.co', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
-  { id: 'leasekite', name: 'Leasekite', description: 'I design and build vehicle comparison and lease-request workflows.', desktop: [1440, 2076], mobile: [390, 2767], alt: 'Leasekite vehicle comparison interface with lease search options.' },
+  { id: 'passal', name: 'Passal', description: 'I design and build a study app that helps students choose what to study next, with practice tied to lecture sources.', href: 'https://passal.app/', domain: 'passal.app', desktop: [1440, 1667], mobile: [780, 5398], alt: 'Passal exam preparation with quiz, course, and review actions.' },
+  { id: 'lockfield', name: 'Lockfield', description: 'I shaped the positioning, website, and reporting resources for this Workiva consulting practice, emphasizing training and client ownership.', href: 'https://lockfield.co/', domain: 'lockfield.co', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
+  { id: 'leasekite', name: 'Leasekite', description: 'I design and build vehicle comparison and lease-request workflows, with drafts for review and human judgment for negotiation.', desktop: [1440, 2076], mobile: [390, 2767], alt: 'Leasekite vehicle comparison interface with lease search options.' },
 ];
 ---
 <div class="selected-products">
   {products.map(product => {
     const Preview = product.href ? 'a' : 'div';
     return <article class={`selected-product selected-product-${product.id}`}>
-    <Preview class="product-screen" href={product.href} aria-label={product.href ? `Open ${product.name} site` : undefined}>
-      <picture>
-        <source media="(max-width: 700px)" srcset={`/images/selected-work/${product.id}-mobile.webp`} width={product.mobile[0]} height={product.mobile[1]} />
-        <img src={`/images/selected-work/${product.id}-desktop.webp`} alt={product.alt} width={product.desktop[0]} height={product.desktop[1]} loading="lazy" decoding="async" />
-      </picture>
-    </Preview>
     <div class="product-copy">
       <div class="product-heading">
         <Heading>{product.href ? <a href={product.href}>{product.name}</a> : product.name}</Heading>
@@ -24,12 +18,18 @@ const products = [
       </div>
       <p>{product.description}</p>
     </div>
+    <Preview class="product-screen" href={product.href} aria-label={product.href ? `Open ${product.name} site` : undefined}>
+      <picture>
+        <source media="(max-width: 700px)" srcset={`/images/selected-work/${product.id}-mobile.webp`} width={product.mobile[0]} height={product.mobile[1]} />
+        <img src={`/images/selected-work/${product.id}-desktop.webp`} alt={product.alt} width={product.desktop[0]} height={product.desktop[1]} loading="lazy" decoding="async" />
+      </picture>
+    </Preview>
   </article>; })}
 </div>
 <style>
   .selected-products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 26px; }
-  .selected-product { min-width: 0; }
-  .product-screen { display: block; aspect-ratio: 1.5; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+  .selected-product { display: flex; flex-direction: column; min-width: 0; }
+  .product-screen { display: block; order: -1; aspect-ratio: 1.5; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
   picture { display: block; width: 100%; height: 100%; }
   .product-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 220ms cubic-bezier(.16, 1, .3, 1); }
   @media (hover: hover) and (pointer: fine) {
@@ -53,11 +53,11 @@ const products = [
   }
   @media (max-width: 700px) {
     .selected-products { grid-template-columns: 1fr; gap: 30px; margin-top: 22px; }
-    .product-screen { aspect-ratio: .85; }
-    .product-copy { padding-top: 10px; }
+    .product-screen { order: 0; aspect-ratio: .85; }
+    .product-copy { padding-top: 0; padding-bottom: 12px; }
     .product-copy p { max-width: none; }
     .selected-product-passal img { object-position: center 10%; }
     .selected-product-leasekite .product-screen { aspect-ratio: .6; }
-    .selected-product-leasekite img { object-position: center 44%; }
+    .selected-product-leasekite img { object-position: center 46.4%; }
   }
 </style>

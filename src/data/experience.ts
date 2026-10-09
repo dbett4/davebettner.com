@@ -15,9 +15,9 @@ export const experienceEntries: readonly ExperienceEntry[] = [
     "line": "Lead Workiva delivery for city and county finance teams. Map source-ledger data into financial reports and budget books, and run user sessions and testing through client sign-off.",
     "bullets": [
       "Lead Workiva delivery for city and county finance teams. Map source-ledger data into financial reports and budget books, and run user sessions and testing through client sign-off.",
+      "Scope consulting engagements, prepare estimates and statements of work, respond to RFPs, and demonstrate proposed solutions to customers.",
       "Develop Python tools that generate Workiva data links, formulas, and validation checks from client ledgers, reused across financial-reporting and budgeting engagements.",
-      "Build AI-assisted workflows to check reports against source records and flag accounting discrepancies for review. Use Claude, Codex, and Cursor for build and review tasks, with human review before client changes.",
-      "Scope consulting engagements, prepare estimates and statements of work, respond to RFPs, and demonstrate proposed solutions to customers."
+      "Build AI-assisted workflows to check reports against source records and flag accounting discrepancies for review. Use Claude, Codex, and Cursor for build and review tasks, with human review before client changes."
     ]
   },
   {

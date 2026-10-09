@@ -27,7 +27,11 @@ try:
    page.set_viewport_size({'width':width,'height':950 if width==1440 else 844})
    for route in routes:
     res=page.goto(base+route,wait_until='networkidle');assert res and res.status==200,route
-    page.evaluate('document.fonts.ready');assert page.evaluate('Array.from(document.images).every(i=>i.complete&&i.naturalWidth>0)'),route
+    page.evaluate('document.fonts.ready')
+    for image in page.locator('img').all():
+     image.scroll_into_view_if_needed();image.evaluate('(i)=>i.decode()')
+    page.evaluate('window.scrollTo(0,0)')
+    assert page.evaluate('Array.from(document.images).every(i=>i.complete&&i.naturalWidth>0)'),route
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),(route,width,'overflow')
     assert page.locator('h1').count()==1 and page.locator('main').count()==1,route
     assert page.locator('meta[name="robots"][content*="noindex" i]').count()==0,route
@@ -51,7 +55,7 @@ try:
    assert context.request.get(base+link).status==200,link
   page.goto(base+'/');page.keyboard.press('Tab');assert page.locator('.skip').evaluate('(e)=>e===document.activeElement');page.keyboard.press('Enter');assert page.evaluate('location.hash')=='#main'
   with page.expect_download() as event:page.get_by_role('link',name='Download résumé',exact=True).click()
-  download=event.value;pdf=Path(download.path()).read_bytes();assert hashlib.sha256(pdf).hexdigest()==hashlib.sha256((root/'resume/dave-bettner-current.pdf').read_bytes()).hexdigest()
+  download=event.value;pdf=Path(download.path()).read_bytes();assert hashlib.sha256(pdf).hexdigest()==hashlib.sha256((root/'resume/dave-bettner-public.pdf').read_bytes()).hexdigest()
   assert page.get_by_role('link',name='Get in touch').get_attribute('href')=='mailto:dbett4@gmail.com'
   page.get_by_role('link',name='Experience',exact=True).click();assert page.url.endswith('/experience/')
   page.goto(base+'/lab/accounting-acceptance/');page.wait_for_url('**/work/accounting-acceptance-lab/')

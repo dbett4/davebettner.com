@@ -2,9 +2,9 @@
 const { headingLevel = 'h3' } = Astro.props;
 const Heading = headingLevel;
 const products = [
-  { id: 'passal', name: 'Passal', description: 'A study app that turns lecture material into flashcards and practice.', href: 'https://passal.app/', domain: 'passal.app', desktop: [1440, 1667], mobile: [780, 5398], alt: 'Passal study dashboard with lecture material and a daily study plan.' },
-  { id: 'lockfield', name: 'Lockfield', description: 'Workiva consulting and automation for reporting teams.', href: 'https://lockfield.co/', domain: 'lockfield.co', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
-  { id: 'leasekite', name: 'Leasekite', description: 'Vehicle comparison and help finding the right lease.', desktop: [1440, 2076], mobile: [390, 2767], alt: 'Leasekite vehicle comparison interface with lease search options.' },
+  { id: 'passal', name: 'Passal', description: 'I design and build a study app that turns lectures into flashcards and practice.', href: 'https://passal.app/', domain: 'passal.app', desktop: [1440, 1667], mobile: [780, 5398], alt: 'Passal exam preparation with quiz, course, and review actions.' },
+  { id: 'lockfield', name: 'Lockfield', description: 'I shaped the positioning, website, and reporting resources for this Workiva consulting practice.', href: 'https://lockfield.co/', domain: 'lockfield.co', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
+  { id: 'leasekite', name: 'Leasekite', description: 'I design and build vehicle comparison and lease-request workflows.', desktop: [1440, 2076], mobile: [390, 2767], alt: 'Leasekite vehicle comparison interface with lease search options.' },
 ];
 ---
 <div class="selected-products">
@@ -53,9 +53,11 @@ const products = [
   }
   @media (max-width: 700px) {
     .selected-products { grid-template-columns: 1fr; gap: 30px; margin-top: 22px; }
-    .product-screen { aspect-ratio: 1.35; }
+    .product-screen { aspect-ratio: .85; }
     .product-copy { padding-top: 10px; }
     .product-copy p { max-width: none; }
-    .selected-product-passal img { object-position: center 7%; }
+    .selected-product-passal img { object-position: center 10%; }
+    .selected-product-leasekite .product-screen { aspect-ratio: .6; }
+    .selected-product-leasekite img { object-position: center 44%; }
   }
 </style>

@@ -42,6 +42,11 @@ try {
     const response = await page.goto(base, { waitUntil: 'networkidle' });
     assert.equal(response.status(), 200);
     await page.evaluate(() => document.fonts.ready);
+    for (const image of await page.locator('img').all()) {
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate(element => element.decode());
+    }
+    await page.evaluate(() => window.scrollTo(0, 0));
     assert.ok(await page.evaluate(() => [...document.images].every(i => i.complete && i.naturalWidth > 0)), 'actual images loaded');
     const suffix = `${width}x${height}`;
     await page.screenshot({ path: `${out}/homepage-${suffix}.png`, fullPage: true });

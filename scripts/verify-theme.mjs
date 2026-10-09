@@ -52,6 +52,13 @@ try {
         const response = await page.goto(new URL(route, base).href, { waitUntil: 'networkidle' });
         check(response?.ok() || (route === '/404.html' && response?.status() === 404), `${os}/${width} ${route}: serves page`);
         await page.evaluate(() => document.fonts.ready);
+        // Below-fold product previews load lazily. Reach them as a visitor would
+        // before requiring every image to have loaded and decoded successfully.
+        for (const image of await page.locator('img').all()) {
+          await image.scrollIntoViewIfNeeded();
+          await image.evaluate(element => element.decode());
+        }
+        await page.evaluate(() => window.scrollTo(0, 0));
         const value = await state(page);
         lightCheck(value, `${os}/${width} ${route} with saved dark preference`);
         check(!value.overflow && value.h1 === 1 && value.main === 1 && value.images, `${os}/${width} ${route}: layout, structure, images`, JSON.stringify(value));

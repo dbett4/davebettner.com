@@ -4,6 +4,7 @@ export type ExperienceEntry = {
   location?: string;
   line: string;
   bullets?: readonly string[];
+  example?: { href: string; label: string };
 };
 
 /** Current resume supplied by Dave; statements are not independently verified employment records. */
@@ -22,6 +23,7 @@ export const experienceEntries: readonly ExperienceEntry[] = [
   {
     "dates": "Dec 2024 - Oct 2025",
     "title": "Manager of Digital Services, Workiva \u00b7 Citrin Cooperman",
+    "example": { "href": "/experience/connected-reporting/", "label": "Connected-reporting implementation" },
     "line": "Managed a five-person Workiva implementation team. Coached consultants, resolved customer escalations, and led testing and training through go-live.",
     "bullets": [
       "Managed a five-person Workiva implementation team. Coached consultants, resolved customer escalations, and led testing and training through go-live.",

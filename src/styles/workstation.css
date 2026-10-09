@@ -18,6 +18,9 @@
 .section { padding-block: 44px 48px; border-top: 1px solid var(--border); }
 .section h2 { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -.035em; }
 .section p { color: var(--secondary); }
+.implementation p { max-width: 790px; margin-top: 18px; font-size: 16px; line-height: 1.7; }
+.implementation .case-links { margin-top: 10px; gap: 12px 28px; font-size: 13px; }
+.implementation .case-links a { display: inline-flex; align-items: center; min-height: 44px; }
 .section-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; font-size: 13px; font-weight: 550; }
 .background-tools { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(48px, 8vw, 100px); }
 .experience p { max-width: 420px; margin-top: 22px; font-size: 15px; line-height: 1.75; }

@@ -16,12 +16,20 @@ test('public identity combines implementation leadership with product building',
   assert.match(home, /engagement and implementation management roles/i);
   assert.match(home, /Implementation leadership/);
   assert.match(home, /managed a five-person implementation team/i);
+  assert.match(home, /6–12 concurrent implementations/);
+  assert.ok(home.indexOf('id="implementation"') < home.indexOf('id="selected-work"'), 'leadership evidence precedes product browsing');
+  const experience = read('dist/experience/index.html');
+  assert.match(experience, /href="\/experience\/connected-reporting\/"/);
+  const mcp = read('dist/work/regulated-reporting-mcp/index.html');
+  assert.match(mcp, /confirmation supplied by the caller/);
+  assert.match(mcp, /other tools return receipts or readback according to their contracts/);
+  assert.doesNotMatch(mcp, /default tools check approval before writes and read the result back/);
   const about = read('dist/about/index.html');
   assert.match(about, /I studied accounting\. My career has been in software implementation and customer delivery\./);
   assert.match(about, /Master of Accounting/);
   assert.match(about, /B\.S\. in Accounting/);
   assert.match(about, /engagement manager and implementation manager roles/i);
-  assert.match(about, /design and build products including Passal, Lockfield, and Leasekite/);
+  assert.match(about, /design and build Passal’s lecture-to-practice study workflow and Leasekite’s vehicle comparison and lease-request workflows/);
   for (const route of ['', 'experience/', 'work/', 'fit/', 'about/']) {
     const page = read('dist/' + route + 'index.html');
     assert.doesNotMatch(page, /\b(?:an|former|practicing|practising) accountant\b|Accounting background\.|Accounting, technology, and customer delivery/i);
@@ -40,13 +48,15 @@ test('public identity combines implementation leadership with product building',
   }
 });
 
-test('download is the supplied resume, not silently regenerated old copy', () => {
+test('download is the reviewed resume and the supplied source is retained', () => {
   // Verified against Dave's supplied PDF and the imported repository copy.
   // A private attachment path is neither available nor appropriate in release/CI.
   const suppliedDigest = 'e23cee694991e19d6a3bbc18f4bc18744e5c41a84b6dd4982e46bc06c0a7ec4c';
   assert.equal(hash('resume/dave-bettner-current.pdf'), suppliedDigest);
-  assert.equal(hash('public/dave-bettner-resume.pdf'), suppliedDigest);
-  assert.equal(hash('dist/dave-bettner-resume.pdf'), suppliedDigest);
+  const publicDigest = '53fe842ccc5d560af349d2c627397c84dffe91965fbd20eae16067ada68ff4a0';
+  assert.equal(hash('resume/dave-bettner-public.pdf'), publicDigest);
+  assert.equal(hash('public/dave-bettner-resume.pdf'), publicDigest);
+  assert.equal(hash('dist/dave-bettner-resume.pdf'), publicDigest);
 });
 
 test('homepage serves the recorded workstation loop with a matching poster', () => {

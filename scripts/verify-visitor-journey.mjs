@@ -32,6 +32,13 @@ const observedPage = async (context) => {
   });
   return page;
 };
+const loadProductPreviews = async page => {
+  for (const image of await page.locator('.selected-product img').all()) {
+    await image.scrollIntoViewIfNeeded();
+    await image.evaluate(element => element.decode());
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+};
 
 try {
   const context = await browser.newContext({ colorScheme: 'light', viewport: { width: 1440, height: 900 } });
@@ -45,18 +52,18 @@ try {
   ).violations);
   check(axeViolations.length === 0, 'homepage has no axe violations', JSON.stringify(axeViolations.map((violation) => violation.id)));
 
-  const explore = page.getByRole('link', { name: 'Explore my work', exact: true });
-  check(await explore.getAttribute('href') === '#selected-work', 'primary action targets selected work');
+  const explore = page.getByRole('link', { name: 'View implementation experience', exact: true });
+  check(await explore.getAttribute('href') === '#implementation', 'primary action targets implementation leadership');
   await explore.click();
-  await page.waitForFunction(() => location.hash === '#selected-work' && (() => {
-    const rect = document.querySelector('#selected-work')?.getBoundingClientRect();
+  await page.waitForFunction(() => location.hash === '#implementation' && (() => {
+    const rect = document.querySelector('#implementation')?.getBoundingClientRect();
     return Boolean(rect && rect.top >= -2 && rect.top < window.innerHeight);
   })());
-  check(await page.locator('#selected-work').count() === 1, 'selected work target exists exactly once');
-  check(await page.locator('#selected-work').evaluate((target) => {
+  check(await page.locator('#implementation').count() === 1, 'implementation target exists exactly once');
+  check(await page.locator('#implementation').evaluate((target) => {
     const rect = target.getBoundingClientRect();
     return rect.top >= -2 && rect.top < window.innerHeight;
-  }), 'primary action lands on selected work target');
+  }), 'primary action lands on implementation leadership');
 
   await page.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   await page.keyboard.press('Tab');
@@ -107,6 +114,7 @@ try {
   const mobileContext = await browser.newContext({ colorScheme: 'light', viewport: { width: 320, height: 844 } });
   const mobilePage = await observedPage(mobileContext);
   await mobilePage.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
+  await loadProductPreviews(mobilePage);
   check(await mobilePage.locator('.selected-product img').evaluateAll(images => images.length === 3 && images.every(image => /-mobile\.webp$/.test(image.currentSrc))), 'phone uses the existing mobile product screenshots');
   const mobileHeader = await mobilePage.evaluate(() => {
     const header = document.querySelector('.masthead');
@@ -155,6 +163,7 @@ try {
     const shotPage = await observedPage(shotContext);
     await shotPage.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
     await shotPage.evaluate(() => document.fonts.ready);
+    await loadProductPreviews(shotPage);
     await shotPage.screenshot({ path: resolve(out, shot.file), fullPage: true });
     check(await shotPage.evaluate(() => getComputedStyle(document.documentElement).colorScheme === 'light' && getComputedStyle(document.body).backgroundColor === 'rgb(255, 255, 255)' && !document.querySelector('[data-theme-toggle]')), `${shot.file} remains light for OS ${shot.mode}`);
     await shotContext.close();

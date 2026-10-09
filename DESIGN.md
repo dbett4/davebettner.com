@@ -1,51 +1,71 @@
-# Interstellar — Tide Sphere
+---
+name: Dave Bettner
+updated: 2026-10-09
+implementation: src/styles/theme.css, src/styles/profile.css, src/styles/workstation.css
+stack: Astro, native HTML and CSS
+---
 
-Interstellar is the single visual system for davebettner.com. Dave is the subject; the moving field is atmosphere, not a product metaphor. The system leads with enterprise-agent deployment and uses finance, assurance, healthcare, and public engineering as bounded proof.
+# Dave Bettner design system
 
-## Direction
+The current white professional profile is authoritative. The existing Profile
+layout, workstation hero, project rows and case studies supply the primitives.
+Use the shadcn DESIGN.md workflow to keep tokens and components aligned.
 
-- **Composition:** a tightly cropped, sculptural sphere field using the approved Tide / Signal palette.
-- **Ground:** carbon `#08090b` and lifted carbon `#101114`.
-- **Type:** warm white `#f2eadf`, with muted copy `#b9b2aa`.
-- **Signals:** tide teal `#73bfc4`, signal orange `#ff810a`, periwinkle `#8da0ce`, graphite rules `#34353a`.
-- **Typography:** self-hosted Archivo Variable for display and body; DM Mono only for labels and data.
-- **Shape language:** hard rules, rectangular actions, large condensed headings, asymmetric fields. No pills, glass cards, dashboard chrome, stars, planets, or literal science-fiction interface elements.
+## Colors
 
-## Shared implementation
+| Role | Token | Value |
+| --- | --- | --- |
+| Page | `--page` | `#FFFFFF` |
+| Secondary / raised surface | `--surface`, `--surface-raised` | `#F8F9FB`, `#F4F6F8` |
+| Text and action | `--text`, `--accent` | `#181B20` |
+| Secondary text | `--secondary` | `#5D626C` |
+| Decorative divider | `--border` | `#E3E6EB` |
+| Action text | `--accent-contrast` | `#FFFFFF` |
+| Pointer hover | `--accent-hover` | `#33373E` |
 
-`public/styles/interstellar-system.css` is the only public-route theme source of truth. Public routes do not load the obsolete editorial paper system. Astro’s self-hosted Archivo Variable and DM Mono imports supply the two live font families; Newsreader and Plus Jakarta remain preview/mockup-only.
+The site has one light theme. Focus uses a 3px ink outline with 3px separation.
+Text and controls retain meaningful contrast; decorative dividers define rows,
+not the only boundary of an interactive control.
 
-`src/scripts/sphere-gradient.ts` mounts the homepage ShaderGradient sphere with the approved Tide / Signal palette and authored camera, surface, reflection, and motion settings. It uses a DPR of 1, disables camera controls, freezes at the authored frame under reduced motion, and keeps the canvas `aria-hidden` and pointer-inert. If WebGL cannot initialize, the carbon field remains. `public/interstellar.js` continues the restrained site-wide field on secondary routes.
+## Typography and layout
 
-The homepage owns the full field. Secondary routes use `SecondaryMasthead.astro` and one compact route-introduction grammar; their introductions receive the same field at restrained opacity. Reading regions remain solid or near-solid carbon rather than translucent glass.
+Self-hosted Archivo Variable is the UI and editorial face. Body is 17px/1.6,
+16px on phones; secondary text is 14–19px according to its role. Profile headings
+use the existing responsive scale; the workstation stylesheet intentionally
+narrows the home hero. Do not replace that hierarchy with the former Interstellar
+sphere layout. The main column is 1120px with 32px desktop gutters, changing to
+16px phone gutters and a 560px reading column.
 
-## Homepage topology
+## Primitives and elevation
 
-The masthead is thin and dark. The opening field fills the first viewport. Monumental stacked DAVE BETTNER sits left, with the customer-facing implementation role, a short supporting proof line, and two rectangular actions; the résumé remains a plain text utility rather than a third competing button. The exact source portrait sits large at right and overlaps the field. A short ruled operating-rules ledger bridges the opening and delivery outcomes, making confirm → scoped write → native readback explicit before the longer proof sections. The delivery ledger labels customer outcomes as engagement summaries, then points directly to independent public case studies rather than implying that client artifacts are public.
+Reuse Profile.astro, .wrap, .masthead, .actions, .button, .project, .timeline,
+.prose, .paper and native details/summary. Buttons use --radius-control: 7px;
+the primary button is 49px minimum and the compact hero action is 46px.
+Text actions and summaries retain 44px targets. Elevation comes from neutral
+surfaces and complete rules; no floating card system is needed.
 
-## Rules ledger
-The homepage places three operating rules between the opening field and delivery outcomes. Each row has one claim, one supporting sentence, and one contextual note. It uses the same hard rules, mono labels, ember signal, and carbon surfaces as the rest of the system. The ledger is intentionally not a card grid or product dashboard: it is a fast scan of the judgment Dave brings into a customer environment.
+Preserve the current portrait assets and fade, substantive project evidence,
+case-study disclosure, résumé download, heading order, skip link and page
+navigation. Never regenerate or stylize Dave's portrait.
 
-The only visible homepage portrait carrying `data-source-portrait` is `/images/dave-bettner-headshot-20260816-cutout.png`, declared at its intrinsic `1312 × 1199`. It is the user-supplied RGBA image byte-for-byte, rendered as an ordinary image, never a canvas, and receives no pixel manipulation.
+## Motion and states
 
-## Route system
+--duration-ui is 180ms and --ease-out is cubic-bezier(.23, 1, .32, 1).
+Button hover runs only with a fine pointer. Press scales to .97; reduced motion
+removes that transform and preserves the site's reduced animation policy.
+Keep visible keyboard focus independent of button text. The hero's existing
+video and avatar behavior remain separate, with their native verification.
 
-Home stays compositionally distinct. Work, each Work detail, Experience, First 90 Days (`/fit/`), About, and 404 share the compact masthead, route-introduction spacing, carbon palette, rules, typography, focus treatment, and event-horizon field. Lists are ruled editorial sequences rather than card walls.
+## Do's and Don'ts
 
-Selected-work visuals are static CSS evidence motifs, not decorative spheres: failure/fault/resume/receipt, confirm/write/readback, and legacy-check/narrow-guard/tests. On mobile the three homepage cases stack in reading order with no clipped horizontal carousel.
+Use current approved assets and source-backed professional claims. Keep plain
+headings, restrained photography and content-led sections. Avoid eyebrows,
+status pills, one-sided accent bars, decorative mascots, italic accent words,
+new dashboard tiles, helper slogans and blanket preset replacement.
 
-## Accessibility and performance
+## Verification
 
-- Body text is warm white or muted warm gray on carbon, meeting 4.5:1 contrast.
-- Focus-visible uses a three-pixel ember outline with offset.
-- Interactive targets are at least 44px tall.
-- The layout clips decorative overflow and remains usable from 320px through 1440px.
-- Content and the CSS field render before JavaScript and survive JavaScript/WebGL failure.
-- Reduced motion removes transitions and fixes the shader at one frame.
-- Selection, scrollbars, link underlines, and browser theme surfaces are explicitly themed.
-
-## Finish review
-
-The implementation matches the approved Tide Sphere topology while using Dave’s exact supplied cutout. The system is profile-first, avoids the prohibited literal space/HUD vocabulary, and carries one shader-led world across every public route.
-
-**Verdict:** ready for GREEN/YELLOW local visual review. Browser captures should confirm portrait overlap, mobile crop, shader band character, stacked work rhythm, and secondary-route cohesion before any release decision.
+Run the project's build, profile tests, deployment preflight tests and native
+browser suite. Inspect desktop and phone routes, focus, overflow, font/image
+loading, contact/résumé navigation and reduced motion. Keep this file synchronized
+with the imported styles; this site does not need React, Tailwind or a new kit.

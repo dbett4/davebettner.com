@@ -2,7 +2,9 @@
 
 Personal site for Dave Bettner. Live at [https://davebettner.com](https://davebettner.com).
 
-It presents AI implementation and forward-deployed delivery work, with selected public engineering cases linked to inspectable GitHub repositories. Claims on the site are limited to what those public artifacts support. Several demos are synthetic labs or sanitized extracts, not customer-environment deployment claims. GitHub dates are publication dates, not original delivery dates.
+The site brings together my product work, reporting tools, and career history. Current projects include Passal, Leasekite, and Lockfield.
+
+Public technical examples use fictional or mock data. Their repositories document what you can run and the limits of each example.
 
 ## Stack
 

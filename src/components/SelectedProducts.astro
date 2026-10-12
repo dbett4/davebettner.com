@@ -2,9 +2,9 @@
 const { headingLevel = 'h3' } = Astro.props;
 const Heading = headingLevel;
 const products = [
-  { id: 'passal', name: 'Passal', description: 'I design and build a study app that helps students choose what to study next, with practice tied to lecture sources.', href: 'https://passal.app/', domain: 'passal.app', desktop: [1440, 1667], mobile: [780, 5398], alt: 'Passal exam preparation with quiz, course, and review actions.' },
-  { id: 'lockfield', name: 'Lockfield', description: 'I shaped the positioning, website, and reporting resources for this Workiva consulting practice, emphasizing training and client ownership.', href: 'https://lockfield.co/', domain: 'lockfield.co', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
-  { id: 'leasekite', name: 'Leasekite', description: 'I design and build vehicle comparison and lease-request workflows, with drafts for review and human judgment for negotiation.', desktop: [1440, 2076], mobile: [390, 2767], alt: 'Leasekite vehicle comparison interface with lease search options.' },
+  { id: 'passal', name: 'Passal', description: 'A study app that helps students choose what to study next, with practice tied to lecture sources.', contribution: 'I own product direction, interface design, and implementation through AI coding tools. The workflow connects lecture sources, study choices, and practice.', href: 'https://passal.app/', domain: 'passal.app', desktop: [1440, 1667], mobile: [780, 5398], alt: 'Passal exam preparation with quiz, course, and review actions.' },
+  { id: 'leasekite', name: 'Leasekite', description: 'Vehicle comparison and lease-request workflows.', contribution: 'I own product direction, interface design, and implementation through AI coding tools. The workflow prepares drafts for review and keeps negotiation decisions with the user.', desktop: [1440, 2076], mobile: [390, 2767], alt: 'Leasekite vehicle comparison interface with lease search options.' },
+  { id: 'lockfield', name: 'Lockfield', description: 'A Workiva consulting practice built around training and client ownership.', contribution: 'I shaped the positioning, website, and reporting resources, translating reporting expertise into a service offering and supporting materials.', href: 'https://lockfield.co/', domain: 'lockfield.co', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
 ];
 ---
 <div class="selected-products">
@@ -17,6 +17,7 @@ const products = [
         {product.href ? <a class="product-link" href={product.href} aria-label={`Visit ${product.name}`}>{product.domain}</a> : <span class="product-status">Work in progress</span>}
       </div>
       <p>{product.description}</p>
+      <p class="product-contribution">{product.contribution}</p>
     </div>
     <Preview class="product-screen" href={product.href} aria-label={product.href ? `Open ${product.name} site` : undefined}>
       <picture>
@@ -43,6 +44,7 @@ const products = [
   .product-copy h2 a, .product-copy h3 a { text-decoration: none; }
   .product-copy h2 a:hover, .product-copy h3 a:hover { text-decoration: underline; }
   .product-copy p { margin: 2px 0 0; max-width: 340px; color: var(--secondary); font-size: 14px; line-height: 1.6; }
+  .product-copy .product-contribution { margin-top: 10px; }
   .product-link, .product-status { display: inline-flex; align-items: center; min-height: 44px; flex-shrink: 0; font-size: 12px; }
   .product-status { color: var(--secondary); }
   @media (min-width: 701px) and (max-width: 900px) {

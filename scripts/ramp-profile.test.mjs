@@ -5,19 +5,22 @@ import crypto from 'node:crypto';
 const read = p => fs.readFileSync(p, 'utf8');
 const hash = p => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 
-test('public identity combines implementation leadership with product building', () => {
+test('public identity leads with product design while retaining accurate delivery history', () => {
   const robots = read('dist/robots.txt');
   assert.match(robots, /^Allow: \/$/m);
   assert.doesNotMatch(robots, /^Disallow:\s*\/\s*$/m);
   assert.match(robots, /Sitemap: https:\/\/davebettner\.com\/sitemap-index\.xml/);
   const home = read('dist/index.html');
-  assert.match(home, /I lead implementations and build products for complex work\./);
-  assert.match(home, /customer engagements from requirements through go-live/i);
-  assert.match(home, /engagement and implementation management roles/i);
-  assert.match(home, /Implementation leadership/);
+  assert.match(home, /I design and build products for complex workflows\./);
+  assert.match(home, /AI coding tools from product direction through interface design, implementation, and iteration/i);
+  assert.match(home, /design engineering and product-building roles/i);
+  assert.match(home, /Customer delivery background/);
   assert.match(home, /managed a five-person implementation team/i);
   assert.match(home, /6–12 concurrent implementations/);
-  assert.ok(home.indexOf('id="implementation"') < home.indexOf('id="selected-work"'), 'leadership evidence precedes product browsing');
+  assert.ok(home.indexOf('id="selected-work"') < home.indexOf('id="building"'), 'selected products precede the building approach');
+  assert.ok(home.indexOf('id="selected-work"') < home.indexOf('Customer delivery background'), 'selected products precede employment background');
+  assert.match(home, /href="#selected-work"[^>]*>View selected work/);
+  assert.match(home, /Based in Des Moines; open to relocation/);
   const experience = read('dist/experience/index.html');
   assert.match(experience, /href="\/experience\/connected-reporting\/"/);
   const mcp = read('dist/work/regulated-reporting-mcp/index.html');
@@ -28,12 +31,13 @@ test('public identity combines implementation leadership with product building',
   assert.match(about, /I studied accounting\. My career has been in software implementation and customer delivery\./);
   assert.match(about, /Master of Accounting/);
   assert.match(about, /B\.S\. in Accounting/);
-  assert.match(about, /engagement manager and implementation manager roles/i);
-  assert.match(about, /design and build Passal’s lecture-to-practice study workflow and Leasekite’s vehicle comparison and lease-request workflows/);
+  assert.match(about, /design engineering and product-building roles/i);
+  assert.match(about, /I own product direction, interface design, and implementation for Passal and Leasekite/);
+  assert.ok(about.indexOf('I carry product decisions through implementation') < about.indexOf('Accounting education'), 'product contribution leads the about page');
   for (const route of ['', 'experience/', 'work/', 'fit/', 'about/']) {
     const page = read('dist/' + route + 'index.html');
     assert.doesNotMatch(page, /\b(?:an|former|practicing|practising) accountant\b|Accounting background\.|Accounting, technology, and customer delivery/i);
-    assert.match(page, /Dave Bettner leads enterprise implementations and customer engagements/);
+    assert.match(page, /Dave Bettner designs and builds products for complex workflows/);
     assert.match(page, /"jobTitle":"Senior Manager"/);
     assert.doesNotMatch(page, /"jobTitle":"(?:Forward Deployed Engineer|Accountant|CPA)"/i);
   }
@@ -48,15 +52,17 @@ test('public identity combines implementation leadership with product building',
   }
 });
 
-test('download is the reviewed resume and the supplied source is retained', () => {
+test('download is the reviewed design-engineering resume and previous sources are retained', () => {
   // Verified against Dave's supplied PDF and the imported repository copy.
   // A private attachment path is neither available nor appropriate in release/CI.
   const suppliedDigest = 'e23cee694991e19d6a3bbc18f4bc18744e5c41a84b6dd4982e46bc06c0a7ec4c';
   assert.equal(hash('resume/dave-bettner-current.pdf'), suppliedDigest);
   const publicDigest = '53fe842ccc5d560af349d2c627397c84dffe91965fbd20eae16067ada68ff4a0';
   assert.equal(hash('resume/dave-bettner-public.pdf'), publicDigest);
-  assert.equal(hash('public/dave-bettner-resume.pdf'), publicDigest);
-  assert.equal(hash('dist/dave-bettner-resume.pdf'), publicDigest);
+  const designDigest = 'dc4dc3a4ab78f2d890098e4deeebc27a2b0ac8700b4acd2dd642979f278e05bb';
+  assert.equal(hash('resume/dave-bettner-design-engineering.pdf'), designDigest);
+  assert.equal(hash('public/dave-bettner-resume.pdf'), designDigest);
+  assert.equal(hash('dist/dave-bettner-resume.pdf'), designDigest);
 });
 
 test('homepage serves the recorded workstation loop with a matching poster', () => {

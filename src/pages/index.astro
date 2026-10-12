@@ -4,32 +4,33 @@ import WorkstationMedia from '../components/WorkstationMedia.astro';
 import SelectedProducts from '../components/SelectedProducts.astro';
 import '../styles/workstation.css';
 ---
-<Profile page="home" footerMessage={{title: 'Get in touch', body: 'I’m interested in engagement and implementation management roles, and product work grounded in customer needs.'}}>
+<Profile page="home" footerMessage={{title: 'Get in touch', body: 'I’m interested in design engineering and product-building roles, especially interfaces for AI tools and complex workflows. Based in Des Moines; open to relocation.'}}>
   <section class="hero wrap">
     <div>
-      <h1>I lead implementations and build products for complex work.</h1>
-      <p class="lede">I lead customer engagements from requirements through go-live. That delivery experience shapes the products and tools I build.</p>
+      <h1>I design and build products for complex workflows.</h1>
+      <p class="lede">My work includes study tools, vehicle comparison, and tools for AI agents. I use AI coding tools from product direction through interface design, implementation, and iteration.</p>
       <div class="actions">
-        <a class="button" href="/experience/">View implementation experience</a>
+        <a class="button" href="#selected-work">View selected work</a>
         <a href="/dave-bettner-resume.pdf" download>Download résumé</a>
       </div>
     </div>
     <div class="scene-wrap"><WorkstationMedia /></div>
   </section>
-  <section id="implementation" class="section implementation wrap">
-    <h2>Implementation leadership</h2>
-    <p>At Citrin Cooperman, I managed a five-person implementation team. At Workiva, I led 6–12 concurrent implementations. Today, I’m a Senior Manager at LSL, leading Workiva delivery for city and county finance teams.</p>
-    <div class="case-links"><a href="/experience/">Career history</a><a href="/experience/connected-reporting/">Connected-reporting implementation</a><a href="/fit/#scope">Scope and client enablement</a></div>
-  </section>
   <section id="selected-work" class="section selected-work wrap">
     <h2>Selected work</h2>
     <SelectedProducts />
   </section>
+  <section id="building" class="section implementation wrap">
+    <h2>From a user problem to working software.</h2>
+    <p>I own product direction, interface design, and implementation for Passal and Leasekite, working through AI coding tools. I use those tools to explore alternatives, build the experience, and work through changes. My customer-delivery background shapes the workflow questions I start with.</p>
+    <div class="case-links"><a href="/fit/#building">How I build</a><a href="/work/">Products and agent tools</a></div>
+  </section>
   <section class="section background-tools wrap">
     <div class="experience">
-      <h2>Recent delivery work</h2>
+      <h2>Customer delivery background</h2>
+      <p>At Citrin Cooperman, I managed a five-person implementation team. At Workiva, I led 6–12 concurrent implementations. Today, I’m a Senior Manager at LSL, leading Workiva delivery for city and county finance teams.</p>
       <p>At LSL, I scope consulting engagements, prepare estimates and statements of work, and lead Workiva delivery for city and county finance teams through client sign-off. I also build Python reporting tools reused across engagements, with human review before client changes.</p>
-      <a class="section-link" href="/fit/">How I approach delivery</a>
+      <div class="case-links"><a href="/experience/">Career history</a><a href="/experience/connected-reporting/">Connected-reporting implementation</a><a href="/fit/#scope">Scope and client enablement</a></div>
     </div>
     <div class="technical-work">
       <h2>Technical tools</h2>

@@ -1,13 +1,13 @@
 import { githubUrl, linkedinUrl } from './site-links';
 export const siteUrl = 'https://davebettner.com';
-export const siteTitle = 'Dave Bettner | Implementation Leader & Product Builder';
-export const siteDescription = 'Dave Bettner leads enterprise implementations and customer engagements, and builds products informed by that delivery experience. Selected work: Passal, Lockfield, and Leasekite.';
+export const siteTitle = 'Dave Bettner | Product Design & Engineering';
+export const siteDescription = 'Dave Bettner designs and builds products for complex workflows, using AI coding tools from product direction through implementation. Selected work: Passal, Leasekite, and agent tools.';
 export const identitySeoLead = siteDescription;
 export const personSchema = {
  '@context':'https://schema.org','@type':'Person',name:'Dave Bettner',url:siteUrl,
  image:siteUrl+'/images/dave-bettner-headshot-20260816-cutout.png',description:siteDescription,
  jobTitle:'Senior Manager',homeLocation:{'@type':'Place',name:'Des Moines, Iowa'},
- knowsAbout:['Implementation leadership','Customer engagements','Product development','Technical implementation','Solutions consulting','API integrations','Python','AI workflows','Financial reporting','Customer training'],
+ knowsAbout:['Product design','Interface design','Product development','AI coding tools','AI workflows','API integrations','Python','Implementation leadership','Customer engagements','Financial reporting'],
  sameAs:[linkedinUrl,githubUrl]
 };
 export const nonIndexPathPrefixes = ['/mockups'];

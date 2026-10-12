@@ -52,13 +52,16 @@ try {
   ).violations);
   check(axeViolations.length === 0, 'homepage has no axe violations', JSON.stringify(axeViolations.map((violation) => violation.id)));
 
-  const explore = page.getByRole('link', { name: 'View implementation experience', exact: true });
-  check(await explore.getAttribute('href') === '/experience/', 'primary action targets career experience');
+  const explore = page.getByRole('link', { name: 'View selected work', exact: true });
+  check(await explore.getAttribute('href') === '#selected-work', 'primary action targets the selected products');
   await explore.click();
+  await page.waitForURL(fixtureUrl('/#selected-work'));
+  check(await page.locator('#selected-work').isVisible(), 'primary action reaches the selected work');
+  await page.getByRole('link', { name: 'Career history', exact: true }).click();
   await page.waitForURL(fixtureUrl('/experience/'));
   const careerTimeline = page.locator('.timeline');
   await careerTimeline.waitFor({ state: 'visible' });
-  check(await careerTimeline.getByRole('heading', { name: 'LSL, LLP', exact: true }).isVisible(), 'primary action lands on the career timeline and current employer');
+  check(await careerTimeline.getByRole('heading', { name: 'LSL, LLP', exact: true }).isVisible(), 'career history still reaches the timeline and current employer');
 
   await page.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   await page.keyboard.press('Tab');
@@ -75,8 +78,8 @@ try {
   })));
   check(JSON.stringify(selectedProducts.map(p => [p.name, p.href, p.status])) === JSON.stringify([
     ['Passal', 'https://passal.app/', null],
-    ['Lockfield', 'https://lockfield.co/', null],
     ['Leasekite', null, 'Work in progress'],
+    ['Lockfield', 'https://lockfield.co/', null],
   ]), 'selected products have exact site links and honest Leasekite status', JSON.stringify(selectedProducts));
   check(selectedProducts.every(p => p.image?.startsWith('/images/selected-work/')), 'selected products use their existing screenshots');
 

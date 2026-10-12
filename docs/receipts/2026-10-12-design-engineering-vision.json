@@ -1,0 +1,161 @@
+{
+  "capture_route": "native-browser-and-libreoffice",
+  "captures": [
+    {
+      "bytes": 569439,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/home-1440.png",
+      "sha256": "44b098cf2b80d0db0b6950b0888707360577a1ac0cf09a450ddf65804811d721"
+    },
+    {
+      "bytes": 628156,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/home-390.png",
+      "sha256": "ec2265dfedf1b78cf0573f90ce8a91a2176f427c6236d854aec6b9f8749a5647"
+    },
+    {
+      "bytes": 370878,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/work-1440.png",
+      "sha256": "e2d669dcd846fb6b80be181b9195e08ac5b845b1a6c4312a0c5e69de27c5fee0"
+    },
+    {
+      "bytes": 516266,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/work-390.png",
+      "sha256": "29107b09f12568e432b269cfbed16ac32c64125e636441ea5be53c7315403373"
+    },
+    {
+      "bytes": 160332,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/resume-page-1.png",
+      "sha256": "f8484a25b1da51607360e6b7bfe0a6d97a1fb2a7adbf766e5632646575b3cf8b"
+    },
+    {
+      "bytes": 160832,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/resume-page-2.png",
+      "sha256": "18a29b7f2b87b9e3f0b049bac4f1345a928dbd1df47d6186d7aebc0ec6c9cbdc"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 586,
+      "media_type": "application/json",
+      "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/native-checks.json",
+      "sha256": "d2cada7476d2ec158a428b388f8e4e77ff00e1762f109f146f68dd149aa8fb01"
+    }
+  },
+  "generated_at": "2026-10-12T05:15:54Z",
+  "required_visual_claims": [
+    "Clear product-first hierarchy; readable desktop/mobile layouts and r\u00e9sum\u00e9; accurate source-backed claims"
+  ],
+  "schema_version": "1.0",
+  "scope": "Product-first home/work/about/approach and two-page r\u00e9sum\u00e9",
+  "source_revision": "6388aa2aad2738c32a51142bc910044609c410a5+diff:0d4fb7254e9da52e4cf8d39e4c814df82951f95afbeecb8061d77b1be41f9e7f",
+  "status": "verified",
+  "surface": "davebettner-profile",
+  "viewport": "1440x950; 390x844; Letter PDF",
+  "visual_adjudication": {
+    "actual_source_diff_matches_candidate": true,
+    "baseline": "6388aa2aad2738c32a51142bc910044609c410a5",
+    "captures_inspected": [
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/home-1440.png",
+        "sha256": "44b098cf2b80d0db0b6950b0888707360577a1ac0cf09a450ddf65804811d721"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/home-390.png",
+        "sha256": "ec2265dfedf1b78cf0573f90ce8a91a2176f427c6236d854aec6b9f8749a5647"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/work-1440.png",
+        "sha256": "e2d669dcd846fb6b80be181b9195e08ac5b845b1a6c4312a0c5e69de27c5fee0"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/work-390.png",
+        "sha256": "29107b09f12568e432b269cfbed16ac32c64125e636441ea5be53c7315403373"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/about-1440.png",
+        "sha256": "4a176adbafcb6246cda099cb935863cea37e0008f2df1b554fd3ad87256519db"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/about-390.png",
+        "sha256": "e80c4ac39a3a036648dea22e36d2a4d8a81102c9d41c91d9e3f2d3c181af639f"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/fit-1440.png",
+        "sha256": "9813a2b0da89308886011bff9cb174f45e7e01e69216dc45ebb0d5d6aaeab67c"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/fit-390.png",
+        "sha256": "84a461f43d4ddd3afb30bfab972661ab92d6c4024c776f3e06322b4787daa637"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/resume-page-1.png",
+        "sha256": "f8484a25b1da51607360e6b7bfe0a6d97a1fb2a7adbf766e5632646575b3cf8b"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/resume-page-2.png",
+        "sha256": "18a29b7f2b87b9e3f0b049bac4f1345a928dbd1df47d6186d7aebc0ec6c9cbdc"
+      }
+    ],
+    "copy_review": {
+      "github": "approved as proposed copy; no account update claimed",
+      "linkedin": "approved as proposed copy; no account update claimed",
+      "relocation": "Open to relocation without location restriction; consistent with Dave being in Des Moines and open to moving anywhere",
+      "source_backed_project_stacks": "Passal React/Next.js/TypeScript/SQLite and Leasekite HTML/CSS/JavaScript with Python/SQLite services align with supplied source files"
+    },
+    "independent": true,
+    "limitations": [
+      "Approval covers the frozen source and captured artifacts, not deployment or live social-profile state.",
+      "Native suite passed with exit 0 as supplied by the root agent, and this reviewer read the final log; the reviewer did not rerun the suite. Two Hermes-specific prepush probes were skipped and remain actual-deployment gates.",
+      "Employment facts were checked for preservation against the existing resume and source, not independently verified with employers.",
+      "Historical product screenshots were reviewed as portfolio imagery; current product UI parity is not claimed.",
+      "This review does not certify unaided framework fluency, product outcomes, or hiring qualification."
+    ],
+    "native_suite": {
+      "deployment_guard_limit": "Two Hermes-specific prepush probes are intentionally skipped; actual guarded deployment must enforce those conditions.",
+      "execution_owned_by": "root agent",
+      "exit_code": 0,
+      "log_path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/native-tests.log",
+      "log_sha256": "eb9be897da8c1673180ce61bd3b0ffec0688e6cd3befbd976892b8606624f1fd",
+      "reviewer_inspected_log_tail": true,
+      "reviewer_reran_suite": false,
+      "root_reported_checks": [
+        "Astro check and build",
+        "3 static tests",
+        "52 route/width checks across 13 routes",
+        "avatar and workstation verifiers",
+        "theme/axe suite",
+        "visitor journey",
+        "soft fade",
+        "prepush deployment guard probes"
+      ],
+      "status": "passed"
+    },
+    "new_file_hashes_match_candidate": true,
+    "required_changes": [],
+    "resume_checks": {
+      "both_pages_visually_inspected": true,
+      "employment_titles_and_dates_match_previous_public_pdf": true,
+      "independently_read_pdf": true,
+      "letter_size": true,
+      "links": 7,
+      "pages": 2,
+      "public_download_bytes_match_final_pdf": true,
+      "supplied_checks_status": "passed"
+    },
+    "resume_sha256": "dc4dc3a4ab78f2d890098e4deeebc27a2b0ac8700b4acd2dd642979f278e05bb",
+    "reviewed_at": "2026-10-12T05:15:54Z",
+    "reviewed_at_utc": "2026-10-12T05:14:42.329795+00:00",
+    "reviewed_diff_sha256": "0d4fb7254e9da52e4cf8d39e4c814df82951f95afbeecb8061d77b1be41f9e7f",
+    "reviewer": "/root/profile_review",
+    "reviewer_runtime": "codex",
+    "source_path": "/home/dave/.t3/projects/newdave/docs/design-engineering-profile/independent-review.json",
+    "source_sha256": "1909fb71ef00aa2bd91405d11ea51c5d722606ad679e3b69f4b4f8493a5f6a8e",
+    "summary": "Approved the bounded product-first profile source, proposed LinkedIn/GitHub copy, desktop/mobile visual artifacts, and final two-page resume. No required change found. Product work leads the homepage and navigation; layouts are readable without observed clipping or overlap; ownership is explicitly through AI coding tools; employer titles and dates are preserved; Leasekite remains work in progress/private preview; mock and synthetic technical work is identified; Des Moines and unrestricted relocation are consistent.",
+    "verdict": "verified"
+  }
+}

@@ -1,6 +1,6 @@
 ---
 name: Dave Bettner
-updated: 2026-10-09
+updated: 2026-10-12
 implementation: src/styles/theme.css, src/styles/profile.css, src/styles/workstation.css
 stack: Astro, native HTML and CSS
 ---
@@ -10,6 +10,14 @@ stack: Astro, native HTML and CSS
 The current white professional profile is authoritative. The existing Profile
 layout, workstation hero, project rows and case studies supply the primitives.
 Use the shadcn DESIGN.md workflow to keep tokens and components aligned.
+
+The profile leads with product design and engineering: selected products follow
+the introduction, then the AI-assisted building approach and customer-delivery
+background. Projects lead the navigation. Product order is Passal, Leasekite,
+and Lockfield; the same real screens and honest work-in-progress status remain.
+Des Moines is the current location, with relocation open globally. The employer
+title in structured data remains Senior Manager; interest in design engineering
+does not rewrite employment history.
 
 ## Colors
 

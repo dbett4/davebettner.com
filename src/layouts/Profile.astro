@@ -6,7 +6,7 @@ import '../styles/profile.css';
 import { siteDescription, siteTitle, personSchema } from '../data/seo';
 const {title=siteTitle, description=siteDescription, page='home', footerMessage}=Astro.props;
 const canonical=`https://davebettner.com${Astro.url.pathname}`;
-const nav=[['experience','Experience','/experience/'],['work','Projects','/work/'],['fit','Approach','/fit/'],['about','About','/about/']];
+const nav=[['work','Projects','/work/'],['fit','Approach','/fit/'],['experience','Experience','/experience/'],['about','About','/about/']];
 ---
 <!doctype html>
 <html lang="en">
@@ -45,7 +45,7 @@ const nav=[['experience','Experience','/experience/'],['work','Projects','/work/
     <footer class="footer wrap">
       <div class="footer-copy">
         {footerMessage && <><h2>{footerMessage.title}</h2><p>{footerMessage.body}</p><a class="contact-email" href="mailto:dbett4@gmail.com" aria-label="Get in touch">dbett4@gmail.com</a></>}
-        <a class="brand" href="/">Dave Bettner</a><p>Des Moines, Iowa</p>
+        <a class="brand" href="/">Dave Bettner</a><p>Des Moines, Iowa · Open to relocation</p>
       </div>
       <nav aria-label="Further information">
         <a href="/about/">About</a>

@@ -28,6 +28,7 @@ try:
    for route in routes:
     res=page.goto(base+route,wait_until='networkidle');assert res and res.status==200,route
     page.evaluate('document.fonts.ready')
+    assert page.evaluate("getComputedStyle(document.body).fontFamily.includes('Manrope') && Array.from(document.fonts).some(f=>f.family.includes('Manrope') && f.status==='loaded')"),(route,width,'Manrope font not loaded')
     for image in page.locator('img').all():
      image.scroll_into_view_if_needed();image.evaluate('(i)=>i.decode()')
     page.evaluate('window.scrollTo(0,0)')

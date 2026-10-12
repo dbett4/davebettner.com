@@ -8,6 +8,6 @@ if(createHash('sha256').update(readFileSync(previous)).digest('hex')!=='53fe842c
 const source=new URL('../resume/dave-bettner-design-engineering.pdf',import.meta.url);
 const bytes=readFileSync(source);
 const hash=createHash('sha256').update(bytes).digest('hex');
-if(hash!=='dc4dc3a4ab78f2d890098e4deeebc27a2b0ac8700b4acd2dd642979f278e05bb') throw new Error('Public resume changed; review before replacing the download.');
+if(hash!=='36fa31eb85f7ec610e0f07d2bd488d91aec50417adc41d4375fe36bbcf63f65b') throw new Error('Public resume changed; review before replacing the download.');
 copyFileSync(source,new URL('../public/dave-bettner-resume.pdf',import.meta.url));
 console.log('Reviewed design-engineering resume copied byte-for-byte; previous sources retained:',hash);

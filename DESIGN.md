@@ -37,12 +37,18 @@ not the only boundary of an interactive control.
 
 ## Typography and layout
 
-Self-hosted Archivo Variable is the UI and editorial face. Body is 17px/1.6,
-16px on phones; secondary text is 14–19px according to its role. Profile headings
-use the existing responsive scale; the workstation stylesheet intentionally
-narrows the home hero. Do not replace that hierarchy with the former Interstellar
-sphere layout. The main column is 1120px with 32px desktop gutters, changing to
-16px phone gutters and a 560px reading column.
+Self-hosted Manrope is the single UI and editorial face, using the existing
+approved font asset. Body is 16px/1.7; selected-project copy is 15px/1.7. The
+home heading is 32–42px, with a restrained 600 weight and 1.2 line height.
+Phones use 30px/36px headings and 16px/28px lead copy for an even reading rhythm
+and stable scene alignment. Secondary headings are 23–28px. The main column remains 1120px
+with 32px desktop gutters, changing to 16px phone gutters and a 560px reading
+column. The workstation scene retains 360px maximum on desktop and 260px on
+phones so its existing cutout preserves the approved foreground detail.
+Passal and Leasekite have larger parallel previews; Lockfield sits in a quieter
+full-width supporting row. Phones retain one project per row and the existing
+approved screenshot crops. The editable résumé and its PDF use Manrope, a
+compact contact block, clear section spacing, and no footer or page numbers.
 
 ## Primitives and elevation
 

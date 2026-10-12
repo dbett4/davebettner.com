@@ -1,0 +1,214 @@
+{
+  "capture_route": "native-browser-and-libreoffice",
+  "captures": [
+    {
+      "bytes": 689713,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/home-1440.png",
+      "sha256": "b6eec33828762c56869a9a096b94634a37030b71f7a532096b349bec221d4eaf"
+    },
+    {
+      "bytes": 604007,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/home-390.png",
+      "sha256": "b945fd5ee7528235b69c4c0a03078cfcd241ecad243699c3ac287f73d7a74857"
+    },
+    {
+      "bytes": 505931,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/work-1440.png",
+      "sha256": "5792ad241cc41f48b7d8fc7aeb0317bdb4729f28cdcc861972ecf8760b5cdb51"
+    },
+    {
+      "bytes": 504246,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/work-390.png",
+      "sha256": "d07e84d30a717214c4c898243dd87b3c98f660e98f4d849773cc10b5abf29226"
+    },
+    {
+      "bytes": 153096,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/resume-page-1.png",
+      "sha256": "d3be521aa1c09e47cd2eb99e8d1af401ecd723cce4808e4a67f0706d0d9bab49"
+    },
+    {
+      "bytes": 173381,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/resume-page-2.png",
+      "sha256": "75f16fea48261d8bf147dd5155c09bd6195b5fbb7baf454f62168308b18a6fdc"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 561,
+      "media_type": "application/json",
+      "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/native-checks.json",
+      "sha256": "9b1c413310422d9f75735f23e7a8aeca073d471cfa1d9ebae274d8fea637b66b"
+    }
+  },
+  "generated_at": "2026-10-12T12:13:28Z",
+  "required_visual_claims": [
+    "Readable refined typography, stronger product hierarchy, footer-free r\u00e9sum\u00e9 and retained approved artwork"
+  ],
+  "schema_version": "1.0",
+  "scope": "Manrope typography, project presentation, and footer-free two-page r\u00e9sum\u00e9",
+  "source_revision": "ff65b87f746b25e49caf5b3b6979c49be3bda6c0+diff:5cb98332c6d028bc74e16bc9c274776f80b3458385b0da71325167d36ba71db6",
+  "status": "verified",
+  "surface": "davebettner-profile",
+  "viewport": "1440 and 390 CSS; Letter PDF",
+  "visual_adjudication": {
+    "actual_source_diff_matches_candidate": true,
+    "assets_review": {
+      "original_scene_images_motion_unchanged_in_scoped_diff": true,
+      "scene_sizes_preserved": "360px desktop maximum, 260px phone maximum"
+    },
+    "baseline": "ff65b87f746b25e49caf5b3b6979c49be3bda6c0",
+    "captures_inspected": [
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/home-1440.png",
+        "pixel_dimensions": [
+          1440,
+          2589
+        ],
+        "sha256": "b6eec33828762c56869a9a096b94634a37030b71f7a532096b349bec221d4eaf"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/home-390.png",
+        "pixel_dimensions": [
+          390,
+          4698
+        ],
+        "sha256": "b945fd5ee7528235b69c4c0a03078cfcd241ecad243699c3ac287f73d7a74857"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/work-1440.png",
+        "pixel_dimensions": [
+          1440,
+          2235
+        ],
+        "sha256": "5792ad241cc41f48b7d8fc7aeb0317bdb4729f28cdcc861972ecf8760b5cdb51"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/work-390.png",
+        "pixel_dimensions": [
+          390,
+          4170
+        ],
+        "sha256": "d07e84d30a717214c4c898243dd87b3c98f660e98f4d849773cc10b5abf29226"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/about-1440.png",
+        "pixel_dimensions": [
+          1440,
+          2000
+        ],
+        "sha256": "3d5b156bbf41665fdf840bb1dfe959df1eb17b6c1cc2d2fd4ea4ef668049cbff"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/about-390.png",
+        "pixel_dimensions": [
+          390,
+          3157
+        ],
+        "sha256": "e09223b3289141b51c677afa85dc3807d2e246264e49b525be3caf29b047239d"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/fit-1440.png",
+        "pixel_dimensions": [
+          1440,
+          2044
+        ],
+        "sha256": "45847178e5963e367dd975373653fee85bd4722690a9b807392ae9dbdff51fc9"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/fit-390.png",
+        "pixel_dimensions": [
+          390,
+          2904
+        ],
+        "sha256": "7f5f427a682221765dba9b68c8ca6dbf8946d3ea52c290abd42f76b38ed098db"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/resume-page-1.png",
+        "pixel_dimensions": [
+          918,
+          1188
+        ],
+        "sha256": "d3be521aa1c09e47cd2eb99e8d1af401ecd723cce4808e4a67f0706d0d9bab49"
+      },
+      {
+        "path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/resume-page-2.png",
+        "pixel_dimensions": [
+          918,
+          1188
+        ],
+        "sha256": "75f16fea48261d8bf147dd5155c09bd6195b5fbb7baf454f62168308b18a6fdc"
+      }
+    ],
+    "font_source_review": {
+      "licence": "SIL Open Font License 1.1 included with web and resume font assets",
+      "receipt_path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/font-source.json",
+      "source_hashes_match_candidate": true
+    },
+    "independent": true,
+    "limitations": [
+      "Approval covers the frozen source and ten inspected visual artifacts; live deployment and social-profile state are outside this review.",
+      "The root-owned full native suite was still running at the final scoped review. The final artwork alignment passes the supplied unchanged targeted foreground guard at four widths; root must establish the full final passing result before release.",
+      "Employment facts were checked for preservation against existing source, not independently verified with employers.",
+      "Historical product imagery does not establish current product UI parity.",
+      "No unaided framework fluency, product outcome, or technical hiring qualification is certified."
+    ],
+    "native_suite": {
+      "execution_owned_by": "root agent",
+      "final_result": "pending completed root report; final run has passed static and 52 route/width/font/accessibility/download checks per root",
+      "release_gate": "Root must retain the final passing native result before release.",
+      "reviewer_reran_suite": false
+    },
+    "new_file_hashes_match_candidate": true,
+    "required_changes": [],
+    "resume_checks": {
+      "all_fonts_embedded": true,
+      "both_pages_visually_footer_free": true,
+      "fonts": [
+        "Manrope-Regular",
+        "Manrope-Bold"
+      ],
+      "footer_parts_absent": true,
+      "footer_references_absent": true,
+      "independently_read_pdf": true,
+      "original_experience_markdown_exactly_preserved": true,
+      "page_fields_absent": true,
+      "pages": 2,
+      "public_download_bytes_match_final_pdf": true,
+      "supplied_status": "passed"
+    },
+    "resume_sha256": "36fa31eb85f7ec610e0f07d2bd488d91aec50417adc41d4375fe36bbcf63f65b",
+    "reviewed_at": "2026-10-12T12:13:28Z",
+    "reviewed_at_utc": "2026-10-12T12:09:03.673488+00:00",
+    "reviewed_diff_sha256": "5cb98332c6d028bc74e16bc9c274776f80b3458385b0da71325167d36ba71db6",
+    "reviewer": "/root/profile_review",
+    "reviewer_runtime": "codex",
+    "scoped_final_review": {
+      "changed_scope": [
+        "src/styles/workstation.css",
+        "DESIGN.md"
+      ],
+      "finding": "Restored desktop gap and integer phone headline/lead line heights preserve the approved typography and responsive hierarchy without visible clipping or artwork regression.",
+      "fresh_captures_inspected": [
+        "home-1440.png",
+        "home-390.png"
+      ],
+      "previous_reviewed_diff_sha256": "8fc15d362410106d505af48d985fe41a5a55e2d82845dcf13f24210aa74b890b",
+      "resume_and_other_capture_hashes_unchanged": true,
+      "targeted_foreground_check": {
+        "log_path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/foreground-check.log",
+        "log_sha256": "15ab52fd0e793d0b85714af8a71a427a65fecc3eca61843f01ccdd2a5f6d10c4",
+        "result": "passed across 1440, 768, 390 and 320 widths with unchanged guard/artwork, as recorded in supplied log"
+      }
+    },
+    "source_path": "/home/dave/.t3/projects/newdave/docs/profile-refinement-20261012/independent-review.json",
+    "source_sha256": "857318dd9965b2fe353691322d5272077962a451a4a29fb5105d68e7ec8c1025",
+    "summary": "Approved the bounded typography, layout, and footer-free resume refinement. Manrope gives the website and resume a consistent readable face. Larger parallel Passal/Leasekite previews, a supporting Lockfield row, shorter introductory copy, and restrained heading sizes improve product hierarchy without changing imagery or motion. All eight desktop/mobile renders show readable spacing without observed overlap or clipping. Both resume pages are clean and readable, with clear sections and no footer or page numbers. AI-assisted ownership, synthetic/mock/WIP boundaries, titles, dates, and Des Moines/open relocation wording remain truthful within the supplied source.",
+    "verdict": "verified"
+  }
+}

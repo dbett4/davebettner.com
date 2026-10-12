@@ -12,7 +12,7 @@ test('public identity leads with product design while retaining accurate deliver
   assert.match(robots, /Sitemap: https:\/\/davebettner\.com\/sitemap-index\.xml/);
   const home = read('dist/index.html');
   assert.match(home, /I design and build products for complex workflows\./);
-  assert.match(home, /AI coding tools from product direction through interface design, implementation, and iteration/i);
+  assert.match(home, /I own product direction and implementation for Passal and Leasekite, working through AI coding tools/i);
   assert.match(home, /design engineering and product-building roles/i);
   assert.match(home, /Customer delivery background/);
   assert.match(home, /managed a five-person implementation team/i);
@@ -59,7 +59,7 @@ test('download is the reviewed design-engineering resume and previous sources ar
   assert.equal(hash('resume/dave-bettner-current.pdf'), suppliedDigest);
   const publicDigest = '53fe842ccc5d560af349d2c627397c84dffe91965fbd20eae16067ada68ff4a0';
   assert.equal(hash('resume/dave-bettner-public.pdf'), publicDigest);
-  const designDigest = 'dc4dc3a4ab78f2d890098e4deeebc27a2b0ac8700b4acd2dd642979f278e05bb';
+  const designDigest = '36fa31eb85f7ec610e0f07d2bd488d91aec50417adc41d4375fe36bbcf63f65b';
   assert.equal(hash('resume/dave-bettner-design-engineering.pdf'), designDigest);
   assert.equal(hash('public/dave-bettner-resume.pdf'), designDigest);
   assert.equal(hash('dist/dave-bettner-resume.pdf'), designDigest);

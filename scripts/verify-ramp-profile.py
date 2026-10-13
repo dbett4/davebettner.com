@@ -48,9 +48,10 @@ try:
      if href.startswith('/') and not href.startswith('//'):links.add(href)
     if width==1440:
      (out/((route.strip('/').replace('/','-') or 'home')+'.txt')).write_text(text)
-    if width in [1440,390] and route in ['/','/experience/','/experience/connected-reporting/','/fit/','/work/','/about/','/work/accounting-acceptance-lab/']:
+    if width in [1440,390] and route in ['/','/experience/','/experience/connected-reporting/','/fit/','/work/','/about/','/work/accounting-acceptance-lab/','/work/krowbar/']:
      page.evaluate('async()=>{await Promise.all(Array.from(document.images).map(i=>{i.loading="eager";return i.decode()}));await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))}')
      name=route.strip('/').replace('/','-') or 'home';page.screenshot(path=str(out/f'{name}-{width}.png'),full_page=True)
+     if route=='/':page.locator('.selected-product-krowbar').screenshot(path=str(out/f'selected-krowbar-{width}.png'))
     checks.append({'route':route,'width':width,'status':res.status})
   for link in sorted(links):
    assert context.request.get(base+link).status==200,link

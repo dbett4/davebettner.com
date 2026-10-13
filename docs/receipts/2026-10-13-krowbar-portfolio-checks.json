@@ -1,0 +1,72 @@
+{
+  "base": "http://127.0.0.1:46841",
+  "route_width_checks": 12,
+  "routes": 3,
+  "local_destinations": 17,
+  "checks": [
+    {
+      "route": "/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/work/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/work/krowbar/",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/work/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/work/krowbar/",
+      "width": 768,
+      "status": 200
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/work/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/work/krowbar/",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/work/",
+      "width": 320,
+      "status": 200
+    },
+    {
+      "route": "/work/krowbar/",
+      "width": 320,
+      "status": 200
+    }
+  ],
+  "keyboard_skip": "pass",
+  "resume_download_sha256": "36fa31eb85f7ec610e0f07d2bd488d91aec50417adc41d4375fe36bbcf63f65b",
+  "nojs_reduced_motion": "pass",
+  "errors": []
+}

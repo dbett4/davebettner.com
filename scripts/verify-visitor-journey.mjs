@@ -79,6 +79,7 @@ try {
   check(JSON.stringify(selectedProducts.map(p => [p.name, p.href, p.status])) === JSON.stringify([
     ['Passal', 'https://passal.app/', null],
     ['Leasekite', null, 'Work in progress'],
+    ['Krowbar', 'https://krowbar.app/', null],
     ['Lockfield', 'https://lockfield.co/', null],
   ]), 'selected products have exact site links and honest Leasekite status', JSON.stringify(selectedProducts));
   check(selectedProducts.every(p => p.image?.startsWith('/images/selected-work/')), 'selected products use their existing screenshots');
@@ -113,7 +114,7 @@ try {
   const mobilePage = await observedPage(mobileContext);
   await mobilePage.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   await loadProductPreviews(mobilePage);
-  check(await mobilePage.locator('.selected-product img').evaluateAll(images => images.length === 3 && images.every(image => /-mobile\.webp$/.test(image.currentSrc))), 'phone uses the existing mobile product screenshots');
+  check(await mobilePage.locator('.selected-product img').evaluateAll(images => images.length === 4 && images.every(image => /-mobile\.(webp|png)$/.test(image.currentSrc))), 'phone uses the reviewed mobile product screenshots');
   const mobileHeader = await mobilePage.evaluate(() => {
     const header = document.querySelector('.masthead');
     const brand = document.querySelector('.masthead-brand');

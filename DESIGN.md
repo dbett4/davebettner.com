@@ -14,7 +14,7 @@ Use the shadcn DESIGN.md workflow to keep tokens and components aligned.
 The profile leads with product design and engineering: selected products follow
 the introduction, then the AI-assisted building approach and customer-delivery
 background. Projects lead the navigation. Product order is Passal, Leasekite,
-and Lockfield; the same real screens and honest work-in-progress status remain.
+Krowbar and Lockfield; the same real screens and honest work-in-progress status remain.
 Des Moines is the current location, with relocation open globally. The employer
 title in structured data remains Senior Manager; interest in design engineering
 does not rewrite employment history.
@@ -49,6 +49,11 @@ Passal and Leasekite have larger parallel previews; Lockfield sits in a quieter
 full-width supporting row. Phones retain one project per row and the existing
 approved screenshot crops. The editable résumé and its PDF use Manrope, a
 compact contact block, clear section spacing, and no footer or page numbers.
+
+Krowbar uses a full-width product row with its reviewed public-demo capture.
+Its title opens /work/krowbar/ and its demo link opens krowbar.app. Keep the
+fictional-data and simulated-update scope in the project description. The project
+page reuses Profile, case-prose and the existing action styles.
 
 ## Primitives and elevation
 

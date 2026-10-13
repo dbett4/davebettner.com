@@ -1,0 +1,117 @@
+{
+  "capture_route": "Native portfolio browser verifier captures; T3 preview DOM readback",
+  "captures": [
+    {
+      "bytes": 110549,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/krowbar-build/20261013/portfolio-deploy/website-evidence/selected-krowbar-1440.png",
+      "sha256": "6e0554cd049869cae4a817a4c49e8e08789d249d8506d630315af2b1df150998"
+    },
+    {
+      "bytes": 125568,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/krowbar-build/20261013/portfolio-deploy/website-evidence/selected-krowbar-390.png",
+      "sha256": "5f0312dc8100187a3f9e8a1ba7912a3181549ebd23afa647f3b2b8065288a159"
+    },
+    {
+      "bytes": 275405,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/krowbar-build/20261013/portfolio-deploy/website-evidence/work-krowbar-1440.png",
+      "sha256": "2dad4023f209a0153f0acc313ac2ccf4bfa69f70696b5700bb6794feac44f738"
+    },
+    {
+      "bytes": 212900,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/krowbar-build/20261013/portfolio-deploy/website-evidence/work-krowbar-390.png",
+      "sha256": "0b712867650dc5e8b83ec0d86288ca167c07041a8323660c2e180473ac4bd118"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 1250,
+      "media_type": "application/json",
+      "path": "/home/dave/.local/state/krowbar-build/20261013/portfolio-deploy/website-evidence/checks.json",
+      "sha256": "a776ab6951e8729f51596889b91d97326624d6413867dd82343c9732daf0cac5"
+    }
+  },
+  "generated_at": "2026-10-13T21:55:45Z",
+  "required_visual_claims": [
+    "Krowbar product row fits the existing portfolio layout on desktop and phone",
+    "Project page typography, screenshots and demo actions remain readable without clipping"
+  ],
+  "schema_version": "1.0",
+  "scope": "Krowbar selected-work entry and /work/krowbar/ project page",
+  "source_revision": "krowbar.astro-sha256:23c6c63e78621e895c386e675c3c91220b1a4c804d05df75c7079a9dcdf3c412",
+  "status": "verified",
+  "surface": "Dave Bettner portfolio",
+  "viewport": "1440x950 and 390x844; native checks also cover 768 and 320px",
+  "visual_adjudication": {
+    "asset_hashes": {
+      "public/images/selected-work/krowbar-desktop.png": "357e75a2d0e99570bb5a05e92ca18063d2aa9426ff5d6c2913f89ff3db29b85e",
+      "public/images/selected-work/krowbar-mobile.png": "6d3352405ba21ce0fc76c76f3fd6741ef40de56301431d0539f2dbb48a8112b8"
+    },
+    "built_route_hashes": {
+      "dist/index.html": "8c3575255cf13a0f1f825e4e6e103053d89e608ac2d57314bd3b1a211734986b",
+      "dist/work/index.html": "9e7b1c367fecdbae4d0af6fb54f5045440995f6167cb4cdec719a3cdbf9a176b",
+      "dist/work/krowbar/index.html": "bc69ca1eb0efc6c77a81e6c4753b57f7c5039abae1c9cffa30d524cdbf212d3e"
+    },
+    "capture_directory": "/home/dave/.local/state/krowbar-build/20261013/portfolio-deploy/website-evidence",
+    "capture_hashes": {
+      "home-1440.png": "974890f4f1e88c3a8937aecc8617fa82e77a3cd685d6a2ed2175208e3bdfa8af",
+      "home-390.png": "93b3c170c2551c41b9e3f6398ba86f1646195497cf8be068fa97c6d80e349a89",
+      "selected-krowbar-1440.png": "6e0554cd049869cae4a817a4c49e8e08789d249d8506d630315af2b1df150998",
+      "selected-krowbar-390.png": "5f0312dc8100187a3f9e8a1ba7912a3181549ebd23afa647f3b2b8065288a159",
+      "work-1440.png": "8c0c5a48c623e649b5418ba67aea6a963553f1dc85fca72f8788b0052915ded2",
+      "work-390.png": "66556f9db8f43016b858373aeb5a7cf571d3f22039279f3978da2bd6d83bfa3a",
+      "work-krowbar-1440.png": "2dad4023f209a0153f0acc313ac2ccf4bfa69f70696b5700bb6794feac44f738",
+      "work-krowbar-390.png": "0b712867650dc5e8b83ec0d86288ca167c07041a8323660c2e180473ac4bd118"
+    },
+    "checks_sha256": "a776ab6951e8729f51596889b91d97326624d6413867dd82343c9732daf0cac5",
+    "findings": [],
+    "independent": true,
+    "limits": [
+      "Review covers the portfolio addition and supplied local evidence, not whole-site certification, deployment verification or private application readiness.",
+      "Native interaction evidence was reviewed; this independent reviewer inspected final code and screenshots rather than rebuilding or rerunning the builder test suite."
+    ],
+    "native_evidence": {
+      "errors": [],
+      "keyboard_skip": "pass",
+      "nojs_reduced_motion": "pass",
+      "route_width_checks": 12,
+      "routes": [
+        "/",
+        "/work/",
+        "/work/krowbar/"
+      ],
+      "widths": [
+        1440,
+        768,
+        390,
+        320
+      ]
+    },
+    "resolved_findings": [
+      "Added scoped 26px case headings, 12px paragraph separation and 36px between sections; final captures confirm the correction."
+    ],
+    "reviewed_at": "2026-10-13T21:55:02.751043+00:00",
+    "reviewer": "portfolio_demo_review (separate Codex session; did not build or edit the portfolio addition)",
+    "reviewer_runtime": "codex",
+    "scope": [
+      "New /work/krowbar/ page",
+      "Krowbar row in shared SelectedProducts component",
+      "Design documentation and native verifier expectation updates",
+      "Exact imported desktop and mobile Krowbar screenshots"
+    ],
+    "source_hashes": {
+      "DESIGN.md": "f4c6697e742ff528c59aa013a0e9b41b8ba0252ad7b66b93943bde1b8bf6808d",
+      "scripts/verify-ramp-profile.py": "d0ff2eeece101038b119f710089a3d54ee59f684d916bada53c0d3c63a8dbdea",
+      "scripts/verify-visitor-journey.mjs": "c5bae9b5722255d0dc76272f4d807981e45af9746829788e23ee9bfb790b643d",
+      "src/components/SelectedProducts.astro": "f9298fd988c9340e22a991b6a2db64cb778a74d48baf6396411f548f9ae02fc2",
+      "src/pages/work/krowbar.astro": "23c6c63e78621e895c386e675c3c91220b1a4c804d05df75c7079a9dcdf3c412"
+    },
+    "source_path": "/home/dave/.local/state/krowbar-build/20261013/portfolio-deploy/website-adjudication.json",
+    "source_sha256": "25c51e4463477968b4252aa2264a06b085644669cdc865823f0934cdc826ae26",
+    "summary": "The bounded Krowbar addition is ready to deploy. Source review and actual final desktop/phone screenshots for home, /work/ and /work/krowbar/ show a cohesive project row, clear demo and detail links, readable project copy, and explicit fictional-engagement/simulated-update scope on the project page. The reviewer-identified desktop case heading/spacing issue was fixed by the builder and verified in refreshed captures. The two imported PNGs exactly match the separately approved simplify-final demo captures. No remaining concrete blocker was found.",
+    "verdict": "verified"
+  }
+}

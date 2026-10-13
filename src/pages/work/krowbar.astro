@@ -1,0 +1,43 @@
+---
+import Profile from '../../layouts/Profile.astro';
+const description = 'A project workspace that helps people and AI assistants pick up work without rebuilding its context. The first integration supports Workiva reporting.';
+---
+<Profile title="Krowbar — Dave Bettner" description={description} page="work">
+  <section class="page-intro wrap">
+    <h1>Krowbar</h1>
+    <p class="lead">{description}</p>
+    <div class="actions">
+      <a class="button" href="https://krowbar.app/">Try the interactive demo</a>
+      <a href="/work/">All projects</a>
+    </div>
+  </section>
+  <figure class="wrap project-preview">
+    <picture>
+      <source media="(max-width: 700px)" srcset="/images/selected-work/krowbar-mobile.png" width="375" height="900" />
+      <img src="/images/selected-work/krowbar-desktop.png" alt="Krowbar demo workspace with fictional reporting engagements and work awaiting review." width="1440" height="900" decoding="async" />
+    </picture>
+  </figure>
+  <section class="paper">
+    <div class="section wrap">
+      <div class="case-prose">
+        <h2>The problem</h2>
+        <p>Reporting handoffs often leave the next owner reconstructing what is finished and what still needs attention.</p>
+        <h2>What I built</h2>
+        <p>I built Krowbar to keep that context with the project. The workspace puts work needing judgment beside the record of reviewed changes. An update starts as a draft; its predicted results and recorded outcome stay available for review.</p>
+        <h2>My role</h2>
+        <p>I own product direction, interface design, and implementation through AI coding tools. My reporting-delivery experience shaped the review workflow: proposed changes show their expected results before they run, with a record of what happened and a way to undo them.</p>
+        <h2>What you can try</h2>
+        <p>The public demo uses fictional engagements and simulated updates. Visitors can inspect example work and try a proposed update, including its undo. The working engagement console remains private.</p>
+        <div class="case-links"><a href="https://krowbar.app/">Open the interactive demo</a></div>
+      </div>
+    </div>
+  </section>
+</Profile>
+<style>
+  .project-preview { margin-bottom: 48px; }
+  .project-preview picture { display: block; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+  .project-preview img { width: 100%; height: auto; }
+  .case-prose { max-width: 760px; }
+  .case-prose h2 { margin-bottom: 12px; font-size: 26px; line-height: 1.3; }
+  .case-prose h2:not(:first-child) { margin-top: 36px; }
+</style>

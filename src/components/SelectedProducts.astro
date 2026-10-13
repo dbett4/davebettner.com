@@ -4,6 +4,7 @@ const Heading = headingLevel;
 const products = [
   { id: 'passal', name: 'Passal', description: 'Study choices and practice tied to lecture sources.', contribution: 'I design and build the workflow from lecture material to practice, helping students decide what to study next.', href: 'https://passal.app/', domain: 'passal.app', desktop: [1440, 1667], mobile: [780, 5398], alt: 'Passal exam preparation with quiz, course, and review actions.' },
   { id: 'leasekite', name: 'Leasekite', description: 'Vehicle comparison and lease requests.', contribution: 'I design and build the comparison and request flows. Drafts remain available for review, with negotiation decisions kept with the user.', desktop: [1440, 2076], mobile: [390, 2767], alt: 'Leasekite vehicle comparison interface with lease search options.' },
+  { id: 'krowbar', name: 'Krowbar', description: 'A project workspace that helps people and AI assistants pick up work without rebuilding its context. The first integration supports Workiva reporting.', contribution: 'I own product direction, interface design, and implementation through AI coding tools. My reporting-delivery experience shaped the review workflow: proposed changes show their expected results before they run, with a record of what happened and a way to undo them.', href: 'https://krowbar.app/', detail: '/work/krowbar/', domain: 'Interactive demo', extension: 'png', desktop: [1440, 900], mobile: [375, 900], alt: 'Krowbar demo workspace with fictional reporting engagements and work awaiting review.' },
   { id: 'lockfield', name: 'Lockfield', description: 'A Workiva consulting practice built around training and client ownership.', contribution: 'I shaped the positioning, website, and reporting resources, translating reporting expertise into a service offering and supporting materials.', href: 'https://lockfield.co/', domain: 'lockfield.co', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
 ];
 ---
@@ -13,7 +14,7 @@ const products = [
     return <article class={`selected-product selected-product-${product.id}`}>
     <div class="product-copy">
       <div class="product-heading">
-        <Heading>{product.href ? <a href={product.href}>{product.name}</a> : product.name}</Heading>
+        <Heading>{product.href ? <a href={product.detail || product.href}>{product.name}</a> : product.name}</Heading>
         {product.href ? <a class="product-link" href={product.href} aria-label={`Visit ${product.name}`}>{product.domain}</a> : <span class="product-status">Work in progress</span>}
       </div>
       <p>{product.description}</p>
@@ -21,8 +22,8 @@ const products = [
     </div>
     <Preview class="product-screen" href={product.href} aria-label={product.href ? `Open ${product.name} site` : undefined}>
       <picture>
-        <source media="(max-width: 700px)" srcset={`/images/selected-work/${product.id}-mobile.webp`} width={product.mobile[0]} height={product.mobile[1]} />
-        <img src={`/images/selected-work/${product.id}-desktop.webp`} alt={product.alt} width={product.desktop[0]} height={product.desktop[1]} loading="lazy" decoding="async" />
+        <source media="(max-width: 700px)" srcset={`/images/selected-work/${product.id}-mobile.${product.extension || 'webp'}`} width={product.mobile[0]} height={product.mobile[1]} />
+        <img src={`/images/selected-work/${product.id}-desktop.${product.extension || 'webp'}`} alt={product.alt} width={product.desktop[0]} height={product.desktop[1]} loading="lazy" decoding="async" />
       </picture>
     </Preview>
   </article>; })}
@@ -48,9 +49,10 @@ const products = [
   .product-link, .product-status { display: inline-flex; align-items: center; min-height: 44px; flex-shrink: 0; font-size: 12px; }
   .product-status { color: var(--secondary); }
   @media (min-width: 701px) {
-    .selected-product-lockfield { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 48px; align-items: center; padding-top: 32px; border-top: 1px solid var(--border); }
-    .selected-product-lockfield .product-copy { padding-top: 0; }
-    .selected-product-lockfield .product-screen { order: 0; }
+    .selected-product-lockfield, .selected-product-krowbar { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 48px; align-items: center; padding-top: 32px; border-top: 1px solid var(--border); }
+    .selected-product-lockfield .product-copy, .selected-product-krowbar .product-copy { padding-top: 0; }
+    .selected-product-lockfield .product-screen, .selected-product-krowbar .product-screen { order: 0; }
+    .selected-product-krowbar { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
   }
   @media (min-width: 701px) and (max-width: 900px) {
     .selected-products { gap: 18px; }
@@ -66,5 +68,6 @@ const products = [
     .selected-product-passal img { object-position: center 10%; }
     .selected-product-leasekite .product-screen { aspect-ratio: .6; }
     .selected-product-leasekite img { object-position: center 46.4%; }
+    .selected-product-krowbar .product-screen { aspect-ratio: 375 / 900; }
   }
 </style>

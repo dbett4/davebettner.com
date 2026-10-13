@@ -1,0 +1,80 @@
+{
+  "verified_at": "2026-10-13T22:00:53.647837+00:00",
+  "source_commit": "1e9743c44ed896aaaf5210e2cf547f213867fd4e",
+  "worker_version": "e2fc7436-60aa-43ee-8962-ff5c80014eb7",
+  "deployment_id": "65e63bce-4758-4d78-a70d-996a307dd8c5",
+  "previous_worker_version": "805d70ac-ed24-44f4-911a-51d965f71013",
+  "rollout_percentage": 100,
+  "entry_points": [
+    "https://davebettner.com/",
+    "https://davebettner.com/work/",
+    "https://davebettner.com/work/krowbar/"
+  ],
+  "demo": {
+    "status": 200,
+    "live_sha256": "0a304e81ecc2f8b061c22bb30d5f0af83770fa95607b449ecd492ff8d6a501a3",
+    "source_commit": "fef76283ee3823e5940ff999f80641a89693f1ff",
+    "worker_version": "3108d1dd-b2cb-4123-9870-741c835fa8fa",
+    "matches": true,
+    "action": "Preserved the newer independently reviewed live deployment."
+  },
+  "verification": {
+    "source_commit": "1e9743c44ed896aaaf5210e2cf547f213867fd4e",
+    "worker_version": "e2fc7436-60aa-43ee-8962-ff5c80014eb7",
+    "verified": true,
+    "checks": [
+      {
+        "url": "https://davebettner.com/",
+        "status": 200,
+        "observed_sha256": "2f9fc1d6f1452417e4cbdf53fbcb01013db17b65e26de68e5ef97171fd2ca37c",
+        "source_sha256": "8c3575255cf13a0f1f825e4e6e103053d89e608ac2d57314bd3b1a211734986b",
+        "source_content_matches": true,
+        "cloudflare_challenge_script_added": true
+      },
+      {
+        "url": "https://davebettner.com/work/",
+        "status": 200,
+        "observed_sha256": "75b665b1ee1cdc2d9693095282f9294c64d4f5aed0c2d2574254b58d7cb992d1",
+        "source_sha256": "9e7b1c367fecdbae4d0af6fb54f5045440995f6167cb4cdec719a3cdbf9a176b",
+        "source_content_matches": true,
+        "cloudflare_challenge_script_added": true
+      },
+      {
+        "url": "https://davebettner.com/work/krowbar/",
+        "status": 200,
+        "observed_sha256": "29914d57d665b5540f4482ea4e76c0cc71d60d3dc72a299333e9c1cdc97f8744",
+        "source_sha256": "bc69ca1eb0efc6c77a81e6c4753b57f7c5039abae1c9cffa30d524cdbf212d3e",
+        "source_content_matches": true,
+        "cloudflare_challenge_script_added": true
+      },
+      {
+        "url": "https://davebettner.com/images/selected-work/krowbar-desktop.png",
+        "status": 200,
+        "observed_sha256": "357e75a2d0e99570bb5a05e92ca18063d2aa9426ff5d6c2913f89ff3db29b85e",
+        "source_sha256": "357e75a2d0e99570bb5a05e92ca18063d2aa9426ff5d6c2913f89ff3db29b85e",
+        "source_content_matches": true,
+        "cloudflare_challenge_script_added": false
+      },
+      {
+        "url": "https://davebettner.com/images/selected-work/krowbar-mobile.png",
+        "status": 200,
+        "observed_sha256": "6d3352405ba21ce0fc76c76f3fd6741ef40de56301431d0539f2dbb48a8112b8",
+        "source_sha256": "6d3352405ba21ce0fc76c76f3fd6741ef40de56301431d0539f2dbb48a8112b8",
+        "source_content_matches": true,
+        "cloudflare_challenge_script_added": false
+      }
+    ],
+    "served_style_count": 5,
+    "served_styles_match": true,
+    "native_live_route_width_checks": 12,
+    "native_live_errors": []
+  },
+  "native_checks": {
+    "full_npm_test": "passed",
+    "final_affected_routes": 12,
+    "production_route_width_checks": 12,
+    "production_errors": []
+  },
+  "independent_visual_review": "docs/receipts/2026-10-13-krowbar-portfolio-vision.json",
+  "rollback": "Prior Cloudflare Worker version is retained. No storage bindings or data migrations changed."
+}

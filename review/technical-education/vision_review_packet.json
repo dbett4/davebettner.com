@@ -1,0 +1,74 @@
+{
+  "capture_route": "t3-preview-and-native-pdf-render",
+  "captures": [
+    {
+      "bytes": 184650,
+      "media_type": "image/png",
+      "path": "/home/dave/work/davebettner.com-positioning-20261014/review/technical-education/lesson-desktop.png",
+      "sha256": "763c09a34d90b0ede6c102e92abf2f3847f2a892e45f636541ad66a70c55fe2d"
+    },
+    {
+      "bytes": 188287,
+      "media_type": "image/png",
+      "path": "/home/dave/work/davebettner.com-positioning-20261014/review/technical-education/lesson-uncertain.png",
+      "sha256": "5ab2026fa3ad36d3b9fbf211983436112eabd3abb022203f30c78c86cf1dd8e8"
+    },
+    {
+      "bytes": 190835,
+      "media_type": "image/png",
+      "path": "/home/dave/work/davebettner.com-positioning-20261014/review/technical-education/lesson-verified.png",
+      "sha256": "f9be7c3f7f4cf2054903724235ef2b5180edcd52cadb6d949fbdac67292024a3"
+    },
+    {
+      "bytes": 144466,
+      "media_type": "image/png",
+      "path": "/home/dave/work/davebettner.com-positioning-20261014/review/technical-education/lesson-mobile.png",
+      "sha256": "bc982ca05fae10f0a20d84d9845aedb7fe37803f2e26dd40de9c4497a41ad09c"
+    },
+    {
+      "bytes": 171463,
+      "media_type": "image/png",
+      "path": "/home/dave/work/davebettner.com-positioning-20261014/review/technical-education/home-mobile.png",
+      "sha256": "317edfeb45c7430d1d9bd89167577f0f923cac728474b4e3e1b99536e074a009"
+    },
+    {
+      "bytes": 141186,
+      "media_type": "image/png",
+      "path": "/home/dave/work/davebettner.com-positioning-20261014/review/technical-education/resume-1.png",
+      "sha256": "19f23b48b8c9ae19c4d554c05a9c1e91d49e311ae0c925414654807ace0e437f"
+    },
+    {
+      "bytes": 108020,
+      "media_type": "image/png",
+      "path": "/home/dave/work/davebettner.com-positioning-20261014/review/technical-education/resume-2.png",
+      "sha256": "ffd839e369559f372fa335d65d0e9e06d5955de1fd685e6eb6ff179980f9df6e"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 1510,
+      "media_type": "application/json",
+      "path": "/home/dave/work/davebettner.com-positioning-20261014/review/technical-education/native-checks.json",
+      "sha256": "e843904b601e5bcbbecfe802df80db6a2e5df020ce0f3247c82ad8165ca4e0c7"
+    }
+  },
+  "generated_at": "2026-10-14T18:22:55Z",
+  "required_visual_claims": [
+    "The fictional lesson preserves uncertainty until readback, controls and text remain readable on phones, and the two-page resume leads with delivery and solutions experience."
+  ],
+  "schema_version": "1.0",
+  "scope": "Interactive workflow lesson, supporting homepage rows and two-page resume",
+  "source_revision": "7f1c9dcee1361ded19a49eaea1c1b08762c2bd19",
+  "status": "verified",
+  "surface": "personal-website-and-resume",
+  "viewport": "1280x800 desktop; 390x844 phone; two Letter PDF pages",
+  "visual_adjudication": {
+    "reviewed_at": "2026-10-14T18:22:55Z",
+    "reviewer": "/root/final_visual_review",
+    "reviewer_runtime": "codex",
+    "source_path": "/home/dave/work/davebettner.com-positioning-20261014/review/technical-education/adjudication.json",
+    "source_sha256": "7dbf63f6f563f7cc11073dee8476df7f717821f4e8c734bb7618dfb34b123456",
+    "summary": "Delivery and solutions leadership lead the positioning, with education supporting it. Inspected mobile layouts and both pages of the resume are readable. Lost-response handling remains uncertain before readback and confirms one write, 110 units, and revision 4 afterward. The lesson uses fictional local checks, calls no model or external application, and makes no growth or creator-audience claims.",
+    "verdict": "verified"
+  }
+}

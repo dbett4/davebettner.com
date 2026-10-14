@@ -1,0 +1,42 @@
+{
+  "source_commit": "7f1c9dcee1361ded19a49eaea1c1b08762c2bd19",
+  "completed_at": "2026-10-14T18:22:55.609627+00:00",
+  "combined_entrypoint": {
+    "command": "npm test",
+    "exit_code": 143,
+    "result": "Interrupted after the build, profile, lesson, avatar and workstation checks passed. Remaining native entrypoints passed in bounded runs against the same built artifact."
+  },
+  "native_checks": {
+    "generate-resume": "passed",
+    "build": "passed",
+    "profile-tests": "passed",
+    "verify-ramp-profile.py": "passed",
+    "verify-workflow-lesson.mjs": "passed",
+    "verify-avatar-fade.mjs": "passed",
+    "verify-workstation-video.mjs": "passed",
+    "verify-theme.mjs": "passed",
+    "verify-visitor-journey.mjs": "passed",
+    "capture-soft-fade.mjs": "passed",
+    "verify-soft-fade.mjs": "passed",
+    "test-deploy-preflight.sh prepush": "passed"
+  },
+  "artifacts": {
+    "dist/index.html": "dd7262f2ce55f2aa9549e829b60cbf4188f27aa668717e66c57bdbf47d613055",
+    "dist/learn/verify-an-ai-update/index.html": "39d57c11ebb855d4fcee676b3ef8279d8d97c8f0c27cbdfab06b59ce6df669c9",
+    "public/dave-bettner-resume.pdf": "cb225d5ac8fb9b6fe0102bae26bab193ec1ef2e4fa417f21854343c56eb03be7"
+  },
+  "t3_browser": {
+    "before_readback": {
+      "write_count": "Unknown",
+      "last_read_stock": 100,
+      "last_read_revision": 3
+    },
+    "after_readback": {
+      "write_count": 1,
+      "stock": 110,
+      "revision": 4
+    },
+    "phone_viewport": 390,
+    "document_scroll_width": 375
+  }
+}

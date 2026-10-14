@@ -5,15 +5,15 @@ import crypto from 'node:crypto';
 const read = p => fs.readFileSync(p, 'utf8');
 const hash = p => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 
-test('public identity leads with product design while retaining accurate delivery history', () => {
+test('public identity leads with enterprise delivery and AI workflows while retaining accurate history', () => {
   const robots = read('dist/robots.txt');
   assert.match(robots, /^Allow: \/$/m);
   assert.doesNotMatch(robots, /^Disallow:\s*\/\s*$/m);
   assert.match(robots, /Sitemap: https:\/\/davebettner\.com\/sitemap-index\.xml/);
   const home = read('dist/index.html');
-  assert.match(home, /I design and build products for complex workflows\./);
+  assert.match(home, /I lead enterprise software delivery and build practical AI workflows\./);
   assert.match(home, /I own product direction and implementation for Passal and Leasekite, working through AI coding tools/i);
-  assert.match(home, /design engineering and product-building roles/i);
+  assert.match(home, /enterprise implementation leadership, solutions architecture, and applied AI roles/i);
   assert.match(home, /Customer delivery background/);
   assert.match(home, /managed a five-person implementation team/i);
   assert.match(home, /6–12 concurrent implementations/);
@@ -31,13 +31,13 @@ test('public identity leads with product design while retaining accurate deliver
   assert.match(about, /I studied accounting\. My career has been in software implementation and customer delivery\./);
   assert.match(about, /Master of Accounting/);
   assert.match(about, /B\.S\. in Accounting/);
-  assert.match(about, /design engineering and product-building roles/i);
+  assert.match(about, /enterprise implementation leadership, solutions architecture, and applied AI roles/i);
   assert.match(about, /I own product direction, interface design, and implementation for Passal and Leasekite/);
   assert.ok(about.indexOf('I carry product decisions through implementation') < about.indexOf('Accounting education'), 'product contribution leads the about page');
   for (const route of ['', 'experience/', 'work/', 'fit/', 'about/']) {
     const page = read('dist/' + route + 'index.html');
     assert.doesNotMatch(page, /\b(?:an|former|practicing|practising) accountant\b|Accounting background\.|Accounting, technology, and customer delivery/i);
-    assert.match(page, /Dave Bettner designs and builds products for complex workflows/);
+    assert.match(page, /Dave Bettner leads enterprise software delivery and builds practical AI workflows/);
     assert.match(page, /"jobTitle":"Senior Manager"/);
     assert.doesNotMatch(page, /"jobTitle":"(?:Forward Deployed Engineer|Accountant|CPA)"/i);
   }

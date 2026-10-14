@@ -1,0 +1,186 @@
+---
+import Profile from '../../layouts/Profile.astro';
+import { fixtures } from '../../lib/workflow-lesson';
+---
+
+<Profile
+  title="How do you know an AI update worked? — Dave Bettner"
+  description="Try a small inventory example to see how source checks, approval, and application readback make an AI-assisted update verifiable."
+  page="fit"
+>
+  <section class="page-intro wrap">
+    <h1>How do you know an AI update worked?</h1>
+    <p class="lead">A convincing proposal is a starting point. Before trusting an update, check its source, approve the change, and read the result from the application.</p>
+    <div class="actions"><a href="/ai-workflows/">How I build AI workflows</a></div>
+  </section>
+
+  <div class="wrap lesson prose">
+    <section aria-labelledby="lesson-heading">
+      <h2 id="lesson-heading">Three different kinds of evidence.</h2>
+      <ol class="lesson-steps">
+        <li><strong>A proposal.</strong> An assistant suggests a new value. Check that its source is current and its calculation is right before allowing a write.</li>
+        <li><strong>A write receipt.</strong> An application reports that it accepted the change. That tells you about the request, but you still need to inspect the saved result.</li>
+        <li><strong>A checked final state.</strong> Read the application again and compare its saved value and revision with the approved update.</li>
+      </ol>
+      <p>If a response gets lost, the write may already have succeeded. Read the application before deciding to retry. Otherwise, you risk applying the same change twice.</p>
+    </section>
+
+    <section id="workflow-demo" aria-labelledby="example-heading">
+      <h2 id="example-heading">Try it with an inventory update.</h2>
+      <p>A shop starts with 100 units, receives 30, and ships 20. The expected stock is <strong>110 units</strong>. Try the valid proposal, then see what changes when the source is stale, the calculation is wrong, or a write response is lost.</p>
+      <p class="scope-note">This example uses fictional inventory data and deterministic local checks. No AI model or external application is called. State stays in this page and resets when you reload.</p>
+
+      <div class="fixture-control">
+        <label for="fixture">Try a case</label>
+        <select id="fixture" disabled>
+          {fixtures.map(fixture => <option value={fixture.id}>{fixture.label}</option>)}
+        </select>
+        <button id="reset-example" class="lesson-button" type="button" disabled>Reset example</button>
+      </div>
+
+      <div class="records">
+        <table>
+          <caption>Source records</caption>
+          <tbody>
+            <tr><th scope="row">Source revision</th><td id="source-revision">inventory-7</td></tr>
+            <tr><th scope="row">Proposal inspected</th><td id="inspected-revision">inventory-7</td></tr>
+            <tr><th scope="row">Starting stock</th><td>100 units</td></tr>
+            <tr><th scope="row">Received</th><td>30 units</td></tr>
+            <tr><th scope="row">Shipped</th><td>20 units</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <caption>Proposal and application</caption>
+          <tbody>
+            <tr><th scope="row">Proposed stock</th><td id="proposed-stock">110 units</td></tr>
+            <tr><th scope="row">Application stock</th><td id="application-stock">100 units</td></tr>
+            <tr><th scope="row">Application revision</th><td id="application-revision">3</td></tr>
+            <tr><th scope="row">Writes made</th><td id="write-count">0</td></tr>
+            <tr><th scope="row">Write receipt</th><td id="write-receipt">Not requested</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="read-note">Application values show the last read. Applying a change does not refresh them. Use “Read application” to inspect the saved result.</p>
+
+      <div class="demo-actions">
+        <button id="check-proposal" class="lesson-button" type="button" disabled>Check proposal</button>
+        <button id="apply-proposal" class="button" type="button" disabled>Approve and apply</button>
+        <button id="read-application" class="lesson-button" type="button" disabled>Read application</button>
+      </div>
+      <p id="workflow-status" role="status" aria-live="polite" aria-atomic="true">Enable JavaScript to try the controls. The example above shows the source and proposed update.</p>
+      <noscript><p>The lesson and static example are available without JavaScript. The controls need JavaScript because they update a local application record in your browser.</p></noscript>
+      <ul id="proposal-checks" aria-label="Proposal check results" hidden></ul>
+
+      <h3 class="log-heading">What happened</h3>
+      <ol id="workflow-log"><li>No interactive actions have run.</li></ol>
+    </section>
+
+    <section aria-labelledby="takeaway-heading">
+      <h2 id="takeaway-heading">Make the result easy to inspect.</h2>
+      <p>The same questions apply when an assistant updates a report, a customer record, or a project. Which source did it inspect? What exactly did you approve? What is saved now? A useful workflow makes those answers available to the person responsible for the result.</p>
+      <p>I use this approach in my <a href="/ai-workflows/">AI workflow work</a>. You can also inspect the <a href="/work/accounting-acceptance-lab/">Accounting Acceptance Lab</a> or try <a href="/work/krowbar/">Krowbar’s fictional reporting demo</a>.</p>
+    </section>
+  </div>
+</Profile>
+
+<script>
+  import { advanceWorkflow, createWorkflow, fixtures, type WorkflowAction } from '../../lib/workflow-lesson';
+
+  const demo = document.querySelector<HTMLElement>('#workflow-demo')!;
+  const select = demo.querySelector<HTMLSelectElement>('#fixture')!;
+  const reset = demo.querySelector<HTMLButtonElement>('#reset-example')!;
+  const check = demo.querySelector<HTMLButtonElement>('#check-proposal')!;
+  const apply = demo.querySelector<HTMLButtonElement>('#apply-proposal')!;
+  const read = demo.querySelector<HTMLButtonElement>('#read-application')!;
+  const status = demo.querySelector<HTMLElement>('#workflow-status')!;
+  const checks = demo.querySelector<HTMLUListElement>('#proposal-checks')!;
+  const log = demo.querySelector<HTMLOListElement>('#workflow-log')!;
+  let state = createWorkflow('valid');
+
+  function render() {
+    const values = {
+      'source-revision': state.source.revision,
+      'inspected-revision': state.inspectedSourceRevision,
+      'proposed-stock': `${state.candidateStockBalance} units`,
+      'application-stock': `${state.lastReadApplication.stockBalance} units`,
+      'application-revision': String(state.lastReadApplication.revision),
+      'write-count': String(state.writeCount),
+      'write-receipt': { 'not-requested': 'Not requested', accepted: 'Accepted', 'response-lost': 'Response lost' }[state.receiptStatus],
+    };
+    for (const [id, value] of Object.entries(values)) demo.querySelector<HTMLElement>(`#${id}`)!.textContent = value;
+    status.textContent = state.message;
+    checks.hidden = state.checks.length === 0;
+    checks.replaceChildren(...state.checks.map(result => {
+      const item = document.createElement('li');
+      item.textContent = `${result.passes ? 'Pass' : 'Fail'}. ${result.explanation}`;
+      return item;
+    }));
+    log.replaceChildren(...state.log.map(message => {
+      const item = document.createElement('li');
+      item.textContent = message;
+      return item;
+    }));
+    check.disabled = state.phase !== 'proposal' && state.phase !== 'blocked';
+    apply.disabled = state.phase !== 'checked';
+    read.disabled = false;
+    reset.disabled = false;
+    select.disabled = false;
+  }
+
+  function run(action: WorkflowAction) {
+    state = advanceWorkflow(state, action);
+    render();
+  }
+
+  select.addEventListener('change', () => {
+    const fixture = fixtures.find(fixture => fixture.id === select.value);
+    if (!fixture) return;
+    state = createWorkflow(fixture.id);
+    render();
+  });
+  reset.addEventListener('click', () => {
+    state = createWorkflow(state.fixture);
+    render();
+  });
+  check.addEventListener('click', () => run('check'));
+  apply.addEventListener('click', () => run('apply'));
+  read.addEventListener('click', () => run('read'));
+  render();
+</script>
+
+<style>
+  .lesson { max-width: 800px; margin-bottom: 64px; }
+  .lesson-steps { padding-left: 24px; margin: 0 0 24px; }
+  .lesson p + p { margin-top: 16px; }
+  .scope-note, .read-note { color: var(--secondary); font-size: 14px; }
+  .fixture-control { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-block: 28px; }
+  .fixture-control label { font-weight: 600; font-size: 15px; }
+  select, button { font: inherit; }
+  select { max-width: 100%; min-height: 49px; padding: 10px 32px 10px 12px; border: 1px solid var(--secondary); border-radius: var(--radius-control); background: var(--page); color: var(--text); font-size: 14px; }
+  .lesson-button { min-height: 49px; padding: 12px 18px; border: 1px solid var(--secondary); border-radius: var(--radius-control); background: var(--page); color: var(--text); font-size: 14px; font-weight: 600; }
+  button { cursor: pointer; }
+  button:disabled, select:disabled { color: var(--secondary); background: var(--surface-raised); border-color: var(--border); cursor: default; transform: none; }
+  .records { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; }
+  caption { text-align: left; padding-bottom: 12px; font-size: 17px; font-weight: 600; }
+  th, td { padding: 12px 0; border-top: 1px solid var(--border); vertical-align: top; overflow-wrap: anywhere; }
+  th { width: 59%; padding-right: 12px; text-align: left; font-weight: 500; }
+  td { font-variant-numeric: tabular-nums; }
+  .read-note { margin-top: 16px; }
+  .demo-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-block: 24px 20px; }
+  #workflow-status { font-weight: 600; }
+  #proposal-checks { margin-block: 20px; padding-left: 24px; }
+  .log-heading { margin-top: 28px; font-size: 19px; }
+  #workflow-log { padding-left: 24px; margin-bottom: 0; font-size: 14px; }
+  @media (hover: hover) and (pointer: fine) {
+    .lesson-button:hover:not(:disabled) { background: var(--surface-raised); }
+    .button:hover:disabled { color: var(--secondary); background: var(--surface-raised); border-color: var(--border); }
+  }
+  @media (max-width: 700px) {
+    .records { grid-template-columns: 1fr; gap: 24px; }
+    .fixture-control { align-items: stretch; }
+    .fixture-control label { width: 100%; }
+    .fixture-control select { flex: 1 1 100%; }
+    .demo-actions { flex-direction: column; align-items: stretch; }
+  }
+</style>

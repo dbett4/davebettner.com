@@ -59,5 +59,29 @@
   "independent_claim_review": "Separate read-only reviewer compared every claim with the prior copy; the dropped internal-rehearsal and City-workspace boundary and 20 lower-severity drift and prose findings were fixed before release.",
   "release_worktree": "adopted for deploy at 4bbbdd0, clean, removed after verification",
   "leases": "both deploy scopes released",
-  "rollback": "Prior Cloudflare Worker version 1ceb2da2-a50b-4e6c-b682-544cbb316939 is retained. No storage bindings or data migrations changed."
+  "rollback": "Prior Cloudflare Worker version 1ceb2da2-a50b-4e6c-b682-544cbb316939 is retained. No storage bindings or data migrations changed.",
+  "followup_release": {
+    "verified_at": "2026-10-14T12:22:23.116146+00:00",
+    "source_commit": "41564f21713fcd4d81a35a14827fa45646dd0616",
+    "worker_version": "3d69ddf7-2623-45c6-9557-a579d38c7e7c",
+    "previous_worker_version": "ca874784-7896-40d6-9598-d9ea0e4eca63",
+    "acp_session": "claude-ai-workflows-release-20261014b",
+    "change": "Budget example names its 85 ORG-code sections as budget units and says the intake matches updates to book sections.",
+    "source_evidence": "Internal budget-book project records list 85 ORG codes, each with its own book section; the intake queue shows reviewed text beside each exact outline section for Finance to copy.",
+    "uploaded_assets": [
+      "/ai-workflows/index.html"
+    ],
+    "native_checks": {
+      "full_npm_test": "passed",
+      "production_theme_suite": {
+        "passed": 781,
+        "failed": 0,
+        "ai_workflows_checks": 55,
+        "page_errors": []
+      }
+    },
+    "release_worktree": "adopted for deploy at 41564f2, clean, removed after verification",
+    "leases": "both deploy scopes released",
+    "rollback": "Prior Cloudflare Worker version ca874784-7896-40d6-9598-d9ea0e4eca63 is retained."
+  }
 }

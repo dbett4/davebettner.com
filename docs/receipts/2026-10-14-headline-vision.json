@@ -1,0 +1,93 @@
+{
+  "capture_route": "T3 collaborative preview",
+  "captures": [
+    {
+      "bytes": 358501,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mv8begxw-0a003977.png",
+      "sha256": "4856e41559f38f4b2fa328738bfb31f156ea791559fff9e6d89bd8a2bc3753cb"
+    },
+    {
+      "bytes": 344384,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mv8bexrm-b2cb1806.png",
+      "sha256": "62e84227dad506eeaa0c362d0ead008a9ad4ab80e37f75392198680c3627bcc4"
+    },
+    {
+      "bytes": 366853,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mv8bfxoz-1c14aa1e.png",
+      "sha256": "e63c8c5562429b2544cffa900672ecf8c3dbc9185fb73c2511b6daf7620de99e"
+    },
+    {
+      "bytes": 475862,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mv8bezb2-239813dd.png",
+      "sha256": "8ba19c1b9dfee02e3f94c2129246270840a6f4c3ea5550f52b6e70874572f545"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 5735,
+      "media_type": "application/json",
+      "path": "/home/dave/.local/state/dave-headline-20261014-t3c8735ca8/site-checks.json",
+      "sha256": "1ce45e491957c43a060752dfa38b6f0b38a988e237f767c3b45d9d6717562303"
+    },
+    "dom": {
+      "bytes": 3842,
+      "media_type": "application/json",
+      "path": "/home/dave/.local/state/dave-headline-20261014-t3c8735ca8/live-readback.json",
+      "sha256": "389ceec57eba6ec002cbb2bd7942f0258898daedf166b00044e31699bd1082bb"
+    }
+  },
+  "generated_at": "2026-10-14T16:21:27Z",
+  "required_visual_claims": [
+    "Updated headings and supporting copy fit the desktop and phone layouts"
+  ],
+  "schema_version": "1.0",
+  "scope": "Homepage and About headline, supporting copy, role interests, and shared metadata",
+  "source_revision": "f815821f539b85f40fc10ddc20628e98f7674061; worker f7a7e022-925e-4df5-ab7f-dc4426a30d96",
+  "status": "verified",
+  "surface": "davebettner.com production",
+  "viewport": "Desktop 1440x950 and phone 390x844 CSS pixels",
+  "visual_adjudication": {
+    "captures": [
+      {
+        "key": "live_headline_desktop",
+        "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mv8begxw-0a003977.png",
+        "url": "https://davebettner.com/",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "key": "live_headline_mobile",
+        "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mv8bexrm-b2cb1806.png",
+        "url": "https://davebettner.com/",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "key": "live_about_desktop",
+        "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mv8bfxoz-1c14aa1e.png",
+        "url": "https://davebettner.com/about/",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "key": "live_about_mobile",
+        "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mv8bezb2-239813dd.png",
+        "url": "https://davebettner.com/about/",
+        "verdict": "verified",
+        "viewed": true
+      }
+    ],
+    "independence": false,
+    "reviewed_at": "2026-10-14T16:21:27.140060+00:00",
+    "reviewer": "codex/root/t3code-c8735ca8",
+    "reviewer_runtime": "codex",
+    "source_path": "/home/dave/.local/state/dave-headline-20261014-t3c8735ca8/adjudication.json",
+    "source_sha256": "2516803d22347ef9acf337a3ca51a93a7b1f998e131a6d0d5a758268e44aea3c",
+    "summary": "Inspected production homepage and About page at desktop and phone widths. The new headings and supporting copy are legible without clipping or overlap. The existing layout remains intact.",
+    "verdict": "verified"
+  }
+}

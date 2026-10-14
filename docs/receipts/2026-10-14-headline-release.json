@@ -1,0 +1,104 @@
+{
+  "status": "verified",
+  "source_commit": "f815821f539b85f40fc10ddc20628e98f7674061",
+  "source_hashes": {
+    "src/pages/index.astro": "5efc487ce90105bafb34ba790003b5ab5a052a3a2c4ce81f978c7295abd2f871",
+    "src/pages/about/index.astro": "a964668ee4e0bc9abdef4104c043d21297e461a48b1ceb74e7a66af48c951af2",
+    "src/data/seo.ts": "d762918250f444dc4af83b9b7048e7ad68e21e53494091ab814f277d4a51778b",
+    "scripts/ramp-profile.test.mjs": "f8b9ef1b63a04bd156ff4dadb3aaccc33c7625b137ad4ee514b7b6e036469ed6",
+    "scripts/verify-ramp-profile.py": "f036b2a461f25af46d896adf14f10b094e925bc3afb45f84e3e1a5cdd103174b"
+  },
+  "deployment": {
+    "id": "4409efab-aabb-40f2-9bd7-80fb4d0e8c4b",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "author_email": "dbett4@gmail.com",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "f7a7e022-925e-4df5-ab7f-dc4426a30d96",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-14T16:13:41.575966Z"
+  },
+  "prior_worker_version": "3d69ddf7-2623-45c6-9557-a579d38c7e7c",
+  "native_validation": {
+    "command": "npm test",
+    "exit_code": 0,
+    "route_width_checks": 60,
+    "browser_errors": []
+  },
+  "production_readback": {
+    "checkedAt": "2026-10-14T16:20:08.654Z",
+    "checks": [
+      {
+        "description": "Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.",
+        "headline": "I lead enterprise software delivery and build practical AI workflows.",
+        "newIdentity": true,
+        "ogDescription": "Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.",
+        "ogTitle": "Dave Bettner | Enterprise Software Delivery & AI Workflows",
+        "route": "/",
+        "sha256": "1a60fdec6646cf1aab335dc99089a22d3a48d43170a136b310ad7ec483f4e452",
+        "status": 200,
+        "title": "Dave Bettner | Enterprise Software Delivery & AI Workflows",
+        "release_html_matches": true
+      },
+      {
+        "description": "Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.",
+        "headline": "Enterprise delivery.Practical AI workflows.",
+        "newIdentity": true,
+        "ogDescription": "Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.",
+        "ogTitle": "About \u2014 Dave Bettner",
+        "route": "/about/",
+        "sha256": "a6ba010a481027a14548618ffcd3b01da617ce8f0705fe18a0124cd117d11ae0",
+        "status": 200,
+        "title": "About \u2014 Dave Bettner",
+        "release_html_matches": true
+      },
+      {
+        "description": "Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.",
+        "headline": "Technical delivery.Customer ownership.",
+        "newIdentity": true,
+        "ogDescription": "Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.",
+        "ogTitle": "Experience \u2014 Dave Bettner",
+        "route": "/experience/",
+        "sha256": "e34165a6d29aab1f70ac76ece4113327125e3271665f0cf578f453c007191dc4",
+        "status": 200,
+        "title": "Experience \u2014 Dave Bettner",
+        "release_html_matches": true
+      },
+      {
+        "description": "Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.",
+        "headline": "Products and tools.",
+        "newIdentity": true,
+        "ogDescription": "Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.",
+        "ogTitle": "Projects \u2014 Dave Bettner",
+        "route": "/work/",
+        "sha256": "86deb3e1e03fca71a9bb3e0c817d12cd074644c0aaa7e9c50a89ceed4a18b194",
+        "status": 200,
+        "title": "Projects \u2014 Dave Bettner",
+        "release_html_matches": true
+      },
+      {
+        "description": "Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.",
+        "headline": "Start with the workflow.Build the experience.",
+        "newIdentity": true,
+        "ogDescription": "Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.",
+        "ogTitle": "Approach \u2014 Dave Bettner",
+        "route": "/fit/",
+        "sha256": "cf272b1f954016aa1531f05829ff36a64735e246517e3dcc8fad5e9cafd699f2",
+        "status": 200,
+        "title": "Approach \u2014 Dave Bettner",
+        "release_html_matches": true
+      }
+    ]
+  },
+  "vision_review_packet": "docs/receipts/2026-10-14-headline-vision.json",
+  "verification_route_notes": [
+    "The VPS Python HTTP request was refused with 403. Public HTML was read through same-origin fetch in the T3 browser; all five pages matched the deployed release byte for byte."
+  ],
+  "verified_at": "2026-10-14T16:21:27.335314+00:00"
+}

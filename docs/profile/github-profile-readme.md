@@ -20,6 +20,8 @@ Based in Des Moines, Iowa; open to relocation. Interested in design engineering 
 
 My background is in financial-reporting software, customer delivery, and technical consulting. I have led customer implementations, managed an implementation team, and built reusable Python reporting tools. That experience shapes how I understand a workflow, decide what belongs in the interface, and carry the work through testing and iteration.
 
+At LSL, I build internal AI-assisted workflows. One cash-flow review workflow covered 11 source workpapers with 69 automated arithmetic checks, flagging discrepancies for human review before client changes. These workflows are separate from the synthetic public demos above.
+
 I use AI coding tools throughout development. Product direction and implementation remain my responsibility. Independent technical projects use synthetic or mock records; they are separate from confidential client work.
 
 [Selected work](https://davebettner.com/work/) · [Experience](https://davebettner.com/experience/) · [LinkedIn](https://www.linkedin.com/in/dave-bettner/)

@@ -1,0 +1,174 @@
+{
+  "capture_route": "Native LibreOffice export rasterized with pdftoppm; repository browser verifier and T3 preview",
+  "captures": [
+    {
+      "bytes": 241354,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/profile-feedback-20261013/resume-1.png",
+      "sha256": "0d93d9d354c6b1ab3cba8fc79082d41d9ec97450386743c3a760b61b69ead9ef"
+    },
+    {
+      "bytes": 272815,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/profile-feedback-20261013/resume-2.png",
+      "sha256": "048f05b5fe0f5de1602726d2e46b5969f8a8d453334ee187f93094ba98b7d660"
+    },
+    {
+      "bytes": 819971,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/profile-feedback-20261013/home-1440.png",
+      "sha256": "5e69cb9a0b43b1154988920ff81fdfaf4dee4311868db395b8b3afd5b506d13c"
+    },
+    {
+      "bytes": 744243,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/profile-feedback-20261013/home-390.png",
+      "sha256": "377eedeeb9db197331ed55150a1b2e61e5aac32e31c384e397e2536fbfb2210d"
+    },
+    {
+      "bytes": 295521,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/profile-feedback-20261013/experience-1440.png",
+      "sha256": "0acf8e393b521eb171a35ddbcef3bc7a4f6c1d1dd721e048f5a9c3e103925b9a"
+    },
+    {
+      "bytes": 277406,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/profile-feedback-20261013/experience-390.png",
+      "sha256": "50013c072e4e25764655aa63ec032b7d12c351e661fdbdbce43637078357f08d"
+    },
+    {
+      "bytes": 280173,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/profile-feedback-20261013/fit-1440.png",
+      "sha256": "c30ab74cd74a004a65ff01025ed8dcf4a538c647a2f1c1bcc93b7a56976fb94c"
+    },
+    {
+      "bytes": 268467,
+      "media_type": "image/png",
+      "path": "/home/dave/.local/state/profile-feedback-20261013/fit-390.png",
+      "sha256": "27cf7a877d92ca5a937c19d9881591d5b5dd479dbc1b69b4549f33b48c696043"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 5390,
+      "media_type": "application/json",
+      "path": "/home/dave/.local/state/profile-feedback-20261013/site-checks.json",
+      "sha256": "cf99631fe2bdfe999a84ef43acc439fcf84d2d3f7e21df583a1e595edcd1a947"
+    }
+  },
+  "generated_at": "2026-10-14T03:34:58Z",
+  "required_visual_claims": [
+    "Resume remains legible across two pages with the requested headline and measured internal-workflow example",
+    "Updated site copy fits desktop and phone layouts"
+  ],
+  "schema_version": "1.0",
+  "scope": "Resume headline and internal LSL review result; homepage, experience and approach copy",
+  "source_revision": "profile-feedback:13 source hashes in the independent review",
+  "status": "verified",
+  "surface": "Personal site and two-page resume",
+  "viewport": "US Letter PDF; desktop 1440x950 and phone 390x844",
+  "visual_adjudication": {
+    "captures": [
+      {
+        "capture": "resume-1.png",
+        "result": "Legible; no clipping, footers or page numbers.",
+        "sha256": "0d93d9d354c6b1ab3cba8fc79082d41d9ec97450386743c3a760b61b69ead9ef",
+        "viewed": true
+      },
+      {
+        "capture": "resume-2.png",
+        "result": "Legible; no clipping, footers or page numbers.",
+        "sha256": "048f05b5fe0f5de1602726d2e46b5969f8a8d453334ee187f93094ba98b7d660",
+        "viewed": true
+      },
+      {
+        "capture": "home-1440.png",
+        "result": "Layout readable with consistent final claim; no overlap or clipping.",
+        "route": "/",
+        "sha256": "5e69cb9a0b43b1154988920ff81fdfaf4dee4311868db395b8b3afd5b506d13c",
+        "viewed": true,
+        "width": 1440
+      },
+      {
+        "capture": "home-390.png",
+        "result": "Layout readable with consistent final claim; no overlap or clipping.",
+        "route": "/",
+        "sha256": "377eedeeb9db197331ed55150a1b2e61e5aac32e31c384e397e2536fbfb2210d",
+        "viewed": true,
+        "width": 390
+      },
+      {
+        "capture": "experience-1440.png",
+        "result": "Layout readable with consistent final claim; no overlap or clipping.",
+        "route": "/experience/",
+        "sha256": "0acf8e393b521eb171a35ddbcef3bc7a4f6c1d1dd721e048f5a9c3e103925b9a",
+        "viewed": true,
+        "width": 1440
+      },
+      {
+        "capture": "experience-390.png",
+        "result": "Layout readable with consistent final claim; no overlap or clipping.",
+        "route": "/experience/",
+        "sha256": "50013c072e4e25764655aa63ec032b7d12c351e661fdbdbce43637078357f08d",
+        "viewed": true,
+        "width": 390
+      },
+      {
+        "capture": "fit-1440.png",
+        "result": "Layout readable with consistent final claim; no overlap or clipping.",
+        "route": "/fit/",
+        "sha256": "c30ab74cd74a004a65ff01025ed8dcf4a538c647a2f1c1bcc93b7a56976fb94c",
+        "viewed": true,
+        "width": 1440
+      },
+      {
+        "capture": "fit-390.png",
+        "result": "Layout readable with consistent final claim; no overlap or clipping.",
+        "route": "/fit/",
+        "sha256": "27cf7a877d92ca5a937c19d9881591d5b5dd479dbc1b69b4549f33b48c696043",
+        "viewed": true,
+        "width": 390
+      }
+    ],
+    "claim_basis": "Retained source coverage, final compiled plan, native adoption and a separate review of source arithmetic.",
+    "findings": [],
+    "independence": true,
+    "limits": [
+      "Internal review coverage only; no measured time savings, client release or whole-engagement accounting acceptance claimed.",
+      "LinkedIn and GitHub files are source copy; no account update is claimed."
+    ],
+    "native_validation": {
+      "command": "npm test",
+      "completed_at": "2026-10-14T03:34:39.715713+00:00",
+      "exit_code": 0,
+      "log_sha256": "3563ee4e2201c96e36452ce39feb31a77e2b8edd5d8de2d2cf522e127b6c7856",
+      "reviewed_resume_sha256": "53d16be1c62d918bc73dd1ed64fc2c70c9b8ddbfdf6e609905f26d37c6e17d19",
+      "site_checks": 56
+    },
+    "private_review_sha256": "bb0eb7cc699b2ad576f276170813dac78e4e40930314dffdd3f76bb612d29540",
+    "reviewed_at": "2026-10-14T03:32:23.029706+00:00",
+    "reviewer": "codex/profile_review separate session",
+    "reviewer_runtime": "codex",
+    "source_hashes": {
+      "README.md": "de0394f3ea9a3ecf3e45289a756176c1a11cef7be1550ad549b877d1f4907cab",
+      "docs/profile/README.md": "c8a3c85c26fca00666889853c3d5b46de3f2e4f4a849189e5c0c93fcfc73480d",
+      "docs/profile/github-profile-readme.md": "155e57a94f5bf615e7c474fa6b75c2a37d686dba3f61a3bc10abceb66a9dfc81",
+      "docs/profile/linkedin-copy.md": "348d16ba49ea00248a2ab5361f42b9d281f7f8dc885bc59eec667e5ceaae35a0",
+      "public/dave-bettner-resume.pdf": "53d16be1c62d918bc73dd1ed64fc2c70c9b8ddbfdf6e609905f26d37c6e17d19",
+      "resume/dave-bettner-design-engineering.docx": "3e365c5a06df0d07962437456830952b57945b22d0ef5b69928e439a2b25ed50",
+      "resume/dave-bettner-design-engineering.md": "88ba90d31960c5bd5d62d4967bb2eea0b618798fcbb5bed4ad2f3d687325c6dd",
+      "resume/dave-bettner-design-engineering.pdf": "53d16be1c62d918bc73dd1ed64fc2c70c9b8ddbfdf6e609905f26d37c6e17d19",
+      "scripts/generate-resume-pdf.mjs": "efd40ab5cbba34a024f9a7c58a6cd843ede68030fbbdbf821382b916d1eb03ef",
+      "scripts/ramp-profile.test.mjs": "6b297038cc789b7ea31e58babc0b3f04b167dc0def6a95571d80535461f15945",
+      "src/data/experience.ts": "fcd07f5992afecb0e2e119dc57e58b533f7eaf1ee64956f8cc0d0acab9a20fc1",
+      "src/pages/fit/index.astro": "dfca08530d1c9abb8810826993e7f93b22dd40ca6b1fb0d3b44f71944b05bc87",
+      "src/pages/index.astro": "1de2dd1e2f6508eb3c819969172a3d5269b7a90023221f8f635e2a22e0d71710"
+    },
+    "source_path": "/srv/agentops/worktrees/codex/t3-code/davebettner.com/t3code-85b067d5/docs/receipts/2026-10-13-profile-feedback-review.json",
+    "source_sha256": "c6d7510530fb21b5a8deb2e1a51fd79ebef494242877ca09bd6bc36be733c9e3",
+    "summary": "Accepted the profile changes: requested headline, a source-backed internal cash-flow review example covering 11 workpapers with 69 automated arithmetic checks, and explicit separation from synthetic public demos. Both resume pages and desktop/phone layouts are legible.",
+    "verdict": "verified"
+  }
+}

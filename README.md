@@ -60,15 +60,15 @@ CI (`.github/workflows/verify.yml`) runs `npm test` on pushes to `main` and on p
 
 ## Résumé PDF
 
-The download is the supplied PDF, `resume/dave-bettner-current.pdf`, published unchanged.
+The download is the reviewed two-page PDF, `resume/dave-bettner-design-engineering.pdf`. Its editable source and Word export sit beside it. The supplied and previous public PDFs are preserved.
 
 ```bash
 npm run generate-resume
 ```
 
-`scripts/generate-resume-pdf.mjs` checks the file's SHA-256 against the digest pinned in the script and copies it byte for byte to `public/dave-bettner-resume.pdf`. If the hash differs, it stops with `Supplied resume changed; review before replacing the download.` and copies nothing. It needs only Node.
+`scripts/generate-resume-pdf.mjs` checks the preserved PDFs and the current export against their pinned SHA-256 digests, then copies the reviewed export byte for byte to `public/dave-bettner-resume.pdf`. If any hash differs, it stops and copies nothing. It needs only Node.
 
-To replace the résumé, update the PDF and the pinned digest in both `scripts/generate-resume-pdf.mjs` and `scripts/ramp-profile.test.mjs`, rerun `npm run generate-resume`, and commit the refreshed `public/dave-bettner-resume.pdf`.
+To revise the résumé, edit `resume/dave-bettner-design-engineering.md`, run `python3 resume/build-design-engineering-resume.py` with the bundled Manrope fonts installed, and review the Word and PDF exports. Update the pinned digest in both `scripts/generate-resume-pdf.mjs` and `scripts/ramp-profile.test.mjs`, rerun `npm run generate-resume`, and commit the source, exports, and refreshed public download.
 
 `resume/dave-bettner-resume.html` is no longer the source. Only the archived HTML-to-PDF renderer, `review/ramp/archived-resume-generator.mjs`, reads it.
 

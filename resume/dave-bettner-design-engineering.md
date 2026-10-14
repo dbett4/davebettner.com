@@ -1,11 +1,11 @@
 # Dave Bettner
 
-Product Design & Engineering
+Enterprise Implementation & AI Workflow Leader | Finance Systems | Python
 
 Des Moines, Iowa · Open to relocation · dbett4@gmail.com · 815.440.1756\
 [davebettner.com](https://davebettner.com/) · [LinkedIn](https://www.linkedin.com/in/dave-bettner/) · [GitHub](https://github.com/dbett4)
 
-I design and build Passal’s study experience and Leasekite’s vehicle comparison and lease-request workflows, working through AI coding tools. My product decisions draw on 10+ years in financial-reporting software and customer delivery.
+I lead enterprise software implementations and build Python tools and internal AI-assisted workflows for finance teams. My work draws on 10+ years in financial-reporting software and customer delivery. I also design and build Passal and Leasekite through AI coding tools.
 
 ## Selected Product & Technical Work
 
@@ -50,7 +50,7 @@ Nov 2025–Present
 - Scope consulting engagements, prepare estimates and statements of work, respond to RFPs, and demonstrate proposed solutions to customers.
 - Reset implementation expectations around client ownership: our team would enable the client team and help them become comfortable doing the work themselves.
 - Develop Python tools that generate Workiva data links, formulas, and validation checks from client ledgers, reused across financial-reporting and budgeting engagements.
-- Build AI-assisted workflows that compare reports with source records and flag accounting discrepancies for review, with human review before client changes.
+- Built an internal AI-assisted cash-flow review workflow covering 11 source workpapers with 69 automated arithmetic checks, flagging discrepancies for human review. Internal LSL workflows are separate from my synthetic public demos; client changes require human review.
 
 ### Citrin Cooperman — Manager of Digital Services, Workiva
 

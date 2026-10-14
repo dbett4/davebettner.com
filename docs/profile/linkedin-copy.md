@@ -1,10 +1,10 @@
-# Dave Bettner — design engineering profile copy
+# Dave Bettner — profile copy
 
 Prepared October 12, 2026. Authorized profile direction; employment titles and dates remain as recorded. Based in Des Moines and open to relocation. This file contains ready-to-use copy, not proof of a LinkedIn account update.
 
 ## Headline
 
-Design engineering | Product builder | AI tools and complex workflows
+Enterprise Implementation & AI Workflow Leader | Finance Systems | Python
 
 ## About
 
@@ -14,7 +14,7 @@ I own product direction, interface design, and implementation for Passal and Lea
 
 I also shaped the positioning, website, and reporting resources for Lockfield, a Workiva consulting practice built around training and client ownership. My personal technical projects explore how agents access APIs, check evidence, and recover from failed actions. The public accounting evaluation uses synthetic cases, and the reporting integration demo uses mock data.
 
-My background is in financial-reporting software and customer delivery. At Workiva, I led 6–12 concurrent implementations. At Citrin Cooperman, I managed a five-person implementation team. Today, I’m a Senior Manager at LSL, leading Workiva delivery for city and county finance teams. That experience shapes how I understand user needs, integrations, and complex workflows.
+My background is in financial-reporting software and customer delivery. At Workiva, I led 6–12 concurrent implementations. At Citrin Cooperman, I managed a five-person implementation team. Today, I’m a Senior Manager at LSL, leading Workiva delivery for city and county finance teams. I build Python reporting tools and internal AI-assisted workflows. One internal cash-flow review workflow covered 11 source workpapers with 69 automated arithmetic checks, flagging discrepancies for human review before client changes. These internal workflows are separate from my synthetic public demos. That experience shapes how I understand user needs, integrations, and complex workflows.
 
 I’m interested in design engineering and product-building roles, especially interfaces for AI tools. Based in Des Moines; open to relocation.
 

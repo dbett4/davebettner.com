@@ -4,6 +4,8 @@ Dave authorized this direction on October 12, 2026. The website leads with selec
 
 October 12 refinement: website and résumé use Manrope. The résumé has no footer or page numbers, and its original employer wording remains intact. Passal and Leasekite have larger previews, with Lockfield in a supporting row.
 
+October 13 feedback: the résumé and LinkedIn source headline is “Enterprise Implementation & AI Workflow Leader | Finance Systems | Python.” LSL experience explicitly describes internal AI-assisted workflows, separately from synthetic public demos. The measured example is an internal cash-flow review covering 11 supplied source workpapers with 69 automated arithmetic checks, supported by an October 13 source-coverage record, native adoption, and independent review. The claim describes review coverage; it does not establish time saved, accounting acceptance, or client release. Private source paths and hashes are retained in the local review packet, outside this public repository. Existing Workiva implementation counts and public-demo results are not evidence of LSL AI workflow outcomes.
+
 The public résumé source, editable Word document, and reviewed two-page PDF are in `resume/dave-bettner-design-engineering.*`. The supplied and previous public PDFs remain intact. `scripts/generate-resume-pdf.mjs` verifies the preserved sources and copies the reviewed export to the public download.
 
 `linkedin-copy.md` and `github-profile-readme.md` contain the aligned profile text. They are source copy; account publication is established by a separate live readback.

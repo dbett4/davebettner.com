@@ -59,7 +59,7 @@ test('download is the reviewed design-engineering resume and previous sources ar
   assert.equal(hash('resume/dave-bettner-current.pdf'), suppliedDigest);
   const publicDigest = '53fe842ccc5d560af349d2c627397c84dffe91965fbd20eae16067ada68ff4a0';
   assert.equal(hash('resume/dave-bettner-public.pdf'), publicDigest);
-  const designDigest = '36fa31eb85f7ec610e0f07d2bd488d91aec50417adc41d4375fe36bbcf63f65b';
+  const designDigest = '53d16be1c62d918bc73dd1ed64fc2c70c9b8ddbfdf6e609905f26d37c6e17d19';
   assert.equal(hash('resume/dave-bettner-design-engineering.pdf'), designDigest);
   assert.equal(hash('public/dave-bettner-resume.pdf'), designDigest);
   assert.equal(hash('dist/dave-bettner-resume.pdf'), designDigest);

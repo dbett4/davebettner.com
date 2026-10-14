@@ -1,0 +1,131 @@
+{
+  "status": "adopted",
+  "verified_at": "2026-10-14T18:31:34.157476+00:00",
+  "role_family": "AI deployment and solutions leadership",
+  "deployed_commit": "df69899df8645d7651d2aeb6d10cf92ffb7c4af8",
+  "content_commit": "7f1c9dcee1361ded19a49eaea1c1b08762c2bd19",
+  "cloudflare_version": "e81c8212-68b5-4a4e-9def-304bbfe0efab",
+  "cloudflare_deployment": "cda17ecb-d08d-4226-9310-4b0a79d9c07c",
+  "previous_version": "f7a7e022-925e-4df5-ab7f-dc4426a30d96",
+  "live_readback": [
+    {
+      "path": "/",
+      "status": 200,
+      "sha256": "f57c68b1260aeb270d58e8f2437252e48fad5d6fc525ed578de219db091cd21c",
+      "normalized_sha256": "dd7262f2ce55f2aa9549e829b60cbf4188f27aa668717e66c57bdbf47d613055",
+      "matches_reviewed_content": true,
+      "identified_cloudflare_script_additions": 1
+    },
+    {
+      "path": "/about/",
+      "status": 200,
+      "sha256": "f887ba45a50a07b37e0e95b934b8662645076e4fcee45886a7460aeab3c5ce73",
+      "normalized_sha256": "6f9e837d17e2d612a717f3c6d384834b8ffe77d1f82b0afc6acf5976cc2d3009",
+      "matches_reviewed_content": true,
+      "identified_cloudflare_script_additions": 1
+    },
+    {
+      "path": "/fit/",
+      "status": 200,
+      "sha256": "486db65c5d409b06345002a931886fd9c2d3458b602d638e73538bcae7a523ab",
+      "normalized_sha256": "3c20aae85eaf7f4305763a32c93ca3c677a8d437d95608837cc0c5fc04fcaadc",
+      "matches_reviewed_content": true,
+      "identified_cloudflare_script_additions": 1
+    },
+    {
+      "path": "/work/",
+      "status": 200,
+      "sha256": "e913dabb0ff719b3f1906632e7f34b85639d18134c8f74baedc9c21ac30533ed",
+      "normalized_sha256": "96736b13a23512f05c646b3c83f9a9c0921e53b57b2dc7ecfa75a28198479f9d",
+      "matches_reviewed_content": true,
+      "identified_cloudflare_script_additions": 1
+    },
+    {
+      "path": "/ai-workflows/",
+      "status": 200,
+      "sha256": "4e300b14e1a5369b3e3ebbb43417b89f04ff909658e1250a7b1564fe63aae91c",
+      "normalized_sha256": "fe77ef108ae5a72501e8c44d79e70b286497104f099f2a75768d6219aad507f7",
+      "matches_reviewed_content": true,
+      "identified_cloudflare_script_additions": 1
+    },
+    {
+      "path": "/learn/verify-an-ai-update/",
+      "status": 200,
+      "sha256": "140d623a4ce0c3536aa7abf42b3b80e16b7fcb18e1b423631b75bb2adaf3dbbc",
+      "normalized_sha256": "39d57c11ebb855d4fcee676b3ef8279d8d97c8f0c27cbdfab06b59ce6df669c9",
+      "matches_reviewed_content": true,
+      "identified_cloudflare_script_additions": 1
+    },
+    {
+      "path": "/dave-bettner-resume.pdf",
+      "status": 200,
+      "sha256": "cb225d5ac8fb9b6fe0102bae26bab193ec1ef2e4fa417f21854343c56eb03be7",
+      "normalized_sha256": "cb225d5ac8fb9b6fe0102bae26bab193ec1ef2e4fa417f21854343c56eb03be7",
+      "matches_reviewed_content": true,
+      "identified_cloudflare_script_additions": 0
+    },
+    {
+      "path": "/_astro/Profile.CSdMkJ1D.css",
+      "status": 200,
+      "sha256": "2e5fa11d956622cadc80ebee033c9dcf0592e4c341854f6e5385f4e940333d71",
+      "matches_built_artifact": true
+    },
+    {
+      "path": "/_astro/SelectedProducts.Un3vMosk.css",
+      "status": 200,
+      "sha256": "c947934891d7a318a721995cad71d8995593495dc92ee4f0582633cbc2302197",
+      "matches_built_artifact": true
+    },
+    {
+      "path": "/_astro/WorkstationMedia.astro_astro_type_script_index_0_lang.D7iA5NaK.js",
+      "status": 200,
+      "sha256": "02bac1eb5e3ee6a0bdbd87afc413f713b357b6bfcba78074ef33ce33e5f38eae",
+      "matches_built_artifact": true
+    },
+    {
+      "path": "/_astro/index.BYanOYo2.css",
+      "status": 200,
+      "sha256": "eee44d22ed39f6a6c37fedeb531abf5a5bb6c00bd0d6b1c6ab138a94d5fcdde3",
+      "matches_built_artifact": true
+    },
+    {
+      "path": "/_astro/index.CSrkKkga.css",
+      "status": 200,
+      "sha256": "bb50264010c5cdafb799ac663e7a4d2e561afebf00571d3d6e28119d085bac3d",
+      "matches_built_artifact": true
+    },
+    {
+      "path": "/_astro/index.astro_astro_type_script_index_0_lang.CO-I0lDt.js",
+      "status": 200,
+      "sha256": "86eb3e1f0b777b161e4ac927dca7e88008439c95f85e11c96e602bd6313eb8f4",
+      "matches_built_artifact": true
+    },
+    {
+      "path": "/_astro/verify-an-ai-update.BgnQEJrd.css",
+      "status": 200,
+      "sha256": "d5346f0b3525396b88a8c1bf4342437c9d619686cdac3431307704e87b04a800",
+      "matches_built_artifact": true
+    },
+    {
+      "path": "/_astro/verify-an-ai-update.astro_astro_type_script_index_0_lang.CrJc0pS1.js",
+      "status": 200,
+      "sha256": "84e4e80243db935bb5ae22db22fec0410de3046a88b9f927a32897b52197b744",
+      "matches_built_artifact": true
+    }
+  ],
+  "live_lesson_checks": {
+    "passed": 188,
+    "failed": 0
+  },
+  "separate_review": "/root/final_visual_review",
+  "vision_review_packet": "review/technical-education/vision_review_packet.json",
+  "remaining_evidence": [
+    "Dave recording the prepared on-camera walkthrough",
+    "Observed participant or customer outcomes; study is prepared but not run"
+  ],
+  "delegated_artifact": {
+    "original_commit": "bc4505663c365ab70a717704bb029a453caa8d12",
+    "adopted_cherry_pick": "1ea143b",
+    "patch_id": "ce1b8fe602eb29ba8c18ef27da9974c4ae7d669c"
+  }
+}

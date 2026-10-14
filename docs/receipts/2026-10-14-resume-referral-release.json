@@ -1,0 +1,24 @@
+{
+  "verified_at": "2026-10-14T23:24:44.771Z",
+  "source_commit": "ef2eb4d4abb5e8a1f90ae53d12f6e3a0515ecf91",
+  "deployment_id": "cf5d7cfd-eb90-4ca7-8a3e-4a00d06f9314",
+  "worker_version": "a34fe767-331e-4ef1-afbf-3f4316a9151c",
+  "previous_worker_version": "e81c8212-68b5-4a4e-9def-304bbfe0efab",
+  "rollout_percentage": 100,
+  "uploaded_assets": [
+    "/dave-bettner-resume.pdf"
+  ],
+  "public_url": "https://davebettner.com/dave-bettner-resume.pdf",
+  "pdf_sha256": "ff59c8b0fa8a6cc38eaea3cec35a15b57bf5e4d6b3d6baa4d36843efed0960ec",
+  "verification": {
+    "source_manifest": "passed",
+    "resume_reproducibility": "passed",
+    "astro_check_and_build": "passed with zero errors and warnings",
+    "source_build_and_live_pdf_byte_match": true,
+    "pdf_pages": 2,
+    "visual_review_packet": "review/resume-referral-20261014/vision_review_packet.json",
+    "visual_review": "Builder inspected both PDF pages; independent review was not required for this bounded content update.",
+    "gmail": "Private referral email is outside the public site release."
+  },
+  "rollback": "The previous Worker version is retained. No configuration, bindings, storage, or application logic changed."
+}

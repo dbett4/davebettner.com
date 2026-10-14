@@ -15,16 +15,6 @@ import { fixtures } from '../../lib/workflow-lesson';
   </section>
 
   <div class="wrap lesson prose">
-    <section aria-labelledby="lesson-heading">
-      <h2 id="lesson-heading">Three different kinds of evidence.</h2>
-      <ol class="lesson-steps">
-        <li><strong>A proposal.</strong> An assistant suggests a new value. Check that its source is current and its calculation is right before allowing a write.</li>
-        <li><strong>A write receipt.</strong> An application reports that it accepted the change. That tells you about the request, but you still need to inspect the saved result.</li>
-        <li><strong>A checked final state.</strong> Read the application again and compare its saved value and revision with the approved update.</li>
-      </ol>
-      <p>If a response gets lost, the write may already have succeeded. Read the application before deciding to retry. Otherwise, you risk applying the same change twice.</p>
-    </section>
-
     <section id="workflow-demo" aria-labelledby="example-heading">
       <h2 id="example-heading">Try it with an inventory update.</h2>
       <p>A shop starts with 100 units, receives 30, and ships 20. The expected stock is <strong>110 units</strong>. Try the valid proposal, then see what changes when the source is stale, the calculation is wrong, or a write response is lost.</p>
@@ -75,6 +65,16 @@ import { fixtures } from '../../lib/workflow-lesson';
       <ol id="workflow-log"><li>No interactive actions have run.</li></ol>
     </section>
 
+    <section aria-labelledby="lesson-heading">
+      <h2 id="lesson-heading">Three different kinds of evidence.</h2>
+      <ol class="lesson-steps">
+        <li><strong>A proposal.</strong> An assistant suggests a new value. Check that its source is current and its calculation is right before allowing a write.</li>
+        <li><strong>A write receipt.</strong> An application reports that it accepted the change. That tells you about the request, but you still need to inspect the saved result.</li>
+        <li><strong>A checked final state.</strong> Read the application again and compare its saved value and revision with the approved update.</li>
+      </ol>
+      <p>If a response gets lost, the write may already have succeeded. Read the application before deciding to retry. Otherwise, you risk applying the same change twice.</p>
+    </section>
+
     <section aria-labelledby="takeaway-heading">
       <h2 id="takeaway-heading">Make the result easy to inspect.</h2>
       <p>The same questions apply when an assistant updates a report, a customer record, or a project. Which source did it inspect? What exactly did you approve? What is saved now? A useful workflow makes those answers available to the person responsible for the result.</p>
@@ -104,7 +104,7 @@ import { fixtures } from '../../lib/workflow-lesson';
       'proposed-stock': `${state.candidateStockBalance} units`,
       'application-stock': `${state.lastReadApplication.stockBalance} units`,
       'application-revision': String(state.lastReadApplication.revision),
-      'write-count': String(state.writeCount),
+      'write-count': state.phase === 'response-lost' ? 'Unknown' : String(state.writeCount),
       'write-receipt': { 'not-requested': 'Not requested', accepted: 'Accepted', 'response-lost': 'Response lost' }[state.receiptStatus],
     };
     for (const [id, value] of Object.entries(values)) demo.querySelector<HTMLElement>(`#${id}`)!.textContent = value;

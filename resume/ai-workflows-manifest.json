@@ -1,0 +1,12 @@
+{
+  "source": "resume/dave-bettner-ai-workflows.md",
+  "sourceSha256": "7e738d16e121d37029f0254c1cb0334bfb8134f0e61aa95e388a56e5e17dc529",
+  "html": "resume/dave-bettner-ai-workflows.html",
+  "htmlSha256": "559599f6546ad2e72ce15caa5742bc83f8aab171b3e3d0464e9154567f24f398",
+  "css": "resume/ai-workflows.css",
+  "cssSha256": "4554a3a8379426957daeb531361f8e13a16f307bd22b816d4b1c195ffaf2fa44",
+  "font": "public/fonts/manrope.woff2",
+  "fontSha256": "a30ddcd349703aff7464c34bef3fffdff405ee50c113440d7c8693c02d210972",
+  "pdf": "resume/dave-bettner-ai-workflows.pdf",
+  "pdfSha256": "cb225d5ac8fb9b6fe0102bae26bab193ec1ef2e4fa417f21854343c56eb03be7"
+}

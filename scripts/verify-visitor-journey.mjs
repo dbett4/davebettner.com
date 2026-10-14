@@ -84,7 +84,7 @@ try {
   ]), 'selected products have exact site links and honest Leasekite status', JSON.stringify(selectedProducts));
   check(selectedProducts.every(p => p.image?.startsWith('/images/selected-work/')), 'selected products use their existing screenshots');
 
-  const desktopNames = await page.evaluate(() => [...document.querySelectorAll('.projects .project')].map((project) => ({
+  const desktopNames = await page.evaluate(() => [...document.querySelectorAll('.technical-work .project')].map((project) => ({
     name: project.querySelector('h3 a')?.textContent?.trim(),
     nameHref: project.querySelector('h3 a')?.getAttribute('href'),
     aboutLabel: project.querySelector('a[aria-label^="About "]')?.getAttribute('aria-label'),

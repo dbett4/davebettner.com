@@ -11,13 +11,22 @@ The current white professional profile is authoritative. The existing Profile
 layout, workstation hero, project rows and case studies supply the primitives.
 Use the shadcn DESIGN.md workflow to keep tokens and components aligned.
 
-The profile leads with product design and engineering: selected products follow
+The profile leads with enterprise delivery and practical AI workflows: selected products follow
 the introduction, then the AI-assisted building approach and customer-delivery
 background. Projects lead the navigation. Product order is Passal, Leasekite,
 Krowbar and Lockfield; the same real screens and honest work-in-progress status remain.
 Des Moines is the current location, with relocation open globally. The employer
 title in structured data remains Senior Manager; interest in design engineering
 does not rewrite employment history.
+
+The enterprise-delivery headline adopted on October 14 remains the opening.
+Technical walkthroughs add inspectable product education to that positioning.
+Reuse the existing project rows and prose for lessons. Interactive teaching
+examples use labeled native controls, visible source and result tables, and
+plain status text. Fictional data and local execution are stated beside the demo.
+AI deployment and solutions leadership lead the positioning. The downloadable
+resume leads with implementation experience and connects customer demos, training,
+and coaching to the public teaching example without claiming a creator audience.
 
 ## Colors
 

@@ -52,7 +52,7 @@ test('public identity leads with enterprise delivery and AI workflows while reta
   }
 });
 
-test('download is the reviewed design-engineering resume and previous sources are retained', () => {
+test('download is the source-bound AI-workflow resume and previous sources are retained', () => {
   // Verified against Dave's supplied PDF and the imported repository copy.
   // A private attachment path is neither available nor appropriate in release/CI.
   const suppliedDigest = 'e23cee694991e19d6a3bbc18f4bc18744e5c41a84b6dd4982e46bc06c0a7ec4c';
@@ -61,8 +61,12 @@ test('download is the reviewed design-engineering resume and previous sources ar
   assert.equal(hash('resume/dave-bettner-public.pdf'), publicDigest);
   const designDigest = '53d16be1c62d918bc73dd1ed64fc2c70c9b8ddbfdf6e609905f26d37c6e17d19';
   assert.equal(hash('resume/dave-bettner-design-engineering.pdf'), designDigest);
-  assert.equal(hash('public/dave-bettner-resume.pdf'), designDigest);
-  assert.equal(hash('dist/dave-bettner-resume.pdf'), designDigest);
+  const manifest = JSON.parse(read('resume/ai-workflows-manifest.json'));
+  for (const field of ['source', 'html', 'css', 'font', 'pdf']) {
+    assert.equal(hash(manifest[field]), manifest[field + 'Sha256'], field);
+  }
+  assert.equal(hash('public/dave-bettner-resume.pdf'), manifest.pdfSha256);
+  assert.equal(hash('dist/dave-bettner-resume.pdf'), manifest.pdfSha256);
 });
 
 test('homepage serves the recorded workstation loop with a matching poster', () => {

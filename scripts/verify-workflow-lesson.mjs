@@ -116,7 +116,7 @@ try {
         await textIs(page, '#workflow-status', 'Checks passed. You can approve the 110-unit update. No write has occurred.', `${label} passes checks`);
         check(await page.getByRole('button', { name: 'Approve and apply', exact: true }).isEnabled(), `${label} approval is available`);
         await page.getByRole('button', { name: 'Approve and apply', exact: true }).click();
-        await applicationIs(page, '100 units', '3', '1', `${label} receipt does not refresh the last read`);
+        await applicationIs(page, '100 units', '3', fixture === 'lost-response' ? 'Unknown' : '1', `${label} receipt does not refresh the last read or reveal an uncertain write`);
         await textIs(page, '#write-receipt', fixture === 'lost-response' ? 'Response lost' : 'Accepted', `${label} receipt status`);
         check(await page.getByRole('button', { name: 'Approve and apply', exact: true }).isDisabled(), `${label} disables a second write`);
         await page.locator('#apply-proposal').dispatchEvent('click');

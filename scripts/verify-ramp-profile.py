@@ -57,7 +57,7 @@ try:
    assert context.request.get(base+link).status==200,link
   page.goto(base+'/');page.keyboard.press('Tab');assert page.locator('.skip').evaluate('(e)=>e===document.activeElement');page.keyboard.press('Enter');assert page.evaluate('location.hash')=='#main'
   with page.expect_download() as event:page.get_by_role('link',name='Download résumé',exact=True).click()
-  download=event.value;pdf=Path(download.path()).read_bytes();assert hashlib.sha256(pdf).hexdigest()==hashlib.sha256((root/'resume/dave-bettner-design-engineering.pdf').read_bytes()).hexdigest()
+  download=event.value;pdf=Path(download.path()).read_bytes();assert hashlib.sha256(pdf).hexdigest()==hashlib.sha256((root/'resume/dave-bettner-ai-workflows.pdf').read_bytes()).hexdigest()
   assert page.get_by_role('link',name='Get in touch').get_attribute('href')=='mailto:dbett4@gmail.com'
   page.get_by_role('link',name='Experience',exact=True).click();assert page.url.endswith('/experience/')
   page.goto(base+'/lab/accounting-acceptance/');page.wait_for_url('**/work/accounting-acceptance-lab/')

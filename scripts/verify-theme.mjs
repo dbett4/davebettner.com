@@ -8,7 +8,7 @@ const base = process.env.SITE_URL;
 assert.ok(/^https?:\/\//.test(base || ''), 'Set SITE_URL to the actual served site.');
 const out = resolve(process.env.THEME_OUT || 'node_modules/.cache/theme-review');
 await mkdir(out, { recursive: true });
-const routes = ['/', '/experience/', '/experience/connected-reporting/', '/work/', '/fit/', '/about/', '/404.html',
+const routes = ['/', '/experience/', '/experience/connected-reporting/', '/work/', '/fit/', '/ai-workflows/', '/about/', '/404.html',
   '/work/accounting-acceptance-lab/', '/work/regulated-reporting-mcp/', '/work/hermes-deployment-lab/',
   '/work/dedup-readback-bridge/', '/work/hermes-field-kit/', '/work/wingman/', '/work/agent-operating-system/'];
 const axeSource = await readFile(resolve('node_modules/axe-core/axe.min.js'), 'utf8');

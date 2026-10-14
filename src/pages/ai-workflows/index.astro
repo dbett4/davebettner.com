@@ -1,117 +1,166 @@
 ---
 import Profile from '../../layouts/Profile.astro';
+import { projects } from '../../data/profile-projects';
+
+const contents = [
+  ['role', 'My role'],
+  ['selected-work', 'Internal work'],
+  ['stack', 'Agent stack'],
+  ['lessons', 'Lessons'],
+  ['new-role', 'In a new role'],
+  ['public-evidence', 'Public evidence'],
+];
+const evidenceIds = ['accounting-acceptance-lab', 'regulated-reporting-mcp', 'hermes-deployment-lab'];
+const evidence = [
+  ...projects.filter(project => evidenceIds.includes(project.id)).map(project => ({
+    name: project.name, href: `/work/${project.id}/`, summary: project.summary, action: ['View repository', project.repo],
+  })),
+  {
+    name: 'Krowbar', href: '/work/krowbar/', action: ['Open the demo', 'https://krowbar.app/'],
+    summary: 'A project workspace that helps people and AI assistants pick up work without rebuilding its context. The public demo uses fictional data and simulated updates.',
+  },
+];
 ---
 <Profile
   title="AI Workflows and Agent Stack — Dave Bettner"
-  description="How Dave Bettner designs AI workflows, connects agents to enterprise applications, and verifies results. Internal reporting examples and public technical evidence."
+  description="How Dave Bettner designs AI workflows that connect agents to enterprise applications and check the results. Internal reporting examples, the personal agent stack, and public projects you can inspect."
   page="fit"
 >
   <section class="page-intro wrap">
-    <h1>AI workflows and agent stack.</h1>
-    <p class="lead">I turn business requirements into AI workflows people can use and verify. My work connects enterprise applications, reusable tools, and a clear process for review and recovery.</p>
+    <h1>AI workflows people can verify.</h1>
+    <p class="lead">I turn business requirements into AI workflows that people can use and check. They connect to enterprise applications, compare results with source records, and include a clear process for review and recovery.</p>
     <div class="actions">
-      <a class="button" href="#selected-work">Explore the workflows</a>
-      <a href="#public-evidence">View public evidence</a>
+      <a class="button" href="#selected-work">See the internal work</a>
+      <a href="#public-evidence">Public evidence</a>
     </div>
   </section>
 
   <section class="paper">
-    <div class="section wrap">
+    <div class="section wrap workflow-layout">
+      <nav class="page-contents" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          {contents.map(([id, label]) => <li><a href={`#${id}`}>{label}</a></li>)}
+        </ol>
+      </nav>
+
       <div class="prose workflow-story">
-        <section>
-          <h2>Business judgment, implementation, and acceptance.</h2>
-          <p>I am a Senior Manager at LSL with more than 10 years of enterprise software and reporting experience. Since March 2026, I have expanded that background into AI-assisted integrations, reporting workflows, and a personal agent stack.</p>
-          <p>I own the problem definition, source decisions, priorities, controls, and acceptance criteria. I translate requirements into mappings and operating rules, direct implementation, investigate failures, and judge the result against the intended requirement.</p>
-          <p>AI coding tools contribute implementation, analysis, tests, and review. I use them to develop Python tools, API integrations, and reporting components. I am responsible for connecting that work into a coherent process and checking it against source records and actual application state.</p>
-        </section>
-
-        <section id="selected-work">
-          <h2>Selected internal work.</h2>
-          <p>Workiva reporting is a demanding setting for automation. Financial values, linked documents, changing sources, ownership, and presentation have to agree. These examples come from internal reporting work. The public projects below use separate synthetic or demonstration data.</p>
-
-          <article class="workflow-example">
-            <h3>Cash-flow reporting and recurring updates</h3>
-            <p>I directed an internal workflow connecting 11 workpapers to 12 reporting sections and 1,249 financial report cells. It keeps source references, assembles linked spreadsheets and documents, and updates the existing report.</p>
-            <p>The result demonstrates source mapping, repeatable updates, and tested recovery. The accepted result was an internal review workflow. Accounting acceptance and client release remain separate decisions.</p>
-            <details>
-              <summary>Read the checks and recovery evidence</summary>
-              <p>The workflow includes 69 arithmetic checks and 34 source comparisons. A controlled rehearsal refreshed changed inputs, then restored 2,498 mirrored numeric values across the spreadsheet and document. The 1,249 report cells are counted once; the 2,498 restored values reflect both copies. A separate review inspected 12 exported pages.</p>
-            </details>
-          </article>
-
-          <article class="workflow-example">
-            <h3>Municipal budget reporting and team intake</h3>
-            <p>I directed development of a 264-page internal budget book and an intake process with exact reporting routes for 85 profiles. The package connects financial inputs, linked outputs, charts, narrative review, and ownership of the next input.</p>
-            <p>This work combines the technical implementation with a process for multiple contributors. Staff adoption and operation in the City workspace remain separate from the internal rehearsal.</p>
-            <details>
-              <summary>Read the internal handoff evidence</summary>
-              <p>Independent reviews accepted the internal handoff and seven-file import rehearsal. The reviews covered update behavior, restoration, and presentation. That acceptance applies to the internal package and rehearsal; it does not establish client release or staff use.</p>
-            </details>
-          </article>
-
-          <article class="workflow-example">
-            <h3>Performance and agent evaluation</h3>
-            <p>In one matched Workiva update-and-validation benchmark, runtime fell from 58.3 to 13.4 seconds and API requests fell from 110 to 24. All 48 checks remained. The improvement came from changing execution, including batching remote operations.</p>
-            <p>I also developed a capability evaluation that graded agents against actual Workiva state. Two evaluated routes each passed 7 of 7 declared sandbox tasks, including correctly refusing an inconsistent change.</p>
-            <details>
-              <summary>Read the benchmark and evaluation limits</summary>
-              <p>These results cover a matched operation and declared sandbox fixtures. They do not establish whole-engagement time savings, labor savings, or a general agent reliability rate. The benchmark retained the same 48 checks; the capability evaluation tested the specified tasks and refusal case.</p>
-            </details>
-          </article>
-        </section>
-
-        <section>
-          <h2>The reusable personal stack.</h2>
-          <p>My personal agent stack helps AI assistants recover context, use tools, carry out bounded work, and leave evidence of the result. I built and configured the integration and operating layers around existing models and agent runtimes. The stack is separate from employer and client work; the reporting examples apply these methods to concrete requirements.</p>
-          <dl class="stack-layers">
+        <section id="role">
+          <h2>What I own and what AI tools contribute.</h2>
+          <p>I am a Senior Manager at LSL with more than 10 years of enterprise software and reporting experience. Since March 2026, I have extended that background into AI-assisted integrations, reporting workflows, and a personal agent stack.</p>
+          <dl class="ownership">
             <div>
-              <dt>Roles and routing</dt>
-              <dd>I defined roles for Codex, Claude, and Hermes, with bounded assignments and task-specific evaluations. This gives each task a capable route, an owner, and a clear scope.</dd>
+              <dt>I own</dt>
+              <dd>The problem definition, source decisions, priorities, controls, and acceptance criteria. I translate requirements into mappings and operating rules, direct the implementation, investigate failures, and judge the result against the requirement. I connect the work into a coherent process and check it against source records and the actual state of the application.</dd>
             </div>
             <div>
-              <dt>Context and memory</dt>
-              <dd>Repository memory, reusable skills, source references, and project records carry prior decisions and corrections into the next task. Agents have a place to recover the reasoning behind a requirement.</dd>
-            </div>
-            <div>
-              <dt>Tools and integrations</dt>
-              <dd>Workiva API and MCP access, a shared command interface, and Python tools give agents repeatable ways to inspect and change application objects. Stable operations belong in reusable code.</dd>
-            </div>
-            <div>
-              <dt>Execution controls</dt>
-              <dd>Revision and ownership checks define what can change. Scoped changesets, prior-state records, and recovery paths help reconcile a failed action or a response whose outcome is uncertain.</dd>
-            </div>
-            <div>
-              <dt>Evaluation and evidence</dt>
-              <dd>Application readbacks, regression tests, capability graders, retained exports, and separate review compare actual results with declared requirements. Each passing check has an explicit scope.</dd>
-            </div>
-            <div>
-              <dt>Operating environment</dt>
-              <dd>A shared server, isolated repository worktrees, route health checks, and handoff records anchor execution to an identifiable environment. They help the next session recover the work and its current state.</dd>
+              <dt>AI coding tools contribute</dt>
+              <dd>Implementation, analysis, tests, and review for Python tools, API integrations, and reporting components.</dd>
             </div>
           </dl>
         </section>
 
-        <section>
-          <h2>What changed as I learned.</h2>
-          <p>Early approaches sometimes produced repeated coordination, custom scripts, and reassuring status without closing the task. Those failures changed how I build the system.</p>
-          <p>I made application access reusable. Shared interfaces and searchable operating recipes replaced repeated navigation and one-off clients. Agents could use tested operations instead of rebuilding the route.</p>
-          <p>I made completion observable. Stale inventories and agent agreement had caused rework. I shifted to reading current state, defining the intended change, and comparing the result with that expectation.</p>
-          <p>I made coordination proportional. More agents and proof files did not consistently improve delivery. I narrowed assignments to separate write areas and coherent changesets, with deterministic prechecks where a model was unnecessary.</p>
-          <p>I learned to test the controls themselves. Review found defects in rollback, link scope, cached verdicts, parsing compatibility, and preservation. I reproduced those failures and directed repairs and regression checks before adopting the changes.</p>
+        <section id="selected-work">
+          <h2>Selected internal work.</h2>
+          <p>Workiva, an enterprise reporting platform, is a demanding setting for automation. Financial values, linked documents, changing sources, ownership, and presentation all have to agree. These examples come from internal reporting work.</p>
+
+          <article class="workflow-example">
+            <h3>Cash-flow reporting with recurring updates</h3>
+            <p>A cash-flow report draws on many workpapers, and each update has to stay consistent with them. I directed an internal workflow that connects 11 workpapers to 12 report sections and 1,249 financial report cells.</p>
+            <p>The workflow keeps source references, assembles the linked spreadsheets and documents, and updates the existing report. It includes 69 arithmetic checks and 34 source comparisons.</p>
+            <p class="example-scope">The accepted result is an internal review workflow. Accounting acceptance and client release remain separate decisions.</p>
+            <details>
+              <summary>Recovery rehearsal and export review</summary>
+              <p>A controlled rehearsal refreshed changed inputs, then restored all 1,249 report cells in both the spreadsheet and the document, 2,498 numeric values in total. A separate review inspected 12 exported pages.</p>
+            </details>
+          </article>
+
+          <article class="workflow-example">
+            <h3>Municipal budget book and team intake</h3>
+            <p>A budget book depends on many contributors, and each input has to reach the right place. I directed development of a 264-page internal budget book and an intake process with an exact reporting route for each of 85 profiles.</p>
+            <p>The package connects financial inputs, linked outputs, charts, narrative review, and ownership of the next input. It combines the technical build with a process for multiple contributors.</p>
+            <p class="example-scope">Independent reviews accepted the internal handoff and the internal seven-file import rehearsal, covering update behavior, restoration, and presentation. That acceptance does not establish client release, staff adoption, or operation in the City workspace.</p>
+          </article>
+
+          <article class="workflow-example">
+            <h3>A faster update run with the same checks</h3>
+            <p>In one matched Workiva update-and-validation benchmark, runtime fell from 58.3 to 13.4 seconds and API requests fell from 110 to 24. Both runs performed the same 48 checks. The gain came from changing how the work executes, including batching remote operations.</p>
+            <p class="example-scope">This result covers one matched operation. It does not establish whole-engagement time savings or labor savings.</p>
+          </article>
+
+          <article class="workflow-example">
+            <h3>Grading agents on application state</h3>
+            <p>I developed a capability evaluation that graded agents against the actual Workiva state. Two agent configurations each passed all 7 predefined sandbox tasks. One task required refusing an inconsistent change, and both refused it correctly.</p>
+            <p class="example-scope">These are predefined sandbox tasks. They do not establish a general reliability rate for either configuration.</p>
+          </article>
         </section>
 
-        <section>
-          <h2>How I would apply this in a new role.</h2>
+        <section id="stack">
+          <h2>The personal agent stack.</h2>
+          <p>My personal agent stack helps AI assistants recover context, use tools, carry out bounded work, and leave evidence of the result. I built and configured its integration and operating layers around existing models and agent runtimes. The stack is separate from employer and client work, though the reporting examples above apply the same methods.</p>
+          <dl class="stack-layers">
+            <div>
+              <dt>Roles and routing</dt>
+              <dd>Codex, Claude, and the Hermes agent runtime each have a defined role, bounded assignments, and task-specific evaluations. Every task gets a capable agent, an owner, and a clear scope.</dd>
+            </div>
+            <div>
+              <dt>Context and memory</dt>
+              <dd>Repository memory, reusable skills, source references, and project records carry decisions and corrections into the next task. Agents have a place to recover the reasoning behind a requirement.</dd>
+            </div>
+            <div>
+              <dt>Tools and integrations</dt>
+              <dd>Workiva API and MCP access, a shared command interface, and Python tools give agents tested ways to inspect and change application objects. Stable operations move into reusable code.</dd>
+            </div>
+            <div>
+              <dt>Execution controls</dt>
+              <dd>Revision and ownership checks define what may change. Scoped changesets, records of the prior state, and recovery paths help reconcile a failed action or a response whose outcome is unknown.</dd>
+            </div>
+            <div>
+              <dt>Evaluation and evidence</dt>
+              <dd>Readbacks from the application, regression tests, capability graders, retained exports, and separate review compare actual results with the stated requirement. Each passing check states what it covers.</dd>
+            </div>
+            <div>
+              <dt>Operating environment</dt>
+              <dd>A shared server, isolated repository worktrees, route health checks, and handoff records tie the work to a known environment. They help the next session recover the work and its current state.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section id="lessons">
+          <h2>What changed as I learned.</h2>
+          <p>Early approaches sometimes produced repeated coordination, one-off scripts, and reassuring status reports without closing the task. Those failures led to four changes.</p>
+          <ul class="lead-list">
+            <li><strong>Make application access reusable.</strong> Agents kept repeating the same navigation and writing one-off clients. Shared interfaces and searchable operating recipes now give them tested operations instead.</li>
+            <li><strong>Make completion observable.</strong> Out-of-date inventories and agents agreeing with each other had caused rework. I shifted to reading current state, defining the intended change, and comparing the result with that expectation.</li>
+            <li><strong>Keep coordination proportional.</strong> Adding agents and proof files did not consistently improve delivery. I gave each assignment a separate area to change and grouped related edits into coherent changesets, with scripted prechecks where a model was unnecessary.</li>
+            <li><strong>Test the controls themselves.</strong> Review found defects in the controls, including rollback, link scope, cached verdicts, parsing compatibility, and preservation. I reproduced those failures, then directed repairs and regression checks before adopting the changes.</li>
+          </ul>
+        </section>
+
+        <section id="new-role">
+          <h2>How I would start in a new role.</h2>
           <p>My strongest fit is with AI workflow, automation, and implementation teams that need to connect business requirements to working software and an operating process.</p>
-          <p>I would begin with one recurring workflow whose inputs, decision points, and outputs can be inspected. With its users, I would identify sources, owners, exceptions, and acceptance criteria. Then I would connect a bounded agent workflow to the necessary applications, put stable business rules into code, and keep judgment explicit.</p>
-          <p>I would test normal, changed, invalid, and interrupted cases against the actual result. Before expanding, I would run a controlled trial with intended operators and measure completion time, correction effort, failed actions, and recovery. Those observations would guide the next changes, training, and handoff.</p>
+          <ol class="lead-list steps">
+            <li><strong>Choose one recurring workflow.</strong> Its inputs, decision points, and outputs should be open to inspection.</li>
+            <li><strong>Map it with the people who use it.</strong> Identify sources, owners, exceptions, and acceptance criteria.</li>
+            <li><strong>Build a bounded agent workflow.</strong> Connect it to the necessary applications, put stable business rules into code, and keep judgment explicit.</li>
+            <li><strong>Test against the actual result.</strong> Cover normal, changed, invalid, and interrupted cases.</li>
+            <li><strong>Run a controlled trial before expanding.</strong> Work with the intended operators and measure completion time, correction effort, failed actions, and recovery. Those observations guide the next changes, training, and handoff.</li>
+          </ol>
+          <a href="/fit/">Read more about my approach</a>
         </section>
 
         <section id="public-evidence">
           <h2>Public evidence you can inspect.</h2>
-          <p>The <a href="https://github.com/dbett4/accounting-acceptance-lab">Accounting Acceptance Lab repository</a> contains runnable synthetic reconciliation cases and evidence-linked results. It tests double addbacks, wrong signs, stale support, and incomplete history.</p>
-          <p><a href="https://github.com/dbett4/regulated-reporting-mcp">Regulated Reporting MCP</a> explores application access and caller-confirmed writes with a mock-data demo. The <a href="https://github.com/dbett4/hermes-enterprise-deployment-lab">failed-write recovery lab</a> tests a synthetic case where a write succeeds but its response is lost.</p>
-          <p>My <a href="/work/">project index</a> also includes Krowbar and Passal. Krowbar has an <a href="https://krowbar.app">interactive public demo</a> with fictional data and simulated updates. These projects show product direction, interface design, and implementation through AI coding tools. Each has its own scope and limits.</p>
+          <p>These public repositories and the Krowbar demo use synthetic, mock, or fictional data, separate from the internal reporting work. Each project page states its scope and limits.</p>
+          <ul class="evidence-list">
+            {evidence.map(({ name, href, summary, action: [label, url] }) => <li>
+              <h3><a href={href}>{name}</a></h3>
+              <p>{summary}</p>
+              <a class="evidence-action" href={url} aria-label={`${label}: ${name}`}>{label}</a>
+            </li>)}
+          </ul>
+          <p>My <a href="/work/">project index</a> also covers Passal and Leasekite, where I own product direction, interface design, and implementation through AI coding tools. Each has its own scope and limits.</p>
           <div class="actions">
             <a class="button" href="mailto:dbett4@gmail.com">Email Dave</a>
             <a href="/dave-bettner-resume.pdf" download>Download résumé</a>
@@ -122,17 +171,78 @@ import Profile from '../../layouts/Profile.astro';
   </section>
 </Profile>
 
+<script>
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.page-contents a')];
+  const targets = links.map(link => document.getElementById(link.hash.slice(1))!);
+  let frame = 0;
+  const markCurrent = () => {
+    frame = 0;
+    const atEnd = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;
+    const current = atEnd ? targets.length - 1 : targets.findLastIndex(target => target.getBoundingClientRect().top <= innerHeight * .3);
+    links.forEach((link, index) => index === current ? link.setAttribute('aria-current', 'location') : link.removeAttribute('aria-current'));
+  };
+  addEventListener('scroll', () => { frame ||= requestAnimationFrame(markCurrent); }, { passive: true });
+  markCurrent();
+</script>
+
 <style>
+  .workflow-layout { display: grid; grid-template-columns: 168px minmax(0, 700px); gap: 72px; }
+  .page-contents { position: sticky; top: 32px; align-self: start; font-size: 14px; }
+  .page-contents p { margin-bottom: 6px; color: var(--secondary); }
+  .page-contents ol { padding: 0; margin: 0; list-style: none; border-top: 1px solid var(--border); }
+  .page-contents a { display: flex; min-height: 44px; align-items: center; border-bottom: 1px solid var(--border); color: var(--secondary); text-decoration: none; transition: color var(--duration-ui) var(--ease-out); }
+  .page-contents a:hover, .page-contents a[aria-current] { color: var(--text); }
+  .page-contents a[aria-current] { font-weight: 650; }
+
+  .workflow-story section[id] { scroll-margin-top: 24px; }
   .workflow-story p + p { margin-top: 16px; }
-  .workflow-example { margin-top: 30px; }
-  .workflow-example h3 { margin-bottom: 12px; font-size: 20px; line-height: 1.35; }
-  .workflow-example details { margin-top: 20px; }
-  .stack-layers { margin: 24px 0 0; }
-  .stack-layers > div { display: grid; grid-template-columns: 180px 1fr; gap: 24px; }
-  .stack-layers > div + div { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
-  .stack-layers dt { font-weight: 600; }
-  .stack-layers dd { margin: 0; }
+  .workflow-story h3 { letter-spacing: -.015em; }
+  .workflow-story > section > a { display: inline-flex; min-height: 44px; align-items: center; margin-top: 12px; font-size: 15px; }
+
+  .ownership { margin: 28px 0 0; }
+  .ownership > div { display: grid; grid-template-columns: 168px 1fr; gap: 24px; padding-block: 20px; border-top: 1px solid var(--border); }
+  .ownership dt { font-weight: 650; }
+  .ownership dd { margin: 0; }
+
+  .workflow-example { margin-top: 40px; padding-top: 26px; border-top: 2px solid var(--accent); }
+  .workflow-example h3 { margin-bottom: 14px; font-size: 21px; line-height: 1.35; }
+  .workflow-story .example-scope { margin-top: 18px; color: var(--secondary); font-size: 14px; line-height: 1.65; }
+  .workflow-example details { margin-top: 20px; padding-bottom: 0; }
+  .workflow-example summary { font-size: 15px; }
+
+  .stack-layers { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; margin: 28px 0 0; }
+  .stack-layers > div { padding-block: 20px 24px; border-top: 1px solid var(--border); }
+  .stack-layers dt { font-weight: 650; }
+  .stack-layers dd { margin: 6px 0 0; font-size: 15px; line-height: 1.7; }
+
+  .lead-list { padding: 0; margin: 24px 0 0; list-style: none; }
+  .workflow-story .lead-list li { margin: 0; padding-block: 14px; border-top: 1px solid var(--border); line-height: 1.75; }
+  .lead-list strong { font-weight: 650; }
+  .steps { counter-reset: step; }
+  .workflow-story .steps li { position: relative; padding-left: 44px; counter-increment: step; }
+  .steps li::before { content: counter(step, decimal-leading-zero); position: absolute; left: 0; color: var(--secondary); font-size: 14px; font-weight: 650; font-variant-numeric: tabular-nums; line-height: 28px; }
+
+  .evidence-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; padding: 0; margin: 28px 0 32px; list-style: none; }
+  .workflow-story .evidence-list li { display: flex; flex-direction: column; margin: 0; padding-block: 22px 12px; border-top: 1px solid var(--border); }
+  .evidence-list h3 { margin-bottom: 8px; font-size: 18px; line-height: 1.4; }
+  .evidence-list p { font-size: 15px; line-height: 1.6; }
+  .evidence-action { display: inline-flex; width: fit-content; min-height: 44px; align-items: center; margin-top: auto; font-size: 14px; }
+
+  @media (max-width: 960px) {
+    .workflow-layout { grid-template-columns: minmax(0, 1fr); }
+    .page-contents { display: none; }
+  }
+
   @media (max-width: 700px) {
-    .stack-layers > div { grid-template-columns: 1fr; gap: 6px; }
+    .ownership > div { grid-template-columns: 1fr; gap: 4px; }
+    .stack-layers, .evidence-list { grid-template-columns: 1fr; }
+    .workflow-example { margin-top: 32px; }
+    .workflow-example h3 { font-size: 20px; }
+    .workflow-story .steps li { padding-left: 36px; }
+  }
+
+  @media print {
+    .page-contents { display: none; }
+    .workflow-layout { display: block; }
   }
 </style>

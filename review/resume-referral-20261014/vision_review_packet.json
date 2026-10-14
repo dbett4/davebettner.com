@@ -1,0 +1,45 @@
+{
+  "capture_route": "pdftoppm",
+  "captures": [
+    {
+      "bytes": 134106,
+      "media_type": "image/png",
+      "path": "/home/dave/work/davebettner.com-cloudflare-resume-20261014/review/resume-referral-20261014/resume-1.png",
+      "sha256": "2256707b3f2d84f981839d719edbd454cd865f5d4f6e935efed94dfe872a5fa2"
+    },
+    {
+      "bytes": 96335,
+      "media_type": "image/png",
+      "path": "/home/dave/work/davebettner.com-cloudflare-resume-20261014/review/resume-referral-20261014/resume-2.png",
+      "sha256": "325c19ade5b98443b4eae650ed2ed67c51fd5bc82f23b0c2d058357a13affa32"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 491,
+      "media_type": "application/json",
+      "path": "/home/dave/work/davebettner.com-cloudflare-resume-20261014/review/resume-referral-20261014/native-checks.json",
+      "sha256": "8ca8f3a2d012b84d755e6d8c5944fddf55afe31e154120653077605df04f7295"
+    }
+  },
+  "generated_at": "2026-10-14T23:22:36Z",
+  "required_visual_claims": [
+    "Both pages are readable with no clipped content and separate skills labels"
+  ],
+  "schema_version": "1.0",
+  "scope": "Revised public resume, both pages",
+  "source_revision": "sha256:ff59c8b0fa8a6cc38eaea3cec35a15b57bf5e4d6b3d6baa4d36843efed0960ec",
+  "status": "verified",
+  "surface": "resume_pdf",
+  "viewport": "1082x1400",
+  "visual_adjudication": {
+    "independent": false,
+    "reviewed_at": "2026-10-14T23:22:36Z",
+    "reviewer": "codex-cloudflare-resume-20261014",
+    "reviewer_runtime": "codex",
+    "source_path": "/home/dave/work/davebettner.com-cloudflare-resume-20261014/review/resume-referral-20261014/adjudication.json",
+    "source_sha256": "a6f459f5239bbfab38b50916127cb5205cab70a191633207b05c8c3abeaa053a",
+    "summary": "Inspected both exported pages. Manrope renders clearly, all employment fits on page one, project and skills sections have separate labels on page two, and no content is clipped. The Cloudflare referral export was also inspected and has the same body with one additional summary sentence.",
+    "verdict": "verified"
+  }
+}

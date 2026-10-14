@@ -1,0 +1,15 @@
+{
+  "result": "pass",
+  "pdf_sha256": "ff59c8b0fa8a6cc38eaea3cec35a15b57bf5e4d6b3d6baa4d36843efed0960ec",
+  "pages": 2,
+  "built_asset_matches": true,
+  "checks": [
+    "source manifest matches public PDF",
+    "two complete pages",
+    "five-person team attributed to Citrin only",
+    "verified review coverage retained",
+    "no 77% or employer-specific sentence",
+    "skills labels on separate lines",
+    "all employment on page one; projects, skills, and education on page two"
+  ]
+}

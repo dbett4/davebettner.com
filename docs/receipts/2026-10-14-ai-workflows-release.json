@@ -1,0 +1,63 @@
+{
+  "verified_at": "2026-10-14T05:44:03.558993+00:00",
+  "source_commit": "4bbbdd0de32415efee5d4c2a93a31785034178b2",
+  "worker_version": "ca874784-7896-40d6-9598-d9ea0e4eca63",
+  "previous_worker_version": "1ceb2da2-a50b-4e6c-b682-544cbb316939",
+  "rollout_percentage": 100,
+  "acp_session": "claude-ai-workflows-release-20261014",
+  "entry_points": [
+    "https://davebettner.com/ai-workflows/"
+  ],
+  "uploaded_assets": [
+    "/ai-workflows/index.html",
+    "/_astro/index.CSrkKkga.css",
+    "/_astro/index.astro_astro_type_script_index_0_lang.CO-I0lDt.js"
+  ],
+  "verification": {
+    "source_commit": "4bbbdd0de32415efee5d4c2a93a31785034178b2",
+    "worker_version": "ca874784-7896-40d6-9598-d9ea0e4eca63",
+    "verified": true,
+    "checks": [
+      {
+        "url": "https://davebettner.com/ai-workflows/",
+        "status": 200,
+        "observed_sha256": "ab80019be46ee6070b02079c7f22a142bb8076939385ce845b205fd37dc578bc",
+        "source_sha256": "0844401bfbdfb3b210eef70b3234b0fa1e073643a216068c58b5caa80d0bdec6",
+        "source_content_matches": true,
+        "cloudflare_challenge_script_added": true
+      },
+      {
+        "url": "https://davebettner.com/_astro/index.CSrkKkga.css",
+        "status": 200,
+        "observed_sha256": "bb50264010c5cdafb799ac663e7a4d2e561afebf00571d3d6e28119d085bac3d",
+        "source_sha256": "bb50264010c5cdafb799ac663e7a4d2e561afebf00571d3d6e28119d085bac3d",
+        "source_content_matches": true,
+        "cloudflare_challenge_script_added": false
+      },
+      {
+        "url": "https://davebettner.com/_astro/index.astro_astro_type_script_index_0_lang.CO-I0lDt.js",
+        "status": 200,
+        "observed_sha256": "86eb3e1f0b777b161e4ac927dca7e88008439c95f85e11c96e602bd6313eb8f4",
+        "source_sha256": "86eb3e1f0b777b161e4ac927dca7e88008439c95f85e11c96e602bd6313eb8f4",
+        "source_content_matches": true,
+        "cloudflare_challenge_script_added": false
+      }
+    ]
+  },
+  "native_checks": {
+    "full_npm_test": "passed",
+    "production_theme_suite": {
+      "site_url": "https://davebettner.com",
+      "passed": 781,
+      "failed": 0,
+      "routes": 15,
+      "ai_workflows_checks": 55,
+      "page_errors": []
+    },
+    "live_contents_nav": "six section links scroll to their targets and mark the current section; nav stays fixed at 32px"
+  },
+  "independent_claim_review": "Separate read-only reviewer compared every claim with the prior copy; the dropped internal-rehearsal and City-workspace boundary and 20 lower-severity drift and prose findings were fixed before release.",
+  "release_worktree": "adopted for deploy at 4bbbdd0, clean, removed after verification",
+  "leases": "both deploy scopes released",
+  "rollback": "Prior Cloudflare Worker version 1ceb2da2-a50b-4e6c-b682-544cbb316939 is retained. No storage bindings or data migrations changed."
+}

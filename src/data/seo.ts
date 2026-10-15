@@ -12,5 +12,6 @@ export const personSchema = {
 };
 export const nonIndexPathPrefixes = ['/mockups'];
 export function isIndexablePath(pathname: string): boolean {
+ if (pathname.replace(/\/$/, '') === '/lab/accounting-acceptance') return false;
  return !pathname.startsWith('/404') && !nonIndexPathPrefixes.some(prefix => pathname.startsWith(prefix));
 }

@@ -1,11 +1,11 @@
 # Dave Bettner
 
-Accounting technology consultant based in Des Moines, Iowa. Financial reporting and customer delivery since 2015; roles at Workiva, Ambra Health, Citrin Cooperman, and LSL. Current title: Senior Manager at LSL.
+Dave Bettner leads enterprise software delivery and builds practical AI workflows. He is a Senior Manager at LSL, based in Des Moines, Iowa, and open to relocation. His career in software implementation and customer delivery began in 2015, with roles at Workiva, Ambra Health, and Citrin Cooperman.
 
-Experience includes Workiva implementation, requirements workshops, consulting-team leadership, customer training, API and SSO integration requirements, and engagement scoping. Personal projects explore AI-assisted reporting and accounting checks using synthetic or mock data. These are not client deployments or Ramp product experience.
+Experience includes Workiva implementation, requirements workshops, consulting-team leadership, customer training, API and SSO integration requirements, engagement scoping, and financial reporting. Personal projects explore AI-assisted reporting and accounting checks using synthetic or mock data. They are not client AI deployments or Ramp product experience.
 
-Pages: / (profile), /experience/ (career), /work/ (projects), /fit/ (working approach), /about/, /dave-bettner-resume.pdf (current supplied resume).
+Pages: / (profile), /about/ (background), /experience/ (career), /work/ (projects), /fit/ (working approach), /ai-workflows/ (AI workflow examples), /learn/verify-an-ai-update/ (interactive lesson), /dave-bettner-resume.pdf (résumé).
 
 Contact: dbett4@gmail.com. GitHub: https://github.com/dbett4. LinkedIn: https://www.linkedin.com/in/dave-bettner/.
 
-Private revision, not yet approved for publication. No public API, hosted model, accounting connection, form submission, or checkout is offered by this site.
+The site describes Dave's work and public projects. Internal-work examples are summaries, not client case studies; public demos use synthetic or mock data and do not establish client deployments. The site does not provide a public API, hosted model, accounting connection, form submission, or checkout.

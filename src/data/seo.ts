@@ -4,12 +4,39 @@ export const siteTitle = 'Dave Bettner | Enterprise Software Delivery & AI Workf
 export const siteDescription = 'Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.';
 export const identitySeoLead = siteDescription;
 export const personSchema = {
- '@context':'https://schema.org','@type':'Person',name:'Dave Bettner',url:siteUrl,
- image:siteUrl+'/images/dave-bettner-headshot-20260816-cutout.png',description:siteDescription,
- jobTitle:'Senior Manager',homeLocation:{'@type':'Place',name:'Des Moines, Iowa'},
- knowsAbout:['Enterprise software delivery','Implementation leadership','AI workflows','Financial reporting','Customer engagements','API integrations','Python','Product development','Interface design','AI coding tools'],
- sameAs:[linkedinUrl,githubUrl]
+ '@type': 'Person',
+ '@id': siteUrl + '/#person',
+ name: 'Dave Bettner',
+ givenName: 'Dave',
+ familyName: 'Bettner',
+ url: siteUrl,
+ image: [siteUrl + '/images/dave-bettner-headshot-square.webp', siteUrl + '/images/dave-bettner-headshot-portrait-640.webp', siteUrl + '/images/dave-bettner-profile-social.jpg'],
+ description: siteDescription,
+ jobTitle: 'Senior Manager',
+ homeLocation: { '@type': 'Place', name: 'Des Moines, Iowa' },
+ knowsAbout: ['Enterprise software delivery', 'Implementation leadership', 'AI workflows', 'Financial reporting', 'Customer engagements', 'API integrations', 'Python', 'Product development', 'Interface design', 'AI coding tools'],
+ sameAs: [linkedinUrl, githubUrl],
 };
+export const websiteSchema = {
+ '@type': 'WebSite',
+ '@id': siteUrl + '/#website',
+ name: 'Dave Bettner',
+ url: siteUrl + '/',
+ inLanguage: 'en-US',
+ publisher: { '@id': siteUrl + '/#person' },
+};
+
+export function createPageSchema({ title, description, url, isProfile = false }: {
+ title: string; description: string; url: string; isProfile?: boolean;
+}) {
+ return {
+  '@type': isProfile ? 'ProfilePage' : 'WebPage',
+  '@id': url + '#webpage',
+  name: title, description, url, inLanguage: 'en-US',
+  isPartOf: { '@id': siteUrl + '/#website' },
+  ...(isProfile ? { mainEntity: { '@id': siteUrl + '/#person' } } : { about: { '@id': siteUrl + '/#person' } }),
+ };
+}
 export const nonIndexPathPrefixes = ['/mockups'];
 export function isIndexablePath(pathname: string): boolean {
  if (pathname.replace(/\/$/, '') === '/lab/accounting-acceptance') return false;

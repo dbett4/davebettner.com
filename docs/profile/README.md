@@ -14,4 +14,4 @@ The current public résumé source and reviewed two-page PDF are `resume/dave-be
 
 Independent source and visual approval: `../receipts/2026-10-12-design-engineering-review.json` and `../receipts/2026-10-12-design-engineering-vision.json`. Native site checks: `npm test`. The profile uses existing site components and project images; no backend, credential, dependency, or employer-history changes are included.
 
-Native résumé generation: run `node scripts/render-ai-workflow-resume.mjs` to render the Markdown through the existing Manrope stylesheet and refresh its source manifest, inspect both exported pages, then run `npm run generate-resume`. Verify with `node scripts/verify-resume-reproducibility.mjs` and `npm run build`. The older design-engineering source and generator remain historical artifacts.
+For active résumé generation and recovery, follow the [root README résumé instructions](../../README.md#résumé-pdf). The older `scripts/render-ai-workflow-resume.mjs` is historical and must not replace the current reviewed binding.

@@ -6,6 +6,11 @@ const previous=new URL('../resume/dave-bettner-public.pdf',import.meta.url);
 if(createHash('sha256').update(readFileSync(previous)).digest('hex')!=='53fe842ccc5d560af349d2c627397c84dffe91965fbd20eae16067ada68ff4a0') throw new Error('Previous public resume changed.');
 const design=new URL('../resume/dave-bettner-design-engineering.pdf',import.meta.url);
 if(createHash('sha256').update(readFileSync(design)).digest('hex')!=='53d16be1c62d918bc73dd1ed64fc2c70c9b8ddbfdf6e609905f26d37c6e17d19') throw new Error('Previous design-engineering resume changed.');
+const retained=JSON.parse(readFileSync(new URL('../resume/ai-workflows-manifest-before-business-operations.json',import.meta.url),'utf8'));
+for(const field of ['source','html','css','font','pdf']) {
+  const actual=createHash('sha256').update(readFileSync(new URL('../'+retained[field],import.meta.url))).digest('hex');
+  if(actual!==retained[field+'Sha256']) throw new Error('Retained previous resume changed: '+field);
+}
 const manifest=JSON.parse(readFileSync(new URL('../resume/ai-workflows-manifest.json',import.meta.url),'utf8'));
 for(const field of ['source','html','css','font','pdf']) {
   const actual=createHash('sha256').update(readFileSync(new URL('../'+manifest[field],import.meta.url))).digest('hex');

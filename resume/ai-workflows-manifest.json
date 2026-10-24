@@ -1,12 +1,12 @@
 {
-  "source": "resume/dave-bettner-ai-workflows.md",
-  "sourceSha256": "7bdd52e952a4611fef598164f8e068b36accfe1659e38bf658913616d3131db8",
-  "html": "resume/dave-bettner-ai-workflows.html",
-  "htmlSha256": "d9e5107359fd1282a1182db8d12e07f81a8609497f005a7f1152febf8f858259",
+  "source": "resume/dave-bettner-business-operations-candidate.md",
+  "sourceSha256": "bc7f8440ce7eff46ff2591b334db2c4aed09fda3a886f1bfc8a13a2154c348b1",
+  "html": "resume/dave-bettner-resume-candidate.html",
+  "htmlSha256": "cfdcb5eaa70139e6589ba6b461b8dd5a6a6b6481a0f3dc1b7679eb960e2dd3a4",
   "css": "resume/ai-workflows.css",
   "cssSha256": "4554a3a8379426957daeb531361f8e13a16f307bd22b816d4b1c195ffaf2fa44",
   "font": "public/fonts/manrope.woff2",
   "fontSha256": "a30ddcd349703aff7464c34bef3fffdff405ee50c113440d7c8693c02d210972",
-  "pdf": "resume/dave-bettner-ai-workflows.pdf",
-  "pdfSha256": "ff59c8b0fa8a6cc38eaea3cec35a15b57bf5e4d6b3d6baa4d36843efed0960ec"
+  "pdf": "resume/dave-bettner-business-operations.pdf",
+  "pdfSha256": "879797992efb3bef674357e7a572205186ef3d7d7e6fdbe8f64f5ffc1e275bc7"
 }

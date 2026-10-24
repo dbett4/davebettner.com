@@ -1,6 +1,6 @@
 # Dave Bettner
 
-Dave Bettner leads enterprise software delivery and builds practical AI workflows. He is a Senior Manager at LSL, based in Des Moines, Iowa, and open to relocation. His career in software implementation and customer delivery began in 2015, with roles at Workiva, Ambra Health, and Citrin Cooperman.
+Dave Bettner leads enterprise software delivery and builds practical AI workflows. He joined LSL as a Senior Manager in November 2025 and is based in Des Moines, Iowa. His career in software implementation and customer delivery began in 2015, with roles at Workiva, Ambra Health, and Citrin Cooperman.
 
 Experience includes Workiva implementation, requirements workshops, consulting-team leadership, customer training, API and SSO integration requirements, engagement scoping, and financial reporting. Personal projects explore AI-assisted reporting and accounting checks using synthetic or mock data. They are not client AI deployments or Ramp product experience.
 
@@ -9,3 +9,5 @@ Pages: / (profile), /about/ (background), /experience/ (career), /work/ (project
 Contact: dbett4@gmail.com. GitHub: https://github.com/dbett4. LinkedIn: https://www.linkedin.com/in/dave-bettner/.
 
 The site describes Dave's work and public projects. Internal-work examples are summaries, not client case studies; public demos use synthetic or mock data and do not establish client deployments. The site does not provide a public API, hosted model, accounting connection, form submission, or checkout.
+
+Business-building work: /work/business-operations/ covers client intake, creative review, template delivery, and supplier qualification. A synthetic demo with no live integrations is at /showcase/creative-operations-lab/.

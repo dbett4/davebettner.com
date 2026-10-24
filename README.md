@@ -60,17 +60,19 @@ CI (`.github/workflows/verify.yml`) runs `npm test` on pushes to `main` and on p
 
 ## Résumé PDF
 
-The download is the reviewed two-page PDF, `resume/dave-bettner-design-engineering.pdf`. Its editable source and Word export sit beside it. The supplied and previous public PDFs are preserved.
+The download is the reviewed two-page `resume/dave-bettner-business-operations.pdf`, generated from `resume/dave-bettner-business-operations-candidate.md` and its HTML draft. `resume/ai-workflows-manifest.json` binds the exact source, HTML, stylesheet, font, and PDF hashes.
 
 ```bash
 npm run generate-resume
 ```
 
-`scripts/generate-resume-pdf.mjs` checks the preserved PDFs and the current export against their pinned SHA-256 digests, then copies the reviewed export byte for byte to `public/dave-bettner-resume.pdf`. If any hash differs, it stops and copies nothing. It needs only Node.
+The generator verifies the active manifest, verifies the retained previous manifest and original PDFs, then copies the reviewed PDF byte for byte to `public/dave-bettner-resume.pdf`. It stops before copying if a hash differs. It does not re-render or change the approved PDF.
 
-To revise the résumé, edit `resume/dave-bettner-design-engineering.md`, run `python3 resume/build-design-engineering-resume.py` with the bundled Manrope fonts installed, and review the Word and PDF exports. Update the pinned digest in both `scripts/generate-resume-pdf.mjs` and `scripts/ramp-profile.test.mjs`, rerun `npm run generate-resume`, and commit the source, exports, and refreshed public download.
+`resume/ai-workflows-manifest-before-business-operations.json` retains the previous source/export binding; the previous Markdown, HTML, and PDF remain at their original paths for recovery. Restore that manifest and regenerate to recover the earlier download.
 
-`resume/dave-bettner-resume.html` is no longer the source. Only the archived HTML-to-PDF renderer, `review/ramp/archived-resume-generator.mjs`, reads it.
+For a new draft, edit the candidate Markdown and regenerate its HTML with Pandoc and `resume/ai-workflows.css`. Set `REVIEW_OUTPUT_DIR` to a directory outside the repository and run `node scripts/render-career-review.mjs` against the local static preview on port 4322. Review the external PDF and page renders before copying the exact reviewed export into `resume/` and updating manifest hashes. No review evidence belongs in the public repository.
+
+`resume/dave-bettner-resume.html` and the older resume renderers remain historical sources; they do not define the active download.
 
 ## Deploy
 

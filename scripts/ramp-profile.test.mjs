@@ -11,16 +11,16 @@ test('public identity leads with enterprise delivery and AI workflows while reta
   assert.doesNotMatch(robots, /^Disallow:\s*\/\s*$/m);
   assert.match(robots, /Sitemap: https:\/\/davebettner\.com\/sitemap-index\.xml/);
   const home = read('dist/index.html');
-  assert.match(home, /I lead enterprise software delivery and build practical AI workflows\./);
+  assert.match(home, /I build AI tools and agent workflows grounded in accounting and enterprise implementation\./);
   assert.match(home, /I own product direction and implementation for Passal and Leasekite, working through AI coding tools/i);
-  assert.match(home, /enterprise implementation leadership, solutions architecture, and applied AI roles/i);
+  assert.match(home, /looking for my next role building AI tools and agent workflows/i);
   assert.match(home, /Customer delivery background/);
   assert.match(home, /managed a five-person implementation team/i);
   assert.match(home, /6–12 concurrent implementations/);
   assert.ok(home.indexOf('id="selected-work"') < home.indexOf('id="building"'), 'selected products precede the building approach');
   assert.ok(home.indexOf('id="selected-work"') < home.indexOf('Customer delivery background'), 'selected products precede employment background');
   assert.match(home, /href="#selected-work"[^>]*>View selected work/);
-  assert.match(home, /Based in Des Moines; open to relocation/);
+  assert.match(home, /Based in Des Moines/);
   const experience = read('dist/experience/index.html');
   assert.match(experience, /href="\/experience\/connected-reporting\/"/);
   const mcp = read('dist/work/regulated-reporting-mcp/index.html');
@@ -38,7 +38,7 @@ test('public identity leads with enterprise delivery and AI workflows while reta
     const page = read('dist/' + route + 'index.html');
     assert.doesNotMatch(page, /\b(?:an|former|practicing|practising) accountant\b|Accounting background\.|Accounting, technology, and customer delivery/i);
     assert.match(page, /Dave Bettner leads enterprise software delivery and builds practical AI workflows/);
-    assert.match(page, /"jobTitle":"Senior Manager"/);
+    assert.match(page, /"jobTitle":"AI tools and agent-workflow builder"/);
     assert.doesNotMatch(page, /"jobTitle":"(?:Forward Deployed Engineer|Accountant|CPA)"/i);
   }
   const projects = read('dist/work/index.html');

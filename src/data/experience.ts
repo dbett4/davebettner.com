@@ -10,13 +10,13 @@ export type ExperienceEntry = {
 /** Current resume supplied by Dave; statements are not independently verified employment records. */
 export const experienceEntries: readonly ExperienceEntry[] = [
   {
-    "dates": "Nov 2025 - Present",
+    "dates": "Started Nov 2025",
     "title": "Senior Manager \u00b7 LSL, LLP",
-    "line": "Lead Workiva delivery for city and county finance teams. Map source-ledger data into financial reports and budget books, and run user sessions and testing through client sign-off.",
+    "line": "Led Workiva delivery for city and county finance teams. Mapped source-ledger data into financial reports and budget books, and ran user sessions and testing through client sign-off.",
     "bullets": [
-      "Lead Workiva delivery for city and county finance teams. Map source-ledger data into financial reports and budget books, and run user sessions and testing through client sign-off.",
-      "Scope consulting engagements, prepare estimates and statements of work, respond to RFPs, and demonstrate proposed solutions to customers.",
-      "Develop Python tools that generate Workiva data links, formulas, and validation checks from client ledgers, reused across financial-reporting and budgeting engagements.",
+      "Led Workiva delivery for city and county finance teams. Mapped source-ledger data into financial reports and budget books, and ran user sessions and testing through client sign-off.",
+      "Scoped consulting engagements, prepared estimates and statements of work, responded to RFPs, and demonstrated proposed solutions to customers.",
+      "Directed AI-assisted development of Python tools that generate Workiva data links, formulas, and validation checks from client ledgers, reused across financial-reporting and budgeting engagements.",
       "Built an internal AI-assisted cash-flow review workflow covering 11 source workpapers with 69 automated arithmetic checks, flagging discrepancies for human review. Internal LSL workflows are separate from my synthetic public demos; client changes require human review."
     ]
   },

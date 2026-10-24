@@ -1,0 +1,24 @@
+---
+import Profile from '../../../layouts/Profile.astro';
+---
+<Profile title="Creative operations lab | Dave Bettner" page="work" description="Try a synthetic, revision-bound creative approval and supplier-evidence workflow. No live AI or business-system connection.">
+<section class="section wrap lab">
+<h1>Creative operations lab</h1><p>An invented studio is preparing a merchandise collection. Change its creative revision after approval, then add the missing supplier evidence. Synthetic demo with no live integrations.</p>
+<h2>Collection concept</h2><p id="revision"></p><button id="approve">Approve current revision</button><button id="revise">Revise concept</button>
+<label><input id="sample" type="checkbox"> Physical sample accepted</label><label><input id="fulfillment" type="checkbox"> Fulfillment verified</label>
+<output id="status" aria-live="polite"></output><button id="reset">Reset demonstration</button><p>Use the checkboxes to simulate sample acceptance and fulfillment evidence.</p><p><a href="/work/business-operations/">Read the business-operations case study</a></p></section>
+<script is:inline type="module">
+import { readiness } from '/showcase/creative-operations-lab/workflow.mjs';
+let record;
+function render(){document.querySelector('#revision').textContent=`Concept revision ${record.revision}. Approved revision ${record.approvedRevision ?? 'none'}.`;document.querySelector('#status').textContent=readiness(record).reason;document.querySelector('#sample').checked=record.sampleAccepted;document.querySelector('#fulfillment').checked=record.fulfillmentVerified;}
+function reset(){record={revision:1,approvedRevision:null,sampleAccepted:false,fulfillmentVerified:false};render();}
+document.querySelector('#approve').onclick=()=>{record.approvedRevision=record.revision;render();};
+document.querySelector('#revise').onclick=()=>{record.revision++;record.sampleAccepted=false;record.fulfillmentVerified=false;render();};
+document.querySelector('#sample').onchange=e=>{record.sampleAccepted=e.target.checked;render();};
+document.querySelector('#fulfillment').onchange=e=>{record.fulfillmentVerified=e.target.checked;render();};
+document.querySelector('#reset').onclick=reset;reset();
+</script>
+</Profile>
+<style>
+.lab{max-width:850px}.lab h1{font-size:clamp(2.5rem,6vw,4.5rem)}.lab h2{font-size:2rem;margin-top:32px}.lab p{margin:20px 0}.lab button{font:inherit;background:var(--page);color:var(--text);border:1px solid var(--border);padding:12px 18px;cursor:pointer;margin:8px 8px 8px 0}.lab button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.lab label{display:block;margin:20px 0}.lab input{width:20px;height:20px;accent-color:var(--accent)}.lab output{display:block;border-top:1px solid var(--border);padding:24px 0;font-weight:600}
+</style>

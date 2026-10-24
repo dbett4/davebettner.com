@@ -36,7 +36,11 @@ try:
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),(route,width,'overflow')
     assert page.locator('h1').count()==1 and page.locator('main').count()==1,route
     assert page.locator('meta[name="robots"][content*="noindex" i]').count()==0,route
-    assert page.locator('form,input,textarea,canvas').count()==0,route
+    assert page.locator('form,textarea,canvas').count()==0,route
+    if route=='/showcase/creative-operations-lab/':
+     assert page.locator('input[type=checkbox]').count()==2,route
+    else:
+     assert page.locator('input').count()==0,route
     text=page.locator('body').inner_text()
     assert not re.search(r'[\u2190-\u21ff]|0-to-1|FIRST 90 DAYS|PROOF TRAVELS|^0[1-9]$',text,re.M),route
     assert page.locator('.eyebrow,.section-index,.rule-number').count()==0
@@ -75,7 +79,7 @@ try:
   assert np.locator('canvas').count()==0
   assert np.locator('video').evaluate('(v)=>!v.currentSrc && v.paused'), 'No-JS must not load or play video'
   assert np.evaluate('document.getAnimations().every(a=>a.playState!=="running")')
-  assert np.locator('.hero h1').inner_text()=='I lead enterprise software delivery and build practical AI workflows.';nojs.close()
+  assert np.locator('.hero h1').inner_text()=='I build AI tools and agent workflows grounded in accounting and enterprise implementation.';nojs.close()
   assert not errors,errors
   browser.close()
  result={'base':base,'route_width_checks':len(checks),'routes':len(routes),'local_destinations':len(links),'checks':checks,'keyboard_skip':'pass','resume_download_sha256':hashlib.sha256(pdf).hexdigest(),'nojs_reduced_motion':'pass','errors':errors}

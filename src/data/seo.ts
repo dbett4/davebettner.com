@@ -12,7 +12,7 @@ export const personSchema = {
  url: siteUrl,
  image: [siteUrl + '/images/dave-bettner-headshot-square.webp', siteUrl + '/images/dave-bettner-headshot-portrait-640.webp', siteUrl + '/images/dave-bettner-profile-social.jpg'],
  description: siteDescription,
- jobTitle: 'Senior Manager',
+ jobTitle: 'AI tools and agent-workflow builder',
  homeLocation: { '@type': 'Place', name: 'Des Moines, Iowa' },
  knowsAbout: ['Enterprise software delivery', 'Implementation leadership', 'AI workflows', 'Financial reporting', 'Customer engagements', 'API integrations', 'Python', 'Product development', 'Interface design', 'AI coding tools'],
  sameAs: [linkedinUrl, githubUrl],

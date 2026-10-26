@@ -1,0 +1,170 @@
+{
+  "phase": "after",
+  "base": "http://127.0.0.1:35793",
+  "dist": "/home/dave/work/davebettner.com-illustration-20260928/dist",
+  "records": [
+    {
+      "width": 1440,
+      "height": 900,
+      "scene": {
+        "x": 692.671875,
+        "y": 122,
+        "width": 617.328125,
+        "height": 660
+      },
+      "image": {
+        "x": 692.6640625,
+        "y": 143.3359375,
+        "width": 617.328125,
+        "height": 617.328125
+      },
+      "media": {
+        "x": 692.6640625,
+        "y": 143.3359375,
+        "width": 617.328125,
+        "height": 617.328125
+      },
+      "sceneMask": "none",
+      "mediaMask": "none",
+      "imageLoaded": true,
+      "overflow": false,
+      "background": "rgb(230, 235, 240)",
+      "scheme": "light"
+    },
+    {
+      "width": 768,
+      "height": 900,
+      "scene": {
+        "x": 24,
+        "y": 260.0625,
+        "width": 720,
+        "height": 640
+      },
+      "image": {
+        "x": 54,
+        "y": 250.0625,
+        "width": 660,
+        "height": 660
+      },
+      "media": {
+        "x": 54,
+        "y": 250.0625,
+        "width": 660,
+        "height": 660
+      },
+      "sceneMask": "none",
+      "mediaMask": "none",
+      "imageLoaded": true,
+      "overflow": false,
+      "background": "rgb(230, 235, 240)",
+      "scheme": "light"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "scene": {
+        "x": 16,
+        "y": 454.34375,
+        "width": 358,
+        "height": 390
+      },
+      "image": {
+        "x": 16,
+        "y": 470.34375,
+        "width": 358,
+        "height": 358
+      },
+      "media": {
+        "x": 16,
+        "y": 470.34375,
+        "width": 358,
+        "height": 358
+      },
+      "sceneMask": "none",
+      "mediaMask": "none",
+      "imageLoaded": true,
+      "overflow": false,
+      "background": "rgb(230, 235, 240)",
+      "scheme": "light"
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "scene": {
+        "x": 16,
+        "y": 524.34375,
+        "width": 288,
+        "height": 320
+      },
+      "image": {
+        "x": 16,
+        "y": 540.34375,
+        "width": 288,
+        "height": 288
+      },
+      "media": {
+        "x": 16,
+        "y": 540.34375,
+        "width": 288,
+        "height": 288
+      },
+      "sceneMask": "none",
+      "mediaMask": "none",
+      "imageLoaded": true,
+      "overflow": false,
+      "background": "rgb(230, 235, 240)",
+      "scheme": "light"
+    }
+  ],
+  "errors": [],
+  "files": [
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/homepage-1440x900.png",
+      "sha256": "0aa9efef1e000310901c9f8bcf05ae948210234c1a3b5ef32ca7f105eeb0e7ca"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/scene-1440x900.png",
+      "sha256": "9aa57b58b83d106104da7885eb4f4bc5524b270834172c2c5f9908758ade2495"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/scene-unmasked-1440x900.png",
+      "sha256": "9aa57b58b83d106104da7885eb4f4bc5524b270834172c2c5f9908758ade2495"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/homepage-768x900.png",
+      "sha256": "635dd0c4629623eecbe240fcabf4f692382cc423dcfe63af23814e9913ff0c13"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/scene-768x900.png",
+      "sha256": "7863ee007351d458c0b2ba08f9234e01c552e6e5fb7d604c535badab471b9d60"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/scene-unmasked-768x900.png",
+      "sha256": "7863ee007351d458c0b2ba08f9234e01c552e6e5fb7d604c535badab471b9d60"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/homepage-390x844.png",
+      "sha256": "03a7f3e1afd56c7babe22f7b56343beb73a126eb2246140bbf57d234b44b9038"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/scene-390x844.png",
+      "sha256": "c56035155e45d51252daba0ef85cec0d43fe954aa4cacee24a21abcb58983f68"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/scene-unmasked-390x844.png",
+      "sha256": "c56035155e45d51252daba0ef85cec0d43fe954aa4cacee24a21abcb58983f68"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/homepage-320x844.png",
+      "sha256": "b1296a1a9d28f9412f74b118c0987ec19c1610004f078d60ea9eeae519cc93f8"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/scene-320x844.png",
+      "sha256": "e382391e990381fe17033cc1124d4d136784d7af97bacd71a5c35c79e7318b1a"
+    },
+    {
+      "path": "/home/dave/work/davebettner.com-illustration-20260928/review/light-soft-fade/fade/after/scene-unmasked-320x844.png",
+      "sha256": "e382391e990381fe17033cc1124d4d136784d7af97bacd71a5c35c79e7318b1a"
+    }
+  ]
+}

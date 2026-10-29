@@ -1,0 +1,17 @@
+---
+import Profile from '../../layouts/Profile.astro';
+import NoteList from '../../components/NoteList.astro';
+import { getPublishedNotes } from '../../lib/notes';
+import '../../styles/notes.css';
+const notes = await getPublishedNotes();
+---
+<Profile title="Build Notes — Dave Bettner" description="Notes from building Homebase, Krowbar, and AI workflows. Product decisions, implementation lessons, and working examples." page="notes">
+  <section class="writing-intro writing-wrap">
+    <h1>Build notes</h1>
+    <p class="lead">What I’m learning while building Homebase and tools for AI workflows. Product decisions, implementation details, and examples you can inspect.</p>
+  </section>
+  <section class="writing-wrap notes-index" aria-label="Published build notes">
+    <div class="case-links"><a href="/rss.xml">Follow via RSS</a><a href="/now/">What I’m working on now</a></div>
+    <NoteList notes={notes} />
+  </section>
+</Profile>

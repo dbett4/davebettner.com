@@ -1,0 +1,129 @@
+{
+  "capture_route": "Native Playwright screenshot capture on davgent",
+  "captures": [
+    {
+      "bytes": 1111468,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/home-1440.png",
+      "sha256": "b8c15b1524899fd12c1eec61637f4e94ede8b82404b31400117a03726313ffdd"
+    },
+    {
+      "bytes": 113745,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/notes-1440.png",
+      "sha256": "a423555088515632da40f98b3aede08a39b90a3ef3229f0d9c79f7e8f974bfd3"
+    },
+    {
+      "bytes": 108572,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/notes-390.png",
+      "sha256": "e5054d8a5aa83217371c02d44639afe6a194c6e4c924745138f35bbd4f7fa105"
+    },
+    {
+      "bytes": 202184,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/now-1440.png",
+      "sha256": "c200de15760ef4aaca7be64cd8235ebad0b79022541d535515482f2495488464"
+    },
+    {
+      "bytes": 202247,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/now-390.png",
+      "sha256": "b62daec411a83e32f96fa8f56553ec60ddf7c7db3a472ff69a55264d77223176"
+    },
+    {
+      "bytes": 269316,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/article-1440.png",
+      "sha256": "a6d2ce1daaf2c54d08be1fd5fd7a684304cb519195778bc5267e75bca77c2eae"
+    },
+    {
+      "bytes": 266159,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/article-390.png",
+      "sha256": "cc8fc54bf4310edff88fd3a8cfa254b9f23927ed136294e53b4d8f65f8e5e884"
+    },
+    {
+      "bytes": 74518,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/home-notes-1440.png",
+      "sha256": "4c6694c25c5730d5437fa4737d500184f164876885bb8c784cbba3877dac756f"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 9957,
+      "media_type": "application/json",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/source-manifest.json",
+      "sha256": "160ff41eafce1cca51fc44c921b3ad24d1b9e905b10492ba8984608eda367f7a"
+    },
+    "dom": {
+      "bytes": 363,
+      "media_type": "application/json",
+      "path": "/srv/agentops/worktrees/codex/t3-code/davebettner.com/t3-00576dbf/node_modules/.cache/build-notes/checks.json",
+      "sha256": "1b49389adf95c5e28409d33aa21b55ce3a659bd54e1bb74a4ef7e9d32ef96e93"
+    }
+  },
+  "generated_at": "2026-10-29T00:26:51Z",
+  "required_visual_claims": [
+    "Homebase leads selected work and the new writing pages fit desktop and phone layouts"
+  ],
+  "schema_version": "1.0",
+  "scope": "Homepage build notes, shared navigation, Notes index, Homebase note and Now page",
+  "source_revision": "sha256:1807998439b5c33d9136d0df35efcc9e1c8e9a718a6da6d515b98d63a2ff3c3f; source manifest /srv/agentops/artifacts/dave-site-bip-20261028/source-manifest.json",
+  "status": "verified",
+  "surface": "Local production build of davebettner.com",
+  "viewport": "1440x1000 and 390x1000 CSS pixels",
+  "visual_adjudication": {
+    "captures": [
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/home-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/notes-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/notes-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/now-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/now-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/article-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/article-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/home-notes-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      }
+    ],
+    "independence": false,
+    "reviewed_at": "2026-10-29T00:26:51.262182+00:00",
+    "reviewer": "codex/root/t3-00576dbf",
+    "reviewer_runtime": "codex",
+    "source_path": "/srv/agentops/artifacts/dave-site-bip-20261028/local-adjudication.json",
+    "source_sha256": "a7f83eafb2cdcbd1e5f3173bba06b2ec252c54befffcd73bef0a6ddc3450202c",
+    "summary": "Viewed the rendered homepage, Notes index, Homebase article and Now page at desktop and phone sizes. Homebase remains the first featured project. Notes use the existing light theme, legible prose and clear date/project metadata. Navigation wraps cleanly on phones. Article headings, links and footer do not overlap or clip. No decorative labels or unnecessary signup controls were introduced.",
+    "verdict": "verified"
+  }
+}

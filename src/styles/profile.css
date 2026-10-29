@@ -43,6 +43,7 @@ img { display: block; max-width: 100%; height: auto; }
 .brand { font-size: 19px; font-weight: 650; letter-spacing: -.03em; text-decoration: none; }
 .masthead nav { display: flex; justify-content: flex-end; gap: 26px; }
 .masthead nav a, .header-email { min-height: 44px; display: inline-flex; align-items: center; font-size: 14px; text-decoration: none; }
+.masthead nav a { min-width: 44px; justify-content: center; }
 .masthead-brand { display: inline-flex; min-width: 44px; min-height: 44px; gap: 10px; align-items: center; font-size: 15px; font-weight: 600; letter-spacing: -.025em; }
 .masthead-brand img { width: 32px; height: 32px; object-fit: cover; border-radius: 50%; }
 .masthead a[aria-current='page'] { font-weight: 650; }

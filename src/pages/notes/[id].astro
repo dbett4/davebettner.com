@@ -1,0 +1,36 @@
+---
+import { render } from 'astro:content';
+import Profile from '../../layouts/Profile.astro';
+import { formatNoteDate, getPublishedNotes, noteProjects } from '../../lib/notes';
+import { siteUrl } from '../../data/seo';
+import '../../styles/notes.css';
+
+export async function getStaticPaths() {
+  return (await getPublishedNotes()).map(note => ({ params: { id: note.id }, props: { note } }));
+}
+const { note } = Astro.props;
+const { Content } = await render(note);
+const project = noteProjects[note.data.project];
+const articleSchema = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting',
+  headline: note.data.title, description: note.data.description,
+  datePublished: note.data.date.toISOString(),
+  url: `${siteUrl}/notes/${note.id}/`,
+  author: { '@id': `${siteUrl}/#person` },
+  isPartOf: { '@id': `${siteUrl}/#website` },
+};
+---
+<Profile title={`${note.data.title} — Dave Bettner`} description={note.data.description} page="notes">
+  <article>
+    <header class="writing-intro writing-wrap">
+      <h1>{note.data.title}</h1>
+      <p class="lead">{note.data.description}</p>
+      <div class="note-meta"><time datetime={note.data.date.toISOString().slice(0, 10)}>{formatNoteDate(note.data.date)}</time><a href={project.href}>{project.name}</a></div>
+    </header>
+    <div class="writing-body writing-wrap">
+      <Content />
+      <nav class="case-links" aria-label="More build notes"><a href="/notes/">All build notes</a><a href="/rss.xml">Follow via RSS</a><a href="mailto:dbett4@gmail.com">Email me about this note</a></nav>
+    </div>
+  </article>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+</Profile>

@@ -8,7 +8,7 @@ const canonical=new URL(Astro.url.pathname, siteUrl).href;
 const isProfilePage=page === 'about';
 const pageSchema=createPageSchema({ title, description, url: canonical, isProfile: isProfilePage });
 const structuredData={ '@context': 'https://schema.org', '@graph': [personSchema, websiteSchema, pageSchema] };
-const nav=[['work','Projects','/work/'],['fit','Approach','/fit/'],['experience','Experience','/experience/'],['about','About','/about/']];
+const nav=[['work','Projects','/work/'],['notes','Notes','/notes/'],['now','Now','/now/'],['about','About','/about/']];
 ---
 <!doctype html>
 <html lang="en">
@@ -21,6 +21,7 @@ const nav=[['work','Projects','/work/'],['fit','Approach','/fit/'],['experience'
     <meta name="theme-color" content="#ffffff" />
     <link rel="preload" href="/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title="Dave Bettner’s build notes" href="/rss.xml" />
     <link rel="icon" href="/favicon.svg" />
     <meta property="og:type" content={isProfilePage ? 'profile' : 'website'} />
     <meta property="og:site_name" content="Dave Bettner" />
@@ -62,7 +63,10 @@ const nav=[['work','Projects','/work/'],['fit','Approach','/fit/'],['experience'
       </div>
       <nav aria-label="Further information">
         <a href="/about/">About</a>
+        <a href="/fit/">Approach</a>
+        <a href="/experience/">Experience</a>
         <a href="/dave-bettner-resume.pdf">Résumé</a>
+        <a href="/rss.xml">RSS</a>
         <a href="https://github.com/dbett4">GitHub</a>
         <a href="https://www.linkedin.com/in/dave-bettner/">LinkedIn</a>
         {!footerMessage && <a href="mailto:dbett4@gmail.com">Email</a>}

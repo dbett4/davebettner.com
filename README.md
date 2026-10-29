@@ -6,6 +6,21 @@ The site brings together my product work, reporting tools, and career history. H
 
 Public technical examples use fictional or mock data. Their repositories document what you can run and the limits of each example.
 
+## Build notes and Now
+
+`/notes/` publishes Markdown from `src/content/notes/`. Each file needs a title,
+description, publication date, project (`homebase`, `krowbar`, or `ai-workflows`),
+and `draft: false`. Notes default to draft and are excluded from article routes,
+the homepage, index, and RSS until explicitly published. The filename becomes
+the URL; preserve published filenames to keep incoming links working.
+
+`src/content.config.ts` validates the metadata. The homepage, note index and
+`/rss.xml` read the same published collection, ordered by publication date with
+a stable filename order for ties. The feed uses Astro’s official RSS package.
+`/now/` is a dated, manually maintained snapshot; update its displayed date and
+description when changing the focus. A successful deployment does not update it
+automatically. Keep private records and unsupported results out of public posts.
+
 ## Stack
 
 - [Astro](https://astro.build/) static site
@@ -36,6 +51,7 @@ npm test
 | Suite | Checks |
 | --- | --- |
 | `scripts/verify-ramp-profile.py` | Every non-lab route at four widths, axe WCAG A/AA, internal links, the résumé download's hash, the no-JavaScript fallback |
+| `scripts/verify-build-notes.mjs` | Notes navigation, valid RSS matching the index, full articles and structured data, and Now-to-Homebase navigation on desktop and phone |
 | `scripts/verify-avatar-fade.mjs` | Light-only rendering under light and dark OS settings, the avatar home link, no theme or pause controls; serves `dist/` itself |
 | `scripts/verify-workstation-video.mjs` | Hero loop playback and fallbacks; decodes the served MP4 with `ffmpeg` to check motion and the loop seam |
 | `scripts/verify-theme.mjs` | Light-only rendering under a dark OS setting, a saved dark preference, blocked storage and no JavaScript |

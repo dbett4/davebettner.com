@@ -1,0 +1,35 @@
+.note-list { list-style: none; padding: 0; margin: 28px 0 0; }
+.note-list > li { padding-block: 26px 30px; border-top: 1px solid var(--border); }
+.note-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 20px; color: var(--secondary); font-size: 13px; line-height: 1.6; }
+.note-meta a { display: inline-flex; align-items: center; min-height: 44px; }
+.note-list h2, .note-list h3 { margin: 0 0 8px; font-size: 24px; line-height: 1.35; }
+.note-list h2 a, .note-list h3 a { display: inline-block; padding-block: 4px; text-decoration: none; }
+.note-list h2 a:hover, .note-list h3 a:hover { text-decoration: underline; }
+.note-list p { max-width: 700px; margin-top: 10px; color: var(--secondary); font-size: 16px; line-height: 1.75; }
+.writing-wrap { width: min(100% - 64px, 760px); margin-inline: auto; }
+.writing-intro { padding-block: 52px 32px; }
+.writing-intro h1 { max-width: 760px; font-size: clamp(32px, 4.5vw, 48px); line-height: 1.2; }
+.writing-intro .lead { margin-top: 20px; color: var(--secondary); font-size: 18px; line-height: 1.75; }
+.writing-intro .note-meta { margin-top: 20px; }
+.writing-body { padding-bottom: 64px; font-size: 17px; line-height: 1.85; overflow-wrap: break-word; }
+.writing-body p + p { margin-top: 20px; }
+.writing-body h2 { margin: 40px 0 16px; font-size: 26px; line-height: 1.3; }
+.writing-body h3 { margin: 28px 0 12px; font-size: 21px; line-height: 1.4; }
+.writing-body ul, .writing-body ol { padding-left: 24px; margin-block: 20px; }
+.writing-body li + li { margin-top: 10px; }
+.writing-body .case-links { padding-top: 20px; border-top: 1px solid var(--border); margin-top: 40px; }
+.notes-index { padding-bottom: 64px; }
+.notes-index .case-links { margin-top: 12px; }
+.now-date { display: block; margin-top: 18px; color: var(--secondary); font-size: 14px; }
+.now-projects { list-style: none; padding: 0 !important; }
+.now-projects li { padding-block: 18px; border-top: 1px solid var(--border); }
+.now-projects li + li { margin-top: 0; }
+.now-projects p { margin-top: 4px; color: var(--secondary); font-size: 16px; }
+@media (max-width: 700px) {
+  .writing-wrap { width: min(100% - 32px, 560px); }
+  .writing-intro { padding-block: 36px 28px; }
+  .writing-intro .lead { font-size: 17px; }
+  .note-list h2, .note-list h3 { font-size: 23px; }
+  .writing-body { font-size: 16px; line-height: 1.85; }
+  .writing-body h2 { font-size: 24px; }
+}

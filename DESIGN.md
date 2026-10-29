@@ -24,7 +24,17 @@ Technical walkthroughs add inspectable product education to that positioning.
 Reuse the existing project rows and prose for lessons. Interactive teaching
 examples use labeled native controls, visible source and result tables, and
 plain status text. Fictional data and local execution are stated beside the demo.
-AI deployment and solutions leadership lead the positioning. The downloadable
+Build notes and a dated Now page make current work and the reasoning behind it
+discoverable. Primary navigation is Projects, Notes, Now and About; Approach and
+Experience remain in the footer. The homepage keeps Homebase first and replaces
+the repeated business-workflow summary with recent build notes. Notes use the
+same light theme, neutral dividers and native links, with a 760px reading column,
+17px desktop prose and 16px phone prose. Publication dates sit below article
+headings, and note lists use dates with project names as useful metadata. RSS is
+linked from the head, footer and Notes page. No counters, subscriber claims,
+newsletter forms or publishing cadence are implied.
+
+AI deployment and solutions leadership remain part of the positioning. The downloadable
 resume leads with implementation experience and connects customer demos, training,
 and coaching to the public teaching example without claiming a creator audience.
 

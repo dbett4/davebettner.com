@@ -7,7 +7,7 @@ Des Moines, Iowa · dbett4@gmail.com\
 
 ## Summary
 
-I’m looking for my next role building AI tools and agent workflows. My background combines accounting, enterprise implementation, and 10+ years in reporting and customer delivery. I turn business requirements into working software, review workflows, and delivery plans.
+I build AI tools and agent workflows, drawing on 10+ years in enterprise software, reporting, and customer delivery. I have led Workiva implementations and managed an implementation team. I define requirements, direct AI-assisted development, and verify the result against source records and the application.
 
 ## Experience
 
@@ -18,7 +18,7 @@ Started Nov 2025
 - Led Workiva delivery for city and county finance teams, from source-ledger mapping and discovery through financial reports, budget books, user acceptance testing, training, and client sign-off.
 - Scoped engagements, prepared estimates and statements of work, responded to RFPs, and demonstrated proposed solutions. Developed training and acceptance criteria that help client teams take ownership.
 - Directed AI-assisted development of reusable Python tools that generate reporting links, formulas, and validation checks across engagements.
-- Built internal AI-assisted review workflows with source traceability and human review before client changes.
+- Built [internal AI-assisted review workflows](https://davebettner.com/ai-workflows/) that compare reports with source records and route discrepancies for human review before client changes. One cash-flow review covered 11 source workpapers with 69 automated arithmetic checks.
 
 ### Citrin Cooperman · Manager of Digital Services, Workiva
 
@@ -51,21 +51,17 @@ Sep 2015–Sep 2021
 
 ## Selected Projects
 
-### AI-assisted business operations
+### [Homebase](https://davebettner.com/work/homebase/) · Main project, in active development
 
-- Directed AI-assisted product and workflow development for a creative-services and commerce portfolio, connecting client intake, creative review, supplier qualification, and delivery.
-- Built an intake and review path for client briefs, content plans, sample assets, and owner feedback; organized supplier requirements and comparison packets for owner decisions.
+- Own product direction, workflow and interface design, and implementation of a private operating workspace that connects client relationships, projects, content, and agent work across a founder's five businesses.
+- Built daily work and project tracking, client records, content planning, assets, and records for agent assignments and review, with saved workspace revisions and export for recovery. Stack includes React, TypeScript, and SQLite.
+- Use AI coding tools for implementation, tests, and code review. Define the workflows, judge the output, test each change, and carry it through integration and deployment. Agent execution and external integrations remain in development.
 
 ### [Passal](https://passal.app/) · Independent product
 
 - Own product direction, interface design, and implementation through AI coding tools for a learning platform with a production web app and native iOS and Android clients.
 - Build study workflows that connect lecture sources, study choices, and practice. Project stack includes React, Next.js, TypeScript, and SQLite.
 - Built payment integration and handled iOS App Store submission, reviewer feedback, and resubmission.
-
-### [AI-assisted delivery workflows](https://davebettner.com/ai-workflows/) · Internal work at LSL
-
-- Built workflows to review source material, compare reports with source records, classify exceptions, and route discrepancies for human review before client changes.
-- Used source tracing and recorded decisions to support review, exception ownership, and recovery before customer-impacting changes.
 
 ### Public agent tools
 

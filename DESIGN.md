@@ -31,7 +31,8 @@ the repeated business-workflow summary with recent build notes. Notes use the
 same light theme, neutral dividers and native links, with a 760px reading column,
 17px desktop prose and 16px phone prose. Publication dates sit below article
 headings, and note lists use dates with project names as useful metadata. RSS is
-linked from the head, footer and Notes page. No counters, subscriber claims,
+linked from the head, footer and Notes page. Résumé is also linked in the main
+navigation so a recruiter can open it without scrolling. No counters, subscriber claims,
 newsletter forms or publishing cadence are implied.
 
 The homepage introduction links Cloudflare Workers to the build note. Its

@@ -1,27 +1,23 @@
 # Dave Bettner
 
-I design and build products for complex workflows, working through AI coding tools from product direction and interface design through implementation and iteration.
+I build AI tools and agent workflows, drawing on accounting and 10+ years in reporting implementation and customer delivery.
 
-Based in Des Moines, Iowa; open to relocation. Interested in design engineering and product-building roles, especially interfaces for AI tools.
+[Résumé (PDF)](https://davebettner.com/dave-bettner-resume.pdf) · [dbett4@gmail.com](mailto:dbett4@gmail.com) · [Website](https://davebettner.com/) · [LinkedIn](https://www.linkedin.com/in/dave-bettner/)
 
-## Selected products
+I define requirements and acceptance criteria, direct the build, and check the result in the application. Codex and Claude help implement features, write tests, and review code. I'm looking for my next role building AI tools and agent workflows.
 
-- **[Passal](https://passal.app/)** — I own product direction, interface design, and implementation of a study app that helps students choose what to study next, with practice tied to lecture sources. Project stack: React, Next.js, TypeScript, and SQLite.
-- **Leasekite** — I own product direction, interface design, and implementation of vehicle comparison and lease-request workflows. Requests remain drafts for review, with negotiation decisions kept with the user. Private preview, in development.
-- **[Lockfield](https://lockfield.co/)** — I shaped the positioning, website, and reporting resources for a Workiva consulting practice built around training and client ownership.
+## What I'm building
 
-## Tools for AI agents
+- **[Homebase](https://davebettner.com/work/homebase/)** is my main project, a workspace that connects client relationships, projects, content, and agent work across a founder's five businesses. I own its product direction, design, and implementation. It is private and in active development. The case study uses fictional sandbox data.
+- **[Passal](https://passal.app/)** connects lecture sources, study choices, and practice. I own product direction, interface design, and implementation through AI coding tools.
 
-- **[Accounting Acceptance Lab](https://github.com/dbett4/accounting-acceptance-lab)** — Python/SQLite evaluation of accounting-agent decisions on synthetic reconciliation cases, including evidence, approval, and failed-write recovery.
-- **[Regulated Reporting MCP](https://github.com/dbett4/regulated-reporting-mcp)** — Reporting API access for AI agents, with caller-confirmed default writes and tool-specific verification. The public demo uses mock data.
-- **[Hermes Enterprise Deployment Lab](https://github.com/dbett4/hermes-enterprise-deployment-lab)** — A synthetic lab exploring scoped tools, separate operator approval, and recovery after an API commits a change but loses its response. Public work sample; no customer deployment claimed.
+## Public work samples you can run
 
-## Background and approach
+Both run without credentials on fictional data.
 
-My background is in financial-reporting software, customer delivery, and technical consulting. I have led customer implementations, managed an implementation team, and built reusable Python reporting tools. That experience shapes how I understand a workflow, decide what belongs in the interface, and carry the work through testing and iteration.
+- **[Accounting Acceptance Lab](https://github.com/dbett4/accounting-acceptance-lab)** checks an agent's proposed revenue accrual addback against five fictional workpapers, including a double addback and a one-cent difference.
+- **[Regulated Reporting MCP](https://github.com/dbett4/regulated-reporting-mcp)** gives an AI client reporting API tools whose default writes require caller confirmation. The demo uses a simulated Workiva service.
 
-At LSL, I build internal AI-assisted workflows. One cash-flow review workflow covered 11 source workpapers with 69 automated arithmetic checks, flagging discrepancies for human review before client changes. These workflows are separate from the synthetic public demos above.
+## Background
 
-I use AI coding tools throughout development. Product direction and implementation remain my responsibility. Independent technical projects use synthetic or mock records; they are separate from confidential client work.
-
-[Selected work](https://davebettner.com/work/) · [Experience](https://davebettner.com/experience/) · [LinkedIn](https://www.linkedin.com/in/dave-bettner/)
+My background includes Workiva delivery and internal AI-assisted review workflows at LSL, managing a five-person implementation team at Citrin Cooperman, and solutions architecture at Workiva. Client work stays private. [Career history](https://davebettner.com/experience/) · [More projects](https://davebettner.com/work/).

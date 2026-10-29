@@ -24,10 +24,10 @@ const notes = (await getPublishedNotes()).slice(0, 3);
     <SelectedProducts />
   </section>
   <section id="building" class="section implementation wrap">
-    <h2>Building with Cloudflare and AI tools</h2>
-    <p>I use <a href="https://developers.cloudflare.com/workers/">Cloudflare Workers</a> to publish this Astro site, with Wrangler handling deployment. The pages and build notes arrive as readable HTML, including when JavaScript is unavailable.</p>
-    <p>I own product direction and implementation for Homebase, Passal, and Leasekite, working through AI coding tools. I work with Codex and Claude in T3 Code, with its backend and development work running on my Linux VPS. Hermes coordinates ongoing agent work. <a href="/notes/operating-stack/">My current operating stack</a> explains how those pieces fit together.</p>
-    <p>GitHub keeps the source and change history. Playwright and axe check browser behavior and accessibility, and I inspect the live result after deployment.</p>
+    <h2>How I build with AI tools</h2>
+    <p>I own product direction and implementation for Homebase, Passal, and Leasekite, working through AI coding tools. I define what each workflow needs to do, which actions need approval, and how to check the result. Codex and Claude help implement features, write tests, and review code.</p>
+    <p>In Homebase, a draft, an approval, and an actual delivery remain distinct. I design the workflow so that a completed task does not automatically count as a customer receiving the result. <a href="/work/homebase/">The Homebase case study</a> shows what exists and what is still in development.</p>
+    <p>I work in T3 Code with a VPS-hosted backend, and Hermes coordinates ongoing agent work. I publish this Astro site with <a href="https://developers.cloudflare.com/workers/">Cloudflare Workers</a> and Wrangler. GitHub keeps the source history; Playwright and axe check browser behavior and accessibility. My <a href="/notes/operating-stack/">operating stack write-up</a> explains the tools and release process.</p>
     <div class="case-links"><a href="/notes/cloudflare-build-workflow/">How I ship this site with Cloudflare</a><a href="/fit/#building">My building approach</a><a href="/ai-workflows/#stack">AI workflows and operating stack</a><a href="/dave-bettner-resume.pdf" download>Download résumé</a></div>
   </section>
   <section class="section wrap" aria-labelledby="build-notes-heading">
@@ -38,7 +38,7 @@ const notes = (await getPublishedNotes()).slice(0, 3);
   <section class="section background-tools wrap">
     <div class="experience">
       <h2>Customer delivery background</h2>
-      <p>At Citrin Cooperman, I managed a five-person implementation team. At Workiva, I led 6–12 concurrent implementations. At LSL, I led Workiva delivery for city and county finance teams.</p>
+      <p>At Citrin Cooperman, I managed a five-person implementation team. At Workiva, I led 6–12 concurrent implementations.</p>
       <p>At LSL, I scoped consulting engagements, prepared estimates and statements of work, and led Workiva delivery for city and county finance teams through client sign-off. I also directed AI-assisted development of Python reporting tools reused across engagements. I built internal review workflows that compare reports with source records and route discrepancies for human review before client changes.</p>
       <div class="case-links"><a href="/experience/">Career history</a><a href="/experience/connected-reporting/">Connected-reporting implementation</a><a href="/fit/#scope">Scope and client enablement</a></div>
     </div>

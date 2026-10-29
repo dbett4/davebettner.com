@@ -53,7 +53,7 @@ use the same method for a real product onboarding problem with its actual users.
 ## Durable sources
 
 - Career facts remain in the prior approved resume and `src/data/experience.ts`.
-- Revised resume source is `resume/dave-bettner-ai-workflows.md`.
+- Current resume source is `resume/dave-bettner-business-operations-candidate.md`.
 - Its reviewed PDF and source hashes are bound in `resume/ai-workflows-manifest.json`.
 - The lesson's executable model, browser checks, and page live with the website source.
 - Recording script is `docs/technical-education-recording.md`.

@@ -28,7 +28,7 @@ The profile is evaluated during recruiting, role-fit review, professional networ
 
 - The homepage leads with enterprise software delivery and practical AI workflows. Preserve its approved workstation media, source portraits, and direct actions.
 - Existing routes and actions remain available: Projects, Approach (`/fit/`), Experience, About, the AI workflow guide, resume download, email, GitHub, and LinkedIn.
-- Selected products remain Passal, Leasekite, Krowbar, and Lockfield. Leasekite retains its work-in-progress status. Technical tools retain repository links and scope disclosures.
+- Homebase leads selected work, followed by Passal, Leasekite, Krowbar, and Lockfield. Homebase remains private and in active development. Leasekite retains its work-in-progress status. Technical tools retain repository links and scope disclosures.
 - The lesson at `/learn/verify-an-ai-update/` uses fictional inventory data and deterministic local checks. It calls no AI model or external application. An uncertain write stays visibly uncertain until readback.
 - Customer-delivery evidence spans statutory reporting, GRC/reporting implementations, and HIPAA imaging integrations.
 - The portrait must use Dave’s supplied source pixels. Do not regenerate, composite, reshape, or replace his face, head, neck, body, suit, pose, or crop with synthetic content.
@@ -49,7 +49,7 @@ The profile is evaluated during recruiting, role-fit review, professional networ
 - Current homepage and verified copy: `src/pages/index.astro`.
 - Current assets: `src/components/WorkstationMedia.astro`, `public/images/workstation-loop-poster.webp`, and the existing header and About portraits.
 - Employment and project data in `src/data/` and the existing route implementations.
-- Resume: `public/dave-bettner-resume.pdf`, source `resume/dave-bettner-ai-workflows.md`, and the source/PDF binding in `resume/ai-workflows-manifest.json`. Prior approved resumes remain archived.
+- Resume: `public/dave-bettner-resume.pdf`, source `resume/dave-bettner-business-operations-candidate.md`, and the source/PDF binding in `resume/ai-workflows-manifest.json`. The manifest identifies the active HTML and PDF. Prior approved resumes remain archived.
 - Technical lesson: `src/pages/learn/verify-an-ai-update.astro` and its local state model in `src/lib/workflow-lesson.ts`.
 - Recording script and participant study preparation are in `docs/technical-education-recording.md` and `docs/positioning-evidence.md`. Preparation is not a recorded presentation or an observed user outcome.
 - Public engineering links and bounded claims are already encoded in the homepage and verification suite.

@@ -1,12 +1,12 @@
 {
   "source": "resume/dave-bettner-business-operations-candidate.md",
-  "sourceSha256": "bc7f8440ce7eff46ff2591b334db2c4aed09fda3a886f1bfc8a13a2154c348b1",
+  "sourceSha256": "3915b4275eb39c92cc623cbba0510971b6c03fc60527bccded25603660483672",
   "html": "resume/dave-bettner-resume-candidate.html",
-  "htmlSha256": "cfdcb5eaa70139e6589ba6b461b8dd5a6a6b6481a0f3dc1b7679eb960e2dd3a4",
+  "htmlSha256": "9aa8463a012be70a57ffaf1364bb9129140e1dc3f29169ae161b6ff8134f60ae",
   "css": "resume/ai-workflows.css",
   "cssSha256": "4554a3a8379426957daeb531361f8e13a16f307bd22b816d4b1c195ffaf2fa44",
   "font": "public/fonts/manrope.woff2",
   "fontSha256": "a30ddcd349703aff7464c34bef3fffdff405ee50c113440d7c8693c02d210972",
   "pdf": "resume/dave-bettner-business-operations.pdf",
-  "pdfSha256": "879797992efb3bef674357e7a572205186ef3d7d7e6fdbe8f64f5ffc1e275bc7"
+  "pdfSha256": "6c753cc2f115f3b48b138fbf543db101b33307ac726b0936a48a197216d32f44"
 }

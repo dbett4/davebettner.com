@@ -1,10 +1,16 @@
 # Dave Bettner
 
-Dave Bettner leads enterprise software delivery and builds practical AI workflows. He joined LSL as a Senior Manager in November 2025 and is based in Des Moines, Iowa. His career in software implementation and customer delivery began in 2015, with roles at Workiva, Ambra Health, and Citrin Cooperman.
+Dave Bettner builds AI tools and agent workflows grounded in accounting and enterprise implementation. He joined LSL as a Senior Manager in November 2025 and is based in Des Moines, Iowa. His career in software implementation and customer delivery began in 2015, with roles at Workiva, Ambra Health, and Citrin Cooperman.
 
-Experience includes Workiva implementation, requirements workshops, consulting-team leadership, customer training, API and SSO integration requirements, engagement scoping, and financial reporting. Personal projects explore AI-assisted reporting and accounting checks using synthetic or mock data. They are not client AI deployments or Ramp product experience.
+Experience includes Workiva implementation, requirements workshops, consulting-team leadership, customer training, API and SSO integration requirements, engagement scoping, and financial reporting. At LSL he also directs internal AI-assisted review workflows that compare reports with source records and route discrepancies for human review before client changes.
 
-Pages: / (profile), /about/ (background), /experience/ (career), /work/ (projects), /fit/ (working approach), /ai-workflows/ (AI workflow examples), /learn/verify-an-ai-update/ (interactive lesson), /dave-bettner-resume.pdf (résumé).
+Main project: Homebase (/work/homebase/), a private operating workspace that connects client relationships, projects, content, and agent work across a founder's five businesses. Dave owns product direction, workflow and interface design, and implementation through AI coding tools. It is in active development; agent execution and external integrations are still being developed and verified. The source is private, and the case-study screens use fictional sandbox data.
+
+Other products: Passal (https://passal.app/), a study app connecting lecture sources, study choices, and practice. Leasekite, vehicle comparison and lease requests, in development with a private preview. Krowbar (/work/krowbar/), a project workspace for people and AI assistants with a public demo at https://krowbar.app/ using fictional reporting work. Lockfield (https://lockfield.co/), a Workiva consulting practice.
+
+How Dave works with AI: he sets the problem definition, requirements, and acceptance criteria and judges the result. AI coding tools contribute implementation, analysis, tests, and review. Personal technical projects use synthetic or mock data. They are not client AI deployments.
+
+Pages: / (profile), /work/ (projects), /work/homebase/ (Homebase case study), /notes/ (build notes), /now/ (current focus), /about/ (background), /experience/ (career), /fit/ (working approach), /ai-workflows/ (AI workflow examples and operating stack), /learn/verify-an-ai-update/ (interactive lesson), /dave-bettner-resume.pdf (résumé), /rss.xml (build notes feed).
 
 Contact: dbett4@gmail.com. GitHub: https://github.com/dbett4. LinkedIn: https://www.linkedin.com/in/dave-bettner/.
 

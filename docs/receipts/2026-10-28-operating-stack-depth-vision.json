@@ -1,0 +1,129 @@
+{
+  "capture_route": "Native Playwright on davgent",
+  "captures": [
+    {
+      "bytes": 175014,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/stack-1440.png",
+      "sha256": "421be671e7d53947e22ad8f1ad977cacdc4e000ff9aa1ab04e1844cd1ba5d161"
+    },
+    {
+      "bytes": 160390,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/stack-390.png",
+      "sha256": "c7018e29678960c67b25517d6226a110da7a7eddcec8d417623703d70c116608"
+    },
+    {
+      "bytes": 161290,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/backend-1440.png",
+      "sha256": "06e6700175feadb5d1aa5fd895e6485f9e590faab0977fb7820dfc423fbaf5e6"
+    },
+    {
+      "bytes": 108241,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/backend-390.png",
+      "sha256": "8359795a6ba08133102ea09208a63b1897929184edd82bea615f5f76a050e47b"
+    },
+    {
+      "bytes": 115633,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/routing-390.png",
+      "sha256": "684eaa84ce472a6457e3ddd8d98c14745b6701e4c9fe9225f0c54d285ddfb29e"
+    },
+    {
+      "bytes": 182160,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/example-1440.png",
+      "sha256": "9e96fb6e574a118e28f5abed009bb106688617b8ef7b8f2c17e88337f3b761d1"
+    },
+    {
+      "bytes": 119632,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/example-390.png",
+      "sha256": "84cae110ffa068166994ce18e549165c37f92543385f77b215eeb26db1c4e799"
+    },
+    {
+      "bytes": 114642,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/recovery-390.png",
+      "sha256": "f1d70334e76cc6b5534420148da73f4343504bdb1d4e6a10aa5c1003dcd05a51"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 14790,
+      "media_type": "application/json",
+      "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/source-manifest.json",
+      "sha256": "34910c8877eb69ae18b573d702d6180313ed29bb47b3a4060126fc3cba50b867"
+    },
+    "dom": {
+      "bytes": 505,
+      "media_type": "application/json",
+      "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/walkthrough.json",
+      "sha256": "80600f84d3bfba1e54a5ffe5a968280e075271ea988d418ab64d63396cdc505d"
+    }
+  },
+  "generated_at": "2026-10-29T01:43:01Z",
+  "required_visual_claims": [
+    "Expanded backend, routing, release and recovery content is readable at desktop and phone widths"
+  ],
+  "schema_version": "1.0",
+  "scope": "Expanded current-stack definition list and representative operating-stack article sections",
+  "source_revision": "sha256:f165e0ccbd0b6a094b6a016338ea8ce5facd8ff682f82188c2af2ff58070f2f2",
+  "status": "verified",
+  "surface": "Local production build of davebettner.com",
+  "viewport": "1440x1000 and 390x1000 CSS pixels",
+  "visual_adjudication": {
+    "captures": [
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/stack-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/stack-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/backend-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/backend-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/routing-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/example-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/example-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/recovery-390.png",
+        "verdict": "verified",
+        "viewed": true
+      }
+    ],
+    "independence": false,
+    "reviewed_at": "2026-10-29T01:43:01.605088+00:00",
+    "reviewer": "codex/root/t3-00576dbf",
+    "reviewer_runtime": "codex",
+    "source_path": "/srv/agentops/artifacts/dave-site-stack-depth-20261028/local/adjudication.json",
+    "source_sha256": "66c0d23cff5fc20b0bfab3a4f366ef3a21cbe28b863ae5f9f0208ea344c0fc97",
+    "summary": "Viewed desktop and phone captures of the expanded stack section and article backend, routing, release example and recovery sections. Existing typography, reading column, spacing and responsive definition list remain readable without overlap or horizontal clipping. New content uses the established layout. Reading paths include the linked context note, Homebase note and recovery lesson.",
+    "verdict": "verified"
+  }
+}

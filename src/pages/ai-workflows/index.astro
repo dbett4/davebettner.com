@@ -102,19 +102,19 @@ const evidence = [
           <dl class="stack-layers">
             <div>
               <dt>T3 Code</dt>
-              <dd>The workspace for project threads, coding sessions, terminal commands, and reviewing source changes. Its server stores project and thread state in SQLite and connects sessions to the configured provider runtimes.</dd>
+              <dd>The workspace for project threads, coding sessions, terminal commands, and reviewing source changes. Its SQLite state connects each thread to its model selection, provider session, branch, and worktree. Source files live in the Git checkout.</dd>
             </div>
             <div>
               <dt>Linux VPS</dt>
-              <dd>The execution environment for T3’s backend, active repositories, isolated Git worktrees, command-line tools, and browser automation. Systemd manages the T3 service. My laptop is the interface and control terminal.</dd>
+              <dd>The Netcup server runs T3’s backend, active repositories, isolated Git worktrees, command-line tools, and browser automation. Systemd manages the T3 service and its logs. My laptop is the interface and control terminal; hosted providers handle model inference.</dd>
             </div>
             <div>
               <dt>Roles and routing</dt>
-              <dd>Codex and Claude contribute implementation, analysis, and review. Hermes provides ongoing coordination and scheduled work. Assignments have an owner, a clear scope, and acceptance criteria.</dd>
+              <dd>Codex and Claude clients use configured wrappers and a private model proxy over Tailscale. Their tools execute on the VPS. Hermes provides ongoing coordination and scheduled work. Assignments have an owner, a clear scope, and acceptance criteria.</dd>
             </div>
             <div>
               <dt>Context and memory</dt>
-              <dd>Repository memory, reusable skills, source references, and project records carry decisions and corrections into the next task. Agents have a place to recover the reasoning behind a requirement.</dd>
+              <dd>Repository memory and reusable skills retain decisions and procedures in files that can be reviewed in Git. Agents use them to find the relevant source, then inspect the current checkout or application before making a change.</dd>
             </div>
             <div>
               <dt>Tools and integrations</dt>
@@ -133,7 +133,7 @@ const evidence = [
               <dd>GitHub keeps source history. This Astro site publishes through Wrangler to Cloudflare Workers. The VPS runs the development environment; Cloudflare serves the public site.</dd>
             </div>
           </dl>
-          <p><a href="/notes/operating-stack/">Read how T3, the VPS, and the agent stack fit together</a>. <a href="/notes/cloudflare-build-workflow/">See how I ship this site with Cloudflare</a>.</p>
+          <p><a href="/notes/operating-stack/">Read how T3, the VPS, and the agent stack fit together</a>, including backend state, model routing, session recovery, and a site update from task to live release. <a href="/notes/cloudflare-build-workflow/">See how I ship this site with Cloudflare</a>.</p>
         </section>
 
         <section id="lessons">

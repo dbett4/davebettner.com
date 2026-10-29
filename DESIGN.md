@@ -49,6 +49,10 @@ Explain T3 as the coding workspace with a VPS-hosted backend, Hermes as the
 ongoing coordination runtime, and Cloudflare as this site's publishing host.
 Use the existing prose and definition-list layouts. Describe roles and working
 practices without publishing private addresses, service paths, or account details.
+Keep the full technical explanation in the operating-stack note. It distinguishes
+SQLite session state from Git source files, model routing from VPS tool execution,
+and project memory from current application state. Use the site's actual release
+process as the worked example and link related notes and the recovery lesson.
 
 AI deployment and solutions leadership remain part of the positioning. The downloadable
 resume leads with implementation experience and connects customer demos, training,

@@ -19,7 +19,7 @@ Passal, Leasekite, Krowbar and Lockfield follow; their existing screens and stat
 Des Moines is the current location, with relocation open globally. Employment history
 remains separate from the current product-building role.
 
-The headline names AI tools and agent workflows. The introduction supplies concrete enterprise-delivery experience and a linked internal cash-flow review example; site-hosting details remain in the building section and notes.
+The headline names AI tools and agent workflows. The introduction supplies enterprise-delivery experience and links to Homebase and Passal, with plain descriptions of the products; site-hosting details remain in the building section and notes.
 Technical walkthroughs add inspectable product education to that positioning.
 Reuse the existing project rows and prose for lessons. Interactive teaching
 examples use labeled native controls, visible source and result tables, and
@@ -54,7 +54,7 @@ SQLite session state from Git source files, model routing from VPS tool executio
 and project memory from current application state. Use the site's actual release
 process as the worked example and link related notes and the recovery lesson.
 
-The downloadable resume uses the same AI tools and agent-workflows direction, with concrete implementation experience and an internal review example in the summary. Public teaching examples do not establish a creator audience.
+The downloadable resume uses the same AI tools and agent-workflows direction, with implementation experience and current products in the summary. Public teaching examples do not establish a creator audience.
 
 ## Colors
 

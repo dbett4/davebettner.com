@@ -7,7 +7,7 @@ Des Moines, Iowa · dbett4@gmail.com\
 
 ## Summary
 
-I build AI tools and agent workflows, drawing on 10+ years in enterprise software and customer delivery. I have led 6–12 concurrent Workiva implementations and managed a five-person implementation team. At LSL, I directed an internal cash-flow review covering 11 source workpapers and 69 arithmetic checks. I set requirements and judge results; Codex and Claude help with implementation, tests, and code review.
+I build AI tools and agent workflows, drawing on 10+ years in enterprise software and customer delivery. I have led 6–12 concurrent Workiva implementations and managed a five-person implementation team. I also design and build products with AI coding tools, including Homebase, a business operations workspace, and Passal, a study app.
 
 ## Experience
 
@@ -18,7 +18,7 @@ Started Nov 2025
 - Led Workiva delivery for city and county finance teams, from source-ledger mapping and discovery through financial reports, budget books, user acceptance testing, training, and client sign-off.
 - Scoped engagements, prepared estimates and statements of work, responded to RFPs, and demonstrated proposed solutions. Developed training and acceptance criteria that help client teams take ownership.
 - Directed AI-assisted development of reusable Python tools that generate reporting links, formulas, and validation checks across engagements.
-- Built [internal AI-assisted review workflows](https://davebettner.com/ai-workflows/) that compare reports with source records and route discrepancies for human review before client changes. One cash-flow review covered 11 source workpapers with 69 automated arithmetic checks.
+- Built [internal AI-assisted review workflows](https://davebettner.com/ai-workflows/) that compare reports with source records and route discrepancies for human review before client changes.
 
 ### Citrin Cooperman · Manager of Digital Services, Workiva
 

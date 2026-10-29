@@ -18,7 +18,7 @@ Success means a qualified visitor can quickly identify Dave, understand his targ
 
 ## Positioning
 
-The current direction is building AI tools and agent workflows, supported by 10+ years in enterprise software and customer delivery. This supersedes the October 14 deployment-and-solutions framing. The homepage, resume and GitHub lead with concrete implementation experience and an internal reporting-workflow example. Product work and technical walkthroughs provide additional evidence. Preserve the distinction between professional implementation experience, internal workflows, and personal projects built through AI coding tools. Technical education is visible through a working lesson; an established creator audience and commercial growth results remain unproved.
+The current direction is building AI tools and agent workflows, supported by 10+ years in enterprise software and customer delivery. This supersedes the October 14 deployment-and-solutions framing. The homepage, resume and GitHub lead with enterprise implementation experience and current product building. Explain Homebase and Passal in ordinary terms. Internal task counts and generic lists of AI activities do not belong in the opening pitch; Dave rejected that copy on October 29. Technical detail remains available in the relevant work pages. Preserve the distinction between professional implementation experience, internal workflows, and personal projects built through AI coding tools. Technical education is visible through a working lesson; an established creator audience and commercial growth results remain unproved.
 
 ## Operating Context
 

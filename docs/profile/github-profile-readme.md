@@ -4,11 +4,11 @@ I build AI tools and agent workflows. My background is 10+ years in enterprise s
 
 [Résumé (PDF)](https://davebettner.com/dave-bettner-resume.pdf) · [dbett4@gmail.com](mailto:dbett4@gmail.com) · [Website](https://davebettner.com/) · [LinkedIn](https://www.linkedin.com/in/dave-bettner/)
 
-At LSL, I directed an [internal cash-flow review](https://davebettner.com/ai-workflows/#selected-work) covering 11 source workpapers and 69 arithmetic checks. I set requirements and judge results; Codex and Claude help with implementation, tests, and code review. I'm looking for my next role building AI tools and agent workflows.
+I'm looking for my next role. I'm currently building [Homebase](https://davebettner.com/work/homebase/), a business operations workspace, and [Passal](https://passal.app/), a study app, using AI coding tools.
 
 ## Public work samples you can run
 
-These public samples use fictional data and run without credentials. They are separate from the internal reporting work above.
+These public samples use fictional data and run without credentials.
 
 - **[Accounting Acceptance Lab](https://github.com/dbett4/accounting-acceptance-lab)** checks an agent's proposed revenue accrual addback against five fictional workpapers, including a double addback and a one-cent difference.
 - **[Regulated Reporting MCP](https://github.com/dbett4/regulated-reporting-mcp)** gives an AI client reporting API tools whose default writes require caller confirmation. The demo uses a simulated Workiva service.

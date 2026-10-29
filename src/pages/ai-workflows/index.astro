@@ -5,7 +5,7 @@ import { projects } from '../../data/profile-projects';
 const contents = [
   ['role', 'My role'],
   ['selected-work', 'Internal work'],
-  ['stack', 'Agent stack'],
+  ['stack', 'Current operating stack'],
   ['lessons', 'Lessons'],
   ['new-role', 'In a new role'],
   ['public-evidence', 'Public evidence'],
@@ -97,12 +97,20 @@ const evidence = [
         </section>
 
         <section id="stack">
-          <h2>The personal agent stack.</h2>
-          <p>My personal agent stack helps AI assistants recover context, use tools, carry out bounded work, and leave evidence of the result. I built and configured its integration and operating layers around existing models and agent runtimes. The stack is separate from employer and client work, though the reporting examples above apply the same methods.</p>
+          <h2>My current operating stack.</h2>
+          <p>I use T3 Code as my coding workspace, with its backend running on a Linux VPS at Netcup. Codex and Claude help me implement and review changes. Hermes coordinates ongoing agent work on the same server. I configured the environment and operating rules around these existing tools.</p>
           <dl class="stack-layers">
             <div>
+              <dt>T3 Code</dt>
+              <dd>The workspace for project threads, coding sessions, terminal commands, and reviewing source changes. Its server stores project and thread state in SQLite and connects sessions to the configured provider runtimes.</dd>
+            </div>
+            <div>
+              <dt>Linux VPS</dt>
+              <dd>The execution environment for T3’s backend, active repositories, isolated Git worktrees, command-line tools, and browser automation. Systemd manages the T3 service. My laptop is the interface and control terminal.</dd>
+            </div>
+            <div>
               <dt>Roles and routing</dt>
-              <dd>Codex, Claude, and the Hermes agent runtime each have a defined role, bounded assignments, and task-specific evaluations. Every task gets a capable agent, an owner, and a clear scope.</dd>
+              <dd>Codex and Claude contribute implementation, analysis, and review. Hermes provides ongoing coordination and scheduled work. Assignments have an owner, a clear scope, and acceptance criteria.</dd>
             </div>
             <div>
               <dt>Context and memory</dt>
@@ -121,10 +129,11 @@ const evidence = [
               <dd>Readbacks from the application, regression tests, capability graders, retained exports, and separate review compare actual results with the stated requirement. Each passing check states what it covers.</dd>
             </div>
             <div>
-              <dt>Operating environment</dt>
-              <dd>A shared server, isolated repository worktrees, route health checks, and handoff records tie the work to a known environment. They help the next session recover the work and its current state.</dd>
+              <dt>Publishing</dt>
+              <dd>GitHub keeps source history. This Astro site publishes through Wrangler to Cloudflare Workers. The VPS runs the development environment; Cloudflare serves the public site.</dd>
             </div>
           </dl>
+          <p><a href="/notes/operating-stack/">Read how T3, the VPS, and the agent stack fit together</a>. <a href="/notes/cloudflare-build-workflow/">See how I ship this site with Cloudflare</a>.</p>
         </section>
 
         <section id="lessons">

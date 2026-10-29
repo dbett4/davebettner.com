@@ -43,6 +43,13 @@ first in selected work and keep each product's hosting claims scoped to evidence
 The Cloudflare build note explains the site's release workflow without exposing
 private infrastructure, client records, or credentials.
 
+The current operating stack is documented in a build note and the existing
+AI workflows page, with short links from the homepage, Now, and Approach.
+Explain T3 as the coding workspace with a VPS-hosted backend, Hermes as the
+ongoing coordination runtime, and Cloudflare as this site's publishing host.
+Use the existing prose and definition-list layouts. Describe roles and working
+practices without publishing private addresses, service paths, or account details.
+
 AI deployment and solutions leadership remain part of the positioning. The downloadable
 resume leads with implementation experience and connects customer demos, training,
 and coaching to the public teaching example without claiming a creator audience.

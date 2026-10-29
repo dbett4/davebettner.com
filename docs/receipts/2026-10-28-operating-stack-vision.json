@@ -1,0 +1,107 @@
+{
+  "capture_route": "Native Playwright on davgent",
+  "captures": [
+    {
+      "bytes": 74032,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/building-1440.png",
+      "sha256": "ddf72b62b1f54e3ce450445edbee74ab9035084d8a6c848c3b6cdbcea4306387"
+    },
+    {
+      "bytes": 72678,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/building-390.png",
+      "sha256": "f02ffc3557595a6adb551ae2f9806ad080ccbe1eb78407aaea9b464a8a90ad0f"
+    },
+    {
+      "bytes": 155377,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/stack-1440.png",
+      "sha256": "0b7e81c375bae6650f3cdb0faf840fdc6c4dedfe4696bd643e4120ce7c32980f"
+    },
+    {
+      "bytes": 145692,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/stack-390.png",
+      "sha256": "9fdb6843b490867d287b4978d6a1d00b5a50d30a6833b7adb5fd40777bb06628"
+    },
+    {
+      "bytes": 374323,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/article-1440.png",
+      "sha256": "89a9b5483360c505ca44c98d802f44eb8f0854397b32bd63a86e3d905f653f7a"
+    },
+    {
+      "bytes": 374336,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/article-390.png",
+      "sha256": "e407b42df405026622d087ea1fa31e31f98a74dd9a996e60d01681fff0b5d36b"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 14790,
+      "media_type": "application/json",
+      "path": "/srv/agentops/artifacts/dave-site-stack-20261028/source-manifest.json",
+      "sha256": "3aab559b43ac390826300f3e2d28789bb0c5cfa9be2da06764f6b649999901be"
+    },
+    "dom": {
+      "bytes": 465,
+      "media_type": "application/json",
+      "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/walkthrough.json",
+      "sha256": "89b24a8962143795d6cdde13c0033a97a80f1affc265525677aaa8b940e1f6be"
+    }
+  },
+  "generated_at": "2026-10-29T00:58:04Z",
+  "required_visual_claims": [
+    "T3 and VPS content is readable on desktop and phone"
+  ],
+  "schema_version": "1.0",
+  "scope": "Homepage building section, current operating stack, and T3/VPS build note",
+  "source_revision": "sha256:fdb04e23e44b6d4631f50a7613d22db6553d6b2edfcc8c57e2294f8fd88e32bf",
+  "status": "verified",
+  "surface": "Local production build of davebettner.com",
+  "viewport": "1440x1000 and 390x1000 CSS pixels",
+  "visual_adjudication": {
+    "captures": [
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/building-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/building-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/stack-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/stack-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/article-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/article-390.png",
+        "verdict": "verified",
+        "viewed": true
+      }
+    ],
+    "independence": false,
+    "reviewed_at": "2026-10-29T00:58:04.777070+00:00",
+    "reviewer": "codex/root/t3-00576dbf",
+    "reviewer_runtime": "codex",
+    "source_path": "/srv/agentops/artifacts/dave-site-stack-20261028/local/adjudication.json",
+    "source_sha256": "4db0c9e8194ab5c83cc0bb2225dbcff80dc110cbf572f12dc332a068dda482b3",
+    "summary": "Viewed the local production build on desktop and phone. The homepage names T3, the VPS, and Hermes. The current-stack definition list and complete article remain readable with no clipping, overlap, or extra decoration. Existing typography, spacing and light theme are preserved. All changed reading paths pass, including no-JavaScript article access.",
+    "verdict": "verified"
+  }
+}

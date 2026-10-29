@@ -21,6 +21,8 @@ Wrangler is the deployment interface. My release script checks that the source i
 
 Codex and Claude help with implementation, reviewing changes, and working through failures. I set the direction and acceptance criteria, inspect the result, and decide whether it meets the requirement. Their output goes through the same build and browser checks as the rest of the site.
 
+I work with those agents in T3 Code, whose backend runs on my Linux VPS alongside the repositories and development tools. Hermes handles ongoing agent coordination there. The [operating stack note](/notes/operating-stack/) explains how that environment fits together; Cloudflare serves the published website.
+
 ## Check what a visitor actually gets
 
 The build checks the Astro components and generates the pages. Playwright then opens the built site at desktop and phone widths. The checks cover navigation, internal destinations, the résumé download, no-JavaScript behavior, and the homepage media. Axe checks accessibility rules alongside the browser tests.

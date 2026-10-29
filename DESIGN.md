@@ -34,6 +34,15 @@ headings, and note lists use dates with project names as useful metadata. RSS is
 linked from the head, footer and Notes page. No counters, subscriber claims,
 newsletter forms or publishing cadence are implied.
 
+The homepage introduction links Cloudflare Workers to the build note. Its
+building section names Cloudflare Workers and Wrangler alongside
+their actual role in publishing this Astro site. Supporting copy connects AI
+coding tools, product frameworks, GitHub, and browser checks to the work they
+perform. Use ordinary prose and links in the existing section. Keep Homebase
+first in selected work and keep each product's hosting claims scoped to evidence.
+The Cloudflare build note explains the site's release workflow without exposing
+private infrastructure, client records, or credentials.
+
 AI deployment and solutions leadership remain part of the positioning. The downloadable
 resume leads with implementation experience and connects customer demos, training,
 and coaching to the public teaching example without claiming a creator audience.

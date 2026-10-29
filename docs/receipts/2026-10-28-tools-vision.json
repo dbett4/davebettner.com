@@ -1,0 +1,101 @@
+{
+  "capture_route": "Native Playwright on davgent",
+  "captures": [
+    {
+      "bytes": 190052,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-tools-20261028/hero-1440.png",
+      "sha256": "c3c329d3dc74315ac555d2c1969f37d4b45fbddf8a7b3bc710763e47a8506742"
+    },
+    {
+      "bytes": 113309,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-tools-20261028/hero-390.png",
+      "sha256": "82572d5cdbd84527a53f4c4884df5eb2b5b87ce772777e6b86e4dbe4289f6e9b"
+    },
+    {
+      "bytes": 66698,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-tools-20261028/building-1440.png",
+      "sha256": "82cf093741f665b5a517ae2b710560a8694bedc975ffd49c391fef3e08aa1970"
+    },
+    {
+      "bytes": 62886,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-tools-20261028/building-390.png",
+      "sha256": "64a8058dad7a17cf211de2cb20a0277c039a0fb677f3ed77c47f23d382c4d637"
+    },
+    {
+      "bytes": 316785,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-tools-20261028/article-1440.png",
+      "sha256": "3bb338c7c13d212c8b4e3f2e49eeefff158168619d84f9b7608cad4e80031939"
+    },
+    {
+      "bytes": 318252,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-tools-20261028/article-390.png",
+      "sha256": "289b1c47367c21a3a9421d294aad72afe3708d71932f74d817f8a1acf4722eb6"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 10079,
+      "media_type": "application/json",
+      "path": "/srv/agentops/artifacts/dave-site-tools-20261028/source-manifest.json",
+      "sha256": "3dd27d2b3644cba470d6b5392b20f88422d7aa123925a0ff67a26bc660ce96b6"
+    }
+  },
+  "generated_at": "2026-10-29T00:42:51Z",
+  "required_visual_claims": [
+    "Cloudflare and tool explanations fit the existing desktop and phone layouts"
+  ],
+  "schema_version": "1.0",
+  "scope": "Homepage hero and building section, new Cloudflare build note",
+  "source_revision": "sha256:3b22bca15a999f9819cf4e55c0aa3226d03fb24a836a59653465adf994f7f9bf",
+  "status": "verified",
+  "surface": "Local production build of davebettner.com",
+  "viewport": "1440x1000 and 390x1000 CSS pixels",
+  "visual_adjudication": {
+    "captures": [
+      {
+        "path": "/srv/agentops/artifacts/dave-site-tools-20261028/hero-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-tools-20261028/hero-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-tools-20261028/building-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-tools-20261028/building-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-tools-20261028/article-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-tools-20261028/article-390.png",
+        "verdict": "verified",
+        "viewed": true
+      }
+    ],
+    "independence": false,
+    "reviewed_at": "2026-10-29T00:42:51.252031+00:00",
+    "reviewer": "codex/root/t3-00576dbf",
+    "reviewer_runtime": "codex",
+    "source_path": "/srv/agentops/artifacts/dave-site-tools-20261028/local-adjudication.json",
+    "source_sha256": "1a06d0b2cfbeec683d98b3532151532ecc7ce968019796bb16b367d8b97f1c64",
+    "summary": "Viewed the local production build at desktop and phone sizes. Cloudflare appears in the homepage introduction with a link to the article. The existing building section gives each tool a concrete role. Hero, section, links and article headings remain readable without clipping or overlap. Existing restrained theme and native links are preserved.",
+    "verdict": "verified"
+  }
+}

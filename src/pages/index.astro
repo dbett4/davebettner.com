@@ -12,7 +12,7 @@ const notes = (await getPublishedNotes()).slice(0, 3);
   <section class="hero wrap">
     <div>
       <h1>I build AI tools and agent workflows grounded in accounting and enterprise implementation.</h1>
-      <p class="lede">10+ years in reporting and customer delivery, including implementation leadership. I’m currently building Homebase, a workspace connecting business operations and agent work. I share the decisions and lessons in my <a href="/notes/">build notes</a>.</p>
+      <p class="lede">10+ years in reporting and customer delivery, including implementation leadership. Homebase is my main project, connecting business operations and agent work. I build with Codex and Claude, and publish this site on <a href="/notes/cloudflare-build-workflow/">Cloudflare Workers</a>. Follow the work in my <a href="/notes/">build notes</a>.</p>
       <div class="actions">
         <a class="button" href="#selected-work">View selected work</a>
       </div>
@@ -24,9 +24,11 @@ const notes = (await getPublishedNotes()).slice(0, 3);
     <SelectedProducts />
   </section>
   <section id="building" class="section implementation wrap">
-    <h2>How I build</h2>
-    <p>I own product direction and implementation for Homebase, Passal, and Leasekite, working through AI coding tools. Homebase brings that work into business operations: understanding what people need, connecting their records, and keeping review and recovery part of the workflow.</p>
-    <div class="case-links"><a href="/fit/#building">How I build</a><a href="/ai-workflows/">AI workflows and agent stack</a><a href="/dave-bettner-resume.pdf" download>Download résumé</a></div>
+    <h2>Building with Cloudflare and AI tools</h2>
+    <p>I use <a href="https://developers.cloudflare.com/workers/">Cloudflare Workers</a> to publish this Astro site, with Wrangler handling deployment. The pages and build notes arrive as readable HTML, including when JavaScript is unavailable.</p>
+    <p>I own product direction and implementation for Homebase, Passal, and Leasekite, working through AI coding tools. Codex and Claude help with implementation and review. Homebase uses React and TypeScript; Passal uses Next.js.</p>
+    <p>GitHub keeps the source and change history. Playwright and axe check browser behavior and accessibility, and I inspect the live result after deployment.</p>
+    <div class="case-links"><a href="/notes/cloudflare-build-workflow/">How I ship this site with Cloudflare</a><a href="/fit/#building">My building approach</a><a href="/ai-workflows/">AI workflows and agent stack</a><a href="/dave-bettner-resume.pdf" download>Download résumé</a></div>
   </section>
   <section class="section wrap" aria-labelledby="build-notes-heading">
     <h2 id="build-notes-heading">Build notes</h2>

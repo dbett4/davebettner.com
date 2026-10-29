@@ -79,7 +79,7 @@ try:
   assert np.locator('canvas').count()==0
   assert np.locator('video').evaluate('(v)=>!v.currentSrc && v.paused'), 'No-JS must not load or play video'
   assert np.evaluate('document.getAnimations().every(a=>a.playState!=="running")')
-  assert np.locator('.hero h1').inner_text()=='I build AI tools and agent workflows grounded in accounting and enterprise implementation.';nojs.close()
+  assert np.locator('.hero h1').inner_text()=='I build AI tools and agent workflows.';nojs.close()
   assert not errors,errors
   browser.close()
  result={'base':base,'route_width_checks':len(checks),'routes':len(routes),'local_destinations':len(links),'checks':checks,'keyboard_skip':'pass','resume_download_sha256':hashlib.sha256(pdf).hexdigest(),'nojs_reduced_motion':'pass','errors':errors}

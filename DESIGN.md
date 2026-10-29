@@ -19,13 +19,13 @@ Passal, Leasekite, Krowbar and Lockfield follow; their existing screens and stat
 Des Moines is the current location, with relocation open globally. Employment history
 remains separate from the current product-building role.
 
-The enterprise-delivery headline adopted on October 14 remains the opening.
+The headline names AI tools and agent workflows. The introduction supplies concrete enterprise-delivery experience and a linked internal cash-flow review example; site-hosting details remain in the building section and notes.
 Technical walkthroughs add inspectable product education to that positioning.
 Reuse the existing project rows and prose for lessons. Interactive teaching
 examples use labeled native controls, visible source and result tables, and
 plain status text. Fictional data and local execution are stated beside the demo.
 Build notes and a dated Now page make current work and the reasoning behind it
-discoverable. Primary navigation is Projects, Notes, Now and About; Approach and
+discoverable. Primary navigation is Projects, Notes, Now, About and Résumé; Approach and
 Experience remain in the footer. The homepage keeps Homebase first and replaces
 the repeated business-workflow summary with recent build notes. Notes use the
 same light theme, neutral dividers and native links, with a 760px reading column,
@@ -35,8 +35,7 @@ linked from the head, footer and Notes page. Résumé is also linked in the main
 navigation so a recruiter can open it without scrolling. No counters, subscriber claims,
 newsletter forms or publishing cadence are implied.
 
-The homepage introduction links Cloudflare Workers to the build note. Its
-building section names Cloudflare Workers and Wrangler alongside
+The homepage building section links the Cloudflare build note and names Cloudflare Workers and Wrangler alongside
 their actual role in publishing this Astro site. Supporting copy connects AI
 coding tools, product frameworks, GitHub, and browser checks to the work they
 perform. Use ordinary prose and links in the existing section. Keep Homebase
@@ -55,9 +54,7 @@ SQLite session state from Git source files, model routing from VPS tool executio
 and project memory from current application state. Use the site's actual release
 process as the worked example and link related notes and the recovery lesson.
 
-AI deployment and solutions leadership remain part of the positioning. The downloadable
-resume leads with implementation experience and connects customer demos, training,
-and coaching to the public teaching example without claiming a creator audience.
+The downloadable resume uses the same AI tools and agent-workflows direction, with concrete implementation experience and an internal review example in the summary. Public teaching examples do not establish a creator audience.
 
 ## Colors
 

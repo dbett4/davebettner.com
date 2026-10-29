@@ -12,13 +12,13 @@ Primary users are hiring managers, recruiters, and technical leaders evaluating 
 
 ## Product Purpose
 
-This site is Dave Bettner’s employer-independent professional profile and public proof index. It should make his enterprise-agent deployment direction legible, connect that direction to a decade-plus customer-delivery record, and give visitors direct paths to inspect work, review experience, download the résumé, or start a conversation.
+This site is Dave Bettner’s employer-independent professional profile and public proof index. It should make his work building AI tools and agent workflows legible, connect that direction to a decade-plus customer-delivery record, and give visitors direct paths to inspect work, review experience, download the résumé, or start a conversation.
 
 Success means a qualified visitor can quickly identify Dave, understand his target lane, distinguish customer-delivery experience from recent public engineering proof, and take the next step without decoding a product narrative.
 
 ## Positioning
 
-Dave selected AI deployment and solutions leadership as the lead role family on October 14, 2026. Enterprise software delivery and internal AI workflows lead the homepage and resume. Product work and technical walkthroughs support that positioning. Preserve the distinction between professional implementation experience, internal workflows, and personal projects built through AI coding tools. Technical education is visible through a working lesson; an established creator audience and commercial growth results remain unproved.
+The current direction is building AI tools and agent workflows, supported by 10+ years in enterprise software and customer delivery. This supersedes the October 14 deployment-and-solutions framing. The homepage, resume and GitHub lead with concrete implementation experience and an internal reporting-workflow example. Product work and technical walkthroughs provide additional evidence. Preserve the distinction between professional implementation experience, internal workflows, and personal projects built through AI coding tools. Technical education is visible through a working lesson; an established creator audience and commercial growth results remain unproved.
 
 ## Operating Context
 
@@ -38,11 +38,11 @@ The profile is evaluated during recruiting, role-fit review, professional networ
 ## Brand Commitments
 
 - Name: Dave Bettner.
-- Identity: enterprise implementation and AI workflow leader; employer-independent.
+- Identity: builder of AI tools and agent workflows with enterprise implementation experience; employer-independent.
 - Voice: direct, credible, technically specific, concise, and honest about evidence boundaries.
-- Positioning priority: AI deployment and solutions leadership. Customer delivery leads; products, teaching, and technical tools substantiate it.
+- Positioning priority: AI tools and agent workflows. Concrete customer-delivery experience, internal workflow examples, products and public tools substantiate it.
 - Preserve the approved workstation media and portrait assets. Portrait source pixels must not be altered.
-- Location and employment history preserve Chicago followed by current Des Moines; current title is Senior Manager; omit “Remote” from job locations.
+- Location and employment history preserve Chicago followed by current Des Moines; preserve the recorded Senior Manager title and employment-date uncertainty; omit “Remote” from job locations.
 
 ## Evidence on Hand
 
@@ -58,7 +58,7 @@ The profile is evaluated during recruiting, role-fit review, professional networ
 ## Product Principles
 
 1. Identity before framework: visitors meet Dave before any method or proof system.
-2. Deployment before domain: enterprise-agent implementation leads; finance and assurance substantiate it.
+2. Work before tooling: business problems, Dave’s decisions and checked examples lead; hosting details belong in the building section and notes.
 3. Proof with boundaries: every technical or customer-delivery claim remains inspectable and honestly scoped.
 4. Judgment stays visible: the site demonstrates how Dave works without turning a process diagram into the identity.
 5. Short path to action: resume, projects, experience, walkthroughs, and contact remain easy to find.

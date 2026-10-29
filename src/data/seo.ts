@@ -1,7 +1,7 @@
 import { githubUrl, linkedinUrl } from './site-links';
 export const siteUrl = 'https://davebettner.com';
-export const siteTitle = 'Dave Bettner | Enterprise Software Delivery & AI Workflows';
-export const siteDescription = 'Dave Bettner leads enterprise software delivery and builds practical AI workflows, drawing on 10+ years in implementations, finance systems, and customer delivery.';
+export const siteTitle = 'Dave Bettner | AI Tools & Agent Workflows';
+export const siteDescription = 'Dave Bettner builds AI tools and agent workflows, drawing on 10+ years in enterprise software and customer delivery, including Workiva implementation and team leadership.';
 export const identitySeoLead = siteDescription;
 export const personSchema = {
  '@type': 'Person',

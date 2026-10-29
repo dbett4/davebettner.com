@@ -146,7 +146,7 @@ try {
     };
   });
   check(!mobileHeader.overflow && mobileHeader.headerWidth <= 320, '320px masthead has no horizontal overflow', JSON.stringify(mobileHeader));
-  check(mobileHeader.navCount === 4 && mobileHeader.navBox.top >= mobileHeader.rowOneBottom - 1, 'mobile masthead uses two rows with full navigation below controls', JSON.stringify(mobileHeader));
+  check(mobileHeader.navCount === 5 && mobileHeader.navBox.top >= mobileHeader.rowOneBottom - 1, 'mobile masthead uses two rows with full navigation and résumé below controls', JSON.stringify(mobileHeader));
   check(mobileHeader.brandBox.width >= 44 && mobileHeader.brandBox.height >= 44 && mobileHeader.themeControls === 0 && mobileHeader.emailHeight >= 44 && mobileHeader.navHeights.every((height) => height >= 44), 'mobile masthead targets remain at least 44px without a theme control', JSON.stringify(mobileHeader));
   await mobileContext.close();
 

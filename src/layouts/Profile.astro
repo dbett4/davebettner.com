@@ -8,7 +8,7 @@ const canonical=new URL(Astro.url.pathname, siteUrl).href;
 const isProfilePage=page === 'about';
 const pageSchema=createPageSchema({ title, description, url: canonical, isProfile: isProfilePage });
 const structuredData={ '@context': 'https://schema.org', '@graph': [personSchema, websiteSchema, pageSchema] };
-const nav=[['work','Projects','/work/'],['notes','Notes','/notes/'],['now','Now','/now/'],['about','About','/about/']];
+const nav=[['work','Projects','/work/'],['notes','Notes','/notes/'],['now','Now','/now/'],['about','About','/about/'],['resume','Résumé','/dave-bettner-resume.pdf']];
 ---
 <!doctype html>
 <html lang="en">

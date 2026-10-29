@@ -8,6 +8,21 @@ const products = [
   { id: 'lockfield', name: 'Lockfield', description: 'A Workiva consulting practice built around training and client ownership.', contribution: 'I shaped the positioning, website, and reporting resources, translating reporting expertise into a service offering and supporting materials.', href: 'https://lockfield.co/', domain: 'lockfield.co', desktop: [1440, 1000], mobile: [390, 844], alt: 'Lockfield website introducing its Workiva consulting practice.' },
 ];
 ---
+<article class="featured-homebase">
+  <div class="featured-copy">
+    <Heading><a href="/work/homebase/">Homebase</a></Heading>
+    <p class="featured-summary">An operating workspace for a founder running five businesses.</p>
+    <p>My main project. I’m designing and building the system that connects client relationships, projects, content, and agent work, with owner decisions and delivery records kept together.</p>
+    <p class="featured-scope">Private application in active development. Preview uses fictional work.</p>
+    <a class="featured-link" href="/work/homebase/">Read the Homebase case study</a>
+  </div>
+  <a class="featured-screen" href="/work/homebase/" aria-label="Explore Homebase, a private business operating workspace">
+    <picture>
+      <source media="(max-width: 700px)" srcset="/images/selected-work/homebase-mobile.webp" width="780" height="1800" />
+      <img src="/images/selected-work/homebase-desktop.webp" alt="Homebase Work view in a sandbox with fictional projects, owners, and review steps." width="1440" height="1000" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+</article>
 <div class="selected-products">
   {products.map(product => {
     const Preview = product.href ? 'a' : 'div';
@@ -29,6 +44,20 @@ const products = [
   </article>; })}
 </div>
 <style>
+  .featured-homebase { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 40px; align-items: center; margin-top: 28px; padding-block: 0 36px; border-bottom: 1px solid var(--border); }
+  .featured-copy h2, .featured-copy h3 { margin: 0; font-size: 28px; line-height: 1.3; letter-spacing: -.025em; }
+  .featured-copy h2 a, .featured-copy h3 a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+  .featured-copy h2 a:hover, .featured-copy h3 a:hover { text-decoration: underline; }
+  .featured-copy p { margin-top: 14px; color: var(--secondary); font-size: 15px; line-height: 1.75; }
+  .featured-copy .featured-summary { margin-top: 8px; color: var(--text); font-size: 20px; line-height: 1.5; letter-spacing: -.015em; }
+  .featured-copy .featured-scope { font-size: 13px; }
+  .featured-link { display: inline-flex; min-height: 44px; align-items: center; margin-top: 12px; font-size: 14px; }
+  .featured-screen { display: block; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+  .featured-screen img { width: 100%; height: auto; }
+  @media (max-width: 700px) {
+    .featured-homebase { grid-template-columns: 1fr; gap: 20px; margin-top: 22px; padding-bottom: 30px; }
+    .featured-copy h2, .featured-copy h3 { font-size: 26px; }
+  }
   .selected-products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 28px; margin-top: 28px; }
   .selected-product { display: flex; flex-direction: column; min-width: 0; }
   .product-screen { display: block; order: -1; aspect-ratio: 1.6; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }

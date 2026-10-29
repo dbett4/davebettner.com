@@ -84,6 +84,16 @@ try {
   ]), 'selected products have exact site links and honest Leasekite status', JSON.stringify(selectedProducts));
   check(selectedProducts.every(p => p.image?.startsWith('/images/selected-work/')), 'selected products use their existing screenshots');
 
+  const featured = page.locator('#selected-work .featured-homebase');
+  check(await featured.getByRole('heading', { name: 'Homebase', exact: true }).isVisible(), 'Homebase leads selected work');
+  check(await featured.evaluate(element => Boolean(element.compareDocumentPosition(document.querySelector('.selected-products')) & Node.DOCUMENT_POSITION_FOLLOWING)), 'Homebase precedes the supporting products');
+  await featured.getByRole('link', { name: 'Read the Homebase case study', exact: true }).click();
+  await page.waitForURL(fixtureUrl('/work/homebase/'));
+  check(await page.getByRole('heading', { name: 'Homebase', exact: true }).isVisible(), 'Homebase feature opens its case study');
+  check(await page.locator('figcaption').textContent().then(text => /fictional work.*private/i.test(text)), 'Homebase preview discloses fictional work and private scope');
+  check(await page.locator('main').textContent().then(text => /Agent execution and external integrations are still being developed and verified/.test(text)), 'Homebase distinguishes current work from unfinished integrations');
+  await page.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
+
   const desktopNames = await page.evaluate(() => [...document.querySelectorAll('.technical-work .project')].map((project) => ({
     name: project.querySelector('h3 a')?.textContent?.trim(),
     nameHref: project.querySelector('h3 a')?.getAttribute('href'),

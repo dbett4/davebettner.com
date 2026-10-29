@@ -1,6 +1,6 @@
 ---
 name: Dave Bettner
-updated: 2026-10-12
+updated: 2026-10-28
 implementation: src/styles/theme.css, src/styles/profile.css, src/styles/workstation.css
 stack: Astro, native HTML and CSS
 ---
@@ -13,11 +13,11 @@ Use the shadcn DESIGN.md workflow to keep tokens and components aligned.
 
 The profile leads with enterprise delivery and practical AI workflows: selected products follow
 the introduction, then the AI-assisted building approach and customer-delivery
-background. Projects lead the navigation. Product order is Passal, Leasekite,
-Krowbar and Lockfield; the same real screens and honest work-in-progress status remain.
-Des Moines is the current location, with relocation open globally. The employer
-title in structured data remains Senior Manager; interest in design engineering
-does not rewrite employment history.
+background. Projects lead the navigation. Homebase leads selected work in a full-width
+feature with a dedicated case study and an explicitly fictional sandbox capture.
+Passal, Leasekite, Krowbar and Lockfield follow; their existing screens and status remain.
+Des Moines is the current location, with relocation open globally. Employment history
+remains separate from the current product-building role.
 
 The enterprise-delivery headline adopted on October 14 remains the opening.
 Technical walkthroughs add inspectable product education to that positioning.

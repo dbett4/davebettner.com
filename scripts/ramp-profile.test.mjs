@@ -12,7 +12,7 @@ test('public identity leads with enterprise delivery and AI workflows while reta
   assert.match(robots, /Sitemap: https:\/\/davebettner\.com\/sitemap-index\.xml/);
   const home = read('dist/index.html');
   assert.match(home, /I build AI tools and agent workflows grounded in accounting and enterprise implementation\./);
-  assert.match(home, /I own product direction and implementation for Passal and Leasekite, working through AI coding tools/i);
+  assert.match(home, /I own product direction and implementation for Homebase, Passal, and Leasekite, working through AI coding tools/i);
   assert.match(home, /looking for my next role building AI tools and agent workflows/i);
   assert.match(home, /Customer delivery background/);
   assert.match(home, /managed a five-person implementation team/i);
@@ -32,7 +32,7 @@ test('public identity leads with enterprise delivery and AI workflows while reta
   assert.match(about, /Master of Accounting/);
   assert.match(about, /B\.S\. in Accounting/);
   assert.match(about, /enterprise implementation leadership, solutions architecture, and applied AI roles/i);
-  assert.match(about, /I own product direction, interface design, and implementation for Passal and Leasekite/);
+  assert.match(about, /I own product direction, interface design, and implementation for Homebase, Passal, and Leasekite/);
   assert.ok(about.indexOf('I carry product decisions through implementation') < about.indexOf('Accounting education'), 'product contribution leads the about page');
   for (const route of ['', 'experience/', 'work/', 'fit/', 'about/']) {
     const page = read('dist/' + route + 'index.html');

@@ -1,0 +1,44 @@
+---
+import Profile from '../../layouts/Profile.astro';
+const description = 'Homebase is a private operating workspace connecting client relationships, projects, content, and agent work across a founder’s five businesses.';
+---
+<Profile title="Homebase — Dave Bettner" description={description} page="work">
+  <section class="page-intro wrap">
+    <h1>Homebase</h1>
+    <p class="lead">{description}</p>
+  </section>
+  <figure class="wrap project-preview">
+    <picture>
+      <source media="(max-width: 700px)" srcset="/images/selected-work/homebase-mobile.webp" width="780" height="1800" />
+      <img src="/images/selected-work/homebase-desktop.webp" alt="Homebase Work view in a sandbox with fictional projects, owners, and review steps." width="1440" height="1000" decoding="async" />
+    </picture>
+    <figcaption>Sandbox capture with fictional work. The business workspace is private.</figcaption>
+  </figure>
+  <section class="paper">
+    <div class="section wrap">
+      <div class="case-prose">
+        <h2>The problem</h2>
+        <p>A founder running agency services, digital products, a membership, apparel, and a personal brand needs to keep track of different customers, deadlines, and delivery requirements. Context is spread across conversations, files, and specialized tools. Someone still has to connect a promise to the work and follow it through.</p>
+        <h2>What I’m building</h2>
+        <p>Homebase brings that work into one operating workspace. Client and contact records sit alongside projects, content planning, assets, and agent assignments. Work has an owner, review steps, and links to the records it depends on. Each business keeps its own context.</p>
+        <p>The goal is to let agents carry routine work forward while owners handle the decisions that need their judgment. A draft, an approval, and an actual delivery remain distinct so a finished task does not automatically stand in for a customer receiving the result.</p>
+        <h2>My role</h2>
+        <p>Homebase is my main project. I own product direction, workflow and interface design, and implementation through AI coding tools. I translate operating needs into connected records and usable screens, test the workflows, and carry changes through integration and deployment.</p>
+        <h2>What exists today</h2>
+        <p>The application includes daily work and project tracking, CRM and client records, a content library and calendar, assets, and records for agent assignments and review. Saved workspace revisions and export support recovery. The implementation uses React, TypeScript, and SQLite.</p>
+        <p>It is a private application in active development. Agent execution and external integrations are still being developed and verified.</p>
+        <div class="case-links"><a href="/ai-workflows/">How I approach agent workflows</a><a href="/work/">All projects</a></div>
+      </div>
+    </div>
+  </section>
+</Profile>
+<style>
+  .project-preview { margin-bottom: 48px; }
+  .project-preview picture { display: block; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+  .project-preview img { width: 100%; height: auto; }
+  figcaption { margin-top: 12px; color: var(--secondary); font-size: 13px; line-height: 1.6; }
+  .case-prose { max-width: 760px; }
+  .case-prose h2 { margin-bottom: 12px; font-size: 26px; line-height: 1.3; }
+  .case-prose h2:not(:first-child) { margin-top: 36px; }
+  .case-prose p + p { margin-top: 16px; }
+</style>

@@ -2,7 +2,7 @@
 
 Personal site for Dave Bettner. Live at [https://davebettner.com](https://davebettner.com).
 
-The site brings together my product work, reporting tools, and career history. Current projects include Passal, Leasekite, and Lockfield.
+The site brings together my product work, reporting tools, and career history. Homebase is the current focus, followed by Passal, Leasekite, Krowbar, and Lockfield.
 
 Public technical examples use fictional or mock data. Their repositories document what you can run and the limits of each example.
 

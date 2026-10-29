@@ -1,0 +1,101 @@
+{
+  "capture_route": "Native Playwright on davgent",
+  "captures": [
+    {
+      "bytes": 113745,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/notes-1440.png",
+      "sha256": "a423555088515632da40f98b3aede08a39b90a3ef3229f0d9c79f7e8f974bfd3"
+    },
+    {
+      "bytes": 108572,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/notes-390.png",
+      "sha256": "e5054d8a5aa83217371c02d44639afe6a194c6e4c924745138f35bbd4f7fa105"
+    },
+    {
+      "bytes": 201484,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/now-1440.png",
+      "sha256": "b3a77dc62b7215f920295d0497c081bbf4370007a33c8619e408f078a9fe377e"
+    },
+    {
+      "bytes": 202247,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/now-390.png",
+      "sha256": "b62daec411a83e32f96fa8f56553ec60ddf7c7db3a472ff69a55264d77223176"
+    },
+    {
+      "bytes": 269316,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/article-1440.png",
+      "sha256": "a6d2ce1daaf2c54d08be1fd5fd7a684304cb519195778bc5267e75bca77c2eae"
+    },
+    {
+      "bytes": 266159,
+      "media_type": "image/png",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/article-390.png",
+      "sha256": "cc8fc54bf4310edff88fd3a8cfa254b9f23927ed136294e53b4d8f65f8e5e884"
+    }
+  ],
+  "deterministic_evidence": {
+    "dom": {
+      "bytes": 3313,
+      "media_type": "application/json",
+      "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/walkthrough.json",
+      "sha256": "ce4e579ad8df63c9ca994a5b7aa89e0dd4b6ee0fdd5cdfdfb4bd38300f60d590"
+    }
+  },
+  "generated_at": "2026-10-29T00:37:21Z",
+  "required_visual_claims": [
+    "New writing pages remain readable and navigable on desktop and phone"
+  ],
+  "schema_version": "1.0",
+  "scope": "Notes index, Now page and Homebase build note",
+  "source_revision": "c3326f0ab8fb0c88c408e0d425a27d8378923de2; Worker f1ccfdea-7d60-441b-9539-38a38cbe0d4c",
+  "status": "verified",
+  "surface": "https://davebettner.com production",
+  "viewport": "1440x1000 and 390x1000 CSS pixels",
+  "visual_adjudication": {
+    "captures": [
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/notes-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/notes-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/now-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/now-390.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/article-1440.png",
+        "verdict": "verified",
+        "viewed": true
+      },
+      {
+        "path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/article-390.png",
+        "verdict": "verified",
+        "viewed": true
+      }
+    ],
+    "independence": false,
+    "reviewed_at": "2026-10-29T00:37:21.207871+00:00",
+    "reviewer": "codex/root/t3-00576dbf",
+    "reviewer_runtime": "codex",
+    "source_path": "/srv/agentops/artifacts/dave-site-bip-20261028/live/adjudication.json",
+    "source_sha256": "426495fb6ef0776dd4274ec59f3bc3f251e8184ab115d4c2ed2ac7b41bf60057",
+    "summary": "Viewed the production Notes index, Now page and Homebase build note at desktop and phone widths. All retain the reviewed light theme, readable text, clean heading wrapping and usable navigation. No overlap or clipping observed. The live walkthrough confirms navigation and RSS destinations.",
+    "verdict": "verified"
+  }
+}

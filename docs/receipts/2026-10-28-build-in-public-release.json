@@ -1,0 +1,70 @@
+{
+  "status": "verified",
+  "verified_at": "2026-10-29T00:37:21.433858+00:00",
+  "source_commit": "c3326f0ab8fb0c88c408e0d425a27d8378923de2",
+  "worker_version": "f1ccfdea-7d60-441b-9539-38a38cbe0d4c",
+  "previous_worker_version": "8f719777-3548-4600-840e-40636b52d297",
+  "scope": "Build-in-public additions: Homebase remains the primary project, three build notes, a dated Now page, RSS and shared navigation.",
+  "tests": {
+    "build_and_profile_tests": "passed; initial-run-interrupted.log retains completed checks",
+    "responsive_accessibility": "24 routes at four widths, no errors",
+    "remaining_native_checks": [
+      {
+        "script": "verify-build-notes.mjs",
+        "exit": 0
+      },
+      {
+        "script": "verify-workflow-lesson.mjs",
+        "exit": 0
+      },
+      {
+        "script": "verify-avatar-fade.mjs",
+        "exit": 0
+      },
+      {
+        "script": "verify-workstation-video.mjs",
+        "exit": 0
+      },
+      {
+        "script": "verify-theme.mjs",
+        "exit": 0
+      },
+      {
+        "script": "verify-visitor-journey.mjs",
+        "exit": 0
+      },
+      {
+        "script": "capture-soft-fade.mjs",
+        "exit": 0
+      },
+      {
+        "script": "verify-soft-fade.mjs",
+        "exit": 0
+      },
+      {
+        "script": "test-deploy-preflight.sh prepush",
+        "exit": 0
+      }
+    ],
+    "release_preflight": "passed as hermes, including primary-checkout and dirty-release rejection",
+    "live_walkthrough": "/srv/agentops/artifacts/dave-site-bip-20261028/live/walkthrough.json",
+    "live_content": "Nine routes match the tested build after excluding the identified Cloudflare challenge script; raw and normalized hashes are retained.",
+    "visual_packet": "docs/receipts/2026-10-28-build-in-public-live-vision.json"
+  },
+  "limitations": {
+    "runtime_logs": "Cloudflare does not support tail for this assets-only Worker, API code 100311. Deployment status and HTTP/browser evidence were verified.",
+    "dependencies": {
+      "new_or_changed_vulnerable_dependencies": [],
+      "existing_audit_counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 1,
+        "high": 11,
+        "critical": 1,
+        "total": 13
+      }
+    },
+    "dependency_maintenance": "Existing advisories are unchanged by this update. No framework/toolchain upgrade was included."
+  },
+  "evidence_root": "/srv/agentops/artifacts/dave-site-bip-20261028"
+}

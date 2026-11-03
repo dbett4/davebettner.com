@@ -15,10 +15,10 @@ try {
     const page = await browser.newPage({ viewport: { width, height: 1000 }, reducedMotion: 'reduce' });
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(base, { waitUntil: 'networkidle' });
-    await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Notes', exact: true }).click();
+    await page.getByRole('link', { name: 'All build notes', exact: true }).click();
     await page.waitForURL(new URL('/notes/', base).href);
     assert.equal(await page.getByRole('heading', { level: 1 }).innerText(), 'Build notes');
-    assert.equal(await page.locator('.masthead a[aria-current="page"]').innerText(), 'Notes');
+    assert.equal(await page.locator('.masthead a[aria-current="page"]').count(), 0);
     const noteLinks = await page.locator('.note-list h2 a').evaluateAll(links => links.map(link => ({ title: link.textContent, path: link.getAttribute('href') })));
     assert.ok(noteLinks.length > 0, 'Published notes are discoverable');
     const feedPath = await page.locator('link[rel="alternate"][type="application/rss+xml"]').getAttribute('href');
@@ -47,9 +47,10 @@ try {
       assert.equal(article.url, item.url);
       if (new URL(item.url).pathname.includes('homebase-promises')) await page.screenshot({ path: resolve(out, `article-${width}.png`), fullPage: true });
     }
-    await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Now', exact: true }).click();
+    await page.goto(base, { waitUntil: 'networkidle' });
+    await page.getByRole('link', { name: 'What I’m working on now', exact: true }).click();
     await page.waitForURL(new URL('/now/', base).href);
-    assert.equal(await page.locator('.masthead a[aria-current="page"]').innerText(), 'Now');
+    assert.equal(await page.locator('.masthead a[aria-current="page"]').count(), 0);
     assert.ok(await page.getByRole('heading', { name: 'What I’m working on now', exact: true }).isVisible());
     assert.ok(await page.locator('.now-date').getAttribute('datetime'));
     await page.getByRole('link', { name: 'See the Homebase case study and sandbox screens', exact: true }).click();

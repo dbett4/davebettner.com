@@ -24,15 +24,13 @@ const evidence = [
 <Profile
   title="AI Workflows and Agent Stack — Dave Bettner"
   description="How Dave Bettner designs AI workflows that connect agents to enterprise applications and check the results. Internal reporting examples, the personal agent stack, and public projects you can inspect."
-  page="fit"
+  page="ai-workflows"
 >
   <section class="page-intro wrap">
     <h1>AI workflows people can verify.</h1>
     <p class="lead">I turn business requirements into AI workflows that people can use and check. They connect to enterprise applications, compare results with source records, and include a clear process for review and recovery.</p>
     <div class="actions">
       <a class="button" href="#selected-work">See the internal work</a>
-      <a href="#public-evidence">Public evidence</a>
-      <a href="/learn/verify-an-ai-update/">Try the workflow lesson</a>
     </div>
   </section>
 
@@ -84,9 +82,18 @@ const evidence = [
           </article>
 
           <article class="workflow-example">
-            <h3>A faster update run with the same checks</h3>
-            <p>In one matched Workiva update-and-validation benchmark, runtime fell from 58.3 to 13.4 seconds and API requests fell from 110 to 24. Both runs performed the same 48 checks. The gain came from changing how the work executes, including batching remote operations.</p>
-            <p class="example-scope">This result covers one matched operation. It does not establish whole-engagement time savings or labor savings.</p>
+            <h3>Update and validation benchmark</h3>
+            <table class="benchmark-table">
+              <caption>Matched Workiva update-and-validation operation. Both runs completed the same 48 checks.</caption>
+              <colgroup><col style="width: 42%" /><col style="width: 29%" /><col style="width: 29%" /></colgroup>
+              <thead><tr><th scope="col">Measure</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Runtime</th><td>58.3 seconds</td><td>13.4 seconds</td></tr>
+                <tr><th scope="row">API requests</th><td>110</td><td>24</td></tr>
+                <tr><th scope="row">Checks completed</th><td>48</td><td>48</td></tr>
+              </tbody>
+            </table>
+            <p class="example-scope">Batching remote operations was among the execution changes. This result covers one matched operation. It does not establish whole-engagement time savings or labor savings.</p>
           </article>
 
           <article class="workflow-example">
@@ -145,6 +152,7 @@ const evidence = [
             <li><strong>Keep coordination proportional.</strong> Adding agents and proof files did not consistently improve delivery. I gave each assignment a separate area to change and grouped related edits into coherent changesets, with scripted prechecks where a model was unnecessary.</li>
             <li><strong>Test the controls themselves.</strong> Review found defects in the controls, including rollback, link scope, cached verdicts, parsing compatibility, and preservation. I reproduced those failures, then directed repairs and regression checks before adopting the changes.</li>
           </ul>
+          <p><a href="/learn/verify-an-ai-update/">Try the workflow lesson</a> to practice checking an update and recovering safely.</p>
         </section>
 
         <section id="new-role">
@@ -171,10 +179,7 @@ const evidence = [
             </li>)}
           </ul>
           <p>My main project is <a href="/work/homebase/">Homebase</a>, a private workspace connecting business records, content, and agent work. The case study explains what exists and what is still being developed. My <a href="/work/">project index</a> also covers Passal and Leasekite.</p>
-          <div class="actions">
-            <a class="button" href="mailto:dbett4@gmail.com">Email Dave</a>
-            <a href="/dave-bettner-resume.pdf" download>Download résumé</a>
-          </div>
+          <div class="actions"><a class="button" href="mailto:dbett4@gmail.com">Email Dave</a></div>
         </section>
       </div>
     </div>
@@ -216,6 +221,12 @@ const evidence = [
 
   .workflow-example { margin-top: 40px; padding-top: 26px; border-top: 2px solid var(--accent); }
   .workflow-example h3 { margin-bottom: 14px; font-size: 21px; line-height: 1.35; }
+  .benchmark-table { width: 100%; border-collapse: collapse; font-size: 15px; font-variant-numeric: tabular-nums; }
+  .benchmark-table caption { padding-bottom: 12px; color: var(--secondary); font-size: 14px; text-align: left; }
+  .benchmark-table th, .benchmark-table td { padding: 12px; border-block: 1px solid var(--border); text-align: left; }
+  .benchmark-table thead th { color: var(--secondary); font-size: 14px; font-weight: 600; }
+  .benchmark-table tbody th { font-weight: 600; }
+  .benchmark-table td { text-align: right; }
   .workflow-story .example-scope { margin-top: 18px; color: var(--secondary); font-size: 14px; line-height: 1.65; }
   .workflow-example details { margin-top: 20px; padding-bottom: 0; }
   .workflow-example summary { font-size: 15px; }
@@ -240,7 +251,8 @@ const evidence = [
 
   @media (max-width: 960px) {
     .workflow-layout { grid-template-columns: minmax(0, 1fr); }
-    .page-contents { display: none; }
+    .page-contents { position: static; display: block; margin-bottom: 40px; }
+    .page-contents ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
   }
 
   @media (max-width: 700px) {
@@ -248,6 +260,8 @@ const evidence = [
     .stack-layers, .evidence-list { grid-template-columns: 1fr; }
     .workflow-example { margin-top: 32px; }
     .workflow-example h3 { font-size: 20px; }
+    .benchmark-table th, .benchmark-table td { padding: 10px 6px; font-size: 14px; }
+    .benchmark-table thead th { font-size: 13px; }
     .workflow-story .steps li { padding-left: 36px; }
   }
 

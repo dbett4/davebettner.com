@@ -63,7 +63,7 @@ try:
   with page.expect_download() as event:page.get_by_role('link',name='Download résumé',exact=True).click()
   download=event.value;pdf=Path(download.path()).read_bytes();assert hashlib.sha256(pdf).hexdigest()==json.loads((root/'resume/ai-workflows-manifest.json').read_text())['pdfSha256']
   assert page.get_by_role('link',name='Get in touch').get_attribute('href')=='mailto:dbett4@gmail.com'
-  page.get_by_role('link',name='Experience',exact=True).click();assert page.url.endswith('/experience/')
+  page.get_by_role('navigation',name='Main navigation').get_by_role('link',name='Experience',exact=True).click();assert page.url.endswith('/experience/')
   page.goto(base+'/lab/accounting-acceptance/');page.wait_for_url('**/work/accounting-acceptance-lab/')
   assert context.request.get(base+'/not-a-page/').status==404
   assert context.request.get(base+'/mockups/').status==404

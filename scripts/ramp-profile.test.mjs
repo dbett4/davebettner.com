@@ -12,6 +12,11 @@ test('public identity leads with enterprise delivery and AI workflows while reta
   assert.match(robots, /Sitemap: https:\/\/davebettner\.com\/sitemap-index\.xml/);
   const home = read('dist/index.html');
   assert.match(home, /I build AI tools and agent workflows\./);
+  assert.match(home, /targeting forward deployed engineering and adjacent customer-facing technical roles/i);
+  const mainNav = home.match(/<nav aria-label="Main navigation">([\s\S]*?)<\/nav>/)?.[1] ?? '';
+  assert.match(mainNav, />Experience<\/a>/);
+  assert.match(mainNav, />AI Workflows<\/a>/);
+  assert.doesNotMatch(mainNav, />Notes<\/a>|>Now<\/a>/);
   assert.match(home, /I own product direction and implementation for Homebase, Passal, and Leasekite, working through AI coding tools/i);
   assert.match(home, /looking for my next role building AI tools and agent workflows/i);
   assert.match(home, /Customer delivery background/);
@@ -20,6 +25,14 @@ test('public identity leads with enterprise delivery and AI workflows while reta
   assert.ok(home.indexOf('id="selected-work"') < home.indexOf('id="building"'), 'selected products precede the building approach');
   assert.ok(home.indexOf('id="selected-work"') < home.indexOf('Customer delivery background'), 'selected products precede employment background');
   assert.match(home, /href="#selected-work"[^>]*>View selected work/);
+  const workflowPage = read('dist/ai-workflows/index.html');
+  assert.match(workflowPage, /<a href="\/ai-workflows\/" aria-current="page">AI Workflows<\/a>/);
+  assert.match(workflowPage, /Matched Workiva update-and-validation operation\. Both runs completed the same 48 checks\./);
+  assert.match(workflowPage, /58\.3 seconds/);
+  assert.match(workflowPage, /13\.4 seconds/);
+  assert.match(workflowPage, /110/);
+  assert.match(workflowPage, /24/);
+  assert.match(workflowPage, /does not establish whole-engagement time savings or labor savings/);
   assert.match(home, /Based in Des Moines/);
   const experience = read('dist/experience/index.html');
   assert.match(experience, /href="\/experience\/connected-reporting\/"/);

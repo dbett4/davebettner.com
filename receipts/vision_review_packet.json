@@ -1,0 +1,111 @@
+{
+  "capture_route": "T3 Code Preview",
+  "captures": [
+    {
+      "bytes": 296868,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mw0xmaed-6848b07f.png",
+      "sha256": "10e43b723dbce7f3981229f4b347c02f34e13fc0038e5663f29d0a17b53c1f71"
+    },
+    {
+      "bytes": 335865,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mw0xmkv6-d56f4c45.png",
+      "sha256": "a1c4b51b4dc400759b70ef3d5554e4d3b312cdd3fd8d2ba0f3424679ecccc905"
+    },
+    {
+      "bytes": 335349,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mw0ymw82-9c2b58f8.png",
+      "sha256": "f1734e6cd72f1aeac0eee8fc8ad13304fac0a878c77cd90e163a412e3eb2dcb2"
+    },
+    {
+      "bytes": 121593,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mw0yn228-3f9559ac.png",
+      "sha256": "023ad31d4fc37c16b81d474e6ab0a950ac448e57c73da4356910fe605fa13d2d"
+    },
+    {
+      "bytes": 161764,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-davebettner-com-mw0yndbg-a3060a8f.png",
+      "sha256": "c4cc693cd0dba5574185e04e31142650343b45a69550f4ac8064dd393dd4c0f2"
+    },
+    {
+      "bytes": 308720,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mw0yin8n-5b415889.png",
+      "sha256": "5dcc1c7f16ecae60dfb113b67033d7a20c1e0e369e06786b012a26dd621b689d"
+    },
+    {
+      "bytes": 130841,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mw0yinqe-5e3c4379.png",
+      "sha256": "7b9b86f921a7b2ee770315f1c65ae3ce6ec1752a9598bacb22af994c5373025c"
+    },
+    {
+      "bytes": 172127,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mw0yio6e-ae528e2a.png",
+      "sha256": "dbbc500e602247c0c1e2009ffcdef802ab0552c91d55ecbef8aff2e8a53260ec"
+    },
+    {
+      "bytes": 138753,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mw0yipr6-0bdab11e.png",
+      "sha256": "2e0adb18223aa6ae6377939ce732f59d7b57e0e5b4fee5061bac3dff243adbe2"
+    },
+    {
+      "bytes": 325164,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mw0ynk6q-114a17ad.png",
+      "sha256": "eeb1f28c2e6b97b32d8ab380ed2e0a735d0408f540237de2f1123baf928f22d6"
+    },
+    {
+      "bytes": 103276,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mw0ylhgy-107a434b.png",
+      "sha256": "4c19b932efb078bd4ae3e0ae6af7f64532c8a3b0cb2fc4d30c676dadd1097e97"
+    },
+    {
+      "bytes": 147072,
+      "media_type": "image/png",
+      "path": "/home/dave/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mw0ym2nz-151b5b8b.png",
+      "sha256": "eaa4fdb894daab4d0ad7351bed610ca2d8062a8f7a0e3333711714e30ea87eea"
+    }
+  ],
+  "deterministic_evidence": {},
+  "generated_at": "2026-11-03T17:39:24Z",
+  "required_visual_claims": [
+    "The homepage clearly positions Dave for forward deployed engineering and adjacent customer-facing technical roles using source-grounded experience evidence.",
+    "Navigation and section wayfinding remain usable at desktop and phone widths across the primary route set.",
+    "The mobile update benchmark presents the matched 58.3-to-13.4-second runtime and 110-to-24 request comparison, retains 48 checks in both runs, and keeps the single-operation and no-engagement-savings caveat visible.",
+    "Client privacy, internal review and client release boundaries, source status, and the existing workstation illustration remain intact."
+  ],
+  "schema_version": "1.0",
+  "scope": "Whole primary portfolio site: home, projects, experience, AI workflows, about, now, notes, and r\u00e9sum\u00e9; desktop routes with 390px phone captures for home and the AI workflow evidence journey",
+  "source_revision": "HEAD=e259e515841d0a6f78c0cee32db80d2bdeb15527; working-tree-diff-sha256=f8aadfdf41ecda3097dd9b88b58d9eec0401ebaccc98807b1f36b887816d0f21",
+  "status": "verified",
+  "surface": "davebettner.com local candidate compared with live production baseline",
+  "viewport": "Candidate captures: desktop 1280x800 and phone 390x844; reviewer inspected desktop 1440x900 and phones 320x844 and 390x844",
+  "visual_adjudication": {
+    "builder": false,
+    "limits": [
+      "Acceptance covers the local candidate, not deployment or employer verification.",
+      "The historical benchmark was not remeasured by the reviewer.",
+      "H15-H24 preservation was checked against the supplied base; their underlying outcomes were not re-audited.",
+      "The reviewer did not rerun the full build/browser suite; the implementation run had already completed npm test successfully."
+    ],
+    "model": "gpt-6.1-sol",
+    "provider_instance": "codex_personal_proxy",
+    "reasoningEffort": "xhigh",
+    "reviewed_at": "2026-11-03T17:39:24Z",
+    "reviewer": "Codex independent reviewer, gpt-6.1-sol",
+    "reviewer_runtime": "codex",
+    "reviewer_session": "thread:delegated-task:command%3Amcp%3Aea402671-e0e5-4888-99ab-d77ac16aa0c4%3Adelegate-task%3A83d44c32-0da3-42c5-8156-15d5a194f948",
+    "source_path": "/tmp/fde-portfolio-vision-adjudication-20261103.json",
+    "source_sha256": "d0dbd359a1e3abd73569c1b17454904bca5a8f340848f98d1edf002d20d63c9d",
+    "summary": "Independent whole-site review verified the local rendered candidate. The reviewer inspected /, /work/, /experience/, /ai-workflows/, /about/, /now/, /notes/, the connected-reporting case, and the r\u00e9sum\u00e9 at desktop size; checked mobile navigation and workflow sections at 320x844 and 390x844; and visually inspected all seven candidate screenshots. Positioning matches the existing experience and r\u00e9sum\u00e9 sources. Privacy and internal-review/client-release boundaries remain. The workstation illustration and assets remain intact. The benchmark and its matched-operation and no-engagement-savings caveats are readable on mobile. A nonblocking stale DESIGN.md navigation description was identified and then corrected by the implementation owner; this documentation-only edit does not change the rendered site.",
+    "verdict": "verified"
+  }
+}

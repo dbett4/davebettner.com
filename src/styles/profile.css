@@ -145,7 +145,7 @@ details p { margin-top: 15px; }
   .masthead { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'brand tools' 'nav nav'; gap: 10px 12px; min-height: auto; padding-block: 18px 13px; }
   .masthead-brand { grid-area: brand; }
   .header-tools { grid-area: tools; justify-content: flex-end; min-width: 0; }
-  .masthead nav { grid-area: nav; width: 100%; justify-content: space-between; gap: 8px; }
+  .masthead nav { grid-area: nav; width: 100%; justify-content: space-between; flex-wrap: wrap; gap: 4px 8px; }
   .masthead nav a { padding-block: 8px; font-size: 13px; }
   .header-email { font-size: 13px; }
   .page-intro { padding-block: 36px 32px; }

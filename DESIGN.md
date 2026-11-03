@@ -19,14 +19,13 @@ Passal, Leasekite, Krowbar and Lockfield follow; their existing screens and stat
 Des Moines is the current location, with relocation open globally. Employment history
 remains separate from the current product-building role.
 
-The headline names AI tools and agent workflows. The introduction supplies enterprise-delivery experience and links to Homebase and Passal, with plain descriptions of the products; site-hosting details remain in the building section and notes.
+The headline names AI tools and agent workflows. The introduction names forward deployed engineering and adjacent customer-facing technical roles, then gives Workiva implementation scale as evidence. The primary navigation leads to Projects, Experience, AI Workflows, About and Résumé. Notes and Now remain linked from the homepage.
 Technical walkthroughs add inspectable product education to that positioning.
 Reuse the existing project rows and prose for lessons. Interactive teaching
 examples use labeled native controls, visible source and result tables, and
 plain status text. Fictional data and local execution are stated beside the demo.
 Build notes and a dated Now page make current work and the reasoning behind it
-discoverable. Primary navigation is Projects, Notes, Now, About and Résumé; Approach and
-Experience remain in the footer. The homepage keeps Homebase first and replaces
+discoverable. The homepage keeps Homebase first and replaces
 the repeated business-workflow summary with recent build notes. Notes use the
 same light theme, neutral dividers and native links, with a 760px reading column,
 17px desktop prose and 16px phone prose. Publication dates sit below article

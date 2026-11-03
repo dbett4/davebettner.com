@@ -57,11 +57,29 @@ try {
   await explore.click();
   await page.waitForURL(fixtureUrl('/#selected-work'));
   check(await page.locator('#selected-work').isVisible(), 'primary action reaches the selected work');
-  await page.getByRole('link', { name: 'Career history', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Experience', exact: true }).click();
   await page.waitForURL(fixtureUrl('/experience/'));
   const careerTimeline = page.locator('.timeline');
   await careerTimeline.waitFor({ state: 'visible' });
   check(await careerTimeline.getByRole('heading', { name: 'LSL, LLP', exact: true }).isVisible(), 'career history still reaches the timeline and current employer');
+  await page.locator('.timeline a[href="/experience/connected-reporting/"]').click();
+  await page.waitForURL(fixtureUrl('/experience/connected-reporting/'));
+  check(await page.getByRole('heading', { name: 'Connecting data collection and reporting.', exact: true }).isVisible(), 'experience reaches the customer delivery case');
+  check(await page.locator('.story-brief').textContent().then(text => /Client identity and implementation materials are not public/.test(text)), 'customer case keeps the client privacy disclosure');
+
+  await page.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
+  const roleTarget = page.getByText(/targeting forward deployed engineering and adjacent customer-facing technical roles/i);
+  check(await roleTarget.isVisible(), 'homepage names the target role in the hero');
+  await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'AI Workflows', exact: true }).click();
+  await page.waitForURL(fixtureUrl('/ai-workflows/'));
+  check(await page.locator('.masthead a[aria-current="page"]').innerText() === 'AI Workflows', 'AI Workflows has its own active navigation state');
+  const sectionNavigation = page.getByRole('navigation', { name: 'On this page' });
+  check(await sectionNavigation.getByRole('link', { name: 'Public evidence', exact: true }).isVisible(), 'AI workflow sections are reachable through on-page navigation');
+  check(await page.locator('.benchmark-table tbody').innerText().then(text => /Runtime\s+58\.3 seconds\s+13\.4 seconds[\s\S]*API requests\s+110\s+24[\s\S]*Checks completed\s+48\s+48/.test(text)), 'benchmark table shows matched before and after values');
+  check(await page.locator('.benchmark-table + .example-scope').textContent().then(text => /does not establish whole-engagement time savings or labor savings/.test(text)), 'benchmark keeps its scope limitation');
+  await sectionNavigation.getByRole('link', { name: 'Public evidence', exact: true }).click();
+  await page.waitForURL(fixtureUrl('/ai-workflows/#public-evidence'));
+  check(await page.getByRole('heading', { name: 'Public evidence you can inspect.', exact: true }).isVisible(), 'section navigation reaches public technical evidence');
 
   await page.goto(fixtureUrl('/'), { waitUntil: 'networkidle' });
   await page.keyboard.press('Tab');
@@ -147,6 +165,13 @@ try {
   });
   check(!mobileHeader.overflow && mobileHeader.headerWidth <= 320, '320px masthead has no horizontal overflow', JSON.stringify(mobileHeader));
   check(mobileHeader.navCount === 5 && mobileHeader.navBox.top >= mobileHeader.rowOneBottom - 1, 'mobile masthead uses two rows with full navigation and résumé below controls', JSON.stringify(mobileHeader));
+  check(JSON.stringify(await mobilePage.getByRole('navigation', { name: 'Main navigation' }).getByRole('link').allTextContents()) === JSON.stringify(['Projects', 'Experience', 'AI Workflows', 'About', 'Résumé']), 'mobile navigation names the main work and customer evidence routes');
+  await mobilePage.goto(fixtureUrl('/ai-workflows/'), { waitUntil: 'networkidle' });
+  const mobileSectionNavigation = mobilePage.getByRole('navigation', { name: 'On this page' });
+  check(await mobileSectionNavigation.isVisible(), 'long AI workflow page keeps section navigation on phones');
+  await mobileSectionNavigation.getByRole('link', { name: 'Public evidence', exact: true }).click();
+  await mobilePage.waitForURL(fixtureUrl('/ai-workflows/#public-evidence'));
+  check(await mobilePage.getByRole('heading', { name: 'Public evidence you can inspect.', exact: true }).isVisible(), 'phone section navigation reaches public technical evidence');
   check(mobileHeader.brandBox.width >= 44 && mobileHeader.brandBox.height >= 44 && mobileHeader.themeControls === 0 && mobileHeader.emailHeight >= 44 && mobileHeader.navHeights.every((height) => height >= 44), 'mobile masthead targets remain at least 44px without a theme control', JSON.stringify(mobileHeader));
   await mobileContext.close();
 

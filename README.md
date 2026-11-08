@@ -72,7 +72,7 @@ Beyond `npm install`, `npm test` needs:
 - `/usr/bin/python3`, which serves `dist/`.
 - A Python with the `playwright` package, for `verify-ramp-profile.py`. Set `SITE_TEST_PYTHON` to its absolute path; the default is `/usr/bin/python3`.
 
-CI (`.github/workflows/verify.yml`) runs `npm test` on pushes to `main` and on pull requests, using `ubuntu-latest` and Node 22. It installs `ffmpeg` with apt, runs `npx --no-install playwright-core install --with-deps chromium`, and installs `playwright==1.62.0` into a venv that it passes as `SITE_TEST_PYTHON`. Chrome comes from the runner image.
+CI (`.github/workflows/verify.yml`) runs `npm test` on pushes to `main` and on pull requests, using `ubuntu-latest` and Node 22. It installs `ffmpeg` with apt, runs `npx --no-install playwright-core install --with-deps chromium`, and installs `playwright==1.62.0` into a venv that it passes as `SITE_TEST_PYTHON`. Chrome comes from the runner image. A separate `secret-scan` job runs a pinned, checksum-verified gitleaks over the commits the push or pull request adds; to run the same scan locally, use `gitleaks git --redact --log-opts=origin/main..HEAD .`.
 
 ## Résumé PDF
 

@@ -103,3 +103,10 @@ test('homepage serves the recorded workstation loop with a matching poster', () 
   assert.ok(manifest.dogClip && manifest.dogClip.frames_used === 240, 'the generated dog clip spans the loop');
   assert.equal(manifest.period, 10);
 });
+
+test('npm test runs every browser verifier in scripts/', () => {
+  const suite = read('scripts/run-browser-checks.mjs');
+  const verifiers = fs.readdirSync('scripts').filter(name => /^verify-.+\.(mjs|py)$/.test(name));
+  assert.ok(verifiers.length > 0);
+  assert.deepEqual(verifiers.filter(name => !suite.includes(`'scripts/${name}'`)), [], 'every verifier is run by run-browser-checks.mjs or removed');
+});

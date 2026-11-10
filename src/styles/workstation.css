@@ -7,7 +7,7 @@
 }
 .hero > div:first-child { min-width: 0; max-width: 580px; }
 .hero h1 { font-size: clamp(32px, 3.2vw, 42px); font-weight: 600; line-height: 1.2; letter-spacing: -.035em; text-wrap: balance; }
-.lede { max-width: 450px; margin-top: 20px; color: var(--secondary); font-size: 16px; line-height: 1.75; }
+.lede { max-width: 450px; margin-top: 20px; color: var(--text); font-size: 16px; line-height: 1.75; }
 .hero .actions { gap: 24px; margin-top: 28px; }
 .hero .button { min-height: 46px; padding: 10px 18px; font-size: 14px; }
 .hero .actions > a:not(.button) { font-size: 14px; }

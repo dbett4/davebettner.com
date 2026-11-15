@@ -79,8 +79,9 @@ const browser = await chromium.launch({
 });
 
 const buildingRoles = [
-  'Scope · gate · review',
-  'Dedup · spend · proof',
+  'Guarded access · readback · receipts',
+  'Policy · independent checks · human review',
+  'Context · authority · recovery',
 ];
 
 const caseEyebrows = {
@@ -246,7 +247,7 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   }
   for (const marker of [
     'I build the parts that make agent work usable in a real business',
-    'A small Python bridge for recurring LLM and agent pipelines',
+    'A useful answer does not prove that a business workflow had context',
   ]) {
     ok(body.includes(marker), `${name}: public proof problem statement retained (${marker})`);
   }
@@ -504,7 +505,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       const pr = portrait.getBoundingClientRect();
       const cardRects = cards.map((card) => card.getBoundingClientRect());
       const leftColumn = cardRects.filter((rect) => Math.abs(rect.left - cardRects[0].left) <= 2);
-      const proofTwoColumns = cards.length === 2;
+      const proofTwoColumns = cards.length === 3 && leftColumn.length === 2;
       return {
         ok: true,
         specimenFollowsCopy: sr.top >= cr.bottom - 1,
@@ -515,7 +516,7 @@ async function assertHomepageResponsiveContracts(page, viewport) {
     });
     ok(tabletGeometry.ok, `${name}: tablet geometry nodes present`, tabletGeometry.reason ?? '');
     ok(tabletGeometry.specimenFollowsCopy, `${name}: tablet profile copy leads the portrait`, JSON.stringify(tabletGeometry));
-    ok(tabletGeometry.proofTwoColumns, `${name}: tablet proof index is two columns`, String(tabletGeometry.leftColumnCount));
+    ok(tabletGeometry.proofTwoColumns, `${name}: tablet proof index keeps a two-column first row`, String(tabletGeometry.leftColumnCount));
     ok(tabletGeometry.portraitInsideSpecimen, `${name}: tablet source portrait stays inside its specimen`, JSON.stringify(tabletGeometry));
   }
 
@@ -709,8 +710,8 @@ async function assertHomepageResponsiveContracts(page, viewport) {
       })),
     );
     ok(
-      allCardText.length === 2 && allCardText.every((card) => card.evidence.length > 0 && card.limit.length === 0),
-      `${name}: both featured proof cards keep evidence and omit Limit`,
+      allCardText.length === 3 && allCardText.every((card) => card.evidence.length > 0 && card.limit.length === 0),
+      `${name}: all three featured proof cards keep evidence and omit Limit`,
       JSON.stringify(allCardText.map((card) => ({ evidence: card.evidence.length, limit: card.limit.length }))),
     );
   }
@@ -842,12 +843,12 @@ try {
     const page = await context.newPage();
     await auditPage(page, '/', viewport.name);
     ok(await page.locator('#work').count() === 1, `${viewport.name}: work section exists`);
-    ok(await page.locator('#work .building-card').count() === 2, `${viewport.name}: two featured public engineering cards`);
+    ok(await page.locator('#work .building-card').count() === 3, `${viewport.name}: three featured public engineering cards`);
     const motifKinds = await page.locator('#work [data-evidence-motif]').evaluateAll((motifs) =>
       motifs.map((motif) => motif.getAttribute('data-evidence-motif')),
     );
     ok(
-      motifKinds.join('|') === 'guarded-readback|guarded-readback',
+      motifKinds.join('|') === 'guarded-mutation|guarded-readback|guarded-readback',
       `${viewport.name}: selected work uses evidence-derived static motifs`,
       motifKinds.join('|'),
     );
@@ -890,10 +891,10 @@ try {
       `${viewport.name}: closing CTA stays specific and keeps consulting secondary`,
       closingTitle,
     );
-    ok(body.includes('Make agent actions safer to use and easier to review'), `${viewport.name}: features the guarded agent-action case`);
-    ok(body.includes('Reduce wasted work in recurring agent pipelines'), `${viewport.name}: features the Dedup Read-Back Bridge case`);
+    ok(body.includes('Give agents controlled access to business systems'), `${viewport.name}: features the regulated reporting case`);
+    ok(body.includes('Test whether an agent is ready for business use'), `${viewport.name}: features the evaluation case`);
     ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
-    ok(body.includes('Reduce wasted work in recurring agent pipelines'), `${viewport.name}: selected work includes the deduplication case`);
+    ok(body.includes('Make agent work explainable after the fact'), `${viewport.name}: selected work includes the agent operating system case`);
     ok(!body.includes('Financial reporting QA with readback'), `${viewport.name}: Wingman is not featured on homepage`);
     ok(!body.includes('Fieldguide'), `${viewport.name}: Fieldguide string absent`);
     ok(!body.includes('Nous Research'), `${viewport.name}: Nous Research string absent`);
@@ -949,8 +950,8 @@ try {
     );
     ok(
       buildingCardOrder.join(',') ===
-        'agent-orchestration,dedup-readback-bridge',
-      `${viewport.name}: building-card order is agent orchestration → Dedup Read-Back Bridge`,
+        'regulated-reporting-mcp,hermes-field-kit,agent-operating-system',
+      `${viewport.name}: building-card order is Regulated Reporting MCP → Hermes Enterprise Evaluation Kit → Agent Operating System`,
       buildingCardOrder.join(','),
     );
     await assertCausalDeliveryLoopContracts(page, viewport.name);

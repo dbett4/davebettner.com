@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">Hermes Deployment Lab public synthetic recovery receipt</title><desc id="desc">A truthful public evidence artifact showing scoped tools, a separate operator grant, a post-commit fault, idempotent resume, and public CI evidence.</desc>
+<rect width="1200" height="760" fill="#08090b"/><rect x="36" y="34" width="1128" height="692" fill="#101114" stroke="#34353a" stroke-width="2"/>
+<text x="72" y="84" fill="#ff810a" font-family="DM Mono,monospace" font-size="18" letter-spacing="3">PUBLIC SYNTHETIC LAB / DEPLOYMENT RECOVERY</text>
+<text x="72" y="130" fill="#f2eadf" font-family="Archivo,Arial,sans-serif" font-size="42" font-weight="700">Resume without a duplicate write.</text>
+<text x="72" y="164" fill="#b9b2aa" font-family="DM Mono,monospace" font-size="16">Hermes Deployment Lab · release v1.0.0 · release commit 1e68676</text>
+<line x1="72" y1="194" x2="1128" y2="194" stroke="#34353a"/>
+<g font-family="DM Mono,monospace" font-size="16">
+<text x="84" y="238" fill="#73bfc4">01  SCOPE TOOLS</text><text x="84" y="269" fill="#f2eadf">FastMCP server · mock enterprise API · workflow runner</text><text x="84" y="296" fill="#b9b2aa">Credential-free synthetic stack; cloud IaC is validate-only.</text>
+<text x="84" y="354" fill="#8da0ce">02  OPERATOR GATE</text><text x="84" y="385" fill="#f2eadf">First write pauses for a separate operator grant.</text><text x="84" y="412" fill="#b9b2aa">Approval is kept distinct from the agent's tool call.</text>
+<text x="84" y="470" fill="#ff810a">03  POST-COMMIT FAULT</text><text x="84" y="501" fill="#f2eadf">Fault injected after commit; workflow resumes with the same idempotency key.</text><text x="84" y="528" fill="#b9b2aa">Public proof describes exactly one remaining side effect.</text>
+<text x="84" y="586" fill="#73bfc4">04  PUBLIC CI EVIDENCE</text><text x="84" y="617" fill="#f2eadf">Actions run 31892965924 · 241 credential-free tests</text><text x="84" y="644" fill="#b9b2aa">Attests container restart/replay, native telemetry/trace, and fresh-clone checks.</text>
+</g>
+<rect x="820" y="222" width="292" height="220" fill="#08090b" stroke="#73bfc4" stroke-width="2"/><text x="850" y="262" fill="#73bfc4" font-family="DM Mono,monospace" font-size="15">REPLAY RECEIPT</text><text x="850" y="306" fill="#f2eadf" font-family="DM Mono,monospace" font-size="17">commit  1e68676</text><text x="850" y="344" fill="#f2eadf" font-family="DM Mono,monospace" font-size="17">run     31892965924</text><text x="850" y="382" fill="#ff810a" font-family="DM Mono,monospace" font-size="17">writes  exactly one</text><text x="850" y="420" fill="#b9b2aa" font-family="DM Mono,monospace" font-size="14">recovery path attested</text>
+<text x="72" y="690" fill="#b9b2aa" font-family="DM Mono,monospace" font-size="14">HONEST LIMIT · Synthetic lab, not a live client tenant; not a model-driven production run claim; cloud apply is not attested.</text>
+</svg>

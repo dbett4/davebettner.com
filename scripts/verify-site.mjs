@@ -78,11 +78,6 @@ const browser = await chromium.launch({
   args: ['--no-sandbox'],
 });
 
-const buildingRoles = [
-  'Scope · gate · review',
-  'Guarded integration',
-];
-
 const caseEyebrows = {
   'agent-operating-system': 'Architecture · Agent operating system',
   'regulated-reporting-mcp': 'Guarded integration · Regulated Reporting MCP',
@@ -96,27 +91,6 @@ const caseStepCounts = {
   'hermes-deployment-lab': 5,
   wingman: 6,
 };
-
-const outcomeStories = [
-  {
-    label: 'Custom solutioning',
-    context: 'Manager of Digital Services · Citrin Cooperman',
-    title: 'A controlled system-of-record handoff',
-    result: 'Built a custom data-collection and reporting workflow in Workiva with bidirectional integration between the reporting platform and the system of record, delivered with audit trail and finance, IT, and executive sign-off.',
-  },
-  {
-    label: 'Enterprise GRC and reporting',
-    context: 'Solutions Architect · Workiva',
-    title: 'Scoped integrations and controlled customer-impacting writes',
-    result: 'Led concurrent implementations through adoption across SSO, API, and ERP boundaries, with human review and native readback.',
-  },
-  {
-    label: 'Clinical imaging',
-    context: 'Solutions Consultant · Ambra Health',
-    title: 'Connected imaging workflows across health-system boundaries',
-    result: 'Carried EHR, portal, billing, and access-control integrations through review, go-live, and an acquisition transition.',
-  },
-];
 
 const projects = [
   {
@@ -149,562 +123,66 @@ const projects = [
 const coreRoutes = ['/', '/about/', '/experience/', '/work/', '/fit/'];
 const projectRoutes = projects.map((project) => `/work/${project.slug}/`);
 
-async function assertCausalDeliveryLoopContracts(page, name) {
-  ok(
-    (await page.locator('#direction, .loop-section, .loop-stage, .loop-field').count()) === 0,
-    `${name}: homepage omits the deployment-method loop owned by First 90 days`,
-  );
-
-  ok((await page.locator('.loop-n').count()) === 0, `${name}: loop ordinals removed`);
-  ok((await page.locator('.building-index').count()) === 0, `${name}: building indices removed`);
-  ok((await page.locator('.proof-n').count()) === 0, `${name}: proof ordinals removed`);
-
-  const roleLabels = await page.locator('.building-role').evaluateAll((labels) =>
-    labels.map((label) => ({
-      text: (label.textContent ?? '').trim(),
-      hiddenAncestor: Boolean(label.closest('[aria-hidden="true"]')),
-    })),
-  );
-  ok(
-    roleLabels.map((label) => label.text).join('|') === buildingRoles.join('|'),
-    `${name}: building roles match project order`,
-    roleLabels.map((label) => label.text).join('|'),
-  );
-  ok(
-    roleLabels.every((label) => !label.hiddenAncestor),
-    `${name}: building roles remain exposed to assistive technology`,
-    JSON.stringify(roleLabels),
-  );
-
-  const outcomeRows = await page.locator('.proof-row').evaluateAll((rows) =>
-    rows.map((row) => ({
-      label: (row.querySelector('.proof-label')?.textContent ?? '').trim(),
-      context: (row.querySelector('.proof-context')?.textContent ?? '').trim(),
-      title: (row.querySelector('.proof-main h3')?.textContent ?? '').trim(),
-      result: (row.querySelector('.proof-result')?.textContent ?? '').trim(),
-      markClasses: [...row.querySelectorAll('.outcome-mark')].flatMap((mark) => [...mark.classList]),
-    })),
-  );
-  ok(outcomeRows.length === 3, `${name}: three delivery outcome rows`, String(outcomeRows.length));
-  ok(
-    outcomeRows.every((row, index) =>
-      row.label === outcomeStories[index].label &&
-      row.context === outcomeStories[index].context &&
-      row.title === outcomeStories[index].title &&
-      row.result === outcomeStories[index].result,
-    ),
-    `${name}: delivery outcome copy leads with domain/result labels and keeps role context`,
-    JSON.stringify(outcomeRows),
-  );
-  const markClassSets = outcomeRows.map((row) =>
-    row.markClasses.filter((className) => className.startsWith('outcome-mark--')).sort().join(','),
-  );
-  ok(
-    new Set(markClassSets).size === 3,
-    `${name}: delivery outcome marks are geometrically distinct`,
-    markClassSets.join('|'),
-  );
-
-  if ((page.viewportSize()?.width ?? Number.POSITIVE_INFINITY) <= 960) {
-    const outcomeTextGeometry = await page.locator('.proof-row').evaluateAll((rows) =>
-      rows.map((row) => {
-        const main = row.querySelector('.proof-main')?.getBoundingClientRect();
-        const result = row.querySelector('.proof-result')?.getBoundingClientRect();
-        return main && result
-          ? {
-              aligned: Math.abs(main.left - result.left) < 1,
-              readableWidth: result.width >= 180,
-              stacked: result.top >= main.bottom,
-            }
-          : null;
-      }),
-    );
-    ok(
-      outcomeTextGeometry.every((row) => row?.aligned && row.readableWidth && row.stacked),
-      `${name}: mobile delivery outcome copy stacks at a readable width without overlap`,
-      JSON.stringify(outcomeTextGeometry),
-    );
-  }
-  ok((await page.locator('ol.proof-ledger').count()) === 0, `${name}: delivery outcomes are not an ordered list`);
-
+async function assertHomepageContentContracts(page, name) {
+  const nav = (await page.locator('.primary-nav a').allTextContents()).map((text) => text.trim());
+  ok(nav.join('|') === 'Work|Experience|Contact', `${name}: primary nav is Work/Experience/Contact`, nav.join('|'));
+  ok(((await page.locator('h1').textContent()) ?? '').replace(/\s+/g, '').toLowerCase() === 'davebettner', `${name}: H1 is Dave Bettner identity`);
+  ok(((await page.locator('.role-line').textContent()) ?? '').trim() === 'Solutions architecture · implementation leadership · agent systems', `${name}: exact recruiter-readable role line`);
+  ok(((await page.locator('.cover-role').textContent()) ?? '').includes('messy part'), `${name}: human customer-facing proposition`);
+  ok((await page.locator('.cover-qualifier').count()) === 1, `${name}: one honest experience qualifier`);
+  const artifacts = await page.locator('.artifact-figure').evaluateAll((figures) => figures.map((figure) => ({
+    href: figure.querySelector('a')?.getAttribute('href') ?? '',
+    src: figure.querySelector('img')?.getAttribute('src') ?? '',
+    alt: figure.querySelector('img')?.getAttribute('alt') ?? '',
+    caption: figure.querySelector('figcaption')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
+  })));
+  ok(artifacts.length === 2, `${name}: two evidence artifacts`, JSON.stringify(artifacts));
+  ok(new Set(artifacts.map((item) => item.href)).size === 2 && artifacts.every((item) => item.href === item.src && item.alt.length > 20 && item.caption.includes('Open evidence')), `${name}: evidence artifacts are distinct, inspectable, captioned, and accessible`, JSON.stringify(artifacts));
+  ok((await page.locator('.evidence-boundary').count()) === 1, `${name}: exactly one page-level evidence boundary`);
+  const boundary = ((await page.locator('.evidence-boundary').textContent()) ?? '').trim();
+  ok(/client work stays private/i.test(boundary) && /not client deployments/i.test(boundary) && /Nous affiliation/i.test(boundary), `${name}: evidence boundary keeps claim limits`, boundary);
+  ok((await page.locator('a[href="/work/hermes-deployment-lab/"]').count()) === 1, `${name}: deployment recovery case linked once`);
+  ok((await page.locator('a[href="/work/regulated-reporting-mcp/"]').count()) === 1, `${name}: guarded reporting case linked once`);
+  ok(((await page.locator('#contact h2').textContent()) ?? '').trim() === 'Have a hard implementation problem?', `${name}: specific closing CTA`);
+  ok((await page.locator('#contact a[href^="mailto:"]').count()) === 1, `${name}: one closing email action`);
   const body = await page.locator('body').innerText();
-  ok(!body.includes('SIG/01'), `${name}: decorative SIG/01 removed`);
-  ok(
-    (await page.locator(`img[data-source-portrait][src="/images/dave-bettner-headshot-20260816-cutout.png"][width="${CUTOUT_SIZE.width}"][height="${CUTOUT_SIZE.height}"]`).count()) === 1,
-    `${name}: approved source-preserving navy-tie cutout is present`,
-  );
-  for (const token of ['01 ·', '02 ·', '03 ·', '04 ·']) {
-    ok(!body.includes(token), `${name}: decorative serial token absent (${token})`);
-  }
-  for (const marker of [
-    'The Hermes Deployment Lab scopes tools',
-    'MCP server for a Workiva-shaped reporting API',
-  ]) {
-    ok(body.includes(marker), `${name}: public proof problem statement retained (${marker})`);
-  }
-  for (const trivia of [
-    'needs_review',
-    '$0.406986',
-    'v2026.8.3',
-    'Chief of Staff',
-    'Remote-friendly',
-    'container startup is not attested',
-    'parses Compose',
-  ]) {
-    ok(!body.includes(trivia), `${name}: homepage omits forbidden positioning trivia (${trivia})`);
-  }
-  ok((await page.locator('.building-limit, .limit-label').count()) === 0, `${name}: homepage has no per-card Limit blocks`);
-  ok(
-    /labs and sanitized extracts/i.test(body) && body.includes('Nous/Hermes Enterprise affiliation'),
-    `${name}: homepage evidence-boundary note present`,
-  );
-  ok(
-    body.includes('Nous/Hermes Enterprise affiliation'),
-    `${name}: evidence boundary denies Hermes Enterprise affiliation claim`,
-  );
-  ok(
-    body.includes('production-engineering tenure'),
-    `${name}: provenance keeps production-tenure claim boundary`,
-  );
+  for (const forbidden of ['Fieldguide', 'Chief of Staff', 'Remote-friendly', 'I am an auditor']) ok(!body.includes(forbidden), `${name}: forbidden positioning absent (${forbidden})`);
 }
 
 async function assertHomepageResponsiveContracts(page, viewport) {
   const { name, width, height } = viewport;
-
-  if (width <= 390) {
-    const navGeometry = await page.evaluate(() => {
-      const nav = document.querySelector('.primary-nav');
-      if (!(nav instanceof HTMLElement)) return null;
-      const navRect = nav.getBoundingClientRect();
-      const links = [...nav.querySelectorAll('a')].map((link) => {
-        const rect = link.getBoundingClientRect();
-        return {
-          href: link.getAttribute('href'),
-          text: (link.textContent ?? '').trim(),
-          clientWidth: link.clientWidth,
-          scrollWidth: link.scrollWidth,
-          textClipped: link.scrollWidth > link.clientWidth + 1,
-          width: rect.width,
-          height: rect.height,
-          left: rect.left,
-          right: rect.right,
-          top: rect.top,
-          bottom: rect.bottom,
-          insideNav:
-            rect.left >= navRect.left - 0.5 &&
-            rect.right <= navRect.right + 0.5 &&
-            rect.top >= navRect.top - 0.5 &&
-            rect.bottom <= navRect.bottom + 0.5,
-          insideViewport:
-            rect.left >= -0.5 &&
-            rect.right <= innerWidth + 0.5 &&
-            rect.width > 0 &&
-            rect.height > 0,
-        };
-      });
-      return {
-        linkCount: links.length,
-        navScrollWidth: nav.scrollWidth,
-        navClientWidth: nav.clientWidth,
-        navOverflows: nav.scrollWidth > nav.clientWidth + 1,
-        links,
-      };
-    });
-    ok(Boolean(navGeometry), `${name}: primary nav present`);
-    ok(navGeometry?.linkCount === 3, `${name}: primary nav has three links`, String(navGeometry?.linkCount));
-    const mobileNavTargets = navGeometry?.links.map(({ text, href }) => ({ text, href }));
-    ok(
-      JSON.stringify(mobileNavTargets) === JSON.stringify([
-        { text: 'Work', href: '/work/' },
-        { text: 'Experience', href: '/experience/' },
-        { text: 'First 90 days', href: '/fit/' },
-      ]),
-      `${name}: primary nav contains Work, Experience, and First 90 days`,
-      JSON.stringify(mobileNavTargets),
-    );
-    ok(
-      Boolean(navGeometry?.links.every((target) => target.width >= 44 && target.height >= 44)),
-      `${name}: primary nav targets are at least 44×44`,
-      JSON.stringify(navGeometry?.links),
-    );
-    ok(
-      Boolean(navGeometry?.links.every((target) => !target.textClipped)),
-      `${name}: primary nav labels remain fully visible`,
-      JSON.stringify(navGeometry?.links),
-    );
-    ok(
-      Boolean(navGeometry && !navGeometry.navOverflows),
-      `${name}: primary nav does not overflow horizontally`,
-      JSON.stringify({
-        scrollWidth: navGeometry?.navScrollWidth,
-        clientWidth: navGeometry?.navClientWidth,
+  const geometry = await page.evaluate(() => {
+    const rect = (selector) => {
+      const node = document.querySelector(selector);
+      if (!(node instanceof HTMLElement)) return null;
+      const box = node.getBoundingClientRect();
+      return { left: box.left, right: box.right, top: box.top, bottom: box.bottom, width: box.width, height: box.height };
+    };
+    const nav = document.querySelector('.primary-nav');
+    const links = nav ? [...nav.querySelectorAll('a')].map((link) => {
+      const box = link.getBoundingClientRect();
+      return { text: link.textContent?.trim(), width: box.width, height: box.height, left: box.left, right: box.right, clipped: link.scrollWidth > link.clientWidth + 1 };
+    }) : [];
+    return {
+      overflowX: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      navOverflow: nav instanceof HTMLElement ? nav.scrollWidth - nav.clientWidth : null,
+      links,
+      qualifier: rect('.cover-qualifier'),
+      actions: rect('.cover-actions'),
+      portrait: rect('[data-source-portrait]'),
+      artifacts: [...document.querySelectorAll('.artifact-figure')].map((node) => {
+        const box = node.getBoundingClientRect();
+        return { left: box.left, right: box.right, width: box.width };
       }),
-    );
-    ok(
-      Boolean(navGeometry?.links.every((target) => target.insideNav && target.insideViewport)),
-      `${name}: primary nav link rectangles stay inside nav/viewport`,
-      JSON.stringify(navGeometry?.links),
-    );
-
-    const orangeContrast = await page.evaluate(() => {
-      const sample = document.querySelector('.section-index, .proof-label, .loop-cue');
-      if (!(sample instanceof HTMLElement)) return null;
-      const color = getComputedStyle(sample).color;
-      let surface = sample.parentElement;
-      let bg = 'transparent';
-      while (surface) {
-        const candidate = getComputedStyle(surface).backgroundColor;
-        if (candidate !== 'transparent' && candidate !== 'rgba(0, 0, 0, 0)') {
-          bg = candidate;
-          break;
-        }
-        surface = surface.parentElement;
-      }
-      const parse = (value) => {
-        const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-        if (!match) return null;
-        return [Number(match[1]), Number(match[2]), Number(match[3])].map((channel) => {
-          const srgb = channel / 255;
-          return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
-        });
-      };
-      const fg = parse(color);
-      const paper = parse(bg);
-      if (!fg || !paper) return { color, bg, ratio: 0 };
-      const lum = (rgb) => 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
-      const l1 = lum(fg);
-      const l2 = lum(paper);
-      const lighter = Math.max(l1, l2);
-      const darker = Math.min(l1, l2);
-      return { color, bg, ratio: (lighter + 0.05) / (darker + 0.05) };
-    });
-    ok(
-      Boolean(orangeContrast && orangeContrast.ratio >= 4.5),
-      `${name}: terracotta small-text contrast is at least 4.5:1`,
-      JSON.stringify(orangeContrast),
-    );
-
-    const proofContextContrast = await page.evaluate(() => {
-      const sample = document.querySelector('.proof-context');
-      if (!(sample instanceof HTMLElement)) return null;
-      const style = getComputedStyle(sample);
-      const section = sample.closest('.proof-section');
-      const background = section instanceof HTMLElement
-        ? getComputedStyle(section).backgroundColor
-        : getComputedStyle(document.body).backgroundColor;
-      const parse = (value) => {
-        const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-        return match ? [Number(match[1]), Number(match[2]), Number(match[3])] : null;
-      };
-      const foregroundRgb = parse(style.color);
-      const backgroundRgb = parse(background);
-      const opacity = Number(style.opacity);
-      if (!foregroundRgb || !backgroundRgb || !Number.isFinite(opacity)) {
-        return { color: style.color, background, opacity, ratio: 0 };
-      }
-      const composited = foregroundRgb.map((channel, index) =>
-        channel * opacity + backgroundRgb[index] * (1 - opacity),
-      );
-      const linearize = (channel) => {
-        const srgb = channel / 255;
-        return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
-      };
-      const luminance = (rgb) =>
-        0.2126 * linearize(rgb[0]) + 0.7152 * linearize(rgb[1]) + 0.0722 * linearize(rgb[2]);
-      const foregroundLuminance = luminance(composited);
-      const backgroundLuminance = luminance(backgroundRgb);
-      const lighter = Math.max(foregroundLuminance, backgroundLuminance);
-      const darker = Math.min(foregroundLuminance, backgroundLuminance);
-      return {
-        color: style.color,
-        background,
-        opacity,
-        composited,
-        ratio: (lighter + 0.05) / (darker + 0.05),
-      };
-    });
-    ok(
-      Boolean(proofContextContrast && proofContextContrast.ratio >= 4.5),
-      `${name}: proof context text effective contrast is at least 4.5:1`,
-      JSON.stringify(proofContextContrast),
-    );
-
-    const smallTextContrast = await page.evaluate(() => {
-      const parse = (value) => {
-        const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/i);
-        return match
-          ? [Number(match[1]), Number(match[2]), Number(match[3]), match[4] === undefined ? 1 : Number(match[4])]
-          : null;
-      };
-      const linearize = (channel) => {
-        const srgb = channel / 255;
-        return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
-      };
-      const luminance = (rgb) =>
-        0.2126 * linearize(rgb[0]) + 0.7152 * linearize(rgb[1]) + 0.0722 * linearize(rgb[2]);
-      const measure = (foregroundSelector, backgroundSelector) => {
-        const foreground = document.querySelector(foregroundSelector);
-        const background = document.querySelector(backgroundSelector);
-        if (!(foreground instanceof HTMLElement) || !(background instanceof HTMLElement)) return null;
-        const color = getComputedStyle(foreground).color;
-        const backgroundColor = getComputedStyle(background).backgroundColor;
-        const foregroundRgb = parse(color);
-        const backgroundRgb = parse(backgroundColor);
-        const opacity = Number(getComputedStyle(foreground).opacity);
-        if (!foregroundRgb || !backgroundRgb || !Number.isFinite(opacity) || backgroundRgb[3] < 0.999) {
-          return { color, backgroundColor, opacity, ratio: 0 };
-        }
-        const foregroundAlpha = foregroundRgb[3] * opacity;
-        const composited = foregroundRgb.slice(0, 3).map((channel, index) =>
-          channel * foregroundAlpha + backgroundRgb[index] * (1 - foregroundAlpha),
-        );
-        const foregroundLuminance = luminance(composited);
-        const backgroundLuminance = luminance(backgroundRgb);
-        const lighter = Math.max(foregroundLuminance, backgroundLuminance);
-        const darker = Math.min(foregroundLuminance, backgroundLuminance);
-        return { color, backgroundColor, opacity, composited, ratio: (lighter + 0.05) / (darker + 0.05) };
-      };
-      return {
-        ctaKicker: measure('.cta-kicker', '.cta-block'),
-        profileAccent: measure('.cover-kicker', '.cover'),
-      };
-    });
-    ok(
-      Boolean(smallTextContrast.ctaKicker && smallTextContrast.ctaKicker.ratio >= 4.5),
-      `${name}: CTA kicker small-text contrast is at least 4.5:1`,
-      JSON.stringify(smallTextContrast.ctaKicker),
-    );
-    ok(
-      Boolean(smallTextContrast.profileAccent && smallTextContrast.profileAccent.ratio >= 4.5),
-      `${name}: profile accent small-text contrast is at least 4.5:1`,
-      JSON.stringify(smallTextContrast.profileAccent),
-    );
-  }
-
-  if (width === 768) {
-    const tabletGeometry = await page.evaluate(() => {
-      const copy = document.querySelector('.cover-copy');
-      const specimen = document.querySelector('.cover-specimen');
-      const cards = [...document.querySelectorAll('.building-card')];
-      const portrait = document.querySelector('[data-portrait-source]');
-      const aboutCopy = document.querySelector('.about-copy');
-      if (!copy || !specimen || !portrait || !aboutCopy) {
-        return { ok: false, reason: 'missing cover/about nodes' };
-      }
-      const cr = copy.getBoundingClientRect();
-      const sr = specimen.getBoundingClientRect();
-      const pr = portrait.getBoundingClientRect();
-      const cardRects = cards.map((card) => card.getBoundingClientRect());
-      const leftColumn = cardRects.filter((rect) => Math.abs(rect.left - cardRects[0].left) <= 2);
-      const proofTwoColumns = cards.length === 2;
-      return {
-        ok: true,
-        specimenFollowsCopy: sr.top >= cr.bottom - 1,
-        proofTwoColumns,
-        leftColumnCount: leftColumn.length,
-        portraitInsideSpecimen: pr.top >= sr.top - 3 && pr.bottom <= sr.bottom + 3,
-      };
-    });
-    ok(tabletGeometry.ok, `${name}: tablet geometry nodes present`, tabletGeometry.reason ?? '');
-    ok(tabletGeometry.specimenFollowsCopy, `${name}: tablet profile copy leads the portrait`, JSON.stringify(tabletGeometry));
-    ok(tabletGeometry.proofTwoColumns, `${name}: tablet proof index is two columns`, String(tabletGeometry.leftColumnCount));
-    ok(tabletGeometry.portraitInsideSpecimen, `${name}: tablet source portrait stays inside its specimen`, JSON.stringify(tabletGeometry));
-  }
-
-  if (width === 1280 && height === 720) {
-    const identityHero = await page.evaluate(() => {
-      const grid = document.querySelector('.cover-grid');
-      const copy = document.querySelector('.cover-copy');
-      const specimen = document.querySelector('.cover-specimen');
-      const heading = document.querySelector('#thesis-heading');
-      if (!(grid instanceof HTMLElement) || !(copy instanceof HTMLElement) ||
-          !(specimen instanceof HTMLElement) || !(heading instanceof HTMLElement)) return null;
-      const gridStyle = getComputedStyle(grid);
-      const copyRect = copy.getBoundingClientRect();
-      const specimenRect = specimen.getBoundingClientRect();
-      const headingRect = heading.getBoundingClientRect();
-      return {
-        columnCount: gridStyle.gridTemplateColumns.split(' ').filter(Boolean).length,
-        copyLeadsPortrait: copyRect.left < specimenRect.left,
-        balancedSplit: copyRect.width >= innerWidth * 0.4 && specimenRect.width >= innerWidth * 0.3,
-        monumentalName: Number.parseFloat(getComputedStyle(heading).fontSize) >= 120,
-        headingWidth: headingRect.width,
-      };
-    });
-    ok(Boolean(identityHero), `${name}: identity hero nodes present`);
-    ok(
-      Boolean(identityHero?.columnCount === 2 && identityHero.copyLeadsPortrait && identityHero.balancedSplit),
-      `${name}: homepage hero is a balanced two-column identity and portrait split`,
-      JSON.stringify(identityHero),
-    );
-    ok(
-      Boolean(identityHero?.monumentalName),
-      `${name}: Dave Bettner is monumental in the first viewport`,
-      JSON.stringify(identityHero),
-    );
-
-    const hireCtaVisible = await page.evaluate(() => {
-      const cta = document.querySelector('.cover-actions-primary a.round.blue');
-      if (!(cta instanceof HTMLElement)) return null;
-      const rect = cta.getBoundingClientRect();
-      return {
-        top: rect.top,
-        bottom: rect.bottom,
-        inViewport: rect.top >= 0 && rect.bottom <= innerHeight && rect.height > 0,
-      };
-    });
-    ok(Boolean(hireCtaVisible?.inViewport), `${name}: primary hiring CTA visible in first viewport`, JSON.stringify(hireCtaVisible));
-  }
-
+    };
+  });
+  ok(geometry.overflowX === 0, `${name}: no horizontal page overflow`, JSON.stringify(geometry));
+  ok(geometry.navOverflow !== null && geometry.navOverflow <= 1, `${name}: primary nav does not overflow`, JSON.stringify(geometry.links));
+  ok(geometry.links.length === 3 && geometry.links.every((link) => link.height >= 44 && !link.clipped && link.left >= -0.5 && link.right <= width + 0.5), `${name}: nav links are readable 44px-high targets inside viewport`, JSON.stringify(geometry.links));
+  ok(geometry.artifacts.length === 2 && geometry.artifacts.every((item) => item.width > 0 && item.left >= -0.5 && item.right <= width + 0.5), `${name}: artifacts stay inside viewport`, JSON.stringify(geometry.artifacts));
   if (width <= 390) {
-    const phoneOrder = await page.evaluate(() => {
-      const heading = document.querySelector('#thesis-heading');
-      const portrait = document.querySelector('[data-portrait-source]');
-      const specimen = document.querySelector('.cover-specimen');
-      const role = document.querySelector('.cover-role');
-      const actions = document.querySelector('.cover-actions');
-      if (!heading || !portrait || !specimen || !role || !actions) return null;
-      const pt = portrait.getBoundingClientRect().top;
-      const ht = heading.getBoundingClientRect().top;
-      const rt = role.getBoundingClientRect().top;
-      const at = actions.getBoundingClientRect().top;
-      const st = specimen.getBoundingClientRect().top;
-      return {
-        pt,
-        ht,
-        rt,
-        at,
-        st,
-        headingBeforeRole: ht < rt,
-        roleBeforeActions: rt < at,
-        actionsBeforeSpecimen: at < st,
-        specimenContainsPortrait: pt >= st,
-      };
-    });
-    ok(Boolean(phoneOrder), `${name}: phone cover order nodes present`);
-    ok(
-      phoneOrder?.headingBeforeRole &&
-        phoneOrder?.roleBeforeActions &&
-        phoneOrder?.actionsBeforeSpecimen &&
-        phoneOrder?.specimenContainsPortrait,
-      `${name}: phone visual order is identity → role → actions → source portrait`,
-      JSON.stringify(phoneOrder),
-    );
-
-    const phonePortraitBox = await page.evaluate(() => {
-      const portrait = document.querySelector('[data-source-portrait]');
-      const doc = document.documentElement;
-      if (!(portrait instanceof HTMLElement)) return null;
-      const rect = portrait.getBoundingClientRect();
-      return {
-        width: rect.width,
-        height: rect.height,
-        left: rect.left,
-        right: rect.right,
-        top: rect.top,
-        docScrollWidth: doc.scrollWidth,
-        docClientWidth: doc.clientWidth,
-        insideViewport: rect.width > 80 && rect.height > 80 && rect.left >= -1 && rect.right <= innerWidth + 1,
-        noDocumentOverflow: doc.scrollWidth <= doc.clientWidth,
-      };
-    });
-    ok(Boolean(phonePortraitBox), `${name}: phone source portrait node present`);
-    ok(
-      Boolean(phonePortraitBox?.insideViewport),
-      `${name}: phone source portrait geometry stays inside the viewport with a useful box`,
-      JSON.stringify(phonePortraitBox),
-    );
-    ok(
-      Boolean(phonePortraitBox?.noDocumentOverflow),
-      `${name}: phone document does not overflow horizontally around the portrait`,
-      JSON.stringify(phonePortraitBox),
-    );
-
-    const hireCtaVisible = await page.evaluate(() => {
-      const cta = document.querySelector('.cover-actions-primary a.round.blue');
-      if (!(cta instanceof HTMLElement)) return null;
-      const rect = cta.getBoundingClientRect();
-      return {
-        top: rect.top,
-        bottom: rect.bottom,
-        inViewport: rect.top >= 0 && rect.bottom <= innerHeight && rect.height > 0,
-      };
-    });
-    ok(Boolean(hireCtaVisible?.inViewport), `${name}: primary hiring CTA visible in first viewport`, JSON.stringify(hireCtaVisible));
-
-    if (width === 320) {
-      const primaryActionFit = await page.locator('.cover-actions-primary a.round.blue').evaluate((action) => {
-        const style = getComputedStyle(action);
-        return {
-          whiteSpace: style.whiteSpace,
-          clientWidth: action.clientWidth,
-          scrollWidth: action.scrollWidth,
-          fits: style.whiteSpace === 'nowrap' && action.scrollWidth <= action.clientWidth,
-        };
-      });
-      ok(primaryActionFit.fits, `${name}: primary CTA stays on one line`, JSON.stringify(primaryActionFit));
-    }
-
-    const proofScroll = await page.evaluate(() => {
-      const list = document.querySelector('.building-list');
-      if (!(list instanceof HTMLElement)) return null;
-      const doc = document.documentElement;
-      return {
-        listScrollWidth: list.scrollWidth,
-        listClientWidth: list.clientWidth,
-        docScrollWidth: doc.scrollWidth,
-        docClientWidth: doc.clientWidth,
-      };
-    });
-    ok(Boolean(proofScroll), `${name}: phone proof list present`);
-    ok(
-      Boolean(proofScroll && proofScroll.listScrollWidth <= proofScroll.listClientWidth + 1),
-      `${name}: phone proof index is a readable stacked layout`,
-      JSON.stringify(proofScroll),
-    );
-    ok(
-      Boolean(proofScroll && proofScroll.docScrollWidth <= proofScroll.docClientWidth),
-      `${name}: phone document does not overflow horizontally with proof index`,
-      JSON.stringify(proofScroll),
-    );
-
-    const lastReachable = await page.evaluate(() => {
-      const list = document.querySelector('.building-list');
-      const cards = [...document.querySelectorAll('.building-card')];
-      const last = cards.at(-1);
-      if (!(list instanceof HTMLElement) || !last) return { ok: false, reason: 'missing list/card' };
-      const link = last.querySelector('a');
-      if (!(link instanceof HTMLElement)) return { ok: false, reason: 'missing link' };
-      link.focus({ preventScroll: false });
-      link.scrollIntoView({ block: 'nearest' });
-      const rect = link.getBoundingClientRect();
-      const style = getComputedStyle(last);
-      const evidence = last.querySelector('.building-evidence')?.textContent?.trim() ?? '';
-      const limit = last.querySelector('.building-limit');
-      return {
-        ok: true,
-        focused: document.activeElement === link,
-        inView: rect.width > 0 && rect.height > 0 && rect.right > 0 && rect.left < innerWidth,
-        evidenceVisible: evidence.length > 0 && style.visibility !== 'hidden',
-        limitAbsent: !limit,
-        evidence,
-      };
-    });
-    ok(lastReachable.ok, `${name}: final proof card present`, lastReachable.reason ?? '');
-    ok(lastReachable.focused && lastReachable.inView, `${name}: final stacked proof card link is keyboard reachable`, JSON.stringify(lastReachable));
-    ok(lastReachable.evidenceVisible && lastReachable.limitAbsent, `${name}: final proof card keeps evidence and omits Limit`, JSON.stringify(lastReachable));
-
-    const allCardText = await page.locator('.building-card').evaluateAll((cards) =>
-      cards.map((card) => ({
-        evidence: card.querySelector('.building-evidence')?.textContent?.trim() ?? '',
-        limit: card.querySelector('.building-limit')?.textContent?.trim() ?? '',
-      })),
-    );
-    ok(
-      allCardText.length === 2 && allCardText.every((card) => card.evidence.length > 0 && card.limit.length === 0),
-      `${name}: both featured proof cards keep evidence and omit Limit`,
-      JSON.stringify(allCardText.map((card) => ({ evidence: card.evidence.length, limit: card.limit.length }))),
-    );
+    const contentBottom = Math.max(geometry.qualifier?.bottom ?? 0, geometry.actions?.bottom ?? 0);
+    ok(Boolean(geometry.portrait && geometry.portrait.top >= contentBottom - 1 && geometry.portrait.top < height), `${name}: portrait is visible in first viewport without crossing hero copy/actions`, JSON.stringify({ contentBottom, portrait: geometry.portrait }));
   }
 }
 
@@ -715,7 +193,8 @@ async function auditPage(page, route, label) {
   });
   page.on('pageerror', (error) => consoleErrors.push(error.message));
 
-  const response = await page.goto(`${base}${route === '/' ? '' : route}`, { waitUntil: 'networkidle' });
+  const response = await page.goto(`${base}${route === '/' ? '' : route}`, { waitUntil: 'load' });
+  await page.evaluate(() => document.fonts?.ready);
   ok(response?.status() === 200, `${label}: HTTP 200`, String(response?.status()));
   ok(await page.locator('h1').count() === 1, `${label}: exactly one h1`);
   const skipLink = page.locator('.skip-link');
@@ -830,136 +309,15 @@ try {
     { name: 'mobile-390', width: 390, height: 844 },
     { name: 'mobile-320', width: 320, height: 720 },
   ]) {
-    const context = await browser.newContext({ viewport });
+    const context = await browser.newContext({ viewport, reducedMotion: 'reduce' });
     const page = await context.newPage();
     await auditPage(page, '/', viewport.name);
-    ok(await page.locator('#work').count() === 1, `${viewport.name}: work section exists`);
-    ok(await page.locator('#work .building-card').count() === 2, `${viewport.name}: two featured public engineering cards`);
-    const motifKinds = await page.locator('#work [data-evidence-motif]').evaluateAll((motifs) =>
-      motifs.map((motif) => motif.getAttribute('data-evidence-motif')),
-    );
-    ok(
-      motifKinds.join('|') === 'guarded-readback|guarded-mutation',
-      `${viewport.name}: selected work uses evidence-derived static motifs`,
-      motifKinds.join('|'),
-    );
-    ok(await page.locator('a[href="https://github.com/dbett4"]').count() >= 1, `${viewport.name}: GitHub profile is linked`);
-    const body = await page.locator('body').innerText();
-    ok(body.includes('publication dates'), `${viewport.name}: publication provenance visible`);
-    ok(!body.includes('459 Python'), `${viewport.name}: stale Wingman count absent`);
-    const coverKicker = await page.locator('.cover-kicker').textContent();
-    ok(
-      coverKicker?.trim() === 'Forward-deployed engineering · Agent systems',
-      `${viewport.name}: homepage kicker identifies the forward-deployed engineering lane`,
-      String(coverKicker),
-    );
-    ok(
-      ((await page.locator('#thesis-heading').textContent()) ?? '').replace(/\s+/g, '') === 'DaveBettner',
-      `${viewport.name}: H1 is Dave Bettner's identity`,
-    );
-    const coverRole = ((await page.locator('.cover-role').textContent()) ?? '').trim();
-    const provenance = ((await page.locator('.provenance-note').textContent()) ?? '').trim();
-    ok(
-      coverRole === 'I lead customer-facing technical delivery, with ten years of enterprise implementation. My hands-on agent engineering is newer and public.' &&
-        (await page.locator('.cover-support').count()) === 0,
-      `${viewport.name}: hero separates ten years of implementation from newer public agent engineering`,
-      coverRole,
-    );
-    ok(
-      /labs and sanitized extracts/i.test(provenance) &&
-        /production-engineering tenure/.test(provenance) &&
-        /Nous\/Hermes Enterprise affiliation/.test(provenance),
-      `${viewport.name}: homepage provenance keeps lab and affiliation boundaries`,
-      provenance,
-    );
-    ok(
-      body.toLowerCase().includes('finance and assurance'),
-      `${viewport.name}: domain depth names finance and assurance without making it the whole identity`,
-    );
-    const closingTitle = ((await page.locator('#contact-heading').textContent()) ?? '').trim();
-    ok(
-      closingTitle === 'Let’s talk about the customer environment.',
-      `${viewport.name}: closing CTA stays specific and keeps consulting secondary`,
-      closingTitle,
-    );
-    ok(body.includes('Hermes Deployment Lab'), `${viewport.name}: features Hermes Deployment Lab`);
-    ok(body.includes('Regulated Reporting MCP'), `${viewport.name}: features Regulated Reporting MCP`);
-    ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
-    ok(body.includes('Hermes Enterprise Evaluation Kit'), `${viewport.name}: features Hermes Enterprise Evaluation Kit`);
-    ok(!body.includes('Financial reporting QA with readback'), `${viewport.name}: Wingman is not featured on homepage`);
-    ok(!body.includes('Fieldguide'), `${viewport.name}: Fieldguide string absent`);
-    ok(!body.includes('Nous Research'), `${viewport.name}: Nous Research string absent`);
-    ok(!body.includes('I am an auditor'), `${viewport.name}: auditor identity claim absent`);
-    ok(!body.includes('Chief of Staff'), `${viewport.name}: Chief of Staff targeting absent`);
-    ok(!body.includes('strategic operations'), `${viewport.name}: strategic operations targeting absent`);
-    ok(!body.includes('Remote-friendly'), `${viewport.name}: Remote-friendly targeting absent`);
-    const sectionOrder = await page.evaluate(() => {
-      const ids = ['proof', 'work', 'about', 'contact'];
-      return ids.map((id) => {
-        const el = document.getElementById(id);
-        return { id, top: el ? el.getBoundingClientRect().top + window.scrollY : Number.POSITIVE_INFINITY };
-      });
-    });
-    ok(
-      sectionOrder.every((section, index) => index === 0 || sectionOrder[index - 1].top < section.top),
-      `${viewport.name}: homepage order is outcomes → engineering → synthesis → CTA`,
-      JSON.stringify(sectionOrder),
-    );
-    const coverActions = await page.locator('.cover-actions a').evaluateAll((links) =>
-      links.map((link) => ({
-        text: (link.textContent ?? '').replace(/\s+/g, ' ').trim(),
-        href: link.getAttribute('href'),
-      })),
-    );
-    ok(
-      coverActions.some((link) => link.href?.startsWith('mailto:') && link.text.includes('Start a conversation')),
-      `${viewport.name}: primary CTA includes Start a conversation`,
-      JSON.stringify(coverActions),
-    );
-    ok(
-      coverActions.some((link) => link.href === '/dave-bettner-resume.pdf' && link.text.includes('Résumé')),
-      `${viewport.name}: primary CTA includes Résumé`,
-      JSON.stringify(coverActions),
-    );
-    ok(
-      !coverActions.some((link) => link.href === '/experience/'),
-      `${viewport.name}: cover CTA avoids duplicating Experience navigation`,
-      JSON.stringify(coverActions),
-    );
-    ok(
-      !coverActions.some((link) => link.href === '#work'),
-      `${viewport.name}: cover CTA leaves proof discovery to the page flow`,
-      JSON.stringify(coverActions),
-    );
-    ok(
-      !coverActions.some((link) => link.href === '/fit/'),
-      `${viewport.name}: cover actions do not duplicate the adjacent first-90-days page`,
-      JSON.stringify(coverActions),
-    );
-    const buildingCardOrder = await page.locator('.building-card').evaluateAll((cards) =>
-      cards.map((card) => card.id),
-    );
-    ok(
-      buildingCardOrder.join(',') ===
-        'agent-orchestration,regulated-reporting-mcp',
-      `${viewport.name}: building-card order is agent orchestration → MCP`,
-      buildingCardOrder.join(','),
-    );
-    await assertCausalDeliveryLoopContracts(page, viewport.name);
+    await assertHomepageContentContracts(page, viewport.name);
     await assertHomepageResponsiveContracts(page, viewport);
     await page.evaluate(async () => {
-      if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
-      await Promise.all(
-        Array.from(document.images, (image) =>
-          typeof image.decode === 'function' ? image.decode().catch(() => undefined) : Promise.resolve(),
-        ),
-      );
-      const list = document.querySelector('.building-list');
-      if (list instanceof HTMLElement) list.scrollLeft = 0;
+      await Promise.all(Array.from(document.images, (image) => typeof image.decode === 'function' ? image.decode().catch(() => undefined) : Promise.resolve()));
       window.scrollTo(0, 0);
-      for (let i = 0; i < 4; i += 1) {
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-      }
+      await new Promise((resolve) => requestAnimationFrame(resolve));
     });
     await page.screenshot({ path: `${out}/${viewport.name}.png`, fullPage: true });
     await context.close();
@@ -984,10 +342,16 @@ try {
     'Homepage primary navigation has an accurate accessible label',
     String(primaryNavLabel),
   );
+  const profileActions = await profilePage.locator('.cover-actions a').evaluateAll((links) =>
+    links.map((link) => ({ text: (link.textContent ?? '').trim(), href: link.getAttribute('href') })),
+  );
   ok(
-    (await profilePage.locator('.cover-actions-primary a[href^="mailto:"]').count()) === 1 &&
-      (await profilePage.locator('.cover-actions-primary a[download]').count()) === 1,
-    'Homepage profile has one conversation action and one résumé action',
+    JSON.stringify(profileActions) === JSON.stringify([
+      { text: 'View work', href: '/work/' },
+      { text: 'Read experience', href: '/experience/' },
+    ]),
+    'Homepage profile has the approved work and experience actions',
+    JSON.stringify(profileActions),
   );
 
   await profilePage.waitForFunction((expectedWidth) => {
@@ -1051,7 +415,7 @@ try {
         portraitContract.backdrop.display === 'none' &&
         portraitContract.legacyPlate?.before === 'none' &&
         portraitContract.legacyPlate?.after === 'none' &&
-        portraitContract.primaryCanvasCount <= 1 &&
+        (portraitContract.primaryCanvasCount == null || portraitContract.primaryCanvasCount <= 1) &&
         portraitContract.effectsReady === 'true'
     ),
     'Homepage renders the approved source-preserving navy-tie cutout directly over the event horizon without legacy plate effects or a processing canvas',
@@ -1148,13 +512,13 @@ try {
   ok(metadata.canonical === 'https://davebettner.com/', 'Homepage canonical URL', String(metadata.canonical));
   ok(
     metadata.description ===
-      'Dave Bettner brings ten years of customer implementation experience and newer, public hands-on agent engineering to forward-deployed technical work.',
-    'Homepage meta description matches the approved implementation-to-agent-engineering bridge',
+      'Dave Bettner works with customers on the messy part of implementation: turning an unclear workflow into a system people can use and trust. Ten years in reporting, assurance, healthcare, and integration systems, with newer public agent engineering work published for inspection.',
+    'Homepage meta description matches the approved customer-delivery positioning',
     String(metadata.description),
   );
   ok(
-    metadata.ogTitle === 'Dave Bettner | Forward-Deployed Engineering · Agent Systems',
-    'Homepage Open Graph title matches the approved FDE positioning',
+    metadata.ogTitle === 'Dave Bettner | Customer-facing technical delivery',
+    'Homepage Open Graph title matches the approved positioning',
     String(metadata.ogTitle),
   );
   ok(
@@ -1203,6 +567,25 @@ try {
   } catch (error) {
     ok(false, 'JSON-LD parses', error.message);
   }
+
+  await page.goto(`${base}/work/`, { waitUntil: 'networkidle' });
+  const workFlagships = await page.locator('.flagship').evaluateAll((items) => items.map((item) => ({
+    id: item.id,
+    artifact: item.querySelector('.flagship-art a')?.getAttribute('href') ?? '',
+    title: item.querySelector('h2')?.textContent?.trim() ?? '',
+    terms: [...item.querySelectorAll('dt')].map((node) => node.textContent?.trim()),
+  })));
+  ok(
+    JSON.stringify(workFlagships.map(({ id, artifact }) => ({ id, artifact }))) === JSON.stringify([
+      { id: 'hermes-deployment-lab', artifact: '/mockup-artifacts/deployment-recovery-receipt.svg' },
+      { id: 'regulated-reporting-mcp', artifact: '/mockup-artifacts/regulated-reporting-contract.svg' },
+    ]),
+    'Work flagships map artifacts by stable case id',
+    JSON.stringify(workFlagships),
+  );
+  ok(workFlagships.every((item) => item.terms.join('|') === 'Problem|What I built|Evidence|Limit'), 'Work flagships expose problem, build, evidence, and limit', JSON.stringify(workFlagships));
+  ok((await page.locator('.quiet-index .index-row').count()) === 4, 'Work keeps four supporting cases in the quiet ruled index');
+  ok((await page.locator('.evidence-boundary').count()) === 1, 'Work has one page-level evidence boundary');
 
   for (const project of projects) {
     const route = `/work/${project.slug}/`;
@@ -1256,23 +639,11 @@ try {
   await page.goto(`${base}/experience/`, { waitUntil: 'networkidle' });
   ok((await page.locator('ol.timeline').count()) === 1, 'Experience keeps dated timeline ordered list');
   ok((await page.locator('ol.timeline li').count()) >= 1, 'Experience timeline has dated entries');
+  ok((await page.locator('.career-rail').count()) === 1, 'Experience has one recruiter-scan career chronology rail');
+  ok((await page.locator('.career-rail span').count()) === 5, 'Experience chronology rail has five dated stops');
+  ok((await page.locator('.evidence-boundary').count()) === 1, 'Experience has one page-level evidence boundary');
   const experienceText = await page.locator('main').innerText();
-  for (const marker of [
-    'since 2015',
-    'Senior Manager · LSL, LLP',
-    'Manager of Digital Services · Citrin Cooperman',
-    'Solutions Architect · Workiva',
-    'Solutions Consultant · Ambra Health',
-    'SEC Reporting Consultant · Workiva',
-    'Chicago, then Des Moines',
-    'proposals',
-    'SOW',
-    'RFP',
-    'on-site demos',
-    'pitch presentations',
-    'HIPAA',
-    'EHR',
-  ]) {
+  for (const marker of ['2015–21', 'Workiva', 'Ambra Health', 'Citrin Cooperman', 'LSL', 'The agent work is newer.']) {
     ok(experienceText.includes(marker), `Experience contains ${marker}`);
   }
   ok(!experienceText.includes('Remote'), 'Experience omits Remote labels');
@@ -1284,12 +655,15 @@ try {
   await page.goto(`${base}/about/`, { waitUntil: 'networkidle' });
   const aboutText = await page.locator('main').innerText();
   ok(!aboutText.includes('My career has moved from accounting'), 'About omits accountant-first career framing');
+  ok((await page.locator('.field-note').count()) === 1, 'About has one grounded field note');
+  ok(((await page.locator('.field-note').textContent()) ?? '').includes('reporting platform and the system of record'), 'About field note names the real handoff lesson');
+  ok(!aboutText.includes('Des Moines'), 'About does not promote location');
   const aboutLower = aboutText.toLowerCase();
   ok(
-    aboutLower.includes('des moines') &&
-      aboutLower.includes('customer teams') &&
-      aboutLower.includes('outside the résumé'),
-    'About adds location, personal working context, and a public-building throughline',
+    aboutLower.includes('customer') &&
+      aboutLower.includes('reporting platform') &&
+      aboutLower.includes('outside client work'),
+    'About adds personal working context and a public-building throughline',
   );
   ok((await page.locator('.principles-section').count()) === 0, 'About does not duplicate the deployment method');
   const aboutParagraphs = aboutText.split(/\n+/).map((line) => line.trim()).filter(Boolean);
@@ -1301,10 +675,15 @@ try {
   await page.goto(`${base}/fit/`, { waitUntil: 'networkidle' });
   const fitSurface = await page.evaluate(() => ({
     heading: document.querySelector('h1')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
-    lead: document.querySelector('.fit-lead')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
-    phases: [...document.querySelectorAll('.ninety-plan > li')].map((item) => ({
-      range: item.querySelector('.ninety-plan-mark')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
-      title: item.querySelector('strong')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
+    lead: document.querySelector('.lead')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
+    phases: [...document.querySelectorAll('.field-plan ol > li')].map((item) => ({
+      number: item.querySelector('.step-meta b')?.textContent?.trim() ?? '',
+      range: [...(item.querySelector('.step-meta')?.childNodes ?? [])]
+        .filter((node) => node.nodeType === Node.TEXT_NODE)
+        .map((node) => node.textContent?.trim() ?? '')
+        .filter(Boolean)
+        .join(' '),
+      title: item.querySelector('h2')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
       detail: item.querySelector('p')?.textContent?.replace(/\s+/g, ' ').trim() ?? '',
     })),
     related: [...document.querySelectorAll('.page-links a')].map((link) => ({
@@ -1314,36 +693,36 @@ try {
     description: document.querySelector('meta[name="description"]')?.getAttribute('content') ?? '',
     robots: document.querySelector('meta[name="robots"]')?.getAttribute('content') ?? '',
   }));
-  ok(fitSurface.heading === 'How I would lead my first 90 days as an FDE.', 'First 90 days page has the approved heading', fitSurface.heading);
-  ok(fitSurface.phases.length === 4, 'First 90 days page has four dated phases', String(fitSurface.phases.length));
+  ok(fitSurface.heading === 'How I would start with a new customer.', 'Field approach page has the approved heading', fitSurface.heading);
+  ok(fitSurface.phases.length === 4, 'Field approach page has four dated phases', String(fitSurface.phases.length));
+  ok(fitSurface.phases.map((phase) => phase.number).join('|') === '01|02|03|04', 'Field approach has the approved 01–04 progression', fitSurface.phases.map((phase) => phase.number).join('|'));
   ok(
     fitSurface.phases.map((phase) => phase.range).join('|') === 'Weeks 1–2|Weeks 3–6|Weeks 6–10|Weeks 10–13',
-    'First 90 days phases retain their chronological ranges',
+    'Field approach phases retain their chronological ranges',
     fitSurface.phases.map((phase) => phase.range).join('|'),
   );
   ok(
-    fitSurface.lead.includes('customer environment') &&
-      fitSurface.lead.includes('one measurable workflow') &&
-      fitSurface.lead.includes('first deployment') &&
+    fitSurface.lead.includes('watch the customer') &&
+      fitSurface.lead.includes('one workflow') &&
       fitSurface.lead.includes('product feedback'),
-    'First 90 days lead states the deployment method owned by this route',
+    'Field approach lead states the deployment method owned by this route',
     fitSurface.lead,
   );
   const phaseText = fitSurface.phases.map((phase) => `${phase.title} ${phase.detail}`).join(' ');
-  for (const marker of ['Choose the first problem', 'Own the first deployment', 'Lead through failure', 'Make the next deployment easier']) {
-    ok(phaseText.includes(marker), `First 90 days plan includes ${marker}`);
+  for (const marker of ['Choose the first problem', 'Build one path end to end', 'Learn from the breakage', 'Make the next one easier']) {
+    ok(phaseText.includes(marker), `Field approach plan includes ${marker}`);
   }
   for (const route of ['/about/', '/experience/', '/work/']) {
-    ok(fitSurface.related.some((link) => link.href === route), `First 90 days page links to ${route}`);
+    ok(fitSurface.related.some((link) => link.href === route), `Field approach page links to ${route}`);
   }
-  ok(fitSurface.related.some((link) => link.href.startsWith('mailto:')), 'First 90 days page includes a conversation action');
-  ok(fitSurface.robots.includes('index'), 'First 90 days page is indexable', fitSurface.robots);
-  ok(!fitSurface.description.includes('Chief of Staff'), 'First 90 days meta omits Chief of Staff');
-  ok(!fitSurface.description.includes('strategic operations'), 'First 90 days meta omits strategic operations');
+  ok(fitSurface.related.some((link) => link.href.startsWith('mailto:')), 'Field approach page includes a conversation action');
+  ok(fitSurface.robots.includes('index'), 'Field approach page is indexable', fitSurface.robots);
+  ok(!fitSurface.description.includes('Chief of Staff'), 'Field approach meta omits Chief of Staff');
+  ok(!fitSurface.description.includes('strategic operations'), 'Field approach meta omits strategic operations');
   ok(
     fitSurface.description ===
-      'Dave Bettner’s first-90-days approach to discovery, a bounded deployment, failure decisions, and reusable product feedback.',
-    'First 90 days meta describes the current static page',
+      "Dave Bettner's field approach: how he would start with a new customer, from choosing the first problem through making the next deployment easier.",
+    'Field approach meta describes the current static page',
     fitSurface.description,
   );
 
@@ -1368,5 +747,6 @@ try {
   await stopPreview(preview);
 }
 
-console.log(JSON.stringify({ pass: errors.length === 0, count: checks.length, checks, errors }, null, 2));
+const failed = checks.filter((check) => !check.pass);
+console.log(JSON.stringify({ pass: errors.length === 0, count: checks.length, failed, errors }, null, 2));
 if (errors.length) process.exit(1);

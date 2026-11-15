@@ -1321,7 +1321,7 @@ const featuredProjects = buildingNow.featuredProjects;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: clamp(56px, 8vh, 108px) 0 28px;
+    padding: clamp(56px, 8vh, 108px) clamp(0px, 4vw, 56px) 28px 0;
   }
 
   .cover-kicker {
@@ -1348,7 +1348,7 @@ const featuredProjects = buildingNow.featuredProjects;
   }
 
   .cover-role {
-    max-width: 28ch;
+    max-width: 11ch;
     margin: clamp(36px, 5vh, 64px) 0 0;
     font-family: 'Archivo Variable', sans-serif;
     font-size: clamp(1.28rem, 2.2vw, 2.1rem);
@@ -1358,7 +1358,7 @@ const featuredProjects = buildingNow.featuredProjects;
   }
 
   .cover-support {
-    max-width: 46ch;
+    max-width: 28ch;
     margin: 18px 0 0;
     color: #b9b8b1;
     font-size: clamp(0.9rem, 1.2vw, 1rem);
@@ -1717,4 +1717,5 @@ const featuredProjects = buildingNow.featuredProjects;
 
 <style is:global>
   @import url('/styles/premium-profile-correction.css');
+
 </style>

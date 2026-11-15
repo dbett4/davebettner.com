@@ -1,0 +1,220 @@
+{
+  "schema": "vision_review_packet.v1",
+  "generatedAt": "2026-09-07T04:20:05.302Z",
+  "revision": "4072c2b0aa4089b671dbe22c1a0b22b05baad952",
+  "branch": "davebettner-com/t_a81b80f3-canonical-implement-person-first-portfol",
+  "worktree": "/srv/hermes/work/davebettner.com/.worktrees/t_a81b80f3",
+  "route": "/",
+  "visualSystem": "The Working Record",
+  "unpublished": true,
+  "mechanical": {
+    "pass": true,
+    "results": [
+      {
+        "name": "width-320",
+        "width": 320,
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      },
+      {
+        "name": "width-360",
+        "width": 360,
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      },
+      {
+        "name": "width-390",
+        "width": 390,
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      },
+      {
+        "name": "width-414",
+        "width": 414,
+        "scrollWidth": 414,
+        "clientWidth": 414,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      },
+      {
+        "name": "width-768",
+        "width": 768,
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      },
+      {
+        "name": "width-1024",
+        "width": 1024,
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      },
+      {
+        "name": "width-1440",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      },
+      {
+        "name": "reduced-motion-390",
+        "width": 390,
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      },
+      {
+        "name": "javascript-disabled-390",
+        "width": 390,
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      },
+      {
+        "name": "text-spacing-390",
+        "width": 390,
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      },
+      {
+        "name": "zoom-200-percent-768",
+        "width": 768,
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "h1": 1,
+        "sourcePortraits": 1,
+        "canvases": 0,
+        "primaryLabel": "View selected work",
+        "primaryHref": "/work/",
+        "details": 1,
+        "ready": "complete",
+        "noHorizontalOverflow": true
+      }
+    ],
+    "failures": []
+  },
+  "screenshots": [
+    {
+      "name": "desktop-fold-1440x900.png",
+      "path": "/srv/hermes/work/davebettner.com/.worktrees/t_a81b80f3/handoff/working-record/4072c2b0aa4089b671dbe22c1a0b22b05baad952/desktop-fold-1440x900.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "reducedMotion": true,
+      "bytes": 303885,
+      "sha256": "bfa41c25e27f3b68180c64d8023e9efadfe650c4b0310694a5358c72077b1599"
+    },
+    {
+      "name": "desktop-full-1440x900.png",
+      "path": "/srv/hermes/work/davebettner.com/.worktrees/t_a81b80f3/handoff/working-record/4072c2b0aa4089b671dbe22c1a0b22b05baad952/desktop-full-1440x900.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": true,
+      "reducedMotion": true,
+      "bytes": 546858,
+      "sha256": "0bb158cdafcdd0c007c8dff23f973f187def2f7c98c2ebaab1b3db1fdc6c57f0"
+    },
+    {
+      "name": "mobile-fold-390x844.png",
+      "path": "/srv/hermes/work/davebettner.com/.worktrees/t_a81b80f3/handoff/working-record/4072c2b0aa4089b671dbe22c1a0b22b05baad952/mobile-fold-390x844.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "reducedMotion": true,
+      "bytes": 148372,
+      "sha256": "bf2bc677bfa69a810504fe06ee977f8d3a7875c2be61c8fbb25cc59900a38b0f"
+    },
+    {
+      "name": "mobile-full-390x844.png",
+      "path": "/srv/hermes/work/davebettner.com/.worktrees/t_a81b80f3/handoff/working-record/4072c2b0aa4089b671dbe22c1a0b22b05baad952/mobile-full-390x844.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": true,
+      "reducedMotion": true,
+      "bytes": 393901,
+      "sha256": "a63559e76765df8f33e3883957b97468ad2c484afca9bf71ba98feb26af34c3f"
+    }
+  ]
+}

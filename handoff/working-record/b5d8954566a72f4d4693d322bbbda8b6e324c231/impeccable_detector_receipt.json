@@ -1,0 +1,21 @@
+{
+  "schema": "impeccable_detector_receipt.v1",
+  "revision": "b5d8954566a72f4d4693d322bbbda8b6e324c231",
+  "runs": 1,
+  "command": "node /srv/hermes/.hermes/profiles/brand-web/skills/impeccable/scripts/detect.mjs --json src/pages/index.astro src/pages/work/index.astro src/pages/work/[slug].astro src/pages/experience/index.astro src/pages/about/index.astro src/pages/fit/index.astro src/pages/404.astro src/components/Masthead.astro src/components/Footer.astro public/styles/working-record.css",
+  "exitCode": 2,
+  "findings": [
+    {
+      "type": "mechanical",
+      "description": "Colored side borders in the deep case route.",
+      "resolution": "Replaced with restrained top rules before the final candidate commit."
+    },
+    {
+      "type": "advisory",
+      "description": "Flat type hierarchy warning in the deep case route.",
+      "resolution": "Reviewed as non-material. The deep route inherits the centralized Working Record editorial scale and uses local labels for evidence tables and incident records."
+    }
+  ],
+  "rerun": false,
+  "rerunReason": "The task required one detector run at finish and prohibited detector looping. Mechanical findings were fixed directly, then the canonical test/check/build gates and exact-revision visual capture passed."
+}

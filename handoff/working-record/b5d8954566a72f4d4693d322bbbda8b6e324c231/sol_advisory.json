@@ -1,0 +1,19 @@
+{
+  "schema": "sol_visual_advisory.v1",
+  "revision": "b5d8954566a72f4d4693d322bbbda8b6e324c231",
+  "model": "openai-codex:gpt-5.6-sol",
+  "status": "NEEDS_REVIEW",
+  "reason": "The approved Claude Sonnet 4.6 route was unavailable because its login was expired. These findings are a coordinator advisory and are not counted as the required independent judgment.",
+  "materialDefects": [],
+  "advisories": [
+    "Desktop and mobile secondary text links should remain at least 44 px high in the rendered interaction box; the automated site verifier covers this requirement.",
+    "The supplied portrait reads as a deliberate editorial frame on both viewports and remains byte-unchanged."
+  ],
+  "viewportFindings": {
+    "desktopFold1440x900": "No material defect after the skip-link offset repair. Dave, role, primary action, quiet resume/email actions, and natural portrait are visible with clear hierarchy.",
+    "desktopFull1440x900": "No material defect. Three experience rows, two selected cases, method line, hiring close, and footer scan coherently without visible overflow.",
+    "mobileFold390x844": "No material defect. Menu, first-person headline, primary action, quiet links, and portrait frame remain legible without clipping or horizontal overflow.",
+    "mobileFull390x844": "No material defect. Section rhythm, rules, line lengths, hiring close, and footer remain coherent through the full page."
+  },
+  "recommendedDisposition": "Proceed to the pre-created brand-verifier child for independent review of the exact packet."
+}

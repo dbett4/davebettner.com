@@ -1,0 +1,43 @@
+{
+  "schema": "working_record_verification_receipt.v1",
+  "revision": "b5d8954566a72f4d4693d322bbbda8b6e324c231",
+  "branch": "davebettner-com/t_a81b80f3-canonical-implement-person-first-portfol",
+  "verifiedAt": "2026-09-06T23:29:05-05:00",
+  "unpublished": true,
+  "gates": [
+    {
+      "command": "npm run test",
+      "status": "pass",
+      "scope": "resume and OG reproducibility, Astro check/build, browser audit, audit regressions, deploy preflight"
+    },
+    {
+      "command": "npm run check",
+      "status": "pass"
+    },
+    {
+      "command": "npm run build",
+      "status": "pass"
+    },
+    {
+      "command": "node scripts/capture-working-record-review.mjs --revision b5d8954566a72f4d4693d322bbbda8b6e324c231",
+      "status": "pass",
+      "scope": "320, 360, 390, 414, 768, 1024, and 1440 px widths; reduced motion; JavaScript disabled; text spacing; 200 percent zoom; desktop/mobile fold and full-page captures"
+    }
+  ],
+  "visualConfirmation": {
+    "rounds": 2,
+    "firstRoundDefect": "The hidden skip link remained partially visible because its transform did not clear the 72 px offset.",
+    "fixCommit": "b5d8954566a72f4d4693d322bbbda8b6e324c231",
+    "confirmation": "No material defects found in desktop/mobile fold and full-page captures. This is coordinator confirmation, not a substitute for the requested independent Claude review."
+  },
+  "portrait": {
+    "path": "public/images/dave-bettner-headshot-20260816-cutout.png",
+    "sha256": "b34ff1a55c4025f92593a8e2c6685f64dc2ba117604aaa0b1efbb52abb2fd102",
+    "diffAgainstOriginMainMergeBase": "none"
+  },
+  "detector": {
+    "runs": 1,
+    "result": "findings",
+    "disposition": "The mechanical side-border findings were removed. The remaining flat-type-hierarchy warning was reviewed as non-material because the page stylesheet intentionally defines a complete editorial scale. The detector was not looped."
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "approved_vision_route_receipt.v1",
+  "revision": "b5d8954566a72f4d4693d322bbbda8b6e324c231",
+  "attemptedAt": "2026-09-06T23:29:05-05:00",
+  "preferredRoute": "Claude Code / claude-sonnet-4-6 / read-only",
+  "status": "unavailable",
+  "reason": "Claude Code reported an expired login for dbett4@gmail.com and refused the read-only review invocation.",
+  "fallbackUsedAsIndependentJudgment": false,
+  "fallbackReason": "No different vision model was substituted as the independent judge because Dave has not approved a fallback.",
+  "reviewPacket": "vision_review_packet.json",
+  "reviewPrompt": "claude_visual_review_prompt.md",
+  "nextAuthorizedStep": "The pre-created brand-verifier child can evaluate the exact-revision packet, or Dave can authorize a different independent vision route."
+}

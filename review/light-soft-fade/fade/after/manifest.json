@@ -1,0 +1,170 @@
+{
+  "phase": "after",
+  "base": "http://127.0.0.1:42835",
+  "dist": "/srv/hermes/work/davebettner.com-animation-integration-20260912/dist",
+  "records": [
+    {
+      "width": 1440,
+      "height": 900,
+      "scene": {
+        "x": 692.671875,
+        "y": 122,
+        "width": 617.328125,
+        "height": 660
+      },
+      "image": {
+        "x": 692.6640625,
+        "y": 143.3359375,
+        "width": 617.328125,
+        "height": 617.328125
+      },
+      "media": {
+        "x": 692.6640625,
+        "y": 143.3359375,
+        "width": 617.328125,
+        "height": 617.328125
+      },
+      "sceneMask": "none",
+      "mediaMask": "none",
+      "imageLoaded": true,
+      "overflow": false,
+      "background": "rgb(230, 235, 240)",
+      "scheme": "light"
+    },
+    {
+      "width": 768,
+      "height": 900,
+      "scene": {
+        "x": 24,
+        "y": 260.0625,
+        "width": 720,
+        "height": 640
+      },
+      "image": {
+        "x": 54,
+        "y": 250.0625,
+        "width": 660,
+        "height": 660
+      },
+      "media": {
+        "x": 54,
+        "y": 250.0625,
+        "width": 660,
+        "height": 660
+      },
+      "sceneMask": "none",
+      "mediaMask": "none",
+      "imageLoaded": true,
+      "overflow": false,
+      "background": "rgb(230, 235, 240)",
+      "scheme": "light"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "scene": {
+        "x": 16,
+        "y": 454.34375,
+        "width": 358,
+        "height": 390
+      },
+      "image": {
+        "x": 16,
+        "y": 470.34375,
+        "width": 358,
+        "height": 358
+      },
+      "media": {
+        "x": 16,
+        "y": 470.34375,
+        "width": 358,
+        "height": 358
+      },
+      "sceneMask": "none",
+      "mediaMask": "none",
+      "imageLoaded": true,
+      "overflow": false,
+      "background": "rgb(230, 235, 240)",
+      "scheme": "light"
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "scene": {
+        "x": 16,
+        "y": 524.34375,
+        "width": 288,
+        "height": 320
+      },
+      "image": {
+        "x": 16,
+        "y": 540.34375,
+        "width": 288,
+        "height": 288
+      },
+      "media": {
+        "x": 16,
+        "y": 540.34375,
+        "width": 288,
+        "height": 288
+      },
+      "sceneMask": "none",
+      "mediaMask": "none",
+      "imageLoaded": true,
+      "overflow": false,
+      "background": "rgb(230, 235, 240)",
+      "scheme": "light"
+    }
+  ],
+  "errors": [],
+  "files": [
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/homepage-1440x900.png",
+      "sha256": "a0a47654b3168d01710e3ffe92312972f844663311fac4f6d48ee4e94d5b027a"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/scene-1440x900.png",
+      "sha256": "f9790798839a9b4654d70b7f0733f0f824c59da5ec84847041163b32aa51ddbd"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/scene-unmasked-1440x900.png",
+      "sha256": "f9790798839a9b4654d70b7f0733f0f824c59da5ec84847041163b32aa51ddbd"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/homepage-768x900.png",
+      "sha256": "2a69d1db0c837bb7e1a619fe8a59d4cc6c3c3dbb63454cb16fb016d8bcb817d0"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/scene-768x900.png",
+      "sha256": "20a2cd1cfce989d5d0d7ac8d23617bcea18a9adecfc9f3907cb9e3c2cf411612"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/scene-unmasked-768x900.png",
+      "sha256": "20a2cd1cfce989d5d0d7ac8d23617bcea18a9adecfc9f3907cb9e3c2cf411612"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/homepage-390x844.png",
+      "sha256": "69c13c3c031fb0f2028333ca39dcd5753738a3fc065503c6f64351ecf3a53f7e"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/scene-390x844.png",
+      "sha256": "e8b501969981c69bafe4b7d27d5c96c30e71eb875cd90b1ee081e8a14d46b8d4"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/scene-unmasked-390x844.png",
+      "sha256": "e8b501969981c69bafe4b7d27d5c96c30e71eb875cd90b1ee081e8a14d46b8d4"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/homepage-320x844.png",
+      "sha256": "c49575c3780d19193c64eac1dca54b44561b766cb13b367c24df5b970a35da93"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/scene-320x844.png",
+      "sha256": "95442ec5b4d7e8fd0ca6a3acc0b5869aa9dd34557c62428464ded5cdf7600dd2"
+    },
+    {
+      "path": "/srv/hermes/work/davebettner.com-animation-integration-20260912/review/light-soft-fade/fade/after/scene-unmasked-320x844.png",
+      "sha256": "95442ec5b4d7e8fd0ca6a3acc0b5869aa9dd34557c62428464ded5cdf7600dd2"
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 <div class="workstation-unit" data-workstation>
   <div class="workstation-media">
     <img class="scene-render" src="/images/workstation-seated-poster.webp" alt="Dave seated at his dual-monitor desk, using a mouse beside a light spreadsheet and a dark coding-agent workspace, with his dog resting on the rug." width="1000" height="1000" fetchpriority="high" decoding="async" />
-    <video class="workstation-video" data-src="/video/workstation-seated.mp4" muted playsinline preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
+    <video class="workstation-video" data-src="/video/workstation-seated.mp4" muted playsinline loop preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
+    <button class="motion-control" type="button" aria-label="Play workstation animation" data-motion-control>Play</button>
   </div>
 </div>
 <style>
@@ -10,52 +11,113 @@
   .scene-render { display: block; width: 100%; height: auto; }
   .workstation-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; visibility: hidden; pointer-events: none; }
   [data-video-visible='true'] .workstation-video { visibility: visible; }
+  .motion-control { display: none; position: absolute; right: 12px; bottom: 12px; z-index: 2; border: 1px solid rgba(34, 43, 49, .2); border-radius: 999px; padding: 7px 11px; color: #26333a; background: rgba(246, 248, 248, .88); font: 600 12px/1 system-ui, sans-serif; cursor: pointer; opacity: .78; backdrop-filter: blur(7px); }
+  .motion-js-ready .motion-control { display: block; }
+  .motion-js-ready .motion-control[hidden] { display: none; }
+  .motion-control:hover, .motion-control:focus-visible { opacity: 1; }
+  [data-motion-active='false'] .motion-control { opacity: .62; }
 
 </style>
 <script>
-  // One quiet sequence under five seconds; no controls or looping.
-  // Play this finite sequence regardless of the OS motion preference.
-  // No video is requested until the scene is visible.
-  // The matching poster remains underneath during loading, errors and JS failure.
+  // The poster is the reduced-motion/default fallback. Motion is requested only
+  // when visible; the explicit control is the opt-in route for reduced motion.
   document.querySelectorAll<HTMLElement>('[data-workstation]').forEach(root => {
     if (root.dataset.motionInitialized) return;
     root.dataset.motionInitialized = 'true';
     const video = root.querySelector<HTMLVideoElement>('video')!;
+    const control = root.querySelector<HTMLButtonElement>('[data-motion-control]')!;
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    let visible = false, complete = false, failed = false, attempting = false;
+    let visible = false, failed = false, optedIn = false, userPaused = false;
+    let playBlocked = false, hasDisplayedFrame = false;
+    let pending: { interrupted: boolean } | null = null;
+    let frameRequest: number | null = null;
+    root.classList.add('motion-js-ready');
     video.muted = true;
-    const allowed = () => visible && !document.hidden && !failed;
+    const wantsPlayback = () => visible && !document.hidden && !failed && !playBlocked && !userPaused && (!preference.matches || optedIn);
     const ui = () => {
-      const active = !video.paused && allowed() && !complete;
-      root.dataset.motionActive = String(active);
-      root.dataset.motionComplete = String(complete);
-
+      const playing = !video.paused && wantsPlayback();
+      // Pause also cancels a requested start while the browser is buffering.
+      const canPause = wantsPlayback() && (pending !== null || !video.paused);
+      root.dataset.motionActive = String(playing);
+      control.textContent = canPause ? 'Pause' : 'Play';
+      control.setAttribute('aria-label', canPause ? 'Pause workstation animation' : 'Play workstation animation');
+      control.hidden = failed;
+    };
+    const fail = () => {
+      failed = true;
+      hasDisplayedFrame = false;
+      if (frameRequest !== null) video.cancelVideoFrameCallback(frameRequest);
+      frameRequest = null;
+      root.dataset.videoVisible = 'false';
+      video.pause();
+      ui();
     };
     const sync = () => {
-
-      if (!allowed() || complete) { video.pause(); ui(); return; }
+      if (!wantsPlayback()) {
+        if (pending) pending.interrupted = true;
+        video.pause();
+        ui();
+        return;
+      }
       if (!video.src) video.src = video.dataset.src!;
-      if (attempting || !video.paused) { ui(); return; }
-      attempting = true;
+      if (pending || !video.paused) { ui(); return; }
+      const attempt = { interrupted: false };
+      pending = attempt;
+      ui();
       video.play().then(() => {
-        // A viewport or page-visibility change may race play().
-        if (!allowed() || complete) video.pause();
+        if (!wantsPlayback()) video.pause();
       }).catch(error => {
-        if (error.name !== 'AbortError') { failed = true; root.dataset.videoVisible = 'false'; }
-      }).finally(() => { attempting = false; ui(); });
+        // Autoplay refusal still leaves a usable explicit Play control. An
+        // unexpected abort likewise waits for user intent instead of spinning.
+        if (error.name === 'NotAllowedError' || (error.name === 'AbortError' && !attempt.interrupted)) playBlocked = true;
+        else if (error.name !== 'AbortError') fail();
+      }).finally(() => {
+        pending = null;
+        // Reconcile after both resolve and abort: viewport re-entry while a
+        // previous start was pending must not strand the video in Pause.
+        sync();
+      });
     };
+    // `play` can fire before a background tab has decoded any data. Guard that
+    // transition too, rather than waiting for `playing` or the play promise.
+    video.addEventListener('play', sync);
     video.addEventListener('playing', () => {
-      if (!allowed() || complete) { video.pause(); return; }
-      root.dataset.videoVisible = 'true'; ui();
+      if (!wantsPlayback()) { video.pause(); ui(); return; }
+      if (!hasDisplayedFrame && frameRequest === null) {
+        const revealFrame = () => {
+          frameRequest = null;
+          if (failed) return;
+          hasDisplayedFrame = true;
+          root.dataset.videoVisible = 'true';
+        };
+        if (typeof video.requestVideoFrameCallback === 'function') frameRequest = video.requestVideoFrameCallback(revealFrame);
+        else if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) revealFrame();
+      }
+      ui();
     });
-    video.addEventListener('pause', ui);
-    video.addEventListener('ended', () => { complete = true; ui(); });
-    video.addEventListener('error', () => { failed = true; root.dataset.videoVisible = 'false'; video.pause(); ui(); });
-    const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, {threshold: .05});
+    video.addEventListener('pause', () => {
+      // Once displayed, a paused frame remains visible above the fallback.
+      // Receiving a src or loadeddata alone is not proof of a displayed frame.
+      ui();
+    });
+    video.addEventListener('error', fail);
+    control.addEventListener('click', () => {
+      if (wantsPlayback() && (pending !== null || !video.paused)) userPaused = true;
+      else { optedIn = true; userPaused = false; playBlocked = false; }
+      sync();
+    });
+    const observer = new IntersectionObserver(entries => {
+      const entry = entries[entries.length - 1];
+      visible = entry.isIntersecting && entry.intersectionRatio >= .05;
+      sync();
+    }, {threshold: .05});
     observer.observe(root);
 
     document.addEventListener('visibilitychange', sync);
-    root.dataset.motionComplete = 'false';
+    preference.addEventListener('change', sync);
+    root.dataset.motionActive = 'false';
+    root.dataset.videoVisible = 'false';
     sync();
   });
 </script>

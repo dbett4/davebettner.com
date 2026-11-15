@@ -1,0 +1,63 @@
+{
+  "pass": true,
+  "protectedPoints": [
+    [
+      "dog face",
+      741,
+      656
+    ],
+    [
+      "dog ear",
+      712,
+      666
+    ],
+    [
+      "dog back",
+      665,
+      699
+    ],
+    [
+      "dog paws",
+      775,
+      790
+    ],
+    [
+      "dog tail",
+      625,
+      642
+    ],
+    [
+      "desk",
+      646,
+      394
+    ],
+    [
+      "chair",
+      378,
+      478
+    ]
+  ],
+  "featheredPixels": 168691,
+  "rendered": [
+    {
+      "width": 1440,
+      "completeRug": true,
+      "noRectangularMask": true
+    },
+    {
+      "width": 768,
+      "completeRug": true,
+      "noRectangularMask": true
+    },
+    {
+      "width": 390,
+      "completeRug": true,
+      "noRectangularMask": true
+    },
+    {
+      "width": 320,
+      "completeRug": true,
+      "noRectangularMask": true
+    }
+  ]
+}

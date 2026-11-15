@@ -1,0 +1,188 @@
+{
+  "kind": "technical-encoding-and-playback",
+  "base": "http://127.0.0.1:42835",
+  "noClaim": "Does not establish dog likeness, grounded movement, circle/curl choreography, human gestures, scenery fidelity, visual seam quality, or release approval.",
+  "checks": [
+    "Browser decodes the complete 1000-square composition",
+    "Browser reports the actual finite media duration without imposing the retired five-second timeline",
+    "Muted inline looping video plays at native speed without cropping or opacity changes",
+    "Controlled looping has one explicit playback control",
+    "The current component requests the intended workstation asset",
+    "The exact browser media URL serves successfully",
+    "Served video bytes match the integration asset",
+    "Media contains one video stream and no audio or additional streams",
+    "Media uses browser-compatible H.264 and yuv420p",
+    "Encoded dimensions and duration agree with native browser decoding",
+    "FFprobe counts an actual decoded multi-frame sequence and frame rate",
+    "Decoded frame count covers the reported duration",
+    "The entire served MP4 decodes without errors",
+    "MP4 metadata precedes media data for fast-start playback",
+    "The poster URL serves successfully",
+    "Served poster bytes match the integration asset",
+    "Poster dimensions match the video composition",
+    "1440px: video and loaded poster share uncropped geometry without page overflow",
+    "1440px: decoded video completes three full natural cycles at native rate with no pause/end events",
+    "768px: video and loaded poster share uncropped geometry without page overflow",
+    "390px: video and loaded poster share uncropped geometry without page overflow",
+    "390px: decoded video completes three full natural cycles at native rate with no pause/end events",
+    "320px: video and loaded poster share uncropped geometry without page overflow",
+    "No browser script errors"
+  ],
+  "errors": [],
+  "viewports": [
+    {
+      "width": 1440,
+      "geometry": {
+        "overflow": false,
+        "posterLoaded": true,
+        "aligned": true,
+        "fit": "contain"
+      },
+      "cycles": {
+        "wraps": [
+          {
+            "from": 4.75,
+            "to": 0,
+            "wallTimeMs": 4957.4
+          },
+          {
+            "from": 4.75,
+            "to": 0,
+            "wallTimeMs": 9790.5
+          },
+          {
+            "from": 4.75,
+            "to": 0,
+            "wallTimeMs": 14607
+          },
+          {
+            "from": 4.75,
+            "to": 0,
+            "wallTimeMs": 19440.1
+          }
+        ],
+        "sampledFrames": 430,
+        "maxFrameGapMs": 100,
+        "pauses": 0,
+        "endedEvents": 0,
+        "qualityBefore": {
+          "totalVideoFrames": 34,
+          "droppedVideoFrames": 0,
+          "corruptedVideoFrames": 0
+        },
+        "qualityAfter": {
+          "totalVideoFrames": 464,
+          "droppedVideoFrames": 0,
+          "corruptedVideoFrames": 0
+        },
+        "paused": false,
+        "rate": 1,
+        "currentTime": 0.004694
+      }
+    },
+    {
+      "width": 768,
+      "geometry": {
+        "overflow": false,
+        "posterLoaded": true,
+        "aligned": true,
+        "fit": "contain"
+      }
+    },
+    {
+      "width": 390,
+      "geometry": {
+        "overflow": false,
+        "posterLoaded": true,
+        "aligned": true,
+        "fit": "contain"
+      },
+      "cycles": {
+        "wraps": [
+          {
+            "from": 4.75,
+            "to": 0,
+            "wallTimeMs": 24256.5
+          },
+          {
+            "from": 4.75,
+            "to": 0,
+            "wallTimeMs": 29089.7
+          },
+          {
+            "from": 4.75,
+            "to": 0,
+            "wallTimeMs": 33906.2
+          },
+          {
+            "from": 4.75,
+            "to": 0,
+            "wallTimeMs": 38722.7
+          }
+        ],
+        "sampledFrames": 455,
+        "maxFrameGapMs": 100,
+        "pauses": 0,
+        "endedEvents": 0,
+        "qualityBefore": {
+          "totalVideoFrames": 470,
+          "droppedVideoFrames": 0,
+          "corruptedVideoFrames": 0
+        },
+        "qualityAfter": {
+          "totalVideoFrames": 924,
+          "droppedVideoFrames": 0,
+          "corruptedVideoFrames": 0
+        },
+        "paused": false,
+        "rate": 1,
+        "currentTime": 0.000434
+      }
+    },
+    {
+      "width": 320,
+      "geometry": {
+        "overflow": false,
+        "posterLoaded": true,
+        "aligned": true,
+        "fit": "contain"
+      }
+    }
+  ],
+  "browser": "151.0.7922.71",
+  "browserMetadata": {
+    "width": 1000,
+    "height": 1000,
+    "duration": 4.791667,
+    "muted": true,
+    "inline": true,
+    "loop": true,
+    "source": "http://127.0.0.1:42835/video/workstation-seated.mp4",
+    "rate": 1,
+    "fit": "contain",
+    "opacity": "1"
+  },
+  "mediaSha256": "41aa7b7923b5b698d0223dc09b3c475d176741ce93ad820098b76255ca2604b8",
+  "encoding": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1000,
+        "height": 1000,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "24/1",
+        "avg_frame_rate": "24/1",
+        "duration": "4.791667",
+        "nb_read_frames": "115"
+      }
+    ],
+    "format": {
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "duration": "4.791667"
+    }
+  },
+  "posterSha256": "35b0718c2407453c3a52734f2309b7476bd1feba59b2f3de3e55fadac41ad196",
+  "passed": true
+}

@@ -1,0 +1,355 @@
+[
+  {
+    "name": "visible-scroll-and-keyboard",
+    "passed": true,
+    "state": {
+      "paused": false,
+      "time": 1.590234,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Pause",
+      "buttonLabel": "Pause workstation animation",
+      "buttonHidden": false,
+      "active": "true",
+      "ratio": 1
+    }
+  },
+  {
+    "name": "five-percent-threshold",
+    "passed": true,
+    "state": {
+      "paused": true,
+      "time": 0.854863,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Play",
+      "buttonLabel": "Play workstation animation",
+      "buttonHidden": false,
+      "active": "false",
+      "ratio": 0.0490234375
+    }
+  },
+  {
+    "name": "native-tab-hidden-resume",
+    "passed": true,
+    "state": {
+      "paused": false,
+      "time": 0.707647,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Pause",
+      "buttonLabel": "Pause workstation animation",
+      "buttonHidden": false,
+      "active": "true",
+      "ratio": 1
+    },
+    "evidence": {
+      "background": {
+        "paused": true,
+        "time": 0.600113,
+        "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+        "readyState": 4,
+        "hidden": true,
+        "videoVisible": "visible",
+        "posterLoaded": true,
+        "buttonText": "Play",
+        "buttonLabel": "Play workstation animation",
+        "buttonHidden": false,
+        "active": "false",
+        "ratio": 1
+      },
+      "foreground": {
+        "paused": false,
+        "time": 0.705463,
+        "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+        "readyState": 4,
+        "hidden": false,
+        "videoVisible": "visible",
+        "posterLoaded": true,
+        "buttonText": "Pause",
+        "buttonLabel": "Pause workstation animation",
+        "buttonHidden": false,
+        "active": "true",
+        "ratio": 1
+      }
+    }
+  },
+  {
+    "name": "explicit-pause-survives-automatic-changes",
+    "passed": true,
+    "state": {
+      "paused": true,
+      "time": 0.72519,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Play",
+      "buttonLabel": "Play workstation animation",
+      "buttonHidden": false,
+      "active": "false",
+      "ratio": 1
+    }
+  },
+  {
+    "name": "reduced-motion-default-and-opt-in",
+    "passed": true,
+    "state": {
+      "paused": true,
+      "time": 0.348217,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Play",
+      "buttonLabel": "Play workstation animation",
+      "buttonHidden": false,
+      "active": "false",
+      "ratio": 1
+    }
+  },
+  {
+    "name": "live-preference-without-opt-in",
+    "passed": true,
+    "state": {
+      "paused": false,
+      "time": 0.707768,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Pause",
+      "buttonLabel": "Pause workstation animation",
+      "buttonHidden": false,
+      "active": "true",
+      "ratio": 1
+    }
+  },
+  {
+    "name": "pending-abort-rapid-reentry",
+    "passed": true,
+    "state": {
+      "paused": false,
+      "time": 0.088238,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Pause",
+      "buttonLabel": "Pause workstation animation",
+      "buttonHidden": false,
+      "active": "true",
+      "ratio": 1,
+      "probe": {
+        "calls": 2
+      }
+    }
+  },
+  {
+    "name": "pending-resolution-after-explicit-pause",
+    "passed": true,
+    "state": {
+      "paused": true,
+      "time": 0,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "hidden",
+      "posterLoaded": true,
+      "buttonText": "Play",
+      "buttonLabel": "Play workstation animation",
+      "buttonHidden": false,
+      "active": "false",
+      "ratio": 1,
+      "probe": {
+        "calls": 1
+      }
+    }
+  },
+  {
+    "name": "pending-resolution-after-hide",
+    "passed": true,
+    "state": {
+      "paused": false,
+      "time": 0.172606,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Pause",
+      "buttonLabel": "Pause workstation animation",
+      "buttonHidden": false,
+      "active": "true",
+      "ratio": 1,
+      "probe": {
+        "calls": 2
+      }
+    }
+  },
+  {
+    "name": "pending-resolution-after-tab-hidden",
+    "passed": true,
+    "state": {
+      "paused": false,
+      "time": 0.093811,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Pause",
+      "buttonLabel": "Pause workstation animation",
+      "buttonHidden": false,
+      "active": "true",
+      "ratio": 1,
+      "probe": {
+        "calls": 2
+      }
+    },
+    "evidence": {
+      "background": {
+        "paused": true,
+        "time": 0,
+        "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+        "readyState": 0,
+        "hidden": true,
+        "videoVisible": "hidden",
+        "posterLoaded": true,
+        "buttonText": "Play",
+        "buttonLabel": "Play workstation animation",
+        "buttonHidden": false,
+        "active": "false",
+        "ratio": 1,
+        "probe": {
+          "calls": 1
+        }
+      },
+      "foreground": {
+        "paused": false,
+        "time": 0.090782,
+        "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+        "readyState": 4,
+        "hidden": false,
+        "videoVisible": "visible",
+        "posterLoaded": true,
+        "buttonText": "Pause",
+        "buttonLabel": "Pause workstation animation",
+        "buttonHidden": false,
+        "active": "true",
+        "ratio": 1,
+        "probe": {
+          "calls": 2
+        }
+      }
+    }
+  },
+  {
+    "name": "pending-abort-preference-reentry",
+    "passed": true,
+    "state": {
+      "paused": false,
+      "time": 0.087033,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Pause",
+      "buttonLabel": "Pause workstation animation",
+      "buttonHidden": false,
+      "active": "true",
+      "ratio": 1,
+      "probe": {
+        "calls": 2
+      }
+    }
+  },
+  {
+    "name": "autoplay-refusal-can-retry-explicitly",
+    "passed": true,
+    "state": {
+      "paused": false,
+      "time": 0.08778,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Pause",
+      "buttonLabel": "Pause workstation animation",
+      "buttonHidden": false,
+      "active": "true",
+      "ratio": 1,
+      "probe": {
+        "calls": 2
+      }
+    }
+  },
+  {
+    "name": "mobile-reduced-motion-keyboard",
+    "passed": true,
+    "state": {
+      "paused": true,
+      "time": 0.084577,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 4,
+      "hidden": false,
+      "videoVisible": "visible",
+      "posterLoaded": true,
+      "buttonText": "Play",
+      "buttonLabel": "Play workstation animation",
+      "buttonHidden": false,
+      "active": "false",
+      "ratio": 1
+    }
+  },
+  {
+    "name": "javascript-disabled-poster",
+    "passed": true,
+    "state": {
+      "paused": true,
+      "time": 0,
+      "source": "",
+      "readyState": 0,
+      "hidden": false,
+      "videoVisible": "hidden",
+      "posterLoaded": true,
+      "buttonText": "Play",
+      "buttonLabel": "Play workstation animation",
+      "buttonHidden": true,
+      "ratio": 0.6965544871794872
+    }
+  },
+  {
+    "name": "media-error-poster",
+    "passed": true,
+    "state": {
+      "paused": true,
+      "time": 0,
+      "source": "http://127.0.0.1:4396/video/workstation-seated.mp4",
+      "readyState": 0,
+      "hidden": false,
+      "videoVisible": "hidden",
+      "posterLoaded": true,
+      "buttonText": "Play",
+      "buttonLabel": "Play workstation animation",
+      "buttonHidden": true,
+      "active": "false",
+      "ratio": 1
+    }
+  }
+]

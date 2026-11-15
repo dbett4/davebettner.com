@@ -23,9 +23,9 @@ const serverExit = new Promise(resolveExit => {
   server.once('exit', resolveExit);
   server.once('error', resolveExit);
 });
-const run = (command, args) => new Promise((resolveRun, reject) => {
+const run = (command, args, env = {}) => new Promise((resolveRun, reject) => {
   console.log(`BROWSER_SUITE ${args.join(' ')}`);
-  const child = spawn(command, args, { stdio: 'inherit', env: { ...process.env, SITE_URL: base } });
+  const child = spawn(command, args, { stdio: 'inherit', env: { ...process.env, ...env, SITE_URL: base } });
   child.once('error', reject);
   child.once('exit', (code, signal) => code === 0 ? resolveRun() : reject(new Error(`${args.join(' ')} failed: code=${code} signal=${signal}`)));
 });
@@ -45,6 +45,15 @@ try {
   await run(testPython, ['scripts/verify-ramp-profile.py']);
   await run(process.execPath, ['scripts/verify-avatar-fade.mjs']);
   await run(process.execPath, ['scripts/verify-workstation-video.mjs']);
+  // Native hidden-tab checks require headed Chrome; use a private X display
+  // when running on the VPS or CI without an existing display.
+  const playbackEnv = { PLAYBACK_OUTPUT: process.env.PLAYBACK_OUTPUT || 'review/animation-release/playback' };
+  if (process.env.DISPLAY) {
+    await run(process.execPath, ['scripts/workstation-playback.test.mjs'], playbackEnv);
+  } else {
+    await run('xvfb-run', ['-a', process.execPath, 'scripts/workstation-playback.test.mjs'], playbackEnv);
+  }
+  // These tests establish technical behavior; final animation approval is separate.
   await run(process.execPath, ['scripts/verify-theme.mjs']);
   await run(process.execPath, ['scripts/verify-visitor-journey.mjs']);
   await run(process.execPath, ['scripts/capture-soft-fade.mjs']);

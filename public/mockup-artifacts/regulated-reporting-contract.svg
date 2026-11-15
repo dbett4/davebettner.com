@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">Regulated Reporting MCP guarded contract evidence</title><desc id="desc">A truthful public evidence artifact showing a guarded default surface, confirmation before write, readback, redacted receipt, and credential-free offline proof.</desc>
+<rect width="1200" height="760" fill="#08090b"/><rect x="36" y="34" width="1128" height="692" fill="#101114" stroke="#34353a" stroke-width="2"/>
+<text x="72" y="84" fill="#ff810a" font-family="DM Mono,monospace" font-size="18" letter-spacing="3">PUBLIC SYNTHETIC / GUARDED MCP CONTRACT</text>
+<text x="72" y="130" fill="#f2eadf" font-family="Archivo,Arial,sans-serif" font-size="42" font-weight="700">Accepted is not applied.</text>
+<text x="72" y="164" fill="#b9b2aa" font-family="DM Mono,monospace" font-size="16">Regulated Reporting MCP · local contract and offline proof</text>
+<line x1="72" y1="194" x2="1128" y2="194" stroke="#34353a"/>
+<g font-family="DM Mono,monospace" font-size="16">
+<text x="84" y="238" fill="#73bfc4">01  GUARDED DEFAULT</text><text x="84" y="269" fill="#f2eadf">Three safe tools exposed by default.</text><text x="84" y="296" fill="#b9b2aa">The full 117-tool registry requires explicit unsafe opt-in.</text>
+<text x="84" y="354" fill="#8da0ce">02  CONFIRM BEFORE WRITE</text><text x="84" y="385" fill="#f2eadf">Mutation request → confirmation gate → write.</text><text x="84" y="412" fill="#b9b2aa">A local write receipt is not treated as remote verification.</text>
+<text x="84" y="470" fill="#ff810a">03  READBACK + RECEIPT</text><text x="84" y="501" fill="#f2eadf">Read the result back; keep the receipt redacted.</text><text x="84" y="528" fill="#b9b2aa">Uncertain formula results remain indeterminate, not guessed.</text>
+<text x="84" y="586" fill="#73bfc4">04  CREDENTIAL-FREE PROOF</text><text x="84" y="617" fill="#f2eadf">126 credential-free tests · 117 registered contracts</text><text x="84" y="644" fill="#b9b2aa">Offline end-to-end demo runs without credentials.</text>
+</g>
+<rect x="820" y="222" width="292" height="220" fill="#08090b" stroke="#8da0ce" stroke-width="2"/><text x="850" y="262" fill="#8da0ce" font-family="DM Mono,monospace" font-size="15">REDACTED RECEIPT</text><text x="850" y="306" fill="#f2eadf" font-family="DM Mono,monospace" font-size="17">confirm  required</text><text x="850" y="344" fill="#f2eadf" font-family="DM Mono,monospace" font-size="17">readback  required</text><text x="850" y="382" fill="#ff810a" font-family="DM Mono,monospace" font-size="17">secrets   [redacted]</text><text x="850" y="420" fill="#b9b2aa" font-family="DM Mono,monospace" font-size="14">offline boundary preserved</text>
+<text x="72" y="690" fill="#b9b2aa" font-family="DM Mono,monospace" font-size="14">BOUNDARY · Synthetic/local lab only; no remote verification or customer tenant is implied. No credentials appear in proof.</text>
+</svg>

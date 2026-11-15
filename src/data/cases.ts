@@ -30,9 +30,9 @@ export const cases = [
   {
     id: 'agent-operating-system',
     eyebrow: 'Architecture · Agent operating system',
-    title: 'Design the system around the agent',
+    title: 'How I structure agent work',
     summary:
-      'A plain-language view of the system around AI-assisted enterprise work: context, coordination, bounded tools, recovery, proof, and accountable human judgment.',
+      'An architecture map for the parts around the model: context, tools, authority, recovery, verification, and the human decision at the end.',
     meta: 'Context · tools · authority · proof',
     size: 'large',
     visual: 'flow',
@@ -59,9 +59,9 @@ export const cases = [
   {
     id: 'hermes-deployment-lab',
     eyebrow: 'Failure recovery · Hermes Deployment Lab',
-    title: 'Scope tools, separate approval, survive post-commit failure',
+    title: 'Recover when the write succeeds but the response fails',
     summary:
-      'Synthetic lab for the hard case: an agent can touch an internal system. Scope the tools, keep operator approval separate, force the ugly post-commit error, and resume without double-writing.',
+      'A synthetic lab that recreates a post-commit failure and resumes without writing twice. The first write still waits for a separate operator grant.',
     meta: 'Scoped tools · operator gate · idempotent resume',
     size: 'small',
     visual: 'rings',
@@ -90,9 +90,9 @@ export const cases = [
   {
     id: 'dedup-readback-bridge',
     eyebrow: 'Pipeline economics · Dedup Read-Back Bridge',
-    title: 'Keep recurring agent work from running twice',
+    title: 'Stop recurring agent jobs from sending the same work twice',
     summary:
-      'A small Python bridge for recurring LLM and agent pipelines. It remembers what has already been sent, skips runs with no new items, handles concurrent submissions, and records each run for later review.',
+      'A small Python library that remembers what a pipeline has already sent, skips empty runs, handles concurrent submissions, and records the result.',
     meta: 'Deduplication · atomic reservation · readback',
     size: 'large',
     visual: 'difference',
@@ -119,9 +119,9 @@ export const cases = [
   {
     id: 'regulated-reporting-mcp',
     eyebrow: 'Guarded integration · Regulated Reporting MCP',
-    title: 'Accepted is not applied; applied is not verified',
+    title: 'A reporting MCP with three guarded tools by default',
     summary:
-      'Guarded reporting MCP where writes need confirmation, results are read back, and receipts stay redacted. Default surface is three safe tools; the full catalog stays behind an explicit unsafe opt-in.',
+      'Writes require confirmation and a readback. Receipts stay redacted, and the full tool catalog stays behind an explicit switch.',
     meta: 'Confirm-before-write · readback · offline demo',
     size: 'large',
     visual: 'flow',
@@ -149,9 +149,9 @@ export const cases = [
   {
     id: 'hermes-field-kit',
     eyebrow: 'Evaluation · Hermes Enterprise Evaluation Kit',
-    title: 'Govern Hermes with policy, checks, and human review gates',
+    title: 'Test a Hermes job without pretending the script approved it',
     summary:
-      'Version-pinned kit that turns a plain-language job into a policy-bounded Hermes run, independent checks, and a receipt — without letting a green script invent human approval.',
+      'A version-pinned evaluation kit with policy packs, independent checks, negative tests, and receipts that keep weak evidence labeled weak.',
     meta: 'Policy packs · human gates · offline proof',
     size: 'small',
     visual: 'rings',
@@ -179,9 +179,9 @@ export const cases = [
   {
     id: 'wingman',
     eyebrow: 'Readback + restore · Confirm-before-write quality',
-    title: 'Chrome extension + local service with readback and restore on mismatch',
+    title: 'Spreadsheet QA that reads back every fix',
     summary:
-      'Wingman finds spreadsheet defects that survive export, explains each issue, and applies only changes it can check, reverse, and read back.',
+      'Wingman finds formula and link defects, explains them, and only applies changes it can check and reverse.',
     meta: 'Chrome extension · local service · confirm-before-write · restore',
     size: 'small',
     visual: 'difference',

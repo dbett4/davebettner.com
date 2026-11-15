@@ -80,7 +80,7 @@ const browser = await chromium.launch({
 
 const buildingRoles = [
   'Scope · gate · review',
-  'Guarded integration',
+  'Dedup · spend · proof',
 ];
 
 const caseEyebrows = {
@@ -238,7 +238,7 @@ async function assertCausalDeliveryLoopContracts(page, name) {
   }
   for (const marker of [
     'The Hermes Deployment Lab scopes tools',
-    'MCP server for a Workiva-shaped reporting API',
+    'A small Python bridge for recurring LLM and agent pipelines',
   ]) {
     ok(body.includes(marker), `${name}: public proof problem statement retained (${marker})`);
   }
@@ -750,6 +750,11 @@ async function auditPage(page, route, label) {
       `${label}: Interstellar is the only public theme stylesheet`,
       themeLinks.join(', '),
     );
+    const pageHtml = await page.content();
+    ok(
+      !pageHtml.includes('premium-profile-correction') && !pageHtml.includes('editorial-paper-system'),
+      `${label}: no obsolete editorial-paper theme (link or @import) leaks into the page`,
+    );
     const interstellarPalette = await page.evaluate(() => {
       const root = getComputedStyle(document.documentElement);
       const body = getComputedStyle(document.body);
@@ -839,7 +844,7 @@ try {
       motifs.map((motif) => motif.getAttribute('data-evidence-motif')),
     );
     ok(
-      motifKinds.join('|') === 'guarded-readback|guarded-mutation',
+      motifKinds.join('|') === 'guarded-readback|guarded-readback',
       `${viewport.name}: selected work uses evidence-derived static motifs`,
       motifKinds.join('|'),
     );
@@ -883,7 +888,7 @@ try {
       closingTitle,
     );
     ok(body.includes('Hermes Deployment Lab'), `${viewport.name}: features Hermes Deployment Lab`);
-    ok(body.includes('Regulated Reporting MCP'), `${viewport.name}: features Regulated Reporting MCP`);
+    ok(body.includes('Dedup Read-Back Bridge'), `${viewport.name}: features Dedup Read-Back Bridge`);
     ok(body.includes('/work/') || (await page.locator('a[href="/work/"]').count()) >= 1, `${viewport.name}: links remaining work to /work/`);
     ok(body.includes('Hermes Enterprise Evaluation Kit'), `${viewport.name}: features Hermes Enterprise Evaluation Kit`);
     ok(!body.includes('Financial reporting QA with readback'), `${viewport.name}: Wingman is not featured on homepage`);
@@ -941,8 +946,8 @@ try {
     );
     ok(
       buildingCardOrder.join(',') ===
-        'agent-orchestration,regulated-reporting-mcp',
-      `${viewport.name}: building-card order is agent orchestration → MCP`,
+        'agent-orchestration,dedup-readback-bridge',
+      `${viewport.name}: building-card order is agent orchestration → dedup readback`,
       buildingCardOrder.join(','),
     );
     await assertCausalDeliveryLoopContracts(page, viewport.name);

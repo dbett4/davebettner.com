@@ -1,0 +1,46 @@
+{
+  "capture_route": "local-playwright",
+  "captures": [
+    {
+      "bytes": 1323181,
+      "media_type": "image/png",
+      "path": "/srv/hermes/work/davebettner.com-next-idea-001/.impeccable/review/desktop.png",
+      "sha256": "30a99263ffbb59107e41c4793d09c3527059b7fd35272b17c3020ff032f3e4e1"
+    },
+    {
+      "bytes": 695965,
+      "media_type": "image/png",
+      "path": "/srv/hermes/work/davebettner.com-next-idea-001/.impeccable/review/mobile.png",
+      "sha256": "fc0ebd64d9f32e52bba87cd67ec2eb13fdd05b76db48adfcf3c3bb493f724481"
+    }
+  ],
+  "deterministic_evidence": {
+    "deterministic": {
+      "bytes": 777,
+      "media_type": "application/json",
+      "path": "/srv/hermes/work/davebettner.com-next-idea-001/.impeccable/review/deterministic-evidence.json",
+      "sha256": "b8a8ec123e9c1da436d08590d018dfe6682ff2cd67e5d1928f2f16dc933b6b03"
+    }
+  },
+  "generated_at": "2026-08-21T15:49:26Z",
+  "required_visual_claims": [
+    "The first viewport makes customer work first and public engineering secondary proof legible",
+    "Two flagship proof bands dominate; the remaining cases form a quiet readable index",
+    "The route remains responsive, noindex, and isolated from public navigation"
+  ],
+  "schema_version": "1.0",
+  "scope": "Unlinked customer-work-first information-architecture mockup",
+  "source_revision": "40cebe4f1462bead6b5d60b25c291ff697277bbf; review/customer-work-first-20260821",
+  "status": "verified",
+  "surface": "browser-rendered-ui",
+  "viewport": "1440x1000 and 390x844",
+  "visual_adjudication": {
+    "reviewed_at": "2026-08-21T15:48:58Z",
+    "reviewer": "Independent multimodal visual reviewer (vision_analyze)",
+    "reviewer_runtime": "sol",
+    "source_path": "/srv/hermes/work/davebettner.com-next-idea-001/.impeccable/review/adjudication.json",
+    "source_sha256": "57c93e43fd0ef153632569668373f19cac448d9e348d94b639f53f7cc1972e81",
+    "summary": "The customer-work-first mockup is visually coherent at desktop and mobile widths. The first viewport states the new hierarchy clearly, the delivery record anchors the story in customer work, two flagship proof bands carry the main narrative, and the quiet index is subordinate and readable. Typography, contrast, spacing, wrapping, and rules remain consistent with the Interstellar system. No clipping, document overflow, console errors, page errors, or failed requests were found.",
+    "verdict": "verified"
+  }
+}

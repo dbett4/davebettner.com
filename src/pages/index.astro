@@ -10,6 +10,7 @@ import {
   buildingNow,
   closingCta,
   homeSynthesis,
+
   selectedProof,
   thesis,
 } from '../data/homepage-framing';
@@ -151,6 +152,7 @@ const featuredProjects = buildingNow.featuredProjects;
           </div>
         </div>
       </section>
+
 
       <section id="work" class="work-section" aria-labelledby="work-heading">
         <div class="wrap section-pad">
@@ -1082,6 +1084,10 @@ const featuredProjects = buildingNow.featuredProjects;
       max-height: 76px;
     }
 
+    .building-role {
+      display: none;
+    }
+
     .repo-slug {
       display: none;
     }
@@ -1694,8 +1700,7 @@ const featuredProjects = buildingNow.featuredProjects;
     body .work-section {
       overflow-x: clip;
     }
-  }
-  }
+
 </style>
 
 <style is:global>

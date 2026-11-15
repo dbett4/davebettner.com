@@ -131,16 +131,12 @@ try {
     }
   }
 
-  await page.goto(`${base}/mockups/`, { waitUntil: 'networkidle' });
-  const mockupLinks = await page.locator('li a[href^="/"]').evaluateAll((links) =>
-    [...new Set(links.map((link) => link.getAttribute('href')).filter(Boolean))],
-  );
-  const brokenMockupLinks = [];
-  for (const href of mockupLinks) {
-    const response = await page.request.get(`${base}${href}`);
-    if (response.status() >= 400) brokenMockupLinks.push(`${href}:${response.status()}`);
+  const mockupIndexResponse = await page.request.get(`${base}/mockups/`, { maxRedirects: 0 });
+  check(mockupIndexResponse.status() === 404, 'Retired mockup index returns 404', String(mockupIndexResponse.status()));
+  for (const retired of ['/mockups/mts-wire/', '/mockups/mts-broadcast/', '/mockups/rig-inspiration/']) {
+    const response = await page.request.get(`${base}${retired}`, { maxRedirects: 0 });
+    check(response.status() === 404, `Retired ${retired} returns 404`, String(response.status()));
   }
-  check(brokenMockupLinks.length === 0, 'Mockup index links resolve', brokenMockupLinks.join(', '));
 
   console.log(JSON.stringify({ pass: true, count: checks.length, checks }, null, 2));
 } catch (error) {

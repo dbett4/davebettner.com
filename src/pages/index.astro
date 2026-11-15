@@ -1015,31 +1015,25 @@ const featuredProjects = buildingNow.featuredProjects;
       display: contents;
     }
 
-    .cover-identity {
-      order: 1;
-      margin-bottom: 0;
-    }
-
-    .cover-identity img {
-      width: 72px;
-      height: 72px;
+    .cover-kicker {
+      order: 0;
+      margin-bottom: var(--space-2);
     }
 
     .cover h1 {
-      order: 2;
+      order: 1;
       max-width: 18ch;
       font-size: clamp(1.7rem, 7.5vw, 2.15rem);
     }
 
-    .cover-support {
-      order: 3;
+    .cover-role {
+      order: 2;
       margin-top: var(--space-2);
-      font-size: 0.92rem;
     }
 
     .cover-actions {
-      order: 4;
-      margin-top: var(--space-2);
+      order: 3;
+      margin-top: var(--space-3);
     }
 
     .cover-specimen {
@@ -1057,6 +1051,7 @@ const featuredProjects = buildingNow.featuredProjects;
 
     .cover-actions-primary .round {
       width: 100%;
+      white-space: nowrap;
     }
 
 
@@ -1696,8 +1691,4 @@ const featuredProjects = buildingNow.featuredProjects;
     }
   }
   }
-</style>
-
-<style is:global>
-  @import url('/styles/premium-profile-correction.css');
 </style>

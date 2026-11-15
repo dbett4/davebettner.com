@@ -15,7 +15,7 @@ export const personSchema = {
   '@type': 'Person',
   name: 'Dave Bettner',
   url: `${siteUrl}/`,
-  image: `${siteUrl}/images/dave-bettner-headshot-20260808-square.jpg`,
+  image: `${siteUrl}/images/dave-bettner-headshot-portrait.webp`,
   description:
     'Forward-deployed delivery and solutions engineering leader focused on complex workflows and inspectable AI-agent engineering work.',
   jobTitle: 'Senior Manager',

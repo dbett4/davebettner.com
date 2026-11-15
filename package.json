@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro check && astro build",
+    "dev": "astro dev --host 127.0.0.1 --port 4325",
+    "build": "npm run check && astro build",
     "preview": "astro preview",
-    "check": "astro check",
+    "check": "astro check && npm run lint",
+    "lint": "oxlint .",
     "test": "npm run generate-resume && npm run generate-og && node scripts/verify-resume-reproducibility.mjs && node scripts/verify-og-reproducibility.mjs && npm run build && node scripts/verify-site.mjs && node scripts/verify-audit-regressions.mjs && bash scripts/test-deploy-preflight.sh prepush",
     "generate-resume": "node scripts/generate-resume-pdf.mjs",
     "generate-og": "node scripts/generate-og-image.mjs",
@@ -23,6 +24,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.6",
+    "@oxlint/plugins": "^1.78.0",
+    "oxlint": "^1.78.0",
     "playwright-core": "^1.62.1",
     "typescript": "5.9.3",
     "wrangler": "4.120.0"

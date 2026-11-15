@@ -10,7 +10,7 @@ import { githubUrl } from '../../data/site-links';
 const canonical = `${siteUrl}/work/`;
 const title = 'Work | Dave Bettner — Forward-Deployed Delivery and Agent Systems';
 const description =
-  'Public labs and case studies from Dave Bettner on enterprise deployment recovery, guarded API tools, and customer workflow quality.';
+  'Four public labs from Dave Bettner testing scoped tools, human approval, verified writes, and recovery after failure. Synthetic data, not client systems.';
 ---
 
 <!doctype html>
@@ -44,11 +44,11 @@ const description =
     <main id="main">
       <section class="work-cover">
         <div class="wrap content-page">
-          <p class="eyebrow mono">Public engineering proof</p>
-          <h1>Four public repos. Each page says what the tests actually prove.</h1>
+          <h1>Enterprise agents need more than a successful demo.</h1>
           <p class="lead">
-            Deployment recovery, guarded API tools, evaluation, and confirm-before-write quality.
-            Each plate links to the repo, the proof, and the stated limits.
+            These public labs test the controls an agent needs before it can act on an enterprise
+            system. They limit its tools, keep approval with a person, check writes, recover from
+            failure, and record what remains unproven. They use synthetic data, not client systems.
           </p>
         </div>
       </section>
@@ -56,8 +56,7 @@ const description =
       <section class="work-section" aria-labelledby="plates-heading">
         <div class="wrap content-page">
           <div class="section-head">
-            <p class="eyebrow mono">Evidence plates · {String(cases.length).padStart(2, '0')}</p>
-            <h2 id="plates-heading">Systems built for the hard parts.</h2>
+            <h2 id="plates-heading">Four labs</h2>
           </div>
           <ul class="work-list">
             {cases.map((item, index) => (
@@ -76,7 +75,7 @@ const description =
                     <span class="work-boundary"><strong>Boundary:</strong> {item.boundary}</span>
                     <span class="work-footer">
                       <span class="work-repo mono">{item.repoUrl.replace('https://github.com/', '')}</span>
-                      <span class="work-open mono">Open case →</span>
+                      <span class="work-open mono">Open lab →</span>
                     </span>
                   </span>
                 </a>
@@ -88,7 +87,7 @@ const description =
 
           <nav class="page-links" aria-label="Related pages">
             <a href="/">Home</a>
-            <a href="/about/">About Dave Bettner</a>
+            <a href="/about/">About</a>
             <a href="/experience/">Experience</a>
             <a href={githubUrl} rel="me">GitHub <span aria-hidden="true">↗</span></a>
           </nav>

@@ -22,7 +22,7 @@ const localPort = await new Promise((resolvePort, reject) => {
   server.once('error', reject);
   server.listen(0, '127.0.0.1', () => {
     const address = server.address();
-    const port = typeof address === 'object' && address ? address.port : null;
+    const port = address && 'port' in Object(address) ? address.port : null;
     server.close((error) => (error ? reject(error) : resolvePort(port)));
   });
 });

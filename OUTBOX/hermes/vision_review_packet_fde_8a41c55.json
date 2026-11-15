@@ -1,0 +1,62 @@
+{
+  "schema": "vision_review_packet.v1",
+  "status": "verified",
+  "reviewed_at": "2026-08-17T21:18:04-05:00",
+  "revision": "8a41c5552feb6fd307e63b52b4593da4afa43906",
+  "release_version_id": "aa6be2cc-644f-452c-a910-f63e3f36a35e",
+  "surface": "https://davebettner.com/?release=8a41c5552feb6fd307e63b52b4593da4afa43906",
+  "scope": "Homepage identity, FDE positioning, customer outcomes, selected engineering work, mobile stacking, portrait integration, responsive layout, and closing CTA",
+  "captures": [
+    {
+      "viewport": "desktop-1440x1000",
+      "path": "/srv/hermes/work/davebettner.com/OUTBOX/hermes/attachments/davebettner-live-fde-desktop-8a41c55.png",
+      "sha256": "8f1fad96a8d6e8b44a9d780cb810eef9b3b7c30b7d6f8010f20e811e1868b081",
+      "verdict": "pass"
+    },
+    {
+      "viewport": "mobile-390x844",
+      "path": "/srv/hermes/work/davebettner.com/OUTBOX/hermes/attachments/davebettner-live-fde-mobile-8a41c55.png",
+      "sha256": "fecea94eac10274f52d9ac7ccf449e521638dca7b5584e5af545f93e7b81e75c",
+      "verdict": "pass"
+    }
+  ],
+  "deterministic_evidence": {
+    "live_harness": {
+      "pass": true,
+      "count": 843,
+      "failed": []
+    },
+    "desktop_probe": {
+      "pass": true,
+      "overflow": 0,
+      "portrait_count": 1,
+      "portrait_canvas_count": 0,
+      "interstellar_ready": true,
+      "evidence_motif_count": 3,
+      "console_errors": []
+    },
+    "mobile_probe": {
+      "pass": true,
+      "overflow": 0,
+      "work_overflow": 0,
+      "portrait_count": 1,
+      "portrait_canvas_count": 0,
+      "interstellar_ready": true,
+      "evidence_motif_count": 3,
+      "console_errors": []
+    },
+    "portrait": {
+      "source_sha256": "b34ff1a55c4025f92593a8e2c6685f64dc2ba117604aaa0b1efbb52abb2fd102",
+      "live_sha256": "b34ff1a55c4025f92593a8e2c6685f64dc2ba117604aaa0b1efbb52abb2fd102",
+      "pixel_difference": 0
+    }
+  },
+  "visual_verdict": "pass",
+  "visual_notes": [
+    "Dave remains the dominant subject and the FDE positioning is legible in the first viewport.",
+    "The Interstellar field and source portrait integrate cleanly without portrait-canvas processing.",
+    "Customer outcomes and evidence-derived project motifs are readable and cohesive.",
+    "Mobile work cards stack without clipping or document-level horizontal overflow.",
+    "No material visual regression was observed on desktop or mobile."
+  ]
+}

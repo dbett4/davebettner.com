@@ -1,0 +1,49 @@
+{
+  "status": "verified",
+  "surface": "LinkedIn profile visual system",
+  "revision": "2026-08-17-flow-v2",
+  "scope": [
+    "LinkedIn banner",
+    "LinkedIn profile photo background",
+    "desktop profile composition",
+    "48/96/160px circular avatar legibility"
+  ],
+  "capture_route": "deterministic Pillow/NumPy procedural render and local contact sheet",
+  "reviewer": {
+    "runtime": "Claude Code",
+    "model": "sonnet",
+    "verdict": "PASS",
+    "blocking_defects": []
+  },
+  "deterministic_evidence": {
+    "banner_dimensions": "1584x396",
+    "profile_dimensions": "1200x1200",
+    "fully_opaque_source_pixel_max_rgb_difference": 0,
+    "avatar_overlap": "clean dark zone",
+    "mobile_safe_zone": "center accent retained",
+    "posts_touched": false
+  },
+  "artifacts": [
+    {
+      "path": ".hermes/linkedin-refresh-20260817/linkedin-banner-flow.png",
+      "sha256": "832fc07b980c529520311612817ae4b715ed5c9ac2ca6c932eb86112a5b64b10",
+      "bytes": 655477,
+      "width": 1584,
+      "height": 396
+    },
+    {
+      "path": ".hermes/linkedin-refresh-20260817/linkedin-profile-flow.jpg",
+      "sha256": "fa5ea8bd129872c63ce02c9c8bc8e646d84fa8f6c30d4cfe4519d4d328b2bc17",
+      "bytes": 365680,
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "path": ".hermes/linkedin-refresh-20260817/linkedin-preview-flow.jpg",
+      "sha256": "6034e175c597a30978db5521aaa728e7a76a978c81620396a393e49434b24195",
+      "bytes": 178646,
+      "width": 1500,
+      "height": 1050
+    }
+  ]
+}

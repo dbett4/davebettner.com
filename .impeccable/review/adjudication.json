@@ -1,0 +1,7 @@
+{
+  "reviewer": "Independent multimodal visual reviewer (vision_analyze)",
+  "reviewer_runtime": "sol",
+  "verdict": "verified",
+  "summary": "The customer-work-first mockup is visually coherent at desktop and mobile widths. The first viewport states the new hierarchy clearly, the delivery record anchors the story in customer work, two flagship proof bands carry the main narrative, and the quiet index is subordinate and readable. Typography, contrast, spacing, wrapping, and rules remain consistent with the Interstellar system. No clipping, document overflow, console errors, page errors, or failed requests were found.",
+  "reviewed_at": "2026-08-21T15:48:58Z"
+}

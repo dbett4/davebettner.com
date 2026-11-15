@@ -1,0 +1,29 @@
+{
+  "source_revision": "40cebe4f1462bead6b5d60b25c291ff697277bbf",
+  "review_branch": "review/customer-work-first-20260821",
+  "route": "http://127.0.0.1:4326/mockups/customer-work-first/",
+  "desktop": {
+    "viewport": "1440x1000",
+    "horizontal_overflow": 0,
+    "flagship_bands": 2,
+    "quiet_index_rows": 4,
+    "console_errors": 0,
+    "page_errors": 0,
+    "failed_requests": 0,
+    "direction_contract_present": true
+  },
+  "mobile": {
+    "viewport": "390x844",
+    "horizontal_overflow": 0,
+    "flagship_bands": 2,
+    "quiet_index_rows": 4,
+    "console_errors": 0,
+    "page_errors": 0,
+    "failed_requests": 0,
+    "direction_contract_present": true
+  },
+  "review_route": {
+    "robots": "noindex, nofollow",
+    "linked_from_public_navigation": false
+  }
+}

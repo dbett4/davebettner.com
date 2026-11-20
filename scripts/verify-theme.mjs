@@ -82,6 +82,7 @@ try {
       }
       await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
       await page.getByRole('link', { name: 'Experience', exact: true }).first().click();
+      await page.waitForURL(url => url.pathname === '/experience/');
       lightCheck(await state(page), `${os}/${width}: real navigation`);
       await page.reload({ waitUntil: 'networkidle' });
       lightCheck(await state(page), `${os}/${width}: reload`);

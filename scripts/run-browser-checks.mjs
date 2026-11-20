@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 import { createReadStream } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import { createServer } from 'node:http';
+import { availableParallelism } from 'node:os';
 import { extname, isAbsolute, join, normalize, resolve, sep } from 'node:path';
 
 const testPython = process.env.SITE_TEST_PYTHON || '/usr/bin/python3';
@@ -60,23 +61,58 @@ await new Promise((resolveListen, reject) => {
   server.listen(0, '127.0.0.1', resolveListen);
 });
 const base = `http://127.0.0.1:${server.address().port}`;
-const run = (command, args) => new Promise((resolveRun, reject) => {
-  console.log(`BROWSER_SUITE ${args.join(' ')}`);
-  const child = spawn(command, args, { stdio: 'inherit', env: { ...process.env, SITE_URL: base } });
+const workers = Number(process.env.BROWSER_CHECK_WORKERS) || Math.min(4, availableParallelism());
+assert.ok(Number.isInteger(workers) && workers >= 1, `BROWSER_CHECK_WORKERS must be a whole number of at least 1, not ${process.env.BROWSER_CHECK_WORKERS}`);
+const budgetSeconds = Number(process.env.BROWSER_CHECK_BUDGET_SECONDS) || 600;
+const running = new Map();
+let aborted = false;
+let finished = 0;
+const run = ([command, script]) => new Promise((resolveRun, reject) => {
+  const started = Date.now();
+  const child = spawn(command, [script], { env: { ...process.env, SITE_URL: base } });
+  const state = { output: '', started };
+  running.set(script, state);
+  child.stdout.on('data', chunk => { state.output += chunk; });
+  child.stderr.on('data', chunk => { state.output += chunk; });
   child.once('error', reject);
-  child.once('exit', (code, signal) => code === 0 ? resolveRun() : reject(new Error(`${args.join(' ')} failed: code=${code} signal=${signal}`)));
+  child.once('close', (code, signal) => {
+    running.delete(script);
+    if (aborted) return reject(new Error(`${script} stopped`));
+    console.log(`BROWSER_SUITE ${script} ${code === 0 ? 'passed' : 'failed'} in ${((Date.now() - started) / 1000).toFixed(1)}s\n${state.output}`);
+    if (code !== 0) return reject(new Error(`${script} failed: code=${code} signal=${signal}`));
+    finished += 1;
+    resolveRun();
+  });
+  state.child = child;
 });
+// Longest first, so the slowest suites start together. The suites write to separate folders.
+// A group runs in order because its second suite reads what its first one wrote.
+const pending = [
+  [[testPython, 'scripts/verify-ramp-profile.py']],
+  [[process.execPath, 'scripts/verify-theme.mjs']],
+  [[process.execPath, 'scripts/verify-avatar-fade.mjs']],
+  [[process.execPath, 'scripts/verify-workstation-video.mjs']],
+  [[process.execPath, 'scripts/verify-visitor-journey.mjs']],
+  [[process.execPath, 'scripts/capture-soft-fade.mjs'], [process.execPath, 'scripts/verify-soft-fade.mjs']],
+  [[process.execPath, 'scripts/verify-build-notes.mjs']],
+  [[process.execPath, 'scripts/verify-workflow-lesson.mjs']],
+];
+const total = pending.flat().length;
+const worker = async () => {
+  for (let group; (group = pending.shift());) for (const suite of group) await run(suite);
+};
+// A suite that hangs prints nothing until it ends, so after the budget show what each running suite has printed.
+const watchdog = new Promise((_, reject) => setTimeout(() => {
+  const report = [...running].map(([script, { output, started }]) => `${script} (running ${((Date.now() - started) / 1000).toFixed(0)}s)\n${output}`).join('\n');
+  reject(new Error(`Browser checks passed the ${budgetSeconds}s budget. Still running:\n${report}`));
+}, budgetSeconds * 1000).unref());
 try {
-  await run(testPython, ['scripts/verify-ramp-profile.py']);
-  await run(process.execPath, ['scripts/verify-workflow-lesson.mjs']);
-  await run(process.execPath, ['scripts/verify-build-notes.mjs']);
-  await run(process.execPath, ['scripts/verify-avatar-fade.mjs']);
-  await run(process.execPath, ['scripts/verify-workstation-video.mjs']);
-  await run(process.execPath, ['scripts/verify-theme.mjs']);
-  await run(process.execPath, ['scripts/verify-visitor-journey.mjs']);
-  await run(process.execPath, ['scripts/capture-soft-fade.mjs']);
-  await run(process.execPath, ['scripts/verify-soft-fade.mjs']);
+  await Promise.race([Promise.all(Array.from({ length: workers }, worker)), watchdog]);
+  assert.equal(finished, total, `${finished} of ${total} suites ran`);
 } finally {
+  aborted = true;
+  pending.length = 0;
+  for (const { child } of running.values()) child.kill('SIGTERM');
   server.close();
   server.closeAllConnections();
 }

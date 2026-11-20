@@ -43,7 +43,7 @@ Deploy as `hermes`. Wrangler OAuth for that user must already be configured on t
 ssh davgent 'sudo -u hermes bash -lc "cd /srv/hermes/work/davebettner.com && npm test"'
 ```
 
-`npm test` builds the site, serves `dist/` with `/usr/bin/python3 -m http.server` on a free 127.0.0.1 port, and stops that server when the browser suites finish. Because `scripts/run-browser-checks.mjs` sets `SITE_URL` to that server for every suite, `npm test` always checks the local build; a `SITE_URL` you set beforehand has no effect. To check production, run a suite that reads `SITE_URL` directly, for example:
+`npm test` builds the site, serves `dist/` from a Node server on a free 127.0.0.1 port, and stops that server when the browser suites finish. Because `scripts/run-browser-checks.mjs` sets `SITE_URL` to that server for every suite, `npm test` always checks the local build; a `SITE_URL` you set beforehand has no effect. To check production, run a suite that reads `SITE_URL` directly, for example:
 
 ```bash
 SITE_URL=https://davebettner.com node scripts/verify-theme.mjs

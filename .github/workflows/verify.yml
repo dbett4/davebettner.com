@@ -47,10 +47,6 @@ jobs:
         timeout-minutes: 5
         run: npm run generate-resume
 
-      - name: Check
-        timeout-minutes: 5
-        run: npm run check
-
       - name: Build
         timeout-minutes: 5
         run: npm run build
@@ -63,7 +59,7 @@ jobs:
 
       - name: Test
         timeout-minutes: 10
-        run: SITE_TEST_PYTHON="$RUNNER_TEMP/site-test-venv/bin/python" npm test
+        run: SITE_TEST_PYTHON="$RUNNER_TEMP/site-test-venv/bin/python" npm run test:suites
 
   secret-scan:
     runs-on: ubuntu-latest

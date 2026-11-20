@@ -46,6 +46,10 @@ jobs:
         timeout-minutes: 2
         run: npm ci
 
+      - name: Lint
+        timeout-minutes: 1
+        run: npm run lint
+
       - name: Install Python browser test dependency
         timeout-minutes: 2
         run: |

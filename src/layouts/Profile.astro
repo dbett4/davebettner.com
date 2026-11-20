@@ -54,7 +54,7 @@ const nav=[['work','Projects','/work/'],['experience','Experience','/experience/
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <header class="masthead wrap">
-      <a class="brand masthead-brand" href="/" aria-label="Dave Bettner home"><img src="/images/dave-bettner-headshot-20260808-square.webp" alt="" width="32" height="32" decoding="async" /><span>Dave Bettner</span></a>
+      <a class="brand masthead-brand" href="/" aria-label="Dave Bettner home"><img src="/images/dave-bettner-headshot-20260808-square.webp" srcset="/images/dave-bettner-headshot-20260808-square-32.webp 1x, /images/dave-bettner-headshot-20260808-square-64.webp 2x, /images/dave-bettner-headshot-20260808-square-96.webp 3x" alt="" width="32" height="32" decoding="async" /><span>Dave Bettner</span></a>
       <nav aria-label="Main navigation">
         {nav.map(([id, label, url]) => <a href={url} aria-current={page === id ? 'page' : undefined}>{label}</a>)}
       </nav>

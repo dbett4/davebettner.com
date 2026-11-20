@@ -67,19 +67,20 @@ const budgetSeconds = Number(process.env.BROWSER_CHECK_BUDGET_SECONDS) || 600;
 const running = new Map();
 let aborted = false;
 let finished = 0;
-const run = ([command, script]) => new Promise((resolveRun, reject) => {
+const run = ([command, script, env = {}]) => new Promise((resolveRun, reject) => {
   const started = Date.now();
-  const child = spawn(command, [script], { env: { ...process.env, SITE_URL: base } });
+  const label = [script, ...Object.values(env)].join(' ');
+  const child = spawn(command, [script], { env: { ...process.env, ...env, SITE_URL: base } });
   const state = { output: '', started };
-  running.set(script, state);
+  running.set(label, state);
   child.stdout.on('data', chunk => { state.output += chunk; });
   child.stderr.on('data', chunk => { state.output += chunk; });
   child.once('error', reject);
   child.once('close', (code, signal) => {
-    running.delete(script);
-    if (aborted) return reject(new Error(`${script} stopped`));
-    console.log(`BROWSER_SUITE ${script} ${code === 0 ? 'passed' : 'failed'} in ${((Date.now() - started) / 1000).toFixed(1)}s\n${state.output}`);
-    if (code !== 0) return reject(new Error(`${script} failed: code=${code} signal=${signal}`));
+    running.delete(label);
+    if (aborted) return reject(new Error(`${label} stopped`));
+    console.log(`BROWSER_SUITE ${label} ${code === 0 ? 'passed' : 'failed'} in ${((Date.now() - started) / 1000).toFixed(1)}s\n${state.output}`);
+    if (code !== 0) return reject(new Error(`${label} failed: code=${code} signal=${signal}`));
     finished += 1;
     resolveRun();
   });
@@ -87,12 +88,16 @@ const run = ([command, script]) => new Promise((resolveRun, reject) => {
 });
 // Longest first, so the slowest suites start together. The suites write to separate folders.
 // A group runs in order because its second suite reads what its first one wrote.
+// verify-theme and verify-ramp-profile each run as parts that together cover everything the whole suite does.
 const pending = [
-  [[testPython, 'scripts/verify-ramp-profile.py']],
-  [[process.execPath, 'scripts/verify-theme.mjs']],
   [[process.execPath, 'scripts/verify-avatar-fade.mjs']],
+  [[process.execPath, 'scripts/verify-theme.mjs', { THEME_PART: 'dark' }]],
+  [[testPython, 'scripts/verify-ramp-profile.py', { RAMP_PART: 'desktop' }]],
+  [[testPython, 'scripts/verify-ramp-profile.py', { RAMP_PART: 'mobile' }]],
+  [[process.execPath, 'scripts/verify-theme.mjs', { THEME_PART: 'light' }]],
   [[process.execPath, 'scripts/verify-workstation-video.mjs']],
   [[process.execPath, 'scripts/verify-visitor-journey.mjs']],
+  [[process.execPath, 'scripts/verify-theme.mjs', { THEME_PART: 'rest' }]],
   [[process.execPath, 'scripts/capture-soft-fade.mjs'], [process.execPath, 'scripts/verify-soft-fade.mjs']],
   [[process.execPath, 'scripts/verify-build-notes.mjs']],
   [[process.execPath, 'scripts/verify-workflow-lesson.mjs']],

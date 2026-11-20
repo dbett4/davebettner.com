@@ -13,6 +13,10 @@ const routes = ['/', '/experience/', '/experience/connected-reporting/', '/work/
   '/work/dedup-readback-bridge/', '/work/hermes-field-kit/', '/work/wingman/', '/work/agent-operating-system/'];
 const axeSource = await readFile(resolve('node_modules/axe-core/axe.min.js'), 'utf8');
 const checks = [], pageErrors = [], screenshotPaths = [];
+const part = process.env.THEME_PART || 'all';
+assert.ok(['all', 'light', 'dark', 'rest'].includes(part), `THEME_PART must be all, light, dark or rest, not ${part}`);
+const osPreferences = part === 'all' ? ['light', 'dark'] : part === 'rest' ? [] : [part];
+const runRest = part === 'all' || part === 'rest';
 const check = (pass, label, detail = '') => {
   checks.push({ pass: Boolean(pass), label, detail });
   assert.ok(pass, `${label}${detail ? `: ${detail}` : ''}`);
@@ -42,7 +46,7 @@ const lightCheck = (value, label) => {
   check(value.controls === 0 && value.themeColor === '#ffffff', `${label}: no theme switch or dark browser chrome`, JSON.stringify(value));
 };
 try {
-  for (const os of ['light', 'dark']) {
+  for (const os of osPreferences) {
     for (const width of [1440, 768, 390, 320]) {
       const context = await browser.newContext({ colorScheme: os, viewport: { width, height: 900 }, reducedMotion: 'reduce' });
       // Reproduce an existing visitor's persisted preference, without migrating it in test code.
@@ -91,7 +95,7 @@ try {
       await context.close();
     }
   }
-  for (const javaScriptEnabled of [true, false]) {
+  if (runRest) for (const javaScriptEnabled of [true, false]) {
     const context = await browser.newContext({ javaScriptEnabled, colorScheme: 'dark', reducedMotion: 'reduce', viewport: { width: 390, height: 844 } });
     if (javaScriptEnabled) await context.addInitScript(() => {
       Object.defineProperty(window, 'localStorage', { get() { throw new Error('storage blocked by test'); } });
@@ -106,19 +110,21 @@ try {
     check(await page.locator('main').isVisible(), 'fallback content stays visible');
     await context.close();
   }
-  const context = await browser.newContext({ colorScheme: 'dark', viewport: { width: 390, height: 844 } });
-  const page = await observedPage(context);
-  await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
-  await page.keyboard.press('Tab');
-  check(await page.locator('.skip').evaluate(e => e === document.activeElement), 'skip link gets first keyboard focus');
-  await page.keyboard.press('Enter');
-  check(await page.locator('main#main').evaluate(e => e === document.activeElement), 'skip link focuses main');
-  await context.close();
+  if (runRest) {
+    const context = await browser.newContext({ colorScheme: 'dark', viewport: { width: 390, height: 844 } });
+    const page = await observedPage(context);
+    await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+    await page.keyboard.press('Tab');
+    check(await page.locator('.skip').evaluate(e => e === document.activeElement), 'skip link gets first keyboard focus');
+    await page.keyboard.press('Enter');
+    check(await page.locator('main#main').evaluate(e => e === document.activeElement), 'skip link focuses main');
+    await context.close();
+  }
   check(pageErrors.length === 0, 'browser page errors', JSON.stringify(pageErrors));
 } finally {
   await browser.close();
-  const result = { base, routes, osPreferences: ['light', 'dark'], renderedTheme: 'light-only', widths: [1440, 768, 390, 320], checks,
+  const result = { base, routes, part, osPreferences, renderedTheme: 'light-only', widths: [1440, 768, 390, 320], checks,
     passed: checks.filter(c => c.pass).length, failed: checks.filter(c => !c.pass).length, pageErrors, screenshot_paths: screenshotPaths };
-  await writeFile(resolve(out, 'theme-checks.json'), JSON.stringify(result, null, 2));
+  await writeFile(resolve(out, part === 'all' ? 'theme-checks.json' : `theme-checks-${part}.json`), JSON.stringify(result, null, 2));
   console.log(JSON.stringify({ passed: result.passed, failed: result.failed, routes: routes.length, screenshots: screenshotPaths }, null, 2));
 }

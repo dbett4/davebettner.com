@@ -1,0 +1,17 @@
+name: Probe
+on:
+  push:
+    branches: [probe/runner]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: |
+          cat /etc/os-release | head -3; nproc; free -m | head -2; df -h / | tail -1
+          for c in google-chrome ffmpeg python3 node npm bun pip3; do printf '%s: ' "$c"; command -v "$c" || echo missing; done
+          google-chrome --version || true
+          ffmpeg -version | head -1 || true
+          node -v; python3 --version
+          ls ~/.cache/ms-playwright 2>&1 | head -3
+          echo "apt lists age:"; ls -la --time-style=long-iso /var/lib/apt/lists | head -4

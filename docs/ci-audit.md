@@ -8,11 +8,11 @@ How long the Verify workflow takes and where the time goes. Regenerate the table
 - **Waiting.** From the job being created to the runner starting it.
 - **Setup.** Steps that only prepare the job: runner setup, checkout, `setup-node`, every `Install ...` step, and post-job cleanup.
 - **Running.** Every other step: generate, check, build, test, scan.
-- **PR time.** Run `created_at` to `updated_at`: queue plus wall time of the slowest job.
+- **Workflow wall time.** Run `created_at` to `updated_at`. The last 60 runs include 56 pushes and four pull request runs; the benchmarks below are not PR-only latency.
 
 ## Baseline, last 60 runs (57 green, 3 not green)
 
-PR time: **384 / 454 s**.
+Workflow wall time: **384 / 454 s**.
 
 | Job | Waiting | Setup | Running | Total |
 | --- | --- | --- | --- | --- |
@@ -21,7 +21,7 @@ PR time: **384 / 454 s**.
 
 ## Baseline, all 150 runs (79 green, 71 not green)
 
-PR time: **311 / 440 s**. Older runs used earlier shapes of the workflow, so the last-60 table is the one that describes today's workflow.
+Workflow wall time: **311 / 440 s**. Older runs used earlier versions of Verify, so the last-60 table better describes the pre-change workflow.
 
 | Job | Waiting | Setup | Running | Total |
 | --- | --- | --- | --- | --- |

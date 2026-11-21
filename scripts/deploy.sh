@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 WRANGLER="$ROOT/node_modules/.bin/wrangler"
 cd "$ROOT"
 
-exec 9> "${DEPLOY_LOCK_FILE:-${XDG_RUNTIME_DIR:-/tmp}/davebettner-com-deploy.lock}"
+exec 9> "${DEPLOY_LOCK_FILE:-/tmp/davebettner-com-deploy.lock}"
 flock -n 9 || {
   printf 'DEPLOY_FAIL: another deploy holds the lock\n' >&2
   exit 1

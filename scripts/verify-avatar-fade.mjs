@@ -75,7 +75,7 @@ try {
         const response = await page.goto(`${base}${route}`, { waitUntil: 'networkidle' });
         check(response?.status() === 200, `${mode}/${width} ${route} returns 200`, String(response?.status()));
         await page.evaluate(() => document.fonts.ready);
-        const state = await page.evaluate((expectedAvatar) => {
+        const state = await page.evaluate(() => {
           const root = document.documentElement;
           const brand = document.querySelector('header.masthead > a.masthead-brand');
           const image = brand?.querySelector('img');
@@ -97,22 +97,22 @@ try {
             brandLabel: brand?.getAttribute('aria-label'),
             brandText: brand?.textContent?.trim(),
             imageSrc: image?.getAttribute('src'),
+            selectedImage: image?.currentSrc ? new URL(image.currentSrc).pathname : null,
             imageAlt: image?.getAttribute('alt'),
-            imageComplete: Boolean(image?.complete && image.naturalWidth === 1200 && image.naturalHeight === 1200),
+            imageComplete: Boolean(image?.complete && image.naturalWidth === 32 && image.naturalHeight === 32),
             anchorTarget: Boolean(brandBox && brandBox.width >= 44 && brandBox.height >= 44),
             imageSize: Boolean(imageBox && imageBox.width >= 30 && imageBox.width <= 36 && imageBox.height >= 30 && imageBox.height <= 36),
             sceneMask: sceneWrap ? getComputedStyle(sceneWrap).maskImage : null,
             mediaMask: workstationMedia ? getComputedStyle(workstationMedia).maskImage : null,
-            expectedAvatar,
           };
-        }, avatarPath);
+        });
         check(state.scheme === 'light' && state.background === 'rgb(255, 255, 255)', `${mode}/${width} ${route} stays light regardless of OS`, state.scheme);
         check(!state.overflow, `${mode}/${width} ${route} has no horizontal overflow`);
         check(state.buttonCount === 0, `${mode}/${width} ${route} exposes no theme button`, String(state.buttonCount));
         check(state.pauseButtons === 0 && !state.pauseCopy, `${mode}/${width} ${route} has no obsolete screen-only pause control`);
         if (route === '/') check(state.sceneMask === 'none' && state.mediaMask === 'none', `${mode}/${width} home uses the baked rug matte without a rectangular wrapper mask`, JSON.stringify({ sceneMask: state.sceneMask, mediaMask: state.mediaMask }));
         check(state.brandCount === 1 && state.brandHref === '/' && state.brandLabel === 'Dave Bettner home', `${mode}/${width} ${route} has accessible home avatar link`);
-        check(state.brandText === 'Dave Bettner' && state.imageSrc === avatarPath && state.imageAlt === '' && state.imageComplete, `${mode}/${width} ${route} uses current square headshot`);
+        check(state.brandText === 'Dave Bettner' && state.imageSrc === avatarPath && state.selectedImage === avatarPath.replace('.webp', '-32.webp') && state.imageAlt === '' && state.imageComplete, `${mode}/${width} ${route} loads the 1x square headshot`, JSON.stringify({ selected: state.selectedImage, decoded: state.imageComplete }));
         check(state.anchorTarget && state.imageSize, `${mode}/${width} ${route} avatar target/image dimensions`, JSON.stringify({ anchorTarget: state.anchorTarget, imageSize: state.imageSize }));
       }
       await context.close();

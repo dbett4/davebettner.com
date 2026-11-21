@@ -17,14 +17,12 @@ const advancing=async (page,timeout=4000)=>{
   await page.waitForFunction(before=>{const v=document.querySelector('video');return !v.paused&&(v.currentTime>before+.12||v.currentTime<before);},before,{timeout});
 };
 const state=page=>page.locator('video').evaluate(v=>({paused:v.paused,ended:v.ended,loop:v.loop,time:v.currentTime}));
-// Play through the loop's end quickly rather than seeking: the static preview
-// server has no range support, so a seek would restart the file at 0. At 4x a busy
-// host's software decoder can fall behind real time, so allow a generous budget.
-const wraps=async (page,timeout=30000)=>{
-  await page.locator('video').evaluate(v=>{window.__times=[];v.addEventListener('timeupdate',()=>window.__times.push(v.currentTime));v.playbackRate=4;});
-  await page.waitForFunction(()=>{const t=window.__times,i=t.findIndex(x=>x>9.3);return i>=0&&t.slice(i+1).some(x=>x<2);},null,{timeout});
+// Seek to the last half second, then play through the end. The preview server answers
+// Range requests, so the seek lands where asked.
+const wraps=async page=>{
+  await page.locator('video').evaluate(v=>{window.__times=[];v.addEventListener('timeupdate',()=>window.__times.push(v.currentTime));v.currentTime=v.duration-.5;});
+  await page.waitForFunction(()=>{const t=window.__times,i=t.findIndex(x=>x>9.3);return i>=0&&t.slice(i+1).some(x=>x<2);},null,{timeout:30000});
   const s=await state(page);
-  await page.locator('video').evaluate(v=>{v.playbackRate=1;});
   return !s.ended&&!s.paused;
 };
 const controls=page=>page.evaluate(()=>{const r=document.querySelector('[data-workstation]');return r.querySelectorAll('button,[role=button],input,[tabindex]:not([tabindex="-1"])').length+(r.querySelector('video').controls?1:0);});

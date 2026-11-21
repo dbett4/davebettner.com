@@ -40,13 +40,13 @@ npm test
 
 ## Tests
 
-`npm test` runs five steps in order and stops at the first failure:
+`npm test` is `npm run generate-resume`, `npm run build` and then `npm run test:suites`. CI runs the same three, as separate steps, so the site is built once. `test:suites` runs three steps in order and stops at the first failure:
 
-1. `npm run generate-resume`, the résumé hash check and copy described under Résumé PDF.
-2. `npm run build`, which runs `astro check` and then `astro build` into `dist/`.
-3. `node --test scripts/ramp-profile.test.mjs`, static assertions on the built files: profile copy, the robots tag, the résumé digest, and the workstation-loop media hashes recorded in `animation/workstation-loop/render.json`.
-4. `node scripts/run-browser-checks.mjs`, which serves `dist/` with `/usr/bin/python3 -m http.server` on a free 127.0.0.1 port and runs each suite in the table below, in order, with `SITE_URL` set to that server.
-5. `bash scripts/test-deploy-preflight.sh prepush`, the deploy-gate test. It checks that `npm run deploy` goes through `scripts/deploy.sh`, which pins the project-local Wrangler and runs `scripts/deploy-preflight.sh` first, and that the gate rejects a non-`hermes` user and a missing `ACP_SESSION_ID`. Run as `hermes`, it also checks that the gate rejects the canonical primary checkout and, from a linked release worktree, a dirty worktree. Other users and CI skip those two probes.
+`npm run generate-resume` does the résumé hash check and copy described under Résumé PDF. `npm run build` runs `astro check` and then `astro build` into `dist/`. Then:
+
+1. `node --test scripts/ramp-profile.test.mjs`, static assertions on the built files: profile copy, the robots tag, the résumé digest, and the workstation-loop media hashes recorded in `animation/workstation-loop/render.json`.
+2. `node scripts/run-browser-checks.mjs`, which serves `dist/` on a free 127.0.0.1 port from a small Node server that answers HTTP Range requests, and runs the suites in the table below with `SITE_URL` set to that server. It runs up to four suites at a time (`BROWSER_CHECK_WORKERS`, default the smaller of 4 and the core count), longest first, prints each suite's output and duration when it finishes, and stops everything at the first failure. `capture-soft-fade` and `verify-soft-fade` run in order because the second reads the first's output.
+3. `bash scripts/test-deploy-preflight.sh prepush`, the deploy-gate test. It checks that `npm run deploy` goes through `scripts/deploy.sh`, which pins the project-local Wrangler and runs `scripts/deploy-preflight.sh` first, and that the gate rejects a non-`hermes` user and a missing `ACP_SESSION_ID`. Run as `hermes`, it also checks that the gate rejects the canonical primary checkout and, from a linked release worktree, a dirty worktree. Other users and CI skip those two probes.
 
 | Suite | Checks |
 | --- | --- |
@@ -69,10 +69,9 @@ Beyond `npm install`, `npm test` needs:
 
 - Google Chrome at `/usr/bin/google-chrome`. Every browser suite launches that exact path; a Playwright-downloaded Chromium is not used.
 - `ffmpeg` on `PATH`, for the video and soft-fade checks.
-- `/usr/bin/python3`, which serves `dist/`.
 - A Python with the `playwright` package, for `verify-ramp-profile.py`. Set `SITE_TEST_PYTHON` to its absolute path; the default is `/usr/bin/python3`.
 
-CI (`.github/workflows/verify.yml`) runs `npm test` on pushes to `main` and on pull requests, using `ubuntu-latest` and Node 22. It installs `ffmpeg` with apt, runs `npx --no-install playwright-core install --with-deps chromium`, and installs `playwright==1.62.0` into a venv that it passes as `SITE_TEST_PYTHON`. Chrome comes from the runner image. A separate `secret-scan` job runs a pinned, checksum-verified gitleaks over the commits the push or pull request adds; to run the same scan locally, use `gitleaks git --redact --log-opts=origin/main..HEAD .`.
+CI (`.github/workflows/verify.yml`) runs `npm run generate-resume`, `npm run build` and `npm run test:suites` on pushes to `main` and on pull requests, using `ubuntu-latest` and Node 22. It downloads a pinned, checksum-verified static `ffmpeg` and installs `playwright==1.62.0` into a venv that it passes as `SITE_TEST_PYTHON`. Chrome comes from the runner image, so no Playwright browser is downloaded. A new commit on a pull request cancels that branch's run in progress; every push to `main` keeps its own run. A separate `secret-scan` job runs a pinned, checksum-verified gitleaks over the commits the push or pull request adds; to run the same scan locally, use `gitleaks git --redact --log-opts=origin/main..HEAD .`.
 
 ## Résumé PDF
 

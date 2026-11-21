@@ -22,7 +22,7 @@ Merging to main does not deploy. A deploy is a separate manual step.
    ./scripts/deploy.sh
    ```
 
-`./scripts/deploy.sh` and `npm run deploy` take one deployer lock (`flock` on `$XDG_RUNTIME_DIR/davebettner-com-deploy.lock`, or `/tmp`), then run `scripts/deploy-preflight.sh`, then the project-local Wrangler. Wrangler's build hook runs `scripts/deploy-build.sh`, which repeats the preflight before and after generating the résumé and building. The preflight fails unless the lock is held, the working tree is clean, and `HEAD` equals a freshly fetched `origin/main`. Do not call Wrangler directly with another config: the build hook refuses to run without the lock.
+`./scripts/deploy.sh` and `npm run deploy` take one deployer lock (`flock` on `/tmp/davebettner-com-deploy.lock`), then run `scripts/deploy-preflight.sh`, then the project-local Wrangler. Wrangler's build hook runs `scripts/deploy-build.sh`, which repeats the preflight before and after generating the résumé and building. The preflight fails unless `DEPLOY_LOCK_HELD=1` (which only `deploy.sh` sets, after it takes the lock), the working tree is clean, and `HEAD` equals a freshly fetched `origin/main`. Running Wrangler directly with this repository's `wrangler.jsonc` stops in the build hook, but nothing in the repository can stop a Wrangler run with a different config that has no build hook, or one that sets the variable by hand. The preflight also does not check the user or the `origin` URL.
 
 4. Verify production, then leave the release checkout clean.
 

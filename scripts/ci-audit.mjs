@@ -18,7 +18,7 @@ const quantile = (values, q) => {
 };
 const fmt = values => values.length ? `${quantile(values, 0.5).toFixed(0)} / ${quantile(values, 0.95).toFixed(0)}` : 'n/a';
 
-const runs = ghLines([`repos/${repo}/actions/runs?per_page=100&status=completed`, '--jq', '.workflow_runs[]'])
+const runs = ghLines([`repos/${repo}/actions/workflows/verify.yml/runs?per_page=100&status=completed`, '--jq', '.workflow_runs[]'])
   .sort((a, b) => b.run_number - a.run_number)
   .slice(0, wanted);
 

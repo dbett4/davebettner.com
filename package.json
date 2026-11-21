@@ -8,6 +8,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "lint": "oxlint src scripts astro.config.mjs",
+    "prepare": "git config core.hooksPath .githooks || true",
     "test": "npm run generate-resume && npm run build && npm run test:suites",
     "test:suites": "node --test scripts/ramp-profile.test.mjs && node scripts/run-browser-checks.mjs && bash scripts/test-deploy-preflight.sh prepush",
     "generate-resume": "node scripts/generate-resume-pdf.mjs",
@@ -22,6 +24,7 @@
   "devDependencies": {
     "@astrojs/check": "0.9.6",
     "axe-core": "^4.13.0",
+    "oxlint": "1.94.0",
     "playwright-core": "^1.62.1",
     "sharp": "0.35.5",
     "typescript": "5.9.3",

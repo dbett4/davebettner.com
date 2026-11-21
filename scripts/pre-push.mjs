@@ -1,10 +1,19 @@
 // Runs before every push: lint and typecheck what the pushed commits changed.
 // There is no formatter in this repository, so there is no format step; see AGENTS.md.
 import { execFileSync, spawnSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
-const base = git('merge-base', 'HEAD', 'origin/main');
-const changed = git('diff', '--name-only', '--diff-filter=ACMR', base, 'HEAD').split('\n').filter(Boolean);
+const pushed = readFileSync(0, 'utf8').trim().split('\n')
+  .filter(Boolean).map(line => line.split(' ')[1]).filter(oid => !/^0+$/.test(oid));
+if (!pushed.length) process.exit(0);
+const head = git('rev-parse', 'HEAD');
+if (pushed.some(oid => oid !== head) || git('status', '--porcelain')) {
+  console.error('pre-push: check out the commit you are pushing and commit or stash other changes first.');
+  process.exit(1);
+}
+const base = git('merge-base', head, 'origin/main');
+const changed = execFileSync('git', ['diff', '--name-only', '-z', '--diff-filter=ACMR', base, head], { encoding: 'utf8' }).split('\0').filter(Boolean);
 const scripts = changed.filter(file => /\.(m?js|ts|astro)$/.test(file));
 const started = Date.now();
 const step = (label, command, args) => {

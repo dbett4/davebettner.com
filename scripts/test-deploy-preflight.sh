@@ -4,9 +4,7 @@ set -euo pipefail
 ROOT="$(git rev-parse --show-toplevel)"
 GATE="$ROOT/scripts/deploy-preflight.sh"
 DEPLOY_WRAPPER="$ROOT/scripts/deploy.sh"
-CANONICAL_ROOT="/srv/hermes/work/davebettner.com"
 MODE="${1:-prepush}"
-CURRENT_SESSION="${ACP_SESSION_ID:-}"
 cd "$ROOT"
 
 fail() {
@@ -38,106 +36,45 @@ grep -Fq 'WRANGLER="$ROOT/node_modules/.bin/wrangler"' "$DEPLOY_WRAPPER" || \
 ! grep -Eq '(^|[[:space:]])npx([[:space:]]|$)' "$DEPLOY_WRAPPER" || \
   fail "deploy wrapper uses version-sensitive npx dispatch"
 
-fake_identity_bin="$(mktemp -d)"
-trap 'rm -rf "$fake_identity_bin"' EXIT
-cat > "$fake_identity_bin/id" <<'EOF'
-#!/usr/bin/env bash
-printf 'not-hermes\n'
-EOF
-chmod 755 "$fake_identity_bin/id"
 expect_failure \
-  "non-hermes user cannot deploy" \
-  "deploys must run as the hermes user" \
-  env PATH="$fake_identity_bin:$PATH" ACP_SESSION_ID="deploy-gate-test" bash "$GATE"
-cat > "$fake_identity_bin/id" <<'EOF'
-#!/usr/bin/env bash
-printf 'hermes\n'
-EOF
-chmod 755 "$fake_identity_bin/id"
+  "preflight refuses to run without the deploy lock" \
+  "takes the single-deployer lock first" \
+  env -u DEPLOY_LOCK_HELD bash "$GATE"
 
+lock="$(mktemp)"
 fake_root="$(mktemp -d)"
-fake_runner_marker="$fake_root/wrangler-invoked"
-trap 'rm -rf "$fake_root" "$fake_identity_bin"' EXIT
+trap 'rm -rf "$lock" "$fake_root"' EXIT
 mkdir -p "$fake_root/scripts" "$fake_root/node_modules/.bin"
 cp "$DEPLOY_WRAPPER" "$fake_root/scripts/deploy.sh"
-cp "$GATE" "$fake_root/scripts/deploy-preflight.sh"
-cat > "$fake_root/node_modules/.bin/wrangler" <<'EOF'
+cat > "$fake_root/scripts/deploy-preflight.sh" <<'EOF'
 #!/usr/bin/env bash
-printf 'invoked\n' > "$DEPLOY_RUNNER_MARKER"
-exit 0
+printf 'preflight reached\n'
+exit 1
 EOF
-chmod 755 "$fake_root/scripts/deploy.sh" "$fake_root/scripts/deploy-preflight.sh" "$fake_root/node_modules/.bin/wrangler"
+printf '#!/usr/bin/env bash\nprintf invoked > "$DEPLOY_RUNNER_MARKER"\n' > "$fake_root/node_modules/.bin/wrangler"
+chmod 755 "$fake_root/scripts/"*.sh "$fake_root/node_modules/.bin/wrangler"
 expect_failure \
-  "deploy wrapper checks preflight before Wrangler" \
-  "ACP_SESSION_ID is required" \
-  env -u ACP_SESSION_ID PATH="$fake_identity_bin:$PATH" DEPLOY_RUNNER_MARKER="$fake_runner_marker" bash "$fake_root/scripts/deploy.sh"
-[[ ! -e "$fake_runner_marker" ]] || fail "deploy wrapper invoked Wrangler before preflight"
-rm -rf "$fake_root"
-
+  "deploy wrapper runs preflight before Wrangler" \
+  "preflight reached" \
+  env DEPLOY_LOCK_FILE="$lock" DEPLOY_RUNNER_MARKER="$fake_root/marker" bash "$fake_root/scripts/deploy.sh"
+[[ ! -e "$fake_root/marker" ]] || fail "deploy wrapper invoked Wrangler before preflight"
 expect_failure \
-  "missing session identity" \
-  "ACP_SESSION_ID is required" \
-  env -u ACP_SESSION_ID PATH="$fake_identity_bin:$PATH" bash "$GATE"
+  "a second deployer cannot take the lock" \
+  "another deploy holds the lock" \
+  bash -c 'exec 8> "$1"; flock -n 8; DEPLOY_LOCK_FILE="$1" bash "$2"' _ "$lock" "$fake_root/scripts/deploy.sh"
 
-rm -rf "$fake_identity_bin"
-trap - EXIT
-
-RUNNER="$(id -un)"
-CANONICAL_COMMON_DIR="$(realpath -e "$CANONICAL_ROOT/.git" 2>/dev/null || true)"
-
-if [[ "$RUNNER" == "hermes" && -d "$CANONICAL_ROOT" ]]; then
-  expect_failure \
-    "primary checkout is not an isolated worktree" \
-    "isolated linked worktree" \
-    env ACP_SESSION_ID="${CURRENT_SESSION:-deploy-gate-test}" bash -c "cd '$CANONICAL_ROOT' && '$GATE'"
+if [[ -n "$(git status --porcelain=v1 --untracked-files=all)" ]]; then
+  printf 'SKIP dirty-tree probe (tree already dirty)\n'
 else
-  printf 'SKIP primary checkout probe (needs the hermes user and the canonical VPS checkout)\n'
-fi
-
-GIT_DIR="$(realpath "$(git rev-parse --absolute-git-dir)")"
-COMMON_DIR="$(realpath "$(git rev-parse --path-format=absolute --git-common-dir)")"
-if [[ "$GIT_DIR" == "$COMMON_DIR" ]]; then
-  printf 'SKIP dirty release worktree (primary checkout)\n'
-elif [[ "$RUNNER" != "hermes" || "$COMMON_DIR" != "$CANONICAL_COMMON_DIR" ]]; then
-  printf 'SKIP dirty release worktree (needs the hermes user in a worktree linked to the canonical repository)\n'
-else
-  dirty_probe="$ROOT/.deploy-gate-dirty-probe-$$"
-  trap 'rm -f "$dirty_probe"' EXIT
-  printf 'dirty\n' > "$dirty_probe"
-  expect_failure \
-    "dirty release worktree" \
-    "working tree is not clean" \
-    env ACP_SESSION_ID="${CURRENT_SESSION:-deploy-gate-test}" bash "$GATE"
-  rm -f "$dirty_probe"
-  trap - EXIT
-fi
-
-if [[ "$MODE" == "postpush" ]]; then
-  [[ -n "$CURRENT_SESSION" ]] || fail "postpush mode requires ACP_SESSION_ID"
-  "$GATE"
-  printf 'PASS current session owns both deployment leases\n'
-
-  fake_mirror="$(mktemp -d)"
-  mkdir -p "$fake_mirror/agent-stack/scripts"
-  printf '#!/usr/bin/env bash\nexit 1\n' > "$fake_mirror/agent-stack/scripts/acp_lease.sh"
-  chmod 755 "$fake_mirror/agent-stack/scripts/acp_lease.sh"
-  expect_failure \
-    "missing deployment leases" \
-    "required live ACP lease is missing" \
-    env AGENT_MIRROR_ROOT="$fake_mirror" ACP_SESSION_ID="$CURRENT_SESSION" bash "$GATE"
-  rm -rf "$fake_mirror"
-
-  expect_failure \
-    "foreign session cannot use leases" \
-    "is not owned by this session" \
-    env ACP_SESSION_ID="foreign-deploy-gate-test" bash "$GATE"
+  probe="$ROOT/.deploy-gate-dirty-probe-$$"
+  trap 'rm -f "$probe"; rm -rf "$lock" "$fake_root"' EXIT
+  printf 'dirty\n' > "$probe"
+  expect_failure "dirty tree cannot deploy" "working tree is not clean" env DEPLOY_LOCK_HELD=1 bash "$GATE"
+  rm -f "$probe"
 fi
 
 if [[ "$MODE" == "ahead" ]]; then
-  expect_failure \
-    "unpushed HEAD cannot deploy" \
-    "HEAD does not equal origin/main" \
-    env ACP_SESSION_ID="${CURRENT_SESSION:-deploy-gate-test}" bash "$GATE"
+  expect_failure "unpushed HEAD cannot deploy" "HEAD does not equal origin/main" env DEPLOY_LOCK_HELD=1 bash "$GATE"
 fi
 
 printf 'DEPLOY_GATE_TEST_PASS mode=%s\n' "$MODE"

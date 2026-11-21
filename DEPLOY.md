@@ -1,46 +1,39 @@
 # davebettner.com deploy
 
-**Canonical repository:** `/srv/hermes/work/davebettner.com` on `davgent`
+**Deploys run as the user `dave` on `davgent`** from a clean clone of `origin/main`. The earlier hermes user, its ACP leases and `/srv/hermes` no longer exist.
 
-Edit in the canonical checkout, but deploy only from a clean linked release worktree created from pushed `origin/main`.
+Merging to main does not deploy. A deploy is a separate manual step.
 
 ## Deploy
 
-1. Push the reviewed commit to `origin/main`.
-2. Fetch it and create a linked release worktree:
+1. Merge the reviewed change to `origin/main`.
+2. Use a release checkout that is not your editing checkout. Make one if it is missing:
 
    ```bash
-   git -C /srv/hermes/work/davebettner.com fetch origin main
-   git -C /srv/hermes/work/davebettner.com worktree add --detach /srv/hermes/work/davebettner.com-release origin/main
-   cd /srv/hermes/work/davebettner.com-release
+   git clone git@github.com:dbett4/davebettner.com.git /home/dave/work/davebettner.com-release
+   ```
+
+   Later deploys: `git -C /home/dave/work/davebettner.com-release pull --ff-only origin main`.
+3. From that checkout:
+
+   ```bash
+   cd /home/dave/work/davebettner.com-release
    npm ci
+   ./scripts/deploy.sh
    ```
 
-3. Set one durable ACP session ID and claim both required scopes:
+`./scripts/deploy.sh` and `npm run deploy` take one deployer lock (`flock` on `$XDG_RUNTIME_DIR/davebettner-com-deploy.lock`, or `/tmp`), then run `scripts/deploy-preflight.sh`, then the project-local Wrangler. Wrangler's build hook runs `scripts/deploy-build.sh`, which repeats the preflight before and after generating the résumé and building. The preflight fails unless the lock is held, the working tree is clean, and `HEAD` equals a freshly fetched `origin/main`. Do not call Wrangler directly with another config: the build hook refuses to run without the lock.
 
-   ```bash
-   export AGENT_MIRROR_ROOT=/srv/agentops/repos
-   export ACP_SESSION_ID="<durable-session-id>"
-   /srv/agentops/repos/agent-stack/scripts/acp_lease.sh claim --scope 'repo:/srv/hermes/work/davebettner.com:deploy' --ttl 3600 hermes
-   /srv/agentops/repos/agent-stack/scripts/acp_lease.sh claim --scope 'cloudflare-worker:davebettner-com' --ttl 3600 hermes
-   ```
-
-4. Run `./scripts/deploy.sh`.
-
-Both supported entrypoints—`./scripts/deploy.sh` and `npm run deploy`—run `scripts/deploy-preflight.sh` before invoking the project-local Wrangler binary. Wrangler's project build hook then runs `scripts/deploy-build.sh`, which repeats the gate before and after generation/build. The supported path fails closed unless the process is `hermes`, `ACP_SESSION_ID` is explicit, the worktree is a clean linked worktree, `HEAD` equals freshly fetched `origin/main`, and both leases are live and owned by that session.
-
-Do not invoke Wrangler with an alternate config. Repository scripts cannot police an arbitrary external Wrangler configuration that omits this project's guarded build hook; that is an unsupported out-of-band deployment path, not an approved bypass.
-
-5. Verify production, release both scopes, and remove the release worktree.
+4. Verify production, then leave the release checkout clean.
 
 ## Auth
 
-Deploy as `hermes`. Wrangler OAuth for that user must already be configured on the host. Do not commit tokens, API keys, or local Wrangler config.
+Wrangler uses the Cloudflare login already on the machine for the user `dave`. Do not commit tokens, API keys or local Wrangler config.
 
 ## Verify (optional)
 
 ```bash
-ssh davgent 'sudo -u hermes bash -lc "cd /srv/hermes/work/davebettner.com && npm test"'
+cd /home/dave/work/davebettner.com-release && npm test
 ```
 
 `npm test` builds the site, serves `dist/` from a Node server on a free 127.0.0.1 port, and stops that server when the browser suites finish. Because `scripts/run-browser-checks.mjs` sets `SITE_URL` to that server for every suite, `npm test` always checks the local build; a `SITE_URL` you set beforehand has no effect. To check production, run a suite that reads `SITE_URL` directly, for example:
@@ -51,8 +44,8 @@ SITE_URL=https://davebettner.com node scripts/verify-theme.mjs
 
 `scripts/verify-avatar-fade.mjs` ignores `SITE_URL` and always serves `dist/`, so it cannot check production.
 
-`npm test` ends with the deploy-gate test, `bash scripts/test-deploy-preflight.sh prepush`. It verifies wrapper ordering and fail-closed rejection for a non-`hermes` user and missing session identity. Run as `hermes`, like the command above, it also verifies that the gate rejects the primary checkout and, from a linked release worktree, a dirty worktree. Other users and CI skip those two probes. It does not substitute for release-time authority: the real deploy preflight freshly fetches `origin/main` and verifies the current session's two live ACP leases before Wrangler runs.
+`npm test` ends with the deploy-gate test, `bash scripts/test-deploy-preflight.sh prepush`. It checks that the wrapper runs the preflight before Wrangler, that the preflight refuses to run without the lock, that a second deployer cannot take the lock, and that a dirty tree is refused. It does not replace the real preflight, which freshly fetches `origin/main`.
 
 ## Agent rule
 
-All content edits and deploys for davebettner.com happen on the VPS. Do not deploy from the primary checkout, a dirty worktree, an unpushed commit, or without both ACP leases. Do not block on Mac SSH, Mac Cloudflare credentials, or Mac `wrangler`.
+Deploy only from a clean clone of `origin/main` through `./scripts/deploy.sh`, as the user `dave` on `davgent`. Never from your editing checkout, a dirty tree, or an unpushed commit.

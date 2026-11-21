@@ -14,7 +14,7 @@ Static Astro site. Merging to main does not deploy; deploys follow DEPLOY.md.
 
 ## Tool evaluations (Nov 2026, same revision, same machine)
 
-Evidence: `oxlint` and `oxfmt` lines were re-run Nov 21 with the pinned scripts (`tools-eval.sh`, log in the author's work folder); the `tsgo` and Bun conclusions come from the Nov 19 run, whose raw output was not kept, so they carry no numbers here and should be re-measured before anyone relies on them.
+Evidence: `oxlint` and `oxfmt` lines were re-run Nov 21 with `tools-eval.sh` (latest releases; log `~/.capy/work/fastci/tools-eval.log` on davgent); the `tsgo` and Bun conclusions come from the Nov 19 run, whose raw output was not kept, so they carry no numbers here and should be re-measured before anyone relies on them.
 
 | Candidate | Result | Decision |
 | --- | --- | --- |

@@ -14,7 +14,7 @@ Static Astro site. Merging to main does not deploy; deploys follow DEPLOY.md.
 
 ## Tool evaluations (Nov 2026)
 
-Evidence: the oxfmt line comes from `tools-eval.sh` run Nov 21 on the `ci/no-rebuild` tree (log `~/.capy/work/fastci/tools-eval.log` on davgent); the other conclusions come from a Nov 19 run on the same tree whose raw output was not kept, so they carry no numbers here and should be re-measured before anyone relies on them.
+Evidence: the oxlint and oxfmt lines come from `tools-eval.sh` run Nov 21 on the `ci/no-rebuild` tree (log `~/.capy/work/fastci/tools-eval.log` on davgent: oxlint 46 ms, oxfmt 33 of 35 files flagged); the split-suites row comes from the saved rerun logs `reruns-pr14.log` and `reruns-pr18.log`; the `tsgo` and Bun conclusions come from a Nov 19 run whose raw output was not kept, so they carry no numbers and should be re-measured before anyone relies on them.
 
 | Candidate | Result | Decision |
 | --- | --- | --- |

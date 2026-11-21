@@ -14,10 +14,12 @@ Static Astro site. Merging to main does not deploy; deploys follow DEPLOY.md.
 
 ## Tool evaluations (Nov 2026, same revision, same machine)
 
+Evidence: `oxlint` and `oxfmt` lines were re-run Nov 21 with the pinned scripts (`tools-eval.sh`, log in the author's work folder); the `tsgo` and Bun conclusions come from the Nov 19 run, whose raw output was not kept, so they carry no numbers here and should be re-measured before anyone relies on them.
+
 | Candidate | Result | Decision |
 | --- | --- | --- |
-| oxlint 1.94.0 as the linter | 0.1 s over src and scripts; found one real issue, now fixed; 18 warnings kept visible | Adopted (`npm run lint`, in CI and the hook). |
-| oxfmt 0.79.0 as a formatter | There is no formatter today; it would rewrite 33 of 35 files | Not adopted. |
-| TypeScript 7 native preview (`tsgo`) instead of tsc 5.9.3 | 0.67 s against 3.1 s, but both miss type errors in `.astro` frontmatter that `astro check` catches | Not adopted; `astro check` stays the typecheck for `.astro` changes. |
-| Bun instead of Node for `astro check` | 10.0 to 10.6 s against 8.2 to 9.7 s | Not adopted; slower here. |
-| Splitting verify-theme and verify-ramp-profile into parts | Same checks (the closing page-error check repeats per part), median job 142 s against 153 s over six runs each | Not adopted (PR #18); inside run-to-run spread. |
+| oxlint as the linter | Runs over src, scripts and astro.config.mjs in under 0.1 s (46 ms on 46 files); the first run found one real issue, now fixed; 18 warnings stay visible | Adopted, pinned (`npm run lint`, in CI and the hook). |
+| oxfmt as a formatter | There is no formatter today; `oxfmt --check` flags 33 of 35 files, so adopting it means rewriting nearly every file | Not adopted. |
+| TypeScript 7 native preview (`tsgo`) instead of tsc | Faster in the Nov 19 run, but neither tsc nor tsgo reads type errors inside `.astro` frontmatter, which `astro check` catches | Not adopted; `astro check` stays the typecheck for `.astro` changes. |
+| Bun instead of Node for `astro check` | No gain in the Nov 19 run | Not adopted. |
+| Splitting verify-theme and verify-ramp-profile into parts | Same checks (the closing page-error check repeats per part); five reruns each: job wall time median 142 s against 151 s | Not adopted (PR #18); the difference is inside the run-to-run spread. |

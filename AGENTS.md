@@ -12,13 +12,13 @@ Static Astro site. Merging to main does not deploy; deploys follow DEPLOY.md.
 | `main` only takes a change whose Verify and secret-scan checks passed on a branch up to date with main. | GitHub ruleset "Require Verify before main" (merge queue is not available on this plan). |
 | A deploy runs from a clean clone of origin/main under one lock, through `scripts/deploy.sh`. | `scripts/deploy-preflight.sh`, repeated by the build hook; `scripts/test-deploy-preflight.sh` is the last step of `npm test`. |
 
-## Tool evaluations (Nov 2026, same revision, same machine)
+## Tool evaluations (Nov 2026)
 
-Evidence: `oxlint` and `oxfmt` lines were re-run Nov 21 with `tools-eval.sh` (latest releases; log `~/.capy/work/fastci/tools-eval.log` on davgent); the `tsgo` and Bun conclusions come from the Nov 19 run, whose raw output was not kept, so they carry no numbers here and should be re-measured before anyone relies on them.
+Evidence: the oxfmt line comes from `tools-eval.sh` run Nov 21 on the `ci/no-rebuild` tree (log `~/.capy/work/fastci/tools-eval.log` on davgent); the other conclusions come from a Nov 19 run on the same tree whose raw output was not kept, so they carry no numbers here and should be re-measured before anyone relies on them.
 
 | Candidate | Result | Decision |
 | --- | --- | --- |
-| oxlint as the linter | Runs over src, scripts and astro.config.mjs in under 0.1 s (46 ms on 46 files); the first run found one real issue, now fixed; 18 warnings stay visible | Adopted, pinned (`npm run lint`, in CI and the hook). |
+| oxlint as the linter | Finishes in well under a second on this repository; reports its findings as warnings, which stay visible | Adopted, pinned in devDependencies (`npm run lint`, in CI and the hook). |
 | oxfmt as a formatter | There is no formatter today; `oxfmt --check` flags 33 of 35 files, so adopting it means rewriting nearly every file | Not adopted. |
 | TypeScript 7 native preview (`tsgo`) instead of tsc | Faster in the Nov 19 run, but neither tsc nor tsgo reads type errors inside `.astro` frontmatter, which `astro check` catches | Not adopted; `astro check` stays the typecheck for `.astro` changes. |
 | Bun instead of Node for `astro check` | No gain in the Nov 19 run | Not adopted. |

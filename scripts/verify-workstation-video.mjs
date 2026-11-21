@@ -18,12 +18,10 @@ const advancing=async (page,timeout=4000)=>{
 };
 const state=page=>page.locator('video').evaluate(v=>({paused:v.paused,ended:v.ended,loop:v.loop,time:v.currentTime}));
 // Seek to the last half second, then play through the end. The preview server answers
-// Range requests, so the seek lands where asked. The wait is for the video's own timeupdate
-// events, which come at media speed however busy the host is, so it has no wall-clock deadline;
-// a loop that never wraps hangs until the runner's job limit fails the run.
+// Range requests, so the seek lands where asked.
 const wraps=async page=>{
   await page.locator('video').evaluate(v=>{window.__times=[];v.addEventListener('timeupdate',()=>window.__times.push(v.currentTime));v.currentTime=v.duration-.5;});
-  await page.waitForFunction(()=>{const t=window.__times,i=t.findIndex(x=>x>9.3);return i>=0&&t.slice(i+1).some(x=>x<2);},null,{timeout:0});
+  await page.waitForFunction(()=>{const t=window.__times,i=t.findIndex(x=>x>9.3);return i>=0&&t.slice(i+1).some(x=>x<2);},null,{timeout:30000});
   const s=await state(page);
   return !s.ended&&!s.paused;
 };
